@@ -3,225 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 46.0 — OMNIVERSO DEFINITIVO</title>
+    <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</title>
     <style>
         :root {
-            --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
-            --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
-            --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
-            --primary-orange: #f69d50;
-            --titan-grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
+            --bg: #0b0e14; --card: #161b22; --border: #30363d;
+            --text: #e6edf3; --muted: #8b949e; --blue: #58a6ff;
+            --purple: #bc8cff; --green: #3fb950; --red: #f85149; --orange: #f69d50;
+            --grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
         }
-
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding: 15px; }
         .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        .card { background: var(--card); padding: 20px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
         .full { grid-column: 1 / span 2; }
-        
-        h1 { text-align: center; background: var(--titan-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;}
-        h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
-        
-        select, textarea, input[type="text"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; }
-        textarea { height: 90px; color: #3fb950; font-family: monospace; }
-        
-        button { background: var(--titan-grad); color: #fff; padding: 18px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
+        h1 { text-align: center; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        h2 { color: var(--blue); font-size: 13px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
+        select, textarea, input { width: 100%; padding: 12px; background: #010409; color: #58a6ff; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 12px; font-size: 14px; outline: none; appearance: none; }
+        textarea { height: 100px; color: var(--green); font-family: monospace; }
+        .label-t { font-size: 11px; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
+        button { background: var(--grad); color: #fff; padding: 18px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; font-size: 16px; transition: 0.2s; }
         button:active { transform: scale(0.98); }
-        
-        .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
-        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-purple); cursor: pointer;}
-        
-        .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
-        #final { height: 300px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
-
+        #final-prompt { height: 350px; background: #000; color: #ff7b72; border-color: var(--red); font-size: 13px; line-height: 1.5; }
+        .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border);}
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--purple); }
+        .cena-bloco { border-left: 4px solid var(--blue); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
         @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .full { grid-column: 1; } }
     </style>
 </head>
 <body>
 
-<h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO DEFINITIVO</h1>
+<h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO</h1>
 
 <div class="container">
     <div class="card">
         <h2>📂 1. SISTEMA DE DIRETRIZES (NICHO)</h2>
-        <select id="nicho">
-            <option value="">-- Escolha o Nicho --</option>
-            <option value="SHOPPING">🏬 Shopping Noturno</option>
-            <option value="TELEVISAO">📺 Reality & Entrevistas</option>
-            <option value="NOVELA">📺 Novela / Drama</option>
-            <option value="FILME">🍿 Filme / Ação</option>
-            <option value="ANIMES">💥 Animes & Mangá</option>
-            <option value="COMERCIAL">🛒 Comercial & Propaganda</option>
-            <option value="TERROR">👻 Terror / Liminal</option>
-            <option value="COMEDIA">😂 Comédia & Besteirol</option>
-            <option value="CLIP">🎵 Videoclipe Musical</option>
-            <option value="GOSPEL">🕊️ Gospel / Fé</option>
-            <option value="SCIFI">🛸 Sci-Fi / Cyberpunk</option>
-            <option value="FANTASIA">⚔️ Fantasia / Épico</option>
-            <option value="TURISMO">🌍 Turismo Global</option>
-        </select>
+        <select id="nicho"></select>
     </div>
 
     <div class="card">
         <h2>🗺️ 2. TEMA / ÂNCORA</h2>
-        <select id="tema" disabled></select>
+        <select id="tema" disabled><option>Selecione o Nicho...</option></select>
     </div>
 
     <div class="card full">
         <h2>📍 3. RENDERIZAÇÃO DE AMBIENTE (CENÁRIOS)</h2>
         <div class="checkbox-container">
-            <input type="checkbox" id="travar_cenario">
-            <label for="travar_cenario">🔒 TRAVAR CENÁRIO</label>
+            <input type="checkbox" id="travar">
+            <label for="travar">🔒 TRAVAR CENÁRIO (Congelar texto atual)</label>
         </div>
-        <select id="cenario_lista" disabled></select>
-        <textarea id="texto_cenario" placeholder="Prompt do cenário..."></textarea>
+        <select id="cenario_lista" disabled><option>Selecione o Tema...</option></select>
+        <textarea id="texto_cenario" placeholder="A descrição detalhada do cenário aparecerá aqui..."></textarea>
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--primary-purple);">👥 4. ELENCO, DNA & DESIGN DE VOZ</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
-            <div><span class="label-text">Protagonista:</span><select id="prota"></select></div>
-            <div><span class="label-text">Coadjuvante 1:</span><select id="coadj1"></select></div>
-            <div><span class="label-text">Coadjuvante 2:</span><select id="coadj2"></select></div>
-            <div><span class="label-text">Figurantes:</span><select id="multidao"></select></div>
+        <h2 style="color: var(--purple);">👥 4. ELENCO, DNA & VOICE DESIGN</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+            <div><span class="label-t">Protagonista:</span><select id="prota"></select></div>
+            <div><span class="label-t">Coadjuvante 1:</span><select id="coadj1"></select></div>
+            <div><span class="label-t">Figurantes:</span><select id="multi"></select></div>
         </div>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-orange);">🧍 5. POSES & MOTION</h2>
-        <select id="pose_personagem">
-            <option value="Dynamic natural posture, looking at the camera.">🧍 Padrão / Neutra</option>
-            <option value="Sitting in a confessional chair, talking directly to the camera, expressive hand gestures.">🗣️ Entrevista / Reality</option>
-            <option value="Intense MMA combat stance, fists raised, aggressive posture.">🥊 Guarda Alta (Luta)</option>
-            <option value="Epic superhero landing, one knee on the ground, debris flying.">🦸 Hero Landing</option>
-            <option value="Walking away in slow motion, ignoring a massive explosion.">💥 Costas pra Explosão</option>
-            <option value="Frontal static camera, viral TikTok dance choreography.">🕺 Dancinha Viral</option>
-        </select>
+        <h2 style="color: var(--orange);">🧍 5. POSES & MOVIMENTO (MOTION)</h2>
+        <select id="pose"></select>
+        <select id="motion" style="margin-top:10px;"></select>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-red);">🎥 6. CÂMERA & ESTILO</h2>
-        <select id="cena_numero">
-            <option value="Wide shot, 24mm lens. Cinematic establishing shot.">🎬 Câmera Aberta (Wide)</option>
-            <option value="Medium shot, 50mm lens. Focus on expression.">🗣️ Câmera Média (Medium)</option>
-            <option value="Extreme close-up, macro lens, 85mm.">💋 Close-up Extremo</option>
-            <option value="Crash zoom, fast comedic timing, distorted faces.">🤣 ZOOM CÔMICO</option>
-        </select>
+        <h2 style="color: var(--red);">🎥 6. CINEMATOGRAFIA & ESTILO</h2>
+        <select id="lente"></select>
+        <select id="estilo" style="margin-top:10px;"></select>
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--primary-green);">🚀 TERMINAL DO DIRETOR (PROMPT IA)</h2>
-        <textarea id="final" readonly></textarea>
-        <button id="btn-gerar">COMPILAR OMNIVERSO</button>
+        <h2 style="color: var(--green);">🚀 TERMINAL DO DIRETOR (PROMPT IA 8K)</h2>
+        <textarea id="final-prompt" readonly></textarea>
+        <button id="btn-copy">EXECUTAR GERAÇÃO COMPLETA</button>
+    </div>
+
+    <div class="card full">
+        <h2 style="color: var(--blue);">📜 8. STORYBOARD FATIADO</h2>
+        <div id="storyboard-output"></div>
     </div>
 </div>
 
 <script>
-const DB_P = {
-    'Heróis': {
-        'P01': {n:"Limão Rocha", d:"Badass Lemon, scarred face, tactical vest", v:"Grave e rouca, estilo durão."},
-        'P02': {n:"Tomate Elinaldo", d:"Nervous Tomato, sweating, detective coat", v:"Anasalada, gaguejos nervosos."},
-        'P03': {n:"Sabrina Pitaya", d:"Cyberpunk Pitaya, glowing scales", v:"Feminina, timbre limpo e futurista."},
-        'P05': {n:"Bananildo", d:"Muscular banana, gold chains", v:"Muito grave, estilo fisiculturista."}
+// ==========================================
+// BANCO DE DADOS MASSIVO - OMNIVERSO 46.0
+// ==========================================
+const DB = {
+    nichos: {
+        'SHOPPING': { label: '🏬 Shopping Noturno', temas: {
+            'Corredores': ["Vitrine Fechada|Empty mall corridor at night, closed store windows, dim lights, marble floor", "Escada Rolante Parada|Stopped escalator in a dark empty shopping mall, metal gates", "Quiosques|Mall kiosks covered with black tarps, eerie silence"],
+            'Praça': ["Praça Alimentação Vazia|Massive empty food court at night, rows of empty tables", "Manutenção|Worker on a scissor lift fixing the mall ceiling at night"],
+            'Externo': ["Docas de Carga|Industrial loading dock at night, wet asphalt, harsh lighting", "Estacionamento|Empty parking lot at night, glowing barriers, digital billboard"]
+        }},
+        'ANIMES': { label: '💥 Animes & Mangá', temas: {
+            'Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after energy blast", "Telhado Escola|Anime high school rooftop, cherry blossoms"],
+            'Cartoon': ["Mundo 2D Clássico|Wacky cartoon universe, vibrant flat colors, anvil dropping"]
+        }},
+        'CLIP': { label: '🎵 Videoclipe Musical', temas: {
+            'Modeship': ["Vulcão Frutal|Concert stage on edge of fruit volcano, glowing lava", "Balsa Melancia|Heroes on raft made of watermelon slice, ocean"],
+            'Trap Carioca': ["Beco com Grafite|Dark alleyway filled with colorful graffiti, neon lights", "Carro Rebaixado|Low angle shot, luxury car headlights, smoke"]
+        }},
+        'TV': { label: '📺 Reality & Ícones TV', temas: {
+            'Reality': ["Confessionário|Bright colorful living room, cameras on walls, studio lighting", "Prova de Lama|Outdoor obstacle course, mud, bright daylight"],
+            'Chaves': ["Vila do Chaves|Old mexican neighborhood courtyard, wooden barrels", "Escolinha|Classic messy classroom, old wooden desks"]
+        }}
     },
-    'Comédia': {
-        'COM01': {n:"Caju Nordestino", d:"Cashew fruit, colorful rustic vest", v:"Sotaque nordestino carismático."},
-        'COM05': {n:"Maçã Máskara", d:"Green apple face, wide grin, yellow zoot suit", v:"Exagerada e elástica."}
+    personagens: {
+        'Heróis Modeship': {
+            'P01': {n:"Limão Rocha", d:"Badass Lemon, scarred face, tactical vest", v:"Grave e rouca, estilo durão."},
+            'P02': {n:"Tomate Elinaldo", d:"Nervous Tomato, sweating, detective coat", v:"Anasalada, gaguejos nervosos."},
+            'P03': {n:"Sabrina Pitaya", d:"Cyberpunk Pitaya, glowing scales", v:"Feminina, timbre futurista."},
+            'P05': {n:"Bananildo Musculoso", d:"Muscular banana, gold chains, gym pose", v:"Muito grave, estilo fisiculturista."}
+        },
+        'Animes & Heróis': {
+            'A06': {n:"Abacate Goku", d:"Avocado, spiky glowing hair, martial arts gi", v:"Heróica e poderosa."},
+            'A02': {n:"Caju Luffy", d:"Cashew, massive grin, straw hat", v:"Entusiasta e gritante."},
+            'H07': {n:"Melão Batman", d:"Dark melon, black cowl, cape, brooding eyes", v:"Sussurrada e sombria."}
+        },
+        'Ícones TV & História': {
+            'M04': {n:"Jabuticaba Silvio", d:"Glossy jabuticaba, TV host suit, charismatic smile", v:"Carismática de apresentador."},
+            'C01': {n:"Maçã Chaves", d:"Red apple, freckles, striped hat, suspenders", v:"Inocente e engraçada."},
+            'L05': {n:"Tomate Pelé", d:"Red tomato, retro soccer jersey, athletic", v:"Calma e inspiradora."},
+            'L01': {n:"Limão Bonaparte", d:"Green lime, French emperor uniform", v:"Autoritária."}
+        },
+        'Vilões & Terror': {
+            'V01': {n:"Maçã Caveira", d:"Red peeled apple, skull face, dark cape", v:"Cavernosa e arrastada."},
+            'T03': {n:"Abóbora Jason", d:"Rotten pumpkin, hockey mask, machete", v:"Respiração lenta."}
+        }
     },
-    'Vilões': {
-        'V01': {n:"Maçã Caveira", d:"Red peeled apple, skull face, dark cape", v:"Cavernosa e arrastada."},
-        'V02': {n:"Banana Palhaço", d:"Pale banana, creepy clown makeup", v:"Esganiçada e maníaca."}
-    },
-    'Animes': {
-        'A02': {n:"Caju Luffy", d:"Cashew, massive grin, straw hat", v:"Entusiasta e gritante."},
-        'A06': {n:"Abacate Goku", d:"Avocado, spiky glowing hair, martial arts gi", v:"Voz de herói de dublagem clássica."}
+    multidoes: { 'G01':"Fãs / Paparazzi", 'G02':"Horda de Zumbis", 'G05':"Convidados Festa", 'G08':"Faxineiros do Shopping" },
+    poses: { 'RAP': "Aggressive rap pose, hand gestures matching beat", 'LUTA': "MMA stance, fists raised", 'DANÇA': "Viral TikTok dance choreography", 'HERO': "Epic superhero landing" },
+    motions: { 'TRACKING': "Fast tracking camera following subject", 'ORBIT': "Orbiting 360 camera", 'DRONE': "Drone fly-through", 'PAN': "Slow cinematic pan" },
+    lentes: { 'WIDE': "Wide shot, 24mm lens", 'MEDIUM': "Medium shot, 50mm", 'MACRO': "Extreme close-up, 85mm", 'CRASH': "Crash zoom, comedic timing" },
+    estilos: { 'HIBRIDO': "Hybrid Live Action + 3D Stylized Elinaldo V1", 'ANIME': "Anime style, 2D cel-shaded", 'REALISMO': "Hyper-realistic Live Action look", 'STOP': "Stop-motion claymation" },
+    roteiros: {
+        'RAP': ["Hook: Close-up extremo com batida de morro.", "Solo: Saxofone entra e câmera se afasta.", "Ação: Rimas gesticulando no cenário.", "Final: Pose épica no drop final."]
     }
 };
 
-const DB_CROWDS = { 'G01':"Fãs / Paparazzi", 'G02':"Zumbis", 'G05':"Convidados Festa", 'G08':"Faxineiros de Shopping" };
-
-const DB_MUNDOS = {
-    'SHOPPING': {
-        'Corredores': ["Vitrine Fechada|Empty mall corridor at night, closed store windows, dim lights", "Escada Rolante|Stopped escalator in a dark empty mall"],
-        'Praça': ["Praça de Alimentação Vazia|Massive empty food court at night, rows of chairs"],
-        'Docas': ["Docas de Carga|Industrial loading dock at night, wet asphalt, harsh lighting"]
-    },
-    'CLIP': {
-        'Trap': ["Beco com Grafite|Dark alleyway, colorful graffiti, neon lights", "Carro Rebaixado|Low angle shot, luxury car headlights through smoke"]
-    },
-    'TERROR': {
-        'Liminal': ["Shopping Infinito|Endless empty white mall", "Casa Abandonada|Creepy abandoned house, shadows"]
-    }
+const ui = {
+    nicho: document.getElementById('nicho'), tema: document.getElementById('tema'), 
+    cenario: document.getElementById('cenario_lista'), texto: document.getElementById('texto_cenario'),
+    prota: document.getElementById('prota'), coadj1: document.getElementById('coadj1'), 
+    multi: document.getElementById('multi'), pose: document.getElementById('pose'), 
+    motion: document.getElementById('motion'), lente: document.getElementById('lente'),
+    estilo: document.getElementById('estilo'), prompt: document.getElementById('final-prompt'),
+    btn: document.getElementById('btn-copy'), travar: document.getElementById('travar'),
+    sb: document.getElementById('storyboard-output')
 };
 
-// LÓGICA DE FUNCIONAMENTO
-document.addEventListener("DOMContentLoaded", () => {
-    const ui = {
-        nicho: document.getElementById('nicho'),
-        tema: document.getElementById('tema'),
-        cenario: document.getElementById('cenario_lista'),
-        texto: document.getElementById('texto_cenario'),
-        btn: document.getElementById('btn-gerar'),
-        final: document.getElementById('final')
-    };
+function setup() {
+    ui.nicho.add(new Option("-- Escolha o Nicho --", ""));
+    for (let k in DB.nichos) ui.nicho.add(new Option(DB.nichos[k].label, k));
 
-    // Carregar Elenco
-    ['prota', 'coadj1', 'coadj2'].forEach(id => {
-        const sel = document.getElementById(id);
-        sel.innerHTML = '<option value="">-- Vazio --</option>';
-        for(let g in DB_P) {
+    [ui.prota, ui.coadj1].forEach(sel => {
+        sel.add(new Option("-- Vazio --", ""));
+        for (let g in DB.personagens) {
             let grp = document.createElement('optgroup'); grp.label = g;
-            for(let cid in DB_P[g]) grp.appendChild(new Option(DB_P[g][cid].n, cid));
+            for (let id in DB.personagens[g]) grp.appendChild(new Option(DB.personagens[g][id].n, id));
             sel.appendChild(grp);
         }
     });
 
-    // Carregar Multidões
-    const mSel = document.getElementById('multidao');
-    mSel.innerHTML = '<option value="">-- Nenhuma --</option>';
-    for(let id in DB_CROWDS) mSel.appendChild(new Option(DB_CROWDS[id], id));
+    for (let k in DB.multidoes) ui.multi.add(new Option(DB.multidoes[k], k));
+    for (let k in DB.poses) ui.pose.add(new Option(k, DB.poses[k]));
+    for (let k in DB.motions) ui.motion.add(new Option(k, DB.motions[k]));
+    for (let k in DB.lentes) ui.lente.add(new Option(k, DB.lentes[k]));
+    for (let k in DB.estilos) ui.estilo.add(new Option(k, DB.estilos[k]));
+}
 
-    // Cascata de Mundos
-    ui.nicho.onchange = () => {
-        ui.tema.innerHTML = '<option value="">-- Escolha o Tema --</option>';
-        ui.tema.disabled = false;
-        if(DB_MUNDOS[ui.nicho.value]) {
-            for(let t in DB_MUNDOS[ui.nicho.value]) ui.tema.appendChild(new Option(t, t));
+ui.nicho.onchange = () => {
+    ui.tema.innerHTML = ""; ui.tema.disabled = false;
+    const n = DB.nichos[ui.nicho.value];
+    if (n) {
+        ui.tema.add(new Option("-- Escolha o Tema --", ""));
+        for (let t in n.temas) ui.tema.add(new Option(t, t));
+    }
+};
+
+ui.tema.onchange = () => {
+    ui.cenario.innerHTML = ""; ui.cenario.disabled = false;
+    const n = ui.nicho.value; const t = ui.tema.value;
+    if (DB.nichos[n] && DB.nichos[n].temas[t]) {
+        ui.cenario.add(new Option("-- Escolha o Cenário --", ""));
+        DB.nichos[n].temas[t].forEach(c => {
+            let p = c.split('|'); ui.cenario.add(new Option(p[0], p[1]));
+        });
+    }
+};
+
+ui.cenario.onchange = () => { if(!ui.travar.checked) ui.texto.value = ui.cenario.value; };
+
+ui.btn.onclick = () => {
+    const ids = [ui.prota.value, ui.coadj1.value];
+    let cast = ""; let voices = ""; let atoresObj = [];
+    
+    ids.forEach((id, i) => {
+        if(id) {
+            let char; for(let g in DB.personagens) if(DB.personagens[g][id]) char = DB.personagens[g][id];
+            cast += `ACTOR ${i+1}: ${char.n} (${char.d})\n`;
+            voices += `VOICE ${i+1} (${char.n}): ${char.v}\n`;
+            atoresObj.push(char);
         }
-    };
+    });
 
-    ui.tema.onchange = () => {
-        ui.cenario.innerHTML = '<option value="">-- Escolha o Cenário --</option>';
-        ui.cenario.disabled = false;
-        const lista = DB_MUNDOS[ui.nicho.value][ui.tema.value];
-        lista.forEach(c => {
-            let p = c.split('|'); ui.cenario.appendChild(new Option(p[0], p[1]));
-        });
-    };
+    if(atoresObj.length === 0) atoresObj.push({n:"Personagem", d:"3D Character", v:"Base"});
 
-    ui.cenario.onchange = () => {
-        if(!document.getElementById('travar_cenario').checked) ui.texto.value = ui.cenario.value;
-    };
+    ui.prompt.value = `[MEGA STUDIO 46.0 - OMNIVERSO]\nSTYLE: ${ui.estilo.value}\nLOC: ${ui.texto.value}\nCAMERA: ${ui.lente.value}\nMOTION: ${ui.motion.value}\nACTION: ${ui.pose.value}\n\nCAST:\n${cast}FIGURANTES: ${DB.multidoes[ui.multi.value] || "None"}\n\nVOICE DESIGN:\n${voices}\nPARAMETERS: 8K, Photorealistic, 60fps.`;
+    ui.prompt.select();
+    document.execCommand("copy");
+    ui.btn.innerText = "🚀 COPIADO COM SUCESSO!";
 
-    // GERAÇÃO DO PROMPT FULL
-    ui.btn.onclick = () => {
-        const ids = [document.getElementById('prota').value, document.getElementById('coadj1').value, document.getElementById('coadj2').value];
-        let cast = ""; let voices = "";
-        
-        ids.forEach((id, i) => {
-            if(id) {
-                let char; for(let g in DB_P) if(DB_P[g][id]) char = DB_P[g][id];
-                cast += `ACTOR ${i+1}: ${char.n} (${char.d})\n`;
-                voices += `VOICE ${i+1} (${char.n}): ${char.v}\n`;
-            }
-        });
+    let html = "";
+    DB.roteiros['RAP'].forEach((c, i) => {
+        const a = atoresObj[i % atoresObj.length];
+        html += `<div class="cena-bloco"><b>CENA ${i+1}</b>: ${c}<br><small>DNA: ${a.d} | VOZ: ${a.v}</small></div>`;
+    });
+    ui.sb.innerHTML = html;
+    setTimeout(() => ui.btn.innerText = "EXECUTAR GERAÇÃO COMPLETA", 2000);
+};
 
-        ui.final.value = `[MEGA STUDIO 46.0 - FULL OMNIVERSO]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOCATION: ${ui.texto.value}\nCAMERA: ${document.getElementById('cena_numero').value}\nACTION: ${document.getElementById('pose_personagem').value}\n\nCAST:\n${cast}\nDESIGN DE VOZ:\n${voices}\nEXTRAS: ${DB_CROWDS[document.getElementById('multidao').value] || "None"}\n\nPARAMETERS: 8K, Photorealistic, High Detail.`;
-        ui.final.select();
-        document.execCommand("copy");
-        ui.btn.innerText = "🚀 PIPELINE COPIADO!";
-        setTimeout(() => ui.btn.innerText = "COMPILAR OMNIVERSO", 2000);
-    };
-});
+setup();
 </script>
 </body>
 </html>
