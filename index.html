@@ -1,302 +1,151 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 46.0 — OMNIVERSO DEFINITIVO</title>
-    <style>
-        :root {
-            --bg: #0b0e14; --card: #161b22; --border: #30363d;
-            --text: #e6edf3; --muted: #8b949e; --blue: #58a6ff;
-            --purple: #bc8cff; --green: #3fb950; --red: #f85149; --orange: #f69d50;
-            --grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg); color: var(--text); padding: 15px; }
-        .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: var(--card); padding: 20px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        .full { grid-column: 1 / span 2; }
-        h1 { text-align: center; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 26px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        h2 { color: var(--blue); font-size: 13px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
-        select, textarea, input { width: 100%; padding: 12px; background: #010409; color: #58a6ff; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 12px; font-size: 14px; outline: none; appearance: none; }
-        textarea { height: 100px; color: var(--green); font-family: monospace; }
-        .label-t { font-size: 11px; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
-        button { background: var(--grad); color: #fff; padding: 18px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; font-size: 16px; transition: 0.2s; }
-        button:active { transform: scale(0.98); }
-        #final-prompt { height: 350px; background: #000; color: #ff7b72; border-color: var(--red); font-size: 13px; line-height: 1.5; }
-        .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border);}
-        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--purple); cursor: pointer;}
-        .cena-bloco { border-left: 4px solid var(--blue); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .full { grid-column: 1; } }
-    </style>
-</head>
-<body>
-
-<h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1>
-
-<div class="container">
-    <div class="card">
-        <h2>📂 1. DIRETRIZES (NICHO)</h2>
-        <select id="nicho"></select>
-    </div>
-
-    <div class="card">
-        <h2>🗺️ 2. TEMA / ÂNCORA</h2>
-        <select id="tema" disabled><option>Selecione o Nicho...</option></select>
-    </div>
-
-    <div class="card full">
-        <h2>📍 3. RENDERIZAÇÃO DE AMBIENTE (CENÁRIOS)</h2>
-        <div class="checkbox-container">
-            <input type="checkbox" id="travar">
-            <label for="travar">🔒 TRAVAR CENÁRIO (Manter texto atual ao mudar menus)</label>
-        </div>
-        <select id="cenario_lista" disabled><option>Selecione o Tema...</option></select>
-        <textarea id="texto_cenario" placeholder="A descrição detalhada do cenário aparecerá aqui..."></textarea>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--purple);">👥 4. ELENCO, DNA & DESIGN DE VOZ</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
-            <div><span class="label-t">Protagonista:</span><select id="prota"></select></div>
-            <div><span class="label-t">Coadjuvante 1:</span><select id="coadj1"></select></div>
-            <div><span class="label-t">Coadjuvante 2:</span><select id="coadj2"></select></div>
-            <div><span class="label-t">Figurantes / Multidão:</span><select id="multi"></select></div>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--orange);">🧍 5. POSES & INTERAÇÕES</h2>
-        <select id="pose"></select>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--red);">🎥 6. DIREÇÃO DE CÂMERA & MOTION</h2>
-        <select id="lente"></select>
-        <select id="motion" style="margin-top:10px;"></select>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--blue);">🎨 7. MOTOR DE ESTILO / RENDER</h2>
-        <select id="estilo"></select>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--green);">🚀 TERMINAL DO DIRETOR (PROMPT IA 8K)</h2>
-        <textarea id="final-prompt" readonly></textarea>
-        <button id="btn-copy">EXECUTAR GERAÇÃO E COPIAR PROMPT</button>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--blue);">📜 8. STORYBOARD DETALHADO</h2>
-        <div id="storyboard-output"></div>
-    </div>
-</div>
-
-<script>
 // ==========================================
-// BANCO DE DADOS INTEGRAL - OMNIVERSO 46.0
+// BANCO DE DADOS INTEGRAL - OMNIVERSO 46.0 (EXPANDIDO)
 // ==========================================
 const DB = {
     nichos: {
+        'SCI_FI': { label: '🛸 Ficção Científica & Cyberpunk', temas: {
+            'Distopia Neon': ["Rua Chuvosa|Rainy cyberpunk city street, neon signs, holographic ads, reflections", "Bar Submundo|Dark futuristic dive bar, glowing drinks, sketchy alien patrons", "Laboratório Clandestino|Messy high-tech lab, glowing vats, cables everywhere"],
+            'Exploração Espacial': ["Ponte de Comando|Bridge of a massive starship, giant glowing screens, stars outside", "Planeta Alienígena|Alien landscape, giant glowing purple plants, multiple moons", "Estação Abandonada|Derelict space station, flickering lights, zero gravity floating debris"]
+        }},
+        'FANTASIA': { label: '🐉 Fantasia Épica', temas: {
+            'Reinos Antigos': ["Sala do Trono|Massive stone throne room, golden banners, dramatic sunlight from high windows", "Vilarejo Medieval|Bustling medieval village market, dirt roads, wooden stalls, peasants"],
+            'Magia e Mistério': ["Floresta Encantada|Glowing magical forest, giant bioluminescent mushrooms, fairy lights", "Caverna do Dragão|Dark cavern filled with gold coins and treasure, giant dragon eye opening in the dark"]
+        }},
         'SHOPPING': { label: '🏬 Shopping Noturno', temas: {
-            'Corredores & Lojas': ["Vitrine Fechada|Empty mall corridor at night, closed store windows, dim lights, marble floor", "Escada Rolante Parada|Stopped escalator in a dark empty shopping mall, metal gates", "Quiosques|Mall kiosks covered with black tarps, eerie silence"],
-            'Praça de Alimentação': ["Praça Vazia|Massive empty food court at night, rows of empty tables", "Manutenção|Worker on a scissor lift fixing the mall ceiling at night"],
+            'Corredores & Lojas': ["Vitrine Fechada|Empty mall corridor at night, closed store windows, dim lights, marble floor", "Escada Rolante Parada|Stopped escalator in a dark empty shopping mall, metal gates", "Manequins Assustadores|Store window filled with creepy mannequins in the dark"],
+            'Praça de Alimentação': ["Praça Vazia|Massive empty food court at night, rows of empty tables, glowing neon signs", "Cozinha Abandonada|Dark fast food kitchen, stainless steel, eerie shadows"],
             'Área Externa': ["Docas de Carga|Industrial loading dock at night, wet asphalt, harsh lighting", "Estacionamento|Empty parking lot at night, glowing barriers, digital billboard"]
         }},
         'TELEVISAO': { label: '📺 Reality, TV & Entrevistas', temas: {
-            'Reality Show': ["Confessionário|Bright colorful living room, cameras on walls, studio lighting", "Prova de Resistência|Outdoor obstacle course, mud, bright daylight"],
-            'Programas Clássicos': ["Late Night Set|Talk show set, host desk, city skyline backdrop", "Auditório Dominical|Massive TV stage, colorful bright lights, host center stage"],
-            'Infantil': ["Cenário Colorido|Brightly colored playful TV set, oversized toys, cheerful vibe"]
+            'Reality Show': ["Confessionário|Bright colorful living room, cameras on walls, studio lighting", "Prova de Resistência|Outdoor obstacle course, mud, bright daylight, massive timer"],
+            'Programas Clássicos': ["Late Night Set|Talk show set, host desk, city skyline backdrop, live band area", "Auditório Dominical|Massive TV stage, colorful bright lights, host center stage"],
+            'Jornalismo': ["Bancada de Notícias|Sleek modern news anchor desk, glowing globe in background, serious tone"]
         }},
-        'NOVELA': { label: '📺 Novela / Drama', temas: {
-            'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto Motel|Dark motel room, blinking neon sign outside"],
-            'O Segredo': ["Rooftop Prédio|Skyscraper rooftop at night, luxury setting", "Biblioteca Escura|Dark classic library, moody sensual lighting"],
-            'Confronto': ["Elevador Parado|Stuck elevator, flickering emergency lights", "Escritório Executivo|Top floor office, glass walls, night city view"]
+        'NOVELA': { label: '🎭 Novela / Drama', temas: {
+            'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto Motel|Dark motel room, blinking neon sign outside, messy bed"],
+            'O Segredo': ["Rooftop Prédio|Skyscraper rooftop at night, luxury setting, city lights", "Biblioteca Escura|Dark classic library, moody sensual lighting, dust particles"],
+            'Confronto': ["Elevador Parado|Stuck elevator, flickering emergency lights", "Escritório Executivo|Top floor office, glass walls, night city view", "Casamento Interrompido|Grand church interior, shocked wedding guests, dramatic lighting"]
         }},
-        'FILME': { label: ' popcorn Filme / Ação / Sobrevivência', temas: {
-            'Tático/Espionagem': ["Caverna Secreta|High-tech secret hideout, screens and maps", "Depósito Armas|Industrial lighting, military equipment"],
-            'Sobrevivência': ["Pátio Boneca (Round 6)|Large sand playground, giant robotic doll", "Dormitório Beliches|Massive room, hundreds of bunk beds"],
-            'Duelo': ["Ponte Metálica|High metallic suspension bridge at night", "Deserto de Poeira|Dusty desert wasteland, low sun"]
+        'FILME': { label: '🍿 Filme de Ação / Thriller', temas: {
+            'Tático/Espionagem': ["Caverna Secreta|High-tech secret hideout, screens and maps, tactical gear", "Cofre de Banco|Inside a massive bank vault, lasers, gold bars"],
+            'Sobrevivência': ["Pátio Boneca (Round 6)|Large sand playground, giant robotic doll, bright eerie daylight", "Dormitório Beliches|Massive room, hundreds of metal bunk beds, institutional lighting"],
+            'Perseguição': ["Trem em Movimento|Roof of a speeding bullet train, motion blur, nighttime", "Rodovia Deserta|Empty desert highway at sunset, tire tracks"]
         }},
-        'ANIMES': { label: '💥 Animes, Mangá & Desenhos', temas: {
-            'Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Batalha|Destroyed rocky wasteland after energy blast"],
-            'Cartoon': ["Mundo 2D Clássico|Wacky cartoon universe, vibrant flat colors, anvil dropping"]
+        'ANIMES': { label: '💥 Animes & Mangá', temas: {
+            'Shonen Batalha': ["Arena de Torneio|Massive anime martial arts arena, action speed lines, cheering crowd", "Ruínas Pós-Batalha|Destroyed rocky wasteland after massive energy blast, smoke, craters"],
+            'Mágico/Escolar': ["Terraço de Escola|Japanese high school rooftop, cherry blossoms blowing in the wind", "Portal Dimensional|Swirling magical portal opening in the middle of a modern city street"]
         }},
         'ESPORTES': { label: '🛹 Esportes, Fitness & Luta', temas: {
-            'Artes Marciais': ["Octógono MMA|Steel cage octagon, bright overhead spotlights, blood on mat", "Dojo Tradicional|Japanese wooden dojo, tatami mats"],
-            'Fitness': ["Academia Neon|Modern gym with neon lights, treadmills", "Pista Atletismo|Professional red running track, stadium background"]
+            'Combate': ["Octógono MMA|Steel cage octagon, bright overhead spotlights, blood on mat", "Dojo Tradicional|Japanese wooden dojo, tatami mats, incense smoke"],
+            'Urbano': ["Pista de Skate|Graffiti covered concrete skatepark at golden hour", "Quadra de Rua|Street basketball court at night, chainlink fence, single floodlight"]
+        }},
+        'TERROR': { label: '👻 Terror & Suspense', temas: {
+            'Clássico': ["Casa Assombrada|Creepy abandoned Victorian mansion, cobwebs, moonlight through broken windows", "Cemitério Nebuloso|Gothic graveyard at midnight, thick fog, twisted trees"],
+            'Slasher': ["Acampamento Cabana|Dark wooden cabin in the woods, blood trails, ominous shadows", "Corredor de Hospital|Flickering fluorescent lights in an abandoned asylum corridor"]
         }},
         'TURISMO': { label: '🌍 Turismo Global', temas: {
-            'Américas': ["Times Square (NY)|Times square New York, giant glowing billboards", "Machu Picchu|Incan ruins, foggy mountain peak"],
-            'Mundo': ["Muralha China|Great wall winding over mountains", "Pirâmides Egito|Great Pyramids, desert sand"]
+            'Américas': ["Times Square (NY)|Times square New York, giant glowing billboards, yellow cabs", "Machu Picchu|Incan ruins, foggy mountain peak, llamas"],
+            'Mundo': ["Muralha da China|Great wall winding over mountains, sunset lighting", "Pirâmides Egito|Great Pyramids, desert sand, heat waves, bright sun", "Torre Eiffel|Under the Eiffel Tower at night, glowing golden lights, romantic rain"]
         }},
         'CLIP': { label: '🎵 Videoclipe Musical', temas: {
-            'Modeship': ["Vulcão Frutal|Concert stage on edge of fruit volcano, glowing lava", "Balsa Melancia|Heroes on raft made of watermelon slice, ocean"],
-            'Rap/Trap': ["Beco Grafite|Dark alleyway filled with colorful graffiti, neon lights", "Carro Rebaixado|Low angle shot, luxury car headlights, smoke"]
-        }},
-        'FESTAS': { label: '🎊 Festas & Feriados', temas: {
-            'Globais': ["Halloween (EUA)|Suburban street at night, glowing jack-o-lanterns", "Natal NY|Massive Christmas tree, snow falling"],
-            'Brasil': ["Carnaval Rio|Massive parade float, feathers", "São João|Bonfire, festive flags"]
+            'Pop & K-Pop': ["Cenário Caixas Neon|Abstract set with glowing neon boxes, water on the floor, high fashion lighting", "Nuvens Rosa|Dreamy set made of pink clouds, floating objects, soft lighting"],
+            'Rap/Trap': ["Beco Grafite|Dark alleyway filled with colorful graffiti, neon lights, lowriders", "Mansão Luxo|Luxury mansion pool at night, LED lights, floating money"],
+            'Rock/Metal': ["Palco de Fogo|Heavy metal stage setup, massive pyrotechnics, Marshall amps, dark atmosphere"]
         }}
     },
     personagens: {
         'Heróis Modeship': {
-            'P01': {n:"Limão Rocha", d:"Badass Lemon, scarred face, tactical vest", v:"Grave e rouca, estilo durão."},
-            'P02': {n:"Tomate Elinaldo", d:"Nervous Tomato, sweating, detective coat", v:"Anasalada, gaguejos nervosos."},
-            'P03': {n:"Sabrina Pitaya", d:"Cyberpunk Pitaya, glowing scales", v:"Feminina, timbre futurista."},
-            'P04': {n:"Pr. Uva Passa", d:"Wrinkled raisin, wise serene expression", v:"Idosa, fraca porém serena."},
-            'P05': {n:"Bananildo Musculoso", d:"Muscular banana, gold chains, flex pose", v:"Masculina muito grave, estilo fisiculturista."}
+            'P01': {n:"Limão Rocha", d:"Badass Lemon, scarred face, tactical vest, cigar", v:"Grave e rouca, estilo mercenário durão."},
+            'P02': {n:"Tomate Elinaldo", d:"Nervous Tomato, sweating profusely, classic detective coat", v:"Anasalada, gaguejos nervosos e rápidos."},
+            'P03': {n:"Sabrina Pitaya", d:"Cyberpunk Pitaya, glowing pink scales, futuristic visor", v:"Feminina, timbre robótico e calculista."},
+            'P04': {n:"Pr. Uva Passa", d:"Wrinkled raisin, white beard, wise serene expression, monk robes", v:"Idosa, muito arrastada, tom de mestre sábio."},
+            'P05': {n:"Bananildo Musculoso", d:"Extremely muscular banana, gold chains, tank top, flex pose", v:"Masculina muito grave, gritos de academia."},
+            'P06': {n:"Abacaxi Ciborgue", d:"Cyborg pineapple, robotic red eye, heavy metal arm", v:"Voz metálica, fria e cheia de estática."},
+            'P07': {n:"Cenoura Samurai", d:"Samurai carrot, traditional ronin armor, holding a katana", v:"Grave, honrada, sussurros rápidos."}
         },
         'Lendas da História': {
-            'L01': {n:"Limão Bonaparte", d:"Green lime, French emperor uniform, bicorne hat", v:"Autoritária e clássica."},
-            'L02': {n:"Caju Einstein", d:"Cashew fruit, wild white frizzy hair, mustache", v:"Calma e intelectual."},
-            'L05': {n:"Tomate Pelé", d:"Red tomato, athletic build, retro soccer jersey", v:"Inspiradora e calma."}
+            'L01': {n:"Limão Bonaparte", d:"Green lime, French emperor uniform, bicorne hat, hand in coat", v:"Autoritária, sotaque francês carregado."},
+            'L02': {n:"Caju Einstein", d:"Cashew fruit, wild white frizzy hair, mustache, holding chalk", v:"Calma, intelectual e ligeiramente distraída."},
+            'L03': {n:"Morango Cleópatra", d:"Strawberry, Egyptian golden headdress, heavy eyeliner", v:"Soberba, sedutora e imponente."},
+            'L04': {n:"Batata Shakespeare", d:"Potato wearing a renaissance ruff collar, holding a quill", v:"Teatral, projetada, sotaque britânico clássico."},
+            'L05': {n:"Tomate Pelé", d:"Red tomato, athletic build, retro 70s soccer jersey", v:"Inspiradora, alegre e nostálgica."}
         },
         'Ícones TV & Humor': {
-            'M04': {n:"Jabuticaba Silvio", d:"Glossy jabuticaba, TV host suit, charismatic smile", v:"Carismática de apresentador."},
-            'C01': {n:"Maçã Chaves", d:"Red apple, freckles, striped hat, suspenders", v:"Inocente e engraçada."},
-            'C02': {n:"Melancia Quico", d:"Watermelon, huge cheeks, sailor suit", v:"Esganiçada e chorona."},
-            'C03': {n:"Maracujá Madruga", d:"Passion fruit, bucket hat, thin mustache", v:"Rouca e cansada."}
+            'M04': {n:"Jabuticaba Silvio", d:"Glossy jabuticaba, shiny TV host suit, charismatic wide smile", v:"Carismática de animador de auditório, risada icônica."},
+            'C01': {n:"Maçã Chaves", d:"Red apple, freckles, striped ear-flap hat, suspenders", v:"Inocente, choramingando e infantil."},
+            'C02': {n:"Melancia Quico", d:"Watermelon, huge cheeks, black sailor suit, colorful ball", v:"Esganiçada, mimada e inflada."},
+            'C03': {n:"Maracujá Madruga", d:"Wrinkled passion fruit, bucket hat, thin mustache, worn out shirt", v:"Rouca, cansada e ranzinza."}
         },
         'Animes & Heróis': {
-            'A06': {n:"Abacate Goku", d:"Avocado, spiky glowing hair, martial arts gi", v:"Heróica e poderosa."},
-            'A02': {n:"Caju Luffy", d:"Cashew, massive grin, straw hat", v:"Entusiasta e gritante."},
-            'H07': {n:"Melão Batman", d:"Dark melon, black cowl, cape, brooding eyes", v:"Sussurrada e sombria."}
+            'A06': {n:"Abacate Goku", d:"Avocado, spiky glowing golden hair, orange martial arts gi", v:"Heróica, energética e poderosa."},
+            'A02': {n:"Caju Luffy", d:"Cashew, massive grin, straw hat, red vest", v:"Entusiasta, risada solta e gritante."},
+            'H07': {n:"Melão Batman", d:"Dark honeydew melon, black cowl, tactical cape, brooding glowing eyes", v:"Sussurrada, sombria e intimidante."},
+            'H08': {n:"Cebola Aranha", d:"Onion wearing a red and blue webbed mask, hanging upside down", v:"Jovem, irônica e rápida."}
         },
         'Vilões & Terror': {
-            'V01': {n:"Maçã Caveira", d:"Red peeled apple, skull face, dark cape", v:"Cavernosa e arrastada."},
-            'V02': {n:"Banana Palhaço", d:"Pale banana, creepy clown makeup", v:"Fina e maníaca."},
-            'T03': {n:"Abóbora Jason", d:"Rotten pumpkin, hockey mask, large machete", v:"Respiração lenta."},
-            'M01': {n:"Saxofonista Mascarado", d:"Character in gold mask, holding glowing sax", v:"Sem voz, apenas solo de saxofone."}
+            'V01': {n:"Maçã Caveira", d:"Red peeled apple revealing a skull face, dark torn cape", v:"Cavernosa, arrastada, eco fantasmagórico."},
+            'V02': {n:"Banana Palhaço", d:"Pale rotting banana, creepy clown makeup, red balloon", v:"Fina, maníaca e com risadas histéricas."},
+            'T03': {n:"Abóbora Jason", d:"Rotten pumpkin, dirty hockey mask, holding a large machete", v:"Sem voz, apenas respiração pesada e lenta."},
+            'V04': {n:"Brócolis Mutante", d:"Giant radioactive broccoli monster, glowing green ooze", v:"Rugidos monstruosos e borbulhantes."},
+            'M01': {n:"Saxofonista Mascarado", d:"Mysterious character in gold mask, sleek suit, holding glowing sax", v:"Sem voz, apenas solo de saxofone suave."}
         }
     },
     multidoes: { 
         'VAZIO': "Sem Figurantes (Cena Limpa)",
-        'G01':"Multidão de Fãs / Paparazzi", 
-        'G02':"Horda de Zumbis famintos", 
-        'G04':"Público de Estádio (Torcida)",
-        'G05':"Convidados de Festa Elegante", 
-        'G08':"Faxineiros do Shopping" 
+        'G01': "Multidão de Fãs / Paparazzi com flashes", 
+        'G02': "Horda de Zumbis famintos e rastejantes", 
+        'G03': "Exército Medieval (Cavaleiros e Soldados)",
+        'G04': "Público de Estádio (Torcida uniformizada gritando)",
+        'G05': "Convidados de Festa Elegante em trajes de gala", 
+        'G06': "Transeuntes de Metrópole Chuvosa com guarda-chuvas",
+        'G07': "Ciborgues Revoltados protestando",
+        'G08': "Faxineiros do Shopping trabalhando ao fundo" 
     },
     poses: {
-        'Neutra': "Dynamic natural posture, looking at the camera.",
-        'Entrevista': "Sitting in a confessional chair, talking to camera, reality TV vibe.",
-        'MMA Luta': "Intense MMA combat stance, fists raised, aggressive posture.",
-        'Hero Landing': "Epic superhero landing, one knee on ground, debris flying.",
-        'Dancinha Viral': "Frontal static camera, full body shot, viral TikTok choreography.",
-        'Postura Rap': "Aggressive rap pose, hand gestures matching the beat.",
-        'Fuga Explosão': "Walking away in slow motion, ignoring a massive explosion."
+        'Neutra Frontal': "Dynamic natural posture, standing still, looking directly at the camera.",
+        'Entrevista Confessionário': "Sitting in a confessional chair, talking to camera, reality TV vibe, gesturing hands.",
+        'MMA Luta': "Intense MMA combat stance, fists raised, aggressive and low posture.",
+        'Ataque Mágico': "Casting a powerful magic spell, glowing hands pushing forward, intense focus.",
+        'Hero Landing': "Epic superhero landing, one knee and one fist on the ground, debris flying around.",
+        'Fuga Explosão': "Walking away casually in slow motion, completely ignoring a massive explosion behind them.",
+        'Fuga Apocalíptica': "Sprinting desperately towards the camera, looking back in terror.",
+        'Hacking Frenético': "Typing furiously on multiple holographic floating keyboards, hacker posture.",
+        'Dancinha Viral': "Frontal static camera, full body shot, executing a synchronized viral TikTok choreography.",
+        'Postura Rap': "Aggressive rap pose, leaning into the camera, hand gestures matching the beat.",
+        'Discurso Épico': "Standing on a high ledge, arms raised wide, giving an inspiring speech to an unseen crowd."
     },
     cameras: {
-        'Wide 24mm': "Wide shot, 24mm lens. Cinematic establishing shot.",
-        'Medium 50mm': "Medium shot, 50mm lens. Focus on expression.",
-        'Macro 85mm': "Extreme close-up, macro lens, 85mm. Heavy emotion.",
-        'Zoom Cômico': "Crash zoom, fast comedic timing, distorted wide angle."
+        'Wide 24mm': "Wide establishing shot, 24mm lens. Shows the entire environment and scale.",
+        'Medium 50mm': "Medium shot, 50mm lens. Waist up, perfect for dialogue and expression.",
+        'Close-up 85mm': "Tight close-up shot, 85mm portrait lens. Focus on intense facial emotion and details.",
+        'Macro Lente': "Extreme macro shot. Capturing minute details, sweat, or textures.",
+        'Olho de Deus (Top-Down)': "God's eye view, top-down camera looking directly below at the subject.",
+        'Dutch Angle (Inclinada)': "Dutch angle, tilted camera horizon, creating a sense of unease, madness or fast action.",
+        'Fisheye Cômico': "Fisheye lens, heavily distorted edges, claustrophobic or comedic 90s music video effect."
     },
     motions: {
-        'Tracking': "Fast tracking camera following the subject, motion blur.",
-        'Orbiting': "Orbiting 360 camera spinning slowly around characters.",
-        'Drone Push': "Drone fly-through pushing forward through the scene.",
-        'Cinematic Pan': "Slow cinematic pan to the right, dynamic light shifts."
+        'Estática (Tripé)': "Locked off camera on a tripod, completely still, focusing on the action within the frame.",
+        'Tracking Rápido': "Fast tracking camera following alongside the running subject, motion blur.",
+        'Orbiting 360': "Orbiting camera spinning slowly 360 degrees around the character, epic matrix style.",
+        'Drone Push-in': "Drone fly-through pushing forward rapidly through the scene towards the subject.",
+        'Cinematic Pan': "Slow cinematic pan to the right, dynamic light shifts as the scene is revealed.",
+        'Handheld Tremida': "Shaky handheld camera movement, documentary style, adding intense raw realism.",
+        'Dolly Zoom (Vertigo)': "Dolly zoom effect (Vertigo effect), background distorts and stretches while subject stays the same size.",
+        'Crane Shot (Grua)': "Epic crane shot, moving up and away to reveal the massive scale of the surrounding environment."
     },
     estilos: {
-        'Híbrido': "Hybrid style, hyper-realistic Live Action environment with 3D stylized 'Cartoon Elinaldo V1' characters, 8k",
-        'Cartoon V1': "3D Stylized character, signature style of Cartoon Elinaldo V1, vibrant colors",
-        'Realismo': "Hyper-realistic Live Action look, cinematic photography, studio lighting",
-        'Anime 2D': "Anime style, 2D cel-shaded, Studio Ghibli influence",
-        'Stop Motion': "Stop-motion claymation style, tactile clay textures"
+        'Híbrido (Live + 3D)': "Hybrid style, hyper-realistic Live Action environment integrated with 3D stylized characters, 8k resolution.",
+        'Realismo Cinematográfico': "Hyper-realistic Live Action look, cinematic photography, anamorphic lens flares, studio lighting, Arri Alexa.",
+        'Cartoon V1 (Pixar)': "3D Stylized character, signature modern 3D animation style, vibrant lighting, smooth textures (Pixar/Disney style).",
+        'Anime 2D Clássico': "Anime style, 2D cel-shaded, Studio Ghibli influence, detailed hand-painted backgrounds.",
+        'Cyberpunk Unreal Engine': "Unreal Engine 5 render, raytracing, heavy neon contrast, volumetric fog, cyberpunk aesthetic.",
+        'Dark Fantasy Concept': "Dark fantasy concept art, grimdark aesthetic, gothic mood, dramatic harsh shadows, Greg Rutkowski style.",
+        'Stop Motion (Massinha)': "Stop-motion claymation style, tactile clay textures, visible fingerprints on models, slight frame stutter.",
+        'VHS Vintage 80s': "1980s VHS camcorder footage, chromatic aberration, heavy scanlines, low fidelity nostalgic feel."
     },
     roteiros: {
-        'PLANETA_RAP': ["Hook: Close-up extremo no rosto com batida forte de morro.", "Solo: Saxofone assume e câmera se afasta revelando cenário.", "Flow: Rimas gesticulando no cenário com luzes neon.", "Final: Pose épica no drop final da batida."]
+        'PLANETA_RAP': ["Hook: Close-up extremo no rosto com batida forte de morro.", "Solo: Saxofone assume e câmera se afasta revelando cenário.", "Flow: Rimas gesticulando no cenário com luzes neon.", "Final: Pose épica no drop final da batida."],
+        'TRAILER_EPICO': ["Início: Fade in lento, ambiente hostil e silencioso, Wide Shot.", "Tensão: Personagem principal se prepara, close extremo nos olhos.", "Clímax: Ação rápida, câmera handheld tremida, sequência de golpes ou fuga.", "Fim: Posa icônica final em slow motion, título surge na tela."],
+        'CENA_COMEDIA': ["Setup: Personagem agindo naturalmente em câmera média.", "Incidente: Algo cai ou quebra, Dolly Zoom cômico (Vertigo) na cara de choque.", "Reação: Fisheye lens bem perto do rosto gritando ou choramingando.", "Punchline: Câmera estática mostrando o resultado da confusão ao fundo."]
     }
 };
-
-const ui = {
-    nicho: document.getElementById('nicho'), tema: document.getElementById('tema'), 
-    cenario: document.getElementById('cenario_lista'), texto: document.getElementById('texto_cenario'),
-    prota: document.getElementById('prota'), coadj1: document.getElementById('coadj1'), 
-    coadj2: document.getElementById('coadj2'), multi: document.getElementById('multi'),
-    pose: document.getElementById('pose'), lente: document.getElementById('lente'),
-    motion: document.getElementById('motion'), estilo: document.getElementById('estilo'), 
-    prompt: document.getElementById('final-prompt'), btn: document.getElementById('btn-copy'), 
-    travar: document.getElementById('travar'), sb: document.getElementById('storyboard-output')
-};
-
-function setup() {
-    ui.nicho.add(new Option("-- Escolha o Nicho --", ""));
-    for (let k in DB.nichos) ui.nicho.add(new Option(DB.nichos[k].label, k));
-
-    [ui.prota, ui.coadj1, ui.coadj2].forEach(sel => {
-        sel.add(new Option("-- Vazio --", ""));
-        for (let g in DB.personagens) {
-            let grp = document.createElement('optgroup'); grp.label = g;
-            for (let id in DB.personagens[g]) grp.appendChild(new Option(DB.personagens[g][id].n, id));
-            sel.appendChild(grp);
-        }
-    });
-
-    for (let k in DB.multidoes) ui.multi.add(new Option(DB.multidoes[k], k));
-    for (let k in DB.poses) ui.pose.add(new Option(k, DB.poses[k]));
-    for (let k in DB.cameras) ui.lente.add(new Option(k, DB.cameras[k]));
-    for (let k in DB.motions) ui.motion.add(new Option(k, DB.motions[k]));
-    for (let k in DB.estilos) ui.estilo.add(new Option(k, DB.estilos[k]));
-}
-
-ui.nicho.onchange = () => {
-    ui.tema.innerHTML = ""; ui.tema.disabled = false;
-    const n = DB.nichos[ui.nicho.value];
-    if (n) {
-        ui.tema.add(new Option("-- Escolha o Tema --", ""));
-        for (let t in n.temas) ui.tema.add(new Option(t, t));
-    }
-};
-
-ui.tema.onchange = () => {
-    ui.cenario.innerHTML = ""; ui.cenario.disabled = false;
-    const n = ui.nicho.value; const t = ui.tema.value;
-    if (DB.nichos[n] && DB.nichos[n].temas[t]) {
-        ui.cenario.add(new Option("-- Escolha o Cenário --", ""));
-        DB.nichos[n].temas[t].forEach(c => {
-            let p = c.split('|'); ui.cenario.add(new Option(p[0], p[1]));
-        });
-    }
-};
-
-ui.cenario.onchange = () => { if(!ui.travar.checked) ui.texto.value = ui.cenario.value; };
-
-ui.btn.onclick = () => {
-    const ids = [ui.prota.value, ui.coadj1.value, ui.coadj2.value];
-    let cast = ""; let voices = ""; let atoresObj = [];
-    
-    ids.forEach((id, i) => {
-        if(id) {
-            let char; for(let g in DB.personagens) if(DB.personagens[g][id]) char = DB.personagens[g][id];
-            cast += `ACTOR ${i+1}: ${char.n} (${char.d})\n`;
-            voices += `VOICE ${i+1} (${char.n}): ${char.v}\n`;
-            atoresObj.push(char);
-        }
-    });
-
-    if(atoresObj.length === 0) atoresObj.push({n:"Standard Character", d:"3D Character", v:"Base"});
-
-    const figurantes = ui.multi.value === "VAZIO" ? "None (Empty scene)" : (DB.multidoes[ui.multi.value] || "None");
-
-    ui.prompt.value = `[MEGA STUDIO 46.0 - OMNIVERSO]\nSTYLE: ${ui.estilo.value}\nLOC: ${ui.texto.value}\nCAMERA: ${ui.lente.value}\nMOTION: ${ui.motion.value}\nACTION: ${ui.pose.value}\n\nCAST:\n${cast}EXTRAS: ${figurantes}\n\nVOICE DESIGN:\n${voices}\nPARAMETERS: 8K, Photorealistic, High Detail, 60fps.`;
-    ui.prompt.select();
-    document.execCommand("copy");
-    ui.btn.innerText = "🚀 PIPELINE COPIADO!";
-
-    let html = "";
-    DB.roteiros['PLANETA_RAP'].forEach((c, i) => {
-        const a = atoresObj[i % atoresObj.length];
-        html += `<div class="cena-bloco"><b>CENA ${i+1}</b>: ${c}<br><small>DNA: ${a.d} | VOZ: ${a.v}</small></div>`;
-    });
-    ui.sb.innerHTML = html;
-    setTimeout(() => ui.btn.innerText = "EXECUTAR GERAÇÃO COMPLETA", 2000);
-};
-
-setup();
-</script>
-</body>
-</html>
