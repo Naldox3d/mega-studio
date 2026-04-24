@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGA STUDIO 46.0 — A MÁQUINA DEFINITIVA</title>
+    <style>
+        :root {
+            --bg: #09090b; --surface: #18181b; --border: #27272a;
+            --text: #f4f4f5; --text-dim: #a1a1aa;
+            --brand: #3b82f6; --brand-hover: #2563eb;
+            --accent: #10b981; --purple: #bc8cff; --orange: #f69d50;
+            --radius: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+        .app-container { max-width: 1200px; width: 100%; display: grid; gap: 15px; }
+        .header { text-align: left; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .header h1 { font-size: 26px; color: var(--brand); text-transform: uppercase; font-weight: 900; letter-spacing: 1px; }
+        .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+        .panel.full { grid-column: 1 / -1; }
+        .panel-title { font-size: 13px; text-transform: uppercase; font-weight: bold; color: var(--brand); margin-bottom: 15px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;}
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        label { display: block; font-size: 11px; font-weight: bold; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; }
+        select, input, textarea { width: 100%; background: #010409; border: 1px solid var(--border); color: #58a6ff; padding: 12px; border-radius: var(--radius); font-size: 14px; outline: none; }
+        textarea { resize: vertical; min-height: 80px; font-family: monospace; color: var(--accent); }
+        .checkbox-container { display: flex; align-items: center; gap: 10px; background: #010409; padding: 10px; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 15px;}
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--purple); cursor: pointer; }
+        button { background: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%); color: #fff; border: none; padding: 16px; border-radius: var(--radius); font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; }
+        button.success { background: var(--accent); color: #000; margin-top: 10px; }
+        #prompt-output { height: 260px; background: #000; color: #ff7b72; border-color: #f85149; }
+        .cena-bloco { border-left: 4px solid var(--brand); padding: 12px 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 var(--radius) var(--radius) 0; }
+        .tag-cena { color: var(--orange); font-weight: bold; display: block; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px;}
+        .tag-dna { color: var(--text-dim); font-size: 12px; font-style: italic; display: block; margin-bottom: 5px;}
+        .tag-voz { color: var(--purple); font-weight: bold; font-size: 12px; display: block; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>🎥 MEGA STUDIO 46.0</h1>
+        <p>A MÁQUINA DEFINITIVA — ACERVO COMPLETO ATIVADO</p>
+    </div>
+
+    <div class="grid-2">
+        <div class="panel">
+            <div class="panel-title">📂 1. DIRETRIZES E CENÁRIO</div>
+            <label>Nicho / Mundo</label>
+            <select id="ctrl-nicho" style="margin-bottom: 15px;"><option value="">-- Escolha o Nicho --</option></select>
+            <div class="checkbox-container">
+                <input type="checkbox" id="ctrl-travar">
+                <label style="margin:0; color: var(--text);">🔒 TRAVAR CENÁRIO</label>
+            </div>
+            <label>Cenário Base</label>
+            <select id="ctrl-cenario" disabled><option value="">-- Aguardando Nicho --</option></select>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">🎥 2. RENDER E LENTES</div>
+            <label>Lente da Câmera</label>
+            <select id="ctrl-lente" style="margin-bottom: 15px;"></select>
+            <label>Estilo Visual</label>
+            <select id="ctrl-estilo"></select>
+        </div>
+    </div>
+
+    <div class="panel full">
+        <label>DESCRIÇÃO DO CENÁRIO (EDITÁVEL)</label>
+        <textarea id="ctrl-cenario-texto" placeholder="Aguardando seleção..."></textarea>
+    </div>
+
+    <div class="panel full">
+        <div class="panel-title" style="color: var(--purple);">👥 3. ELENCO E DNA</div>
+        <div class="grid-4">
+            <div><label>Protagonista</label><select id="ctrl-prota"></select></div>
+            <div><label>Coadjuvante 1</label><select id="ctrl-coadj1"></select></div>
+            <div><label>Coadjuvante 2</label><select id="ctrl-coadj2"></select></div>
+            <div><label>Multidão</label><select id="ctrl-multi"></select></div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="panel">
+            <div class="panel-title" style="color: var(--orange);">🧍 4. MOVIMENTO (MOTION)</div>
+            <label>Pose / Ação</label>
+            <select id="ctrl-pose" style="margin-bottom: 15px;"></select>
+            <label>Câmera Motion</label>
+            <select id="ctrl-motion"></select>
+        </div>
+
+        <div class="panel" style="border-color: var(--accent);">
+            <div class="panel-title" style="color: var(--accent);">🎬 5. ROTEIRO VIRAL</div>
+            <label>Modelo de Script</label>
+            <select id="ctrl-roteiro" style="margin-bottom: 15px;"></select>
+            <button id="btn-gerar" class="success">🚀 EXECUTAR GERAÇÃO</button>
+        </div>
+    </div>
+
+    <div class="panel full">
+        <div class="panel-title" style="color: #f85149;">💻 6. TERMINAL DE PROMPT FINAL</div>
+        <textarea id="prompt-output" readonly></textarea>
+        <button id="btn-copiar" style="margin-top: 10px; background: #333;">COPIAR PROMPT</button>
+    </div>
+
+    <div class="panel full">
+        <div class="panel-title">📜 7. STORYBOARD DETALHADO</div>
+        <div id="storyboard-output"></div>
+    </div>
+</div>
+
+<script>
+const DB = {
+    nichos: {
+        "CLIP": { label: "🎵 Videoclipe Musical", cenas: ["Visão Panorâmica|Panoramic tropical volcanic island", "Balsa de Melancia|Heroes on a raft made of watermelon", "Vulcão Frutal|Concert stage on a fruit volcano", "Beco Rap|Dark alleyway with graffiti", "Carro|Luxury car with neon lights"] },
+        "COMEDIA": { label: "😂 Comédia & Besteirol", cenas: ["Escola|High school hallway", "Festa|Frat party with red cups", "Casa|Silly traps inside a house"] },
+        "SHOPPING": { label: "🏬 Shopping Noturno", cenas: ["Escada|Stopped escalator in empty mall", "Praça|Empty food court at night", "Docas|Industrial loading dock"] }
+    },
+    personagens: {
+        "P01": { nome: "Limão Rocha", dna: "Anthropomorphic Lemon, tactical vest", voz: "Grave e rouca." },
+        "P02": { nome: "Tomate Elinaldo", dna: "Anthropomorphic Tomato, detective coat", voz: "Anasalada e nervosa." },
+        "P03": { nome: "Sabrina Pitaya", dna: "Cyberpunk Pitaya, glowing scales", voz: "Futurista e confiante." },
+        "COM01": { nome: "Caju Nordestino", dna: "Cashew fruit, rustic vest", voz: "Sotaque nordestino carismático." }
+    },
+    poses: { "rap": "Aggressive rap pose, gestures matching beat", "heroi": "Epic superhero landing", "danca": "Viral dance choreography" },
+    motions: { "tracking": "Fast tracking camera, motion blur", "orbit": "Orbiting 360 camera", "drone": "Drone fly-through" },
+    lentes: { "wide": "Wide shot, 24mm lens", "macro": "Extreme close-up, 85mm" },
+    estilos: { "hibrido": "Hybrid Live Action + 3D Stylized", "anime": "Anime style, 2D cel-shaded" },
+    roteiros: {
+        "rap": ["Hook: Close-up extremo no rosto com batida forte.", "Solo de Saxofone entra de surpresa.", "Ação rítmica intensa no cenário.", "Drop final com pose épica."]
+    }
+};
+
+const ui = {
+    nicho: document.getElementById("ctrl-nicho"),
+    cenario: document.getElementById("ctrl-cenario"),
+    travar: document.getElementById("ctrl-travar"),
+    cenarioTexto: document.getElementById("ctrl-cenario-texto"),
+    lente: document.getElementById("ctrl-lente"),
+    estilo: document.getElementById("ctrl-estilo"),
+    prota: document.getElementById("ctrl-prota"),
+    coadj1: document.getElementById("ctrl-coadj1"),
+    pose: document.getElementById("ctrl-pose"),
+    motion: document.getElementById("ctrl-motion"),
+    roteiro: document.getElementById("ctrl-roteiro"),
+    btnGerar: document.getElementById("btn-gerar"),
+    btnCopiar: document.getElementById("btn-copiar"),
+    promptOut: document.getElementById("prompt-output"),
+    storyboardOut: document.getElementById("storyboard-output")
+};
+
+function init() {
+    Object.entries(DB.nichos).forEach(([k, v]) => ui.nicho.add(new Option(v.label, k)));
+    Object.entries(DB.lentes).forEach(([k, v]) => ui.lente.add(new Option(k.toUpperCase(), v)));
+    Object.entries(DB.estilos).forEach(([k, v]) => ui.estilo.add(new Option(k.toUpperCase(), v)));
+    Object.entries(DB.poses).forEach(([k, v]) => ui.pose.add(new Option(k.toUpperCase(), v)));
+    Object.entries(DB.motions).forEach(([k, v]) => ui.motion.add(new Option(k.toUpperCase(), v)));
+    Object.entries(DB.personagens).forEach(([k, v]) => {
+        ui.prota.add(new Option(v.nome, k));
+        ui.coadj1.add(new Option(v.nome, k));
+    });
+    Object.entries(DB.roteiros).forEach(([k, v]) => ui.roteiro.add(new Option(k.toUpperCase(), k)));
+}
+
+ui.nicho.onchange = () => {
+    ui.cenario.innerHTML = "";
+    const n = DB.nichos[ui.nicho.value];
+    if(n) {
+        ui.cenario.disabled = false;
+        n.cenas.forEach(c => {
+            const p = c.split('|');
+            ui.cenario.add(new Option(p[0], p[1]));
+        });
+    }
+};
+
+ui.cenario.onchange = () => { if(!ui.travar.checked) ui.cenarioTexto.value = ui.cenario.value; };
+
+ui.btnGerar.onclick = () => {
+    const p = DB.personagens[ui.prota.value];
+    ui.promptOut.value = `[MEGA STUDIO 46.0]\nSTYLE: ${ui.estilo.value}\nLOC: ${ui.cenarioTexto.value}\nPOSE: ${ui.pose.value}\nACTOR: ${p.nome} (${p.dna})\nVOICE: ${p.voz}`;
+    
+    let html = "";
+    DB.roteiros[ui.roteiro.value].forEach((c, i) => {
+        html += `<div class="cena-bloco"><span class="tag-cena">CENA ${i+1}</span><p>${c}</p><span class="tag-dna">${p.dna}</span></div>`;
+    });
+    ui.storyboardOut.innerHTML = html;
+};
+
+ui.btnCopiar.onclick = () => { ui.promptOut.select(); document.execCommand("copy"); alert("Copiado!"); };
+
+init();
+</script>
+</body>
+</html>
