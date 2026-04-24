@@ -16,7 +16,7 @@
         .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { background: var(--card); padding: 20px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
         .full { grid-column: 1 / span 2; }
-        h1 { text-align: center; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { text-align: center; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 26px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; }
         h2 { color: var(--blue); font-size: 13px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
         select, textarea, input { width: 100%; padding: 12px; background: #010409; color: #58a6ff; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 12px; font-size: 14px; outline: none; appearance: none; }
         textarea { height: 100px; color: var(--green); font-family: monospace; }
@@ -32,7 +32,7 @@
 </head>
 <body>
 
-<h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO</h1>
+<h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1>
 
 <div class="container">
     <div class="card">
@@ -49,15 +49,15 @@
         <h2>📍 3. RENDERIZAÇÃO DE AMBIENTE (CENÁRIOS)</h2>
         <div class="checkbox-container">
             <input type="checkbox" id="travar">
-            <label for="travar">🔒 TRAVAR CENÁRIO (Congelar texto atual)</label>
+            <label for="travar">🔒 TRAVAR CENÁRIO (Manter texto atual)</label>
         </div>
         <select id="cenario_lista" disabled><option>Selecione o Tema...</option></select>
         <textarea id="texto_cenario" placeholder="A descrição detalhada do cenário aparecerá aqui..."></textarea>
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--purple);">👥 4. ELENCO, DNA & VOICE DESIGN</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+        <h2 style="color: var(--purple);">👥 4. ELENCO, DNA & DESIGN DE VOZ</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
             <div><span class="label-t">Protagonista:</span><select id="prota"></select></div>
             <div><span class="label-t">Coadjuvante 1:</span><select id="coadj1"></select></div>
             <div><span class="label-t">Figurantes:</span><select id="multi"></select></div>
@@ -65,101 +65,143 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--orange);">🧍 5. POSES & MOVIMENTO (MOTION)</h2>
+        <h2 style="color: var(--orange);">🧍 5. POSES & INTERAÇÕES</h2>
         <select id="pose"></select>
-        <select id="motion" style="margin-top:10px;"></select>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--red);">🎥 6. CINEMATOGRAFIA & ESTILO</h2>
-        <select id="lente"></select>
-        <select id="estilo" style="margin-top:10px;"></select>
+        <h2 style="color: var(--red);">🎥 6. CINEMATOGRAFIA & MOTION</h2>
+        <select id="camera"></select>
+        <select id="motion" style="margin-top:10px;"></select>
+    </div>
+
+    <div class="card full">
+        <h2 style="color: var(--blue);">🎨 7. MOTOR DE ESTILO / RENDER</h2>
+        <select id="estilo"></select>
     </div>
 
     <div class="card full">
         <h2 style="color: var(--green);">🚀 TERMINAL DO DIRETOR (PROMPT IA 8K)</h2>
         <textarea id="final-prompt" readonly></textarea>
-        <button id="btn-copy">EXECUTAR GERAÇÃO COMPLETA</button>
+        <button id="btn-copy">EXECUTAR E COPIAR OMNIVERSO</button>
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--blue);">📜 8. STORYBOARD FATIADO</h2>
+        <h2 style="color: var(--blue);">📜 8. STORYBOARD DETALHADO</h2>
         <div id="storyboard-output"></div>
     </div>
 </div>
 
 <script>
 // ==========================================
-// BANCO DE DADOS MASSIVO - OMNIVERSO 46.0
+// BANCO DE DADOS INTEGRAL - OMNIVERSO 46.0
 // ==========================================
 const DB = {
     nichos: {
         'SHOPPING': { label: '🏬 Shopping Noturno', temas: {
             'Corredores': ["Vitrine Fechada|Empty mall corridor at night, closed store windows, dim lights, marble floor", "Escada Rolante Parada|Stopped escalator in a dark empty shopping mall, metal gates", "Quiosques|Mall kiosks covered with black tarps, eerie silence"],
             'Praça': ["Praça Alimentação Vazia|Massive empty food court at night, rows of empty tables", "Manutenção|Worker on a scissor lift fixing the mall ceiling at night"],
-            'Externo': ["Docas de Carga|Industrial loading dock at night, wet asphalt, harsh lighting", "Estacionamento|Empty parking lot at night, glowing barriers, digital billboard"]
+            'Externo': ["Docas de Carga|Industrial loading dock at night, wet asphalt, harsh lighting", "Estacionamento|Empty parking lot at night, glowing barriers"]
+        }},
+        'TELEVISAO': { label: '📺 TV & Reality Shows', temas: {
+            'Reality': ["Confessionário|Bright colorful living room, cameras on walls, studio lighting", "Prova Resistência|Outdoor obstacle course, mud, bright daylight"],
+            'Late Night': ["Talk Show Set|Host desk, city skyline backdrop, live band", "Entrevista|Minimalist interview set, two chairs, soft lighting"]
+        }},
+        'NOVELA': { label: '📺 Novela / Drama', temas: {
+            'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto Motel|Dark motel room, blinking neon sign outside"],
+            'Confronto': ["Elevador Parado|Stuck elevator, flickering emergency lights", "Escritório Luxo|Top floor skyscraper office, glass walls, night city view"]
         }},
         'ANIMES': { label: '💥 Animes & Mangá', temas: {
-            'Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after energy blast", "Telhado Escola|Anime high school rooftop, cherry blossoms"],
-            'Cartoon': ["Mundo 2D Clássico|Wacky cartoon universe, vibrant flat colors, anvil dropping"]
+            'Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after energy blast"],
+            'Desenhos': ["Mundo 2D Clássico|Wacky cartoon universe, vibrant flat colors, anvil dropping"]
+        }},
+        'FILME': { label: '🍿 Cinema / Ação', temas: {
+            'Tático': ["Caverna Secreta|High-tech secret hideout, screens and maps", "Depósito Armas|Industrial lighting, military equipment"],
+            'Survival': ["Pátio Boneca (Round 6)|Large sand playground, giant robotic doll", "Dormitório Beliches|Massive room, hundreds of bunk beds"]
         }},
         'CLIP': { label: '🎵 Videoclipe Musical', temas: {
             'Modeship': ["Vulcão Frutal|Concert stage on edge of fruit volcano, glowing lava", "Balsa Melancia|Heroes on raft made of watermelon slice, ocean"],
-            'Trap Carioca': ["Beco com Grafite|Dark alleyway filled with colorful graffiti, neon lights", "Carro Rebaixado|Low angle shot, luxury car headlights, smoke"]
-        }},
-        'TV': { label: '📺 Reality & Ícones TV', temas: {
-            'Reality': ["Confessionário|Bright colorful living room, cameras on walls, studio lighting", "Prova de Lama|Outdoor obstacle course, mud, bright daylight"],
-            'Chaves': ["Vila do Chaves|Old mexican neighborhood courtyard, wooden barrels", "Escolinha|Classic messy classroom, old wooden desks"]
+            'Rap/Trap': ["Beco Grafite|Dark alleyway filled with colorful graffiti, neon lights", "Carro Rebaixado|Low angle shot, luxury car headlights, smoke"]
         }}
     },
     personagens: {
         'Heróis Modeship': {
-            'P01': {n:"Limão Rocha", d:"Badass Lemon, scarred face, tactical vest", v:"Grave e rouca, estilo durão."},
-            'P02': {n:"Tomate Elinaldo", d:"Nervous Tomato, sweating, detective coat", v:"Anasalada, gaguejos nervosos."},
+            'P01': {n:"Limão Rocha", d:"Badass Lemon, scarred face, tactical vest", v:"Masculina grave e rouca, estilo durão."},
+            'P02': {n:"Tomate Elinaldo", d:"Nervous Tomato, sweating, detective coat", v:"Masculina anasalada, gaguejos nervosos."},
             'P03': {n:"Sabrina Pitaya", d:"Cyberpunk Pitaya, glowing scales", v:"Feminina, timbre futurista."},
-            'P05': {n:"Bananildo Musculoso", d:"Muscular banana, gold chains, gym pose", v:"Muito grave, estilo fisiculturista."}
+            'P05': {n:"Bananildo Musculoso", d:"Muscular banana, gold chains, flex pose", v:"Masculina muito grave, estilo fisiculturista."}
         },
         'Animes & Heróis': {
-            'A06': {n:"Abacate Goku", d:"Avocado, spiky glowing hair, martial arts gi", v:"Heróica e poderosa."},
+            'A06': {n:"Abacate Goku", d:"Avocado, spiky glowing hair, martial arts gi", v:"Voz heróica e poderosa."},
             'A02': {n:"Caju Luffy", d:"Cashew, massive grin, straw hat", v:"Entusiasta e gritante."},
             'H07': {n:"Melão Batman", d:"Dark melon, black cowl, cape, brooding eyes", v:"Sussurrada e sombria."}
         },
-        'Ícones TV & História': {
-            'M04': {n:"Jabuticaba Silvio", d:"Glossy jabuticaba, TV host suit, charismatic smile", v:"Carismática de apresentador."},
+        'Ícones TV & Lendas': {
+            'M04': {n:"Jabuticaba Silvio", d:"Glossy jabuticaba, TV host suit, charismatic smile", v:"Carismática de apresentador de TV."},
             'C01': {n:"Maçã Chaves", d:"Red apple, freckles, striped hat, suspenders", v:"Inocente e engraçada."},
             'L05': {n:"Tomate Pelé", d:"Red tomato, retro soccer jersey, athletic", v:"Calma e inspiradora."},
-            'L01': {n:"Limão Bonaparte", d:"Green lime, French emperor uniform", v:"Autoritária."}
+            'L01': {n:"Limão Bonaparte", d:"Green lime, French emperor uniform", v:"Autoritária e clássica."}
         },
         'Vilões & Terror': {
             'V01': {n:"Maçã Caveira", d:"Red peeled apple, skull face, dark cape", v:"Cavernosa e arrastada."},
-            'T03': {n:"Abóbora Jason", d:"Rotten pumpkin, hockey mask, machete", v:"Respiração lenta."}
+            'T03': {n:"Abóbora Jason", d:"Rotten pumpkin, hockey mask, large machete", v:"Respiração pesada e lenta."},
+            'M01': {n:"Saxofonista Mascarado", d:"Character in gold mask, holding glowing sax", v:"Sem fala, apenas solo de saxofone."}
         }
     },
     multidoes: { 'G01':"Fãs / Paparazzi", 'G02':"Horda de Zumbis", 'G05':"Convidados Festa", 'G08':"Faxineiros do Shopping" },
-    poses: { 'RAP': "Aggressive rap pose, hand gestures matching beat", 'LUTA': "MMA stance, fists raised", 'DANÇA': "Viral TikTok dance choreography", 'HERO': "Epic superhero landing" },
-    motions: { 'TRACKING': "Fast tracking camera following subject", 'ORBIT': "Orbiting 360 camera", 'DRONE': "Drone fly-through", 'PAN': "Slow cinematic pan" },
-    lentes: { 'WIDE': "Wide shot, 24mm lens", 'MEDIUM': "Medium shot, 50mm", 'MACRO': "Extreme close-up, 85mm", 'CRASH': "Crash zoom, comedic timing" },
-    estilos: { 'HIBRIDO': "Hybrid Live Action + 3D Stylized Elinaldo V1", 'ANIME': "Anime style, 2D cel-shaded", 'REALISMO': "Hyper-realistic Live Action look", 'STOP': "Stop-motion claymation" },
+    poses: {
+        'Neutra': "Dynamic natural posture, looking at the camera.",
+        'Entrevista': "Sitting in a confessional chair, talking to camera, reality TV vibe.",
+        'Luta MMA': "Intense MMA combat stance, fists raised, aggressive posture.",
+        'Hero Landing': "Epic superhero landing, one knee on ground, debris flying.",
+        'Viral TikTok': "Frontal static camera, full body shot, viral dance choreography.",
+        'Costas Explosão': "Walking away in slow motion, ignoring a massive explosion."
+    },
+    cameras: {
+        'WIDE_24MM': "Wide shot, 24mm lens. Cinematic establishing shot.",
+        'MEDIUM_50MM': "Medium shot, 50mm lens. Focus on expression.",
+        'MACRO_85MM': "Extreme close-up, macro lens, 85mm. Heavy emotion.",
+        'CRASH_ZOOM': "Crash zoom, fast comedic timing, wide angle lens."
+    },
+    motions: {
+        'TRACKING': "Fast tracking camera following the subject, motion blur.",
+        'ORBIT_360': "Orbiting 360 camera spinning slowly around characters.",
+        'DRONE_PUSH': "Drone fly-through pushing forward through the scene.",
+        'CINEMATIC_PAN': "Slow cinematic pan to the right, dynamic light shifts."
+    },
+    estilos: {
+        'HIBRIDO_ELINALDO': "Hybrid style, hyper-realistic Live Action environment with 3D stylized 'Cartoon Elinaldo V1' characters, 8k",
+        'CARTOON_V1': "3D Stylized character, signature style of Cartoon Elinaldo V1, vibrant colors",
+        'REALISMO': "Hyper-realistic Live Action look, cinematic photography, studio lighting",
+        'ANIME_2D': "Anime style, 2D cel-shaded, Studio Ghibli influence",
+        'STOP_MOTION': "Stop-motion claymation style, tactile clay textures"
+    },
     roteiros: {
-        'RAP': ["Hook: Close-up extremo com batida de morro.", "Solo: Saxofone entra e câmera se afasta.", "Ação: Rimas gesticulando no cenário.", "Final: Pose épica no drop final."]
+        'PLANETA_RAP': ["Hook: Close-up extremo no rosto com batida forte de morro.", "Sax: Câmera se afasta e o Saxofonista Mascarado assume a cena.", "Ação: Rimas gesticulando no cenário com flow intenso.", "Final: Pose épica no drop final com luzes neon."],
+        'DRAMA_NOVELA': ["Tensão: Close-up nos olhos, respiração ofegante.", "Revelação: Personagem Coadjuvante entra de surpresa.", "Confronto: Discussão acalorada com gestos dramáticos.", "Gancho: Corte seco no ápice da discussão."]
     }
 };
 
+// ==========================================
+// CONTROLADOR LÓGICO (CORE)
+// ==========================================
 const ui = {
     nicho: document.getElementById('nicho'), tema: document.getElementById('tema'), 
     cenario: document.getElementById('cenario_lista'), texto: document.getElementById('texto_cenario'),
     prota: document.getElementById('prota'), coadj1: document.getElementById('coadj1'), 
     multi: document.getElementById('multi'), pose: document.getElementById('pose'), 
-    motion: document.getElementById('motion'), lente: document.getElementById('lente'),
+    camera: document.getElementById('camera'), motion: document.getElementById('motion'),
     estilo: document.getElementById('estilo'), prompt: document.getElementById('final-prompt'),
     btn: document.getElementById('btn-copy'), travar: document.getElementById('travar'),
     sb: document.getElementById('storyboard-output')
 };
 
 function setup() {
+    // Popular Nichos
     ui.nicho.add(new Option("-- Escolha o Nicho --", ""));
     for (let k in DB.nichos) ui.nicho.add(new Option(DB.nichos[k].label, k));
 
+    // Popular Personagens
     [ui.prota, ui.coadj1].forEach(sel => {
         sel.add(new Option("-- Vazio --", ""));
         for (let g in DB.personagens) {
@@ -169,10 +211,11 @@ function setup() {
         }
     });
 
+    // Outras DDLs
     for (let k in DB.multidoes) ui.multi.add(new Option(DB.multidoes[k], k));
     for (let k in DB.poses) ui.pose.add(new Option(k, DB.poses[k]));
+    for (let k in DB.cameras) ui.camera.add(new Option(k, DB.cameras[k]));
     for (let k in DB.motions) ui.motion.add(new Option(k, DB.motions[k]));
-    for (let k in DB.lentes) ui.lente.add(new Option(k, DB.lentes[k]));
     for (let k in DB.estilos) ui.estilo.add(new Option(k, DB.estilos[k]));
 }
 
@@ -211,20 +254,21 @@ ui.btn.onclick = () => {
         }
     });
 
-    if(atoresObj.length === 0) atoresObj.push({n:"Personagem", d:"3D Character", v:"Base"});
+    if(atoresObj.length === 0) atoresObj.push({n:"Personagem", d:"Standard 3D", v:"Voz IA"});
 
-    ui.prompt.value = `[MEGA STUDIO 46.0 - OMNIVERSO]\nSTYLE: ${ui.estilo.value}\nLOC: ${ui.texto.value}\nCAMERA: ${ui.lente.value}\nMOTION: ${ui.motion.value}\nACTION: ${ui.pose.value}\n\nCAST:\n${cast}FIGURANTES: ${DB.multidoes[ui.multi.value] || "None"}\n\nVOICE DESIGN:\n${voices}\nPARAMETERS: 8K, Photorealistic, 60fps.`;
+    ui.prompt.value = `[MEGA STUDIO 46.0 - OMNIVERSO]\nSTYLE: ${ui.estilo.value}\nLOC: ${ui.texto.value}\nCAMERA: ${ui.camera.value}\nMOTION: ${ui.motion.value}\nACTION: ${ui.pose.value}\n\nCAST:\n${cast}FIGURANTES: ${DB.multidoes[ui.multi.value] || "None"}\n\nVOICE DESIGN:\n${voices}\nPARAMETERS: 8K, Photorealistic, High Detail.`;
     ui.prompt.select();
     document.execCommand("copy");
-    ui.btn.innerText = "🚀 COPIADO COM SUCESSO!";
+    ui.btn.innerText = "🚀 PIPELINE COPIADO!";
 
     let html = "";
-    DB.roteiros['RAP'].forEach((c, i) => {
+    let rot = DB.roteiros['PLANETA_RAP'];
+    rot.forEach((c, i) => {
         const a = atoresObj[i % atoresObj.length];
         html += `<div class="cena-bloco"><b>CENA ${i+1}</b>: ${c}<br><small>DNA: ${a.d} | VOZ: ${a.v}</small></div>`;
     });
     ui.sb.innerHTML = html;
-    setTimeout(() => ui.btn.innerText = "EXECUTAR GERAÇÃO COMPLETA", 2000);
+    setTimeout(() => ui.btn.innerText = "EXECUTAR E COPIAR OMNIVERSO", 2000);
 };
 
 setup();
