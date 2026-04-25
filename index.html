@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</title>
     <style>
         :root {
@@ -12,8 +11,7 @@
             --primary-orange: #f69d50; --primary-pink: #ff7b72; --primary-cyan: #39c5bb;
             --primary-yellow: #e3b341;
             --titan-grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
-        }
-
+        }    
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
         .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
@@ -55,9 +53,11 @@
 </head>
 <body>
 
-<h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1>
-
 <div class="container">
+    <div class="full">
+        <h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1>
+    </div>
+
     <div class="card">
         <h2>📂 1. SISTEMA DE DIRETRIZES (NICHO)</h2>
         <select id="nicho" onchange="atualizarTemas()">
@@ -165,6 +165,10 @@
                 <option value="Walking away in slow motion, ignoring a massive explosion.">💥 Fuga Explosão (Andando de Costas)</option>
                 <option value="Professional presentation pose, smiling enthusiastically, pointing at a product.">💼 Apresentação Comercial</option>
             </optgroup>
+            <optgroup label="Combate & Fitness">
+                <option value="Aggressive fighting stance, fists raised, ready to strike.">🥊 Pose de Luta (Guarda Alta)</option>
+                <option value="Stretching muscles dynamically, fitness pose.">💪 Alongamento / Pose Fitness</option>
+            </optgroup>
         </select>
     </div>
 
@@ -268,10 +272,15 @@ const crowds = {
     'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G04': "Torcida animada", 'G07': "Guarda de Elite Mascarada"}
 };
 
+// =========================================================
+// ATUALIZAÇÃO: NOVAS ROUPAS (INCLUINDO LUXO E FITNESS)
+// =========================================================
 const roupas = {
     'Anime, Mangá & Séries': {'R_ANI01': "wearing a classic anime school uniform", 'R_ANI02': "wearing a ninja shinobi outfit with headband", 'R_ANI03': "wearing a mecha pilot plugsuit"},
     'Bandas & Astros da Música': {'R_MUS01': "wearing heavy metal spiked leather jacket", 'R_MUS02': "wearing a classic 80s rockstar glam outfit", 'R_MUS04': "wearing a shiny pop star concert bodysuit"},
     'Lutas & Kimonos': {'R_LUT01': "wearing a traditional white martial arts kimono", 'R_CULT05': "wearing an elegant traditional Japanese silk kimono"},
+    'Esportes & Academia': {'R_FIT01': "wearing tight athletic gym wear and sneakers", 'R_FIT02': "wearing boxing shorts and hand wraps", 'R_FIT03': "wearing a classic vintage running tracksuit"},
+    'Luxo & Shopping': {'R_LUX01': "wearing an expensive high-end designer runway outfit", 'R_LUX02': "wearing a chic casual shopping outfit with sunglasses"},
     'Cinema Clássico': {'R_CINE01': "wearing a 1920s classic gangster suit and fedora", 'R_CINE02': "wearing an iconic yellow martial arts jumpsuit"},
     'Fantasia & Realeza': {'R_FAN02': "wearing a beautiful elegant masquerade ball gown", 'R_FAN03': "wearing a majestic princess dress with a tiara", 'R_FAN01': "wearing shiny medieval knight armor"},
     'Cultura Brasil': {'R_CULT02': "wearing traditional caipira clothes for festa junina", 'R_CULT01': "wearing a traditional leather cangaceiro outfit"},
@@ -281,13 +290,23 @@ const roupas = {
     'Profissões & Casual': {'R_PRO01': "wearing an elegant tailored business suit", 'R_PRO02': "wearing a white doctor lab coat", 'R_CAS01': "wearing streetwear, baggy hoodie"}
 };
 
+// =========================================================
+// ATUALIZAÇÃO: NOVOS ACESSÓRIOS (ACADEMIA E COMPRAS)
+// =========================================================
 const acessorios = {
     'Armas & Ação': {'AC_AM01': "holding a glowing magical sword", 'AC_AM03': "holding a sharp ninja katana", 'AC_FS01': "holding a futuristic laser blaster", 'AC_FS02': "holding a heavy tactical sniper rifle"},
+    'Esportes & Academia': {'AC_FIT01': "holding heavy iron gym dumbbells", 'AC_FIT02': "wearing red leather boxing gloves", 'AC_FIT03': "holding a sports water bottle and towel"},
+    'Shopping & Consumo': {'AC_SHOP01': "carrying multiple colorful designer shopping bags", 'AC_SHOP02': "holding a glowing premium black credit card"},
     'Música & Veículos': {'AC_MU01': "playing an electric guitar with passion", 'AC_MU02': "holding a vintage studio microphone", 'AC_VE01': "riding a sleek fast sports motorcycle", 'AC_VE02': "driving a luxury neon sports car"}
 };
 
+// =========================================================
+// ATUALIZAÇÃO: NOVAS CONDIÇÕES (SUOR, GLAMOUR)
+// =========================================================
 const estados = {
-    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt", 'E_MUT01': "zombified, rotting skin, glowing empty eyes", 'E_EMO04': "terrified, wide eyes, shivering in fear"}
+    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt", 'E_MUT01': "zombified, rotting skin, glowing empty eyes", 'E_EMO04': "terrified, wide eyes, shivering in fear"},
+    'Físico & Esforço': {'E_FIT01': "sweating heavily, breathing hard, flushed face", 'E_FIT02': "pumped up, muscles bulging, veins showing"},
+    'Glamour & Fama': {'E_GLAM01': "posing confidently, perfect glowing skin", 'E_GLAM02': "acting dramatic, reality tv star attitude"}
 };
 
 const vozes = {
@@ -299,28 +318,31 @@ const d = { 'P01':{d:"Anthropomorphic Lemon, scarred face"}, 'P02':{d:"Anthropom
 const vBase = { 'P01': "Grave e rouca.", 'P02': "Anasalada, gaguejos." }; 
 
 // =========================================================
-// 2. BANCO DE CENÁRIOS COMPLETO
+// 2. BANCO DE CENÁRIOS COMPLETO (ATUALIZADO E EXPANDIDO)
 // =========================================================
 const dataNicho = {
     'FRUITS_ADVENTURES': {
         'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean at sunset, cinematic", "Piquenique na Praia|Cozy beach picnic setup, blankets, lanterns"],
         'Exploração & Mistério': ["Templo Antigo de Frutas|Ancient overgrown temple ruins shaped like fruits, mysterious lighting", "Caverna de Cristal|Dark cave glowing with bright purple crystals, magical"],
-        'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll, bright eerie daylight", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections, dystopian survival game"],
-        'Cartão de Visitas': ["Praia Tropical|Tropical beach at golden hour, crystal clear water, vibrant colors"]
+        'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll, bright eerie daylight", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections, dystopian survival game", "Arena Vale Tudo|Underground fighting arena, bright metal cage, crowd cheering in shadows"],
+        'Cartão de Visitas': ["Praia Tropical|Tropical beach at golden hour, crystal clear water, vibrant colors"],
+        'Treinamento & Combate': ["Dojo de Artes Marciais|Traditional martial arts dojo, wooden floors, punching bags, soft window light", "Academia High-Tech|Modern fitness gym interior, heavy iron weights, dramatic cinematic lighting"]
     },
     'COMERCIAL': {
         'Apresentação & Vendas': ["Estúdio Infomercial|Bright white studio background, clean product podium, professional lighting", "Cozinha Moderna (Review)|Modern clean luxury kitchen, marble countertop, bright morning light"],
         'Mundo Corporativo': ["Escritório de Luxo|Modern glass corporate office, city skyline view, sleek modern desk", "Sala de Reunião|Corporate board room, projector screen, leather executive chairs"],
         'Podcast & Locução': ["Estúdio de Podcast|Cozy dark podcast studio, neon signs in background, professional microphones", "Cabine de Gravação|Radio broadcast booth, soundproof acoustic foam walls"],
-        'Setup YouTuber / Influencer': ["Quarto Gamer RGB|Gaming room setup, glowing RGB LED strips, dual monitors", "Setup Minimalista|Clean minimalist desk, warm aesthetic lighting, indoor potted plants"]
+        'Setup YouTuber / Influencer': ["Quarto Gamer RGB|Gaming room setup, glowing RGB LED strips, dual monitors", "Setup Minimalista|Clean minimalist desk, warm aesthetic lighting, indoor potted plants"],
+        'Propagandas Comerciais': ["Pista de Atletismo|Professional athletic running track, cinematic low angle, sunny bright day", "Estúdio Fotográfico de Moda|Professional fashion photography studio, massive softboxes, endless white cyclorama wall"]
     },
     'AGRESTINA': {
         'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"],
         'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun, heat waves", "Casa de Taipa|Rustic mud house interior, wood stove, sunlight piercing through cracks"]
     },
     'SHOPPING': {
-        '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights, closed store windows", "Escada Rolante|Stopped escalator in a dark empty shopping mall, eerie"],
-        '02 - Praça e Afins': ["Praça de Alimentação|Massive empty food court at night, glowing fast food signs", "Estacionamento (Cancela)|Empty parking lot at night, digital billboard glowing"]
+        '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights, closed store windows", "Escada Rolante|Stopped escalator in a dark empty shopping mall, eerie", "Corredor Principal Modeship|Massive luxury shopping mall corridor, massive glass ceiling, bright daylight, hyper-detailed"],
+        '02 - Praça e Afins': ["Praça de Alimentação|Massive empty food court at night, glowing fast food signs", "Estacionamento (Cancela)|Empty parking lot at night, digital billboard glowing", "Fliperama Arcade|Retro neon arcade room inside a mall, glowing cabinets"],
+        '03 - Vitrines & Lojas': ["Loja de Grife|Luxury fashion boutique interior, glowing displays, high-end mannequins", "Loja de Artigos Esportivos|Fitness and sports store interior, bright lighting, rows of sneakers and equipment"]
     },
     'NOVELA': {
         '01 - O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto de Motel Escuro|Dark motel room, neon sign blinking outside", "Restaurante de Luxo|Fine dining restaurant, romantic candle light", "Estacionamento Subterrâneo|Dark underground parking lot, harsh lighting"],
@@ -385,7 +407,8 @@ const dataNicho = {
         'Guerras': ["Trincheira WW1|Muddy WW1 trench, barbed wire", "Praia do Dia D|Stormy beach landing, war obstacles"]
     },
     'SETS': {
-        'Filmagem': ["Cidade Cenográfica|Fake small town street, highly lit for TV cameras", "Fundo Verde|Massive green screen studio, bright soft box lighting", "Set de Velho Oeste|Fake wooden western town facade supported by wooden beams"]
+        'Filmagem': ["Cidade Cenográfica|Fake small town street, highly lit for TV cameras", "Fundo Verde|Massive green screen studio, bright soft box lighting", "Set de Velho Oeste|Fake wooden western town facade supported by wooden beams"],
+        'Reality Shows & TV': ["Casa de Reality Show|Luxury modern house interior, glowing cameras on walls, dramatic neon lighting", "Sala de Eliminação|Dark TV studio room, single tense spotlight, dramatic atmosphere"]
     }
 };
 
@@ -417,7 +440,7 @@ const scriptsProntos = {
 };
 
 // =========================================================
-// FUNÇÕES DO SISTEMA E LIMPEZA DA LÓGICA DE DICAS
+// FUNÇÕES DO SISTEMA
 // =========================================================
 function atualizarTemas() {
     const nicho = document.getElementById('nicho').value;
@@ -572,11 +595,12 @@ function gerarRoteiroCompleto() {
         htmlOut += `
         <div class="cena-bloco">
             <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
-            <div class="cena-acao">🎬 <b>Ação:</b> ${acaoFinal}</div>
+            <div class="cena-acao">🎬 Ação: ${acaoFinal}</div>
             <div class="cena-fala">💬 ${falaFinal}</div>
             <div class="cena-dna">${dnaExibido}</div>
             <div class="cena-voz">${vozExibida}</div>
-        </div>`;
+        </div>
+`;
     }
     document.getElementById('output-storyboard').innerHTML = htmlOut;
 }
