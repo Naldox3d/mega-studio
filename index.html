@@ -27,7 +27,6 @@
         
         button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease;}
         button.btn-story { background: var(--primary-green); margin-top: 5px; }
-        button.btn-email { background: #30363d; border: 1px solid var(--primary-blue); margin-top: 5px; }
         button:active { transform: scale(0.98); }
         
         .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
@@ -63,8 +62,16 @@
             <option value="AGRESTINA">🌵 Lore Agrestina (Original)</option>
             <option value="SHOPPING">🏬 Shopping (Exclusivo Noturno)</option>
             <option value="NOVELA">📺 Novela / Drama</option>
+            <option value="SERIES">📺 Séries Ícones & Pop</option>
             <option value="ANIMES">💥 Animes, Mangá & Desenhos</option>
+            <option value="INFLUENCER">📱 Influencer / Produtos / TikTok</option>
+            <option value="TERROR">👻 Terror / Slasher</option>
+            <option value="COMEDIA">😂 Comédia & Besteirol</option>
             <option value="CLIP">🎵 Videoclipe Musical / Rap</option>
+            <option value="FESTAS">🎊 Festas & Feriados</option>
+            <option value="SCIFI">🛸 Sci-Fi / Cyberpunk</option>
+            <option value="FANTASIA">⚔️ Fantasia / Épico</option>
+            <option value="TURISMO">🌍 Turismo Global</option>
         </select>
     </div>
 
@@ -97,29 +104,59 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-orange);">🧍 5. POSES & CÂMERAS</h2>
+        <h2 style="color: var(--primary-orange);">🧍 5. POSES & INTERAÇÕES</h2>
         <select id="pose_personagem" onchange="gerarTudo()">
             <option value="Dynamic natural posture, looking at the camera.">🧍 Padrão / Neutra</option>
-            <option value="Epic superhero landing, one knee on the ground.">🦸 Hero Landing</option>
-            <option value="Aggressive rap pose, hand gestures matching the beat.">🎤 Postura Rap</option>
-        </select>
-        <select id="cena_numero" onchange="gerarTudo()" style="margin-top: 10px;">
-            <option value="Wide shot, 24mm lens. Cinematic establishing shot.">🎥 Wide 24mm</option>
-            <option value="Medium shot, 50mm lens. Focus on dialogue.">🎥 Medium 50mm</option>
-            <option value="Extreme close-up, macro lens, 85mm.">🎥 Close-up 85mm</option>
+            <optgroup label="Ação & Cinema">
+                <option value="Epic superhero landing, one knee on the ground, debris flying.">🦸 Pouso de Super-Herói</option>
+                <option value="Back-to-back combat pose, holding weapons.">⚔️ Costas com Costas (Combate)</option>
+                <option value="Walking away in slow motion, ignoring explosion.">💥 Caminhando (Ignorando Explosão)</option>
+            </optgroup>
+            <optgroup label="Romance & Drama">
+                <option value="Romantic embrace, intimate hug, passionate.">❤️ Abraço Romântico</option>
+                <option value="Arguing aggressively, pointing fingers.">😡 Discussão Agressiva</option>
+                <option value="Crying softly, hands covering face.">😭 Chorando</option>
+            </optgroup>
+            <optgroup label="Redes Sociais & Música">
+                <option value="Aggressive rap pose, hand gestures matching the beat.">🎤 Postura Rap / Trap</option>
+                <option value="Viral TikTok dance choreography.">🕺 Dancinha Viral</option>
+                <option value="Taking a selfie with a smartphone.">📸 Tirando Selfie</option>
+            </optgroup>
         </select>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-blue);">🎨 6. ESTILO VISUAL / RENDER</h2>
-        <select id="estilo_render" onchange="gerarTudo()">
-            <option value="Hybrid style, hyper-realistic Live Action environment with 3D stylized 'Cartoon Elinaldo V1' characters, 8k.">🧬 HÍBRIDO (Realismo + Cartoon V1)</option>
-            <option value="3D Stylized character, signature style of Cartoon Elinaldo V1, vibrant colors.">🎨 ORIGINAL (100% Cartoon V1)</option>
+        <h2 style="color: var(--primary-red);">🎥 6. DIREÇÃO DE CÂMERA</h2>
+        <select id="cena_numero" onchange="gerarTudo()">
+            <optgroup label="Sequência Cinematográfica">
+                <option value="Wide shot, 24mm lens. Cinematic establishing shot.">🎥 Wide 24mm (Cenário Completo)</option>
+                <option value="Medium shot, 50mm lens. Focus on dialogue.">🎥 Medium 50mm (Diálogo)</option>
+                <option value="Extreme close-up, macro lens, 85mm.">🎥 Close-up 85mm (Tensão/Emoção)</option>
+            </optgroup>
+            <optgroup label="Movimento & Estilo">
+                <option value="Drone fly-through pushing forward rapidly.">🚁 Drone Avançando Rápido</option>
+                <option value="Fast tracking camera following subject, motion blur.">🏃 Tracking de Ação</option>
+                <option value="Dutch angle, tilted camera horizon.">🦇 Ângulo Holandês (Tensão/Herói)</option>
+                <option value="Crash zoom, fast comedic timing.">🤣 Zoom Cômico (Besteirol)</option>
+            </optgroup>
         </select>
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--primary-red);">⚙️ 7. GERAÇÃO DE SCRIPT & STORYBOARD DETALHADO</h2>
+        <h2 style="color: var(--primary-blue);">🎨 7. ESTILO VISUAL / RENDER</h2>
+        <select id="estilo_render" onchange="gerarTudo()">
+            <option value="Hybrid style blending hyper-realistic Live Action environment with 3D stylized 'Cartoon Elinaldo V1' characters, 8k.">🧬 HÍBRIDO (Cenário Real + Elenco 3D)</option>
+            <option value="Hyper-realistic Live Action look, cinematic photography, anamorphic lens flares, studio lighting.">📸 REALISMO CINEMATOGRÁFICO</option>
+            <option value="3D Stylized character, signature style of Cartoon Elinaldo V1, vibrant lighting.">🎨 ORIGINAL (100% Cartoon V1)</option>
+            <option value="Anime style, 2D cel-shaded, Studio Ghibli influence.">🎌 ANIME / MANGÁ (2D)</option>
+            <option value="Dark fantasy concept art, grimdark aesthetic.">⚔️ DARK FANTASY (Sombrio)</option>
+            <option value="Stop-motion claymation style, tactile clay textures.">🧱 STOP MOTION (Massinha)</option>
+            <option value="1980s VHS camcorder footage, chromatic aberration.">📼 VHS VINTAGE 80s</option>
+        </select>
+    </div>
+
+    <div class="card full">
+        <h2 style="color: var(--primary-red);">⚙️ 8. GERAÇÃO DE SCRIPT & STORYBOARD DETALHADO</h2>
         <div style="display: flex; gap: 10px; margin-bottom: 15px;">
             <div style="flex: 1;">
                 <span class="label-text">Quantidade de Cenas:</span>
@@ -138,13 +175,13 @@
         
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted); padding: 20px;">
-                O roteiro com DNA, Falas e Câmera será gerado aqui...
+                O roteiro dinâmico com DNA, Falas e Câmera será gerado aqui...
             </div>
         </div>
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--primary-green);">🚀 8. TERMINAL DO DIRETOR (PROMPT IA GERAL)</h2>
+        <h2 style="color: var(--primary-green);">🚀 9. TERMINAL DO DIRETOR (PROMPT IA GERAL)</h2>
         <textarea id="final" readonly placeholder="O prompt técnico base será compilado aqui..."></textarea>
         <button onclick="copiar()">COPIAR PROMPT BASE</button>
     </div>
@@ -152,87 +189,176 @@
 
 <script>
 // =========================================================
-// BANCOS DE DADOS DE PERSONAGENS & DNA
+// BANCOS DE DADOS GIGANTES (ELENCO, DNA, VOZ)
 // =========================================================
 const p = {
-    'Heróis Modeship': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya"},
-    'Série Agrestina': {'A01':"Lampião Caju", 'A02':"Maria Pitaya Bonita", 'A03':"Cangaceiro Melão"},
-    'Vilões & Terror': {'V01':"Maçã Caveira", 'V02':"Banana Palhaço", 'T03':"Abóbora Jason"},
-    'Ícones TV': {'M04':"Jabuticaba Silvio", 'C01':"Maçã Chaves", 'C03':"Maracujá Madruga"}
+    'Heróis Modeship': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"},
+    'Série Agrestina': {'AG01':"Lampião Caju", 'AG02':"Maria Pitaya Bonita", 'AG03':"Cangaceiro Melão", 'AG04':"Padim Abacate"},
+    'Comédia & Besteirol': {'COM01':"Caju Nordestino", 'COM02':"Banana Festeira", 'COM03':"Ameixa Assustada", 'COM04':"Abacate Lutador", 'COM05':"Maçã Máskara"},
+    'Séries Ícones da TV': {'SRI01':"Melão Morcego", 'SRI02':"Cajuzinho Robin", 'SRI03':"Pera de Aço", 'SRI04':"Limão Caçador", 'SRI05':"Mamão Assustado"},
+    'Lendas da História': {'L01':"Limão Bonaparte", 'L02':"Caju Einstein", 'L03':"Morango Cleópatra", 'L04':"Batata Shakespeare", 'L05':"Tomate Pelé"},
+    'Vilões': {'V01':"Maçã Caveira", 'V02':"Banana Palhaço", 'V03':"Uva Titã", 'V04':"Limão Vader", 'V05':"Brócolis Mutante"},
+    'Slasher & Terror': {'T01':"Laranja Ghostface", 'T02':"Pera Freddy", 'T03':"Abóbora Jason", 'T04':"Manga Exorcista"},
+    'Fantasia': {'F01':"Caju Mago", 'F02':"Melão Guerreiro", 'F03':"Pera Elfa", 'F04':"Abacate Ogro", 'F05':"Uva Mosqueteiro"},
+    'Heróis & Animes': {'H01':"Abacate Hulk", 'H02':"Maçã Iron Man", 'H03':"Morango Deadpool", 'H07':"Melão Batman", 'A01':"Laranja Naruto", 'A02':"Caju Luffy", 'A06':"Abacate Goku"},
+    'Música & Pop': {'S00':"Cereja Moonwalk", 'S01':"Banana Freddie", 'S03':"Laranja Rei Elvis", 'M01':"Saxofonista Mascarado"},
+    'Ícones BR & Chaves': {'BR01':"Caju Juliete", 'M04':"Jabuticaba Silvio", 'C01':"Maçã Chaves", 'C02':"Melancia Quico", 'C03':"Maracujá Madruga", 'C04':"Morango Chiquinha"}
 };
 
 const d = {
-    'P01':{d:"Anthropomorphic Lemon, scarred face, tactical vest"},
-    'P02':{d:"Anthropomorphic Tomato, sweating, nervous detective coat"},
-    'P03':{d:"Anthropomorphic Pitaya, cyberpunk glowing scales"},
-    'A01':{d:"Cashew fruit wearing traditional leather cangaceiro hat, rugged"},
-    'A02':{d:"Pitaya with traditional northeastern dress, fierce expression"},
-    'V01':{d:"Red peeled apple, skull face, dark cape"},
-    'C01':{d:"Red apple, freckles, striped hat, suspenders"}
+    'P01':{d:"Anthropomorphic Lemon, scarred face, maduro mustache, tactical black vest"},
+    'P02':{d:"Anthropomorphic Tomato, sweating skin, deep eye circles, nervous detective coat"},
+    'P03':{d:"Anthropomorphic Pitaya, cyberpunk undercut hairstyle, glowing scale texture"},
+    'P04':{d:"Wrinkled raisin, white beard, wise serene expression, monk robes"},
+    'P05':{d:"Extremely muscular banana, gold chains, tank top, flex pose"},
+    'AG01':{d:"Cashew fruit wearing traditional leather cangaceiro hat, rugged face, holding rifle"},
+    'AG02':{d:"Pitaya with traditional northeastern floral dress, fierce confident expression"},
+    'AG03':{d:"Melon with bandolier belts, dirty face, serious cangaceiro"},
+    'AG04':{d:"Avocado wearing priest robes, holding a small wooden cross, peaceful"},
+    'COM01':{d:"Cashew fruit, colorful rustic vest, clumsy charismatic expression"},
+    'COM02':{d:"Yellow banana, varsity jacket, smug party-boy smirk, holding red cup"},
+    'COM05':{d:"Bright green apple face, wide cartoon grin, bright yellow zoot suit, fedora hat"},
+    'SRI01':{d:"Melon, campy 1960s grey and blue bat suit"},
+    'L01':{d:"Green lime, French emperor military uniform, bicorne hat"},
+    'L02':{d:"Cashew fruit, wild white frizzy hair, mustache, holding chalk"},
+    'L05':{d:"Red tomato, athletic build, retro yellow and green soccer jersey"},
+    'V01':{d:"Red peeled apple, skull-like face, menacing hollow eyes, dark velvet cape"},
+    'V02':{d:"Pale banana, creepy clown makeup, orange hair tufts, holding red balloon"},
+    'V05':{d:"Giant radioactive broccoli monster, glowing green ooze"},
+    'T01':{d:"Orange fruit wearing white screaming ghost mask, dark cloak"},
+    'T03':{d:"Rotten pumpkin, dirty hockey mask, holding a large machete"},
+    'F01':{d:"Cashew fruit, long white beard, wooden wizard staff, pointy hat"},
+    'F03':{d:"Pear, long blonde hair, pointy elf ears, holding a bow"},
+    'H07':{d:"Dark honeydew melon, brooding dark eyes, black cowl, tactical cape"},
+    'A02':{d:"Cashew, massive grin, curved scar under eye, straw hat, red vest"},
+    'A06':{d:"Avocado, spiky glowing yellow pulp hair, orange martial arts gi"},
+    'M01':{d:"Mysterious character in gold mask, sleek suit, holding glowing saxophone"},
+    'M04':{d:"Glossy jabuticaba, combed hair, charismatic smile, shiny TV host suit"},
+    'C01':{d:"Red apple, freckles, striped ear-flap hat, suspenders"},
+    'C02':{d:"Watermelon, huge cheeks, black sailor suit, colorful ball"},
+    'C03':{d:"Wrinkled passion fruit, thin mustache, bucket hat, worn out shirt"}
 };
 
 const v = {
-    'P01': "Grave e rouca, estilo mercenário durão.",
-    'P02': "Anasalada, gaguejos nervosos e rápidos.",
-    'P03': "Feminina, timbre futurista e limpo.",
-    'A01': "Forte sotaque pernambucano, voz de comando.",
-    'C01': "Esganiçada, infantil e choramingando."
+    'P01': "Masculina, tom grave e rouco, sotaque neutro, estilo herói de ação durão.",
+    'P02': "Masculina, tom anasalado, com falhas nervosas e leves gaguejos.",
+    'P03': "Feminina, timbre limpo e futurista, leve modulação de sintetizador.",
+    'P05': "Masculina extremamente grave, projetada, alta e eufórica de academia.",
+    'AG01': "Masculina, forte sotaque pernambucano, voz de comando e valentia.",
+    'AG02': "Feminina, sotaque nordestino, firme, corajosa e imponente.",
+    'V01': "Cavernosa e arrastada, com leve eco de ambiente fechado, sussurrante.",
+    'V02': "Fina e esganiçada, tom maníaco e risonho, picos histéricos.",
+    'T03': "Sem voz, apenas respiração pesada, lenta e assustadora.",
+    'H07': "Sussurrada, extremamente sombria, intimidante e grave.",
+    'A02': "Jovem, entusiasmada, risada solta e gritante.",
+    'M04': "Masculina, carismática de animador de auditório, risada icônica ('Ma oê').",
+    'C01': "Masculina infantil, esganiçada, inocente e choramingando.",
+    'C03': "Masculina, rouca, cansada, ranzinza e sem paciência."
 };
 
 const crowds = {
-    'G01':"Multidão de Fãs / Paparazzi", 'G04':"Público de Estádio (Torcida)", 'G08':"Faxineiros do Shopping"
+    'G01':"Multidão de Fãs / Paparazzi com flashes", 
+    'G02':"Horda de Zumbis famintos e rastejantes", 
+    'G03':"Exército de Soldados Medievais", 
+    'G04':"Público de Estádio (Torcida uniformizada gritando)", 
+    'G05':"Convidados Elegantes em Festa de Gala", 
+    'G06':"Transeuntes de Metrópole Chuvosa com guarda-chuvas",
+    'G08':"Trabalhadores de Shopping (Limpeza/Segurança)"
 };
 
 // =========================================================
-// BANCO DE CENÁRIOS
+// BANCO GIGANTE DE CENÁRIOS
 // =========================================================
 const dataNicho = {
     'AGRESTINA': {
-        'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"],
-        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun", "Casa de Taipa|Rustic mud house interior, wood stove"]
+        'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting, dry vegetation", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage, festive lighting"],
+        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun, heat waves distorting the air", "Casa de Taipa|Rustic mud house interior, wood stove, sunlight piercing through cracks"]
     },
     'SHOPPING': {
-        'Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights", "Escada Rolante|Stopped escalator in a dark empty shopping mall"]
+        'Corredores & Lojas': ["Vitrine Fechada (Noturno)|Empty mall corridor at night, closed store windows with mannequins, shiny marble floor", "Escada Rolante Parada|Stopped escalator in a dark empty shopping mall, closed metal gates"],
+        'Praça de Alimentação': ["Praça Fast-Food Vazia|Massive empty food court at night, rows of empty tables, fast food signs glowing", "Área Externa (Docas)|Industrial loading dock at night, wet asphalt, harsh fluorescent lighting"]
     },
     'NOVELA': { 
-        'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway", "Quarto de Motel Escuro|Dark motel room, neon sign"] 
+        'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto de Motel Escuro|Dark motel room, blinking neon sign outside"],
+        'Confronto': ["Escritório Executivo|Top floor office, glass walls, night city view", "Elevador Parado|Stuck elevator, flickering emergency lights"]
+    },
+    'SERIES': { 
+        'Mistério': ["Encruzilhada|Dirt crossroads at midnight, eerie fog", "Castelo Assombrado|Creepy cartoonish haunted castle, Scooby-Doo aesthetic"] 
+    },
+    'ANIMES': {
+        'Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after massive anime energy blast, craters"]
+    },
+    'INFLUENCER': { 
+        'Setup': ["Estúdio RGB|Minimalist desk, glowing RGB lights, microphone", "Closet Gigante|Walk-in closet filled with designer items, ring light"] 
+    },
+    'TERROR': { 
+        'Assombração': ["Casa Abandonada|Creepy abandoned old house, dark shadows, cobwebs", "Corredor de Hospital|Ruined asylum corridor, flickering lights, rusty wheelchairs"] 
+    },
+    'COMEDIA': { 
+        'Besteirol': ["Festa de Fraternidade|Crazy college frat party, red cups everywhere", "Corredor de Escola|Classic high school hallway, lockers"] 
     },
     'CLIP': { 
-        'Rap/Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway, neon lights"] 
+        'Rap/Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke, street lights", "Beco com Grafite|Dark alleyway filled with colorful graffiti, neon lights"] 
+    },
+    'FESTAS': { 
+        'Eventos': ["Natal (NY)|Massive lit Christmas tree, snow falling, glowing lights", "Carnaval (Rio)|Massive parade float, colorful feathers, confetti"] 
+    },
+    'SCIFI': { 
+        'Cyberpunk': ["Rua de Neon|Cyberpunk city street, neon lights, holograms, rain", "Nave Mãe|Inside a massive high-tech alien mothership, glowing panels"] 
+    },
+    'FANTASIA': { 
+        'Épico': ["Castelo em Chamas|Burning medieval castle, embers flying in the night sky", "Floresta Encantada|Enchanted forest, glowing mushrooms, fairy lights"] 
+    },
+    'TURISMO': { 
+        'Mundo': ["Times Square (NY)|Times square New York, giant glowing billboards", "Pirâmides (Egito)|Great Pyramids, desert sand, bright harsh sun"] 
     }
 };
 
 // =========================================================
-// ROTEIROS DINÂMICOS COM FALAS (F = Protagonista, C = Coadjuvante)
+// ROTEIROS DINÂMICOS GIGANTES (F = Fala, A = Ação, C = Câmera)
 // =========================================================
 const scriptsDB = {
     'AGRESTINA': [
-        { c: "Wide 24mm", a: "[PROTA] observa o horizonte lá de cima do [CENARIO]. O vento bate forte.", f: "[PROTA]: A vista daqui de cima nunca perde a graça, né não?" },
-        { c: "Medium 50mm", a: "[COADJ] se aproxima de braços cruzados.", f: "[COADJ]: Pois é. Mas a gente não subiu aqui só pra ver a paisagem." },
-        { c: "Close-up 85mm", a: "[PROTA] abaixa a cabeça e aperta os olhos com tensão.", f: "[PROTA]: Eu sei... Eles tão chegando." },
-        { c: "Dolly Zoom", a: "Ouve-se um estrondo ao fundo. [COADJ] aponta desesperado.", f: "[COADJ]: Olha lá! Corre!" },
-        { c: "Tracking Rápido", a: "Os dois correm ladeira abaixo fugindo pela poeira.", f: "[PROTA]: Num disse! Bota as perna pra funcionar!" }
+        { c: "Wide 24mm", a: "[PROTA] observa o horizonte lá de cima do [CENARIO]. O vento bate forte na roupa.", f: "[PROTA]: A vista daqui de cima nunca perde a graça, né não?" },
+        { c: "Medium 50mm", a: "[COADJ] se aproxima de braços cruzados, olhando desconfiado(a).", f: "[COADJ]: Pois é. Mas a gente não veio até aqui só pra ver a paisagem." },
+        { c: "Close-up 85mm", a: "[PROTA] abaixa a cabeça, fecha a cara e aperta os olhos com tensão.", f: "[PROTA]: Eu sei... Eles tão chegando. Dá pra sentir a poeira." },
+        { c: "Dolly Zoom", a: "Um estrondo ecoa ao fundo. [COADJ] aponta desesperado(a).", f: "[COADJ]: Olha lá! Corre, cabra!" },
+        { c: "Tracking Rápido", a: "Os dois correm ladeira abaixo fugindo velozmente.", f: "[PROTA]: Num disse! Bota as perna pra funcionar!" }
     ],
     'NOVELA': [
-        { c: "Medium 50mm", a: "O clima pesa no [CENARIO]. [PROTA] encara [COADJ] de frente.", f: "[PROTA]: Por que você fez isso pelas minhas costas?" },
-        { c: "Close-up 85mm", a: "[COADJ] tenta desviar o olhar, lágrimas escorrendo.", f: "[COADJ]: Eu achei que estava te protegendo..." },
-        { c: "Dutch Angle", a: "[PROTA] bate na mesa (ou parede).", f: "[PROTA]: Protegendo? Você destruiu tudo!" },
-        { c: "Static", a: "[COADJ] vira as costas para ir embora.", f: "[COADJ]: Um dia você vai entender." },
-        { c: "Slow Pan", a: "[PROTA] fica sozinho no cenário escuro, pensativo.", f: "[PROTA]: (Sussurrando) Eu nunca vou te perdoar." }
+        { c: "Medium 50mm", a: "O clima está pesado no(a) [CENARIO]. [PROTA] encara [COADJ] de frente, segurando o choro.", f: "[PROTA]: Por que você fez isso pelas minhas costas? Me diz!" },
+        { c: "Close-up 85mm", a: "[COADJ] tenta desviar o olhar, com uma lágrima escorrendo no rosto.", f: "[COADJ]: Eu achei que estava te protegendo de toda essa mentira..." },
+        { c: "Dutch Angle", a: "[PROTA] bate com raiva na mesa ou parede próxima.", f: "[PROTA]: Protegendo? Você destruiu tudo o que a gente construiu!" },
+        { c: "Static", a: "[COADJ] vira as costas lentamente para ir embora.", f: "[COADJ]: Um dia você vai entender que eu não tive escolha." },
+        { c: "Slow Pan", a: "[PROTA] fica sozinho(a) no cenário, completamente desolado(a).", f: "[PROTA]: (Sussurrando) Eu nunca vou te perdoar. Nunca." }
     ],
     'SHOPPING': [
-        { c: "Wide 24mm", a: "Silêncio absoluto no [CENARIO]. [PROTA] caminha devagar com uma lanterna.", f: "[PROTA]: Tem alguém aí? O turno já acabou!" },
-        { c: "Medium 50mm", a: "[COADJ] surge das sombras, assustando [PROTA].", f: "[COADJ]: Psiu! Fala baixo... Eles ouvem tudo." },
-        { c: "Close-up", a: "[PROTA] abaixa a lanterna, tremendo.", f: "[PROTA]: Eles quem, cara? Você tá me assustando." },
-        { c: "Handheld", a: "As luzes do shopping piscam de repente.", f: "[COADJ]: Já era. Fica atrás de mim." },
-        { c: "Tracking", a: "Os dois saem correndo pelos corredores escuros.", f: "[PROTA]: Pelo amor de Deus, me tira daqui!" }
+        { c: "Wide 24mm", a: "Silêncio absoluto no(a) [CENARIO]. [PROTA] caminha devagar com uma lanterna na mão.", f: "[PROTA]: Tem alguém aí? O turno já acabou, pode sair!" },
+        { c: "Medium 50mm", a: "[COADJ] surge de repente das sombras, assustando [PROTA].", f: "[COADJ]: Psiu! Fala baixo... Eles ouvem tudo que a gente diz aqui." },
+        { c: "Close-up 85mm", a: "[PROTA] abaixa a lanterna, começando a tremer.", f: "[PROTA]: Eles quem, cara? Você tá me assustando de verdade." },
+        { c: "Handheld", a: "As luzes do shopping começam a piscar freneticamente.", f: "[COADJ]: Já era. Fica atrás de mim e não faz barulho." },
+        { c: "Tracking Rápido", a: "Os dois saem correndo em disparada pelos corredores escuros.", f: "[PROTA]: Pelo amor de Deus, me tira desse lugar!" }
+    ],
+    'TERROR': [
+        { c: "Wide 24mm", a: "O vento uiva no(a) [CENARIO]. [PROTA] anda lentamente, olhando por cima do ombro.", f: "[PROTA]: Eu falei pra gente não vir pra cá à noite..." },
+        { c: "Close-up 85mm", a: "[COADJ] para bruscamente, com os olhos arregalados de pânico.", f: "[COADJ]: Você escutou isso? Um barulho de arranhão..." },
+        { c: "Dutch Angle", a: "Uma sombra enorme se projeta na parede. [PROTA] recua.", f: "[PROTA]: Não tem nada ali. É só a sua imaginação... certo?" },
+        { c: "Zoom Cômico/Ação", a: "A porta bate violentamente sozinha.", f: "[COADJ]: Corre! Não olha pra trás!" },
+        { c: "Handheld (Câmera Tremida)", a: "Eles tropeçam no escuro tentando fugir de algo invisível.", f: "[PROTA]: Socorro! A porta tá trancada!" }
+    ],
+    'ANIMES': [
+        { c: "Wide 24mm (Low Angle)", a: "Poeira e pedras flutuam com a energia no(a) [CENARIO]. [PROTA] está ofegante.", f: "[PROTA]: Eu não vou desistir! Não enquanto eu tiver força!" },
+        { c: "Close-up 85mm", a: "[COADJ] dá um sorriso arrogante, envolto em uma aura brilhante.", f: "[COADJ]: Patético. Seu nível de poder é uma piada para mim." },
+        { c: "Tracking (Zoom Rápido)", a: "[PROTA] cerra os punhos e uma aura gigante explode ao seu redor.", f: "[PROTA]: HAAAAAAAAAAA! Você vai engolir essas palavras!" },
+        { c: "Medium 50mm (Câmera Tremida)", a: "[COADJ] recua um passo, perdendo o sorriso. Suor escorre.", f: "[COADJ]: Impossível! De onde vem tanto poder oculto?!" },
+        { c: "Slow Motion", a: "Os dois saltam um contra o outro para o choque final, com um clarão branco.", f: "[PROTA]: Golpe final! Destruição Total!" }
     ],
     'PADRAO': [
-        { c: "Wide", a: "[PROTA] entra no ambiente: [CENARIO].", f: "[PROTA]: Que lugar estranho..." },
-        { c: "Medium", a: "[COADJ] aparece do nada.", f: "[COADJ]: Você não deveria estar aqui." },
-        { c: "Close", a: "[PROTA] se prepara para agir.", f: "[PROTA]: Eu faço as regras." },
-        { c: "Zoom", a: "Ação rápida entre os dois.", f: "[COADJ]: Então aguente as consequências!" },
-        { c: "Wide", a: "A poeira baixa no cenário.", f: "[PROTA]: Foi mais fácil do que eu pensava." }
+        { c: "Wide 24mm", a: "[PROTA] entra cautelosamente no(a) [CENARIO] observando tudo.", f: "[PROTA]: Que lugar estranho... Nunca estive aqui antes." },
+        { c: "Medium 50mm", a: "[COADJ] aparece do nada, bloqueando o caminho.", f: "[COADJ]: Você não deveria estar aqui. É propriedade restrita." },
+        { c: "Close-up 85mm", a: "[PROTA] se prepara para agir, cerrando os olhos.", f: "[PROTA]: Eu faço as minhas próprias regras." },
+        { c: "Zoom Rápido", a: "Uma ação muito rápida acontece entre os dois.", f: "[COADJ]: Então aguente as consequências da sua escolha!" },
+        { c: "Wide 24mm", a: "A poeira baixa e o ambiente volta a ficar silencioso.", f: "[PROTA]: No fim das contas, foi mais fácil do que eu pensava." }
     ]
 };
 
@@ -308,42 +434,42 @@ function gerarTudo() {
     const multi = document.getElementById('multidao').value;
     
     let castStr = "";
-    if (pId) castStr += `ACTOR 1: ${getCharName(pId)} (${d[pId]? d[pId].d : 'Stylized 3D'})\n`;
-    if (cId) castStr += `ACTOR 2: ${getCharName(cId)} (${d[cId]? d[cId].d : 'Stylized 3D'})\n`;
+    if (pId) castStr += `ACTOR 1: ${getCharName(pId)} (${d[pId]? d[pId].d : 'Stylized 3D character'})\n`;
+    if (cId) castStr += `ACTOR 2: ${getCharName(cId)} (${d[cId]? d[cId].d : 'Stylized 3D character'})\n`;
     if (multi) castStr += `EXTRAS: ${crowds[multi]}\n`;
 
-    document.getElementById('final').value = `[MEGA STUDIO 46.0]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${castStr}\nCAMERA/ACTION: ${document.getElementById('cena_numero').value} / ${document.getElementById('pose_personagem').value}\n\nPARAMS: 8K, Cinematic Lighting, 60fps.`;
+    document.getElementById('final').value = `[MEGA STUDIO 46.0]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${castStr}\nCAMERA/ACTION: ${document.getElementById('cena_numero').value} / ${document.getElementById('pose_personagem').value}\n\nPARAMS: 8K, Cinematic Lighting, 60fps, Unreal Engine 5 aesthetic.`;
 }
 
-// A MÁGICA ACONTECE AQUI: STORYBOARD COM FALAS, DNA E VOZ
+// =========================================================
+// MÁQUINA DE STORYBOARD E ROTEIRO COM DNA E VOZ
+// =========================================================
 function gerarRoteiroCompleto() {
     const nicho = document.getElementById('nicho').value || 'PADRAO';
     const qtd = parseInt(document.getElementById('qtd_cenas').value);
-    const loc = document.getElementById('cenario_lista').options[document.getElementById('cenario_lista').selectedIndex]?.text || "Cenário Atual";
+    const locNome = document.getElementById('cenario_lista').options[document.getElementById('cenario_lista').selectedIndex]?.text || "o local atual";
     
     const pId = document.getElementById('prota').value;
     const cId = document.getElementById('coadj1').value;
     
     const protaNome = pId ? getCharName(pId) : "Protagonista";
-    const protaDNA = pId && d[pId] ? d[pId].d : "Padrão 3D";
-    const protaVoz = pId && v[pId] ? v[pId] : "Voz Padrão Gerada por IA";
+    const protaDNA = pId && d[pId] ? d[pId].d : "Padrão Genérico 3D";
+    const protaVoz = pId && v[pId] ? v[pId] : "Voz Padrão de IA, tom neutro";
 
     const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
-    const coadjDNA = cId && d[cId] ? d[cId].d : "Padrão 3D";
-    const coadjVoz = cId && v[cId] ? v[cId] : "Voz Padrão Gerada por IA";
+    const coadjDNA = cId && d[cId] ? d[cId].d : "Padrão Genérico 3D";
+    const coadjVoz = cId && v[cId] ? v[cId] : "Voz Padrão de IA, tom neutro";
 
     let template = scriptsDB[nicho] ? scriptsDB[nicho] : scriptsDB['PADRAO'];
     
     let htmlOut = "";
 
     for(let i = 0; i < qtd; i++) {
-        // Usa o template e recicla caso peça mais cenas que o array possui
         let cenaInfo = template[i % template.length];
         
-        let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, loc);
+        let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
         let falaFinal = cenaInfo.f.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome);
         
-        // Identifica quem está falando para atrelar o DNA e Voz corretos na cena
         let dnaExibido = "";
         let vozExibida = "";
         
@@ -354,8 +480,8 @@ function gerarRoteiroCompleto() {
             dnaExibido = `🧬 DNA Ativo (${coadjNome}): ${coadjDNA}`;
             vozExibida = `🎙️ Design de Voz: ${coadjVoz}`;
         } else {
-            dnaExibido = `🧬 Cena de Ação/Geral`;
-            vozExibida = `🎙️ Som Ambiente (Foley)`;
+            dnaExibido = `🧬 Cena de Ação Geral / Ambientaçao`;
+            vozExibida = `🎙️ Som Ambiente (Foley de Ação)`;
         }
 
         htmlOut += `
@@ -372,7 +498,7 @@ function gerarRoteiroCompleto() {
     document.getElementById('output-storyboard').innerHTML = htmlOut;
 }
 
-function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt Base Copiado!"); }
+function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt Base Copiado com Sucesso, Máquina!"); }
 
 window.onload = carregarElenco;
 </script>
