@@ -1,511 +1,80 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</title>
-    <style>
-        :root {
-            --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
-            --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
-            --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
-            --primary-orange: #f69d50; --primary-pink: #ff7b72; --primary-cyan: #39c5bb;
-            --primary-yellow: #e3b341;
-            --titan-grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
-        }    
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
-        .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        .full { grid-column: 1 / span 2; }    
-        h1 { text-align: center; background: var(--titan-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;}
-        h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
-        
-        select, textarea, input[type="number"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; outline: none; }
-        select:focus, textarea:focus { border-color: var(--primary-purple); }
-        
-        .select-roupa { border-color: var(--primary-green); color: var(--primary-green); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        .select-estado { border-color: var(--primary-orange); color: var(--primary-orange); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        .select-acessorio { border-color: var(--primary-yellow); color: var(--primary-yellow); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-
-        textarea { height: 90px; color: #3fb950; resize: vertical; font-family: monospace; }
-        
-        button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease;}
-        button.btn-story { background: var(--primary-green); margin-top: 5px; }
-        button:active { transform: scale(0.98); }
-        
-        .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
-        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-purple); cursor: pointer;}
-        
-        .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
-        #final { height: 280px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
-        
-        #output-storyboard { background: #0d1117; padding: 10px; border-radius: 6px; max-height: 600px; overflow-y: auto; }
-        .cena-bloco { border-left: 4px solid var(--primary-purple); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
-        .cena-titulo { font-weight: bold; color: var(--primary-pink); margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
-        .cena-acao { color: var(--text-main); font-size: 14px; margin-bottom: 8px; }
-        .cena-fala { color: var(--primary-blue); font-style: italic; font-weight: bold; margin-bottom: 8px; }
-        .cena-dna { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .cena-voz { font-size: 11px; color: var(--primary-cyan); }
-
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .full { grid-column: 1; } }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="full">
-        <h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1>
-    </div>
-
-    <div class="card">
-        <h2>📂 1. SISTEMA DE DIRETRIZES (NICHO)</h2>
-        <select id="nicho" onchange="atualizarTemas()">
-            <option value="">-- Escolha o Nicho --</option>
-            <option value="FRUITS_ADVENTURES">🏝️ Fruits Adventures (Terra de Elinaldo)</option>
-            <option value="COMERCIAL">💼 Comercial, Vendas & Creators</option>
-            <option value="AGRESTINA">🌵 Lore Agrestina (Original)</option>
-            <option value="SHOPPING">🏬 Shopping (Exclusivo Noturno)</option>
-            <option value="NOVELA">📺 Novela / Drama</option>
-            <option value="SERIES">📺 Séries Ícones & Pop</option>
-            <option value="ANIMES">💥 Animes, Mangá & Desenhos</option>
-            <option value="INFLUENCER">📱 Influencer / Produtos / TikTok</option>
-            <option value="TERROR">👻 Terror / Slasher</option>
-            <option value="COMEDIA">😂 Comédia & Besteirol</option>
-            <option value="CLIP">🎵 Videoclipe Musical</option>
-            <option value="FESTAS">🎊 Festas & Feriados</option>
-            <option value="GOSPEL">🕊️ Gospel / Fé</option>
-            <option value="SCIFI">🛸 Sci-Fi / Cyberpunk</option>
-            <option value="FANTASIA">⚔️ Fantasia / Épico</option>
-            <option value="INFANTIL">🧸 Infantil / Contos</option>
-            <option value="TURISMO">🌍 Turismo Global</option>
-            <option value="HISTORIA">⚔️ História Global</option>
-            <option value="SETS">🎬 Sets de Filmagem</option>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2>🗺️ 2. TEMA / ÂNCORA DA HISTÓRIA</h2>
-        <select id="tema" onchange="atualizarCenarios()" disabled>
-            <option value="">-- Autenticar Âncora / Tema --</option>
-        </select>
-    </div>
-
-    <div class="card full">
-        <h2>📍 3. RENDERIZAÇÃO DE AMBIENTE (CENÁRIOS FULL)</h2>
-        <div class="checkbox-container">
-            <input type="checkbox" id="travar_cenario" onchange="travarCenario()">
-            <label for="travar_cenario">🔒 TRAVAR CENÁRIO (Não apagar texto ao mudar menu)</label>
-        </div>
-        <select id="cenario_lista" onchange="puxarCenario()" disabled>
-            <option value="">-- Escolher Cenário --</option>
-        </select>
-        <textarea id="texto_cenario" oninput="gerarTudo()" placeholder="A descrição do cenário aparecerá aqui..."></textarea>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-purple);">👥 4. ELENCO, GUARDA-ROUPA, ACESSÓRIOS & VOZ</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px;">
-            <div>
-                <span class="label-text">Protagonista:</span>
-                <select id="prota" onchange="gerarTudo()"></select>
-                <select id="roupa_prota" class="select-roupa" onchange="gerarTudo()"></select>
-                <select id="estado_prota" class="select-estado" onchange="gerarTudo()"></select>
-                <select id="acessorio_prota" class="select-acessorio" onchange="gerarTudo()"></select>
-                <select id="voz_prota" class="select-voz" onchange="gerarTudo()"></select>
-            </div>
-            <div>
-                <span class="label-text">Coadjuvante 1:</span>
-                <select id="coadj1" onchange="gerarTudo()"></select>
-                <select id="roupa_coadj1" class="select-roupa" onchange="gerarTudo()"></select>
-                <select id="estado_coadj1" class="select-estado" onchange="gerarTudo()"></select>
-                <select id="acessorio_coadj1" class="select-acessorio" onchange="gerarTudo()"></select>
-                <select id="voz_coadj1" class="select-voz" onchange="gerarTudo()"></select>
-            </div>
-            <div>
-                <span class="label-text">Coadjuvante 2:</span>
-                <select id="coadj2" onchange="gerarTudo()"></select>
-                <select id="roupa_coadj2" class="select-roupa" onchange="gerarTudo()"></select>
-                <select id="estado_coadj2" class="select-estado" onchange="gerarTudo()"></select>
-                <select id="acessorio_coadj2" class="select-acessorio" onchange="gerarTudo()"></select>
-                <select id="voz_coadj2" class="select-voz" onchange="gerarTudo()"></select>
-            </div>
-            <div>
-                <span class="label-text">Grupos / Figurantes:</span>
-                <select id="multidao" onchange="gerarTudo()"></select>
-                <select id="roupa_multidao" class="select-roupa" onchange="gerarTudo()"></select>
-                <select id="estado_multidao" class="select-estado" onchange="gerarTudo()"></select>
-                <select id="acessorio_multidao" class="select-acessorio" onchange="gerarTudo()"></select>
-                <select id="voz_multidao" class="select-voz" onchange="gerarTudo()"></select>
-            </div>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-orange);">🧍 5. POSES & INTERAÇÕES ESTILIZADAS</h2>
-        <select id="pose_personagem" onchange="gerarTudo()">
-            <option value="Dynamic natural posture, looking at the camera.">🧍 Padrão / Neutra</option>
-            <optgroup label="Lore Oficial (Canal)">
-                <option value="Aggressive confrontation, pointing finger angrily, furious face.">😠 Confronto Agressivo (Rocha)</option>
-                <option value="Cowering defensively, looking extremely guilty and sad.">😨 Acuado e Culpado (Elinaldo)</option>
-                <option value="Passionate romantic kiss on the cheek, holding head affectionately.">💋 Beijo Carinhoso (Capa do Canal)</option>
-            </optgroup>
-            <optgroup label="Romance & Intimidade">
-                <option value="Passionate romantic kiss on the lips, holding each other closely.">💋 Beijo Apaixonado</option>
-                <option value="Gentle and affectionate face caress, looking lovingly into eyes.">🥰 Carinho no Rosto</option>
-                <option value="Hugging from behind, affectionately kissing the neck.">🫂 Cheirinho / Beijo no Pescoço</option>
-                <option value="Cinematic wedding pose at the altar, holding hands.">💍 Casamento (Altar/Alianças)</option>
-            </optgroup>
-            <optgroup label="Casual, Reações & Comédia">
-                <option value="Sitting casually, relaxed posture, natural behavior.">🛋️ Casual / Sentado Relaxado</option>
-                <option value="Reacting with huge surprise, hands on head, wide shocked eyes.">😲 Surpresa Extrema / Susto</option>
-                <option value="Laughing out loud, pointing at something funny.">😂 Rindo Muito (Gargalhada)</option>
-            </optgroup>
-            <optgroup label="Dança & Música">
-                <option value="Frontal static camera, full body shot, viral TikTok dance choreography.">🕺 Dancinha Viral (TikTok / Reels)</option>
-                <option value="Aggressive rap pose, leaning into the camera, hand gestures.">🎤 Atitude Rap (Gesticulando)</option>
-            </optgroup>
-            <optgroup label="Ação & Comercial">
-                <option value="Epic superhero landing, one knee on the ground, debris flying.">🦸 Hero Landing</option>
-                <option value="Walking away in slow motion, ignoring a massive explosion.">💥 Fuga Explosão (Andando de Costas)</option>
-                <option value="Professional presentation pose, smiling enthusiastically, pointing at a product.">💼 Apresentação Comercial</option>
-            </optgroup>
-            <optgroup label="Combate & Fitness">
-                <option value="Aggressive fighting stance, fists raised, ready to strike.">🥊 Pose de Luta (Guarda Alta)</option>
-                <option value="Stretching muscles dynamically, fitness pose.">💪 Alongamento / Pose Fitness</option>
-            </optgroup>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-orange);">🎥 6. DINÂMICA DE VÍDEO (MOTION)</h2>
-        <select id="video_motion" onchange="gerarTudo()">
-            <option value="Static camera, subtle ambient movement, subtle character breathing.">Estático (Apenas Respiração/Ambiente)</option>
-            <option value="Static camera, subtle ambient movement, cinematic heavy rain falling.">Estático (Com Chuva Forte - Lore Oficial)</option>
-            <option value="Slow cinematic pan to the right, dynamic light shifts.">Slow Pan Cinematográfico</option>
-            <option value="Drone fly-through pushing forward through the scene.">Avanço de Drone (Fly-through)</option>
-            <option value="Fast tracking camera following the subject, motion blur.">Tracking Rápido (Ação)</option>
-            <option value="Orbiting 360 camera spinning slowly around characters.">Câmera Orbital 360º</option>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-red);">🎥 7. DIREÇÃO DE CÂMERA</h2>
-        <select id="cena_numero" onchange="gerarTudo()">
-            <option value="Wide shot, 24mm lens. Cinematic establishing shot.">Wide 24mm (Cenário Completo)</option>
-            <option value="Medium shot, 50mm lens. Focus on expression.">Medium 50mm (Diálogo/Ação)</option>
-            <option value="Extreme close-up, macro lens, 85mm. Heavy emotion.">Close-up 85mm (Emoção Exata)</option>
-            <option value="Dutch angle, tilted camera horizon.">Ângulo Holandês (Inclinada/Tensão)</option>
-            <option value="Crash zoom, fast comedic timing.">Zoom Cômico (Besteirol)</option>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-blue);">🎨 8. ESTILO VISUAL / RENDER</h2>
-        <select id="estilo_render" onchange="gerarTudo()">
-            <option value="Hyper-realistic Live Action environment, highly detailed 3D stylized Pixar-like characters, volumetric lighting, 8k.">🧬 LORE OFICIAL (Animação 3D Cinematográfica)</option>
-            <option value="Hybrid style, hyper-realistic Live Action environment with 3D stylized 'Cartoon Elinaldo V1' characters, 8k.">🧬 HÍBRIDO (Realismo + Cartoon V1)</option>
-            <option value="3D Stylized character, signature style of Cartoon Elinaldo V1, vibrant colors.">🎨 ORIGINAL (100% Cartoon V1)</option>
-            <option value="Anime style, 2D cel-shaded, Studio Ghibli influence.">🎌 ANIME / MANGÁ (2D)</option>
-        </select>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-pink);">🗣️ 9. DIÁLOGOS & ROTEIROS PRÉ-PRONTOS</h2>
-        <select id="script_pronto" style="border-color: var(--primary-pink);">
-            <option value="">-- Escolher Roteiro no Acervo Gigante --</option>
-            <optgroup label="Lore Oficial (Fruits Adventures)">
-                <option value="LORE_01">🎬 A Amizade Perdida (Curta Oficial Completo)</option>
-                <option value="VIRAL_01">📱 Viral: O Flagrante da Dancinha (Comédia)</option>
-            </optgroup>
-            <optgroup label="Ação & Batalha Épica">
-                <option value="ACAO_01">💥 O Duelo Final (Herói vs Vilão)</option>
-                <option value="ACAO_02">🚁 Fuga Explosiva de Drone</option>
-            </optgroup>
-            <optgroup label="Comédia & Trends (TikTok/Shorts)">
-                <option value="COM_01">😂 Piada: O Tomate no Banco</option>
-                <option value="COM_02">📱 React Assustado (Meme)</option>
-                <option value="COM_03">🎵 Batalha de Rimas (Rap)</option>
-            </optgroup>
-            <optgroup label="Terror & Suspense">
-                <option value="TERROR_01">🧟 O Zumbi no Beco</option>
-                <option value="TERROR_02">👻 Assombração Silenciosa (Liminal)</option>
-            </optgroup>
-            <optgroup label="Romance & Drama">
-                <option value="ROM_01">💍 O Pedido de Casamento</option>
-                <option value="ROM_02">💔 Beijo de Despedida (Drama)</option>
-            </optgroup>
-        </select>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-red);">⚙️ 10. GERAÇÃO DE SCRIPT & STORYBOARD</h2>
-        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <div style="flex: 1;">
-                <span class="label-text">Quantidade de Cenas:</span>
-                <select id="qtd_cenas">
-                    <option value="1">1 Cena (Shot Rápido)</option>
-                    <option value="2">2 Cenas (Ação/Reação)</option>
-                    <option value="3" selected>3 Cenas (Mini Arco)</option>
-                    <option value="4">4 Cenas (Sequência Completa)</option>
-                    <option value="6">6 Cenas (A Amizade Perdida Completo)</option>
-                </select>
-            </div>
-            <div style="flex: 2; display: flex; align-items: flex-end;">
-                <button class="btn-story" onclick="gerarRoteiroCompleto()">🎬 GERAR STORYBOARD COMPLETO</button>
-            </div>
-        </div>
-        <div id="output-storyboard">
-            <div style="text-align: center; color: var(--text-muted); padding: 20px;">
-                O roteiro dinâmico aparecerá aqui...
-            </div>
-        </div>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-green);">🚀 11. TERMINAL DO DIRETOR (PROMPT IA)</h2>
-        <textarea id="final" readonly placeholder="Prompt técnico..."></textarea>
-        <button onclick="copiar()">COPIAR PROMPT BASE</button>
-    </div>
-</div>
-
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>MEGA STUDIO 46.0 — OMNIVERSO</title><style>
+:root{--bg-color:#0b0e14;--card-bg:#161b22;--border-color:#30363d;--text-main:#e6edf3;--text-muted:#8b949e;--primary-blue:#58a6ff;--primary-purple:#bc8cff;--primary-green:#3fb950;--primary-red:#f85149;--primary-orange:#f69d50;--primary-pink:#ff7b72;--primary-cyan:#39c5bb;--primary-yellow:#e3b341;--titan-grad:linear-gradient(135deg,#f85149 0%,#d2a8ff 100%)}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg-color);color:var(--text-main);padding:15px;margin:0}
+.container{max-width:1200px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.card{background:var(--card-bg);padding:20px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 8px 24px rgba(0,0,0,0.5)}.full{grid-column:1 / span 2}
+h1{text-align:center;background:var(--titan-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:24px;font-weight:900;margin-bottom:20px;letter-spacing:1px}
+h2{color:var(--primary-blue);font-size:13px;border-bottom:1px dashed var(--border-color);padding-bottom:8px;margin-bottom:15px;text-transform:uppercase;letter-spacing:1px}
+select,textarea{width:100%;padding:14px;background:#010409;color:#58a6ff;border:1px solid var(--border-color);border-radius:6px;margin-bottom:12px;font-size:14px;box-sizing:border-box;outline:none}
+select:focus,textarea:focus{border-color:var(--primary-purple)}
+.select-roupa{border-color:var(--primary-green);color:var(--primary-green);font-size:12px;padding:10px;margin-top:-10px;background:#0d1117}
+.select-estado{border-color:var(--primary-orange);color:var(--primary-orange);font-size:12px;padding:10px;margin-top:-10px;background:#0d1117}
+.select-acessorio{border-color:var(--primary-yellow);color:var(--primary-yellow);font-size:12px;padding:10px;margin-top:-10px;background:#0d1117}
+.select-voz{border-color:var(--primary-cyan);color:var(--primary-cyan);font-size:12px;padding:10px;margin-top:-10px;background:#0d1117}
+textarea{height:90px;color:#3fb950;resize:vertical;font-family:monospace}
+button{background:var(--titan-grad);color:#fff;padding:16px;border:none;width:100%;cursor:pointer;font-weight:bold;border-radius:6px;margin-top:10px;transition:0.2s}
+button.btn-story{background:var(--primary-green);margin-top:5px}button:active{transform:scale(0.98)}
+.checkbox-container{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:13px;background:#010409;padding:10px;border-radius:6px;border:1px solid var(--border-color)}
+input[type="checkbox"]{width:18px;height:18px;accent-color:var(--primary-purple)}
+.label-text{font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px;display:block;font-weight:bold}
+#final{height:280px;background:#000;color:#ff7b72;border-color:#f85149;font-size:13px;line-height:1.4}
+#output-storyboard{background:#0d1117;padding:10px;border-radius:6px;max-height:600px;overflow-y:auto}
+.cena-bloco{border-left:4px solid var(--primary-purple);padding:15px;margin-bottom:15px;background:#1c2128;border-radius:0 6px 6px 0}
+.cena-titulo{font-weight:bold;color:var(--primary-pink);margin-bottom:8px;font-size:15px;border-bottom:1px solid var(--border-color);padding-bottom:5px}
+.cena-acao{color:var(--text-main);font-size:14px;margin-bottom:8px}.cena-fala{color:var(--primary-blue);font-style:italic;font-weight:bold;margin-bottom:8px}
+.cena-dna{font-size:11px;color:var(--text-muted);margin-bottom:4px}.cena-voz{font-size:11px;color:var(--primary-cyan)}
+@media(max-width:768px){.container{grid-template-columns:1fr}.full{grid-column:1}}
+</style></head><body>
+<div class="container"><div class="full"><h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1></div>
+<div class="card"><h2>📂 1. DIRETRIZES (NICHO)</h2><select id="nicho" onchange="atualizarTemas()"><option value="">-- Escolha o Nicho --</option><option value="FRUITS_ADVENTURES">🏝️ Fruits Adventures (Lore)</option><option value="COMERCIAL">💼 Comercial & Creators</option><option value="AGRESTINA">🌵 Lore Agrestina</option><option value="SHOPPING">🏬 Shopping Noturno</option><option value="NOVELA">📺 Novela / Drama</option><option value="TERROR">👻 Terror / Slasher</option><option value="COMEDIA">😂 Comédia & Trends</option></select></div>
+<div class="card"><h2>🗺️ 2. TEMA / ÂNCORA</h2><select id="tema" onchange="atualizarCenarios()" disabled><option value="">-- Autenticar Tema --</option></select></div>
+<div class="card full"><h2>📍 3. CENÁRIOS</h2><div class="checkbox-container"><input type="checkbox" id="travar_cenario" onchange="travarCenario()"><label for="travar_cenario">🔒 TRAVAR CENÁRIO</label></div><select id="cenario_lista" onchange="puxarCenario()" disabled><option value="">-- Escolher Cenário --</option></select><textarea id="texto_cenario" oninput="gerarTudo()" placeholder="Cenário aqui..."></textarea></div>
+<div class="card full"><h2 style="color:var(--primary-purple)">👥 4. ELENCO, ROUPA E VOZ</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px">
+<div><span class="label-text">Protagonista:</span><select id="prota" onchange="gerarTudo()"></select><select id="roupa_prota" class="select-roupa" onchange="gerarTudo()"></select><select id="estado_prota" class="select-estado" onchange="gerarTudo()"></select><select id="acessorio_prota" class="select-acessorio" onchange="gerarTudo()"></select><select id="voz_prota" class="select-voz" onchange="gerarTudo()"></select></div>
+<div><span class="label-text">Coadjuvante 1:</span><select id="coadj1" onchange="gerarTudo()"></select><select id="roupa_coadj1" class="select-roupa" onchange="gerarTudo()"></select><select id="estado_coadj1" class="select-estado" onchange="gerarTudo()"></select><select id="acessorio_coadj1" class="select-acessorio" onchange="gerarTudo()"></select><select id="voz_coadj1" class="select-voz" onchange="gerarTudo()"></select></div>
+<div><span class="label-text">Coadjuvante 2:</span><select id="coadj2" onchange="gerarTudo()"></select><select id="roupa_coadj2" class="select-roupa" onchange="gerarTudo()"></select><select id="estado_coadj2" class="select-estado" onchange="gerarTudo()"></select><select id="acessorio_coadj2" class="select-acessorio" onchange="gerarTudo()"></select><select id="voz_coadj2" class="select-voz" onchange="gerarTudo()"></select></div>
+</div></div>
+<div class="card"><h2 style="color:var(--primary-orange)">🧍 5. POSES</h2><select id="pose_personagem" onchange="gerarTudo()"><option value="Dynamic natural posture">🧍 Padrão / Neutra</option><option value="Aggressive confrontation">😠 Confronto (Rocha)</option><option value="Cowering defensively">😨 Acuado (Elinaldo)</option><option value="Viral TikTok dance choreography">🕺 Dancinha Viral (TikTok)</option></select></div>
+<div class="card"><h2 style="color:var(--primary-orange)">🎥 6. MOTION</h2><select id="video_motion" onchange="gerarTudo()"><option value="Static camera">Estático</option><option value="Slow cinematic pan">Slow Pan Cinematográfico</option><option value="Drone fly-through">Drone Fly-through</option></select></div>
+<div class="card"><h2 style="color:var(--primary-red)">🎥 7. CÂMERA</h2><select id="cena_numero" onchange="gerarTudo()"><option value="Wide shot, 24mm">Wide 24mm</option><option value="Medium shot, 50mm">Medium 50mm</option><option value="Close-up 85mm">Close-up 85mm</option></select></div>
+<div class="card"><h2 style="color:var(--primary-blue)">🎨 8. ESTILO VISUAL</h2><select id="estilo_render" onchange="gerarTudo()"><option value="Hyper-realistic Live Action environment, 3D Pixar-like characters, 8k.">🧬 LORE OFICIAL (3D Cinema)</option><option value="Hybrid style, realistic env with Cartoon V1 chars">🧬 HÍBRIDO</option></select></div>
+<div class="card full"><h2 style="color:var(--primary-pink)">🗣️ 9. ROTEIROS PRONTOS</h2><select id="script_pronto" style="border-color:var(--primary-pink)"><option value="">-- Escolher Roteiro --</option><option value="LORE_01">🎬 A Amizade Perdida (Curta)</option><option value="VIRAL_01">📱 Viral: Dancinha do Elinaldo</option></select></div>
+<div class="card full"><h2 style="color:var(--primary-red)">⚙️ 10. STORYBOARD</h2><div style="display:flex;gap:10px;margin-bottom:15px"><div style="flex:1"><span class="label-text">Cenas:</span><select id="qtd_cenas"><option value="3">3 Cenas</option><option value="4">4 Cenas</option><option value="6" selected>6 Cenas</option></select></div><div style="flex:2;display:flex;align-items:flex-end"><button class="btn-story" onclick="gerarRoteiro()">🎬 GERAR STORYBOARD</button></div></div><div id="output-storyboard"><div style="text-align:center;color:#8b949e;padding:20px">O roteiro aparecerá aqui...</div></div></div>
+<div class="card full"><h2 style="color:var(--primary-green)">🚀 11. PROMPT FINAL</h2><textarea id="final" readonly></textarea><button onclick="copiar()">COPIAR PROMPT</button></div></div>
 <script>
-// =========================================================
-// BANCOS DE DADOS DE PERSONAGENS (MULTIVERSO COMPLETO)
-// =========================================================
-const p = {
-    'Heróis Originais': {
-        'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"
-    },
-    'Comédia & Besteirol': {
-        'COM01':"Caju Nordestino", 'COM02':"Banana Festeira", 'COM03':"Ameixa Assustada", 'COM04':"Abacate Lutador", 'COM05':"Maçã Máskara"
-    },
-    'Vilões': {
-        'V01':"Maçã Caveira", 'V02':"Banana Palhaço", 'V03':"Uva Titã", 'V04':"Limão Vader"
-    },
-    'Slasher & Androids': {
-        'SA01':"Laranja Ghostface", 'SA02':"Pera Freddy", 'SA03':"Abóbora Jason", 'SA04':"Maçã T-800", 'SA05':"Limão Robocop"
-    },
-    'Fantasia': {
-        'F01':"Caju Mago", 'F02':"Melão Guerreiro", 'F03':"Pera Elfa", 'F04':"Abacate Ogro", 'F05':"Uva Mosqueteiro"
-    },
-    'Heróis & Animes': {
-        'HA01':"Laranja Naruto", 'HA02':"Caju Luffy", 'HA03':"Abacate Goku"
-    },
-    'Música & Pop': {
-        'MP01':"Cereja Moonwalk", 'MP02':"Banana Freddie", 'MP03':"Laranja Rei Elvis", 'MP04':"Mamão Homer", 'MP05':"Morango Mickey", 'MP06':"Goiaba Esponja"
-    }
-};
-
-const crowds = {
-    'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo", 'GP02': "Grupo de Homens descontraídos", 'GP03': "Vários Casais passeando"},
-    'Elenco Conjunto': {'ALL01': "Todos os Personagens da Cena", 'ALL02': "Todos os Heróis Originais"},
-    'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G04': "Torcida animada", 'G07': "Guarda de Elite Mascarada"}
-};
-
-// =========================================================
-// BANCOS DE DADOS DE ROUPAS E ACESSÓRIOS (COMPLETOS)
-// =========================================================
-const roupas = {
-    'Guarda-Roupa Oficial': {
-        'R_OFF_ROCHA': "wearing a dark green tactical police uniform with a badge, tactical harness, and a Brazilian flag patch on the arm", 
-        'R_OFF_ELIN': "wearing a casual light blue button-up shirt, slightly wrinkled", 
-        'R_OFF_SAB': "wearing a yellow long-sleeve work shirt under a purple apron"
-    },
-    'Anime, Mangá & Séries': {'R_ANI01': "wearing a classic anime school uniform", 'R_ANI02': "wearing a ninja shinobi outfit with headband", 'R_ANI03': "wearing a mecha pilot plugsuit"},
-    'Bandas & Astros da Música': {'R_MUS01': "wearing heavy metal spiked leather jacket", 'R_MUS02': "wearing a classic 80s rockstar glam outfit", 'R_MUS04': "wearing a shiny pop star concert bodysuit"},
-    'Lutas & Kimonos': {'R_LUT01': "wearing a traditional white martial arts kimono", 'R_CULT05': "wearing an elegant traditional Japanese silk kimono"},
-    'Esportes & Academia': {'R_FIT01': "wearing tight athletic gym wear and sneakers", 'R_FIT02': "wearing boxing shorts and hand wraps", 'R_FIT03': "wearing a classic vintage running tracksuit"},
-    'Luxo & Shopping': {'R_LUX01': "wearing an expensive high-end designer runway outfit", 'R_LUX02': "wearing a chic casual shopping outfit with sunglasses"},
-    'Cinema Clássico': {'R_CINE01': "wearing a 1920s classic gangster suit and fedora", 'R_CINE02': "wearing an iconic yellow martial arts jumpsuit"},
-    'Fantasia & Realeza': {'R_FAN02': "wearing a beautiful elegant masquerade ball gown", 'R_FAN03': "wearing a majestic princess dress with a tiara", 'R_FAN01': "wearing shiny medieval knight armor"},
-    'Cultura Brasil': {'R_CULT02': "wearing traditional caipira clothes for festa junina", 'R_CULT01': "wearing a traditional leather cangaceiro outfit"},
-    'Pobreza & Sobrevivência': {'R_SURV01': "wearing torn and dirty peasant rags, poverty style", 'R_SURV02': "wearing a green tracksuit with white stripes", 'R_SURV03': "wearing tactical military survival gear"},
-    'Sci-Fi & Cyberpunk': {'R_SCI01': "wearing a futuristic cyberpunk neon jacket", 'R_SCI03': "wearing a full cyborg robotic body with metallic plates"},
-    'Heróis & Superpoderes': {'R_HER01': "wearing a spandex superhero suit with a cape", 'R_HER02': "wearing a dark vigilante bat-suit with cowl"},
-    'Profissões & Casual': {'R_PRO01': "wearing an elegant tailored business suit", 'R_PRO02': "wearing a white doctor lab coat", 'R_CAS01': "wearing streetwear, baggy hoodie"}
-};
-
-const acessorios = {
-    'Adereços da Lore': {
-        'AC_PAC': "holding torn cardboard packages marked with 'PAC'",
-        'AC_NONE': "empty hands"
-    },
-    'Armas & Ação': {'AC_AM01': "holding a glowing magical sword", 'AC_AM03': "holding a sharp ninja katana", 'AC_FS01': "holding a futuristic laser blaster", 'AC_FS02': "holding a heavy tactical sniper rifle"},
-    'Esportes & Academia': {'AC_FIT01': "holding heavy iron gym dumbbells", 'AC_FIT02': "wearing red leather boxing gloves", 'AC_FIT03': "holding a sports water bottle and towel"},
-    'Shopping & Consumo': {'AC_SHOP01': "carrying multiple colorful designer shopping bags", 'AC_SHOP02': "holding a glowing premium black credit card"},
-    'Música & Veículos': {'AC_MU01': "playing an electric guitar with passion", 'AC_MU02': "holding a vintage studio microphone", 'AC_VE01': "riding a sleek fast sports motorcycle", 'AC_VE02': "driving a luxury neon sports car"}
-};
-
-const estados = {
-    'Atuação Oficial': {
-        'E_OFF_SWEAT': "sweating profusely, looking extremely nervous, water drops on skin",
-        'E_OFF_CRY': "crying intensely, tears streaming down face, extremely sad expression",
-        'E_OFF_MAD': "furious, clenching fists, aggressive posture, dripping wet from rain",
-        'E_OFF_LOVE': "floating 3D pink hearts in the air around the character, romantic aura"
-    },
-    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt", 'E_MUT01': "zombified, rotting skin, glowing empty eyes", 'E_EMO04': "terrified, wide eyes, shivering in fear"},
-    'Físico & Esforço': {'E_FIT01': "sweating heavily, breathing hard, flushed face", 'E_FIT02': "pumped up, muscles bulging, veins showing"},
-    'Glamour & Fama': {'E_GLAM01': "posing confidently, perfect glowing skin", 'E_GLAM02': "acting dramatic, reality tv star attitude"}
-};
-
-const vozes = {
-    'Vozes Originais': {
-        'V_ROCHA': "Grave, autoritária, tom de policial (Rocha).",
-        'V_ELIN': "Aguda, desesperada, chorosa (Elinaldo).",
-        'V_SAB': "Feminina, dramática, impositiva (Sabrina)."
-    },
-    'Locução & Romance': {'V_PRO01': "Voz de Político, persuasiva.", 'V_PRO02': "Voz de Locutor FM, aveludada.", 'V_FIL04': "Voz de Dorama, suave e romântica."},
-    'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica", 'V_FIL01': "Voz de Vilão Slasher", 'V_EMO04': "Voz Apavorada, sussurrando rápido."}
-};
-
-// DNA ABSOLUTO DETALHADO (Mantém o foco da Lore e adapta o resto)
-const d = { 
-    'P01':{d:"Anthropomorphic tough Lemon character, highly detailed textured lemon peel skin, thick black mustache, deep scar over his right eye, stern aggressive expression"}, 
-    'P02':{d:"Anthropomorphic Tomato character, smooth shiny red tomato skin, huge expressive nervous eyes, wide mouth"},
-    'P03':{d:"Anthropomorphic female Dragon Fruit character, textured pink scaly skin, green dragon fruit leaf accents on head, edgy dark undercut hairstyle"}
-}; 
-const vBase = { 'P01': "Grave e rouca.", 'P02': "Anasalada, gaguejos." }; 
-
-// =========================================================
-// BANCO DE CENÁRIOS COMPLETO
-// =========================================================
-const dataNicho = {
-    'FRUITS_ADVENTURES': {
-        'Cartão de Visitas (Oficial Canal)': ["Praia Tropical (Capa do Canal)|Tropical beach at bright golden hour, crystal clear water, vibrant green palm trees, sunny day, cinematic"],
-        'Ação & Mistério (Curta Oficial)': ["Beco Chuvoso (A Amizade Perdida)|Dark cinematic cyberpunk alleyway, heavy rain, neon signs in the background, dramatic lighting, puddles on the ground reflecting neon"],
-        'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean at sunset, cinematic", "Piquenique na Praia|Cozy beach picnic setup, blankets, lanterns"],
-        'Exploração & Mistério': ["Templo Antigo de Frutas|Ancient overgrown temple ruins shaped like fruits, mysterious lighting", "Caverna de Cristal|Dark cave glowing with bright purple crystals, magical"],
-        'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll, bright eerie daylight", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections, dystopian survival game", "Arena Vale Tudo|Underground fighting arena, bright metal cage, crowd cheering in shadows"],
-        'Treinamento & Combate': ["Dojo de Artes Marciais|Traditional martial arts dojo, wooden floors, punching bags, soft window light", "Academia High-Tech|Modern fitness gym interior, heavy iron weights, dramatic cinematic lighting"]
-    },
-    'COMERCIAL': {
-        'Apresentação & Vendas': ["Estúdio Infomercial|Bright white studio background, clean product podium, professional lighting", "Cozinha Moderna (Review)|Modern clean luxury kitchen, marble countertop, bright morning light"],
-        'Mundo Corporativo': ["Escritório de Luxo|Modern glass corporate office, city skyline view, sleek modern desk", "Sala de Reunião|Corporate board room, projector screen, leather executive chairs"],
-        'Podcast & Locução': ["Estúdio de Podcast|Cozy dark podcast studio, neon signs in background, professional microphones", "Cabine de Gravação|Radio broadcast booth, soundproof acoustic foam walls"],
-        'Setup YouTuber / Influencer': ["Quarto Gamer RGB|Gaming room setup, glowing RGB LED strips, dual monitors", "Setup Minimalista|Clean minimalist desk, warm aesthetic lighting, indoor potted plants"],
-        'Propagandas Comerciais': ["Pista de Atletismo|Professional athletic running track, cinematic low angle, sunny bright day", "Estúdio Fotográfico de Moda|Professional fashion photography studio, massive softboxes, endless white cyclorama wall"]
-    },
-    'AGRESTINA': {
-        'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"],
-        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun, heat waves", "Casa de Taipa|Rustic mud house interior, wood stove, sunlight piercing through cracks"]
-    },
-    'SHOPPING': {
-        '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights, closed store windows", "Escada Rolante|Stopped escalator in a dark empty shopping mall, eerie", "Corredor Principal Modeship|Massive luxury shopping mall corridor, massive glass ceiling, bright daylight, hyper-detailed"],
-        '02 - Praça e Afins': ["Praça de Alimentação|Massive empty food court at night, glowing fast food signs", "Estacionamento (Cancela)|Empty parking lot at night, digital billboard glowing", "Fliperama Arcade|Retro neon arcade room inside a mall, glowing cabinets"],
-        '03 - Vitrines & Lojas': ["Loja de Grife|Luxury fashion boutique interior, glowing displays, high-end mannequins", "Loja de Artigos Esportivos|Fitness and sports store interior, bright lighting, rows of sneakers and equipment"]
-    },
-    'NOVELA': {
-        '01 - O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto de Motel Escuro|Dark motel room, neon sign blinking outside", "Restaurante de Luxo|Fine dining restaurant, romantic candle light", "Estacionamento Subterrâneo|Dark underground parking lot, harsh lighting"],
-        '02 - O Segredo Revelado': ["Telhado do Prédio|Skyscraper rooftop at night, city lights", "Sala do Arquivo|Dusty archive room, rows of paper boxes"],
-        '03 - A Cobrança': ["Galpão Abandonado|Abandoned warehouse, broken windows, dusty"],
-        '26 - Romance': ["Parque Florido|Blooming park, cherry blossoms falling", "Café Aconchegante|Cozy coffee shop, raining outside, warm lights"],
-        '31 - Tensão/Desejo': ["Biblioteca Escura|Dark classic library, moody sensual lighting", "Elevador Parado|Stuck elevator, flickering emergency lights"]
-    },
-    'SERIES': {
-        'Retrô & Clássicas': ["Caverna 60s|Campy retro 1960s batcave, giant props", "Delegacia Antiga|1970s police precinct, sepia tone lighting"],
-        'Mistério & Caçadores': ["Encruzilhada|Dirt crossroads at midnight, eerie fog", "Castelo Assombrado|Creepy cartoonish haunted castle, Scooby-Doo aesthetic"],
-        'Super Jovens': ["Fazenda de Milho|Sunny peaceful Kansas cornfield, red barn", "Celeiro Secreto|Inside a rustic barn, glowing alien spaceship hidden"]
-    },
-    'ANIMES': {
-        'Mangá Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after massive energy blast"],
-        'Mundo dos Desenhos': ["Mundo 2D Clássico|Wacky cartoon universe, distorted proportions, vibrant flat colors"]
-    },
-    'INFLUENCER': {
-        'Setup & Produtos': ["Estúdio RGB|Minimalist desk, glowing RGB lights", "Mesa Branca Clean|Clean white desk, bright studio lighting"],
-        'Dancinhas & Luxo': ["Quarto Neon|Cozy bedroom, LED strip lights", "Closet Gigante|Walk-in closet filled designer items", "Carro de Luxo Interno|Inside a luxury car, neon dashboard lights"]
-    },
-    'TERROR': {
-        'Assombração': ["Casa Abandonada|Creepy abandoned old house, dark shadows", "Sótão Assustador|Dusty scary attic, cobwebs"],
-        'Perseguição': ["Floresta à Noite|Dark dense forest at night, moonlight", "Labirinto de Milho|Creepy corn maze at night", "Hospital Psiquiátrico|Ruined asylum, rusty wheelchairs"],
-        'Liminal': ["Shopping Infinito Branco|Endless empty white shopping mall, liminal space", "Escritório Sem Fim|Monotone yellow carpet, fluorescent office lights"]
-    },
-    'COMEDIA': {
-        'Besteirol': ["Festa de Fraternidade|Crazy college frat party, red cups", "Corredor de Escola|Classic high school hallway, lockers"],
-        'Sátira': ["Casa de Assassino Desajeitado|Creepy house interior but with funny silly traps"]
-    },
-    'CLIP': {
-        'Ostentação / Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway filled with colorful graffiti"],
-        'Rock / Metal': ["Palco com Fogo|Concert stage, heavy pyrotechnics, dark atmosphere", "Garagem Suja|Grungy dark garage, band equipment"],
-        'Batalha de Rimas': ["Quadra de Basquete|Street basketball court at night, chainlink fence, single floodlight"]
-    },
-    'FESTAS': {
-        'Globais': ["Halloween (EUA)|Suburban street at night, glowing jack-o-lanterns", "Natal (NY)|Massive lit Christmas tree, snow falling", "Dia dos Mortos|Street festival at night, marigold flowers"],
-        'Brasil': ["Carnaval (Rio)|Massive parade float, colorful feathers", "São João|Festive flags, large bonfire, rustic party"]
-    },
-    'GOSPEL': {
-        'Pregação': ["Altar Iluminado|Warm spotlight from above, dark church", "Deserto Bíblico|Vast hot desert, ancient ruins"],
-        'Louvor': ["Igreja Destruída|Ruined church, holy light breaking through storm clouds", "Barco em Alto Mar|Small boat tossing in heavy stormy ocean"]
-    },
-    'SCIFI': {
-        'Cyberpunk': ["Rua de Neon|Cyberpunk city street, neon lights, holograms", "Docas Industriais|Dark industrial shipping dock"],
-        'Tron & Espaço': ["Grid Digital|Infinite glowing grid floor, neon lines", "Nave Mãe|Inside a massive high-tech alien mothership"]
-    },
-    'FANTASIA': {
-        'Épico': ["Castelo em Chamas|Burning medieval castle, embers flying", "Taverna Rústica|Warm wooden fantasy tavern"],
-        'Magia': ["Floresta Mística|Enchanted forest, glowing fireflies", "Caverna do Dragão|Deep cave filled with gold"]
-    },
-    'INFANTIL': {
-        'Contos': ["Castelo de Cristal|Beautiful glowing crystal castle, rainbows", "Fazendinha Feliz|Happy sunny cartoon farm", "Mundo de Brinquedo|Toy world, giant building blocks"]
-    },
-    'TURISMO': {
-        'Américas': ["Times Square (NY)|Times square New York, giant glowing billboards", "Machu Picchu (Peru)|Incan ruins of Machu Picchu", "Cristo Redentor (Rio)|Christ the Redeemer statue"],
-        'Europa': ["Torre Eiffel (Paris)|Eiffel Tower in background, night", "Aurora Boreal (Islândia)|Dark snowy landscape, glowing green sky"],
-        'Mundo': ["Muralha da China|Great Wall of China winding over lush green mountains", "Pirâmides (Egito)|Great Pyramids, desert sand"]
-    },
-    'HISTORIA': {
-        'Antiguidade': ["Império Romano|Gladiator arena, cheering crowds", "Velho Oeste|Dusty western town main street", "Egito Antigo|Inside an ancient Pharaoh tomb"],
-        'Guerras': ["Trincheira WW1|Muddy WW1 trench, barbed wire", "Praia do Dia D|Stormy beach landing, war obstacles"]
-    },
-    'SETS': {
-        'Filmagem': ["Cidade Cenográfica|Fake small town street, highly lit for TV cameras", "Fundo Verde|Massive green screen studio, bright soft box lighting", "Set de Velho Oeste|Fake wooden western town facade supported by wooden beams"],
-        'Reality Shows & TV': ["Casa de Reality Show|Luxury modern house interior, glowing cameras on walls, dramatic neon lighting", "Sala de Eliminação|Dark TV studio room, single tense spotlight, dramatic atmosphere"]
-    }
-};
-
-// =========================================================
-// ACERVO GIGANTE DE ROTEIROS PRÉ-PRONTOS
-// =========================================================
-const scriptsProntos = {
-    // --- LORE OFICIAL ---
-    'LORE_01': [
-        { c: "Wide 24mm", a: "Rocha Lemon confronta Elinaldo e Sabrina no beco chuvoso.", f: "Rocha: 'Eu sabia... Vocês dois estão desviando as encomendas da portaria.'" },
-        { c: "Medium 50mm", a: "Rocha aponta o dedo na cara da Sabrina.", f: "Rocha: 'Pitaya... Não se mete onde não é chamada.'" },
-        { c: "Close-up 85mm", a: "Sabrina olha furiosa e decepcionada para Elinaldo.", f: "Sabrina: 'Eu confiei em você, Elinaldo. Achei que estávamos investigando juntos.'" },
-        { c: "Close-up 85mm", a: "Sabrina dá as costas, decidida.", f: "Sabrina: 'Acabou, Elinaldo. Nunca mais olhes na minha cara.'" },
-        { c: "Medium 50mm", a: "Elinaldo, chorando muito e segurando os pacotes rasgados, implora.", f: "Elinaldo: 'Sabrina, por favor, ouve-me! Foi por ti!'" },
-        { c: "Wide 24mm", a: "Sabrina grita em meio aos trovões, finalizando a cena.", f: "Sabrina: 'Eu disse-te... Ninguém vence o Rocha.'" }
-    ],
-    'VIRAL_01': [
-        { c: "Wide 24mm", a: "[INTRODUÇÃO] O sol brilha em [CENARIO]. [PROTA] acha que está sozinho e tenta gravar um passinho do TikTok.", f: "[PROTA]: 'Um, dois, três... vai! Agora eu acerto essa trend!'" },
-        { c: "Slow Pan Cinematográfico", a: "[TENSÃO] A câmera gira lentamente, revelando [COADJ] logo atrás, de braços cruzados e cara de ódio.", f: "[COADJ]: (Silêncio mortal. Apenas respirando pesado)." },
-        { c: "Close-up 85mm", a: "[CLÍMAX] [PROTA] percebe a presença, paralisa, arregala os olhos e engole em seco.", f: "[PROTA]: 'R-Rocha? Chefe? E-eu posso explicar...'" },
-        { c: "Medium 50mm", a: "[DESFECHO] [COADJ] dá um passo à frente, cobrindo a luz do sol.", f: "[COADJ]: 'Apaga isso. Agora.'" }
-    ],
-
-    // --- AÇÃO & BATALHA ---
-    'ACAO_01': [
-        { c: "Wide 24mm", a: "O ambiente em [CENARIO] está destruído. [PROTA] está ofegante, com os punhos cerrados.", f: "[PROTA]: 'Você achou que eu ia desistir tão fácil?'" },
-        { c: "Close-up 85mm", a: "[COADJ] dá uma risada sádica, preparando sua arma.", f: "[COADJ]: 'Eu estava contando com isso!'" },
-        { c: "Tracking Rápido", a: "[PROTA] corre a toda velocidade em direção a [COADJ] para o golpe final.", f: "[PROTA]: (Grito de batalha épico) 'HAAAAA!'" }
-    ],
-    'ACAO_02': [
-        { c: "Avanço de Drone", a: "A câmera voa rápido por [CENARIO]. [PROTA] corre desesperado olhando para trás.", f: "[PROTA]: 'Corre! A estrutura vai desabar!'" },
-        { c: "Medium 50mm", a: "[COADJ] tropeça e cai no chão.", f: "[COADJ]: 'Vá sem mim! Salve a si mesmo!'" },
-        { c: "Wide 24mm", a: "Uma explosão massiva acontece ao fundo. [PROTA] puxa [COADJ] pelo braço e pulam.", f: "[PROTA]: 'Ninguém fica para trás!'" }
-    ],
-
-    // --- COMÉDIA & TRENDS ---
-    'COM_01': [
-        { c: "Medium 50mm", a: "[PROTA] está em [CENARIO], segurando um microfone de stand-up.", f: "[PROTA]: 'Sabe o que o tomate foi fazer no banco?'" },
-        { c: "Close-up 85mm", a: "[COADJ] coça a cabeça, totalmente confuso.", f: "[COADJ]: 'Não faço a menor ideia. O que ele foi fazer?'" },
-        { c: "Zoom Cômico", a: "[PROTA] aponta para a tela, rindo de forma escandalosa.", f: "[PROTA]: 'Foi tirar o EXTRATO! Hahaha!'" }
-    ],
-    'COM_02': [
-        { c: "Medium 50mm", a: "[PROTA] está relaxado em [CENARIO], gravando um vídeo casual.", f: "[PROTA]: 'E aí galera, o dia hoje tá super tranquilo...'" },
-        { c: "Zoom Cômico", a: "[COADJ] aparece de repente gritando e assustando [PROTA].", f: "[COADJ]: 'BUH!'" },
-        { c: "Wide 24mm", a: "[PROTA] cai para trás de susto, derrubando tudo ao redor.", f: "[PROTA]: (Grito fino e desesperado) 'AAAAAAAH!'" }
-    ],
-    'COM_03': [
-        { c: "Wide 24mm", a: "[PROTA] e [COADJ] estão no meio de [CENARIO], cercados por uma roda de pessoas. O beat de rap começa.", f: "[PROTA]: (Gesticulando agressivo) 'Chegou a minha vez, presta atenção no que eu digo!'" },
-        { c: "Tracking Rápido", a: "A câmera se aproxima do rosto de [PROTA].", f: "[PROTA]: 'Você acha que é chefe, mas não aguenta o perigo!'" },
-        { c: "Close-up 85mm", a: "[COADJ] reage com desdém, pegando
+const p={'Originais':{'P01':"Rocha Lemon",'P02':"Elinaldo Tomate",'P03':"Sabrina Pitaya"},'Besteirol':{'COM01':"Caju Nordestino",'COM04':"Abacate Lutador",'COM05':"Maçã Máskara"},'Vilões':{'V01':"Maçã Caveira",'V02':"Banana Palhaço"},'Slasher':{'SA01':"Laranja Ghostface",'SA03':"Abóbora Jason"},'Fantasia':{'F01':"Caju Mago"},'Animes':{'HA01':"Laranja Naruto",'HA03':"Abacate Goku"},'Pop':{'MP01':"Cereja Moonwalk",'MP06':"Goiaba Esponja"}};
+const roupas={'Oficial':{'R_OFF_ROCHA':"wearing green tactical police uniform",'R_OFF_ELIN':"wearing light blue button-up shirt",'R_OFF_SAB':"wearing yellow shirt under purple apron"},'Geral':{'R_CAS01':"wearing streetwear hoodie",'R_FIT01':"wearing gym wear"}};
+const acessorios={'Oficial':{'AC_PAC':"holding torn cardboard boxes"},'Geral':{'AC_NONE':"empty hands"}};
+const estados={'Oficial':{'E_OFF_SWEAT':"sweating profusely, nervous",'E_OFF_CRY':"crying intensely, sad",'E_OFF_MAD':"furious, aggressive posture",'E_OFF_LOVE':"floating pink hearts"},'Geral':{'E_NORM':"normal state"}};
+const vozes={'Oficial':{'V_ROCHA':"Grave/Policial",'V_ELIN':"Aguda/Desesperada",'V_SAB':"Feminina/Dramática"}};
+const d={'P01':{d:"Tough Lemon, thick mustache, deep scar"},'P02':{d:"Tomato, huge nervous eyes, wide mouth"},'P03':{d:"Female Dragon Fruit, pink scaly skin, edgy undercut"}};
+const vBase={'P01':"Grave.",'P02':"Aguda."};
+const dataNicho={'FRUITS_ADVENTURES':{'Cartão de Visitas':["Praia Tropical|Tropical beach, golden hour, crystal clear water"],'Ação & Mistério':["Beco Chuvoso|Dark cyberpunk alleyway, heavy rain, neon signs"]},'SHOPPING':{'Corredores':["Corredor Principal Modeship|Massive luxury shopping mall corridor"]}};
+const scriptsProntos={'LORE_01':[{c:"Wide 24mm",a:"Rocha confronta Elinaldo no beco.",f:"Rocha: 'Eu sabia... Vocês estão desviando as encomendas.'"},{c:"Medium 50mm",a:"Rocha aponta o dedo.",f:"Rocha: 'Pitaya... Não se mete onde não é chamada.'"},{c:"Close 85mm",a:"Sabrina chora e dá as costas.",f:"Sabrina: 'Acabou, Elinaldo. Nunca mais olhes na minha cara.'"},{c:"Medium 50mm",a:"Elinaldo chora muito.",f:"Elinaldo: 'Sabrina, por favor, ouve-me! Foi por ti!'"}],'VIRAL_01':[{c:"Wide 24mm",a:"[PROTA] acha que está sozinho gravando TikTok.",f:"[PROTA]: 'Agora eu acerto essa trend!'"},{c:"Pan",a:"[COADJ] aparece atrás com cara de ódio.",f:"[COADJ]: (Silêncio mortal)."},{c:"Close 85mm",a:"[PROTA] percebe e paralisa.",f:"[PROTA]: 'C-chefe? Eu posso explicar...'"}]};
+function atualizarTemas(){let n=document.getElementById('nicho').value,t=document.getElementById('tema'),c=document.getElementById('cenario_lista');t.innerHTML='<option value="">-- Tema --</option>';c.innerHTML='<option value="">-- Cenário --</option>';t.disabled=c.disabled=true;if(!document.getElementById('travar_cenario').checked)document.getElementById('texto_cenario').value="";if(n&&dataNicho[n]){t.disabled=false;for(let k in dataNicho[n])t.add(new Option(k,k));}}
+function atualizarCenarios(){let n=document.getElementById('nicho').value,t=document.getElementById('tema').value,c=document.getElementById('cenario_lista');c.innerHTML='<option value="">-- Cenário --</option>';c.disabled=true;if(!document.getElementById('travar_cenario').checked)document.getElementById('texto_cenario').value="";if(n&&t&&dataNicho[n][t]){c.disabled=false;dataNicho[n][t].forEach(v=>{let p=v.split('|');c.add(new Option(p[0],p[1]));});}}
+function travarCenario(){document.getElementById('cenario_lista').disabled=document.getElementById('travar_cenario').checked;}
+function puxarCenario(){if(!document.getElementById('travar_cenario').checked)document.getElementById('texto_cenario').value=document.getElementById('cenario_lista').value;gerarTudo();}
+function carregarMenus(){
+['prota','coadj1','coadj2'].forEach(s=>{let sel=document.getElementById(s);sel.innerHTML='<option value="">-- Ninguém --</option>';Object.keys(p).forEach(g=>{let gp=document.createElement('optgroup');gp.label=g;Object.keys(p[g]).forEach(id=>gp.appendChild(new Option(p[g][id],id)));sel.appendChild(gp);});});
+['prota','coadj1','coadj2'].forEach(b=>{
+let sR=document.getElementById(`roupa_${b}`);sR.innerHTML='<option value="">👕 Roupa Padrão</option>';Object.keys(roupas).forEach(g=>{let gp=document.createElement('optgroup');gp.label=g;Object.keys(roupas[g]).forEach(id=>gp.appendChild(new Option("👔 "+roupas[g][id],roupas[g][id])));sR.appendChild(gp);});
+let sE=document.getElementById(`estado_${b}`);sE.innerHTML='<option value="">🧬 Condição Normal</option>';Object.keys(estados).forEach(g=>{let gp=document.createElement('optgroup');gp.label=g;Object.keys(estados[g]).forEach(id=>gp.appendChild(new Option("🔥 "+estados[g][id],estados[g][id])));sE.appendChild(gp);});
+let sA=document.getElementById(`acessorio_${b}`);sA.innerHTML='<option value="">🗡️ Sem Acessório</option>';Object.keys(acessorios).forEach(g=>{let gp=document.createElement('optgroup');gp.label=g;Object.keys(acessorios[g]).forEach(id=>gp.appendChild(new Option("⚙️ "+acessorios[g][id],acessorios[g][id])));sA.appendChild(gp);});
+let sV=document.getElementById(`voz_${b}`);sV.innerHTML='<option value="">🗣️ Voz Padrão</option>';Object.keys(vozes).forEach(g=>{let gp=document.createElement('optgroup');gp.label=g;Object.keys(vozes[g]).forEach(id=>gp.appendChild(new Option("🎙️ "+vozes[g][id],vozes[g][id])));sV.appendChild(gp);});});}
+function getCharName(id){for(let g in p)if(p[g][id])return p[g][id];return "Personagem";}
+function buildDna(id,r,e,a){let dna=d[id]?d[id].d:'3D Character';if(r)dna+=`, ${r}`;if(e)dna+=`, ${e}`;if(a)dna+=`, ${a}`;return dna;}
+function gerarTudo(){let loc=document.getElementById('texto_cenario').value||"Indefinido",p1=document.getElementById('prota').value,c1=document.getElementById('coadj1').value,c2=document.getElementById('coadj2').value,cast="",vz="";
+if(p1){cast+=`ACTOR 1: ${getCharName(p1)} (${buildDna(p1,document.getElementById('roupa_prota').value,document.getElementById('estado_prota').value,document.getElementById('acessorio_prota').value)})\n`;vz+=`VOICE 1: ${document.getElementById('voz_prota').options[document.getElementById('voz_prota').selectedIndex].text}\n`;}
+if(c1)cast+=`ACTOR 2: ${getCharName(c1)} (${buildDna(c1,document.getElementById('roupa_coadj1').value,document.getElementById('estado_coadj1').value,document.getElementById('acessorio_coadj1').value)})\n`;
+if(c2)cast+=`ACTOR 3: ${getCharName(c2)} (${buildDna(c2,document.getElementById('roupa_coadj2').value,document.getElementById('estado_coadj2').value,document.getElementById('acessorio_coadj2').value)})\n`;
+document.getElementById('final').value=`[MEGA STUDIO]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${cast}\nVOICE: \n${vz}\nCAM: ${document.getElementById('cena_numero').value}\nMOTION: ${document.getElementById('video_motion').value}\nACTION: ${document.getElementById('pose_personagem').value}`;}
+function gerarRoteiro(){let s=document.getElementById('script_pronto').value,q=parseInt(document.getElementById('qtd_cenas').value),pId=document.getElementById('prota').value,cId=document.getElementById('coadj1').value;
+let t=scriptsProntos[s];if(!t){document.getElementById('output-storyboard').innerHTML="<div style='text-align:center;color:#ff7b72;padding:20px'>Selecione um roteiro no Passo 9!</div>";return;}
+let pN=pId?getCharName(pId):"Prota",cN=cId?getCharName(cId):"Coadj",html="";
+for(let i=0;i<q&&i<t.length;i++){let a=t[i].a.replace(/\[PROTA\]/g,pN).replace(/\[COADJ\]/g,cN),f=t[i].f.replace(/\[PROTA\]/g,pN).replace(/\[COADJ\]/g,cN);
+html+=`<div class="cena-bloco"><div class="cena-titulo">CENA 0${i+1} — 🎥 ${t[i].c}</div><div class="cena-acao">🎬 Ação: ${a}</div><div class="cena-fala">💬 ${f}</div></div>`;}
+document.getElementById('output-storyboard').innerHTML=html;}
+function copiar(){document.getElementById('final').select();document.execCommand("copy");alert("Copiado!");}
+window.onload=carregarMenus;
+</script></body></html>
