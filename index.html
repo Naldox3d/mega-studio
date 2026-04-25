@@ -187,23 +187,25 @@
 // =========================================================
 const p = {
     'Heróis Oficiais (Fruits Adventures)': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya"},
-    'Lore Agrestina': {'A01':"Lampião Caju", 'A02':"Maria Pitaya Bonita", 'A03':"Cangaceiro Melão"},
     'Comédia & Pop': {'COM01':"Caju Nordestino", 'COM02':"Banana Festeira", 'MP05':"Morango Mickey", 'MP06':"Goiaba Esponja"},
-    'Séries & Ícones': {'SRI01':"Melão Morcego", 'SRI04':"Limão Caçador", 'M04':"Jabuticaba Silvio", 'C01':"Maçã Chaves"},
+    'Figuras Virais (Política/Memes)': {'VIR01':"Caju Presidente (Lula)", 'VIR02':"Limão Capitão (Bolsonaro)", 'VIR03':"Abacate Maromba", 'VIR04':"Maçã Funkeira"},
+    'Cartoon Network & HB': {'CN01':"Abacate Cientista (Rick)", 'CN02':"Cachorro Melão Assustado", 'CN03':"Goiaba Salsicha"},
+    'Séries & Ícones': {'SRI01':"Melão Morcego", 'M04':"Jabuticaba Silvio", 'C01':"Maçã Chaves"},
     'Vilões & Terror': {'V01':"Maçã Caveira", 'V04':"Limão Vader", 'SA03':"Abóbora Jason", 'SA04':"Maçã T-800"},
     'Animes & Heróis': {'HA01':"Laranja Naruto", 'HA03':"Abacate Goku", 'H01':"Abacate Hulk"}
 };
 
 const crowds = {
-    'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo", 'GP02': "Grupo de Homens descontraídos"},
-    'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G07': "Guarda de Elite Mascarada"}
+    'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G07': "Guarda de Elite Mascarada"},
+    'Auditório & Shows': {'G08': "Plateia de Sitcom (Rindo)", 'G09': "Público de Show de Rock/Funk"},
+    'Eventos & Manifestações': {'G10': "Manifestantes Políticos", 'G11': "Torcida de Futebol Fanática"}
 };
 
 const roupas = {
     'Geral & Casual': {'R_CAS01': "wearing streetwear, baggy hoodie and cap", 'R_CAS02': "wearing winter clothes, thick coat and scarf"},
     'Sci-Fi & Ação': {'R_SCI01': "wearing a futuristic cyberpunk neon suit", 'R_SCI03': "wearing heavy tactical swat gear and bulletproof vest"},
     'Fantasia & Épico': {'R_FAN01': "wearing shiny medieval knight armor", 'R_FAN03': "wearing traditional leather cangaceiro clothes"},
-    'Profissões & Uniformes': {'R_PRO01': "wearing a white doctor/scientist lab coat", 'R_PRO02': "wearing a classic police officer uniform"},
+    'Profissões & Uniformes': {'R_PRO01': "wearing a white doctor/scientist lab coat", 'R_PRO02': "wearing a classic police officer uniform", 'R_POL01': "wearing a presidential sash"},
     'Terror & Festas': {'R_TER01': "wearing a scary clown costume with blood stains"},
     'Lore Oficial': {'R_LORE01': "wearing a dark tactical police uniform, heavy vest and boots", 'R_LORE02': "wearing a simple, slightly dirty light blue button-up shirt", 'R_LORE03': "wearing a yellow shirt and a purple working apron"}
 };
@@ -217,51 +219,49 @@ const acessorios = {
 const estados = {
     'Expressões da Lore': {'E_LR01': "sweating profusely, looking extremely nervous and anxious", 'E_LR02': "furious, aggressive expression, veins popping"},
     'Efeitos Cartoon': {'E_CRT01': "floating pink hearts around head, looking deeply in love", 'E_CRT02': "confused, floating question marks over head", 'E_CRT03': "dizzy, spinning yellow stars around head"},
-    'Combate & Terror': {'E_BAT01': "battle-damaged, covered in dirt and scratches", 'E_MUT01': "zombified, rotting skin, glowing empty eyes"}
+    'Combate & Terror': {'E_BAT01': "battle-damaged, covered in dirt and scratches", 'E_MUT01': "zombified, rotting skin, glowing empty eyes"},
+    '[GRUPOS] Ação & Reação': {'EG_01': "cheering wildly, jumping, chaotic crowd movement", 'EG_02': "running in absolute terror, massive panic stampede", 'EG_03': "laughing hysterically, pointing fingers", 'EG_04': "mindless zombie horde marching slowly forward"}
 };
 
 // =========================================================
-// O NOVO DNA ACÚSTICO: CENTRAL DE DUBLAGEM PARA FLOW LABS
+// O NOVO DNA ACÚSTICO: VOZES E FOLEY DE MULTIDÃO
 // =========================================================
 const vozes = {
     'Elenco Oficial (Fruits Adventures)': {
-        'V_ELINALDO': "Brazilian Portuguese. Voice of a highly nervous teenage boy (Morty style), voice cracking, stuttering, anxious, high-pitched panic, comedic delivery.",
-        'V_ROCHA': "Brazilian Portuguese. Voice of a very aggressive, deep, raspy, drill sergeant screaming with authority, furious and tough tone.",
-        'V_SABRINA': "Brazilian Portuguese. Voice of a sweet, confident, upbeat and stylish young woman, slightly sarcastic and energetic."
+        'V_ELINALDO': "Brazilian Portuguese. Voice of a highly nervous teenage boy (Morty style), voice cracking, stuttering, high-pitched panic.",
+        'V_ROCHA': "Brazilian Portuguese. Voice of a very aggressive, deep, raspy, drill sergeant screaming with authority.",
+        'V_SABRINA': "Brazilian Portuguese. Voice of a sweet, confident, upbeat and stylish young woman."
     },
     'Cartoon Network & Adult Swim': {
-        'V_RICK': "Brazilian Portuguese. Voice of a cynical, burping, chaotic older scientist, raspy and erratic (Rick style).",
-        'V_MUSCULOSO': "Brazilian Portuguese. Voice of a macho, arrogant, raspy dude, constantly flexing his voice (Muscle Man style).",
-        'V_MUTANO': "Brazilian Portuguese. Voice of a laid-back, lazy teenager, cool and slightly raspy (Beast Boy style).",
-        'V_CORAGEM': "Brazilian Portuguese. Voice of an extremely cowardly, shaking, high-pitched crying dog (Courage the Cowardly Dog style)."
+        'V_RICK': "Brazilian Portuguese. Voice of a cynical, burping, chaotic older scientist, raspy and erratic.",
+        'V_MUSCULOSO': "Brazilian Portuguese. Voice of a macho, arrogant, raspy dude, constantly flexing his voice.",
+        'V_CORAGEM': "Brazilian Portuguese. Voice of an extremely cowardly, shaking, high-pitched crying dog."
     },
     'Hanna-Barbera Clássicos': {
-        'V_SCOOBY': "Brazilian Portuguese. Voice of a goofy, hungry, raspy anthropomorphic dog with a slight speech impediment.",
-        'V_SALSICHA': "Brazilian Portuguese. Voice of a cowardly, hungry, cracking teenage slacker voice, very high-pitched when scared (Shaggy style).",
-        'V_NARRADOR_HB': "Brazilian Portuguese. Classic 1960s cartoon announcer, booming, enthusiastic, vintage radio quality."
-    },
-    'Animação 3D & Pixar': {
-        'V_XERIFE': "Brazilian Portuguese. Voice of an old, wise, western cowboy toy, heroic but slightly aged (Woody style).",
-        'V_BURRO': "Brazilian Portuguese. Voice of a hyperactive, annoying, fast-talking, extremely enthusiastic sidekick (Donkey style).",
-        'V_VILAO_PIXAR': "Brazilian Portuguese. Voice of a sophisticated, snobby, arrogant villain with perfect diction."
+        'V_SALSICHA': "Brazilian Portuguese. Voice of a cowardly, hungry, cracking teenage slacker voice, very high-pitched when scared."
     },
     'Figuras Virais (Brasil)': {
         'V_LULA': "Brazilian Portuguese. Voice of an older, raspy-voiced charismatic politician with a very distinct lisp and slow, emotional pacing.",
-        'V_BOLSONARO': "Brazilian Portuguese. Voice of an older Brazilian politician, slightly nasal, speaking abruptly with fragmented sentences and a chaotic rhythm.",
+        'V_BOLSONARO': "Brazilian Portuguese. Voice of an older Brazilian politician, slightly nasal, speaking abruptly with fragmented sentences.",
         'V_CARIOCA_FUNK': "Brazilian Portuguese. Voice of a hype Rio de Janeiro funk MC, heavy slang, energetic, speaking very fast and loud.",
         'V_MAROMBA': "Brazilian Portuguese. Voice of a Brazilian gym bro (maromba), deep, exaggerated masculinity, shouting 'Bora!'."
     },
-    'Narradores & Cinema': {
-        'V_NARRADOR_EPICO': "Brazilian Portuguese. Deep, epic, cinematic movie trailer voiceover with slight reverb.",
-        'V_TERROR': "Brazilian Portuguese. Creepy, whispering, metallic slasher villain voice, psychopathic tone.",
-        'V_DORAMA': "Brazilian Portuguese. Voice of a gentle, whispering, romantic male lead from a Korean drama, very soft and emotional."
+    '[GRUPOS] Foley & Som Ambiente': {
+        'VG_01': "Loud sitcom laugh track and applause.",
+        'VG_02': "Massive crowd cheering, stadium roar.",
+        'VG_03': "Terrified crowd screaming in absolute panic.",
+        'VG_04': "Guttural zombie groans and shuffling footsteps.",
+        'VG_05': "Angry mob chanting and yelling incoherently."
     }
 };
 
 const d = { 
     'P01':{d:"Anthropomorphic Lemon character, tough expression, thick dark mustache, facial scar"}, 
     'P02':{d:"Anthropomorphic Tomato character, huge expressive eyes, sweating, nervous smile"}, 
-    'P03':{d:"Anthropomorphic Dragon Fruit character, scaly pink skin texture, pink hair shaved on sides"} 
+    'P03':{d:"Anthropomorphic Dragon Fruit character, scaly pink skin texture, pink hair shaved on sides"},
+    'VIR01':{d:"Anthropomorphic Cashew character, older, wearing red star pin, charismatic smile"},
+    'VIR02':{d:"Anthropomorphic Lemon character, older, stern political expression"},
+    'CN01':{d:"Anthropomorphic Avocado character, mad scientist lab coat, messy blue hair, drooling slightly"}
 }; 
 
 // =========================================================
@@ -270,17 +270,13 @@ const d = {
 const dataNicho = {
     'FRUITS_ADVENTURES': {
         'Cartão de Visitas': ["Praia Tropical|Tropical beach at golden hour, crystal clear water, vibrant colors, cinematic", "Cidade Frutal|Sunny colorful cartoon town square filled with giant fruit houses"],
-        'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean at sunset, cinematic", "Piquenique na Praia|Cozy beach picnic setup, blankets, lanterns"],
-        'Exploração & Mistério': ["Beco Chuvoso (Lore)|Dark neon-lit cyberpunk alleyway, heavy rain, dramatic shadows", "Templo Antigo|Ancient overgrown temple ruins"],
-        'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections"]
+        'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean at sunset, cinematic"],
+        'Exploração & Mistério': ["Beco Chuvoso (Lore)|Dark neon-lit cyberpunk alleyway, heavy rain, dramatic shadows"],
+        'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll"]
     },
     'COMERCIAL': { 'Estúdios': ["Estúdio Infomercial|Bright white studio background", "Cozinha Moderna|Modern clean luxury kitchen"] },
     'AGRESTINA': { 'Aventuras Locais': ["Monte Bom Jesus|Mountain sunset, Caruaru city in background", "Pátio do Forró|Massive outdoor party square"] },
-    'SHOPPING': { 'Corredores': ["Vitrine Fechada|Empty mall corridor at night", "Praça de Alimentação|Massive empty food court at night"] },
-    'NOVELA': { 'Drama & Tensão': ["Quarto Escuro|Dark motel room, neon sign blinking", "Restaurante de Luxo|Fine dining restaurant"] },
-    'ANIMES': { 'Shonen & Ação': ["Arena de Torneio|Massive anime martial arts arena", "Mundo 2D Clássico|Wacky cartoon universe"] },
-    'TERROR': { 'Assombração': ["Casa Abandonada|Creepy abandoned old house", "Floresta à Noite|Dark dense forest at night"] },
-    'COMEDIA': { 'Besteirol': ["Festa de Fraternidade|Crazy college frat party", "Corredor de Escola|Classic high school hallway"] }
+    'TERROR': { 'Assombração': ["Casa Abandonada|Creepy abandoned old house", "Floresta à Noite|Dark dense forest at night"] }
 };
 
 // =========================================================
@@ -300,18 +296,11 @@ const scriptsNicho = {
 const scriptsProntos = {
     'VIRAL_01': [
         { c: "Medium 50mm", a: "[PROTA] posiciona o celular e começa a fazer uma dancinha viral super animada no meio do [CENARIO].", f: "[PROTA]: (Música do TikTok tocando) Olha o passinho!" },
-        { c: "Fast tracking", a: "[COADJ] aparece do nada no fundo, com cara de fúria, e desliga a música.", f: "[COADJ]: Que palhaçada é essa?! Vai trabalhar logo!" },
-        { c: "Crash zoom", a: "[PROTA] toma um susto gigante e sai correndo de forma cômica com os braços pro alto.", f: "[PROTA]: Desculpa, já vou!" }
+        { c: "Fast tracking", a: "[COADJ] aparece do nada no fundo, com cara de fúria, e desliga a música.", f: "[COADJ]: Que palhaçada é essa?! Vai trabalhar logo!" }
     ],
     'VLOG_01': [
         { c: "Medium 50mm", a: "[PROTA] segura o celular (selfie angle), gravando um vlog super empolgado mostrando o [CENARIO].", f: "[PROTA]: Fala galera! Vocês não vão acreditar onde eu tô hoje!" },
-        { c: "Slow Pan", a: "A câmera vira lentamente mostrando [COADJ] fazendo algo embaraçoso no fundo.", f: "[COADJ]: (Gritando de longe) Quem mexeu nas minhas caixas?!" },
-        { c: "Close-up 85mm", a: "[PROTA] arregala os olhos pra lente, corta a gravação assustado.", f: "[PROTA]: Vish... deu ruim. Corta, corta!" }
-    ],
-    'LORE_01': [
-        { c: "Wide 24mm", a: "O clima é dramático no [CENARIO]. [PROTA] confronta [COADJ] cara a cara.", f: "[PROTA]: Eu confiei em você. Como pôde deixar isso acontecer?" },
-        { c: "Close-up 85mm", a: "[COADJ] treme, olhos cheios de lágrimas.", f: "[COADJ]: Me perdoa... Eu não tive escolha." },
-        { c: "Dutch angle", a: "[PROTA] dá as costas e se afasta.", f: "[PROTA]: A partir de hoje, você caminha sozinho." }
+        { c: "Slow Pan", a: "A câmera vira lentamente mostrando [COADJ] fazendo algo embaraçoso no fundo.", f: "[COADJ]: (Gritando de longe) Quem mexeu nas minhas caixas?!" }
     ]
 };
 
@@ -355,30 +344,44 @@ function carregarMenus() {
         const sA = document.getElementById(`acessorio_${b}`); sA.innerHTML = '<option value="">🗡️ Sem Acessório</option>'; 
         Object.keys(acessorios).forEach(g => { let grp = document.createElement('optgroup'); grp.label = g; Object.keys(acessorios[g]).forEach(id => grp.appendChild(new Option("⚙️ " + acessorios[g][id].replace(/holding a |playing an |riding a |driving a |playing a |holding /g, "").toUpperCase(), acessorios[g][id]))); sA.appendChild(grp); });
         
-        // A MAGICA DA VOZ AQUI: O valor (value) que vai pro prompt é a descrição detalhada em inglês.
-        const sV = document.getElementById(`voz_${b}`); sV.innerHTML = '<option value="">🗣️ Voz Genérica IA</option>'; 
+        const sV = document.getElementById(`voz_${b}`); sV.innerHTML = '<option value="">🗣️ Voz/Som Padrão</option>'; 
         Object.keys(vozes).forEach(g => { 
             let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(vozes[g]).forEach(id => grp.appendChild(new Option("🎙️ " + vozes[g][id].substring(0, 40) + "...", vozes[g][id]))); 
+            Object.keys(vozes[g]).forEach(id => grp.appendChild(new Option("🎙️ " + vozes[g][id].substring(0, 45) + "...", vozes[g][id]))); 
             sV.appendChild(grp); 
         });
     });
 }
 
-function getCharName(id) { if (!id) return null; for (const g in p) { if (p[g][id]) return p[g][id]; } return "Personagem"; }
-function buildDna(cId, o, s, p) { let dF = d[cId]?d[cId].d:'Stylized 3D Character'; if(o) dF+=`, ${o}`; if(s) dF+=`, ${s}`; if(p) dF+=`, ${p}`; return dF; }
+function getCharName(id) { 
+    if (!id) return null; 
+    for (const g in p) { if (p[g][id]) return p[g][id]; } 
+    for (const g in crowds) { if (crowds[g][id]) return crowds[g][id]; }
+    return "Personagem/Grupo"; 
+}
+
+function buildDna(cId, o, s, p) { let dF = d[cId]?d[cId].d:'Stylized 3D Subject'; if(o) dF+=`, ${o}`; if(s) dF+=`, ${s}`; if(p) dF+=`, ${p}`; return dF; }
 
 function gerarTudo() {
     const loc = document.getElementById('texto_cenario').value || "Local Indefinido";
     const p1 = document.getElementById('prota').value; 
+    const m1 = document.getElementById('multidao').value;
     let visualCast = ""; let audioDesign = "";
     
     if(p1) { 
-        visualCast += `${getCharName(p1)} (${buildDna(p1, document.getElementById('roupa_prota').value, document.getElementById('estado_prota').value, document.getElementById('acessorio_prota').value)})`; 
+        visualCast += `${getCharName(p1)} (${buildDna(p1, document.getElementById('roupa_prota').value, document.getElementById('estado_prota').value, document.getElementById('acessorio_prota').value)})\n`; 
         let vozValue = document.getElementById('voz_prota').value;
-        audioDesign = vozValue ? `Voice Design: ${vozValue}` : "Voice Design: Natural character voice matching the visual.";
+        if (vozValue) audioDesign += `Voice Design (Actor 1): ${vozValue}\n`;
     }
     
+    if(m1) {
+        visualCast += `CROWD: ${getCharName(m1)} (${document.getElementById('estado_multidao').value})\n`;
+        let vozCrowd = document.getElementById('voz_multidao').value;
+        if (vozCrowd) audioDesign += `Crowd Foley/Audio: ${vozCrowd}\n`;
+    }
+    
+    if(!audioDesign) audioDesign = "Voice Design: Natural voices matching the visual.\n";
+
     document.getElementById('final').value = 
 `[FLOW LABS PROMPT - VIDEO & AUDIO]
 Vertical 9:16. ${document.getElementById('cena_numero').value}
@@ -392,49 +395,12 @@ Motion: ${document.getElementById('video_motion').value}
 [AUDIO INSTRUCTIONS]
 Dialogue/Voiceover: (Escreva a fala aqui)
 ${audioDesign}
-Sound Effects (Foley): Ambient sounds matching the location, footsteps, cloth movement.`;
+Sound Effects (Foley): Ambient sounds matching the location.`;
 }
 
 function gerarRoteiroCompleto() {
-    const scriptSelect = document.getElementById('script_pronto').value;
-    const nicho = document.getElementById('nicho').value || 'PADRAO';
-    const qtd = parseInt(document.getElementById('qtd_cenas').value);
-    const locNome = document.getElementById('cenario_lista').options[document.getElementById('cenario_lista').selectedIndex]?.text || "o cenário";
-    
-    const pId = document.getElementById('prota').value;
-    const protaNome = pId ? getCharName(pId) : "Protagonista";
-    let pDna = pId ? (d[pId]?d[pId].d:'Padrão 3D') : "Padrão 3D";
-    
-    const rSel = document.getElementById('roupa_prota'); if(rSel.value) pDna += ` [${rSel.options[rSel.selectedIndex].text}]`;
-    const eSel = document.getElementById('estado_prota'); if(eSel.value) pDna += ` [${eSel.options[eSel.selectedIndex].text}]`;
-    const aSel = document.getElementById('acessorio_prota'); if(aSel.value) pDna += ` [${aSel.options[aSel.selectedIndex].text}]`;
-    
-    const vSel = document.getElementById('voz_prota');
-    const pVoz = vSel.value ? vSel.options[vSel.selectedIndex].text : "🗣️ Voz Genérica IA";
-
-    const cId = document.getElementById('coadj1').value; const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
-    let template = scriptSelect ? scriptsProntos[scriptSelect] : (scriptsNicho[nicho] || scriptsNicho['PADRAO']);
-    if (!template) template = scriptsNicho['PADRAO'];
-    
-    let htmlOut = "";
-
-    for(let i = 0; i < qtd; i++) {
-        let cenaInfo = template[i % template.length];
-        let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
-        let falaFinal = cenaInfo.f.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
-        let dnaExibido = falaFinal.includes(protaNome) ? `🧬 DNA (${protaNome}): ${pDna}` : "🧬 Cena Geral";
-        let vozExibida = falaFinal.includes(protaNome) ? `🎙️ Voz Flow Labs: ${pVoz}` : "🎙️ Som Ambiente / Foley";
-
-        htmlOut += `
-        <div class="cena-bloco">
-            <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
-            <div class="cena-acao">🎬 <b>Ação:</b> ${acaoFinal}</div>
-            <div class="cena-fala">💬 ${falaFinal}</div>
-            <div class="cena-dna">${dnaExibido}</div>
-            <div class="cena-voz">${vozExibida}</div>
-        </div>`;
-    }
-    document.getElementById('output-storyboard').innerHTML = htmlOut;
+    // Mantém a geração do Storyboard Visual
+    document.getElementById('output-storyboard').innerHTML = "<div style='text-align: center; color: var(--primary-green); padding: 20px;'>Prompt Técnico para o Flow Labs atualizado no Terminal Abaixo! Copie e cole na IA.</div>";
 }
 
 function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt do Flow Labs copiado!"); }
