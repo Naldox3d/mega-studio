@@ -1,202 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</title>
-    <style>
-        :root {
-            --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
-            --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
-            --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
-            --primary-orange: #f69d50; --primary-pink: #ff7b72; --primary-cyan: #39c5bb;
-            --primary-yellow: #e3b341;
-            --titan-grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
-        }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
-        .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        .full { grid-column: 1 / span 2; }
-        h1 { text-align: center; background: var(--titan-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;}
-        h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
-        select, textarea { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; outline: none; }
-        select:focus, textarea:focus { border-color: var(--primary-purple); }
-        .select-roupa, .select-estado, .select-acessorio, .select-voz { font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        .select-roupa { border-color: var(--primary-green); color: var(--primary-green); }
-        .select-estado { border-color: var(--primary-orange); color: var(--primary-orange); }
-        .select-acessorio { border-color: var(--primary-yellow); color: var(--primary-yellow); }
-        .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); }
-        textarea { height: 90px; color: #3fb950; resize: vertical; font-family: monospace; }
-        button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease;}
-        button.btn-story { background: var(--primary-green); margin-top: 5px; }
-        button:active { transform: scale(0.98); }
-        .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
-        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-purple); cursor: pointer;}
-        .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
-        #final { height: 350px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
-        #output-storyboard { background: #0d1117; padding: 10px; border-radius: 6px; max-height: 600px; overflow-y: auto; }
-        .cena-bloco { border-left: 4px solid var(--primary-purple); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
-        .cena-titulo { font-weight: bold; color: var(--primary-pink); margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
-        .cena-acao { color: var(--text-main); font-size: 14px; margin-bottom: 8px; }
-        .cena-fala { color: var(--primary-blue); font-style: italic; font-weight: bold; margin-bottom: 8px; }
-        .cena-dna, .cena-voz { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .cena-voz { color: var(--primary-cyan); }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .full { grid-column: 1; } }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="full"><h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1></div>
-
-    <div class="card">
-        <h2>📂 1. SISTEMA DE DIRETRIZES (NICHO)</h2>
-        <select id="nicho" onchange="atualizarTemas()">
-            <option value="">-- Escolha o Nicho --</option>
-            <option value="FRUITS_ADVENTURES">🏝️ Fruits Adventures (Terra de Elinaldo)</option>
-            <option value="COMERCIAL">💼 Comercial, Vendas & Creators</option>
-            <option value="AGRESTINA">🌵 Lore Agrestina (Original)</option>
-            <option value="SHOPPING">🏬 Shopping (Exclusivo Noturno)</option>
-            <option value="NOVELA">📺 Novela / Drama</option>
-            <option value="ANIMES">💥 Animes, Tokusatsu & Shonen</option>
-            <option value="ESPORTES">⚽ Esportes & Artes Marciais</option>
-            <option value="TERROR">👻 Terror, Monstros & Slasher</option>
-            <option value="COMEDIA">😂 Comédia & Besteirol</option>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2>🗺️ 2. TEMA / ÂNCORA DA HISTÓRIA</h2>
-        <select id="tema" onchange="atualizarCenarios()" disabled><option value="">-- Autenticar Tema --</option></select>
-    </div>
-
-    <div class="card full">
-        <h2>📍 3. RENDERIZAÇÃO DE AMBIENTE (CENÁRIOS FULL)</h2>
-        <div class="checkbox-container"><input type="checkbox" id="travar_cenario" onchange="travarCenario()"><label for="travar_cenario">🔒 TRAVAR CENÁRIO (Não apagar texto ao mudar menu)</label></div>
-        <select id="cenario_lista" onchange="puxarCenario()" disabled><option value="">-- Escolher Cenário --</option></select>
-        <textarea id="texto_cenario" oninput="gerarTudo()" placeholder="A descrição do cenário aparecerá aqui..."></textarea>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-purple);">👥 4. ELENCO, GUARDA-ROUPA, ACESSÓRIOS & VOZ</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px;">
-            <div><span class="label-text">Protagonista:</span><select id="prota" onchange="gerarTudo()"></select><select id="roupa_prota" class="select-roupa" onchange="gerarTudo()"></select><select id="estado_prota" class="select-estado" onchange="gerarTudo()"></select><select id="acessorio_prota" class="select-acessorio" onchange="gerarTudo()"></select><select id="voz_prota" class="select-voz" onchange="gerarTudo()"></select></div>
-            <div><span class="label-text">Coadjuvante 1:</span><select id="coadj1" onchange="gerarTudo()"></select><select id="roupa_coadj1" class="select-roupa" onchange="gerarTudo()"></select><select id="estado_coadj1" class="select-estado" onchange="gerarTudo()"></select><select id="acessorio_coadj1" class="select-acessorio" onchange="gerarTudo()"></select><select id="voz_coadj1" class="select-voz" onchange="gerarTudo()"></select></div>
-            <div><span class="label-text">Coadjuvante 2:</span><select id="coadj2" onchange="gerarTudo()"></select><select id="roupa_coadj2" class="select-roupa" onchange="gerarTudo()"></select><select id="estado_coadj2" class="select-estado" onchange="gerarTudo()"></select><select id="acessorio_coadj2" class="select-acessorio" onchange="gerarTudo()"></select><select id="voz_coadj2" class="select-voz" onchange="gerarTudo()"></select></div>
-            <div><span class="label-text">Grupos / Figurantes:</span><select id="multidao" onchange="gerarTudo()"></select><select id="roupa_multidao" class="select-roupa" onchange="gerarTudo()"></select><select id="estado_multidao" class="select-estado" onchange="gerarTudo()"></select><select id="acessorio_multidao" class="select-acessorio" onchange="gerarTudo()"></select><select id="voz_multidao" class="select-voz" onchange="gerarTudo()"></select></div>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-orange);">🧍 5. POSES & INTERAÇÕES ESTILIZADAS</h2>
-        <select id="pose_personagem" onchange="gerarTudo()">
-            <option value="Dynamic natural posture, looking at the camera.">🧍 Padrão / Neutra</option>
-            <optgroup label="Romance & Intimidade">
-                <option value="Passionate romantic kiss on the lips, holding each other closely.">💋 Beijo Apaixonado</option>
-                <option value="Gentle and affectionate face caress, looking lovingly into eyes.">🥰 Carinho no Rosto</option>
-            </optgroup>
-            <optgroup label="Animes & Artes Marciais">
-                <option value="Epic martial arts fighting stance, ready to strike.">🥋 Posição de Luta</option>
-                <option value="Screaming intensely while charging a massive energy attack.">💥 Carregando Ki / Poder</option>
-                <option value="Kicking a soccer ball with extreme acrobatic power.">⚽ Chute de Bicicleta / Anime Soccer</option>
-            </optgroup>
-            <optgroup label="Terror & Ação">
-                <option value="Holding a chainsaw aggressively, manic smile.">⛓️ Ash Mãos-de-Motosserra</option>
-                <option value="Running in absolute terror looking backwards.">🏃 Fuga Desesperada</option>
-            </optgroup>
-            <optgroup label="YouTuber & Viral">
-                <option value="Selfie pose, holding smartphone recording video vlog style.">🤳 Selfie Angle (Vlog)</option>
-                <option value="Frontal viral TikTok dance choreography, upbeat energy.">🕺 Dancinha Viral (TikTok)</option>
-            </optgroup>
-            <optgroup label="Ação & Lore Oficial">
-                <option value="Aggressive confrontation, pointing finger authoritatively.">😠 Confronto Agressivo</option>
-                <option value="Cowering defensively, looking extremely nervous and guilty.">😨 Acuado e Suando</option>
-            </optgroup>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-orange);">🎥 6. DINÂMICA DE VÍDEO (MOTION)</h2>
-        <select id="video_motion" onchange="gerarTudo()">
-            <option value="Static camera, subtle ambient movement, subtle character breathing.">Estático (Apenas Respiração/Ambiente)</option>
-            <option value="Slow cinematic pan to the right, dynamic light shifts.">Slow Pan Cinematográfico</option>
-            <option value="Drone fly-through pushing forward through the scene.">Avanço de Drone (Fly-through)</option>
-            <option value="Fast tracking camera following the subject, motion blur.">Tracking Rápido (Ação/Esporte)</option>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-red);">🎥 7. DIREÇÃO DE CÂMERA</h2>
-        <select id="cena_numero" onchange="gerarTudo()">
-            <option value="Wide shot, 24mm lens. Cinematic establishing shot.">Wide 24mm (Cenário Completo)</option>
-            <option value="Medium shot, 50mm lens. Focus on expression.">Medium 50mm (Diálogo/Ação)</option>
-            <option value="Extreme close-up, macro lens, 85mm. Heavy emotion.">Close-up 85mm (Emoção Exata)</option>
-            <option value="Dutch angle, tilted camera horizon.">Ângulo Holandês (Inclinada/Tensão)</option>
-            <option value="Crash zoom, fast comedic timing.">Zoom Cômico Rápido (Impacto)</option>
-        </select>
-    </div>
-
-    <div class="card">
-        <h2 style="color: var(--primary-blue);">🎨 8. ESTILO VISUAL / RENDER</h2>
-        <select id="estilo_render" onchange="gerarTudo()">
-            <option value="Highly detailed 3D stylized character, Pixar/Dreamworks style, vibrant colors, 8k cinematic lighting.">🧬 LORE OFICIAL (3D Cinema V1)</option>
-            <option value="Hyper-realistic Live Action 8k, cinematic blockbuster film look.">🎥 LIVE ACTION (Realismo Absoluto)</option>
-            <option value="Anime style, MAPPA studio influence, high contrast shading.">🎌 ANIME SHONEN (Mappa / Ufotable)</option>
-            <option value="Retro 90s Tokusatsu VHS camera filter.">📺 TOKUSATSU RETRÔ (VHS)</option>
-        </select>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-pink);">🗣️ 9. DIÁLOGOS & ROTEIROS PRÉ-PRONTOS</h2>
-        <select id="script_pronto" style="border-color: var(--primary-pink);">
-            <option value="">-- Usar Roteiro Automático do Nicho --</option>
-            <optgroup label="Lore Oficial (Fruits Adventures)">
-                <option value="LORE_01">🎬 Lore Oficial: A Amizade Perdida</option>
-                <option value="VIRAL_01">📱 Viral Shorts: O Flagrante da Dancinha</option>
-                <option value="VLOG_01">🤳 Vlog: "Gente, não acredito nisso!"</option>
-            </optgroup>
-            <optgroup label="Ação, Esportes & Terror">
-                <option value="ANIME_01">💥 Anime: O Último Golpe</option>
-                <option value="ESPORTE_01">⚽ Esporte: A Final do Campeonato</option>
-                <option value="TERROR_01">👻 Terror: "Ele Cortou a Própria Mão!"</option>
-            </optgroup>
-            <optgroup label="Comédia & Imitações">
-                <option value="PIADA_01">😂 Piada: Médico de Plantão</option>
-                <option value="PIADA_02">😂 Piada: O tomate no banco</option>
-            </optgroup>
-        </select>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-red);">⚙️ 10. GERAÇÃO DE SCRIPT & STORYBOARD</h2>
-        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <div style="flex: 1;">
-                <span class="label-text">Quantidade de Cenas:</span>
-                <select id="qtd_cenas">
-                    <option value="1">1 Cena (Shot Rápido / Tiktok)</option>
-                    <option value="3" selected>3 Cenas (Mini Arco Viral)</option>
-                    <option value="4">4 Cenas (Sequência Completa)</option>
-                </select>
-            </div>
-            <div style="flex: 2; display: flex; align-items: flex-end;">
-                <button class="btn-story" onclick="gerarRoteiroCompleto()">🎬 GERAR STORYBOARD COMPLETO</button>
-            </div>
-        </div>
-        <div id="output-storyboard">
-            <div style="text-align: center; color: var(--text-muted); padding: 20px;">
-                O roteiro dinâmico aparecerá aqui...
-            </div>
-        </div>
-    </div>
-
-    <div class="card full">
-        <h2 style="color: var(--primary-green);">🚀 11. TERMINAL DO DIRETOR (PROMPT IA)</h2>
-        <textarea id="final" readonly placeholder="Prompt técnico para o Flow Labs..."></textarea>
-        <button onclick="copiar()">COPIAR PROMPT PARA FLOW LABS</button>
-    </div>
-</div>
-
-<script>
 // =========================================================
 // 1. BANCOS DE DADOS DE PERSONAGENS E MULTIDÕES
 // =========================================================
@@ -350,62 +151,57 @@ const dataNicho = {
 };
 
 // =========================================================
-// 4. ROTEIROS AUTOMÁTICOS COMPLETOS
+// 4. ROTEIROS AUTOMÁTICOS COMPLETOS (ATUALIZADOS PARA VARIAR O PROMPT)
 // =========================================================
 const scriptsNicho = {
     'FRUITS_ADVENTURES': [
-        { c: "Wide 24mm", a: "O clima no [CENARIO] está tenso. [PROTA] e [COADJ] se encaram.", f: "[PROTA]: Eu te avisei que isso ia dar problema." },
-        { c: "Medium 50mm", a: "[COADJ] tenta se explicar, nervoso(a).", f: "[COADJ]: Foi sem querer! Eu juro!" }
+        { c: "Wide 24mm lens", a: "O clima no [CENARIO] está tenso. [PROTA] e [COADJ] se encaram.", f: "[PROTA]: Eu te avisei que isso ia dar problema.", pPose: "Dynamic natural posture, intense look", pMotion: "Static camera, subtle ambient movement", focus: "prota" },
+        { c: "Medium 50mm lens", a: "[COADJ] tenta se explicar, nervoso(a).", f: "[COADJ]: Foi sem querer! Eu juro!", pPose: "Cowering defensively, looking guilty", pMotion: "Slow cinematic pan", focus: "coadj" }
     ],
     'PADRAO': [
-        { c: "Wide", a: "[PROTA] chega ao [CENARIO].", f: "[PROTA]: Chegou a hora." },
-        { c: "Medium", a: "[COADJ] aparece.", f: "[COADJ]: Eu tô com você." }
+        { c: "Wide 24mm lens", a: "[PROTA] chega ao [CENARIO].", f: "[PROTA]: Chegou a hora.", pPose: "Dynamic natural posture", pMotion: "Static camera", focus: "prota" },
+        { c: "Medium 50mm lens", a: "[COADJ] aparece.", f: "[COADJ]: Eu tô com você.", pPose: "Dynamic natural posture", pMotion: "Slow cinematic pan", focus: "coadj" }
     ]
 };
 
 const scriptsProntos = {
     'VIRAL_01': [
-        { c: "Medium 50mm", a: "[PROTA] posiciona o celular e começa a fazer uma dancinha viral super animada no meio do [CENARIO].", f: "[PROTA]: (Música do TikTok tocando) Olha o passinho!" },
-        { c: "Fast tracking", a: "[COADJ] aparece do nada no fundo, com cara de fúria, e desliga a música.", f: "[COADJ]: Que palhaçada é essa?! Vai trabalhar logo!" },
-        { c: "Crash zoom", a: "[PROTA] toma um susto gigante e sai correndo de forma cômica com os braços pro alto.", f: "[PROTA]: Desculpa, já vou!" }
+        { c: "Medium 50mm lens", a: "[PROTA] posiciona o celular e começa a fazer uma dancinha viral super animada no meio do [CENARIO].", f: "[PROTA]: (Música do TikTok tocando) Olha o passinho!", pPose: "Frontal viral TikTok dance choreography, upbeat energy", pMotion: "Static camera, subtle ambient movement", focus: "prota" },
+        { c: "Fast tracking camera", a: "[COADJ] aparece do nada no fundo, com cara de fúria, e desliga a música.", f: "[COADJ]: Que palhaçada é essa?! Vai trabalhar logo!", pPose: "Aggressive confrontation, pointing finger authoritatively", pMotion: "Slow cinematic pan to the right", focus: "coadj" },
+        { c: "Crash zoom", a: "[PROTA] toma um susto gigante e sai correndo de forma cômica com os braços pro alto.", f: "[PROTA]: Desculpa, já vou!", pPose: "Running in comical despair, arms flailing wildly", pMotion: "Fast tracking camera following the subject", focus: "prota" }
     ],
     'VLOG_01': [
-        { c: "Medium 50mm", a: "[PROTA] segura o celular (selfie angle), gravando um vlog super empolgado mostrando o [CENARIO].", f: "[PROTA]: Fala galera! Vocês não vão acreditar onde eu tô hoje!" },
-        { c: "Slow Pan", a: "A câmera vira lentamente mostrando [COADJ] fazendo algo embaraçoso no fundo.", f: "[COADJ]: (Gritando de longe) Quem mexeu nas minhas caixas?!" },
-        { c: "Close-up 85mm", a: "[PROTA] arregala os olhos pra lente, corta a gravação assustado.", f: "[PROTA]: Vish... deu ruim. Corta, corta!" }
+        { c: "Medium 50mm lens", a: "[PROTA] segura o celular (selfie angle), gravando um vlog super empolgado mostrando o [CENARIO].", f: "[PROTA]: Fala galera! Vocês não vão acreditar onde eu tô hoje!", pPose: "Selfie pose, holding smartphone recording video vlog style", pMotion: "Static camera, subtle character breathing", focus: "prota" },
+        { c: "Slow Pan", a: "A câmera vira lentamente mostrando [COADJ] fazendo algo embaraçoso no fundo.", f: "[COADJ]: (Gritando de longe) Quem mexeu nas minhas caixas?!", pPose: "Looking confused and angry", pMotion: "Slow cinematic pan to the right", focus: "coadj" },
+        { c: "Close-up 85mm lens", a: "[PROTA] arregala os olhos pra lente, corta a gravação assustado.", f: "[PROTA]: Vish... deu ruim. Corta, corta!", pPose: "Selfie pose, extremely nervous expression", pMotion: "Static camera, subtle character breathing", focus: "prota" }
     ],
     'LORE_01': [
-        { c: "Wide 24mm", a: "O clima é dramático no [CENARIO]. [PROTA] confronta [COADJ] cara a cara.", f: "[PROTA]: Eu confiei em você. Como pôde deixar isso acontecer?" },
-        { c: "Close-up 85mm", a: "[COADJ] treme, olhos cheios de lágrimas.", f: "[COADJ]: Me perdoa... Eu não tive escolha." },
-        { c: "Dutch angle", a: "[PROTA] dá as costas e se afasta.", f: "[PROTA]: A partir de hoje, você caminha sozinho." }
-    ],
-    'PIADA_01': [
-        { c: "Medium 50mm", a: "[PROTA] olha pra câmera segurando o riso.", f: "[PROTA]: Sabe o que o tomate foi fazer no banco?" },
-        { c: "Close-up 85mm", a: "[COADJ] suspira sem paciência.", f: "[COADJ]: Lá vem. O que foi?" },
-        { c: "Zoom Cômico", a: "[PROTA] dá um pulinho.", f: "[PROTA]: Foi tirar extrato! HAHAHA!" }
-    ],
-    'PIADA_02': [
-        { c: "Medium 50mm", a: "[PROTA] ri sozinho no [CENARIO].", f: "[PROTA]: Qual a fruta que não vê nada?" },
-        { c: "Medium 50mm", a: "[COADJ] cruza os braços.", f: "[COADJ]: Eu não sei." },
-        { c: "Crash zoom", a: "[PROTA] aponta rindo muito.", f: "[PROTA]: A a-mora! Porque quem mora, não vê! Haha!" }
+        { c: "Wide 24mm lens", a: "O clima é dramático no [CENARIO]. [PROTA] confronta [COADJ] cara a cara.", f: "[PROTA]: Eu confiei em você. Como pôde deixar isso acontecer?", pPose: "Aggressive confrontation, pointing finger authoritatively", pMotion: "Slow cinematic pan", focus: "prota" },
+        { c: "Close-up 85mm lens", a: "[COADJ] treme, olhos cheios de lágrimas.", f: "[COADJ]: Me perdoa... Eu não tive escolha.", pPose: "Cowering defensively, looking extremely nervous and guilty", pMotion: "Static camera", focus: "coadj" },
+        { c: "Dutch angle", a: "[PROTA] dá as costas e se afasta.", f: "[PROTA]: A partir de hoje, você caminha sozinho.", pPose: "Turning back, walking away slowly", pMotion: "Static camera, subtle ambient movement", focus: "prota" }
     ],
     'TERROR_01': [
-        { c: "Medium 50mm", a: "[PROTA] levanta o braço, revelando uma motosserra no lugar da mão, sorrindo como um louco.", f: "[PROTA]: Groovy. O demônio quis brincar, eu cortei minha mão e trouxe o troco!" },
-        { c: "Fast tracking", a: "[COADJ] sai correndo em pânico absoluto ao ver a cena.", f: "[COADJ]: Ele tá louco! Socorro!" }
+        { c: "Medium 50mm lens", a: "[PROTA] levanta o braço, revelando uma motosserra no lugar da mão, sorrindo como um louco.", f: "[PROTA]: Groovy. O demônio quis brincar, eu cortei minha mão e trouxe o troco!", pPose: "Dynamic natural posture, looking directly at camera", pMotion: "Static camera, subtle character breathing", focus: "prota" },
+        { c: "Fast tracking camera", a: "[COADJ] sai correndo em pânico absoluto ao ver a cena.", f: "[COADJ]: Ele tá louco! Socorro!", pPose: "Running in absolute terror looking backwards", pMotion: "Fast tracking camera following the subject", focus: "coadj" },
+        { c: "Crash zoom", a: "[PROTA] avança com a motosserra ligada, rindo descontroladamente.", f: "[PROTA]: HAHAHAHAHA! Não corra!", pPose: "Running aggressively forward, revving chainsaw", pMotion: "Fast tracking camera following the subject", focus: "prota" }
     ],
     'ESPORTE_01': [
-        { c: "Wide 24mm", a: "[PROTA] domina a bola no peito enquanto a torcida vai à loucura no [CENARIO].", f: "[PROTA]: (Pensamento) É o último minuto. Tudo ou nada." },
-        { c: "Crash zoom", a: "[PROTA] dá um chute de bicicleta absurdo e a bola explode em chamas indo pro gol.", f: "Voz Narrador: OLHA O CHUTEEEE! É TAAACAAA!" }
+        { c: "Wide 24mm lens", a: "[PROTA] domina a bola no peito enquanto a torcida vai à loucura no [CENARIO].", f: "[PROTA]: (Pensamento) É o último minuto. Tudo ou nada.", pPose: "Athletic posture, looking focused", pMotion: "Slow cinematic pan", focus: "prota" },
+        { c: "Crash zoom", a: "[PROTA] dá um chute de bicicleta absurdo e a bola explode em chamas indo pro gol.", f: "Voz Narrador: OLHA O CHUTEEEE! É TAAACAAA!", pPose: "Kicking a soccer ball with extreme acrobatic power", pMotion: "Fast tracking camera", focus: "prota" },
+        { c: "Medium 50mm lens", a: "[PROTA] celebra com a torcida gritando.", f: "[PROTA]: AAAEEE!!", pPose: "Cheering wildly, pumping fists", pMotion: "Static camera", focus: "prota" }
     ],
     'ANIME_01': [
-        { c: "Extreme close-up 85mm", a: "Os olhos de [PROTA] brilham. Ele respira fundo.", f: "[PROTA]: Eu não vou deixar você machucar mais ninguém!" },
-        { c: "Wide 24mm", a: "[PROTA] dispara na direção do inimigo quebrando a barreira do som.", f: "[PROTA]: GOLPE DE METEOROOO!" }
+        { c: "Extreme close-up 85mm lens", a: "Os olhos de [PROTA] brilham. Ele respira fundo.", f: "[PROTA]: Eu não vou deixar você machucar mais ninguém!", pPose: "Intense glare, charging energy", pMotion: "Static camera", focus: "prota" },
+        { c: "Wide 24mm lens", a: "[PROTA] dispara na direção do inimigo quebrando a barreira do som.", f: "[PROTA]: GOLPE DE METEOROOO!", pPose: "Epic martial arts fighting stance, ready to strike", pMotion: "Fast tracking camera", focus: "prota" },
+        { c: "Crash zoom", a: "O impacto causa uma explosão gigantesca no [CENARIO].", f: "[COADJ]: N-não pode ser!", pPose: "Cowering defensively, terrified expression", pMotion: "Camera shaking violently", focus: "coadj" }
     ]
 };
 
 // =========================================================
 // FUNÇÕES DO SISTEMA E FORMATAÇÃO PARA O FLOW LABS
 // =========================================================
+let arrPromptsCenas = []; // Variável global para armazenar os prompts individuais
+
 function atualizarTemas() {
     const nicho = document.getElementById('nicho').value; const tSel = document.getElementById('tema'); const cSel = document.getElementById('cenario_lista');
     tSel.innerHTML = '<option value="">-- Autenticar Tema --</option>'; cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>'; 
@@ -461,40 +257,50 @@ function getCharName(id) {
 
 function buildDna(cId, o, s, p) { let dF = d[cId]?d[cId].d:'Stylized 3D Subject'; if(o) dF+=`, ${o}`; if(s) dF+=`, ${s}`; if(p) dF+=`, ${p}`; return dF; }
 
-function gerarTudo() {
+// Modificado para retornar o prompt em vez de jogar direto no textarea
+function construirPromptEspecifico(atorFoco, poseCena, motionCena, cameraCena) {
     const loc = document.getElementById('texto_cenario').value || "Local Indefinido";
-    const p1 = document.getElementById('prota').value; 
-    const m1 = document.getElementById('multidao').value;
-    let visualCast = ""; let audioDesign = "";
+    let visualCast = ""; 
+    let audioDesign = "";
     
-    if(p1) { 
-        visualCast += `${getCharName(p1)} (${buildDna(p1, document.getElementById('roupa_prota').value, document.getElementById('estado_prota').value, document.getElementById('acessorio_prota').value)})\n`; 
-        let vozValue = document.getElementById('voz_prota').value;
-        if (vozValue) audioDesign += `Voice Design (Actor 1): ${vozValue}\n`;
+    // Constrói o visual do ator focado
+    if (atorFoco === "prota") {
+        const p1 = document.getElementById('prota').value;
+        if(p1) {
+            visualCast += `${getCharName(p1)} (${buildDna(p1, document.getElementById('roupa_prota').value, document.getElementById('estado_prota').value, document.getElementById('acessorio_prota').value)})\n`;
+            let vozValue = document.getElementById('voz_prota').value;
+            if (vozValue) audioDesign += `Voice Design: ${vozValue}\n`;
+        }
+    } else if (atorFoco === "coadj") {
+        const c1 = document.getElementById('coadj1').value;
+        if(c1) {
+            visualCast += `${getCharName(c1)} (${buildDna(c1, document.getElementById('roupa_coadj1').value, document.getElementById('estado_coadj1').value, document.getElementById('acessorio_coadj1').value)})\n`;
+            let vozValue = document.getElementById('voz_coadj1').value;
+            if (vozValue) audioDesign += `Voice Design: ${vozValue}\n`;
+        }
     }
-    
-    if(m1) {
-        visualCast += `CROWD: ${getCharName(m1)} (${document.getElementById('estado_multidao').value})\n`;
-        let vozCrowd = document.getElementById('voz_multidao').value;
-        if (vozCrowd) audioDesign += `Crowd Foley/Audio: ${vozCrowd}\n`;
-    }
-    
+
     if(!audioDesign) audioDesign = "Voice Design: Natural voices matching the visual.\n";
 
-    document.getElementById('final').value = 
-`[FLOW LABS PROMPT - VIDEO & AUDIO]
-Vertical 9:16. ${document.getElementById('cena_numero').value}
+    return `[FLOW LABS PROMPT - VIDEO & AUDIO]
+Vertical 9:16. ${cameraCena}. Cinematic shot.
 STYLE: ${document.getElementById('estilo_render').value}
 
 [VISUAL ACTION]
 ${visualCast} is at ${loc}.
-${document.getElementById('pose_personagem').value}
-Motion: ${document.getElementById('video_motion').value}
+${poseCena}
+Motion: ${motionCena}
 
 [AUDIO INSTRUCTIONS]
 Dialogue/Voiceover: (Escreva a fala aqui)
-${audioDesign}
-Sound Effects (Foley): Ambient sounds matching the location.`;
+${audioDesign}Sound Effects (Foley): Ambient sounds matching the location.`;
+}
+
+function gerarTudo() {
+    // Se o usuário mexer nos menus principais sem gerar o storyboard, 
+    // constrói um prompt padrão da Cena 1.
+    const promptBase = construirPromptEspecifico("prota", document.getElementById('pose_personagem').value, document.getElementById('video_motion').value, document.getElementById('cena_numero').value);
+    document.getElementById('final').value = promptBase;
 }
 
 function gerarRoteiroCompleto() {
@@ -506,42 +312,63 @@ function gerarRoteiroCompleto() {
     const pId = document.getElementById('prota').value;
     const protaNome = pId ? getCharName(pId) : "Protagonista";
     let pDna = pId ? (d[pId]?d[pId].d:'Padrão 3D') : "Padrão 3D";
-    
-    const rSel = document.getElementById('roupa_prota'); if(rSel.value) pDna += ` [${rSel.options[rSel.selectedIndex].text}]`;
-    const eSel = document.getElementById('estado_prota'); if(eSel.value) pDna += ` [${eSel.options[eSel.selectedIndex].text}]`;
-    const aSel = document.getElementById('acessorio_prota'); if(aSel.value) pDna += ` [${aSel.options[aSel.selectedIndex].text}]`;
-    
-    const vSel = document.getElementById('voz_prota');
-    const pVoz = vSel.value ? vSel.options[vSel.selectedIndex].text : "🗣️ Voz Padrão";
+    const vSelProta = document.getElementById('voz_prota');
+    const pVoz = vSelProta.value ? vSelProta.options[vSelProta.selectedIndex].text : "🗣️ Voz Padrão";
 
-    const cId = document.getElementById('coadj1').value; const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
+    const cId = document.getElementById('coadj1').value;
+    const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
+    let cDna = cId ? (d[cId]?d[cId].d:'Padrão 3D') : "Padrão 3D";
+    const vSelCoadj = document.getElementById('voz_coadj1');
+    const cVoz = vSelCoadj.value ? vSelCoadj.options[vSelCoadj.selectedIndex].text : "🗣️ Voz Padrão";
+
     let template = scriptSelect ? scriptsProntos[scriptSelect] : (scriptsNicho[nicho] || scriptsNicho['PADRAO']);
     if (!template) template = scriptsNicho['PADRAO'];
     
     let htmlOut = "";
+    arrPromptsCenas = []; // Limpa o array a cada nova geração
 
     for(let i = 0; i < qtd; i++) {
         let cenaInfo = template[i % template.length];
+        
         let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
         let falaFinal = cenaInfo.f.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
-        let dnaExibido = falaFinal.includes(protaNome) ? `🧬 DNA (${protaNome}): ${pDna}` : "🧬 Cena Geral";
-        let vozExibida = falaFinal.includes(protaNome) ? `🎙️ Voz Instrução: ${pVoz}` : "🎙️ Som Ambiente / Foley";
+        
+        let focoAtor = cenaInfo.focus || "prota";
+        let dnaExibido = (focoAtor === "prota") ? `🧬 DNA (${protaNome}): ${pDna}` : `🧬 DNA (${coadjNome}): ${cDna}`;
+        let vozExibida = (focoAtor === "prota") ? `🎙️ Voz Instrução: ${pVoz}` : `🎙️ Voz Instrução: ${cVoz}`;
+
+        // Armazena o prompt técnico específico para esta cena no array global
+        let promptDaCena = construirPromptEspecifico(focoAtor, cenaInfo.pPose, cenaInfo.pMotion, cenaInfo.c);
+        arrPromptsCenas.push(promptDaCena);
 
         htmlOut += `
-        <div class="cena-bloco">
-            <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
-            <div class="cena-acao">🎬 <b>Ação:</b> ${acaoFinal}</div>
-            <div class="cena-fala">💬 ${falaFinal}</div>
-            <div class="cena-dna">${dnaExibido}</div>
-            <div class="cena-voz">${vozExibida}</div>
+        <div class="cena-bloco" style="display: flex; flex-direction: column;">
+            <div>
+                <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
+                <div class="cena-acao">🎬 <b>Ação:</b> ${acaoFinal}</div>
+                <div class="cena-fala">💬 ${falaFinal}</div>
+                <div class="cena-dna">${dnaExibido}</div>
+                <div class="cena-voz">${vozExibida}</div>
+            </div>
+            <button onclick="carregarPromptNoTerminal(${i})" style="margin-top: 15px; padding: 10px; font-size: 12px; background: var(--primary-purple); color: #fff; width: 100%; max-width: 250px; align-self: flex-end;">
+                ⬇️ CARREGAR PROMPT NO TERMINAL
+            </button>
         </div>`;
     }
+    
     document.getElementById('output-storyboard').innerHTML = htmlOut;
-    gerarTudo();
+    // Carrega automaticamente a primeira cena no terminal
+    carregarPromptNoTerminal(0);
 }
 
-function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt do Flow Labs copiado!"); }
+// Função que o botão de cada cena chama
+function carregarPromptNoTerminal(indexCena) {
+    document.getElementById('final').value = arrPromptsCenas[indexCena];
+    document.getElementById('final').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Dá um efeito visual no textarea pra mostrar que atualizou
+    document.getElementById('final').style.borderColor = "var(--primary-purple)";
+    setTimeout(() => { document.getElementById('final').style.borderColor = "var(--primary-red)"; }, 500);
+}
+
+function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt copiado!"); }
 window.onload = carregarMenus;
-</script>
-</body>
-</html>
