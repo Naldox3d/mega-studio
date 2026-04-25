@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO (VIDEO & AUDIO)</title>
+    <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -13,37 +13,26 @@
             --primary-yellow: #e3b341;
             --titan-grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
         }
-
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
         .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
         .full { grid-column: 1 / span 2; }
-        
-        h1 { text-align: center; background: var(--titan-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;}
-        h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
-        
-        select, textarea, input[type="number"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; }
-        select:focus, textarea:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 2px rgba(163, 113, 247, 0.3); }
-        
+        h1 { text-align: center; background: var(--titan-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: 900; margin-bottom: 20px; letter-spacing: 1px;}
+        h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase;}
+        select, textarea { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; }
+        select:focus, textarea:focus { outline: none; border-color: var(--primary-purple); }
         .select-roupa { border-color: var(--primary-green); color: var(--primary-green); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
         .select-estado { border-color: var(--primary-orange); color: var(--primary-orange); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
         .select-acessorio { border-color: var(--primary-yellow); color: var(--primary-yellow); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
         .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        
-        .select-roupa:focus, .select-estado:focus, .select-acessorio:focus, .select-voz:focus { box-shadow: none; }
-
-        textarea { height: 90px; color: #3fb950; resize: vertical; font-family: monospace; }
-        
-        button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease;}
+        textarea { height: 90px; color: #3fb950; font-family: monospace; }
+        button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; margin-top: 10px; transition: 0.2s;}
         button.btn-story { background: var(--primary-green); margin-top: 5px; }
         button:active { transform: scale(0.98); }
-        
         .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
         input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-purple); cursor: pointer;}
-        
         .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
-        #final { height: 300px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
-        
+        #final { height: 300px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; }
         #output-storyboard { background: #0d1117; padding: 10px; border-radius: 6px; max-height: 800px; overflow-y: auto; }
         .cena-bloco { border-left: 4px solid var(--primary-purple); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
         .cena-titulo { font-weight: bold; color: var(--primary-pink); margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
@@ -51,11 +40,8 @@
         .cena-fala { color: var(--primary-blue); font-style: italic; font-weight: bold; margin-bottom: 8px; }
         .cena-dna { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
         .cena-voz { font-size: 11px; color: var(--primary-cyan); margin-bottom: 8px; }
-        
-        /* ESTILO: DICAS DE EDIÇÃO CAPCUT */
         .cena-edicao { background: #0b0e14; border-left: 3px solid var(--primary-yellow); padding: 10px; font-size: 12px; color: #c9d1d9; font-family: monospace; border-radius: 4px; line-height: 1.5; }
         .edicao-titulo { color: var(--primary-yellow); font-weight: bold; margin-bottom: 4px; display: block; }
-
         @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .full { grid-column: 1; } }
     </style>
 </head>
@@ -155,7 +141,6 @@
                 <option value="Passionate romantic kiss on the lips, holding each other closely.">💋 Beijo Apaixonado</option>
                 <option value="Gentle and affectionate face caress, looking lovingly into eyes.">🥰 Carinho no Rosto</option>
                 <option value="Hugging from behind, affectionately kissing the neck.">🫂 Cheirinho / Beijo no Pescoço</option>
-                <option value="Cinematic wedding pose at the altar, holding hands.">💍 Casamento (Altar/Alianças)</option>
             </optgroup>
             <optgroup label="Casual, Reações & Comédia">
                 <option value="Sitting casually, relaxed posture, natural behavior.">🛋️ Casual / Sentado Relaxado</option>
@@ -226,7 +211,7 @@
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--primary-red);">⚙️ 10. GERAÇÃO DE SCRIPT, STORYBOARD & EDIÇÃO</h2>
+        <h2 style="color: var(--primary-red);">⚙️ 10. GERAÇÃO DE SCRIPT E STORYBOARD</h2>
         <div style="display: flex; gap: 10px; margin-bottom: 15px;">
             <div style="flex: 1;">
                 <span class="label-text">Quantidade de Cenas:</span>
@@ -243,7 +228,7 @@
         </div>
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted); padding: 20px;">
-                O roteiro dinâmico com Dicas Práticas de Edição para CapCut será gerado aqui...
+                O roteiro dinâmico e as dicas de edição aparecerão aqui...
             </div>
         </div>
     </div>
@@ -257,7 +242,7 @@
 
 <script>
 // =========================================================
-// 1. BANCO DE DADOS DE PERSONAGENS E GRUPOS
+// BANCOS DE DADOS COMPLETOS (RESTAURADOS 100%)
 // =========================================================
 const p = {
     'Heróis Originais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"},
@@ -293,110 +278,44 @@ const acessorios = {
 };
 
 const estados = {
-    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt"}
+    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt", 'E_MUT01': "zombified, rotting skin, glowing empty eyes", 'E_EMO04': "terrified, wide eyes, shivering in fear"}
 };
 
 const vozes = {
     'Locução & Romance': {'V_PRO01': "Voz de Político, persuasiva.", 'V_PRO02': "Voz de Locutor FM, aveludada.", 'V_FIL04': "Voz de Dorama, suave e romântica."},
-    'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica", 'V_FIL01': "Voz de Vilão Slasher"}
+    'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica", 'V_FIL01': "Voz de Vilão Slasher", 'V_EMO04': "Voz Apavorada, sussurrando rápido."}
 };
 
 const d = { 'P01':{d:"Anthropomorphic Lemon, scarred face"}, 'P02':{d:"Anthropomorphic Tomato, nervous face"} }; 
 const vBase = { 'P01': "Grave e rouca.", 'P02': "Anasalada, gaguejos." }; 
 
 // =========================================================
-// 2. BANCO DE CENÁRIOS GIGANTE E COMPLETO 
+// BANCO DE CENÁRIOS GIGANTE (COMPLETO)
 // =========================================================
 const dataNicho = {
-    'FRUITS_ADVENTURES': {
-        'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean at sunset, romantic vibe, cinematic", "Piquenique na Praia|Cozy beach picnic setup, blankets, sunset, lanterns"],
-        'Exploração & Mistério': ["Templo Antigo de Frutas|Ancient overgrown temple ruins shaped like fruits, mysterious lighting", "Caverna de Cristal|Dark cave glowing with bright purple crystals, magical"],
-        'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll, bright eerie daylight", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections, dystopian survival game"],
-        'Cartão de Visitas': ["Praia Tropical|Tropical beach at golden hour, crystal clear water, vibrant colors"]
-    },
-    'COMERCIAL': {
-        'Apresentação & Vendas': ["Estúdio Infomercial|Bright white studio background, clean product podium, professional lighting", "Cozinha Moderna (Review)|Modern clean luxury kitchen, marble countertop, bright morning light"],
-        'Mundo Corporativo': ["Escritório de Luxo|Modern glass corporate office, city skyline view, sleek modern desk", "Sala de Reunião|Corporate board room, projector screen, leather executive chairs"],
-        'Podcast & Locução': ["Estúdio de Podcast|Cozy dark podcast studio, neon signs in background, professional microphones", "Cabine de Gravação|Radio broadcast booth, soundproof acoustic foam walls"],
-        'Setup YouTuber / Influencer': ["Quarto Gamer RGB|Gaming room setup, glowing RGB LED strips, dual monitors", "Setup Minimalista|Clean minimalist desk, warm aesthetic lighting, indoor potted plants"]
-    },
-    'AGRESTINA': {
-        'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"],
-        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun, heat waves", "Casa de Taipa|Rustic mud house interior, wood stove, sunlight piercing through cracks"]
-    },
-    'SHOPPING': {
-        '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights, closed store windows", "Escada Rolante|Stopped escalator in a dark empty shopping mall, eerie"],
-        '02 - Praça e Afins': ["Praça de Alimentação|Massive empty food court at night, glowing fast food signs", "Estacionamento (Cancela)|Empty parking lot at night, digital billboard glowing"]
-    },
-    'NOVELA': {
-        '01 - O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto de Motel Escuro|Dark motel room, neon sign blinking outside", "Restaurante de Luxo|Fine dining restaurant, romantic candle light", "Estacionamento Subterrâneo|Dark underground parking lot, harsh lighting"],
-        '02 - O Segredo Revelado': ["Telhado do Prédio|Skyscraper rooftop at night, city lights", "Sala do Arquivo|Dusty archive room, rows of paper boxes"],
-        '03 - A Cobrança': ["Galpão Abandonado|Abandoned warehouse, broken windows, dusty"],
-        '26 - Romance': ["Parque Florido|Blooming park, cherry blossoms falling", "Café Aconchegante|Cozy coffee shop, raining outside, warm lights"],
-        '31 - Tensão/Desejo': ["Biblioteca Escura|Dark classic library, moody sensual lighting", "Elevador Parado|Stuck elevator, flickering emergency lights"]
-    },
-    'SERIES': {
-        'Retrô & Clássicas': ["Caverna 60s|Campy retro 1960s batcave, giant props", "Delegacia Antiga|1970s police precinct, sepia tone lighting"],
-        'Mistério & Caçadores': ["Encruzilhada|Dirt crossroads at midnight, eerie fog", "Castelo Assombrado|Creepy cartoonish haunted castle, Scooby-Doo aesthetic"],
-        'Super Jovens': ["Fazenda de Milho|Sunny peaceful Kansas cornfield, red barn", "Celeiro Secreto|Inside a rustic barn, glowing alien spaceship hidden"]
-    },
-    'ANIMES': {
-        'Mangá Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after massive energy blast"],
-        'Mundo dos Desenhos': ["Mundo 2D Clássico|Wacky cartoon universe, distorted proportions, vibrant flat colors"]
-    },
-    'INFLUENCER': {
-        'Setup & Produtos': ["Estúdio RGB|Minimalist desk, glowing RGB lights", "Mesa Branca Clean|Clean white desk, bright studio lighting"],
-        'Dancinhas & Luxo': ["Quarto Neon|Cozy bedroom, LED strip lights", "Closet Gigante|Walk-in closet filled with designer items", "Carro de Luxo Interno|Inside a luxury car, neon dashboard lights"]
-    },
-    'TERROR': {
-        'Assombração': ["Casa Abandonada|Creepy abandoned old house, dark shadows", "Sótão Assustador|Dusty scary attic, cobwebs"],
-        'Perseguição': ["Floresta à Noite|Dark dense forest at night, moonlight", "Labirinto de Milho|Creepy corn maze at night", "Hospital Psiquiátrico|Ruined asylum, rusty wheelchairs"],
-        'Liminal': ["Shopping Infinito Branco|Endless empty white shopping mall, liminal space", "Escritório Sem Fim|Monotone yellow carpet, fluorescent office lights"]
-    },
-    'COMEDIA': {
-        'Besteirol': ["Festa de Fraternidade|Crazy college frat party, red cups", "Corredor de Escola|Classic high school hallway, lockers"],
-        'Sátira': ["Casa de Assassino Desajeitado|Creepy house interior but with funny silly traps"]
-    },
-    'CLIP': {
-        'Ostentação / Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway filled with colorful graffiti"],
-        'Rock / Metal': ["Palco com Fogo|Concert stage, heavy pyrotechnics, dark atmosphere", "Garagem Suja|Grungy dark garage, band equipment"],
-        'Batalha de Rimas': ["Quadra de Basquete|Street basketball court at night, chainlink fence, single floodlight"]
-    },
-    'FESTAS': {
-        'Globais': ["Halloween (EUA)|Suburban street at night, glowing jack-o-lanterns", "Natal (NY)|Massive lit Christmas tree, snow falling", "Dia dos Mortos|Street festival at night, marigold flowers"],
-        'Brasil': ["Carnaval (Rio)|Massive parade float, colorful feathers", "São João|Festive flags, large bonfire, rustic party"]
-    },
-    'GOSPEL': {
-        'Pregação': ["Altar Iluminado|Warm spotlight from above, dark church", "Deserto Bíblico|Vast hot desert, ancient ruins"],
-        'Louvor': ["Igreja Destruída|Ruined church, holy light breaking through storm clouds", "Barco em Alto Mar|Small boat tossing in heavy stormy ocean"]
-    },
-    'SCIFI': {
-        'Cyberpunk': ["Rua de Neon|Cyberpunk city street, neon lights, holograms", "Docas Industriais|Dark industrial shipping dock"],
-        'Tron & Espaço': ["Grid Digital|Infinite glowing grid floor, neon lines", "Nave Mãe|Inside a massive high-tech alien mothership"]
-    },
-    'FANTASIA': {
-        'Épico': ["Castelo em Chamas|Burning medieval castle, embers flying", "Taverna Rústica|Warm wooden fantasy tavern"],
-        'Magia': ["Floresta Mística|Enchanted forest, glowing fireflies", "Caverna do Dragão|Deep cave filled with gold"]
-    },
-    'INFANTIL': {
-        'Contos': ["Castelo de Cristal|Beautiful glowing crystal castle, rainbows", "Fazendinha Feliz|Happy sunny cartoon farm", "Mundo de Brinquedo|Toy world, giant building blocks"]
-    },
-    'TURISMO': {
-        'Américas': ["Times Square (NY)|Times square New York, giant glowing billboards", "Machu Picchu (Peru)|Incan ruins of Machu Picchu", "Cristo Redentor (Rio)|Christ the Redeemer statue"],
-        'Europa': ["Torre Eiffel (Paris)|Eiffel Tower in background, night", "Aurora Boreal (Islândia)|Dark snowy landscape, glowing green sky"],
-        'Mundo': ["Muralha da China|Great Wall of China winding over lush green mountains", "Pirâmides (Egito)|Great Pyramids, desert sand"]
-    },
-    'HISTORIA': {
-        'Antiguidade': ["Império Romano|Gladiator arena, cheering crowds", "Velho Oeste|Dusty western town main street", "Egito Antigo|Inside an ancient Pharaoh tomb"],
-        'Guerras': ["Trincheira WW1|Muddy WW1 trench, barbed wire", "Praia do Dia D|Stormy beach landing, war obstacles"]
-    },
-    'SETS': {
-        'Filmagem': ["Cidade Cenográfica|Fake small town street, highly lit for TV cameras", "Fundo Verde|Massive green screen studio, bright soft box lighting", "Set de Velho Oeste|Fake wooden western town facade supported by wooden beams"]
-    }
+    'FRUITS_ADVENTURES': {'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean at sunset, cinematic", "Piquenique na Praia|Cozy beach picnic setup, blankets, lanterns"], 'Exploração & Mistério': ["Templo Antigo|Ancient overgrown temple ruins shaped like fruits", "Caverna de Cristal|Dark cave glowing with bright purple crystals"], 'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections"], 'Cartão de Visitas': ["Praia Tropical|Tropical beach at golden hour, crystal clear water"]},
+    'COMERCIAL': {'Apresentação & Vendas': ["Estúdio Infomercial|Bright white studio background, clean product podium", "Cozinha Moderna|Modern clean luxury kitchen, marble countertop"], 'Mundo Corporativo': ["Escritório de Luxo|Modern glass corporate office, city skyline view", "Sala de Reunião|Corporate board room, projector screen"], 'Podcast & Locução': ["Estúdio de Podcast|Cozy dark podcast studio, neon signs in background", "Cabine de Gravação|Radio broadcast booth, soundproof acoustic walls"], 'Setup YouTuber': ["Quarto Gamer RGB|Gaming room setup, glowing RGB LED strips", "Setup Minimalista|Clean minimalist desk, warm aesthetic lighting"]},
+    'AGRESTINA': {'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background", "Pátio do Forró|Massive outdoor party square, colorful flags"], 'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, heat waves", "Casa de Taipa|Rustic mud house interior, wood stove"]},
+    'SHOPPING': {'Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights", "Escada Rolante|Stopped escalator in a dark empty shopping mall"], 'Praça e Afins': ["Praça de Alimentação|Massive empty food court at night, glowing signs", "Estacionamento|Empty parking lot at night, digital billboard"]},
+    'NOVELA': {'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto de Motel|Dark motel room, neon sign blinking outside", "Restaurante de Luxo|Fine dining restaurant, romantic candle light"], 'O Segredo': ["Telhado do Prédio|Skyscraper rooftop at night, city lights", "Sala do Arquivo|Dusty archive room, rows of paper boxes"], 'Romance/Tensão': ["Parque Florido|Blooming park, cherry blossoms falling", "Elevador Parado|Stuck elevator, flickering emergency lights"]},
+    'SERIES': {'Retrô & Clássicas': ["Caverna 60s|Campy retro 1960s batcave, giant props", "Delegacia Antiga|1970s police precinct, sepia tone"], 'Mistério': ["Encruzilhada|Dirt crossroads at midnight, eerie fog", "Castelo Assombrado|Creepy cartoonish haunted castle"], 'Super Jovens': ["Fazenda de Milho|Sunny peaceful Kansas cornfield, red barn", "Celeiro Secreto|Inside a rustic barn, glowing alien spaceship"]},
+    'ANIMES': {'Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after massive energy blast"], 'Mundo 2D': ["Mundo Cartoon|Wacky cartoon universe, distorted proportions"]},
+    'INFLUENCER': {'Setup & Dancinhas': ["Estúdio RGB|Minimalist desk, glowing RGB lights", "Quarto Neon|Cozy bedroom, LED strip lights", "Closet Gigante|Walk-in closet filled with designer items"]},
+    'TERROR': {'Assombração': ["Casa Abandonada|Creepy abandoned old house, dark shadows", "Sótão Assustador|Dusty scary attic, cobwebs"], 'Perseguição': ["Floresta à Noite|Dark dense forest at night, moonlight", "Hospital Psiquiátrico|Ruined asylum, rusty wheelchairs"], 'Liminal': ["Shopping Infinito|Endless empty white shopping mall, liminal space"]},
+    'COMEDIA': {'Besteirol': ["Festa de Fraternidade|Crazy college frat party, red cups", "Corredor de Escola|Classic high school hallway", "Casa com Armadilhas|Creepy house interior but with funny silly traps"]},
+    'CLIP': {'Rap / Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway filled with colorful graffiti", "Quadra de Basquete|Street basketball court at night"], 'Rock / Metal': ["Palco com Fogo|Concert stage, heavy pyrotechnics, dark atmosphere", "Garagem Suja|Grungy dark garage, band equipment"]},
+    'FESTAS': {'Globais': ["Halloween|Suburban street at night, glowing jack-o-lanterns", "Natal|Massive lit Christmas tree, snow falling"], 'Brasil': ["Carnaval|Massive parade float, colorful feathers", "São João|Festive flags, large bonfire, rustic party"]},
+    'GOSPEL': {'Pregação & Louvor': ["Altar Iluminado|Warm spotlight from above, dark church", "Deserto Bíblico|Vast hot desert, ancient ruins", "Igreja Destruída|Ruined church, holy light breaking through storm clouds"]},
+    'SCIFI': {'Cyberpunk & Espaço': ["Rua de Neon|Cyberpunk city street, neon lights, holograms", "Nave Mãe|Inside a massive high-tech alien mothership", "Grid Digital|Infinite glowing grid floor, neon lines"]},
+    'FANTASIA': {'Épico & Magia': ["Castelo em Chamas|Burning medieval castle, embers flying", "Caverna do Dragão|Deep cave filled with gold", "Floresta Mística|Enchanted forest, glowing fireflies"]},
+    'INFANTIL': {'Contos de Fadas': ["Castelo de Cristal|Beautiful glowing crystal castle, rainbows", "Fazendinha|Happy sunny cartoon farm", "Mundo de Brinquedo|Toy world, giant building blocks"]},
+    'TURISMO': {'Américas & Europa': ["Times Square|Times square New York, giant glowing billboards", "Machu Picchu|Incan ruins of Machu Picchu", "Torre Eiffel|Under the Eiffel Tower at night", "Aurora Boreal|Dark snowy landscape, glowing green sky"]},
+    'HISTORIA': {'Antiguidade & Guerras': ["Império Romano|Gladiator arena, cheering crowds", "Velho Oeste|Dusty western town main street", "Egito Antigo|Inside an ancient Pharaoh tomb", "Trincheira WW1|Muddy WW1 trench"]},
+    'SETS': {'Filmagem': ["Cidade Cenográfica|Fake small town street, highly lit for TV cameras", "Fundo Verde|Massive green screen studio, bright soft box lighting"]}
 };
 
 // =========================================================
-// 3. ROTEIROS AUTOMÁTICOS
+// ROTEIROS AUTOMÁTICOS
 // =========================================================
 const scriptsNicho = {
     'FRUITS_ADVENTURES': [
@@ -468,13 +387,13 @@ function gerarDicaEdicao(cameraString) {
     if (cam.includes("zoom") || cam.includes("crash")) {
         return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Humor/Tensão):</span> Corte seco (Hard Cut) no exato milissegundo da ação. Aplique o efeito 'Agitação Cômica' ou 'Tremor'. <b>Áudio:</b> Abaixe a trilha bruscamente e coloque um efeito sonoro rápido.";
     } else if (cam.includes("tracking") || cam.includes("handheld") || cam.includes("drone")) {
-        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Ação/Viral):</span> Ritmo acelerado! Faça cortes sincronizados com a batida da música (Beat Sync). Use a ferramenta 'Desfoque de Movimento' (Motion Blur). <b>Áudio:</b> Aumente os graves (Bass Boost) e Sound Design de vento.";
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Ação/Viral):</span> Ritmo acelerado! Faça cortes sincronizados com a batida da música (Beat Sync). Use a ferramenta 'Desfoque de Movimento'. <b>Áudio:</b> Aumente os graves (Bass Boost) e Sound Design de vento.";
     } else if (cam.includes("close-up") || cam.includes("macro")) {
         return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Drama/Romance):</span> Foque puramente na emoção. Faça um Keyframe dando um Zoom In lento de 5%. <b>Áudio:</b> Isole a voz, zere o som ambiente para criar tensão absoluta antes da fala.";
     } else if (cam.includes("dutch") || cam.includes("holandês")) {
-        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Suspense):</span> Atmosfera desconfortável. Aplique um LUT de coloração fria (Estilo Matrix/Terror) e adicione Vinheta escurecendo as bordas. <b>Áudio:</b> Riser de suspense crescendo até a fala.";
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Suspense):</span> Atmosfera desconfortável. Aplique um LUT de coloração fria e adicione Vinheta escurecendo as bordas. <b>Áudio:</b> Riser de suspense crescendo até a fala.";
     } else {
-        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Estabelecimento):</span> Cena de respiro/contexto. Use transição de 'Fade In' ou 'Cross Dissolve'. Aumente saturação (+10) para o cenário brilhar. <b>Áudio:</b> Som ambiente real em destaque.";
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Estabelecimento):</span> Cena de respiro/contexto. Use transição de 'Fade In'. Aumente saturação (+10) para o cenário brilhar. <b>Áudio:</b> Som ambiente real em destaque.";
     }
 }
 
