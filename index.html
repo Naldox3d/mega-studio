@@ -21,10 +21,11 @@
         h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
         select, textarea { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; outline: none; }
         select:focus, textarea:focus { border-color: var(--primary-purple); }
-        .select-roupa { border-color: var(--primary-green); color: var(--primary-green); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        .select-estado { border-color: var(--primary-orange); color: var(--primary-orange); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        .select-acessorio { border-color: var(--primary-yellow); color: var(--primary-yellow); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
-        .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
+        .select-roupa, .select-estado, .select-acessorio, .select-voz { font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
+        .select-roupa { border-color: var(--primary-green); color: var(--primary-green); }
+        .select-estado { border-color: var(--primary-orange); color: var(--primary-orange); }
+        .select-acessorio { border-color: var(--primary-yellow); color: var(--primary-yellow); }
+        .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); }
         textarea { height: 90px; color: #3fb950; resize: vertical; font-family: monospace; }
         button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease;}
         button.btn-story { background: var(--primary-green); margin-top: 5px; }
@@ -32,14 +33,14 @@
         .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
         input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-purple); cursor: pointer;}
         .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
-        #final { height: 280px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
+        #final { height: 350px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
         #output-storyboard { background: #0d1117; padding: 10px; border-radius: 6px; max-height: 600px; overflow-y: auto; }
         .cena-bloco { border-left: 4px solid var(--primary-purple); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
         .cena-titulo { font-weight: bold; color: var(--primary-pink); margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
         .cena-acao { color: var(--text-main); font-size: 14px; margin-bottom: 8px; }
         .cena-fala { color: var(--primary-blue); font-style: italic; font-weight: bold; margin-bottom: 8px; }
-        .cena-dna { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .cena-voz { font-size: 11px; color: var(--primary-cyan); }
+        .cena-dna, .cena-voz { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .cena-voz { color: var(--primary-cyan); }
         @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .full { grid-column: 1; } }
     </style>
 </head>
@@ -92,7 +93,6 @@
             <optgroup label="Romance & Intimidade">
                 <option value="Passionate romantic kiss on the lips, holding each other closely.">💋 Beijo Apaixonado</option>
                 <option value="Gentle and affectionate face caress, looking lovingly into eyes.">🥰 Carinho no Rosto</option>
-                <option value="Hugging from behind, affectionately kissing the neck.">🫂 Cheirinho / Beijo no Pescoço</option>
             </optgroup>
             <optgroup label="YouTuber & Viral">
                 <option value="Selfie pose, holding smartphone recording video vlog style.">🤳 Selfie Angle (Vlog)</option>
@@ -161,7 +161,6 @@
                     <option value="1">1 Cena (Shot Rápido / Tiktok)</option>
                     <option value="3" selected>3 Cenas (Mini Arco Viral)</option>
                     <option value="4">4 Cenas (Sequência Completa)</option>
-                    <option value="6">6 Cenas (Episódio de Lore)</option>
                 </select>
             </div>
             <div style="flex: 2; display: flex; align-items: flex-end;">
@@ -177,8 +176,8 @@
 
     <div class="card full">
         <h2 style="color: var(--primary-green);">🚀 11. TERMINAL DO DIRETOR (PROMPT IA)</h2>
-        <textarea id="final" readonly placeholder="Prompt técnico..."></textarea>
-        <button onclick="copiar()">COPIAR PROMPT BASE</button>
+        <textarea id="final" readonly placeholder="Prompt técnico para o Flow Labs..."></textarea>
+        <button onclick="copiar()">COPIAR PROMPT PARA FLOW LABS</button>
     </div>
 </div>
 
@@ -196,92 +195,66 @@ const p = {
 };
 
 const crowds = {
-    'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo", 'GP02': "Grupo de Homens descontraídos", 'GP03': "Vários Casais passeando"},
+    'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo", 'GP02': "Grupo de Homens descontraídos"},
     'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G07': "Guarda de Elite Mascarada"}
 };
 
-// =========================================================
-// 2. BANCOS SALVOS A PARTIR DA SUA EDIÇÃO (O QUE VOCÊ FEZ)
-// =========================================================
 const roupas = {
-    'Geral & Casual': {
-        'R_CAS01': "wearing streetwear, baggy hoodie and cap",
-        'R_CAS02': "wearing winter clothes, thick coat and scarf",
-        'R_CAS03': "wearing summer beachwear, shorts and sunglasses",
-        'R_CAS04': "wearing luxury designer clothes, gold watch"
-    },
-    'Sci-Fi & Ação': {
-        'R_SCI01': "wearing a futuristic cyberpunk neon suit",
-        'R_SCI02': "wearing a full astronaut space suit with helmet",
-        'R_SCI03': "wearing heavy tactical swat gear and bulletproof vest",
-        'R_SCI04': "wearing a matrix-style black leather trench coat"
-    },
-    'Fantasia & Épico': {
-        'R_FAN01': "wearing shiny medieval knight armor",
-        'R_FAN02': "wearing a mystical wizard robe with ancient runes",
-        'R_FAN03': "wearing traditional leather cangaceiro clothes",
-        'R_FAN04': "wearing a regal king/queen crown and velvet cape"
-    },
-    'Profissões & Uniformes': {
-        'R_PRO01': "wearing a white doctor/scientist lab coat",
-        'R_PRO02': "wearing a classic police officer uniform",
-        'R_PRO03': "wearing a fast-food worker uniform with a name tag",
-        'R_PRO04': "wearing an elegant tailored business suit"
-    },
-    'Terror & Festas': {
-        'R_TER01': "wearing a scary clown costume with blood stains",
-        'R_TER02': "wearing a classic vampire tuxedo"
-    },
-    'Lore Oficial (Fruits Adventures)': {
-        'R_LORE01': "wearing a dark tactical police uniform, heavy vest and boots",
-        'R_LORE02': "wearing a simple, slightly dirty light blue button-up shirt",
-        'R_LORE03': "wearing a yellow shirt and a purple working apron with a name tag"
-    }
+    'Geral & Casual': {'R_CAS01': "wearing streetwear, baggy hoodie and cap", 'R_CAS02': "wearing winter clothes, thick coat and scarf"},
+    'Sci-Fi & Ação': {'R_SCI01': "wearing a futuristic cyberpunk neon suit", 'R_SCI03': "wearing heavy tactical swat gear and bulletproof vest"},
+    'Fantasia & Épico': {'R_FAN01': "wearing shiny medieval knight armor", 'R_FAN03': "wearing traditional leather cangaceiro clothes"},
+    'Profissões & Uniformes': {'R_PRO01': "wearing a white doctor/scientist lab coat", 'R_PRO02': "wearing a classic police officer uniform"},
+    'Terror & Festas': {'R_TER01': "wearing a scary clown costume with blood stains"},
+    'Lore Oficial': {'R_LORE01': "wearing a dark tactical police uniform, heavy vest and boots", 'R_LORE02': "wearing a simple, slightly dirty light blue button-up shirt", 'R_LORE03': "wearing a yellow shirt and a purple working apron"}
 };
 
 const acessorios = {
-    'Criadores (Vlog/YouTube)': {
-        'AC_YT01': "holding smartphone recording video, selfie style",
-        'AC_YT02': "wearing glowing RGB gaming headphones",
-        'AC_YT03': "holding a warm cup of coffee"
-    },
-    'Lore Oficial & Ação': {
-        'AC_LR01': "holding cardboard PAC delivery boxes",
-        'AC_AM01': "holding a glowing magical sword",
-        'AC_FS01': "holding a futuristic laser blaster"
-    },
-    'Veículos': {
-        'AC_VE01': "riding a sleek fast sports motorcycle",
-        'AC_VE02': "driving a luxury neon sports car"
-    }
+    'Criadores (Vlog/YouTube)': {'AC_YT01': "holding smartphone recording video, selfie style", 'AC_YT02': "wearing glowing RGB gaming headphones"},
+    'Lore Oficial & Ação': {'AC_LR01': "holding cardboard PAC delivery boxes", 'AC_AM01': "holding a glowing magical sword", 'AC_FS01': "holding a futuristic laser blaster"},
+    'Veículos': {'AC_VE01': "riding a sleek fast sports motorcycle"}
 };
 
 const estados = {
-    'Expressões da Lore (Oficial)': {
-        'E_LR01': "sweating profusely, looking extremely nervous and anxious",
-        'E_LR02': "furious, aggressive expression, veins popping"
-    },
-    'Efeitos Cartoon Cômicos': {
-        'E_CRT01': "floating pink hearts around head, looking deeply in love",
-        'E_CRT02': "confused, floating question marks over head",
-        'E_CRT03': "dizzy, spinning yellow stars around head",
-        'E_CRT04': "exhausted, heavy dark circles under eyes"
-    },
-    'Combate & Terror': {
-        'E_BAT01': "battle-damaged, covered in dirt and scratches",
-        'E_MUT01': "zombified, rotting skin, glowing empty eyes"
-    }
+    'Expressões da Lore': {'E_LR01': "sweating profusely, looking extremely nervous and anxious", 'E_LR02': "furious, aggressive expression, veins popping"},
+    'Efeitos Cartoon': {'E_CRT01': "floating pink hearts around head, looking deeply in love", 'E_CRT02': "confused, floating question marks over head", 'E_CRT03': "dizzy, spinning yellow stars around head"},
+    'Combate & Terror': {'E_BAT01': "battle-damaged, covered in dirt and scratches", 'E_MUT01': "zombified, rotting skin, glowing empty eyes"}
 };
 
+// =========================================================
+// O NOVO DNA ACÚSTICO: CENTRAL DE DUBLAGEM PARA FLOW LABS
+// =========================================================
 const vozes = {
-    'Elenco Oficial': {
-        'V_ROCHA': "Voz Grave, autoritária e durona.",
-        'V_ELINALDO': "Voz Aguda, chorosa, gaguejando de nervoso.",
-        'V_SABRINA': "Voz Feminina, doce mas com atitude."
+    'Elenco Oficial (Fruits Adventures)': {
+        'V_ELINALDO': "Brazilian Portuguese. Voice of a highly nervous teenage boy (Morty style), voice cracking, stuttering, anxious, high-pitched panic, comedic delivery.",
+        'V_ROCHA': "Brazilian Portuguese. Voice of a very aggressive, deep, raspy, drill sergeant screaming with authority, furious and tough tone.",
+        'V_SABRINA': "Brazilian Portuguese. Voice of a sweet, confident, upbeat and stylish young woman, slightly sarcastic and energetic."
     },
-    'Geral': {
-        'V_PRO02': "Voz de Locutor de Rádio.",
-        'V_FIL01': "Voz de Vilão Slasher, assustadora."
+    'Cartoon Network & Adult Swim': {
+        'V_RICK': "Brazilian Portuguese. Voice of a cynical, burping, chaotic older scientist, raspy and erratic (Rick style).",
+        'V_MUSCULOSO': "Brazilian Portuguese. Voice of a macho, arrogant, raspy dude, constantly flexing his voice (Muscle Man style).",
+        'V_MUTANO': "Brazilian Portuguese. Voice of a laid-back, lazy teenager, cool and slightly raspy (Beast Boy style).",
+        'V_CORAGEM': "Brazilian Portuguese. Voice of an extremely cowardly, shaking, high-pitched crying dog (Courage the Cowardly Dog style)."
+    },
+    'Hanna-Barbera Clássicos': {
+        'V_SCOOBY': "Brazilian Portuguese. Voice of a goofy, hungry, raspy anthropomorphic dog with a slight speech impediment.",
+        'V_SALSICHA': "Brazilian Portuguese. Voice of a cowardly, hungry, cracking teenage slacker voice, very high-pitched when scared (Shaggy style).",
+        'V_NARRADOR_HB': "Brazilian Portuguese. Classic 1960s cartoon announcer, booming, enthusiastic, vintage radio quality."
+    },
+    'Animação 3D & Pixar': {
+        'V_XERIFE': "Brazilian Portuguese. Voice of an old, wise, western cowboy toy, heroic but slightly aged (Woody style).",
+        'V_BURRO': "Brazilian Portuguese. Voice of a hyperactive, annoying, fast-talking, extremely enthusiastic sidekick (Donkey style).",
+        'V_VILAO_PIXAR': "Brazilian Portuguese. Voice of a sophisticated, snobby, arrogant villain with perfect diction."
+    },
+    'Figuras Virais (Brasil)': {
+        'V_LULA': "Brazilian Portuguese. Voice of an older, raspy-voiced charismatic politician with a very distinct lisp and slow, emotional pacing.",
+        'V_BOLSONARO': "Brazilian Portuguese. Voice of an older Brazilian politician, slightly nasal, speaking abruptly with fragmented sentences and a chaotic rhythm.",
+        'V_CARIOCA_FUNK': "Brazilian Portuguese. Voice of a hype Rio de Janeiro funk MC, heavy slang, energetic, speaking very fast and loud.",
+        'V_MAROMBA': "Brazilian Portuguese. Voice of a Brazilian gym bro (maromba), deep, exaggerated masculinity, shouting 'Bora!'."
+    },
+    'Narradores & Cinema': {
+        'V_NARRADOR_EPICO': "Brazilian Portuguese. Deep, epic, cinematic movie trailer voiceover with slight reverb.",
+        'V_TERROR': "Brazilian Portuguese. Creepy, whispering, metallic slasher villain voice, psychopathic tone.",
+        'V_DORAMA': "Brazilian Portuguese. Voice of a gentle, whispering, romantic male lead from a Korean drama, very soft and emotional."
     }
 };
 
@@ -290,10 +263,9 @@ const d = {
     'P02':{d:"Anthropomorphic Tomato character, huge expressive eyes, sweating, nervous smile"}, 
     'P03':{d:"Anthropomorphic Dragon Fruit character, scaly pink skin texture, pink hair shaved on sides"} 
 }; 
-const vBase = { 'P01': "Grave e durão.", 'P02': "Nervosa e gaguejante.", 'P03': "Doce e destemida." }; 
 
 // =========================================================
-// 3. BANCO DE CENÁRIOS (ROBUSTO)
+// 3. BANCO DE CENÁRIOS
 // =========================================================
 const dataNicho = {
     'FRUITS_ADVENTURES': {
@@ -302,30 +274,13 @@ const dataNicho = {
         'Exploração & Mistério': ["Beco Chuvoso (Lore)|Dark neon-lit cyberpunk alleyway, heavy rain, dramatic shadows", "Templo Antigo|Ancient overgrown temple ruins"],
         'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections"]
     },
-    'COMERCIAL': {
-        'Apresentação & Vendas': ["Estúdio Infomercial|Bright white studio background, clean product podium", "Cozinha Moderna|Modern clean luxury kitchen, marble countertop"],
-        'Mundo Corporativo': ["Escritório de Luxo|Modern glass corporate office, city skyline view", "Sala de Reunião|Corporate board room, projector screen"]
-    },
-    'AGRESTINA': {
-        'Aventuras Locais': ["Monte Bom Jesus|Mountain sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags"],
-        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, heat waves", "Casa de Taipa|Rustic mud house interior, wood stove"]
-    },
-    'SHOPPING': {
-        'Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights", "Escada Rolante|Stopped escalator in a dark empty shopping mall"],
-        'Praça e Afins': ["Praça de Alimentação|Massive empty food court at night", "Estacionamento (Cancela)|Empty parking lot at night"]
-    },
-    'NOVELA': {
-        'Drama & Tensão': ["Quarto Escuro|Dark motel room, neon sign blinking", "Restaurante de Luxo|Fine dining restaurant", "Elevador Parado|Stuck elevator, flickering lights"]
-    },
-    'ANIMES': {
-        'Shonen & Ação': ["Arena de Torneio|Massive anime martial arts arena", "Mundo 2D Clássico|Wacky cartoon universe"]
-    },
-    'TERROR': {
-        'Assombração & Perseguição': ["Casa Abandonada|Creepy abandoned old house", "Floresta à Noite|Dark dense forest at night", "Sótão Assustador|Dusty scary attic"]
-    },
-    'COMEDIA': {
-        'Besteirol': ["Festa de Fraternidade|Crazy college frat party", "Corredor de Escola|Classic high school hallway"]
-    }
+    'COMERCIAL': { 'Estúdios': ["Estúdio Infomercial|Bright white studio background", "Cozinha Moderna|Modern clean luxury kitchen"] },
+    'AGRESTINA': { 'Aventuras Locais': ["Monte Bom Jesus|Mountain sunset, Caruaru city in background", "Pátio do Forró|Massive outdoor party square"] },
+    'SHOPPING': { 'Corredores': ["Vitrine Fechada|Empty mall corridor at night", "Praça de Alimentação|Massive empty food court at night"] },
+    'NOVELA': { 'Drama & Tensão': ["Quarto Escuro|Dark motel room, neon sign blinking", "Restaurante de Luxo|Fine dining restaurant"] },
+    'ANIMES': { 'Shonen & Ação': ["Arena de Torneio|Massive anime martial arts arena", "Mundo 2D Clássico|Wacky cartoon universe"] },
+    'TERROR': { 'Assombração': ["Casa Abandonada|Creepy abandoned old house", "Floresta à Noite|Dark dense forest at night"] },
+    'COMEDIA': { 'Besteirol': ["Festa de Fraternidade|Crazy college frat party", "Corredor de Escola|Classic high school hallway"] }
 };
 
 // =========================================================
@@ -357,52 +312,25 @@ const scriptsProntos = {
         { c: "Wide 24mm", a: "O clima é dramático no [CENARIO]. [PROTA] confronta [COADJ] cara a cara.", f: "[PROTA]: Eu confiei em você. Como pôde deixar isso acontecer?" },
         { c: "Close-up 85mm", a: "[COADJ] treme, olhos cheios de lágrimas.", f: "[COADJ]: Me perdoa... Eu não tive escolha." },
         { c: "Dutch angle", a: "[PROTA] dá as costas e se afasta.", f: "[PROTA]: A partir de hoje, você caminha sozinho." }
-    ],
-    'PIADA_01': [
-        { c: "Medium 50mm", a: "[PROTA] olha pra câmera segurando o riso.", f: "[PROTA]: Sabe o que o tomate foi fazer no banco?" },
-        { c: "Close-up 85mm", a: "[COADJ] suspira sem paciência.", f: "[COADJ]: Lá vem. O que foi?" },
-        { c: "Zoom Cômico", a: "[PROTA] dá um pulinho.", f: "[PROTA]: Foi tirar extrato! HAHAHA!" }
     ]
 };
 
 // =========================================================
-// FUNÇÕES DO SISTEMA (CORRIGIDAS)
+// FUNÇÕES DO SISTEMA E FORMATAÇÃO PARA O FLOW LABS
 // =========================================================
 function atualizarTemas() {
-    const nicho = document.getElementById('nicho').value; 
-    const tSel = document.getElementById('tema'); 
-    const cSel = document.getElementById('cenario_lista');
-    
-    tSel.innerHTML = '<option value="">-- Autenticar Tema --</option>'; 
-    cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>'; 
-    tSel.disabled = true; 
-    cSel.disabled = true;
-    
+    const nicho = document.getElementById('nicho').value; const tSel = document.getElementById('tema'); const cSel = document.getElementById('cenario_lista');
+    tSel.innerHTML = '<option value="">-- Autenticar Tema --</option>'; cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>'; 
+    tSel.disabled = true; cSel.disabled = true;
     if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
-    
-    if (nicho && dataNicho[nicho]) { 
-        tSel.disabled = false; 
-        Object.keys(dataNicho[nicho]).forEach(t => tSel.add(new Option(t, t))); 
-    }
+    if (nicho && dataNicho[nicho]) { tSel.disabled = false; Object.keys(dataNicho[nicho]).forEach(t => tSel.add(new Option(t, t))); }
 }
 
 function atualizarCenarios() {
-    const n = document.getElementById('nicho').value; 
-    const t = document.getElementById('tema').value; 
-    const cSel = document.getElementById('cenario_lista');
-    
-    cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>'; 
-    cSel.disabled = true;
-    
+    const n = document.getElementById('nicho').value; const t = document.getElementById('tema').value; const cSel = document.getElementById('cenario_lista');
+    cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>'; cSel.disabled = true;
     if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
-    
-    if (n && t && dataNicho[n] && dataNicho[n][t]) { 
-        cSel.disabled = false; 
-        dataNicho[n][t].forEach(c => { 
-            let parts = c.split('|'); 
-            cSel.add(new Option(parts[0], parts[1])); 
-        }); 
-    }
+    if (n && t && dataNicho[n] && dataNicho[n][t]) { cSel.disabled = false; dataNicho[n][t].forEach(c => { let parts = c.split('|'); cSel.add(new Option(parts[0], parts[1])); }); }
 }
 
 function travarCenario() { document.getElementById('cenario_lista').disabled = document.getElementById('travar_cenario').checked; }
@@ -411,46 +339,27 @@ function puxarCenario() { if(!document.getElementById('travar_cenario').checked)
 function carregarMenus() {
     ['prota', 'coadj1', 'coadj2'].forEach(s => { 
         const sel = document.getElementById(s); sel.innerHTML = '<option value="">-- Ninguém --</option>'; 
-        Object.keys(p).forEach(g => { 
-            let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(p[g]).forEach(id => grp.appendChild(new Option(p[g][id], id))); 
-            sel.appendChild(grp); 
-        }); 
+        Object.keys(p).forEach(g => { let grp = document.createElement('optgroup'); grp.label = g; Object.keys(p[g]).forEach(id => grp.appendChild(new Option(p[g][id], id))); sel.appendChild(grp); }); 
     });
     
     const m = document.getElementById('multidao'); m.innerHTML = '<option value="">-- Vazio --</option>'; 
-    Object.keys(crowds).forEach(g => { 
-        let grp = document.createElement('optgroup'); grp.label = g; 
-        Object.keys(crowds[g]).forEach(id => grp.appendChild(new Option(crowds[g][id], id))); 
-        m.appendChild(grp); 
-    });
+    Object.keys(crowds).forEach(g => { let grp = document.createElement('optgroup'); grp.label = g; Object.keys(crowds[g]).forEach(id => grp.appendChild(new Option(crowds[g][id], id))); m.appendChild(grp); });
     
     ['prota', 'coadj1', 'coadj2', 'multidao'].forEach(b => {
         const sR = document.getElementById(`roupa_${b}`); sR.innerHTML = '<option value="">👕 Roupa Padrão</option>'; 
-        Object.keys(roupas).forEach(g => { 
-            let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(roupas[g]).forEach(id => grp.appendChild(new Option("👔 " + roupas[g][id].replace(/wearing a |wearing an |wearing /g, "").toUpperCase(), roupas[g][id]))); 
-            sR.appendChild(grp); 
-        });
+        Object.keys(roupas).forEach(g => { let grp = document.createElement('optgroup'); grp.label = g; Object.keys(roupas[g]).forEach(id => grp.appendChild(new Option("👔 " + roupas[g][id].replace(/wearing a |wearing an |wearing /g, "").toUpperCase(), roupas[g][id]))); sR.appendChild(grp); });
         
         const sE = document.getElementById(`estado_${b}`); sE.innerHTML = '<option value="">🧬 Condição Normal</option>'; 
-        Object.keys(estados).forEach(g => { 
-            let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(estados[g]).forEach(id => grp.appendChild(new Option("🔥 " + estados[g][id].toUpperCase(), estados[g][id]))); 
-            sE.appendChild(grp); 
-        });
+        Object.keys(estados).forEach(g => { let grp = document.createElement('optgroup'); grp.label = g; Object.keys(estados[g]).forEach(id => grp.appendChild(new Option("🔥 " + estados[g][id].toUpperCase(), estados[g][id]))); sE.appendChild(grp); });
         
         const sA = document.getElementById(`acessorio_${b}`); sA.innerHTML = '<option value="">🗡️ Sem Acessório</option>'; 
-        Object.keys(acessorios).forEach(g => { 
-            let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(acessorios[g]).forEach(id => grp.appendChild(new Option("⚙️ " + acessorios[g][id].replace(/holding a |playing an |riding a |driving a |playing a |holding /g, "").toUpperCase(), acessorios[g][id]))); 
-            sA.appendChild(grp); 
-        });
+        Object.keys(acessorios).forEach(g => { let grp = document.createElement('optgroup'); grp.label = g; Object.keys(acessorios[g]).forEach(id => grp.appendChild(new Option("⚙️ " + acessorios[g][id].replace(/holding a |playing an |riding a |driving a |playing a |holding /g, "").toUpperCase(), acessorios[g][id]))); sA.appendChild(grp); });
         
-        const sV = document.getElementById(`voz_${b}`); sV.innerHTML = '<option value="">🗣️ Voz Padrão</option>'; 
+        // A MAGICA DA VOZ AQUI: O valor (value) que vai pro prompt é a descrição detalhada em inglês.
+        const sV = document.getElementById(`voz_${b}`); sV.innerHTML = '<option value="">🗣️ Voz Genérica IA</option>'; 
         Object.keys(vozes).forEach(g => { 
             let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(vozes[g]).forEach(id => grp.appendChild(new Option("🎙️ " + vozes[g][id], vozes[g][id]))); 
+            Object.keys(vozes[g]).forEach(id => grp.appendChild(new Option("🎙️ " + vozes[g][id].substring(0, 40) + "...", vozes[g][id]))); 
             sV.appendChild(grp); 
         });
     });
@@ -462,14 +371,28 @@ function buildDna(cId, o, s, p) { let dF = d[cId]?d[cId].d:'Stylized 3D Characte
 function gerarTudo() {
     const loc = document.getElementById('texto_cenario').value || "Local Indefinido";
     const p1 = document.getElementById('prota').value; 
-    let cast = ""; let v = "";
+    let visualCast = ""; let audioDesign = "";
     
     if(p1) { 
-        cast += `ACTOR 1: ${getCharName(p1)} (${buildDna(p1, document.getElementById('roupa_prota').value, document.getElementById('estado_prota').value, document.getElementById('acessorio_prota').value)})\n`; 
-        v += `VOICE 1: ${document.getElementById('voz_prota').value ? document.getElementById('voz_prota').options[document.getElementById('voz_prota').selectedIndex].text : (vBase[p1]||"Voz Padrão")}\n`; 
+        visualCast += `${getCharName(p1)} (${buildDna(p1, document.getElementById('roupa_prota').value, document.getElementById('estado_prota').value, document.getElementById('acessorio_prota').value)})`; 
+        let vozValue = document.getElementById('voz_prota').value;
+        audioDesign = vozValue ? `Voice Design: ${vozValue}` : "Voice Design: Natural character voice matching the visual.";
     }
     
-    document.getElementById('final').value = `[MEGA STUDIO 46.0]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${cast}\nVOICE DESIGN:\n${v}\nCAMERA: ${document.getElementById('cena_numero').value}\nMOTION: ${document.getElementById('video_motion').value}\nACTION: ${document.getElementById('pose_personagem').value}\n\nPARAMS: 8K, Cinematic Lighting, 60fps.`;
+    document.getElementById('final').value = 
+`[FLOW LABS PROMPT - VIDEO & AUDIO]
+Vertical 9:16. ${document.getElementById('cena_numero').value}
+STYLE: ${document.getElementById('estilo_render').value}
+
+[VISUAL ACTION]
+${visualCast} is at ${loc}.
+${document.getElementById('pose_personagem').value}
+Motion: ${document.getElementById('video_motion').value}
+
+[AUDIO INSTRUCTIONS]
+Dialogue/Voiceover: (Escreva a fala aqui)
+${audioDesign}
+Sound Effects (Foley): Ambient sounds matching the location, footsteps, cloth movement.`;
 }
 
 function gerarRoteiroCompleto() {
@@ -482,19 +405,14 @@ function gerarRoteiroCompleto() {
     const protaNome = pId ? getCharName(pId) : "Protagonista";
     let pDna = pId ? (d[pId]?d[pId].d:'Padrão 3D') : "Padrão 3D";
     
-    const rSel = document.getElementById('roupa_prota');
-    if(rSel.value) pDna += ` [${rSel.options[rSel.selectedIndex].text}]`;
-    const eSel = document.getElementById('estado_prota');
-    if(eSel.value) pDna += ` [${eSel.options[eSel.selectedIndex].text}]`;
-    const aSel = document.getElementById('acessorio_prota');
-    if(aSel.value) pDna += ` [${aSel.options[aSel.selectedIndex].text}]`;
+    const rSel = document.getElementById('roupa_prota'); if(rSel.value) pDna += ` [${rSel.options[rSel.selectedIndex].text}]`;
+    const eSel = document.getElementById('estado_prota'); if(eSel.value) pDna += ` [${eSel.options[eSel.selectedIndex].text}]`;
+    const aSel = document.getElementById('acessorio_prota'); if(aSel.value) pDna += ` [${aSel.options[aSel.selectedIndex].text}]`;
     
     const vSel = document.getElementById('voz_prota');
-    const pVoz = vSel.value ? vSel.options[vSel.selectedIndex].text : (vBase[pId]||"Voz Padrão IA");
+    const pVoz = vSel.value ? vSel.options[vSel.selectedIndex].text : "🗣️ Voz Genérica IA";
 
-    const cId = document.getElementById('coadj1').value;
-    const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
-
+    const cId = document.getElementById('coadj1').value; const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
     let template = scriptSelect ? scriptsProntos[scriptSelect] : (scriptsNicho[nicho] || scriptsNicho['PADRAO']);
     if (!template) template = scriptsNicho['PADRAO'];
     
@@ -504,9 +422,8 @@ function gerarRoteiroCompleto() {
         let cenaInfo = template[i % template.length];
         let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
         let falaFinal = cenaInfo.f.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
-        
         let dnaExibido = falaFinal.includes(protaNome) ? `🧬 DNA (${protaNome}): ${pDna}` : "🧬 Cena Geral";
-        let vozExibida = falaFinal.includes(protaNome) ? `🎙️ Voz: ${pVoz}` : "🎙️ Som Ambiente / Foley";
+        let vozExibida = falaFinal.includes(protaNome) ? `🎙️ Voz Flow Labs: ${pVoz}` : "🎙️ Som Ambiente / Foley";
 
         htmlOut += `
         <div class="cena-bloco">
@@ -520,7 +437,7 @@ function gerarRoteiroCompleto() {
     document.getElementById('output-storyboard').innerHTML = htmlOut;
 }
 
-function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt Copiado, Máquina!"); }
+function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt do Flow Labs copiado!"); }
 window.onload = carregarMenus;
 </script>
 </body>
