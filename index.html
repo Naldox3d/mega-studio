@@ -30,10 +30,7 @@
         .select-acessorio { border-color: var(--primary-yellow); color: var(--primary-yellow); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
         .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); font-size: 12px; padding: 10px; margin-top: -10px; background: #0d1117; }
         
-        .select-roupa:focus { border-color: var(--primary-green); box-shadow: none; }
-        .select-estado:focus { border-color: var(--primary-orange); box-shadow: none; }
-        .select-acessorio:focus { border-color: var(--primary-yellow); box-shadow: none; }
-        .select-voz:focus { border-color: var(--primary-cyan); box-shadow: none; }
+        .select-roupa:focus, .select-estado:focus, .select-acessorio:focus, .select-voz:focus { box-shadow: none; }
 
         textarea { height: 90px; color: #3fb950; resize: vertical; font-family: monospace; }
         
@@ -47,13 +44,17 @@
         .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
         #final { height: 300px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
         
-        #output-storyboard { background: #0d1117; padding: 10px; border-radius: 6px; max-height: 600px; overflow-y: auto; }
+        #output-storyboard { background: #0d1117; padding: 10px; border-radius: 6px; max-height: 800px; overflow-y: auto; }
         .cena-bloco { border-left: 4px solid var(--primary-purple); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
         .cena-titulo { font-weight: bold; color: var(--primary-pink); margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
         .cena-acao { color: var(--text-main); font-size: 14px; margin-bottom: 8px; }
         .cena-fala { color: var(--primary-blue); font-style: italic; font-weight: bold; margin-bottom: 8px; }
         .cena-dna { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .cena-voz { font-size: 11px; color: var(--primary-cyan); }
+        .cena-voz { font-size: 11px; color: var(--primary-cyan); margin-bottom: 8px; }
+        
+        /* NOVO ESTILO: DICAS DE EDIÇÃO CAPCUT/PRO */
+        .cena-edicao { background: #0b0e14; border-left: 3px solid var(--primary-yellow); padding: 10px; font-size: 12px; color: #c9d1d9; font-family: monospace; border-radius: 4px; line-height: 1.5; }
+        .edicao-titulo { color: var(--primary-yellow); font-weight: bold; margin-bottom: 4px; display: block; }
 
         @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .full { grid-column: 1; } }
     </style>
@@ -153,7 +154,6 @@
                 <option value="Passionate romantic kiss on the lips, holding each other closely.">💋 Beijo Apaixonado</option>
                 <option value="Gentle and affectionate face caress, looking lovingly into eyes.">🥰 Carinho no Rosto</option>
                 <option value="Hugging from behind, affectionately kissing the neck.">🫂 Cheirinho / Beijo no Pescoço</option>
-                <option value="Cinematic wedding pose at the altar, holding hands.">💍 Casamento (Altar/Alianças)</option>
             </optgroup>
             <optgroup label="Casual, Reações & Comédia">
                 <option value="Sitting casually, relaxed posture, natural behavior.">🛋️ Casual / Sentado Relaxado</option>
@@ -209,20 +209,17 @@
             <optgroup label="Imitações & Narradores">
                 <option value="IMITA_01">🎙️ Imitação: Silvio Santos (Ma oê!)</option>
                 <option value="IMITA_02">🎙️ Imitação: Narrador Épico de Cinema</option>
-                <option value="IMITA_03">🎙️ Imitação: Faustão (Ô loco meu!)</option>
             </optgroup>
             <optgroup label="Cantando: Estilos Musicais">
                 <option value="CANT_ROCK">🎸 Rock / Heavy Metal (Insano)</option>
                 <option value="CANT_RAP">🎤 Rap / Hip Hop (Batalha de Rimas)</option>
                 <option value="CANT_FORRO">🌵 Forró / Piseiro (Festa Junina)</option>
-                <option value="CANT_PAGODE">🥁 Pagode Romântico</option>
-                <option value="CANT_POP">🌟 Pop Star (Hit Chiclete)</option>
             </optgroup>
         </select>
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--primary-red);">⚙️ 10. GERAÇÃO DE SCRIPT & STORYBOARD</h2>
+        <h2 style="color: var(--primary-red);">⚙️ 10. GERAÇÃO DE SCRIPT, STORYBOARD & EDIÇÃO</h2>
         <div style="display: flex; gap: 10px; margin-bottom: 15px;">
             <div style="flex: 1;">
                 <span class="label-text">Quantidade de Cenas:</span>
@@ -234,12 +231,12 @@
                 </select>
             </div>
             <div style="flex: 2; display: flex; align-items: flex-end;">
-                <button class="btn-story" onclick="gerarRoteiroCompleto()">🎬 GERAR STORYBOARD COMPLETO</button>
+                <button class="btn-story" onclick="gerarRoteiroCompleto()">🎬 GERAR STORYBOARD & DICAS DE EDIÇÃO</button>
             </div>
         </div>
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted); padding: 20px;">
-                O roteiro dinâmico com DNA, Falas, Figurino, Estados, Armas e Vozes será gerado aqui...
+                O roteiro dinâmico com Dicas Práticas de Edição para CapCut será gerado aqui...
             </div>
         </div>
     </div>
@@ -253,59 +250,21 @@
 
 <script>
 // =========================================================
-// 1. BANCOS DE DADOS (ELENCO, GRUPOS, ROUPAS, ETC)
+// BANCOS DE DADOS GERAIS ENCURTADOS (VERSIÃO PREVIA)
 // =========================================================
-const p = {
-    'Heróis Originais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"},
-    'Lore Agrestina': {'A01':"Lampião Caju", 'A02':"Maria Pitaya Bonita", 'A03':"Cangaceiro Melão"},
-    'Comédia & Besteirol': {'COM01':"Caju Nordestino", 'COM02':"Banana Festeira", 'COM04':"Abacate Lutador", 'COM05':"Maçã Máskara"},
-    'Vilões & Terror': {'V01':"Maçã Caveira", 'V02':"Banana Palhaço", 'T01':"Laranja Ghostface", 'T03':"Abóbora Jason"},
-    'Animes & Heróis': {'A01':"Laranja Naruto", 'A06':"Abacate Goku", 'H01':"Abacate Hulk", 'H07':"Melão Batman"}
-};
-
-const crowds = {
-    'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo", 'GP02': "Grupo de Homens descontraídos", 'GP03': "Vários Casais passeando"},
-    'Elenco Conjunto': {'ALL01': "Todos os Personagens da Cena", 'ALL02': "Todos os Heróis Originais"},
-    'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G04': "Torcida animada", 'G07': "Guarda de Elite Mascarada"}
-};
-
-const roupas = {
-    'Anime, Mangá & Séries': {'R_ANI01': "wearing a classic anime school uniform", 'R_ANI02': "wearing a ninja shinobi outfit with headband", 'R_ANI03': "wearing a mecha pilot plugsuit"},
-    'Bandas & Astros da Música': {'R_MUS01': "wearing heavy metal spiked leather jacket", 'R_MUS02': "wearing a classic 80s rockstar glam outfit", 'R_MUS04': "wearing a shiny pop star concert bodysuit"},
-    'Lutas & Kimonos': {'R_LUT01': "wearing a traditional white martial arts kimono", 'R_CULT05': "wearing an elegant traditional Japanese silk kimono"},
-    'Cinema Clássico': {'R_CINE01': "wearing a 1920s classic gangster suit and fedora", 'R_CINE02': "wearing an iconic yellow martial arts jumpsuit"},
-    'Fantasia & Realeza': {'R_FAN02': "wearing a beautiful elegant masquerade ball gown", 'R_FAN03': "wearing a majestic princess dress with a tiara", 'R_FAN01': "wearing shiny medieval knight armor"},
-    'Cultura Brasil': {'R_CULT02': "wearing traditional caipira clothes for festa junina", 'R_CULT01': "wearing a traditional leather cangaceiro outfit"},
-    'Pobreza & Sobrevivência': {'R_SURV01': "wearing torn and dirty peasant rags, poverty style", 'R_SURV02': "wearing a green tracksuit with white stripes", 'R_SURV03': "wearing tactical military survival gear"},
-    'Sci-Fi & Cyberpunk': {'R_SCI01': "wearing a futuristic cyberpunk neon jacket", 'R_SCI03': "wearing a full cyborg robotic body with metallic plates"},
-    'Heróis & Superpoderes': {'R_HER01': "wearing a spandex superhero suit with a cape", 'R_HER02': "wearing a dark vigilante bat-suit with cowl"},
-    'Profissões & Casual': {'R_PRO01': "wearing an elegant tailored business suit", 'R_PRO02': "wearing a white doctor lab coat", 'R_CAS01': "wearing streetwear, baggy hoodie"}
-};
-
-const acessorios = {
-    'Armas & Ação': {'AC_AM01': "holding a glowing magical sword", 'AC_AM03': "holding a sharp ninja katana", 'AC_FS01': "holding a futuristic laser blaster", 'AC_FS02': "holding a heavy tactical sniper rifle"},
-    'Música & Veículos': {'AC_MU01': "playing an electric guitar with passion", 'AC_MU02': "holding a vintage studio microphone", 'AC_VE01': "riding a sleek fast sports motorcycle", 'AC_VE02': "driving a luxury neon sports car"}
-};
-
-const estados = {
-    'Emoções & Combate': {'E_EMO01': "crying intensely, tears streaming down face", 'E_EMO02': "extremely angry, furious expression", 'E_BAT01': "battle-damaged, covered in dirt", 'E_MUT01': "zombified, rotting skin, glowing empty eyes"}
-};
-
-const vozes = {
-    'Locução & Romance': {'V_PRO01': "Voz de Político, persuasiva, grave.", 'V_PRO02': "Voz de Locutor FM, aveludada.", 'V_FIL04': "Voz de Dorama, suave e romântica."},
-    'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica, gritando de alegria.", 'V_FIL01': "Voz de Vilão Slasher/Terror, psicopata."}
-};
-
+const p = { 'Heróis Originais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya"}, 'Lore Agrestina': {'A01':"Lampião Caju", 'A02':"Maria Pitaya Bonita"}, 'Comédia & Besteirol': {'COM01':"Caju Nordestino", 'COM02':"Banana Festeira"}, 'Vilões & Terror': {'V01':"Maçã Caveira", 'V02':"Banana Palhaço"} };
+const crowds = { 'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo", 'GP02': "Grupo de Homens descontraídos"}, 'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G07': "Guarda de Elite Mascarada"} };
+const roupas = { 'Anime, Mangá & Séries': {'R_ANI01': "wearing a classic anime school uniform"}, 'Bandas & Astros': {'R_MUS01': "wearing heavy metal spiked leather jacket"}, 'Fantasia & Realeza': {'R_FAN02': "wearing a beautiful elegant masquerade ball gown", 'R_FAN01': "wearing shiny medieval knight armor"}, 'Cultura Brasil': {'R_CULT01': "wearing a traditional leather cangaceiro outfit"}, 'Pobreza & Sobrevivência': {'R_SURV02': "wearing a green tracksuit with white stripes", 'R_SURV04': "wearing a red jumpsuit and a black mesh mask"}, 'Sci-Fi & Cyberpunk': {'R_SCI01': "wearing a futuristic cyberpunk neon jacket"}, 'Profissões & Casual': {'R_PRO01': "wearing an elegant tailored business suit"} };
+const acessorios = { 'Armas & Ação': {'AC_AM01': "holding a glowing magical sword", 'AC_FS01': "holding a futuristic laser blaster"}, 'Música & Veículos': {'AC_MU01': "playing an electric guitar", 'AC_VE01': "riding a sleek fast sports motorcycle"} };
+const estados = { 'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt"} };
+const vozes = { 'Locução & Romance': {'V_PRO01': "Voz de Político, persuasiva.", 'V_FIL04': "Voz de Dorama, suave e romântica."}, 'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica", 'V_FIL01': "Voz de Vilão Slasher"} };
 const d = { 'P01':{d:"Anthropomorphic Lemon, scarred face"}, 'P02':{d:"Anthropomorphic Tomato, nervous face"} }; 
 const vBase = { 'P01': "Grave e rouca.", 'P02': "Anasalada, gaguejos." }; 
 
-// =========================================================
-// 2. BANCO DE ROTEIROS DO NICHO (AUTOMÁTICOS)
-// =========================================================
 const dataNicho = {
     'FRUITS_ADVENTURES': { 'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean"], 'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground"] },
-    'COMERCIAL': { 'Apresentação': ["Estúdio Infomercial|Bright white studio background", "Estúdio de Podcast|Cozy dark podcast studio"] },
-    'AGRESTINA': { 'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city"] }
+    'COMERCIAL': { 'Apresentação': ["Estúdio Infomercial|Bright white studio background"] },
+    'AGRESTINA': { 'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset"] }
 };
 
 const scriptsNicho = {
@@ -320,71 +279,30 @@ const scriptsNicho = {
     ]
 };
 
-// =========================================================
-// 3. NOVO BANCO: DIÁLOGOS PRÉ-PRONTOS (MÓDULO 9)
-// =========================================================
 const scriptsProntos = {
-    // --- PIADAS ---
     'PIADA_01': [
         { c: "Medium 50mm", a: "[PROTA] segura um microfone e olha pra câmera rindo.", f: "[PROTA]: Sabe por que a plantinha não pode ir no médico de madrugada?" },
         { c: "Close-up 85mm", a: "[COADJ] coça a cabeça, confuso(a).", f: "[COADJ]: Hmmm... Não faço a menor ideia. Por quê?" },
-        { c: "Zoom Cômico", a: "[PROTA] aponta pra tela e dá uma gargalhada.", f: "[PROTA]: Porque ela só tem médico de plantão! Hahaha!" },
-        { c: "Wide 24mm", a: "[COADJ] bota a mão no rosto com vergonha alheia.", f: "[COADJ]: Meu Deus... que piada horrível." }
+        { c: "Zoom Cômico", a: "[PROTA] aponta pra tela e dá uma gargalhada.", f: "[PROTA]: Porque ela só tem médico de plantão! Hahaha!" }
     ],
-    'PIADA_02': [
-        { c: "Medium 50mm", a: "[PROTA] se aproxima de [COADJ] com cara de mistério.", f: "[PROTA]: Ei, você sabe o que o tomate foi fazer no banco?" },
-        { c: "Close-up 85mm", a: "[COADJ] cruza os braços, já sem paciência.", f: "[COADJ]: Lá vem você... O que ele foi fazer?" },
-        { c: "Zoom Cômico", a: "[PROTA] dá um pulinho.", f: "[PROTA]: Foi tirar o extrato! Kkkkkkkk!" }
-    ],
-    // --- IMITAÇÕES ---
-    'IMITA_01': [
-        { c: "Medium 50mm", a: "[PROTA] ajeita o microfone no peito, imitando o Silvio.", f: "[PROTA]: Ma oê! Quem quer dinheirooo? É de você, [COADJ]?" },
-        { c: "Close-up 85mm", a: "[COADJ] ri e entra na brincadeira.", f: "[COADJ]: Eu quero, Silvio! Me dá um aviãozinho!" },
-        { c: "Tracking Rápido", a: "[PROTA] joga dinheiro (ou folhas) pro alto.", f: "[PROTA]: Ha hai! Hi hi! Ritmo de festa no [CENARIO]!" }
-    ],
-    'IMITA_02': [
-        { c: "Dutch Angle", a: "[PROTA] engrossa a voz ao máximo, estilo trailer de cinema.", f: "[PROTA]: (Voz muito grave) Num mundo dominado pelo caos... Apenas um herói pode nos salvar." },
-        { c: "Close-up 85mm", a: "[PROTA] faz uma cara dramática para [COADJ].", f: "[PROTA]: E esse herói... perdeu a chave da moto." },
-        { c: "Zoom Cômico", a: "[COADJ] revira os olhos.", f: "[COADJ]: Para de graça e me ajuda a procurar logo!" }
-    ],
-    // --- MÚSICA & SHOWS ---
     'CANT_ROCK': [
         { c: "Wide 24mm", a: "[PROTA] segura a guitarra. Luzes piscam freneticamente no [CENARIO].", f: "[PROTA]: (Gritando) YEAAAH! Tira o pé do chão, galera!!" },
-        { c: "Tracking Rápido", a: "[PROTA] corre pelo palco batendo cabeça.", f: "[PROTA]: 🎵 O MUNDO GIRA, A MENTE ENLOUQUECE, ROCK NA VEIA ATÉ QUE AMANHECE! 🎵" },
-        { c: "Close-up 85mm", a: "[COADJ] faz um solo insano na bateria ou baixo ao fundo.", f: "[COADJ]: (Som de solo rasgado e muito pesado)" },
-        { c: "Slow Motion", a: "[PROTA] pula do palco (Stage Dive) em câmera lenta.", f: "[PROTA]: VOCÊS SÃO INCRÍVEIS!" }
-    ],
-    'CANT_RAP': [
-        { c: "Medium 50mm", a: "[PROTA] com o mic na mão, gesticulando no beat.", f: "[PROTA]: 🎵 Chegando na cena, dominando o espaço, meu flow é pesado, não deixo rastro! 🎵" },
-        { c: "Dutch Angle", a: "[COADJ] faz as rimas de apoio (Ad-libs) no fundo.", f: "[COADJ]: (Yeah! Ahn! Manda a braba!)" },
-        { c: "Zoom Cômico", a: "[PROTA] aponta direto pra lente da câmera.", f: "[PROTA]: 🎵 Tenta bater de frente e perde a postura, a vitória é nossa, essa é a cultura! 🎵" }
-    ],
-    'CANT_FORRO': [
-        { c: "Wide 24mm", a: "[PROTA] puxa a sanfona no [CENARIO], clima festivo.", f: "[PROTA]: Eita forró bom, puxa o fole sanfoneiro!" },
-        { c: "Medium 50mm", a: "[COADJ] dança agarradinho rodando pelo salão.", f: "[COADJ]: 🎵 Bate o pé no chão que a poeira vai subir, hoje eu não tenho hora pra dormir! 🎵" },
-        { c: "Slow Pan", a: "[PROTA] e [COADJ] dão um giro na dança sorrindo.", f: "[PROTA]: 🎵 Só saio daqui quando o sol raiar! 🎵" }
-    ],
-    'CANT_PAGODE': [
-        { c: "Medium 50mm", a: "[PROTA] batendo no pandeiro com sorriso no rosto.", f: "[PROTA]: 🎵 E eu que achava que o amor não era pra mim... 🎵" },
-        { c: "Close-up 85mm", a: "[COADJ] balança a cabeça no ritmo, cantando junto com emoção.", f: "[COADJ]: 🎵 Aí você chegou e mudou tudo no fim! 🎵" },
-        { c: "Tracking", a: "O pagode rola solto com a galera no [CENARIO].", f: "[PROTA]: Canta comigo, vem!" }
+        { c: "Tracking Rápido", a: "[PROTA] corre pelo palco batendo cabeça.", f: "[PROTA]: 🎵 O MUNDO GIRA, A MENTE ENLOUQUECE, ROCK NA VEIA ATÉ QUE AMANHECE! 🎵" }
     ]
 };
 
 // =========================================================
-// FUNÇÕES DO SISTEMA
+// FUNÇÕES DO SISTEMA (ATUALIZADAS COM A LÓGICA DE DICAS)
 // =========================================================
 function atualizarTemas() {
     const nicho = document.getElementById('nicho').value; const tSel = document.getElementById('tema'); const cSel = document.getElementById('cenario_lista');
     tSel.innerHTML = '<option value="">-- Autenticar Tema --</option>'; tSel.disabled = true; cSel.disabled = true;
-    if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
     if (nicho && dataNicho[nicho]) { tSel.disabled = false; Object.keys(dataNicho[nicho]).forEach(t => tSel.add(new Option(t, t))); }
 }
 
 function atualizarCenarios() {
     const n = document.getElementById('nicho').value; const t = document.getElementById('tema'); const cSel = document.getElementById('cenario_lista');
     cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>'; cSel.disabled = true;
-    if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
     if (n && t && dataNicho[n][t]) { cSel.disabled = false; dataNicho[n][t].forEach(c => { let parts = c.split('|'); cSel.add(new Option(parts[0], parts[1])); }); }
 }
 
@@ -404,19 +322,30 @@ function carregarMenus() {
 }
 
 function getCharName(id) { if (!id) return null; for (const g in p) { if (p[g][id]) return p[g][id]; } return "Personagem"; }
-function getCrowdName(id) { if (!id) return null; for (const g in crowds) { if (crowds[g][id]) return crowds[g][id]; } return "Multidão"; }
 function buildDna(cId, o, s, p) { let dF = d[cId]?d[cId].d:'Stylized 3D'; if(o) dF+=`, ${o}`; if(s) dF+=`, ${s}`; if(p) dF+=`, ${p}`; return dF; }
 
 function gerarTudo() {
     const loc = document.getElementById('texto_cenario').value || "Local Indefinido";
-    const p1 = document.getElementById('prota').value; const c1 = document.getElementById('coadj1').value; const c2 = document.getElementById('coadj2').value; const m = document.getElementById('multidao').value;
-    
+    const p1 = document.getElementById('prota').value; const c1 = document.getElementById('coadj1').value;
     let cast = ""; let v = "";
     if(p1) { cast+=`ACTOR 1: ${getCharName(p1)} (${buildDna(p1, document.getElementById('roupa_prota').value, document.getElementById('estado_prota').value, document.getElementById('acessorio_prota').value)})\n`; v+=`VOICE 1: ${document.getElementById('voz_prota').value ? document.getElementById('voz_prota').options[document.getElementById('voz_prota').selectedIndex].text : (vBase[p1]||"Voz Padrão")}\n`; }
-    if(c1) { cast+=`ACTOR 2: ${getCharName(c1)} (${buildDna(c1, document.getElementById('roupa_coadj1').value, document.getElementById('estado_coadj1').value, document.getElementById('acessorio_coadj1').value)})\n`; v+=`VOICE 2: ${document.getElementById('voz_coadj1').value ? document.getElementById('voz_coadj1').options[document.getElementById('voz_coadj1').selectedIndex].text : (vBase[c1]||"Voz Padrão")}\n`; }
-    if(c2) { cast+=`ACTOR 3: ${getCharName(c2)} (${buildDna(c2, document.getElementById('roupa_coadj2').value, document.getElementById('estado_coadj2').value, document.getElementById('acessorio_coadj2').value)})\n`; }
-    
     document.getElementById('final').value = `[MEGA STUDIO 46.0]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${cast}\nVOICE DESIGN:\n${v}\nCAMERA: ${document.getElementById('cena_numero').value}\nMOTION: ${document.getElementById('video_motion').value}\nACTION: ${document.getElementById('pose_personagem').value}\n\nPARAMS: 8K, Cinematic Lighting, 60fps.`;
+}
+
+// === NOVO ALGORITMO: DICAS DE EDIÇÃO (CAPCUT/PRO) ===
+function gerarDicaEdicao(cameraString) {
+    let cam = cameraString.toLowerCase();
+    if (cam.includes("zoom") || cam.includes("crash")) {
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Humor/Tensão):</span> Corte seco (Hard Cut) no exato milissegundo da ação. Aplique o efeito 'Agitação Cômica' ou 'Tremor'. <b>Áudio:</b> Abaixe a trilha bruscamente e coloque um efeito sonoro de 'Record Scratch' ou 'Whoosh' rápido.";
+    } else if (cam.includes("tracking") || cam.includes("handheld") || cam.includes("drone")) {
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Ação/Viral):</span> Ritmo acelerado! Faça cortes sincronizados com a batida da música (Beat Sync). Use a ferramenta 'Desfoque de Movimento' (Motion Blur). <b>Áudio:</b> Aumente os graves (Bass Boost) e adicione Sound Design de passos rápidos e vento cortando.";
+    } else if (cam.includes("close-up") || cam.includes("macro")) {
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Drama/Romance):</span> Foque puramente na emoção. Faça um Keyframe dando um Zoom In muito leve e lento de 5%. <b>Áudio:</b> Isole a voz com 'Redução de Ruído', zere o som ambiente para criar tensão absoluta antes da fala.";
+    } else if (cam.includes("dutch") || cam.includes("holandês")) {
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Suspense):</span> Atmosfera desconfortável. Aplique um LUT de coloração fria (Azul/Verde, estilo Matrix/Terror) e adicione Vinheta (bordas escuras). <b>Áudio:</b> Adicione um Riser de suspense crescendo até a fala.";
+    } else {
+        return "<span class='edicao-titulo'>✂️ DICA CAPCUT (Estabelecimento):</span> Esta é sua cena de respiro/contexto. Use transição de 'Fade In' ou 'Cross Dissolve'. Aumente um pouco a saturação (+10) para o cenário brilhar. <b>Áudio:</b> Trilha sonora em volume alto cruzando com som ambiente real (vento, cidade).";
+    }
 }
 
 function gerarRoteiroCompleto() {
@@ -428,16 +357,11 @@ function gerarRoteiroCompleto() {
     const pId = document.getElementById('prota').value;
     const protaNome = pId ? getCharName(pId) : "Protagonista";
     let pDna = pId ? (d[pId]?d[pId].d:'Padrão 3D') : "Padrão 3D";
-    if(document.getElementById('roupa_prota').value) pDna += ` [${document.getElementById('roupa_prota').options[document.getElementById('roupa_prota').selectedIndex].text}]`;
     const pVoz = document.getElementById('voz_prota').value ? document.getElementById('voz_prota').options[document.getElementById('voz_prota').selectedIndex].text : (vBase[pId]||"Voz Padrão IA");
 
     const cId = document.getElementById('coadj1').value;
     const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
-    let cDna = cId ? (d[cId]?d[cId].d:'Padrão 3D') : "Padrão 3D";
-    if(document.getElementById('roupa_coadj1').value) cDna += ` [${document.getElementById('roupa_coadj1').options[document.getElementById('roupa_coadj1').selectedIndex].text}]`;
-    const cVoz = document.getElementById('voz_coadj1').value ? document.getElementById('voz_coadj1').options[document.getElementById('voz_coadj1').selectedIndex].text : (vBase[cId]||"Voz Padrão IA");
 
-    // DECISÃO: Usa o Script Pronto se selecionado, senão usa o do Nicho.
     let template = scriptSelect ? scriptsProntos[scriptSelect] : (scriptsNicho[nicho] || scriptsNicho['PADRAO']);
     let htmlOut = "";
 
@@ -449,6 +373,9 @@ function gerarRoteiroCompleto() {
         let dnaExibido = falaFinal.includes(protaNome) ? `🧬 DNA (${protaNome}): ${pDna}` : "🧬 Cena Geral";
         let vozExibida = falaFinal.includes(protaNome) ? `🎙️ Voz: ${pVoz}` : "🎙️ Som Ambiente / Foley";
 
+        // INJETANDO A NOVA DICA DE EDIÇÃO!
+        let dicaEdicaoStr = gerarDicaEdicao(cenaInfo.c);
+
         htmlOut += `
         <div class="cena-bloco">
             <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
@@ -456,6 +383,7 @@ function gerarRoteiroCompleto() {
             <div class="cena-fala">💬 ${falaFinal}</div>
             <div class="cena-dna">${dnaExibido}</div>
             <div class="cena-voz">${vozExibida}</div>
+            <div class="cena-edicao">${dicaEdicaoStr}</div>
         </div>`;
     }
     document.getElementById('output-storyboard').innerHTML = htmlOut;
