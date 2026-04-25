@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>MEGA STUDIO 46.0 — LORE OFICIAL (FRUITS ADVENTURES)</title>
+    <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -62,19 +62,32 @@
         <h2>📂 1. SISTEMA DE DIRETRIZES (NICHO)</h2>
         <select id="nicho" onchange="atualizarTemas()">
             <option value="">-- Escolha o Nicho --</option>
-            <option value="FRUITS_ADVENTURES" selected>🏝️ Fruits Adventures (Terra de Elinaldo)</option>
+            <option value="FRUITS_ADVENTURES">🏝️ Fruits Adventures (Terra de Elinaldo)</option>
             <option value="COMERCIAL">💼 Comercial, Vendas & Creators</option>
+            <option value="AGRESTINA">🌵 Lore Agrestina (Original)</option>
             <option value="SHOPPING">🏬 Shopping (Exclusivo Noturno)</option>
+            <option value="NOVELA">📺 Novela / Drama</option>
+            <option value="SERIES">📺 Séries Ícones & Pop</option>
+            <option value="ANIMES">💥 Animes, Mangá & Desenhos</option>
+            <option value="INFLUENCER">📱 Influencer / Produtos / TikTok</option>
+            <option value="TERROR">👻 Terror / Slasher</option>
+            <option value="COMEDIA">😂 Comédia & Besteirol</option>
+            <option value="CLIP">🎵 Videoclipe Musical</option>
+            <option value="FESTAS">🎊 Festas & Feriados</option>
+            <option value="GOSPEL">🕊️ Gospel / Fé</option>
+            <option value="SCIFI">🛸 Sci-Fi / Cyberpunk</option>
+            <option value="FANTASIA">⚔️ Fantasia / Épico</option>
+            <option value="INFANTIL">🧸 Infantil / Contos</option>
+            <option value="TURISMO">🌍 Turismo Global</option>
+            <option value="HISTORIA">⚔️ História Global</option>
             <option value="SETS">🎬 Sets de Filmagem</option>
         </select>
     </div>
 
     <div class="card">
         <h2>🗺️ 2. TEMA / ÂNCORA DA HISTÓRIA</h2>
-        <select id="tema" onchange="atualizarCenarios()">
+        <select id="tema" onchange="atualizarCenarios()" disabled>
             <option value="">-- Autenticar Âncora / Tema --</option>
-            <option value="Cartão de Visitas">Cartão de Visitas (Oficial Canal)</option>
-            <option value="Ação & Jogo da Morte">Ação & Mistério</option>
         </select>
     </div>
 
@@ -84,10 +97,8 @@
             <input type="checkbox" id="travar_cenario" onchange="travarCenario()">
             <label for="travar_cenario">🔒 TRAVAR CENÁRIO (Não apagar texto ao mudar menu)</label>
         </div>
-        <select id="cenario_lista" onchange="puxarCenario()">
+        <select id="cenario_lista" onchange="puxarCenario()" disabled>
             <option value="">-- Escolher Cenário --</option>
-            <option value="Dark cinematic cyberpunk alleyway, heavy rain, neon signs in the background, dramatic lighting, puddles on the ground reflecting neon">Beco Chuvoso (A Amizade Perdida)</option>
-            <option value="Tropical beach at bright golden hour, crystal clear water, vibrant green palm trees, sunny day, cinematic">Praia Tropical (Capa do Canal)</option>
         </select>
         <textarea id="texto_cenario" oninput="gerarTudo()" placeholder="A descrição do cenário aparecerá aqui..."></textarea>
     </div>
@@ -119,6 +130,14 @@
                 <select id="acessorio_coadj2" class="select-acessorio" onchange="gerarTudo()"></select>
                 <select id="voz_coadj2" class="select-voz" onchange="gerarTudo()"></select>
             </div>
+            <div>
+                <span class="label-text">Grupos / Figurantes:</span>
+                <select id="multidao" onchange="gerarTudo()"></select>
+                <select id="roupa_multidao" class="select-roupa" onchange="gerarTudo()"></select>
+                <select id="estado_multidao" class="select-estado" onchange="gerarTudo()"></select>
+                <select id="acessorio_multidao" class="select-acessorio" onchange="gerarTudo()"></select>
+                <select id="voz_multidao" class="select-voz" onchange="gerarTudo()"></select>
+            </div>
         </div>
     </div>
 
@@ -131,8 +150,29 @@
                 <option value="Cowering defensively, looking extremely guilty and sad.">😨 Acuado e Culpado (Elinaldo)</option>
                 <option value="Passionate romantic kiss on the cheek, holding head affectionately.">💋 Beijo Carinhoso (Capa do Canal)</option>
             </optgroup>
+            <optgroup label="Romance & Intimidade">
+                <option value="Passionate romantic kiss on the lips, holding each other closely.">💋 Beijo Apaixonado</option>
+                <option value="Gentle and affectionate face caress, looking lovingly into eyes.">🥰 Carinho no Rosto</option>
+                <option value="Hugging from behind, affectionately kissing the neck.">🫂 Cheirinho / Beijo no Pescoço</option>
+                <option value="Cinematic wedding pose at the altar, holding hands.">💍 Casamento (Altar/Alianças)</option>
+            </optgroup>
+            <optgroup label="Casual, Reações & Comédia">
+                <option value="Sitting casually, relaxed posture, natural behavior.">🛋️ Casual / Sentado Relaxado</option>
+                <option value="Reacting with huge surprise, hands on head, wide shocked eyes.">😲 Surpresa Extrema / Susto</option>
+                <option value="Laughing out loud, pointing at something funny.">😂 Rindo Muito (Gargalhada)</option>
+            </optgroup>
+            <optgroup label="Dança & Música">
+                <option value="Frontal static camera, full body shot, viral TikTok dance choreography.">🕺 Dancinha Viral (TikTok / Reels)</option>
+                <option value="Aggressive rap pose, leaning into the camera, hand gestures.">🎤 Atitude Rap (Gesticulando)</option>
+            </optgroup>
             <optgroup label="Ação & Comercial">
                 <option value="Epic superhero landing, one knee on the ground, debris flying.">🦸 Hero Landing</option>
+                <option value="Walking away in slow motion, ignoring a massive explosion.">💥 Fuga Explosão (Andando de Costas)</option>
+                <option value="Professional presentation pose, smiling enthusiastically, pointing at a product.">💼 Apresentação Comercial</option>
+            </optgroup>
+            <optgroup label="Combate & Fitness">
+                <option value="Aggressive fighting stance, fists raised, ready to strike.">🥊 Pose de Luta (Guarda Alta)</option>
+                <option value="Stretching muscles dynamically, fitness pose.">💪 Alongamento / Pose Fitness</option>
             </optgroup>
         </select>
     </div>
@@ -140,19 +180,23 @@
     <div class="card">
         <h2 style="color: var(--primary-orange);">🎥 6. DINÂMICA DE VÍDEO (MOTION)</h2>
         <select id="video_motion" onchange="gerarTudo()">
-            <option value="Static camera, subtle ambient movement, cinematic heavy rain falling.">Estático (Com Chuva Forte)</option>
-            <option value="Static camera, subtle ambient movement, subtle character breathing.">Estático (Apenas Respiração)</option>
+            <option value="Static camera, subtle ambient movement, subtle character breathing.">Estático (Apenas Respiração/Ambiente)</option>
+            <option value="Static camera, subtle ambient movement, cinematic heavy rain falling.">Estático (Com Chuva Forte - Lore Oficial)</option>
             <option value="Slow cinematic pan to the right, dynamic light shifts.">Slow Pan Cinematográfico</option>
+            <option value="Drone fly-through pushing forward through the scene.">Avanço de Drone (Fly-through)</option>
+            <option value="Fast tracking camera following the subject, motion blur.">Tracking Rápido (Ação)</option>
+            <option value="Orbiting 360 camera spinning slowly around characters.">Câmera Orbital 360º</option>
         </select>
     </div>
 
     <div class="card">
         <h2 style="color: var(--primary-red);">🎥 7. DIREÇÃO DE CÂMERA</h2>
         <select id="cena_numero" onchange="gerarTudo()">
-            <option value="Medium shot, 50mm lens. Focus on expression.">Medium 50mm (Diálogo/Ação)</option>
             <option value="Wide shot, 24mm lens. Cinematic establishing shot.">Wide 24mm (Cenário Completo)</option>
+            <option value="Medium shot, 50mm lens. Focus on expression.">Medium 50mm (Diálogo/Ação)</option>
             <option value="Extreme close-up, macro lens, 85mm. Heavy emotion.">Close-up 85mm (Emoção Exata)</option>
             <option value="Dutch angle, tilted camera horizon.">Ângulo Holandês (Inclinada/Tensão)</option>
+            <option value="Crash zoom, fast comedic timing.">Zoom Cômico (Besteirol)</option>
         </select>
     </div>
 
@@ -160,15 +204,31 @@
         <h2 style="color: var(--primary-blue);">🎨 8. ESTILO VISUAL / RENDER</h2>
         <select id="estilo_render" onchange="gerarTudo()">
             <option value="Hyper-realistic Live Action environment, highly detailed 3D stylized Pixar-like characters, volumetric lighting, 8k.">🧬 LORE OFICIAL (Animação 3D Cinematográfica)</option>
+            <option value="Hybrid style, hyper-realistic Live Action environment with 3D stylized 'Cartoon Elinaldo V1' characters, 8k.">🧬 HÍBRIDO (Realismo + Cartoon V1)</option>
+            <option value="3D Stylized character, signature style of Cartoon Elinaldo V1, vibrant colors.">🎨 ORIGINAL (100% Cartoon V1)</option>
+            <option value="Anime style, 2D cel-shaded, Studio Ghibli influence.">🎌 ANIME / MANGÁ (2D)</option>
         </select>
     </div>
 
     <div class="card full">
         <h2 style="color: var(--primary-pink);">🗣️ 9. DIÁLOGOS & ROTEIROS PRÉ-PRONTOS</h2>
         <select id="script_pronto" style="border-color: var(--primary-pink);">
-            <option value="">-- Escolher Roteiro --</option>
+            <option value="">-- Usar Roteiro Automático do Nicho --</option>
             <optgroup label="Lore Oficial do Canal">
                 <option value="LORE_01">🎬 A Amizade Perdida (Curta Oficial)</option>
+            </optgroup>
+            <optgroup label="Piadas & Stand-up">
+                <option value="PIADA_01">😂 Piada: Médico de Plantão</option>
+                <option value="PIADA_02">😂 Piada: O que o tomate foi fazer no banco?</option>
+            </optgroup>
+            <optgroup label="Imitações & Narradores">
+                <option value="IMITA_01">🎙️ Imitação: Silvio Santos (Ma oê!)</option>
+                <option value="IMITA_02">🎙️ Imitação: Narrador Épico de Cinema</option>
+            </optgroup>
+            <optgroup label="Cantando: Estilos Musicais">
+                <option value="CANT_ROCK">🎸 Rock / Heavy Metal (Insano)</option>
+                <option value="CANT_RAP">🎤 Rap / Hip Hop (Batalha de Rimas)</option>
+                <option value="CANT_FORRO">🌵 Forró / Piseiro (Festa Junina)</option>
             </optgroup>
         </select>
     </div>
@@ -179,8 +239,11 @@
             <div style="flex: 1;">
                 <span class="label-text">Quantidade de Cenas:</span>
                 <select id="qtd_cenas">
-                    <option value="3">3 Cenas (Mini Arco)</option>
-                    <option value="6" selected>6 Cenas (A Amizade Perdida Completo)</option>
+                    <option value="1">1 Cena (Shot Rápido)</option>
+                    <option value="2">2 Cenas (Ação/Reação)</option>
+                    <option value="3" selected>3 Cenas (Mini Arco)</option>
+                    <option value="4">4 Cenas (Sequência Completa)</option>
+                    <option value="6">6 Cenas (A Amizade Perdida Completo)</option>
                 </select>
             </div>
             <div style="flex: 2; display: flex; align-items: flex-end;">
@@ -203,14 +266,25 @@
 
 <script>
 // =========================================================
-// BANCOS DE DADOS DO CANAL (DNA OFICIAL)
+// BANCOS DE DADOS DE PERSONAGENS (TODOS)
 // =========================================================
 const p = {
-    'Elenco Principal': {'P01':"Rocha Lemon", 'P02':"Elinaldo Tomate", 'P03':"Sabrina Pitaya"}
+    'Heróis Originais': {'P01':"Rocha Lemon", 'P02':"Elinaldo Tomate", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"},
+    'Lore Agrestina': {'A01':"Lampião Caju", 'A02':"Maria Pitaya Bonita", 'A03':"Cangaceiro Melão"},
+    'Comédia & Besteirol': {'COM01':"Caju Nordestino", 'COM02':"Banana Festeira", 'COM04':"Abacate Lutador", 'COM05':"Maçã Máskara"},
+    'Séries & Ícones': {'SRI01':"Melão Morcego", 'SRI04':"Limão Caçador", 'M04':"Jabuticaba Silvio", 'C01':"Maçã Chaves"},
+    'Vilões & Terror': {'V01':"Maçã Caveira", 'V02':"Banana Palhaço", 'T01':"Laranja Ghostface", 'T03':"Abóbora Jason"},
+    'Animes & Heróis': {'A01':"Laranja Naruto", 'A06':"Abacate Goku", 'H01':"Abacate Hulk", 'H07':"Melão Batman"}
+};
+
+const crowds = {
+    'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo", 'GP02': "Grupo de Homens descontraídos", 'GP03': "Vários Casais passeando"},
+    'Elenco Conjunto': {'ALL01': "Todos os Personagens da Cena", 'ALL02': "Todos os Heróis Originais"},
+    'Multidões & Hordas': {'G01': "Fãs e Paparazzi", 'G02': "Horda de Zumbis de Frutas", 'G04': "Torcida animada", 'G07': "Guarda de Elite Mascarada"}
 };
 
 // =========================================================
-// ROUPAS OFICIAIS
+// BANCOS DE DADOS DE ROUPAS (TODAS)
 // =========================================================
 const roupas = {
     'Guarda-Roupa Oficial': {
@@ -218,21 +292,36 @@ const roupas = {
         'R_OFF_ELIN': "wearing a casual light blue button-up shirt, slightly wrinkled", 
         'R_OFF_SAB': "wearing a yellow long-sleeve work shirt under a purple apron"
     },
-    'Outros Estilos': {'R_CAS01': "wearing streetwear, baggy hoodie"}
+    'Anime, Mangá & Séries': {'R_ANI01': "wearing a classic anime school uniform", 'R_ANI02': "wearing a ninja shinobi outfit with headband", 'R_ANI03': "wearing a mecha pilot plugsuit"},
+    'Bandas & Astros da Música': {'R_MUS01': "wearing heavy metal spiked leather jacket", 'R_MUS02': "wearing a classic 80s rockstar glam outfit", 'R_MUS04': "wearing a shiny pop star concert bodysuit"},
+    'Lutas & Kimonos': {'R_LUT01': "wearing a traditional white martial arts kimono", 'R_CULT05': "wearing an elegant traditional Japanese silk kimono"},
+    'Esportes & Academia': {'R_FIT01': "wearing tight athletic gym wear and sneakers", 'R_FIT02': "wearing boxing shorts and hand wraps", 'R_FIT03': "wearing a classic vintage running tracksuit"},
+    'Luxo & Shopping': {'R_LUX01': "wearing an expensive high-end designer runway outfit", 'R_LUX02': "wearing a chic casual shopping outfit with sunglasses"},
+    'Cinema Clássico': {'R_CINE01': "wearing a 1920s classic gangster suit and fedora", 'R_CINE02': "wearing an iconic yellow martial arts jumpsuit"},
+    'Fantasia & Realeza': {'R_FAN02': "wearing a beautiful elegant masquerade ball gown", 'R_FAN03': "wearing a majestic princess dress with a tiara", 'R_FAN01': "wearing shiny medieval knight armor"},
+    'Cultura Brasil': {'R_CULT02': "wearing traditional caipira clothes for festa junina", 'R_CULT01': "wearing a traditional leather cangaceiro outfit"},
+    'Pobreza & Sobrevivência': {'R_SURV01': "wearing torn and dirty peasant rags, poverty style", 'R_SURV02': "wearing a green tracksuit with white stripes", 'R_SURV03': "wearing tactical military survival gear"},
+    'Sci-Fi & Cyberpunk': {'R_SCI01': "wearing a futuristic cyberpunk neon jacket", 'R_SCI03': "wearing a full cyborg robotic body with metallic plates"},
+    'Heróis & Superpoderes': {'R_HER01': "wearing a spandex superhero suit with a cape", 'R_HER02': "wearing a dark vigilante bat-suit with cowl"},
+    'Profissões & Casual': {'R_PRO01': "wearing an elegant tailored business suit", 'R_PRO02': "wearing a white doctor lab coat", 'R_CAS01': "wearing streetwear, baggy hoodie"}
 };
 
 // =========================================================
-// ACESSÓRIOS OFICIAIS
+// BANCOS DE DADOS DE ACESSÓRIOS (TODOS)
 // =========================================================
 const acessorios = {
     'Adereços da Lore': {
         'AC_PAC': "holding torn cardboard packages marked with 'PAC'",
         'AC_NONE': "empty hands"
-    }
+    },
+    'Armas & Ação': {'AC_AM01': "holding a glowing magical sword", 'AC_AM03': "holding a sharp ninja katana", 'AC_FS01': "holding a futuristic laser blaster", 'AC_FS02': "holding a heavy tactical sniper rifle"},
+    'Esportes & Academia': {'AC_FIT01': "holding heavy iron gym dumbbells", 'AC_FIT02': "wearing red leather boxing gloves", 'AC_FIT03': "holding a sports water bottle and towel"},
+    'Shopping & Consumo': {'AC_SHOP01': "carrying multiple colorful designer shopping bags", 'AC_SHOP02': "holding a glowing premium black credit card"},
+    'Música & Veículos': {'AC_MU01': "playing an electric guitar with passion", 'AC_MU02': "holding a vintage studio microphone", 'AC_VE01': "riding a sleek fast sports motorcycle", 'AC_VE02': "driving a luxury neon sports car"}
 };
 
 // =========================================================
-// ESTADOS E CONDIÇÕES OFICIAIS
+// BANCOS DE DADOS DE ESTADOS (TODOS)
 // =========================================================
 const estados = {
     'Atuação Oficial': {
@@ -240,7 +329,10 @@ const estados = {
         'E_OFF_CRY': "crying intensely, tears streaming down face, extremely sad expression",
         'E_OFF_MAD': "furious, clenching fists, aggressive posture, dripping wet from rain",
         'E_OFF_LOVE': "floating 3D pink hearts in the air around the character, romantic aura"
-    }
+    },
+    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt", 'E_MUT01': "zombified, rotting skin, glowing empty eyes", 'E_EMO04': "terrified, wide eyes, shivering in fear"},
+    'Físico & Esforço': {'E_FIT01': "sweating heavily, breathing hard, flushed face", 'E_FIT02': "pumped up, muscles bulging, veins showing"},
+    'Glamour & Fama': {'E_GLAM01': "posing confidently, perfect glowing skin", 'E_GLAM02': "acting dramatic, reality tv star attitude"}
 };
 
 const vozes = {
@@ -248,20 +340,130 @@ const vozes = {
         'V_ROCHA': "Grave, autoritária, tom de policial (Rocha).",
         'V_ELIN': "Aguda, desesperada, chorosa (Elinaldo).",
         'V_SAB': "Feminina, dramática, impositiva (Sabrina)."
-    }
+    },
+    'Locução & Romance': {'V_PRO01': "Voz de Político, persuasiva.", 'V_PRO02': "Voz de Locutor FM, aveludada.", 'V_FIL04': "Voz de Dorama, suave e romântica."},
+    'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica", 'V_FIL01': "Voz de Vilão Slasher", 'V_EMO04': "Voz Apavorada, sussurrando rápido."}
 };
 
-// DNA ABSOLUTO DETALHADO (Para o Midjourney/Gerador 3D)
+// DNA ABSOLUTO DETALHADO E PERSONAGENS ANTIGOS MANTIDOS
 const d = { 
     'P01':{d:"Anthropomorphic tough Lemon character, highly detailed textured lemon peel skin, thick black mustache, deep scar over his right eye, stern aggressive expression"}, 
     'P02':{d:"Anthropomorphic Tomato character, smooth shiny red tomato skin, huge expressive nervous eyes, wide mouth"},
     'P03':{d:"Anthropomorphic female Dragon Fruit character, textured pink scaly skin, green dragon fruit leaf accents on head, edgy dark undercut hairstyle"}
 }; 
-const vBase = { 'P01': "Grave.", 'P02': "Aguda.", 'P03': "Feminina." }; 
+const vBase = { 'P01': "Grave e rouca.", 'P02': "Anasalada, gaguejos." }; 
 
 // =========================================================
-// ROTEIROS PRÉ-PRONTOS
+// BANCO DE CENÁRIOS COMPLETO (TODOS INCLUSOS)
 // =========================================================
+const dataNicho = {
+    'FRUITS_ADVENTURES': {
+        'Cartão de Visitas (Oficial Canal)': ["Praia Tropical (Capa do Canal)|Tropical beach at bright golden hour, crystal clear water, vibrant green palm trees, sunny day, cinematic"],
+        'Ação & Mistério (Curta Oficial)': ["Beco Chuvoso (A Amizade Perdida)|Dark cinematic cyberpunk alleyway, heavy rain, neon signs in the background, dramatic lighting, puddles on the ground reflecting neon"],
+        'Romance na Ilha': ["Mirante do Pôr do Sol|Beautiful cliff overlooking the ocean at sunset, cinematic", "Piquenique na Praia|Cozy beach picnic setup, blankets, lanterns"],
+        'Exploração & Mistério': ["Templo Antigo de Frutas|Ancient overgrown temple ruins shaped like fruits, mysterious lighting", "Caverna de Cristal|Dark cave glowing with bright purple crystals, magical"],
+        'Ação & Jogo da Morte': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll, bright eerie daylight", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections, dystopian survival game", "Arena Vale Tudo|Underground fighting arena, bright metal cage, crowd cheering in shadows"],
+        'Treinamento & Combate': ["Dojo de Artes Marciais|Traditional martial arts dojo, wooden floors, punching bags, soft window light", "Academia High-Tech|Modern fitness gym interior, heavy iron weights, dramatic cinematic lighting"]
+    },
+    'COMERCIAL': {
+        'Apresentação & Vendas': ["Estúdio Infomercial|Bright white studio background, clean product podium, professional lighting", "Cozinha Moderna (Review)|Modern clean luxury kitchen, marble countertop, bright morning light"],
+        'Mundo Corporativo': ["Escritório de Luxo|Modern glass corporate office, city skyline view, sleek modern desk", "Sala de Reunião|Corporate board room, projector screen, leather executive chairs"],
+        'Podcast & Locução': ["Estúdio de Podcast|Cozy dark podcast studio, neon signs in background, professional microphones", "Cabine de Gravação|Radio broadcast booth, soundproof acoustic foam walls"],
+        'Setup YouTuber / Influencer': ["Quarto Gamer RGB|Gaming room setup, glowing RGB LED strips, dual monitors", "Setup Minimalista|Clean minimalist desk, warm aesthetic lighting, indoor potted plants"],
+        'Propagandas Comerciais': ["Pista de Atletismo|Professional athletic running track, cinematic low angle, sunny bright day", "Estúdio Fotográfico de Moda|Professional fashion photography studio, massive softboxes, endless white cyclorama wall"]
+    },
+    'AGRESTINA': {
+        'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"],
+        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun, heat waves", "Casa de Taipa|Rustic mud house interior, wood stove, sunlight piercing through cracks"]
+    },
+    'SHOPPING': {
+        '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights, closed store windows", "Escada Rolante|Stopped escalator in a dark empty shopping mall, eerie", "Corredor Principal Modeship|Massive luxury shopping mall corridor, massive glass ceiling, bright daylight, hyper-detailed"],
+        '02 - Praça e Afins': ["Praça de Alimentação|Massive empty food court at night, glowing fast food signs", "Estacionamento (Cancela)|Empty parking lot at night, digital billboard glowing", "Fliperama Arcade|Retro neon arcade room inside a mall, glowing cabinets"],
+        '03 - Vitrines & Lojas': ["Loja de Grife|Luxury fashion boutique interior, glowing displays, high-end mannequins", "Loja de Artigos Esportivos|Fitness and sports store interior, bright lighting, rows of sneakers and equipment"]
+    },
+    'NOVELA': {
+        '01 - O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto de Motel Escuro|Dark motel room, neon sign blinking outside", "Restaurante de Luxo|Fine dining restaurant, romantic candle light", "Estacionamento Subterrâneo|Dark underground parking lot, harsh lighting"],
+        '02 - O Segredo Revelado': ["Telhado do Prédio|Skyscraper rooftop at night, city lights", "Sala do Arquivo|Dusty archive room, rows of paper boxes"],
+        '03 - A Cobrança': ["Galpão Abandonado|Abandoned warehouse, broken windows, dusty"],
+        '26 - Romance': ["Parque Florido|Blooming park, cherry blossoms falling", "Café Aconchegante|Cozy coffee shop, raining outside, warm lights"],
+        '31 - Tensão/Desejo': ["Biblioteca Escura|Dark classic library, moody sensual lighting", "Elevador Parado|Stuck elevator, flickering emergency lights"]
+    },
+    'SERIES': {
+        'Retrô & Clássicas': ["Caverna 60s|Campy retro 1960s batcave, giant props", "Delegacia Antiga|1970s police precinct, sepia tone lighting"],
+        'Mistério & Caçadores': ["Encruzilhada|Dirt crossroads at midnight, eerie fog", "Castelo Assombrado|Creepy cartoonish haunted castle, Scooby-Doo aesthetic"],
+        'Super Jovens': ["Fazenda de Milho|Sunny peaceful Kansas cornfield, red barn", "Celeiro Secreto|Inside a rustic barn, glowing alien spaceship hidden"]
+    },
+    'ANIMES': {
+        'Mangá Shonen': ["Arena de Torneio|Massive anime martial arts arena, action speed lines", "Ruínas Pós-Poder|Destroyed rocky wasteland after massive energy blast"],
+        'Mundo dos Desenhos': ["Mundo 2D Clássico|Wacky cartoon universe, distorted proportions, vibrant flat colors"]
+    },
+    'INFLUENCER': {
+        'Setup & Produtos': ["Estúdio RGB|Minimalist desk, glowing RGB lights", "Mesa Branca Clean|Clean white desk, bright studio lighting"],
+        'Dancinhas & Luxo': ["Quarto Neon|Cozy bedroom, LED strip lights", "Closet Gigante|Walk-in closet filled with designer items", "Carro de Luxo Interno|Inside a luxury car, neon dashboard lights"]
+    },
+    'TERROR': {
+        'Assombração': ["Casa Abandonada|Creepy abandoned old house, dark shadows", "Sótão Assustador|Dusty scary attic, cobwebs"],
+        'Perseguição': ["Floresta à Noite|Dark dense forest at night, moonlight", "Labirinto de Milho|Creepy corn maze at night", "Hospital Psiquiátrico|Ruined asylum, rusty wheelchairs"],
+        'Liminal': ["Shopping Infinito Branco|Endless empty white shopping mall, liminal space", "Escritório Sem Fim|Monotone yellow carpet, fluorescent office lights"]
+    },
+    'COMEDIA': {
+        'Besteirol': ["Festa de Fraternidade|Crazy college frat party, red cups", "Corredor de Escola|Classic high school hallway, lockers"],
+        'Sátira': ["Casa de Assassino Desajeitado|Creepy house interior but with funny silly traps"]
+    },
+    'CLIP': {
+        'Ostentação / Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway filled with colorful graffiti"],
+        'Rock / Metal': ["Palco com Fogo|Concert stage, heavy pyrotechnics, dark atmosphere", "Garagem Suja|Grungy dark garage, band equipment"],
+        'Batalha de Rimas': ["Quadra de Basquete|Street basketball court at night, chainlink fence, single floodlight"]
+    },
+    'FESTAS': {
+        'Globais': ["Halloween (EUA)|Suburban street at night, glowing jack-o-lanterns", "Natal (NY)|Massive lit Christmas tree, snow falling", "Dia dos Mortos|Street festival at night, marigold flowers"],
+        'Brasil': ["Carnaval (Rio)|Massive parade float, colorful feathers", "São João|Festive flags, large bonfire, rustic party"]
+    },
+    'GOSPEL': {
+        'Pregação': ["Altar Iluminado|Warm spotlight from above, dark church", "Deserto Bíblico|Vast hot desert, ancient ruins"],
+        'Louvor': ["Igreja Destruída|Ruined church, holy light breaking through storm clouds", "Barco em Alto Mar|Small boat tossing in heavy stormy ocean"]
+    },
+    'SCIFI': {
+        'Cyberpunk': ["Rua de Neon|Cyberpunk city street, neon lights, holograms", "Docas Industriais|Dark industrial shipping dock"],
+        'Tron & Espaço': ["Grid Digital|Infinite glowing grid floor, neon lines", "Nave Mãe|Inside a massive high-tech alien mothership"]
+    },
+    'FANTASIA': {
+        'Épico': ["Castelo em Chamas|Burning medieval castle, embers flying", "Taverna Rústica|Warm wooden fantasy tavern"],
+        'Magia': ["Floresta Mística|Enchanted forest, glowing fireflies", "Caverna do Dragão|Deep cave filled with gold"]
+    },
+    'INFANTIL': {
+        'Contos': ["Castelo de Cristal|Beautiful glowing crystal castle, rainbows", "Fazendinha Feliz|Happy sunny cartoon farm", "Mundo de Brinquedo|Toy world, giant building blocks"]
+    },
+    'TURISMO': {
+        'Américas': ["Times Square (NY)|Times square New York, giant glowing billboards", "Machu Picchu (Peru)|Incan ruins of Machu Picchu", "Cristo Redentor (Rio)|Christ the Redeemer statue"],
+        'Europa': ["Torre Eiffel (Paris)|Eiffel Tower in background, night", "Aurora Boreal (Islândia)|Dark snowy landscape, glowing green sky"],
+        'Mundo': ["Muralha da China|Great Wall of China winding over lush green mountains", "Pirâmides (Egito)|Great Pyramids, desert sand"]
+    },
+    'HISTORIA': {
+        'Antiguidade': ["Império Romano|Gladiator arena, cheering crowds", "Velho Oeste|Dusty western town main street", "Egito Antigo|Inside an ancient Pharaoh tomb"],
+        'Guerras': ["Trincheira WW1|Muddy WW1 trench, barbed wire", "Praia do Dia D|Stormy beach landing, war obstacles"]
+    },
+    'SETS': {
+        'Filmagem': ["Cidade Cenográfica|Fake small town street, highly lit for TV cameras", "Fundo Verde|Massive green screen studio, bright soft box lighting", "Set de Velho Oeste|Fake wooden western town facade supported by wooden beams"],
+        'Reality Shows & TV': ["Casa de Reality Show|Luxury modern house interior, glowing cameras on walls, dramatic neon lighting", "Sala de Eliminação|Dark TV studio room, single tense spotlight, dramatic atmosphere"]
+    }
+};
+
+// =========================================================
+// ROTEIROS AUTOMÁTICOS
+// =========================================================
+const scriptsNicho = {
+    'FRUITS_ADVENTURES': [
+        { c: "Wide 24mm", a: "A brisa bate suave no [CENARIO]. [PROTA] e [COADJ] se olham profundamente.", f: "[PROTA]: Eu nunca imaginei que a gente chegaria até aqui." },
+        { c: "Close-up 85mm", a: "[COADJ] sorri, os olhos brilhando.", f: "[COADJ]: Todo esse tempo lutando... e o que importava estava bem na minha frente." }
+    ],
+    'PADRAO': [
+        { c: "Wide", a: "[PROTA] está no [CENARIO] focado.", f: "[PROTA]: É agora ou nunca." },
+        { c: "Medium", a: "[COADJ] surge de repente.", f: "[COADJ]: Você não vai fazer isso sozinho." },
+        { c: "Close", a: "[PROTA] encara a câmera.", f: "[PROTA]: Então segura firme." }
+    ]
+};
+
 const scriptsProntos = {
     'LORE_01': [
         { c: "Wide 24mm", a: "Rocha Lemon confronta Elinaldo e Sabrina no beco chuvoso.", f: "Rocha: 'Eu sabia... Vocês dois estão desviando as encomendas da portaria.'" },
@@ -270,12 +472,67 @@ const scriptsProntos = {
         { c: "Close-up 85mm", a: "Sabrina dá as costas, decidida.", f: "Sabrina: 'Acabou, Elinaldo. Nunca mais olhes na minha cara.'" },
         { c: "Medium 50mm", a: "Elinaldo, chorando muito e segurando os pacotes rasgados, implora.", f: "Elinaldo: 'Sabrina, por favor, ouve-me! Foi por ti!'" },
         { c: "Wide 24mm", a: "Sabrina grita em meio aos trovões, finalizando a cena.", f: "Sabrina: 'Eu disse-te... Ninguém vence o Rocha.'" }
+    ],
+    'PIADA_01': [
+        { c: "Medium 50mm", a: "[PROTA] segura um microfone e olha pra câmera rindo.", f: "[PROTA]: Sabe por que a plantinha não pode ir no médico de madrugada?" },
+        { c: "Close-up 85mm", a: "[COADJ] coça a cabeça, confuso(a).", f: "[COADJ]: Hmmm... Não faço a menor ideia. Por quê?" },
+        { c: "Zoom Cômico", a: "[PROTA] aponta pra tela e dá uma gargalhada.", f: "[PROTA]: Porque ela só tem médico de plantão! Hahaha!" }
+    ],
+    'CANT_ROCK': [
+        { c: "Wide 24mm", a: "[PROTA] segura a guitarra. Luzes piscam freneticamente no [CENARIO].", f: "[PROTA]: (Gritando) YEAAAH! Tira o pé do chão, galera!!" },
+        { c: "Tracking Rápido", a: "[PROTA] corre pelo palco batendo cabeça.", f: "[PROTA]: 🎵 O MUNDO GIRA, A MENTE ENLOUQUECE, ROCK NA VEIA ATÉ QUE AMANHECE! 🎵" }
     ]
 };
 
 // =========================================================
 // FUNÇÕES DO SISTEMA
 // =========================================================
+function atualizarTemas() {
+    const nicho = document.getElementById('nicho').value;
+    const tSel = document.getElementById('tema');
+    const cSel = document.getElementById('cenario_lista');
+    
+    tSel.innerHTML = '<option value="">-- Autenticar Tema --</option>';
+    cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>';
+    tSel.disabled = true;
+    cSel.disabled = true;
+    
+    if(!document.getElementById('travar_cenario').checked) {
+        document.getElementById('texto_cenario').value = "";
+    }
+
+    if (nicho && dataNicho[nicho]) {
+        tSel.disabled = false;
+        for (let t in dataNicho[nicho]) {
+            tSel.add(new Option(t, t));
+        }
+    }
+}
+
+function atualizarCenarios() {
+    const n = document.getElementById('nicho').value;
+    const t = document.getElementById('tema').value;
+    const cSel = document.getElementById('cenario_lista');
+    
+    cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>';
+    cSel.disabled = true;
+    
+    if(!document.getElementById('travar_cenario').checked) {
+        document.getElementById('texto_cenario').value = "";
+    }
+
+    if (n && t && dataNicho[n] && dataNicho[n][t]) {
+        cSel.disabled = false;
+        dataNicho[n][t].forEach(c => {
+            let parts = c.split('|');
+            cSel.add(new Option(parts[0], parts[1]));
+        });
+    }
+}
+
+function travarCenario() { document.getElementById('cenario_lista').disabled = document.getElementById('travar_cenario').checked; }
+function puxarCenario() { if(!document.getElementById('travar_cenario').checked) { document.getElementById('texto_cenario').value = document.getElementById('cenario_lista').value; } gerarTudo(); }
+
 function carregarMenus() {
     ['prota', 'coadj1', 'coadj2'].forEach(s => {
         const sel = document.getElementById(s);
@@ -287,7 +544,15 @@ function carregarMenus() {
         });
     });
     
-    ['prota', 'coadj1', 'coadj2'].forEach(b => {
+    const m = document.getElementById('multidao');
+    m.innerHTML = '<option value="">-- Vazio --</option>';
+    Object.keys(crowds).forEach(g => {
+        let grp = document.createElement('optgroup'); grp.label = g;
+        Object.keys(crowds[g]).forEach(id => grp.appendChild(new Option(crowds[g][id], id)));
+        m.appendChild(grp);
+    });
+    
+    ['prota', 'coadj1', 'coadj2', 'multidao'].forEach(b => {
         const sR = document.getElementById(`roupa_${b}`);
         sR.innerHTML = '<option value="">👕 Roupa Padrão</option>';
         Object.keys(roupas).forEach(g => {
@@ -356,21 +621,38 @@ function gerarTudo() {
 
 function gerarRoteiroCompleto() {
     const scriptSelect = document.getElementById('script_pronto').value;
+    const nicho = document.getElementById('nicho').value || 'PADRAO';
     const qtd = parseInt(document.getElementById('qtd_cenas').value);
+    const locNome = document.getElementById('cenario_lista').options[document.getElementById('cenario_lista').selectedIndex]?.text || "o cenário";
     
-    let template = scriptsProntos[scriptSelect];
-    if(!template) { document.getElementById('output-storyboard').innerHTML = "Selecione o roteiro 'A Amizade Perdida' acima."; return; }
+    const pId = document.getElementById('prota').value;
+    const protaNome = pId ? getCharName(pId) : "Protagonista";
+    let pDna = pId ? (d[pId]?d[pId].d:'Padrão 3D') : "Padrão 3D";
+    const pVoz = document.getElementById('voz_prota').value ? document.getElementById('voz_prota').options[document.getElementById('voz_prota').selectedIndex].text : (vBase[pId]||"Voz Padrão IA");
+
+    const cId = document.getElementById('coadj1').value;
+    const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
+
+    let template = scriptSelect ? scriptsProntos[scriptSelect] : (scriptsNicho[nicho] || scriptsNicho['PADRAO']);
+    if(!template) { document.getElementById('output-storyboard').innerHTML = "Selecione o roteiro acima."; return; }
     
     let htmlOut = "";
 
     for(let i = 0; i < qtd && i < template.length; i++) {
         let cenaInfo = template[i];
+        let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
+        let falaFinal = cenaInfo.f.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
         
+        let dnaExibido = falaFinal.includes(protaNome) ? `🧬 DNA (${protaNome}): ${pDna}` : "🧬 Cena Geral";
+        let vozExibida = falaFinal.includes(protaNome) ? `🎙️ Voz: ${pVoz}` : "🎙️ Som Ambiente / Foley";
+
         htmlOut += `
         <div class="cena-bloco">
             <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
-            <div class="cena-acao">🎬 Ação: ${cenaInfo.a}</div>
-            <div class="cena-fala">💬 ${cenaInfo.f}</div>
+            <div class="cena-acao">🎬 Ação: ${acaoFinal}</div>
+            <div class="cena-fala">💬 ${falaFinal}</div>
+            <div class="cena-dna">${dnaExibido}</div>
+            <div class="cena-voz">${vozExibida}</div>
         </div>
 `;
     }
@@ -378,8 +660,6 @@ function gerarRoteiroCompleto() {
 }
 
 function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt Copiado, Máquina!"); }
-function travarCenario() { document.getElementById('cenario_lista').disabled = document.getElementById('travar_cenario').checked; }
-function puxarCenario() { if(!document.getElementById('travar_cenario').checked) { document.getElementById('texto_cenario').value = document.getElementById('cenario_lista').value; } gerarTudo(); }
 window.onload = carregarMenus;
 </script>
 </body>
