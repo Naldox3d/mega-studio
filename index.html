@@ -23,6 +23,11 @@
         
         select, textarea, input[type="number"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; }
         select:focus, textarea:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 2px rgba(163, 113, 247, 0.3); }
+        
+        /* Estilo especial para o menu de roupas */
+        .select-roupa { border-color: var(--primary-green); color: var(--primary-green); font-size: 12px; padding: 10px; margin-top: -8px; background: #0d1117; }
+        .select-roupa:focus { box-shadow: 0 0 0 2px rgba(63, 185, 80, 0.3); }
+
         textarea { height: 90px; color: #3fb950; resize: vertical; font-family: monospace; }
         
         button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease;}
@@ -95,12 +100,28 @@
     </div>
 
     <div class="card full">
-        <h2 style="color: var(--primary-purple);">👥 4. ELENCO & MULTIDÕES (DNA FULL)</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
-            <div><span class="label-text">Protagonista:</span><select id="prota" onchange="gerarTudo()"></select></div>
-            <div><span class="label-text">Coadjuvante 1:</span><select id="coadj1" onchange="gerarTudo()"></select></div>
-            <div><span class="label-text">Coadjuvante 2:</span><select id="coadj2" onchange="gerarTudo()"></select></div>
-            <div><span class="label-text">Grupos / Figurantes:</span><select id="multidao" onchange="gerarTudo()"></select></div>
+        <h2 style="color: var(--primary-purple);">👥 4. ELENCO, FIGURINO & MULTIDÕES</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div>
+                <span class="label-text">Protagonista:</span>
+                <select id="prota" onchange="gerarTudo()"></select>
+                <select id="roupa_prota" class="select-roupa" onchange="gerarTudo()"></select>
+            </div>
+            <div>
+                <span class="label-text">Coadjuvante 1:</span>
+                <select id="coadj1" onchange="gerarTudo()"></select>
+                <select id="roupa_coadj1" class="select-roupa" onchange="gerarTudo()"></select>
+            </div>
+            <div>
+                <span class="label-text">Coadjuvante 2:</span>
+                <select id="coadj2" onchange="gerarTudo()"></select>
+                <select id="roupa_coadj2" class="select-roupa" onchange="gerarTudo()"></select>
+            </div>
+            <div>
+                <span class="label-text">Grupos / Figurantes:</span>
+                <select id="multidao" onchange="gerarTudo()"></select>
+                <select id="roupa_multidao" class="select-roupa" onchange="gerarTudo()"></select>
+            </div>
         </div>
     </div>
 
@@ -177,7 +198,7 @@
         </div>
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted); padding: 20px;">
-                O roteiro com DNA, Falas e Câmera será gerado aqui...
+                O roteiro com DNA, Falas, Figurino e Câmera será gerado aqui...
             </div>
         </div>
     </div>
@@ -191,7 +212,7 @@
 
 <script>
 // =========================================================
-// BANCOS DE DADOS DE ELENCO, DNA E VOZ COMPLETOS
+// BANCOS DE DADOS DE ELENCO E VOZ
 // =========================================================
 const p = {
     'Heróis Originais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"},
@@ -207,132 +228,88 @@ const p = {
     'Memes BR & Chaves': {'BR01':"Caju Juliete", 'BR02':"Manga Whind", 'BR03':"Ameixa Narcisa", 'M04':"Jabuticaba Silvio", 'C01':"Maçã Chaves", 'C02':"Melancia Quico", 'C03':"Maracujá Madruga", 'C04':"Morango Chiquinha"}
 };
 
-const d = {
-    'P01':{d:"Anthropomorphic Lemon, scarred face, tactical vest"},
-    'P02':{d:"Anthropomorphic Tomato, sweating, nervous detective coat"},
-    'P03':{d:"Anthropomorphic Pitaya, cyberpunk glowing scales"},
-    'P04':{d:"Wrinkled raisin, white beard, wise serene expression"},
-    'P05':{d:"Muscular banana, gold chains, tank top, flex pose"},
-    'A01':{d:"Cashew fruit wearing traditional leather cangaceiro hat, rugged"},
-    'A02':{d:"Pitaya with traditional northeastern dress, fierce expression"},
-    'COM01':{d:"Cashew fruit, colorful rustic vest, clumsy expression"},
-    'SRI01':{d:"Melon, campy 1960s grey and blue bat suit"},
-    'L01':{d:"Green lime, French emperor uniform, bicorne hat"},
-    'V01':{d:"Red peeled apple, skull face, dark velvet cape"},
-    'T01':{d:"Orange fruit with white screaming mask, dark cloak"},
-    'T02':{d:"Burnt pear skin, scarred texture, metal claws"},
-    'T03':{d:"Rotten pumpkin, hockey mask, large machete"},
-    'R01':{d:"Red apple, half skin, half glowing robotic eye"},
-    'F01':{d:"Cashew fruit, long white beard, wooden staff"},
-    'A02':{d:"Cashew, massive grin, curved scar, straw hat"},
-    'A06':{d:"Avocado, spiky glowing yellow pulp hair, martial arts gi"},
-    'S00':{d:"Cherry, curly black hair, shiny red jacket, single white glove"},
-    'M04':{d:"Glossy jabuticaba, combed hair, charismatic smile, TV host suit"},
-    'C01':{d:"Red apple, freckles, striped hat, suspenders"}
-};
-
-const v = {
-    'P01': "Grave e rouca, estilo mercenário durão.",
-    'P02': "Anasalada, gaguejos nervosos e rápidos.",
-    'P03': "Feminina, timbre futurista e limpo.",
-    'P04': "Voz idosa, serena e arrastada.",
-    'V01': "Cavernosa, arrastada, tom ameaçador.",
-    'T03': "Sem voz, apenas respiração pesada e lenta.",
-    'C01': "Esganiçada, infantil e brincalhona.",
-    'M04': "Carismática de animador de auditório ('Ma oê')."
-};
-
 const crowds = {
-    'G01':"Multidão de Fãs / Paparazzi", 
-    'G02':"Horda de Zumbis de Frutas", 
-    'G03':"Exército Medieval", 
-    'G04':"Público de Estádio (Torcida)", 
-    'G05':"Convidados Elegantes (Festa)", 
-    'G07':"Guarda de Elite Mascarada", 
-    'G08':"Trabalhadores de Shopping (Limpeza/Segurança)"
+    'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo e conversando", 'GP02': "Grupo de Homens rindo e descontraídos", 'GP03': "Vários Casais passeando pelo cenário", 'GP04': "Casal Romântico ao fundo abraçado"},
+    'Elenco Conjunto': {'ALL01': "Todos os Personagens da Cena reunidos", 'ALL02': "Todos os Heróis Originais posando juntos", 'ALL03': "Facção de Vilões conspirando no fundo"},
+    'Multidões & Hordas': {'G01': "Multidão de Fãs e Paparazzi com flashes", 'G02': "Horda enorme de Zumbis de Frutas", 'G03': "Exército Medieval em formação", 'G04': "Público de Estádio (Torcida animada)", 'G05': "Convidados Elegantes em Festa de Luxo", 'G07': "Guarda de Elite Mascarada patrulhando", 'G08': "Trabalhadores de Shopping"}
 };
 
 // =========================================================
-// BANCO DE CENÁRIOS & TEMAS EXTENSO
+// NOVO BANCO DE DADOS: FIGURINOS E ROUPAS TEMÁTICAS
 // =========================================================
-const dataNicho = {
-    'AGRESTINA': {
-        'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"],
-        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun", "Casa de Taipa|Rustic mud house interior, wood stove"]
+const roupas = {
+    'Estilo Casual / Urbano': {
+        'R_CAS01': "wearing streetwear, baggy hoodie and cap",
+        'R_CAS02': "wearing winter clothes, thick coat and scarf",
+        'R_CAS03': "wearing summer beachwear, shorts and sunglasses",
+        'R_CAS04': "wearing luxury designer clothes, gold watch"
     },
-    'SHOPPING': {
-        '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights", "Escada Rolante|Stopped escalator in a dark empty shopping mall"],
-        '02 - Praça e Afins': ["Praça de Alimentação|Massive empty food court at night, glowing neon signs", "Estacionamento (Cancela)|Empty parking lot at night, digital billboard glowing"]
+    'Sci-Fi & Ação': {
+        'R_SCI01': "wearing a futuristic cyberpunk neon suit",
+        'R_SCI02': "wearing a full astronaut space suit with helmet",
+        'R_SCI03': "wearing heavy tactical SWAT gear and bulletproof vest",
+        'R_SCI04': "wearing a matrix-style black leather trench coat"
     },
-    'NOVELA': { 
-        '01 - O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway", "Quarto de Motel Escuro|Dark motel room, neon sign", "Restaurante de Luxo|Fine dining restaurant, romantic candle light", "Estacionamento Subterrâneo|Dark underground parking lot"],
-        '02 - O Segredo Revelado': ["Telhado do Prédio|Skyscraper rooftop at night", "Sala do Arquivo|Dusty archive room"],
-        '03 - A Cobrança': ["Galpão Abandonado|Abandoned warehouse, broken windows"],
-        '26 - Romance': ["Parque Florido|Blooming park, cherry blossoms", "Café Aconchegante|Cozy coffee shop, raining outside"],
-        '31 - Tensão/Desejo': ["Biblioteca Escura|Dark classic library", "Elevador Parado|Stuck elevator, emergency lights"]
+    'Fantasia & Épico': {
+        'R_FAN01': "wearing shiny medieval knight armor",
+        'R_FAN02': "wearing a mystical wizard robe with ancient runes",
+        'R_FAN03': "wearing traditional leather cangaceiro clothes",
+        'R_FAN04': "wearing a regal king/queen crown and velvet cape"
     },
-    'CLIP': { 
-        'FRUITS ADVENTURES NA TERRA DE ELINALDO': ["Visão Panorâmica da Ilha|Panoramic tropical volcanic island with fruit-shaped mountains", "Balsa de Melancia|Raft made of a watermelon slice, floating on a sea of juice"],
-        'Trap Ostentação': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway, neon lights"],
-        'Batalha de Rimas': ["Quadra de Basquete Noturna|Street basketball court at night, crowd surrounding, single floodlight"]
+    'Profissões & Uniformes': {
+        'R_PRO01': "wearing a white doctor/scientist lab coat",
+        'R_PRO02': "wearing a classic police officer uniform",
+        'R_PRO03': "wearing a fast-food worker uniform with a name tag",
+        'R_PRO04': "wearing an elegant tailored business suit"
     },
-    'INFANTIL': {
-        'Contos': ["Castelo de Cristal|Beautiful glowing crystal castle, rainbows", "Fazendinha Feliz|Happy sunny cartoon farm", "Mundo de Brinquedo|Toy world, giant building blocks"]
-    },
-    'GOSPEL': {
-        'Pregação': ["Altar Iluminado|Warm spotlight from above, dark church", "Deserto Bíblico|Vast hot desert, ancient ruins"],
-        'Louvor': ["Igreja Destruída|Ruined church, holy light breaking through clouds"]
-    },
-    'TERROR': {
-        'Assombração': ["Casa Abandonada|Creepy abandoned old house", "Hospital Psiquiátrico|Ruined asylum, flickering lights"]
-    },
-    'SETS': {
-        'Sets de Filmagem': ["Fundo Verde|Massive green screen studio, bright soft box lighting", "Cidade Cenográfica|Fake small town street, camera tracks visible"]
-    },
-    'HISTORIA': {
-        'Épocas Históricas': ["Trincheira WW1|Muddy WW1 trench", "Império Romano|Gladiator arena, cheering crowds"]
-    },
-    'TURISMO': {
-        'Destinos': ["Torre Eiffel|Under the Eiffel Tower at night", "Pirâmides (Egito)|Great Pyramids, desert sand"]
+    'Terror & Festas': {
+        'R_TER01': "wearing a scary clown costume with blood stains",
+        'R_TER02': "wearing a classic vampire tuxedo",
+        'R_TER03': "wearing a torn and dirty zombie outfit",
+        'R_TER04': "wearing an elegant masquerade ball gown/suit"
     }
 };
 
+const d = {
+    'P01':{d:"Anthropomorphic Lemon, scarred face"}, 'P02':{d:"Anthropomorphic Tomato, sweating, nervous face"},
+    'P03':{d:"Anthropomorphic Pitaya, cyberpunk glowing scales"}, 'A01':{d:"Cashew fruit, rugged cangaceiro face"}
+}; // DNA Base sem as roupas hardcoded, permitindo adaptação. O resto funciona por fallback genérico.
+
+const v = { 'P01': "Grave e rouca, durão.", 'P02': "Anasalada, gaguejos." }; // Falback geral.
+
 // =========================================================
-// ROTEIROS DINÂMICOS
+// BANCO DE CENÁRIOS
 // =========================================================
+const dataNicho = {
+    'AGRESTINA': { 'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"] },
+    'SHOPPING': { '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights", "Escada Rolante|Stopped escalator in a dark empty shopping mall"] },
+    'NOVELA': { '01 - O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway", "Quarto de Motel Escuro|Dark motel room, neon sign"] },
+    'CLIP': { 'Ostentação': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway, neon lights"] }
+};
+
 const scriptsDB = {
     'NOVELA': [
         { c: "Medium 50mm", a: "O clima pesa no [CENARIO]. [PROTA] encara [COADJ].", f: "[PROTA]: Por que você fez isso?" },
         { c: "Close-up 85mm", a: "[COADJ] tenta desviar o olhar.", f: "[COADJ]: Achei que estava te protegendo..." },
-        { c: "Dutch Angle", a: "[PROTA] bate na mesa com raiva.", f: "[PROTA]: Protegendo? Você destruiu tudo!" },
-        { c: "Slow Pan", a: "[COADJ] sai de cena. [PROTA] fica sozinho(a).", f: "[PROTA]: Eu nunca vou te perdoar." }
-    ],
-    'CLIP': [
-        { c: "Wide 24mm", a: "A batida começa no [CENARIO]. [PROTA] chega estiloso.", f: "[PROTA]: É a hora do show!" },
-        { c: "Tracking Rápido", a: "[COADJ] acompanha no flow, gesticulando para a câmera.", f: "[COADJ]: Solta o grave que a gente domina!" },
-        { c: "Zoom Cômico", a: "Os dois mandam a coreografia juntos.", f: "[PROTA]: Ninguém para a gente!" },
-        { c: "Estático", a: "Pose épica final do clipe.", f: "🎵 (Fim da batida) 🎵" }
+        { c: "Dutch Angle", a: "[PROTA] bate na mesa com raiva.", f: "[PROTA]: Protegendo? Você destruiu tudo!" }
     ],
     'PADRAO': [
         { c: "Wide", a: "[PROTA] entra em [CENARIO].", f: "[PROTA]: Que lugar estranho..." },
-        { c: "Medium", a: "[COADJ] aparece do nada.", f: "[COADJ]: Você não deveria estar aqui." },
-        { c: "Close", a: "[PROTA] se prepara para agir.", f: "[PROTA]: Eu faço as regras." },
-        { c: "Zoom", a: "Ação rápida entre os dois.", f: "[COADJ]: Então aguente as consequências!" }
+        { c: "Medium", a: "[COADJ] aparece.", f: "[COADJ]: Você não deveria estar aqui." },
+        { c: "Close", a: "[PROTA] se prepara para agir.", f: "[PROTA]: Eu faço as regras." }
     ]
 };
 
 // =========================================================
-// FUNÇÕES
+// FUNÇÕES DO SISTEMA
 // =========================================================
 function atualizarTemas() {
     const nicho = document.getElementById('nicho').value;
     const tSel = document.getElementById('tema');
     const cSel = document.getElementById('cenario_lista');
-    
     tSel.innerHTML = '<option value="">-- Autenticar Tema --</option>';
     tSel.disabled = true; cSel.disabled = true;
     if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
-
     if (nicho && dataNicho[nicho]) {
         tSel.disabled = false;
         Object.keys(dataNicho[nicho]).forEach(t => tSel.add(new Option(t, t)));
@@ -343,27 +320,20 @@ function atualizarCenarios() {
     const n = document.getElementById('nicho').value;
     const t = document.getElementById('tema').value;
     const cSel = document.getElementById('cenario_lista');
-    
     cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>';
     cSel.disabled = true;
     if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
-
     if (n && t && dataNicho[n][t]) {
         cSel.disabled = false;
-        dataNicho[n][t].forEach(c => {
-            let parts = c.split('|');
-            cSel.add(new Option(parts[0], parts[1]));
-        });
+        dataNicho[n][t].forEach(c => { let parts = c.split('|'); cSel.add(new Option(parts[0], parts[1])); });
     }
 }
 
 function travarCenario() { document.getElementById('cenario_lista').disabled = document.getElementById('travar_cenario').checked; }
-function puxarCenario() { 
-    if(!document.getElementById('travar_cenario').checked) { document.getElementById('texto_cenario').value = document.getElementById('cenario_lista').value; } 
-    gerarTudo(); 
-}
+function puxarCenario() { if(!document.getElementById('travar_cenario').checked) { document.getElementById('texto_cenario').value = document.getElementById('cenario_lista').value; } gerarTudo(); }
 
-function carregarElenco() {
+function carregarMenus() {
+    // Carrega Elenco Principal
     ['prota', 'coadj1', 'coadj2'].forEach(s => {
         const select = document.getElementById(s);
         select.innerHTML = '<option value="">-- Ninguém --</option>';
@@ -373,9 +343,29 @@ function carregarElenco() {
             select.appendChild(grp);
         });
     });
+
+    // Carrega Grupos e Figurantes
     const m = document.getElementById('multidao');
     m.innerHTML = '<option value="">-- Vazio --</option>';
-    Object.keys(crowds).forEach(id => m.add(new Option(crowds[id], id)));
+    Object.keys(crowds).forEach(g => {
+        let grp = document.createElement('optgroup'); grp.label = g;
+        Object.keys(crowds[g]).forEach(id => grp.appendChild(new Option(crowds[g][id], id)));
+        m.appendChild(grp);
+    });
+
+    // Carrega Roupas/Fantasias
+    ['roupa_prota', 'roupa_coadj1', 'roupa_coadj2', 'roupa_multidao'].forEach(s => {
+        const selRoupa = document.getElementById(s);
+        selRoupa.innerHTML = '<option value="">👕 Roupa Padrão do DNA</option>';
+        Object.keys(roupas).forEach(g => {
+            let grp = document.createElement('optgroup'); grp.label = g;
+            Object.keys(roupas[g]).forEach(id => {
+                let label = roupas[g][id].replace("wearing ", "").replace("a ", "").toUpperCase();
+                grp.appendChild(new Option("👔 " + label, roupas[g][id]));
+            });
+            selRoupa.appendChild(grp);
+        });
+    });
 }
 
 function getCharName(id) {
@@ -384,18 +374,43 @@ function getCharName(id) {
     return "Personagem";
 }
 
+function getCrowdName(id) {
+    if (!id) return null;
+    for (const group in crowds) { if (crowds[group][id]) return crowds[group][id]; }
+    return "Multidão Indefinida";
+}
+
+function buildActorDna(charId, outfitVal) {
+    let baseDna = d[charId] ? d[charId].d : 'Stylized 3D Character';
+    if (outfitVal) return `${baseDna}, ${outfitVal}`; // Junta o DNA com a roupa escolhida
+    return baseDna;
+}
+
 function gerarTudo() {
     const loc = document.getElementById('texto_cenario').value || "Local Indefinido";
+    
     const p1 = document.getElementById('prota').value;
+    const rP1 = document.getElementById('roupa_prota').value;
+    
     const c1 = document.getElementById('coadj1').value;
+    const rC1 = document.getElementById('roupa_coadj1').value;
+    
     const c2 = document.getElementById('coadj2').value;
+    const rC2 = document.getElementById('roupa_coadj2').value;
+    
     const multi = document.getElementById('multidao').value;
+    const rMulti = document.getElementById('roupa_multidao').value;
     
     let cast = "";
-    if (p1) cast += `ACTOR 1: ${getCharName(p1)} (${d[p1]? d[p1].d : 'Stylized 3D'})\n`;
-    if (c1) cast += `ACTOR 2: ${getCharName(c1)} (${d[c1]? d[c1].d : 'Stylized 3D'})\n`;
-    if (c2) cast += `ACTOR 3: ${getCharName(c2)} (${d[c2]? d[c2].d : 'Stylized 3D'})\n`;
-    if (multi) cast += `EXTRAS: ${crowds[multi]}\n`;
+    if (p1) cast += `ACTOR 1: ${getCharName(p1)} (${buildActorDna(p1, rP1)})\n`;
+    if (c1) cast += `ACTOR 2: ${getCharName(c1)} (${buildActorDna(c1, rC1)})\n`;
+    if (c2) cast += `ACTOR 3: ${getCharName(c2)} (${buildActorDna(c2, rC2)})\n`;
+    
+    if (multi) {
+        let multiDesc = getCrowdName(multi);
+        if(rMulti) multiDesc += ` (${rMulti})`;
+        cast += `EXTRAS/GROUPS: ${multiDesc}\n`;
+    }
 
     document.getElementById('final').value = `[MEGA STUDIO 46.0]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${cast}\nCAMERA: ${document.getElementById('cena_numero').value}\nMOTION: ${document.getElementById('video_motion').value}\nACTION/POSE: ${document.getElementById('pose_personagem').value}\n\nPARAMS: 8K, Cinematic Lighting, 60fps.`;
 }
@@ -406,14 +421,17 @@ function gerarRoteiroCompleto() {
     const locNome = document.getElementById('cenario_lista').options[document.getElementById('cenario_lista').selectedIndex]?.text || "o local";
     
     const pId = document.getElementById('prota').value;
+    const rP1 = document.getElementById('roupa_prota').options[document.getElementById('roupa_prota').selectedIndex].text;
+    
     const cId = document.getElementById('coadj1').value;
+    const rC1 = document.getElementById('roupa_coadj1').options[document.getElementById('roupa_coadj1').selectedIndex].text;
     
     const protaNome = pId ? getCharName(pId) : "Protagonista";
-    const protaDNA = pId && d[pId] ? d[pId].d : "Padrão 3D";
+    const protaDNA = pId ? `${d[pId] ? d[pId].d : 'Padrão 3D'} [${rP1}]` : "Padrão 3D";
     const protaVoz = pId && v[pId] ? v[pId] : "Voz Padrão Gerada por IA";
 
     const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
-    const coadjDNA = cId && d[cId] ? d[cId].d : "Padrão 3D";
+    const coadjDNA = cId ? `${d[cId] ? d[cId].d : 'Padrão 3D'} [${rC1}]` : "Padrão 3D";
     const coadjVoz = cId && v[cId] ? v[cId] : "Voz Padrão Gerada por IA";
 
     let template = scriptsDB[nicho] ? scriptsDB[nicho] : scriptsDB['PADRAO'];
@@ -442,7 +460,7 @@ function gerarRoteiroCompleto() {
 
 function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt Copiado, Máquina!"); }
 
-window.onload = carregarElenco;
+window.onload = carregarMenus;
 </script>
 </body>
 </html>
