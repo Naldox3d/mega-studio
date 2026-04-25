@@ -224,34 +224,34 @@ const estados = {
 };
 
 // =========================================================
-// O NOVO DNA ACÚSTICO: VOZES E FOLEY DE MULTIDÃO
+// O NOVO DNA ACÚSTICO: NOME CURTO NA TELA / PROMPT LONGO OCULTO
 // =========================================================
 const vozes = {
     'Elenco Oficial (Fruits Adventures)': {
-        'V_ELINALDO': "Brazilian Portuguese. Voice of a highly nervous teenage boy (Morty style), voice cracking, stuttering, high-pitched panic.",
-        'V_ROCHA': "Brazilian Portuguese. Voice of a very aggressive, deep, raspy, drill sergeant screaming with authority.",
-        'V_SABRINA': "Brazilian Portuguese. Voice of a sweet, confident, upbeat and stylish young woman."
+        'V_ELINALDO': { n: "Tomate Elinaldo (Estilo Morty)", p: "Brazilian Portuguese. Voice of a highly nervous teenage boy (Morty style), voice cracking, stuttering, high-pitched panic." },
+        'V_ROCHA': { n: "Limão Rocha (Sargento Durão)", p: "Brazilian Portuguese. Voice of a very aggressive, deep, raspy, drill sergeant screaming with authority." },
+        'V_SABRINA': { n: "Sabrina Pitaya (Doce/Confiante)", p: "Brazilian Portuguese. Voice of a sweet, confident, upbeat and stylish young woman." }
     },
     'Cartoon Network & Adult Swim': {
-        'V_RICK': "Brazilian Portuguese. Voice of a cynical, burping, chaotic older scientist, raspy and erratic.",
-        'V_MUSCULOSO': "Brazilian Portuguese. Voice of a macho, arrogant, raspy dude, constantly flexing his voice.",
-        'V_CORAGEM': "Brazilian Portuguese. Voice of an extremely cowardly, shaking, high-pitched crying dog."
+        'V_RICK': { n: "Cientista Louco (Estilo Rick)", p: "Brazilian Portuguese. Voice of a cynical, burping, chaotic older scientist, raspy and erratic." },
+        'V_MUSCULOSO': { n: "Maromba Arrogante (Musculoso)", p: "Brazilian Portuguese. Voice of a macho, arrogant, raspy dude, constantly flexing his voice." },
+        'V_CORAGEM': { n: "Cachorro Apavorado (Coragem)", p: "Brazilian Portuguese. Voice of an extremely cowardly, shaking, high-pitched crying dog." }
     },
     'Hanna-Barbera Clássicos': {
-        'V_SALSICHA': "Brazilian Portuguese. Voice of a cowardly, hungry, cracking teenage slacker voice, very high-pitched when scared."
+        'V_SALSICHA': { n: "Adolescente Covarde (Salsicha)", p: "Brazilian Portuguese. Voice of a cowardly, hungry, cracking teenage slacker voice, very high-pitched when scared." }
     },
     'Figuras Virais (Brasil)': {
-        'V_LULA': "Brazilian Portuguese. Voice of an older, raspy-voiced charismatic politician with a very distinct lisp and slow, emotional pacing.",
-        'V_BOLSONARO': "Brazilian Portuguese. Voice of an older Brazilian politician, slightly nasal, speaking abruptly with fragmented sentences.",
-        'V_CARIOCA_FUNK': "Brazilian Portuguese. Voice of a hype Rio de Janeiro funk MC, heavy slang, energetic, speaking very fast and loud.",
-        'V_MAROMBA': "Brazilian Portuguese. Voice of a Brazilian gym bro (maromba), deep, exaggerated masculinity, shouting 'Bora!'."
+        'V_LULA': { n: "Político Carismático (Lula)", p: "Brazilian Portuguese. Voice of an older, raspy-voiced charismatic politician with a very distinct lisp and slow, emotional pacing." },
+        'V_BOLSONARO': { n: "Político Ríspido (Bolsonaro)", p: "Brazilian Portuguese. Voice of an older Brazilian politician, slightly nasal, speaking abruptly with fragmented sentences." },
+        'V_CARIOCA_FUNK': { n: "MC Carioca (Funk/Trap)", p: "Brazilian Portuguese. Voice of a hype Rio de Janeiro funk MC, heavy slang, energetic, speaking very fast and loud." },
+        'V_MAROMBA': { n: "Gym Bro (Mundo Maromba)", p: "Brazilian Portuguese. Voice of a Brazilian gym bro (maromba), deep, exaggerated masculinity, shouting 'Bora!'." }
     },
     '[GRUPOS] Foley & Som Ambiente': {
-        'VG_01': "Loud sitcom laugh track and applause.",
-        'VG_02': "Massive crowd cheering, stadium roar.",
-        'VG_03': "Terrified crowd screaming in absolute panic.",
-        'VG_04': "Guttural zombie groans and shuffling footsteps.",
-        'VG_05': "Angry mob chanting and yelling incoherently."
+        'VG_01': { n: "Risadas de Sitcom (Claque)", p: "Loud sitcom laugh track and applause." },
+        'VG_02': { n: "Torcida de Estádio (Gritos)", p: "Massive crowd cheering, stadium roar." },
+        'VG_03': { n: "Multidão em Pânico (Terror)", p: "Terrified crowd screaming in absolute panic." },
+        'VG_04': { n: "Horda de Zumbis (Gemidos)", p: "Guttural zombie groans and shuffling footsteps." },
+        'VG_05': { n: "Multidão Furiosa (Protestos)", p: "Angry mob chanting and yelling incoherently." }
     }
 };
 
@@ -344,10 +344,11 @@ function carregarMenus() {
         const sA = document.getElementById(`acessorio_${b}`); sA.innerHTML = '<option value="">🗡️ Sem Acessório</option>'; 
         Object.keys(acessorios).forEach(g => { let grp = document.createElement('optgroup'); grp.label = g; Object.keys(acessorios[g]).forEach(id => grp.appendChild(new Option("⚙️ " + acessorios[g][id].replace(/holding a |playing an |riding a |driving a |playing a |holding /g, "").toUpperCase(), acessorios[g][id]))); sA.appendChild(grp); });
         
+        // CORREÇÃO APLICADA: Nome curto no display (n) e prompt longo escondido no value (p).
         const sV = document.getElementById(`voz_${b}`); sV.innerHTML = '<option value="">🗣️ Voz/Som Padrão</option>'; 
         Object.keys(vozes).forEach(g => { 
             let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(vozes[g]).forEach(id => grp.appendChild(new Option("🎙️ " + vozes[g][id].substring(0, 45) + "...", vozes[g][id]))); 
+            Object.keys(vozes[g]).forEach(id => grp.appendChild(new Option("🎙️ " + vozes[g][id].n, vozes[g][id].p))); 
             sV.appendChild(grp); 
         });
     });
@@ -399,8 +400,46 @@ Sound Effects (Foley): Ambient sounds matching the location.`;
 }
 
 function gerarRoteiroCompleto() {
-    // Mantém a geração do Storyboard Visual
-    document.getElementById('output-storyboard').innerHTML = "<div style='text-align: center; color: var(--primary-green); padding: 20px;'>Prompt Técnico para o Flow Labs atualizado no Terminal Abaixo! Copie e cole na IA.</div>";
+    const scriptSelect = document.getElementById('script_pronto').value;
+    const nicho = document.getElementById('nicho').value || 'PADRAO';
+    const qtd = parseInt(document.getElementById('qtd_cenas').value);
+    const locNome = document.getElementById('cenario_lista').options[document.getElementById('cenario_lista').selectedIndex]?.text || "o cenário";
+    
+    const pId = document.getElementById('prota').value;
+    const protaNome = pId ? getCharName(pId) : "Protagonista";
+    let pDna = pId ? (d[pId]?d[pId].d:'Padrão 3D') : "Padrão 3D";
+    
+    const rSel = document.getElementById('roupa_prota'); if(rSel.value) pDna += ` [${rSel.options[rSel.selectedIndex].text}]`;
+    const eSel = document.getElementById('estado_prota'); if(eSel.value) pDna += ` [${eSel.options[eSel.selectedIndex].text}]`;
+    const aSel = document.getElementById('acessorio_prota'); if(aSel.value) pDna += ` [${aSel.options[aSel.selectedIndex].text}]`;
+    
+    const vSel = document.getElementById('voz_prota');
+    const pVoz = vSel.value ? vSel.options[vSel.selectedIndex].text : "🗣️ Voz Padrão";
+
+    const cId = document.getElementById('coadj1').value; const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
+    let template = scriptSelect ? scriptsProntos[scriptSelect] : (scriptsNicho[nicho] || scriptsNicho['PADRAO']);
+    if (!template) template = scriptsNicho['PADRAO'];
+    
+    let htmlOut = "";
+
+    for(let i = 0; i < qtd; i++) {
+        let cenaInfo = template[i % template.length];
+        let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
+        let falaFinal = cenaInfo.f.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, locNome);
+        let dnaExibido = falaFinal.includes(protaNome) ? `🧬 DNA (${protaNome}): ${pDna}` : "🧬 Cena Geral";
+        let vozExibida = falaFinal.includes(protaNome) ? `🎙️ Voz Instrução: ${pVoz}` : "🎙️ Som Ambiente / Foley";
+
+        htmlOut += `
+        <div class="cena-bloco">
+            <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
+            <div class="cena-acao">🎬 <b>Ação:</b> ${acaoFinal}</div>
+            <div class="cena-fala">💬 ${falaFinal}</div>
+            <div class="cena-dna">${dnaExibido}</div>
+            <div class="cena-voz">${vozExibida}</div>
+        </div>`;
+    }
+    document.getElementById('output-storyboard').innerHTML = htmlOut;
+    gerarTudo();
 }
 
 function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt do Flow Labs copiado!"); }
