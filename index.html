@@ -1,151 +1,380 @@
-// ==========================================
-// BANCO DE DADOS INTEGRAL - OMNIVERSO 46.0 (EXPANDIDO)
-// ==========================================
-const DB = {
-    nichos: {
-        'SCI_FI': { label: '🛸 Ficção Científica & Cyberpunk', temas: {
-            'Distopia Neon': ["Rua Chuvosa|Rainy cyberpunk city street, neon signs, holographic ads, reflections", "Bar Submundo|Dark futuristic dive bar, glowing drinks, sketchy alien patrons", "Laboratório Clandestino|Messy high-tech lab, glowing vats, cables everywhere"],
-            'Exploração Espacial': ["Ponte de Comando|Bridge of a massive starship, giant glowing screens, stars outside", "Planeta Alienígena|Alien landscape, giant glowing purple plants, multiple moons", "Estação Abandonada|Derelict space station, flickering lights, zero gravity floating debris"]
-        }},
-        'FANTASIA': { label: '🐉 Fantasia Épica', temas: {
-            'Reinos Antigos': ["Sala do Trono|Massive stone throne room, golden banners, dramatic sunlight from high windows", "Vilarejo Medieval|Bustling medieval village market, dirt roads, wooden stalls, peasants"],
-            'Magia e Mistério': ["Floresta Encantada|Glowing magical forest, giant bioluminescent mushrooms, fairy lights", "Caverna do Dragão|Dark cavern filled with gold coins and treasure, giant dragon eye opening in the dark"]
-        }},
-        'SHOPPING': { label: '🏬 Shopping Noturno', temas: {
-            'Corredores & Lojas': ["Vitrine Fechada|Empty mall corridor at night, closed store windows, dim lights, marble floor", "Escada Rolante Parada|Stopped escalator in a dark empty shopping mall, metal gates", "Manequins Assustadores|Store window filled with creepy mannequins in the dark"],
-            'Praça de Alimentação': ["Praça Vazia|Massive empty food court at night, rows of empty tables, glowing neon signs", "Cozinha Abandonada|Dark fast food kitchen, stainless steel, eerie shadows"],
-            'Área Externa': ["Docas de Carga|Industrial loading dock at night, wet asphalt, harsh lighting", "Estacionamento|Empty parking lot at night, glowing barriers, digital billboard"]
-        }},
-        'TELEVISAO': { label: '📺 Reality, TV & Entrevistas', temas: {
-            'Reality Show': ["Confessionário|Bright colorful living room, cameras on walls, studio lighting", "Prova de Resistência|Outdoor obstacle course, mud, bright daylight, massive timer"],
-            'Programas Clássicos': ["Late Night Set|Talk show set, host desk, city skyline backdrop, live band area", "Auditório Dominical|Massive TV stage, colorful bright lights, host center stage"],
-            'Jornalismo': ["Bancada de Notícias|Sleek modern news anchor desk, glowing globe in background, serious tone"]
-        }},
-        'NOVELA': { label: '🎭 Novela / Drama', temas: {
-            'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway, cinematic drama", "Quarto Motel|Dark motel room, blinking neon sign outside, messy bed"],
-            'O Segredo': ["Rooftop Prédio|Skyscraper rooftop at night, luxury setting, city lights", "Biblioteca Escura|Dark classic library, moody sensual lighting, dust particles"],
-            'Confronto': ["Elevador Parado|Stuck elevator, flickering emergency lights", "Escritório Executivo|Top floor office, glass walls, night city view", "Casamento Interrompido|Grand church interior, shocked wedding guests, dramatic lighting"]
-        }},
-        'FILME': { label: '🍿 Filme de Ação / Thriller', temas: {
-            'Tático/Espionagem': ["Caverna Secreta|High-tech secret hideout, screens and maps, tactical gear", "Cofre de Banco|Inside a massive bank vault, lasers, gold bars"],
-            'Sobrevivência': ["Pátio Boneca (Round 6)|Large sand playground, giant robotic doll, bright eerie daylight", "Dormitório Beliches|Massive room, hundreds of metal bunk beds, institutional lighting"],
-            'Perseguição': ["Trem em Movimento|Roof of a speeding bullet train, motion blur, nighttime", "Rodovia Deserta|Empty desert highway at sunset, tire tracks"]
-        }},
-        'ANIMES': { label: '💥 Animes & Mangá', temas: {
-            'Shonen Batalha': ["Arena de Torneio|Massive anime martial arts arena, action speed lines, cheering crowd", "Ruínas Pós-Batalha|Destroyed rocky wasteland after massive energy blast, smoke, craters"],
-            'Mágico/Escolar': ["Terraço de Escola|Japanese high school rooftop, cherry blossoms blowing in the wind", "Portal Dimensional|Swirling magical portal opening in the middle of a modern city street"]
-        }},
-        'ESPORTES': { label: '🛹 Esportes, Fitness & Luta', temas: {
-            'Combate': ["Octógono MMA|Steel cage octagon, bright overhead spotlights, blood on mat", "Dojo Tradicional|Japanese wooden dojo, tatami mats, incense smoke"],
-            'Urbano': ["Pista de Skate|Graffiti covered concrete skatepark at golden hour", "Quadra de Rua|Street basketball court at night, chainlink fence, single floodlight"]
-        }},
-        'TERROR': { label: '👻 Terror & Suspense', temas: {
-            'Clássico': ["Casa Assombrada|Creepy abandoned Victorian mansion, cobwebs, moonlight through broken windows", "Cemitério Nebuloso|Gothic graveyard at midnight, thick fog, twisted trees"],
-            'Slasher': ["Acampamento Cabana|Dark wooden cabin in the woods, blood trails, ominous shadows", "Corredor de Hospital|Flickering fluorescent lights in an abandoned asylum corridor"]
-        }},
-        'TURISMO': { label: '🌍 Turismo Global', temas: {
-            'Américas': ["Times Square (NY)|Times square New York, giant glowing billboards, yellow cabs", "Machu Picchu|Incan ruins, foggy mountain peak, llamas"],
-            'Mundo': ["Muralha da China|Great wall winding over mountains, sunset lighting", "Pirâmides Egito|Great Pyramids, desert sand, heat waves, bright sun", "Torre Eiffel|Under the Eiffel Tower at night, glowing golden lights, romantic rain"]
-        }},
-        'CLIP': { label: '🎵 Videoclipe Musical', temas: {
-            'Pop & K-Pop': ["Cenário Caixas Neon|Abstract set with glowing neon boxes, water on the floor, high fashion lighting", "Nuvens Rosa|Dreamy set made of pink clouds, floating objects, soft lighting"],
-            'Rap/Trap': ["Beco Grafite|Dark alleyway filled with colorful graffiti, neon lights, lowriders", "Mansão Luxo|Luxury mansion pool at night, LED lights, floating money"],
-            'Rock/Metal': ["Palco de Fogo|Heavy metal stage setup, massive pyrotechnics, Marshall amps, dark atmosphere"]
-        }}
-    },
-    personagens: {
-        'Heróis Modeship': {
-            'P01': {n:"Limão Rocha", d:"Badass Lemon, scarred face, tactical vest, cigar", v:"Grave e rouca, estilo mercenário durão."},
-            'P02': {n:"Tomate Elinaldo", d:"Nervous Tomato, sweating profusely, classic detective coat", v:"Anasalada, gaguejos nervosos e rápidos."},
-            'P03': {n:"Sabrina Pitaya", d:"Cyberpunk Pitaya, glowing pink scales, futuristic visor", v:"Feminina, timbre robótico e calculista."},
-            'P04': {n:"Pr. Uva Passa", d:"Wrinkled raisin, white beard, wise serene expression, monk robes", v:"Idosa, muito arrastada, tom de mestre sábio."},
-            'P05': {n:"Bananildo Musculoso", d:"Extremely muscular banana, gold chains, tank top, flex pose", v:"Masculina muito grave, gritos de academia."},
-            'P06': {n:"Abacaxi Ciborgue", d:"Cyborg pineapple, robotic red eye, heavy metal arm", v:"Voz metálica, fria e cheia de estática."},
-            'P07': {n:"Cenoura Samurai", d:"Samurai carrot, traditional ronin armor, holding a katana", v:"Grave, honrada, sussurros rápidos."}
-        },
-        'Lendas da História': {
-            'L01': {n:"Limão Bonaparte", d:"Green lime, French emperor uniform, bicorne hat, hand in coat", v:"Autoritária, sotaque francês carregado."},
-            'L02': {n:"Caju Einstein", d:"Cashew fruit, wild white frizzy hair, mustache, holding chalk", v:"Calma, intelectual e ligeiramente distraída."},
-            'L03': {n:"Morango Cleópatra", d:"Strawberry, Egyptian golden headdress, heavy eyeliner", v:"Soberba, sedutora e imponente."},
-            'L04': {n:"Batata Shakespeare", d:"Potato wearing a renaissance ruff collar, holding a quill", v:"Teatral, projetada, sotaque britânico clássico."},
-            'L05': {n:"Tomate Pelé", d:"Red tomato, athletic build, retro 70s soccer jersey", v:"Inspiradora, alegre e nostálgica."}
-        },
-        'Ícones TV & Humor': {
-            'M04': {n:"Jabuticaba Silvio", d:"Glossy jabuticaba, shiny TV host suit, charismatic wide smile", v:"Carismática de animador de auditório, risada icônica."},
-            'C01': {n:"Maçã Chaves", d:"Red apple, freckles, striped ear-flap hat, suspenders", v:"Inocente, choramingando e infantil."},
-            'C02': {n:"Melancia Quico", d:"Watermelon, huge cheeks, black sailor suit, colorful ball", v:"Esganiçada, mimada e inflada."},
-            'C03': {n:"Maracujá Madruga", d:"Wrinkled passion fruit, bucket hat, thin mustache, worn out shirt", v:"Rouca, cansada e ranzinza."}
-        },
-        'Animes & Heróis': {
-            'A06': {n:"Abacate Goku", d:"Avocado, spiky glowing golden hair, orange martial arts gi", v:"Heróica, energética e poderosa."},
-            'A02': {n:"Caju Luffy", d:"Cashew, massive grin, straw hat, red vest", v:"Entusiasta, risada solta e gritante."},
-            'H07': {n:"Melão Batman", d:"Dark honeydew melon, black cowl, tactical cape, brooding glowing eyes", v:"Sussurrada, sombria e intimidante."},
-            'H08': {n:"Cebola Aranha", d:"Onion wearing a red and blue webbed mask, hanging upside down", v:"Jovem, irônica e rápida."}
-        },
-        'Vilões & Terror': {
-            'V01': {n:"Maçã Caveira", d:"Red peeled apple revealing a skull face, dark torn cape", v:"Cavernosa, arrastada, eco fantasmagórico."},
-            'V02': {n:"Banana Palhaço", d:"Pale rotting banana, creepy clown makeup, red balloon", v:"Fina, maníaca e com risadas histéricas."},
-            'T03': {n:"Abóbora Jason", d:"Rotten pumpkin, dirty hockey mask, holding a large machete", v:"Sem voz, apenas respiração pesada e lenta."},
-            'V04': {n:"Brócolis Mutante", d:"Giant radioactive broccoli monster, glowing green ooze", v:"Rugidos monstruosos e borbulhantes."},
-            'M01': {n:"Saxofonista Mascarado", d:"Mysterious character in gold mask, sleek suit, holding glowing sax", v:"Sem voz, apenas solo de saxofone suave."}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGA STUDIO 46.0 — OMNIVERSO COMPLETO (VIDEO & AUDIO)</title>
+    <style>
+        :root {
+            --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
+            --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
+            --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
+            --primary-orange: #f69d50; --primary-pink: #ff7b72;
+            --titan-grad: linear-gradient(135deg, #f85149 0%, #d2a8ff 100%);
         }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
+        .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        .full { grid-column: 1 / span 2; }
+        
+        h1 { text-align: center; background: var(--titan-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;}
+        h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
+        
+        select, textarea, input[type="number"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; }
+        select:focus, textarea:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 2px rgba(163, 113, 247, 0.3); }
+        textarea { height: 90px; color: #3fb950; resize: vertical; font-family: monospace; }
+        
+        button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease;}
+        button.btn-story { background: var(--primary-green); margin-top: 5px; }
+        button.btn-email { background: #30363d; border: 1px solid var(--primary-blue); margin-top: 5px; }
+        button:active { transform: scale(0.98); }
+        
+        .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-purple); cursor: pointer;}
+        
+        .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
+        #final { height: 200px; background: #000; color: #ff7b72; border-color: #f85149; font-size: 13px; line-height: 1.4; }
+        
+        /* Estilo do Storyboard */
+        #output-storyboard { background: #0d1117; padding: 10px; border-radius: 6px; max-height: 600px; overflow-y: auto; }
+        .cena-bloco { border-left: 4px solid var(--primary-purple); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 0 6px 6px 0; }
+        .cena-titulo { font-weight: bold; color: var(--primary-pink); margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
+        .cena-acao { color: var(--text-main); font-size: 14px; margin-bottom: 8px; }
+        .cena-fala { color: var(--primary-blue); font-style: italic; font-weight: bold; margin-bottom: 8px; }
+        .cena-dna { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+        .cena-voz { font-size: 12px; color: var(--primary-green); }
+
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .full { grid-column: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎥 MEGA STUDIO 46.0 — OMNIVERSO COMPLETO</h1>
+
+<div class="container">
+    <div class="card">
+        <h2>📂 1. SISTEMA DE DIRETRIZES (NICHO)</h2>
+        <select id="nicho" onchange="atualizarTemas()">
+            <option value="">-- Escolha o Nicho --</option>
+            <option value="AGRESTINA">🌵 Lore Agrestina (Original)</option>
+            <option value="SHOPPING">🏬 Shopping (Exclusivo Noturno)</option>
+            <option value="NOVELA">📺 Novela / Drama</option>
+            <option value="ANIMES">💥 Animes, Mangá & Desenhos</option>
+            <option value="CLIP">🎵 Videoclipe Musical / Rap</option>
+        </select>
+    </div>
+
+    <div class="card">
+        <h2>🗺️ 2. TEMA / ÂNCORA DA HISTÓRIA</h2>
+        <select id="tema" onchange="atualizarCenarios()" disabled>
+            <option value="">-- Autenticar Âncora / Tema --</option>
+        </select>
+    </div>
+
+    <div class="card full">
+        <h2>📍 3. RENDERIZAÇÃO DE AMBIENTE (CENÁRIOS FULL)</h2>
+        <div class="checkbox-container">
+            <input type="checkbox" id="travar_cenario" onchange="travarCenario()">
+            <label for="travar_cenario">🔒 TRAVAR CENÁRIO (Manter texto atual ao mudar menus)</label>
+        </div>
+        <select id="cenario_lista" onchange="puxarCenario()" disabled>
+            <option value="">-- Escolher Cenário --</option>
+        </select>
+        <textarea id="texto_cenario" oninput="gerarTudo()" placeholder="A descrição detalhada do cenário aparecerá aqui..."></textarea>
+    </div>
+
+    <div class="card full">
+        <h2 style="color: var(--primary-purple);">👥 4. ELENCO, DNA & DESIGN DE VOZ</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+            <div><span class="label-text">Protagonista:</span><select id="prota" onchange="gerarTudo()"></select></div>
+            <div><span class="label-text">Coadjuvante 1:</span><select id="coadj1" onchange="gerarTudo()"></select></div>
+            <div><span class="label-text">Figurantes / Multidão:</span><select id="multidao" onchange="gerarTudo()"></select></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 style="color: var(--primary-orange);">🧍 5. POSES & CÂMERAS</h2>
+        <select id="pose_personagem" onchange="gerarTudo()">
+            <option value="Dynamic natural posture, looking at the camera.">🧍 Padrão / Neutra</option>
+            <option value="Epic superhero landing, one knee on the ground.">🦸 Hero Landing</option>
+            <option value="Aggressive rap pose, hand gestures matching the beat.">🎤 Postura Rap</option>
+        </select>
+        <select id="cena_numero" onchange="gerarTudo()" style="margin-top: 10px;">
+            <option value="Wide shot, 24mm lens. Cinematic establishing shot.">🎥 Wide 24mm</option>
+            <option value="Medium shot, 50mm lens. Focus on dialogue.">🎥 Medium 50mm</option>
+            <option value="Extreme close-up, macro lens, 85mm.">🎥 Close-up 85mm</option>
+        </select>
+    </div>
+
+    <div class="card">
+        <h2 style="color: var(--primary-blue);">🎨 6. ESTILO VISUAL / RENDER</h2>
+        <select id="estilo_render" onchange="gerarTudo()">
+            <option value="Hybrid style, hyper-realistic Live Action environment with 3D stylized 'Cartoon Elinaldo V1' characters, 8k.">🧬 HÍBRIDO (Realismo + Cartoon V1)</option>
+            <option value="3D Stylized character, signature style of Cartoon Elinaldo V1, vibrant colors.">🎨 ORIGINAL (100% Cartoon V1)</option>
+        </select>
+    </div>
+
+    <div class="card full">
+        <h2 style="color: var(--primary-red);">⚙️ 7. GERAÇÃO DE SCRIPT & STORYBOARD DETALHADO</h2>
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <div style="flex: 1;">
+                <span class="label-text">Quantidade de Cenas:</span>
+                <select id="qtd_cenas">
+                    <option value="1">1 Cena (Shot Rápido)</option>
+                    <option value="2">2 Cenas (Ação/Reação)</option>
+                    <option value="3" selected>3 Cenas (Mini Arco)</option>
+                    <option value="4">4 Cenas (Sequência Completa)</option>
+                    <option value="5">5 Cenas (Episódio Curto)</option>
+                </select>
+            </div>
+            <div style="flex: 2; display: flex; align-items: flex-end;">
+                <button class="btn-story" onclick="gerarRoteiroCompleto()">🎬 GERAR STORYBOARD COMPLETO</button>
+            </div>
+        </div>
+        
+        <div id="output-storyboard">
+            <div style="text-align: center; color: var(--text-muted); padding: 20px;">
+                O roteiro com DNA, Falas e Câmera será gerado aqui...
+            </div>
+        </div>
+    </div>
+
+    <div class="card full">
+        <h2 style="color: var(--primary-green);">🚀 8. TERMINAL DO DIRETOR (PROMPT IA GERAL)</h2>
+        <textarea id="final" readonly placeholder="O prompt técnico base será compilado aqui..."></textarea>
+        <button onclick="copiar()">COPIAR PROMPT BASE</button>
+    </div>
+</div>
+
+<script>
+// =========================================================
+// BANCOS DE DADOS DE PERSONAGENS & DNA
+// =========================================================
+const p = {
+    'Heróis Modeship': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya"},
+    'Série Agrestina': {'A01':"Lampião Caju", 'A02':"Maria Pitaya Bonita", 'A03':"Cangaceiro Melão"},
+    'Vilões & Terror': {'V01':"Maçã Caveira", 'V02':"Banana Palhaço", 'T03':"Abóbora Jason"},
+    'Ícones TV': {'M04':"Jabuticaba Silvio", 'C01':"Maçã Chaves", 'C03':"Maracujá Madruga"}
+};
+
+const d = {
+    'P01':{d:"Anthropomorphic Lemon, scarred face, tactical vest"},
+    'P02':{d:"Anthropomorphic Tomato, sweating, nervous detective coat"},
+    'P03':{d:"Anthropomorphic Pitaya, cyberpunk glowing scales"},
+    'A01':{d:"Cashew fruit wearing traditional leather cangaceiro hat, rugged"},
+    'A02':{d:"Pitaya with traditional northeastern dress, fierce expression"},
+    'V01':{d:"Red peeled apple, skull face, dark cape"},
+    'C01':{d:"Red apple, freckles, striped hat, suspenders"}
+};
+
+const v = {
+    'P01': "Grave e rouca, estilo mercenário durão.",
+    'P02': "Anasalada, gaguejos nervosos e rápidos.",
+    'P03': "Feminina, timbre futurista e limpo.",
+    'A01': "Forte sotaque pernambucano, voz de comando.",
+    'C01': "Esganiçada, infantil e choramingando."
+};
+
+const crowds = {
+    'G01':"Multidão de Fãs / Paparazzi", 'G04':"Público de Estádio (Torcida)", 'G08':"Faxineiros do Shopping"
+};
+
+// =========================================================
+// BANCO DE CENÁRIOS
+// =========================================================
+const dataNicho = {
+    'AGRESTINA': {
+        'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"],
+        'Sertão Misterioso': ["Estrada de Terra|Dusty dirt road, mandacaru cactus, hot sun", "Casa de Taipa|Rustic mud house interior, wood stove"]
     },
-    multidoes: { 
-        'VAZIO': "Sem Figurantes (Cena Limpa)",
-        'G01': "Multidão de Fãs / Paparazzi com flashes", 
-        'G02': "Horda de Zumbis famintos e rastejantes", 
-        'G03': "Exército Medieval (Cavaleiros e Soldados)",
-        'G04': "Público de Estádio (Torcida uniformizada gritando)",
-        'G05': "Convidados de Festa Elegante em trajes de gala", 
-        'G06': "Transeuntes de Metrópole Chuvosa com guarda-chuvas",
-        'G07': "Ciborgues Revoltados protestando",
-        'G08': "Faxineiros do Shopping trabalhando ao fundo" 
+    'SHOPPING': {
+        'Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights", "Escada Rolante|Stopped escalator in a dark empty shopping mall"]
     },
-    poses: {
-        'Neutra Frontal': "Dynamic natural posture, standing still, looking directly at the camera.",
-        'Entrevista Confessionário': "Sitting in a confessional chair, talking to camera, reality TV vibe, gesturing hands.",
-        'MMA Luta': "Intense MMA combat stance, fists raised, aggressive and low posture.",
-        'Ataque Mágico': "Casting a powerful magic spell, glowing hands pushing forward, intense focus.",
-        'Hero Landing': "Epic superhero landing, one knee and one fist on the ground, debris flying around.",
-        'Fuga Explosão': "Walking away casually in slow motion, completely ignoring a massive explosion behind them.",
-        'Fuga Apocalíptica': "Sprinting desperately towards the camera, looking back in terror.",
-        'Hacking Frenético': "Typing furiously on multiple holographic floating keyboards, hacker posture.",
-        'Dancinha Viral': "Frontal static camera, full body shot, executing a synchronized viral TikTok choreography.",
-        'Postura Rap': "Aggressive rap pose, leaning into the camera, hand gestures matching the beat.",
-        'Discurso Épico': "Standing on a high ledge, arms raised wide, giving an inspiring speech to an unseen crowd."
+    'NOVELA': { 
+        'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway", "Quarto de Motel Escuro|Dark motel room, neon sign"] 
     },
-    cameras: {
-        'Wide 24mm': "Wide establishing shot, 24mm lens. Shows the entire environment and scale.",
-        'Medium 50mm': "Medium shot, 50mm lens. Waist up, perfect for dialogue and expression.",
-        'Close-up 85mm': "Tight close-up shot, 85mm portrait lens. Focus on intense facial emotion and details.",
-        'Macro Lente': "Extreme macro shot. Capturing minute details, sweat, or textures.",
-        'Olho de Deus (Top-Down)': "God's eye view, top-down camera looking directly below at the subject.",
-        'Dutch Angle (Inclinada)': "Dutch angle, tilted camera horizon, creating a sense of unease, madness or fast action.",
-        'Fisheye Cômico': "Fisheye lens, heavily distorted edges, claustrophobic or comedic 90s music video effect."
-    },
-    motions: {
-        'Estática (Tripé)': "Locked off camera on a tripod, completely still, focusing on the action within the frame.",
-        'Tracking Rápido': "Fast tracking camera following alongside the running subject, motion blur.",
-        'Orbiting 360': "Orbiting camera spinning slowly 360 degrees around the character, epic matrix style.",
-        'Drone Push-in': "Drone fly-through pushing forward rapidly through the scene towards the subject.",
-        'Cinematic Pan': "Slow cinematic pan to the right, dynamic light shifts as the scene is revealed.",
-        'Handheld Tremida': "Shaky handheld camera movement, documentary style, adding intense raw realism.",
-        'Dolly Zoom (Vertigo)': "Dolly zoom effect (Vertigo effect), background distorts and stretches while subject stays the same size.",
-        'Crane Shot (Grua)': "Epic crane shot, moving up and away to reveal the massive scale of the surrounding environment."
-    },
-    estilos: {
-        'Híbrido (Live + 3D)': "Hybrid style, hyper-realistic Live Action environment integrated with 3D stylized characters, 8k resolution.",
-        'Realismo Cinematográfico': "Hyper-realistic Live Action look, cinematic photography, anamorphic lens flares, studio lighting, Arri Alexa.",
-        'Cartoon V1 (Pixar)': "3D Stylized character, signature modern 3D animation style, vibrant lighting, smooth textures (Pixar/Disney style).",
-        'Anime 2D Clássico': "Anime style, 2D cel-shaded, Studio Ghibli influence, detailed hand-painted backgrounds.",
-        'Cyberpunk Unreal Engine': "Unreal Engine 5 render, raytracing, heavy neon contrast, volumetric fog, cyberpunk aesthetic.",
-        'Dark Fantasy Concept': "Dark fantasy concept art, grimdark aesthetic, gothic mood, dramatic harsh shadows, Greg Rutkowski style.",
-        'Stop Motion (Massinha)': "Stop-motion claymation style, tactile clay textures, visible fingerprints on models, slight frame stutter.",
-        'VHS Vintage 80s': "1980s VHS camcorder footage, chromatic aberration, heavy scanlines, low fidelity nostalgic feel."
-    },
-    roteiros: {
-        'PLANETA_RAP': ["Hook: Close-up extremo no rosto com batida forte de morro.", "Solo: Saxofone assume e câmera se afasta revelando cenário.", "Flow: Rimas gesticulando no cenário com luzes neon.", "Final: Pose épica no drop final da batida."],
-        'TRAILER_EPICO': ["Início: Fade in lento, ambiente hostil e silencioso, Wide Shot.", "Tensão: Personagem principal se prepara, close extremo nos olhos.", "Clímax: Ação rápida, câmera handheld tremida, sequência de golpes ou fuga.", "Fim: Posa icônica final em slow motion, título surge na tela."],
-        'CENA_COMEDIA': ["Setup: Personagem agindo naturalmente em câmera média.", "Incidente: Algo cai ou quebra, Dolly Zoom cômico (Vertigo) na cara de choque.", "Reação: Fisheye lens bem perto do rosto gritando ou choramingando.", "Punchline: Câmera estática mostrando o resultado da confusão ao fundo."]
+    'CLIP': { 
+        'Rap/Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway, neon lights"] 
     }
 };
+
+// =========================================================
+// ROTEIROS DINÂMICOS COM FALAS (F = Protagonista, C = Coadjuvante)
+// =========================================================
+const scriptsDB = {
+    'AGRESTINA': [
+        { c: "Wide 24mm", a: "[PROTA] observa o horizonte lá de cima do [CENARIO]. O vento bate forte.", f: "[PROTA]: A vista daqui de cima nunca perde a graça, né não?" },
+        { c: "Medium 50mm", a: "[COADJ] se aproxima de braços cruzados.", f: "[COADJ]: Pois é. Mas a gente não subiu aqui só pra ver a paisagem." },
+        { c: "Close-up 85mm", a: "[PROTA] abaixa a cabeça e aperta os olhos com tensão.", f: "[PROTA]: Eu sei... Eles tão chegando." },
+        { c: "Dolly Zoom", a: "Ouve-se um estrondo ao fundo. [COADJ] aponta desesperado.", f: "[COADJ]: Olha lá! Corre!" },
+        { c: "Tracking Rápido", a: "Os dois correm ladeira abaixo fugindo pela poeira.", f: "[PROTA]: Num disse! Bota as perna pra funcionar!" }
+    ],
+    'NOVELA': [
+        { c: "Medium 50mm", a: "O clima pesa no [CENARIO]. [PROTA] encara [COADJ] de frente.", f: "[PROTA]: Por que você fez isso pelas minhas costas?" },
+        { c: "Close-up 85mm", a: "[COADJ] tenta desviar o olhar, lágrimas escorrendo.", f: "[COADJ]: Eu achei que estava te protegendo..." },
+        { c: "Dutch Angle", a: "[PROTA] bate na mesa (ou parede).", f: "[PROTA]: Protegendo? Você destruiu tudo!" },
+        { c: "Static", a: "[COADJ] vira as costas para ir embora.", f: "[COADJ]: Um dia você vai entender." },
+        { c: "Slow Pan", a: "[PROTA] fica sozinho no cenário escuro, pensativo.", f: "[PROTA]: (Sussurrando) Eu nunca vou te perdoar." }
+    ],
+    'SHOPPING': [
+        { c: "Wide 24mm", a: "Silêncio absoluto no [CENARIO]. [PROTA] caminha devagar com uma lanterna.", f: "[PROTA]: Tem alguém aí? O turno já acabou!" },
+        { c: "Medium 50mm", a: "[COADJ] surge das sombras, assustando [PROTA].", f: "[COADJ]: Psiu! Fala baixo... Eles ouvem tudo." },
+        { c: "Close-up", a: "[PROTA] abaixa a lanterna, tremendo.", f: "[PROTA]: Eles quem, cara? Você tá me assustando." },
+        { c: "Handheld", a: "As luzes do shopping piscam de repente.", f: "[COADJ]: Já era. Fica atrás de mim." },
+        { c: "Tracking", a: "Os dois saem correndo pelos corredores escuros.", f: "[PROTA]: Pelo amor de Deus, me tira daqui!" }
+    ],
+    'PADRAO': [
+        { c: "Wide", a: "[PROTA] entra no ambiente: [CENARIO].", f: "[PROTA]: Que lugar estranho..." },
+        { c: "Medium", a: "[COADJ] aparece do nada.", f: "[COADJ]: Você não deveria estar aqui." },
+        { c: "Close", a: "[PROTA] se prepara para agir.", f: "[PROTA]: Eu faço as regras." },
+        { c: "Zoom", a: "Ação rápida entre os dois.", f: "[COADJ]: Então aguente as consequências!" },
+        { c: "Wide", a: "A poeira baixa no cenário.", f: "[PROTA]: Foi mais fácil do que eu pensava." }
+    ]
+};
+
+// =========================================================
+// FUNÇÕES DO SISTEMA
+// =========================================================
+function atualizarTemas() {
+    const nicho = document.getElementById('nicho').value;
+    const tSel = document.getElementById('tema');
+    const cSel = document.getElementById('cenario_lista');
+    
+    tSel.innerHTML = '<option value="">-- Autenticar Tema --</option>';
+    tSel.disabled = true; cSel.disabled = true;
+    if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
+
+    if (nicho && dataNicho[nicho]) {
+        tSel.disabled = false;
+        Object.keys(dataNicho[nicho]).forEach(t => tSel.add(new Option(t, t)));
+    }
+}
+
+function atualizarCenarios() {
+    const n = document.getElementById('nicho').value;
+    const t = document.getElementById('tema').value;
+    const cSel = document.getElementById('cenario_lista');
+    
+    cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>';
+    cSel.disabled = true;
+    if(!document.getElementById('travar_cenario').checked) document.getElementById('texto_cenario').value = "";
+
+    if (n && t && dataNicho[n][t]) {
+        cSel.disabled = false;
+        dataNicho[n][t].forEach(c => {
+            let parts = c.split('|');
+            cSel.add(new Option(parts[0], parts[1]));
+        });
+    }
+}
+
+function travarCenario() { document.getElementById('cenario_lista').disabled = document.getElementById('travar_cenario').checked; }
+function puxarCenario() { 
+    if(!document.getElementById('travar_cenario').checked) { 
+        document.getElementById('texto_cenario').value = document.getElementById('cenario_lista').value; 
+    } 
+    gerarTudo(); 
+}
+
+function carregarElenco() {
+    ['prota', 'coadj1'].forEach(s => {
+        const select = document.getElementById(s);
+        select.innerHTML = '<option value="">-- Ninguém --</option>';
+        Object.keys(p).forEach(g => {
+            let grp = document.createElement('optgroup'); grp.label = g;
+            Object.keys(p[g]).forEach(id => grp.appendChild(new Option(p[g][id], id)));
+            select.appendChild(grp);
+        });
+    });
+    const m = document.getElementById('multidao');
+    m.innerHTML = '<option value="">-- Vazio --</option>';
+    Object.keys(crowds).forEach(id => m.add(new Option(crowds[id], id)));
+}
+
+function getCharName(id) {
+    if (!id) return null;
+    for (const group in p) { if (p[group][id]) return p[group][id]; }
+    return "Desconhecido";
+}
+
+function gerarTudo() {
+    const loc = document.getElementById('texto_cenario').value || "Local não definido";
+    const pId = document.getElementById('prota').value;
+    const cId = document.getElementById('coadj1').value;
+    const multi = document.getElementById('multidao').value;
+    
+    let castStr = "";
+    if (pId) castStr += `ACTOR 1: ${getCharName(pId)} (${d[pId]? d[pId].d : 'Stylized 3D'})\n`;
+    if (cId) castStr += `ACTOR 2: ${getCharName(cId)} (${d[cId]? d[cId].d : 'Stylized 3D'})\n`;
+    if (multi) castStr += `EXTRAS: ${crowds[multi]}\n`;
+
+    document.getElementById('final').value = `[MEGA STUDIO 46.0]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${castStr}\nCAMERA/ACTION: ${document.getElementById('cena_numero').value} / ${document.getElementById('pose_personagem').value}\n\nPARAMS: 8K, Cinematic Lighting, 60fps.`;
+}
+
+// A MÁGICA ACONTECE AQUI: STORYBOARD COM FALAS, DNA E VOZ
+function gerarRoteiroCompleto() {
+    const nicho = document.getElementById('nicho').value || 'PADRAO';
+    const qtd = parseInt(document.getElementById('qtd_cenas').value);
+    const loc = document.getElementById('cenario_lista').options[document.getElementById('cenario_lista').selectedIndex]?.text || "Cenário Atual";
+    
+    const pId = document.getElementById('prota').value;
+    const cId = document.getElementById('coadj1').value;
+    
+    const protaNome = pId ? getCharName(pId) : "Protagonista";
+    const protaDNA = pId && d[pId] ? d[pId].d : "Padrão 3D";
+    const protaVoz = pId && v[pId] ? v[pId] : "Voz Padrão Gerada por IA";
+
+    const coadjNome = cId ? getCharName(cId) : "Coadjuvante";
+    const coadjDNA = cId && d[cId] ? d[cId].d : "Padrão 3D";
+    const coadjVoz = cId && v[cId] ? v[cId] : "Voz Padrão Gerada por IA";
+
+    let template = scriptsDB[nicho] ? scriptsDB[nicho] : scriptsDB['PADRAO'];
+    
+    let htmlOut = "";
+
+    for(let i = 0; i < qtd; i++) {
+        // Usa o template e recicla caso peça mais cenas que o array possui
+        let cenaInfo = template[i % template.length];
+        
+        let acaoFinal = cenaInfo.a.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome).replace(/\[CENARIO\]/g, loc);
+        let falaFinal = cenaInfo.f.replace(/\[PROTA\]/g, protaNome).replace(/\[COADJ\]/g, coadjNome);
+        
+        // Identifica quem está falando para atrelar o DNA e Voz corretos na cena
+        let dnaExibido = "";
+        let vozExibida = "";
+        
+        if (falaFinal.includes(protaNome)) {
+            dnaExibido = `🧬 DNA Ativo (${protaNome}): ${protaDNA}`;
+            vozExibida = `🎙️ Design de Voz: ${protaVoz}`;
+        } else if (falaFinal.includes(coadjNome)) {
+            dnaExibido = `🧬 DNA Ativo (${coadjNome}): ${coadjDNA}`;
+            vozExibida = `🎙️ Design de Voz: ${coadjVoz}`;
+        } else {
+            dnaExibido = `🧬 Cena de Ação/Geral`;
+            vozExibida = `🎙️ Som Ambiente (Foley)`;
+        }
+
+        htmlOut += `
+        <div class="cena-bloco">
+            <div class="cena-titulo">CENA 0${i+1} — 🎥 Câmera: ${cenaInfo.c}</div>
+            <div class="cena-acao">🎬 <b>Ação:</b> ${acaoFinal}</div>
+            <div class="cena-fala">💬 ${falaFinal}</div>
+            <div class="cena-dna">${dnaExibido}</div>
+            <div class="cena-voz">${vozExibida}</div>
+        </div>
+        `;
+    }
+
+    document.getElementById('output-storyboard').innerHTML = htmlOut;
+}
+
+function copiar() { document.getElementById('final').select(); document.execCommand("copy"); alert("Prompt Base Copiado!"); }
+
+window.onload = carregarElenco;
+</script>
+</body>
+</html>
