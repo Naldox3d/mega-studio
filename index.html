@@ -24,7 +24,6 @@
         select, textarea, input[type="number"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; appearance: none; }
         select:focus, textarea:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 2px rgba(163, 113, 247, 0.3); }
         
-        /* Estilo especial para o menu de roupas */
         .select-roupa { border-color: var(--primary-green); color: var(--primary-green); font-size: 12px; padding: 10px; margin-top: -8px; background: #0d1117; }
         .select-roupa:focus { box-shadow: 0 0 0 2px rgba(63, 185, 80, 0.3); }
 
@@ -60,6 +59,8 @@
         <h2>📂 1. SISTEMA DE DIRETRIZES (NICHO)</h2>
         <select id="nicho" onchange="atualizarTemas()">
             <option value="">-- Escolha o Nicho --</option>
+            <option value="FRUITS_ADVENTURES">🏝️ Fruits Adventures (Terra de Elinaldo)</option>
+            <option value="COMERCIAL">💼 Comercial, Vendas & Creators</option>
             <option value="AGRESTINA">🌵 Lore Agrestina (Original)</option>
             <option value="SHOPPING">🏬 Shopping (Exclusivo Noturno)</option>
             <option value="NOVELA">📺 Novela / Drama</option>
@@ -144,6 +145,10 @@
                 <option value="Back-to-back combat pose, holding weapons, looking at surrounded enemies.">⚔️ Costas com Costas</option>
                 <option value="Walking away in slow motion, ignoring a massive explosion.">💥 Fuga Explosão (Andando de Costas)</option>
             </optgroup>
+            <optgroup label="Apresentação Comercial">
+                <option value="Professional presentation pose, smiling enthusiastically, pointing at a product.">💼 Apresentação de Produto</option>
+                <option value="Sitting at a desk, talking directly to the camera, podcast style.">🎙️ Locução / Podcast</option>
+            </optgroup>
         </select>
     </div>
 
@@ -189,7 +194,8 @@
                     <option value="1">1 Cena (Shot Rápido)</option>
                     <option value="2">2 Cenas (Ação/Reação)</option>
                     <option value="3" selected>3 Cenas (Mini Arco)</option>
-                    <option value="4">4 Cenas (Sequência)</option>
+                    <option value="4">4 Cenas (Sequência Completa)</option>
+                    <option value="5">5 Cenas (Episódio Viral)</option>
                 </select>
             </div>
             <div style="flex: 2; display: flex; align-items: flex-end;">
@@ -198,7 +204,7 @@
         </div>
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted); padding: 20px;">
-                O roteiro com DNA, Falas, Figurino e Câmera será gerado aqui...
+                O roteiro dinâmico com DNA, Falas, Figurino e Câmera será gerado aqui...
             </div>
         </div>
     </div>
@@ -212,7 +218,7 @@
 
 <script>
 // =========================================================
-// BANCOS DE DADOS DE ELENCO E VOZ
+// BANCOS DE DADOS DE ELENCO, GRUPOS E FIGURINO
 // =========================================================
 const p = {
     'Heróis Originais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"},
@@ -231,77 +237,99 @@ const p = {
 const crowds = {
     'Grupos Específicos': {'GP01': "Grupo de Mulheres interagindo e conversando", 'GP02': "Grupo de Homens rindo e descontraídos", 'GP03': "Vários Casais passeando pelo cenário", 'GP04': "Casal Romântico ao fundo abraçado"},
     'Elenco Conjunto': {'ALL01': "Todos os Personagens da Cena reunidos", 'ALL02': "Todos os Heróis Originais posando juntos", 'ALL03': "Facção de Vilões conspirando no fundo"},
-    'Multidões & Hordas': {'G01': "Multidão de Fãs e Paparazzi com flashes", 'G02': "Horda enorme de Zumbis de Frutas", 'G03': "Exército Medieval em formação", 'G04': "Público de Estádio (Torcida animada)", 'G05': "Convidados Elegantes em Festa de Luxo", 'G07': "Guarda de Elite Mascarada patrulhando", 'G08': "Trabalhadores de Shopping"}
+    'Multidões & Hordas': {'G01': "Multidão de Fãs e Paparazzi com flashes", 'G02': "Horda enorme de Zumbis de Frutas", 'G03': "Exército Medieval em formação", 'G04': "Público de Estádio (Torcida animada)", 'G05': "Convidados Elegantes em Festa de Luxo", 'G07': "Guarda de Elite Mascarada patrulhando", 'G08': "Trabalhadores de Shopping (Segurança/Limpeza)"}
 };
 
-// =========================================================
-// NOVO BANCO DE DADOS: FIGURINOS E ROUPAS TEMÁTICAS
-// =========================================================
 const roupas = {
-    'Estilo Casual / Urbano': {
-        'R_CAS01': "wearing streetwear, baggy hoodie and cap",
-        'R_CAS02': "wearing winter clothes, thick coat and scarf",
-        'R_CAS03': "wearing summer beachwear, shorts and sunglasses",
-        'R_CAS04': "wearing luxury designer clothes, gold watch"
+    'Profissões & Apresentação': {
+        'R_PRO01': "wearing an elegant tailored business suit, tie, professional",
+        'R_PRO02': "wearing a white doctor/scientist lab coat, glasses",
+        'R_PRO03': "wearing a fast-food worker uniform with a name tag and cap",
+        'R_PRO04': "wearing a classic police officer uniform with badge"
     },
-    'Sci-Fi & Ação': {
-        'R_SCI01': "wearing a futuristic cyberpunk neon suit",
-        'R_SCI02': "wearing a full astronaut space suit with helmet",
-        'R_SCI03': "wearing heavy tactical SWAT gear and bulletproof vest",
-        'R_SCI04': "wearing a matrix-style black leather trench coat"
+    'Estilo Casual / Creator': {
+        'R_CAS01': "wearing streetwear, baggy hoodie, cool sneakers, influencer style",
+        'R_CAS02': "wearing a podcast host setup, stylish casual shirt, headphones",
+        'R_CAS03': "wearing summer beachwear, floral shirt, shorts and sunglasses"
     },
-    'Fantasia & Épico': {
-        'R_FAN01': "wearing shiny medieval knight armor",
-        'R_FAN02': "wearing a mystical wizard robe with ancient runes",
-        'R_FAN03': "wearing traditional leather cangaceiro clothes",
-        'R_FAN04': "wearing a regal king/queen crown and velvet cape"
+    'Sobrevivência & Jogo (Round 6)': {
+        'R_R601': "wearing a green tracksuit with white stripes, numbered patch, Squid Game style",
+        'R_R602': "wearing a red jumpsuit and a black mesh mask, guard uniform",
+        'R_R603': "wearing tactical military survival gear, muddy, torn clothes"
     },
-    'Profissões & Uniformes': {
-        'R_PRO01': "wearing a white doctor/scientist lab coat",
-        'R_PRO02': "wearing a classic police officer uniform",
-        'R_PRO03': "wearing a fast-food worker uniform with a name tag",
-        'R_PRO04': "wearing an elegant tailored business suit"
+    'Sci-Fi & Cyberpunk': {
+        'R_SCI01': "wearing a futuristic cyberpunk neon jacket, high tech visor",
+        'R_SCI02': "wearing a full astronaut space suit with glass helmet"
     },
-    'Terror & Festas': {
-        'R_TER01': "wearing a scary clown costume with blood stains",
-        'R_TER02': "wearing a classic vampire tuxedo",
-        'R_TER03': "wearing a torn and dirty zombie outfit",
-        'R_TER04': "wearing an elegant masquerade ball gown/suit"
+    'Dorama & Elegância': {
+        'R_DOR01': "wearing a stylish beige Korean winter coat, turtleneck, romantic K-drama style",
+        'R_DOR02': "wearing a beautiful elegant masquerade ball gown/suit"
     }
 };
 
 const d = {
-    'P01':{d:"Anthropomorphic Lemon, scarred face"}, 'P02':{d:"Anthropomorphic Tomato, sweating, nervous face"},
-    'P03':{d:"Anthropomorphic Pitaya, cyberpunk glowing scales"}, 'A01':{d:"Cashew fruit, rugged cangaceiro face"}
-}; // DNA Base sem as roupas hardcoded, permitindo adaptação. O resto funciona por fallback genérico.
+    'P01':{d:"Anthropomorphic Lemon, scarred face, maduro mustache"}, 'P02':{d:"Anthropomorphic Tomato, sweating, nervous face"},
+    'P03':{d:"Anthropomorphic Pitaya, undercut hairstyle, glowing scales"}, 'A01':{d:"Cashew fruit, rugged cangaceiro face"}
+}; // DNA Base. Se a roupa não for selecionada, ele usa a descrição natural de frutas/vegetais gerada pela IA.
 
-const v = { 'P01': "Grave e rouca, durão.", 'P02': "Anasalada, gaguejos." }; // Falback geral.
+const v = { 'P01': "Grave e rouca, durão.", 'P02': "Anasalada, gaguejos.", 'P03': "Feminina, timbre tecnológico e limpo." }; 
 
 // =========================================================
-// BANCO DE CENÁRIOS
+// NOVOS CENÁRIOS: FRUITS ADVENTURES & COMERCIAL
 // =========================================================
 const dataNicho = {
+    'FRUITS_ADVENTURES': {
+        'Cartão de Visitas (Luau & Diversão)': ["Praia Tropical da Ilha|Tropical beach at golden hour, palm trees, crystal clear turquoise water, vibrant", "Luau Frutal|Beach bonfire at night, tiki torches, colorful glowing fruit decorations", "Balsa de Melancia|Raft made of a giant watermelon slice, floating on the bright blue ocean"],
+        'Jogo da Morte (Round 6 / Alice)': ["Pátio de Areia Macabro|Massive enclosed sand playground, giant robotic fruit doll, bright eerie daylight, high tension", "Labirinto de Vidro|Neon-lit glass maze, dizzying reflections, dystopian survival game setup", "Dormitório Beliches|Massive concrete room, hundreds of metal bunk beds, cold institutional lighting"],
+        'Sobrevivência & Alta Tensão': ["Vulcão de Suco|Edge of a glowing active volcano filled with hot glowing juice, dangerous rocky terrain", "Selva Sombria|Dense dangerous jungle at night, glowing toxic plants, thick eerie fog"],
+        'Dorama Romântico / Drama': ["Ponte de Seul à Noite|Modern city bridge at night, romantic glowing lights, K-drama aesthetic", "Café Coreano|Cozy aesthetic Korean cafe, rain hitting the window, pastel colors"]
+    },
+    'COMERCIAL': {
+        'Apresentação & Vendas': ["Estúdio Infomercial|Bright white studio background, clean product podium, professional softbox lighting", "Cozinha Moderna (Review)|Modern clean luxury kitchen, marble countertop, bright morning light"],
+        'Mundo Corporativo': ["Escritório de Luxo|Modern glass corporate office, city skyline view, sleek modern desk", "Sala de Reunião|Corporate board room, projector screen, leather executive chairs"],
+        'Podcast & Locução': ["Estúdio de Podcast|Cozy dark podcast studio, neon signs in background, professional microphones on boom arms", "Cabine de Gravação|Radio broadcast booth, soundproof acoustic foam walls, mixing console"],
+        'Setup YouTuber / Influencer': ["Quarto Gamer RGB|Gaming room setup, glowing RGB LED strips, dual monitors, neon aesthetic vibe", "Setup Minimalista Aesthetic|Clean minimalist desk, warm aesthetic lighting, indoor potted plants"]
+    },
     'AGRESTINA': { 'Aventuras Locais': ["Monte Bom Jesus|Monte Bom Jesus at sunset, Caruaru city in background, cinematic lighting", "Pátio do Forró|Massive outdoor party square, colorful flags, rustic stage"] },
     'SHOPPING': { '01 - Corredores': ["Vitrine Fechada|Empty mall corridor at night, dim lights", "Escada Rolante|Stopped escalator in a dark empty shopping mall"] },
-    'NOVELA': { '01 - O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway", "Quarto de Motel Escuro|Dark motel room, neon sign"] },
-    'CLIP': { 'Ostentação': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway, neon lights"] }
+    'NOVELA': { 'O Flagrante': ["Beco Noir Chuvoso|Rainy neon-lit alleyway", "Quarto de Motel Escuro|Dark motel room, neon sign"] },
+    'CLIP': { 'Ostentação / Trap': ["Carro Rebaixado|Low angle shot, luxury car headlights, smoke", "Beco com Grafite|Dark alleyway, neon lights"] }
 };
 
+// =========================================================
+// ROTEIROS DINÂMICOS PARA OS NOVOS NICHOS
+// =========================================================
 const scriptsDB = {
+    'FRUITS_ADVENTURES': [
+        { c: "Wide 24mm", a: "O alarme toca no [CENARIO]. [PROTA] e [COADJ] estão cercados. Clima tenso.", f: "[PROTA]: Fica parado! Se a gente se mexer agora, já era." },
+        { c: "Close-up 85mm", a: "Suor escorre no rosto de [COADJ]. A respiração está ofegante.", f: "[COADJ]: Eu não vou conseguir... O tempo tá acabando!" },
+        { c: "Dutch Angle", a: "Uma luz vermelha pisca no cenário. [PROTA] segura firme o braço de [COADJ].", f: "[PROTA]: Confia em mim. No três, a gente corre com tudo!" },
+        { c: "Tracking Rápido", a: "Os dois disparam correndo enquanto o cenário ameaça desmoronar atrás deles.", f: "[COADJ]: AAAAAAAAAH! Vambora!" },
+        { c: "Slow Motion", a: "Salto épico de sobrevivência de [PROTA] em direção à câmera.", f: "[PROTA]: Bem-vindos à Terra de Elinaldo, Máquina!" }
+    ],
+    'COMERCIAL': [
+        { c: "Medium 50mm", a: "[PROTA] está no centro do [CENARIO] olhando confiantemente para a câmera, estilo pitch de vendas.", f: "[PROTA]: Você já imaginou ter o controle total nas suas mãos? Chegou a hora." },
+        { c: "Close-up 85mm", a: "Câmera foca no rosto de [PROTA]. [COADJ] observa impressionado no fundo.", f: "[PROTA]: Qualidade, eficiência e um design que fala por si só." },
+        { c: "Tracking Rápido", a: "[PROTA] caminha pelo espaço mostrando o ambiente enquanto gesticula com energia.", f: "[PROTA]: Não é apenas uma compra, é um investimento no seu futuro!" },
+        { c: "Zoom Cômico/Dinâmico", a: "[COADJ] reage exageradamente de forma positiva para a câmera.", f: "[COADJ]: Uau! Onde eu clico pra comprar isso agora?!" },
+        { c: "Wide 24mm", a: "[PROTA] sorri e aponta para baixo na tela (Call to Action).", f: "[PROTA]: O link tá na bio. Não perca essa chance!" }
+    ],
     'NOVELA': [
         { c: "Medium 50mm", a: "O clima pesa no [CENARIO]. [PROTA] encara [COADJ].", f: "[PROTA]: Por que você fez isso?" },
         { c: "Close-up 85mm", a: "[COADJ] tenta desviar o olhar.", f: "[COADJ]: Achei que estava te protegendo..." },
-        { c: "Dutch Angle", a: "[PROTA] bate na mesa com raiva.", f: "[PROTA]: Protegendo? Você destruiu tudo!" }
+        { c: "Dutch Angle", a: "[PROTA] bate na mesa com raiva.", f: "[PROTA]: Protegendo? Você destruiu tudo!" },
+        { c: "Slow Pan", a: "[COADJ] sai de cena. [PROTA] fica sozinho(a).", f: "[PROTA]: Eu nunca vou te perdoar." }
     ],
     'PADRAO': [
         { c: "Wide", a: "[PROTA] entra em [CENARIO].", f: "[PROTA]: Que lugar estranho..." },
         { c: "Medium", a: "[COADJ] aparece.", f: "[COADJ]: Você não deveria estar aqui." },
-        { c: "Close", a: "[PROTA] se prepara para agir.", f: "[PROTA]: Eu faço as regras." }
+        { c: "Close", a: "[PROTA] se prepara para agir.", f: "[PROTA]: Eu faço as regras." },
+        { c: "Zoom", a: "Ação rápida entre os dois.", f: "[COADJ]: Então aguente as consequências!" }
     ]
 };
 
 // =========================================================
-// FUNÇÕES DO SISTEMA
+// FUNÇÕES DO SISTEMA E PROCESSAMENTO DO FIGURINO
 // =========================================================
 function atualizarTemas() {
     const nicho = document.getElementById('nicho').value;
@@ -333,7 +361,6 @@ function travarCenario() { document.getElementById('cenario_lista').disabled = d
 function puxarCenario() { if(!document.getElementById('travar_cenario').checked) { document.getElementById('texto_cenario').value = document.getElementById('cenario_lista').value; } gerarTudo(); }
 
 function carregarMenus() {
-    // Carrega Elenco Principal
     ['prota', 'coadj1', 'coadj2'].forEach(s => {
         const select = document.getElementById(s);
         select.innerHTML = '<option value="">-- Ninguém --</option>';
@@ -344,7 +371,6 @@ function carregarMenus() {
         });
     });
 
-    // Carrega Grupos e Figurantes
     const m = document.getElementById('multidao');
     m.innerHTML = '<option value="">-- Vazio --</option>';
     Object.keys(crowds).forEach(g => {
@@ -353,14 +379,13 @@ function carregarMenus() {
         m.appendChild(grp);
     });
 
-    // Carrega Roupas/Fantasias
     ['roupa_prota', 'roupa_coadj1', 'roupa_coadj2', 'roupa_multidao'].forEach(s => {
         const selRoupa = document.getElementById(s);
         selRoupa.innerHTML = '<option value="">👕 Roupa Padrão do DNA</option>';
         Object.keys(roupas).forEach(g => {
             let grp = document.createElement('optgroup'); grp.label = g;
             Object.keys(roupas[g]).forEach(id => {
-                let label = roupas[g][id].replace("wearing ", "").replace("a ", "").toUpperCase();
+                let label = roupas[g][id].replace("wearing ", "").replace("a ", "").replace("an ", "").toUpperCase();
                 grp.appendChild(new Option("👔 " + label, roupas[g][id]));
             });
             selRoupa.appendChild(grp);
@@ -382,7 +407,7 @@ function getCrowdName(id) {
 
 function buildActorDna(charId, outfitVal) {
     let baseDna = d[charId] ? d[charId].d : 'Stylized 3D Character';
-    if (outfitVal) return `${baseDna}, ${outfitVal}`; // Junta o DNA com a roupa escolhida
+    if (outfitVal) return `${baseDna}, ${outfitVal}`; 
     return baseDna;
 }
 
