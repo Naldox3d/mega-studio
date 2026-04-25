@@ -52,6 +52,7 @@
         .cena-dna { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
         .cena-voz { font-size: 11px; color: var(--primary-cyan); margin-bottom: 8px; }
         
+        /* ESTILO: DICAS DE EDIÇÃO CAPCUT */
         .cena-edicao { background: #0b0e14; border-left: 3px solid var(--primary-yellow); padding: 10px; font-size: 12px; color: #c9d1d9; font-family: monospace; border-radius: 4px; line-height: 1.5; }
         .edicao-titulo { color: var(--primary-yellow); font-weight: bold; margin-bottom: 4px; display: block; }
 
@@ -154,6 +155,7 @@
                 <option value="Passionate romantic kiss on the lips, holding each other closely.">💋 Beijo Apaixonado</option>
                 <option value="Gentle and affectionate face caress, looking lovingly into eyes.">🥰 Carinho no Rosto</option>
                 <option value="Hugging from behind, affectionately kissing the neck.">🫂 Cheirinho / Beijo no Pescoço</option>
+                <option value="Cinematic wedding pose at the altar, holding hands.">💍 Casamento (Altar/Alianças)</option>
             </optgroup>
             <optgroup label="Casual, Reações & Comédia">
                 <option value="Sitting casually, relaxed posture, natural behavior.">🛋️ Casual / Sentado Relaxado</option>
@@ -164,9 +166,10 @@
                 <option value="Frontal static camera, full body shot, viral TikTok dance choreography.">🕺 Dancinha Viral (TikTok / Reels)</option>
                 <option value="Aggressive rap pose, leaning into the camera, hand gestures.">🎤 Atitude Rap (Gesticulando)</option>
             </optgroup>
-            <optgroup label="Ação & Sobrevivência">
+            <optgroup label="Ação & Comercial">
                 <option value="Epic superhero landing, one knee on the ground, debris flying.">🦸 Hero Landing</option>
                 <option value="Walking away in slow motion, ignoring a massive explosion.">💥 Fuga Explosão (Andando de Costas)</option>
+                <option value="Professional presentation pose, smiling enthusiastically, pointing at a product.">💼 Apresentação Comercial</option>
             </optgroup>
         </select>
     </div>
@@ -254,7 +257,7 @@
 
 <script>
 // =========================================================
-// BANCOS DE DADOS COMPLETOS (RESTAURADOS 100%)
+// 1. BANCO DE DADOS DE PERSONAGENS E GRUPOS
 // =========================================================
 const p = {
     'Heróis Originais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pr. Uva Passa", 'P05':"Bananildo Musculoso"},
@@ -290,19 +293,19 @@ const acessorios = {
 };
 
 const estados = {
-    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt", 'E_MUT01': "zombified, rotting skin, glowing empty eyes", 'E_EMO04': "terrified, wide eyes, shivering in fear"}
+    'Emoções & Combate': {'E_EMO01': "crying intensely", 'E_EMO02': "extremely angry", 'E_BAT01': "battle-damaged, covered in dirt"}
 };
 
 const vozes = {
     'Locução & Romance': {'V_PRO01': "Voz de Político, persuasiva.", 'V_PRO02': "Voz de Locutor FM, aveludada.", 'V_FIL04': "Voz de Dorama, suave e romântica."},
-    'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica", 'V_FIL01': "Voz de Vilão Slasher", 'V_EMO04': "Voz Apavorada, sussurrando rápido."}
+    'Emoções': {'V_EMO01': "Voz Triste, embargada.", 'V_EMO02': "Voz Eufórica", 'V_FIL01': "Voz de Vilão Slasher"}
 };
 
 const d = { 'P01':{d:"Anthropomorphic Lemon, scarred face"}, 'P02':{d:"Anthropomorphic Tomato, nervous face"} }; 
 const vBase = { 'P01': "Grave e rouca.", 'P02': "Anasalada, gaguejos." }; 
 
 // =========================================================
-// 2. BANCO DE CENÁRIOS GIGANTE (RESTAURADO)
+// 2. BANCO DE CENÁRIOS GIGANTE E COMPLETO 
 // =========================================================
 const dataNicho = {
     'FRUITS_ADVENTURES': {
@@ -392,10 +395,13 @@ const dataNicho = {
     }
 };
 
+// =========================================================
+// 3. ROTEIROS AUTOMÁTICOS
+// =========================================================
 const scriptsNicho = {
     'FRUITS_ADVENTURES': [
-        { c: "Wide 24mm", a: "A tensão é alta no [CENARIO]. [PROTA] e [COADJ] se preparam para o pior.", f: "[PROTA]: É agora ou nunca. Fique de olhos abertos." },
-        { c: "Close-up 85mm", a: "[COADJ] acena com a cabeça, determinado.", f: "[COADJ]: Pode deixar. Nós vamos sair dessa juntos." }
+        { c: "Wide 24mm", a: "A brisa bate suave no [CENARIO]. [PROTA] e [COADJ] se olham profundamente.", f: "[PROTA]: Eu nunca imaginei que a gente chegaria até aqui." },
+        { c: "Close-up 85mm", a: "[COADJ] sorri, os olhos brilhando.", f: "[COADJ]: Todo esse tempo lutando... e o que importava estava bem na minha frente." }
     ],
     'PADRAO': [
         { c: "Wide", a: "[PROTA] está no [CENARIO] focado.", f: "[PROTA]: É agora ou nunca." },
@@ -417,7 +423,7 @@ const scriptsProntos = {
 };
 
 // =========================================================
-// FUNÇÕES DO SISTEMA (ATUALIZADAS COM A LÓGICA DE DICAS)
+// FUNÇÕES DO SISTEMA E LÓGICA DE DICAS (CAPCUT)
 // =========================================================
 function atualizarTemas() {
     const nicho = document.getElementById('nicho').value; const tSel = document.getElementById('tema'); const cSel = document.getElementById('cenario_lista');
@@ -428,7 +434,7 @@ function atualizarTemas() {
 function atualizarCenarios() {
     const n = document.getElementById('nicho').value; const t = document.getElementById('tema'); const cSel = document.getElementById('cenario_lista');
     cSel.innerHTML = '<option value="">-- Escolher Cenário --</option>'; cSel.disabled = true;
-    if (n && t && dataNicho[n][t]) { cSel.disabled = false; dataNicho[n][t].forEach(c => { let parts = c.split('|'); cSel.add(new Option(parts[0], parts[1])); }); }
+    if (n && t && dataNicho[n] && dataNicho[n][t]) { cSel.disabled = false; dataNicho[n][t].forEach(c => { let parts = c.split('|'); cSel.add(new Option(parts[0], parts[1])); }); }
 }
 
 function travarCenario() { document.getElementById('cenario_lista').disabled = document.getElementById('travar_cenario').checked; }
@@ -457,7 +463,6 @@ function gerarTudo() {
     document.getElementById('final').value = `[MEGA STUDIO 46.0]\nSTYLE: ${document.getElementById('estilo_render').value}\nLOC: ${loc}\n\nCAST:\n${cast}\nVOICE DESIGN:\n${v}\nCAMERA: ${document.getElementById('cena_numero').value}\nMOTION: ${document.getElementById('video_motion').value}\nACTION: ${document.getElementById('pose_personagem').value}\n\nPARAMS: 8K, Cinematic Lighting, 60fps.`;
 }
 
-// === NOVO ALGORITMO: DICAS DE EDIÇÃO (CAPCUT/PRO) ===
 function gerarDicaEdicao(cameraString) {
     let cam = cameraString.toLowerCase();
     if (cam.includes("zoom") || cam.includes("crash")) {
