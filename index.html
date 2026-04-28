@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 63.0 — LINHA DO TEMPO</title>
+    <title>MEGA STUDIO 64.0 — TRINDADE DA IA</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
             --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
             --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
-            --primary-cyan: #39c5bb; --primary-yellow: #e3b341;
+            --primary-cyan: #39c5bb; --primary-yellow: #e3b341; --primary-orange: #ff9800;
             --titan-grad: linear-gradient(135deg, #3fb950 0%, #2ea043 100%);
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
@@ -44,7 +44,7 @@
 
 <div class="container">
     <div class="card">
-        <h1>👁️ MEGA STUDIO 63.0 (LINHA DO TEMPO)</h1>
+        <h1>👁️ MEGA STUDIO 64.0 (TRINDADE DA IA)</h1>
     </div>
 
     <div class="card" style="border-color: var(--primary-yellow);">
@@ -134,15 +134,19 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-red);">🚀 6. TERMINAIS DE PRODUÇÃO (CORTES ISOLADOS)</h2>
+        <h2 style="color: var(--primary-red);">🚀 6. TRINDADE DOS TERMINAIS (CORTES ISOLADOS)</h2>
         
-        <span class="label-text" style="color: var(--primary-purple);">📸 PROMPT DE IMAGEM (PARA O GERADOR DE FOTO):</span>
+        <span class="label-text" style="color: var(--primary-purple);">📸 1. PROMPT DE IMAGEM (INGLÊS - Para Midjourney/Flow):</span>
         <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
         <button onclick="copiarTexto('final_img', 'Imagem')" style="background: var(--primary-purple); margin-bottom: 20px; padding: 12px; font-size: 14px;">📸 COPIAR SÓ IMAGEM</button>
 
-        <span class="label-text" style="color: var(--primary-cyan);">🎥 PROMPT DE VÍDEO E ÁUDIO (PARA O GERADOR DE VÍDEO):</span>
+        <span class="label-text" style="color: var(--primary-cyan);">🎥 2. PROMPT DE VÍDEO (INGLÊS - Para Luma/Kling):</span>
         <textarea id="final_vid" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
-        <button onclick="copiarTexto('final_vid', 'Vídeo')" style="background: var(--primary-cyan); color: #000; padding: 12px; font-size: 14px;">🎥 COPIAR SÓ VÍDEO</button>
+        <button onclick="copiarTexto('final_vid', 'Vídeo')" style="background: var(--primary-cyan); color: #000; margin-bottom: 20px; padding: 12px; font-size: 14px;">🎥 COPIAR SÓ VÍDEO</button>
+
+        <span class="label-text" style="color: var(--primary-orange);">🔊 3. PROMPT DE ÁUDIO & VOZ (PORTUGUÊS - Para Suno/ElevenLabs):</span>
+        <textarea id="final_aud" class="textarea-terminal" style="color: var(--primary-orange);" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
+        <button onclick="copiarTexto('final_aud', 'Áudio')" style="background: var(--primary-orange); color: #000; padding: 12px; font-size: 14px;">🔊 COPIAR ROTEIRO DE ÁUDIO</button>
     </div>
 </div>
 
@@ -242,16 +246,11 @@ async function chamarGeminiAPI() {
         if(val) { 
             let nome = getNome(val);
             let dna = d[val] ? d[val].d : "3D Character";
-            
-            // Pega a Idade (Fase de Vida)
-            let idade_val = document.getElementById(`idade_${id}`).value;
             let idade_texto = document.getElementById(`idade_${id}`).options[document.getElementById(`idade_${id}`).selectedIndex].text;
-            
             let voz_val = document.getElementById(`voz_${id}`).value;
             let voz = voz_val ? document.getElementById(`voz_${id}`).options[document.getElementById(`voz_${id}`).selectedIndex].text : "Voz Natural";
             
-            // Injeta a fase de vida no comando para a IA alterar proporções e som
-            elenco.push(`- Ator: ${nome} | Fase de Vida: ${idade_texto} | DNA Visual: (${dna}. IMPORTANT: Modify the physical appearance and proportions to look exactly like a ${idade_val} version of this character) | Design de Áudio: (${voz} - adapt the voice pitch/tone for a ${idade_val})`);
+            elenco.push(`- Ator: ${nome} | Fase de Vida: ${idade_texto} | DNA Visual: (${dna}) | Design de Áudio: (${voz})`);
         }
     });
 
@@ -261,26 +260,25 @@ async function chamarGeminiAPI() {
     const promptMestre = `
     Você é o diretor Modeship. Estilo Visual: ${estilo}. Duração total do vídeo: ${duracao}.
     
-    ELENCO DA CENA (COM DNA FIXO, FASE DE VIDA E VOZ):
+    ELENCO DA CENA:
     ${elenco.join('\n')}
 
-    🚨 MISSÃO MULTI-CENA E VISÃO COMPUTACIONAL:
-    1. Se eu anexei uma foto, COPIE A VIBE DELA (Luz, cenário, atmosfera).
-    2. Leia a HISTÓRIA COMPLETA abaixo e FATIE EM CENAS CRONOLÓGICAS.
-    3. Substitua os personagens originais pelos atores do nosso ELENCO.
-    4. MANTENHA O DNA VISUAL DO ATOR, MAS ADAPTE PARA A FASE DE VIDA (Idade) escolhida.
-    5. Adapte os sons e as vozes descritas no PROMPT_VIDEO de acordo com a Fase de Vida (ex: um bebê chora diferente de um idoso).
-
-    História Completa:
-    ${roteiroBase}
+    🚨 MISSÃO MULTI-CENA:
+    1. Se houver foto anexada, COPIE A VIBE DELA (Luz, cenário).
+    2. Leia a HISTÓRIA COMPLETA abaixo e FATIE EM CENAS.
+    3. Para CADA CENA, crie 3 prompts distintos (Imagem, Vídeo e Áudio).
 
     MOLDE RÍGIDO DE SAÍDA (USE EXATAMENTE ASSIM PARA CADA CENA):
     ---
     CENA [Nº]: [Nome]
-    AÇÃO: [O que acontece na cena]
-    PROMPT_IMAGEM: [Prompt em inglês com o DNA do ator adaptado para a Idade escolhida + Universo da foto]
-    PROMPT_VIDEO: [Prompt de movimento. Inclua as instruções de Áudio adaptadas para a Idade e Diálogos baseados no Design de Áudio]
+    AÇÃO: [Resumo do que acontece]
+    PROMPT_IMAGEM: [Prompt em inglês para gerador de foto. Inclua o DNA visual do ator adaptado para a Idade]
+    PROMPT_VIDEO: [Prompt em inglês de movimento de câmera e dinâmica de vídeo. Sem sons aqui]
+    PROMPT_AUDIO: [Instruções APENAS EM PORTUGUÊS DO BRASIL. Detalhe os Efeitos Sonoros (SFX), o estilo de música para o Suno AI, e as falas exatas com entonação para o gerador de voz (ElevenLabs)]
     ---
+
+    História Completa:
+    ${roteiroBase}
     `;
 
     let partesConteudo = [{ text: promptMestre }];
@@ -310,25 +308,29 @@ function processarResposta(textoBruto) {
     let index = 0;
 
     blocos.forEach(bloco => {
-        if (bloco.includes("CENA") && bloco.includes("PROMPT_VIDEO")) {
+        if (bloco.includes("CENA") && bloco.includes("PROMPT_IMAGEM")) {
             let titulo = "Cena";
             let matchTitulo = bloco.match(/CENA(.*?)\n/);
             if(matchTitulo) titulo = "CENA" + matchTitulo[1];
 
-            let imgPart = bloco.split("PROMPT_IMAGEM:");
-            let vidPart = imgPart[1] ? imgPart[1].split("PROMPT_VIDEO:") : ["", ""];
-            let pImg = vidPart[0] ? vidPart[0].trim() : "N/A";
-            let pVid = vidPart[1] ? vidPart[1].trim() : "N/A";
-            let acao = imgPart[0].replace(titulo, "").replace("AÇÃO:", "").trim();
+            let acaoMatch = bloco.match(/AÇÃO:\s*([\s\S]*?)(?=PROMPT_IMAGEM:)/);
+            let imgMatch = bloco.match(/PROMPT_IMAGEM:\s*([\s\S]*?)(?=PROMPT_VIDEO:)/);
+            let vidMatch = bloco.match(/PROMPT_VIDEO:\s*([\s\S]*?)(?=PROMPT_AUDIO:)/);
+            let audMatch = bloco.match(/PROMPT_AUDIO:\s*([\s\S]*?)(?=$|---)/);
 
-            cenasGeradas.push({ titulo, acao, pImg, pVid });
-            roteiroCompletoEmTexto += `=== ${titulo} ===\nAÇÃO: ${acao}\nIMAGEM: ${pImg}\nVÍDEO E ÁUDIO: ${pVid}\n\n`;
+            let acao = acaoMatch ? acaoMatch[1].trim() : "N/A";
+            let pImg = imgMatch ? imgMatch[1].trim() : "N/A";
+            let pVid = vidMatch ? vidMatch[1].trim() : "N/A";
+            let pAud = audMatch ? audMatch[1].trim() : "N/A";
+
+            cenasGeradas.push({ titulo, acao, pImg, pVid, pAud });
+            roteiroCompletoEmTexto += `=== ${titulo} ===\nAÇÃO: ${acao}\n📸 IMAGEM: ${pImg}\n🎥 VÍDEO: ${pVid}\n🔊 ÁUDIO: ${pAud}\n\n`;
 
             htmlFinal += `
             <div class="cena-bloco">
                 <div class="cena-titulo">${titulo}</div>
                 <div class="cena-acao"><b>AÇÃO:</b> ${acao}</div>
-                <button class="btn-terminal" onclick="enviarTerminal(${index})">⬇️ ENVIAR AO TERMINAL</button>
+                <button class="btn-terminal" onclick="enviarTerminal(${index})">⬇️ ENVIAR AOS TERMINAIS (IMAGEM, VÍDEO E ÁUDIO)</button>
             </div>`;
             index++;
         }
@@ -342,15 +344,20 @@ function enviarTerminal(index) {
     const cena = cenasGeradas[index];
     const termImg = document.getElementById("final_img");
     const termVid = document.getElementById("final_vid");
+    const termAud = document.getElementById("final_aud");
     
     termImg.value = cena.pImg;
     termVid.value = cena.pVid;
+    termAud.value = cena.pAud;
     
     termImg.style.borderColor = "var(--primary-purple)";
     termVid.style.borderColor = "var(--primary-cyan)";
+    termAud.style.borderColor = "var(--primary-orange)";
+    
     setTimeout(() => {
         termImg.style.borderColor = "var(--border-color)";
         termVid.style.borderColor = "var(--border-color)";
+        termAud.style.borderColor = "var(--border-color)";
     }, 500);
 }
 
