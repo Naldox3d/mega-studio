@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 60.0 — PRODUTIVIDADE MAX</title>
+    <title>MEGA STUDIO 61.0 — A ERA DO MODEL SHEET</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -43,7 +43,7 @@
 
 <div class="container">
     <div class="card">
-        <h1>👁️ MEGA STUDIO 60.0 (PRODUTIVIDADE MAX)</h1>
+        <h1>👁️ MEGA STUDIO 61.0 (ERA DO MODEL SHEET)</h1>
     </div>
 
     <div class="card" style="border-color: var(--primary-yellow);">
@@ -57,7 +57,7 @@
         <div class="grid-elenco">
             <div>
                 <span class="label-text">Personagem 1 (Protagonista):</span>
-                <select id="prota"></select>
+                <select id="prota" onchange="atualizarBotaoModelSheet()"></select>
                 <select id="voz_prota" class="select-voz"></select>
             </div>
             <div>
@@ -81,8 +81,19 @@
         </div>
     </div>
 
+    <div class="card" style="border-color: var(--primary-purple);">
+        <h2 style="color: var(--primary-purple);">🛡️ 3. COFRE VISUAL (MODEL SHEET DO ATOR)</h2>
+        <span class="label-text">Use esta seção para criar a imagem de referência fixa do seu ator principal.</span>
+        
+        <button id="btnGeralModelSheet" onclick="gerarPromptModelSheet()" style="background: var(--primary-purple); margin-bottom: 15px;">Aguardando seleção do Protagonista...</button>
+        
+        <span class="label-text">Prompt Técnico do Ator Mestre (Copie e gere uma foto deste prompt para usar de referência):</span>
+        <textarea id="output_model_sheet" class="textarea-terminal" readonly placeholder="O prompt do model sheet aparecerá aqui..."></textarea>
+        <button onclick="copiarTexto('output_model_sheet', 'Model Sheet')" style="background: var(--primary-purple); padding: 12px; font-size: 14px; width: 150px;">📸 COPIAR MODEL SHEET</button>
+    </div>
+
     <div class="card">
-        <h2 style="color: var(--primary-purple);">🖼️ 3. BANCO DE IMAGEM (MOLDE DE UNIVERSO)</h2>
+        <h2 style="color: var(--primary-cyan);">🖼️ 4. BANCO DE IMAGEM (MOLDE DE UNIVERSO)</h2>
         <div class="file-upload-wrapper">
             <span class="label-text" style="margin-bottom: 10px;">A IA VAI LER ESTA FOTO PARA COPIAR A LUZ, O CENÁRIO E A VIBE:</span>
             <label for="imagem_ref" class="custom-file-upload">📂 CARREGAR PRINT DO VÍDEO (JPG/PNG)</label>
@@ -92,7 +103,7 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-green);">📝 4. HISTÓRIA COMPLETA (GERAÇÃO MULTI-CENA)</h2>
+        <h2 style="color: var(--primary-green);">📝 5. HISTÓRIA COMPLETA (GERAÇÃO MULTI-CENA)</h2>
         <span class="label-text">Cole aqui a HISTÓRIA INTEIRA do vídeo viral. A IA vai fatiar automaticamente.</span>
         <textarea id="roteiro_base" placeholder="Ex: Uma Pera faz levantamento terra na academia. O Abacate a ajuda com muita intimidade. O Banana fica triste..."></textarea>
         
@@ -104,16 +115,15 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-cyan);">🎬 5. STORYBOARD (CENAS FATIADAS)</h2>
+        <h2 style="color: var(--primary-red);">🎬 6. STORYBOARD (CENAS FATIADAS)</h2>
         <button id="btnCopiarTudo" onclick="copiarRoteiroCompleto()" style="background: var(--primary-yellow); color: #000; margin-bottom: 15px; display: none;">📜 COPIAR ROTEIRO COMPLETO</button>
-        
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted);">As cenas completas geradas pela IA vão aparecer aqui.</div>
         </div>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-red);">🚀 6. TERMINAIS DE PRODUÇÃO (CORTES ISOLADOS)</h2>
+        <h2 style="color: var(--primary-orange);">🚀 7. TERMINAIS DE PRODUÇÃO (CORTES ISOLADOS)</h2>
         
         <span class="label-text" style="color: var(--primary-purple);">📸 PROMPT DE IMAGEM (PARA O GERADOR DE FOTO):</span>
         <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
@@ -146,7 +156,7 @@ const vozes = {
 
 const d = { 
     'P01':{d:"Anthropomorphic Lemon character, tough expression"}, 'P02':{d:"Anthropomorphic Tomato character, huge expressive eyes, sweating"},
-    'P03':{d:"Anthropomorphic Dragon Fruit character, pink skin"}, 'P04':{d:"Anthropomorphic Pear female, athletic"},
+    'P03':{d:"Anthropomorphic Dragon Fruit character, pink skin, stylized moicano pink hair shaved on sides"}, 'P04':{d:"Anthropomorphic Pear female, athletic"},
     'VIR03':{d:"Anthropomorphic Avocado, extremely muscular giant"}, 'B01':{d:"Anthropomorphic thin Banana, wearing glasses"},
     'G07':{d:"Group of heavily armed fruit soldiers in black tactical gear"}, 'G02':{d:"Group of scary zombie fruits"}
 };
@@ -178,7 +188,7 @@ window.onload = carregarMenus;
 let cenasGeradas = [];
 let base64Imagem = null;
 let mimeTypeImagem = null;
-let roteiroCompletoEmTexto = ""; // Guarda a história completa
+let roteiroCompletoEmTexto = "";
 
 function mostrarPreview(event) {
     const file = event.target.files[0];
@@ -200,6 +210,58 @@ function getNome(id) {
     return "Personagem";
 }
 
+// =====================================
+// NOVA LOGICA: GERAR MODEL SHEET DO ATOR
+// =====================================
+function atualizarBotaoModelSheet() {
+    const pVal = document.getElementById("prota").value;
+    const btn = document.getElementById("btnGeralModelSheet");
+    if (pVal) {
+        btn.innerText = `🔥 GERE O MODEL SHEET VISUAL DA ${getNome(pVal).toUpperCase()}`;
+    } else {
+        btn.innerText = "Aguardando seleção do Protagonista...";
+    }
+}
+
+async function gerarPromptModelSheet() {
+    const pVal = document.getElementById("prota").value;
+    const terminal = document.getElementById("output_model_sheet");
+    const estilo = document.getElementById("estilo_render").value;
+    const chave_api = document.getElementById("api_key_input").value.trim();
+
+    if (!chave_api) { alert("⚠️ ERRO: Cole a sua Chave da API no Cofre!"); return; }
+    if (!pVal) { alert("Escolha o Protagonista (Personagem 1) primeiro!"); return; }
+
+    terminal.value = "Gerando prompt do Model Sheet mestre... Aguarde.";
+
+    const promptMestre = `
+    Você é o diretor Modeship. Estilo Visual: ${estilo}.
+    
+    ATor PRINCIPAL: ${getNome(pVal)}
+    DNA Visual: ${d[pVal] ? d[pVal].d : "3D stylized character"}.
+
+    🚨 MISSÃO DE ENGENHARIA DE PROMPT (MODEL SHEET):
+    Crie UM ÚNICO prompt técnico em inglês focado em gerar a IMAGEM MESTRA DE REFERÊNCIA VISUAL deste personagem. O objetivo é fixar o design dele.
+    O prompt deve descrever o personagem em múltiplos ângulos (front, side, close-up) em uma composição de "Model Sheet" ou "Character Reference", em fundo cinza neutro de estúdio.
+    Não inclua cenário ou ação. Foque apenas em fixar o rosto, corpo e as características únicas do ator.
+    `;
+
+    try {
+        const resposta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${chave_api}`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptMestre }] }] })
+        });
+        const dados = await resposta.json();
+        if(dados.error) { alert("Erro da API: " + dados.error.message); return; }
+        
+        // Joga o prompt do Model Sheet no terminal roxo
+        terminal.value = dados.candidates[0].content.parts[0].text.trim();
+    } catch (erro) { alert("Falha na ligação à IA: " + erro); }
+}
+
+// =====================================
+// GERAÇÃO DE ROTEIRO COMPLETO (NORMAL)
+// =====================================
 async function chamarGeminiAPI() {
     const btn = document.getElementById("btnGerar");
     const loader = document.getElementById("loader");
@@ -236,7 +298,8 @@ async function chamarGeminiAPI() {
     2. Leia a HISTÓRIA COMPLETA abaixo.
     3. FATIE A HISTÓRIA EM VÁRIAS CENAS CRONOLÓGICAS.
     4. Substitua os personagens originais pelos atores do nosso ELENCO.
-    
+    5. No PROMPT_IMAGEM de cada cena, descreva o ator principal de acordo com o DNA visual dele, para que ele combine com o MODEL SHEET mestre, mas dentro da ação da cena.
+
     História Completa:
     ${roteiroBase}
 
@@ -264,7 +327,7 @@ async function chamarGeminiAPI() {
         const dados = await resposta.json();
         if(dados.error) { alert("Erro da API: " + dados.error.message); return; }
         processarResposta(dados.candidates[0].content.parts[0].text);
-        btnCopiar.style.display = "block"; // Mostra o botão do roteiro completo
+        btnCopiar.style.display = "block";
     } catch (erro) { alert("Falha na ligação à IA: " + erro); } 
     finally { btn.disabled = false; loader.style.display = "none"; }
 }
@@ -288,8 +351,6 @@ function processarResposta(textoBruto) {
             let acao = imgPart[0].replace(titulo, "").replace("AÇÃO:", "").trim();
 
             cenasGeradas.push({ titulo, acao, pImg, pVid });
-            
-            // Monta o roteiro em texto para o Botão Amarelo
             roteiroCompletoEmTexto += `=== ${titulo} ===\nAÇÃO: ${acao}\nIMAGEM: ${pImg}\nVÍDEO E ÁUDIO: ${pVid}\n\n`;
 
             htmlFinal += `
