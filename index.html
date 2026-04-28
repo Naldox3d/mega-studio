@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO WEB 55.0 — IA INTEGRADA</title>
+    <title>MEGA STUDIO WEB 56.0 — VISÃO COMPUTACIONAL</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
             --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
             --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
-            --primary-orange: #f69d50; --primary-pink: #ff7b72; --primary-cyan: #39c5bb;
-            --primary-yellow: #e3b341;
+            --primary-orange: #f69d50; --primary-cyan: #39c5bb;
             --titan-grad: linear-gradient(135deg, #3fb950 0%, #2ea043 100%);
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
         .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr; gap: 15px; }
         .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        h1 { text-align: center; color: var(--primary-red); font-size: 24px; font-weight: 900; text-transform: uppercase; }
+        h1 { text-align: center; color: var(--primary-cyan); font-size: 24px; font-weight: 900; text-transform: uppercase; }
         h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
-        select, textarea, input { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; }
+        select, textarea, input[type="text"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; }
         select:focus, textarea:focus, input:focus { border-color: var(--primary-purple); outline: none; }
         textarea { height: 120px; color: #3fb950; resize: vertical; }
         button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; font-size: 16px; transition: all 0.2s ease;}
@@ -28,18 +27,25 @@
         .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
         #final { height: 200px; background: #000; color: #ff7b72; border-color: var(--primary-cyan); font-family: monospace;}
         #output-storyboard { background: #0d1117; padding: 15px; border-radius: 6px; min-height: 100px; }
-        .cena-bloco { border: 2px solid var(--primary-purple); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 6px; }
-        .cena-titulo { font-weight: bold; color: var(--primary-purple); margin-bottom: 8px; font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
+        .cena-bloco { border: 2px solid var(--primary-cyan); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 6px; }
+        .cena-titulo { font-weight: bold; color: var(--primary-cyan); margin-bottom: 8px; font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
         .cena-acao { color: var(--text-main); font-size: 14px; margin-bottom: 10px; }
-        .btn-terminal { background: var(--primary-purple); margin-top: 10px; padding: 10px; font-size: 13px;}
+        .btn-terminal { background: var(--primary-cyan); color: #000; margin-top: 10px; padding: 10px; font-size: 13px;}
         .loader { display: none; text-align: center; color: var(--primary-green); font-weight: bold; margin: 10px 0; }
+        
+        /* Estilo do Input de Arquivo */
+        .file-upload-wrapper { background: #0d1117; border: 2px dashed var(--border-color); border-radius: 8px; padding: 15px; text-align: center; margin-bottom: 15px; transition: 0.3s; }
+        .file-upload-wrapper:hover { border-color: var(--primary-purple); }
+        input[type="file"] { display: none; }
+        .custom-file-upload { display: inline-block; padding: 10px 20px; cursor: pointer; background: var(--primary-purple); color: #000; font-weight: bold; border-radius: 6px; text-transform: uppercase; font-size: 12px; }
+        #preview_img { max-width: 100%; max-height: 250px; border-radius: 8px; margin-top: 10px; display: none; border: 2px solid var(--primary-purple); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="card">
-        <h1>🎥 MEGA STUDIO WEB 55.0 (COM IA INTEGRADA)</h1>
+        <h1>👁️ MEGA STUDIO WEB 56.0 (VISÃO COMPUTACIONAL)</h1>
     </div>
 
     <div class="card">
@@ -52,33 +58,40 @@
                 <select id="estilo_render">
                     <option value="Hiper-realista, visual de filme blockbuster 8k, fotografia real">🎥 LIVE ACTION (Realismo)</option>
                     <option value="Estilo Pixar/Dreamworks, 3D estilizado, 8k cinematic">🧬 LORE OFICIAL (3D Cinema)</option>
-                    <option value="Estilo Anime, sombras de alto contraste">🎌 ANIME SHONEN</option>
                 </select>
             </div>
         </div>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-green);">📝 2. NOVA FUNÇÃO: MOTOR DE ADAPTAÇÃO IA</h2>
-        <span class="label-text">Cole aqui a História de Referência (A IA vai adaptar esta história para os atores que escolheu acima):</span>
-        <textarea id="roteiro_base" placeholder="Ex: Uma Pera faz levantamento terra na academia. O Abacate a ajuda com muita intimidade. O Banana fica triste olhando de longe..."></textarea>
-        
-        <div style="display: flex; gap: 10px;">
-            <input type="text" id="cenas_qtd" placeholder="Duração (ex: 45s)" style="width: 150px;">
-            <button id="btnGerar" onclick="chamarGeminiAPI()">🔥 GERAR PRODUÇÃO MONSTRUOSA COM IA</button>
+        <h2 style="color: var(--primary-purple);">🖼️ 2. BANCO DE IMAGEM (MOLDE VISUAL)</h2>
+        <div class="file-upload-wrapper">
+            <span class="label-text" style="margin-bottom: 10px;">A IA VAI LER ESTA FOTO PARA ENTENDER A ILUMINAÇÃO E O CENÁRIO:</span>
+            <label for="imagem_ref" class="custom-file-upload">📂 CARREGAR PRINT (JPG / PNG)</label>
+            <input type="file" id="imagem_ref" accept="image/png, image/jpeg" onchange="mostrarPreview(event)">
+            <br>
+            <img id="preview_img" src="" alt="Preview da Imagem">
         </div>
-        <div id="loader" class="loader">⏳ O Diretor IA está a escrever o guião... Por favor aguarde (isto pode demorar uns segundos).</div>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-purple);">🎬 3. STORYBOARD (CENAS GERADAS)</h2>
+        <h2 style="color: var(--primary-green);">📝 3. MOTOR DE ADAPTAÇÃO IA</h2>
+        <span class="label-text">Cole aqui a História de Referência (A IA vai juntar a Foto + Este Texto + O Elenco):</span>
+        <textarea id="roteiro_base" placeholder="Ex: Uma Pera faz levantamento terra na academia. O Abacate a ajuda com muita intimidade. O Banana fica triste olhando de longe..."></textarea>
+        
+        <button id="btnGerar" onclick="chamarGeminiAPI()">🔥 GERAR PRODUÇÃO MONSTRUOSA (LENDO FOTO E TEXTO)</button>
+        <div id="loader" class="loader">👁️ A IA está a analisar a sua foto e a escrever o guião... Aguarde.</div>
+    </div>
+
+    <div class="card">
+        <h2 style="color: var(--primary-cyan);">🎬 4. STORYBOARD (CENAS GERADAS)</h2>
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted);">As cenas geradas pela IA vão aparecer aqui.</div>
         </div>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-cyan);">🚀 4. TERMINAL DO DIRETOR (PROMPTS)</h2>
+        <h2 style="color: var(--primary-red);">🚀 5. TERMINAL DO DIRETOR (PROMPTS)</h2>
         <textarea id="final" readonly placeholder="Os prompts técnicos vão aparecer aqui quando clicar em 'ENVIAR AO TERMINAL' numa cena..."></textarea>
         <div style="display: flex; gap: 10px;">
             <button onclick="copiarTexto(document.getElementById('final').value)" style="background: var(--primary-red);">📸 COPIAR PROMPT GERAL</button>
@@ -87,15 +100,11 @@
 </div>
 
 <script>
-// =========================================================
-// BANCO DE DADOS & CHAVE DA API
-// =========================================================
-const API_KEY = "AIzaSyBo78a2qnlti79q1_fJK7YQDtxJFSysmGI"; // A sua chave de Acesso
+const API_KEY = "AIzaSyBo78a2qnlti79q1_fJK7YQDtxJFSysmGI"; // Sua chave
 
 const LISTA_ELENCO = [
     "Tomate Elinaldo", "Limão Rocha", "Sabrina Pitaya", "Pera Fit", "Abacate Abacatudo", 
-    "Banana Bananildo", "Banana Festeira", "Caju Nordestino", "Maçã Funkeira", "Guarda de Elite",
-    "Titã de Ataque (Eren)", "Lenda das Artes Marciais (Bruce)", "Maçã da Motosserra (Ash)"
+    "Banana Bananildo", "Banana Festeira", "Caju Nordestino", "Maçã Funkeira", "Guarda de Elite"
 ];
 
 const DNA_DB = {
@@ -104,11 +113,9 @@ const DNA_DB = {
     "Pera Fit": "Pera antropomórfica feminina, roupa de academia, atlética",
     "Abacate Abacatudo": "Abacate antropomórfico gigante, hiper musculoso, regata de academia, sorriso confiante",
     "Banana Bananildo": "Banana antropomórfica magra, usando óculos de grau, expressão de tristeza",
-    "Guarda de Elite": "Frutas mascaradas em armaduras táticas pretas pesadas",
-    "Maçã da Motosserra (Ash)": "Maçã durona, braço de motosserra mecânica, camisa azul rasgada"
+    "Guarda de Elite": "Frutas mascaradas em armaduras táticas pretas pesadas"
 };
 
-// Preencher os Menus Dropdown
 window.onload = () => {
     ['prota', 'coadj1', 'multidao'].forEach(id => {
         let sel = document.getElementById(id);
@@ -118,10 +125,26 @@ window.onload = () => {
 };
 
 let cenasGeradas = [];
+let base64Imagem = null;
+let mimeTypeImagem = null;
 
-// =========================================================
-// O MOTOR DA IA (CHAMA O GOOGLE GEMINI DIRETO DO SITE)
-// =========================================================
+// Mostrar preview da imagem e converter para Base64 para a IA ler
+function mostrarPreview(event) {
+    const file = event.target.files[0];
+    if (file) {
+        mimeTypeImagem = file.type;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById('preview_img');
+            img.src = e.target.result;
+            img.style.display = 'inline-block';
+            // Remover o prefixo "data:image/jpeg;base64," para mandar pro Gemini
+            base64Imagem = e.target.result.split(',')[1]; 
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
 async function chamarGeminiAPI() {
     const btn = document.getElementById("btnGerar");
     const loader = document.getElementById("loader");
@@ -129,31 +152,27 @@ async function chamarGeminiAPI() {
     const storyboard = document.getElementById("output-storyboard");
     
     if (!roteiroBase) {
-        alert("Por favor, cole um roteiro ou referência na caixa antes de gerar!");
+        alert("Por favor, cole um roteiro ou referência na caixa de texto!");
         return;
     }
 
-    // 1. Preparar o Elenco
     let elenco = [];
     ['prota', 'coadj1', 'multidao'].forEach(id => {
         let nome = document.getElementById(id).value;
-        if(nome) {
-            let dna = DNA_DB[nome] || "Personagem 3D Estilizado";
-            elenco.push(`- ${nome}: DNA(${dna})`);
-        }
+        if(nome) { elenco.push(`- ${nome}: DNA(${DNA_DB[nome] || "Personagem 3D"})`); }
     });
-    
     let estilo = document.getElementById("estilo_render").value;
 
-    // 2. Construir a Ordem para a IA (O Prompt Mestre)
     const promptMestre = `
     Você é o roteirista e diretor Modeship. Estilo Visual: ${estilo}.
     
     ELENCO DA CENA:
     ${elenco.join('\n')}
 
-    🚨 MISSÃO DE AUTOMAÇÃO:
-    Adapte a história abaixo para o ELENCO DA CENA listado acima. Substitua os personagens originais da história pelos atores do nosso elenco.
+    🚨 MISSÃO DE AUTOMAÇÃO E VISÃO COMPUTACIONAL:
+    Se eu anexei uma imagem, analise a iluminação, o ambiente e o clima dessa imagem.
+    Sua missão é ADAPTAR a história abaixo para o ELENCO DA CENA listado acima, usando a imagem (se houver) como inspiração visual. 
+    
     História de Inspiração:
     ${roteiroBase}
 
@@ -165,12 +184,21 @@ async function chamarGeminiAPI() {
     ---
     CENA [Nº]: [Nome da Cena]
     AÇÃO: [O que acontece]
-    PROMPT_IMAGEM: [Prompt visual técnico]
+    PROMPT_IMAGEM: [Prompt visual técnico em inglês, incluindo detalhes da imagem de referência se houver]
     PROMPT_VIDEO: [Prompt de movimento. [MÚSICA: ...]. [FOLEY: ...]. [DIÁLOGO: ...]]
     ---
     `;
 
-    // 3. Fazer a Conexão com o Google (Fetch API)
+    // Montar o "pacote" que vai para o Google (Com ou Sem Imagem)
+    let partesConteudo = [{ text: promptMestre }];
+    
+    // Se o usuário subiu uma foto, adicionamos a foto no pacote para a IA ler!
+    if (base64Imagem) {
+        partesConteudo.push({
+            inlineData: { data: base64Imagem, mimeType: mimeTypeImagem }
+        });
+    }
+
     btn.disabled = true;
     loader.style.display = "block";
     storyboard.innerHTML = "";
@@ -180,19 +208,14 @@ async function chamarGeminiAPI() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: promptMestre }] }]
+                contents: [{ parts: partesConteudo }]
             })
         });
 
         const dados = await resposta.json();
-        
-        if(dados.error) {
-            alert("Erro da API: " + dados.error.message);
-            return;
-        }
+        if(dados.error) { alert("Erro da API: " + dados.error.message); return; }
 
-        const textoResposta = dados.candidates[0].content.parts[0].text;
-        processarResposta(textoResposta);
+        processarResposta(dados.candidates[0].content.parts[0].text);
 
     } catch (erro) {
         alert("Falha na ligação à IA: " + erro);
@@ -202,9 +225,6 @@ async function chamarGeminiAPI() {
     }
 }
 
-// =========================================================
-// PROCESSAR O TEXTO E CRIAR AS CAIXAS (COMO NO PYTHON)
-// =========================================================
 function processarResposta(textoBruto) {
     const storyboard = document.getElementById("output-storyboard");
     let htmlFinal = "";
@@ -215,19 +235,14 @@ function processarResposta(textoBruto) {
 
     blocos.forEach(bloco => {
         if (bloco.includes("CENA") && bloco.includes("PROMPT_VIDEO")) {
-            
-            // Extrair Título
             let titulo = "Cena";
             let matchTitulo = bloco.match(/CENA(.*?)\n/);
             if(matchTitulo) titulo = "CENA" + matchTitulo[1];
 
-            // Extrair Prompts e Ação
             let imgPart = bloco.split("PROMPT_IMAGEM:");
             let vidPart = imgPart[1] ? imgPart[1].split("PROMPT_VIDEO:") : ["", ""];
-            
             let pImg = vidPart[0] ? vidPart[0].trim() : "N/A";
             let pVid = vidPart[1] ? vidPart[1].trim() : "N/A";
-            
             let acao = imgPart[0].replace(titulo, "").replace("AÇÃO:", "").trim();
 
             cenasGeradas.push({ titulo, acao, pImg, pVid });
@@ -243,11 +258,8 @@ function processarResposta(textoBruto) {
         }
     });
 
-    if (htmlFinal === "") {
-        storyboard.innerHTML = "<p style='color: red;'>A IA não retornou o formato correto. Tente novamente.</p>";
-    } else {
-        storyboard.innerHTML = htmlFinal;
-    }
+    if (htmlFinal === "") { storyboard.innerHTML = "<p style='color: red;'>A IA não retornou o formato correto.</p>"; } 
+    else { storyboard.innerHTML = htmlFinal; }
 }
 
 function enviarTerminal(index) {
@@ -260,9 +272,7 @@ function enviarTerminal(index) {
 
 function copiarTexto(texto) {
     if(!texto) return alert("O terminal está vazio!");
-    navigator.clipboard.writeText(texto).then(() => {
-        alert("Copiado com sucesso!");
-    });
+    navigator.clipboard.writeText(texto).then(() => alert("Copiado com sucesso!"));
 }
 </script>
 </body>
