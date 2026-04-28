@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 59.0 — BLINDADO</title>
+    <title>MEGA STUDIO 60.0 — PRODUTIVIDADE MAX</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -21,12 +21,12 @@
         .select-voz { font-size: 12px; padding: 10px; margin-top: -8px; background: #0d1117; border-color: var(--primary-cyan); color: var(--primary-cyan); }
         select:focus, textarea:focus, input:focus { border-color: var(--primary-purple); outline: none; }
         textarea { height: 120px; color: #3fb950; resize: vertical; }
+        .textarea-terminal { height: 100px; background: #000; color: #ff7b72; font-family: monospace; border-color: var(--border-color); }
         button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; font-size: 16px; transition: all 0.2s ease;}
         button:active { transform: scale(0.98); }
         button:disabled { background: #555; cursor: not-allowed; }
         .grid-elenco { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
         .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
-        #final { height: 200px; background: #000; color: #ff7b72; border-color: var(--primary-cyan); font-family: monospace;}
         #output-storyboard { background: #0d1117; padding: 15px; border-radius: 6px; min-height: 100px; }
         .cena-bloco { border: 2px solid var(--primary-cyan); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 6px; }
         .cena-titulo { font-weight: bold; color: var(--primary-cyan); margin-bottom: 8px; font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
@@ -43,12 +43,12 @@
 
 <div class="container">
     <div class="card">
-        <h1>👁️ MEGA STUDIO 59.0 (BLINDADO)</h1>
+        <h1>👁️ MEGA STUDIO 60.0 (PRODUTIVIDADE MAX)</h1>
     </div>
 
     <div class="card" style="border-color: var(--primary-yellow);">
         <h2 style="color: var(--primary-yellow);">🔑 1. COFRE DO DIRETOR (API KEY)</h2>
-        <span class="label-text">Cole sua chave (AIza...) aqui. Ela ficará salva na memória do seu aparelho.</span>
+        <span class="label-text">Cole sua chave (AIza...). Ela ficará salva na memória do seu aparelho.</span>
         <input type="password" id="api_key_input" placeholder="Cole a sua nova chave API do Google aqui..." onchange="salvarChave()">
     </div>
 
@@ -94,7 +94,7 @@
     <div class="card">
         <h2 style="color: var(--primary-green);">📝 4. HISTÓRIA COMPLETA (GERAÇÃO MULTI-CENA)</h2>
         <span class="label-text">Cole aqui a HISTÓRIA INTEIRA do vídeo viral. A IA vai fatiar automaticamente.</span>
-        <textarea id="roteiro_base" placeholder="Ex: Uma Pera faz levantamento terra na academia. O Abacate a ajuda com muita intimidade. O Banana fica triste olhando de longe..."></textarea>
+        <textarea id="roteiro_base" placeholder="Ex: Uma Pera faz levantamento terra na academia. O Abacate a ajuda com muita intimidade. O Banana fica triste..."></textarea>
         
         <div style="display: flex; gap: 10px;">
             <input type="text" id="cenas_qtd" placeholder="Duração do vídeo (ex: 60s)" style="width: 250px;">
@@ -105,24 +105,27 @@
 
     <div class="card">
         <h2 style="color: var(--primary-cyan);">🎬 5. STORYBOARD (CENAS FATIADAS)</h2>
+        <button id="btnCopiarTudo" onclick="copiarRoteiroCompleto()" style="background: var(--primary-yellow); color: #000; margin-bottom: 15px; display: none;">📜 COPIAR ROTEIRO COMPLETO</button>
+        
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted);">As cenas completas geradas pela IA vão aparecer aqui.</div>
         </div>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-red);">🚀 6. TERMINAL DO DIRETOR (PROMPTS)</h2>
-        <textarea id="final" readonly placeholder="Os prompts técnicos vão aparecer aqui quando clicar em 'ENVIAR AO TERMINAL' numa cena..."></textarea>
-        <div style="display: flex; gap: 10px;">
-            <button onclick="copiarTexto(document.getElementById('final').value)" style="background: var(--primary-red);">📸 COPIAR PROMPT GERAL</button>
-        </div>
+        <h2 style="color: var(--primary-red);">🚀 6. TERMINAIS DE PRODUÇÃO (CORTES ISOLADOS)</h2>
+        
+        <span class="label-text" style="color: var(--primary-purple);">📸 PROMPT DE IMAGEM (PARA O GERADOR DE FOTO):</span>
+        <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
+        <button onclick="copiarTexto('final_img', 'Imagem')" style="background: var(--primary-purple); margin-bottom: 20px; padding: 12px; font-size: 14px;">📸 COPIAR SÓ IMAGEM</button>
+
+        <span class="label-text" style="color: var(--primary-cyan);">🎥 PROMPT DE VÍDEO E ÁUDIO (PARA O GERADOR DE VÍDEO):</span>
+        <textarea id="final_vid" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
+        <button onclick="copiarTexto('final_vid', 'Vídeo')" style="background: var(--primary-cyan); color: #000; padding: 12px; font-size: 14px;">🎥 COPIAR SÓ VÍDEO</button>
     </div>
 </div>
 
 <script>
-// =====================================
-// SISTEMA DE SEGURANÇA (LOCAL STORAGE)
-// =====================================
 function salvarChave() {
     const key = document.getElementById("api_key_input").value.trim();
     localStorage.setItem("gemini_api_key_mod", key);
@@ -149,7 +152,6 @@ const d = {
 };
 
 function carregarMenus() {
-    // Carrega a chave guardada se existir
     const savedKey = localStorage.getItem("gemini_api_key_mod");
     if(savedKey) document.getElementById("api_key_input").value = savedKey;
 
@@ -176,6 +178,7 @@ window.onload = carregarMenus;
 let cenasGeradas = [];
 let base64Imagem = null;
 let mimeTypeImagem = null;
+let roteiroCompletoEmTexto = ""; // Guarda a história completa
 
 function mostrarPreview(event) {
     const file = event.target.files[0];
@@ -200,6 +203,7 @@ function getNome(id) {
 async function chamarGeminiAPI() {
     const btn = document.getElementById("btnGerar");
     const loader = document.getElementById("loader");
+    const btnCopiar = document.getElementById("btnCopiarTudo");
     const roteiroBase = document.getElementById("roteiro_base").value.trim();
     const chave_api = document.getElementById("api_key_input").value.trim();
     
@@ -248,8 +252,9 @@ async function chamarGeminiAPI() {
     let partesConteudo = [{ text: promptMestre }];
     if (base64Imagem) { partesConteudo.push({ inlineData: { data: base64Imagem, mimeType: mimeTypeImagem } }); }
 
-    btn.disabled = true; loader.style.display = "block";
+    btn.disabled = true; loader.style.display = "block"; btnCopiar.style.display = "none";
     document.getElementById("output-storyboard").innerHTML = "";
+    roteiroCompletoEmTexto = "";
 
     try {
         const resposta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${chave_api}`, {
@@ -259,6 +264,7 @@ async function chamarGeminiAPI() {
         const dados = await resposta.json();
         if(dados.error) { alert("Erro da API: " + dados.error.message); return; }
         processarResposta(dados.candidates[0].content.parts[0].text);
+        btnCopiar.style.display = "block"; // Mostra o botão do roteiro completo
     } catch (erro) { alert("Falha na ligação à IA: " + erro); } 
     finally { btn.disabled = false; loader.style.display = "none"; }
 }
@@ -282,6 +288,10 @@ function processarResposta(textoBruto) {
             let acao = imgPart[0].replace(titulo, "").replace("AÇÃO:", "").trim();
 
             cenasGeradas.push({ titulo, acao, pImg, pVid });
+            
+            // Monta o roteiro em texto para o Botão Amarelo
+            roteiroCompletoEmTexto += `=== ${titulo} ===\nAÇÃO: ${acao}\nIMAGEM: ${pImg}\nVÍDEO E ÁUDIO: ${pVid}\n\n`;
+
             htmlFinal += `
             <div class="cena-bloco">
                 <div class="cena-titulo">${titulo}</div>
@@ -298,15 +308,29 @@ function processarResposta(textoBruto) {
 
 function enviarTerminal(index) {
     const cena = cenasGeradas[index];
-    const terminal = document.getElementById("final");
-    terminal.value = `=== ${cena.titulo} ===\n\n📸 [PROMPT IMAGEM]:\n${cena.pImg}\n\n🎥 [PROMPT VÍDEO]:\n${cena.pVid}`;
-    terminal.style.borderColor = "var(--primary-purple)";
-    setTimeout(() => terminal.style.borderColor = "var(--primary-cyan)", 500);
+    const termImg = document.getElementById("final_img");
+    const termVid = document.getElementById("final_vid");
+    
+    termImg.value = cena.pImg;
+    termVid.value = cena.pVid;
+    
+    termImg.style.borderColor = "var(--primary-purple)";
+    termVid.style.borderColor = "var(--primary-cyan)";
+    setTimeout(() => {
+        termImg.style.borderColor = "var(--border-color)";
+        termVid.style.borderColor = "var(--border-color)";
+    }, 500);
 }
 
-function copiarTexto(texto) {
-    if(!texto) return alert("Terminal vazio!");
-    navigator.clipboard.writeText(texto).then(() => alert("Copiado com sucesso!"));
+function copiarTexto(idElemento, tipo) {
+    const texto = document.getElementById(idElemento).value;
+    if(!texto) return alert(`Terminal de ${tipo} vazio!`);
+    navigator.clipboard.writeText(texto).then(() => alert(`Prompt de ${tipo} copiado!`));
+}
+
+function copiarRoteiroCompleto() {
+    if(!roteiroCompletoEmTexto) return alert("Nenhum roteiro gerado!");
+    navigator.clipboard.writeText(roteiroCompletoEmTexto).then(() => alert("📜 Roteiro completo copiado!"));
 }
 </script>
 </body>
