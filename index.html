@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 58.0 — CLEAN & FAST</title>
+    <title>MEGA STUDIO 59.0 — BLINDADO</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
             --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
             --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
-            --primary-cyan: #39c5bb;
+            --primary-cyan: #39c5bb; --primary-yellow: #e3b341;
             --titan-grad: linear-gradient(135deg, #3fb950 0%, #2ea043 100%);
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 15px; margin: 0; }
@@ -17,7 +17,7 @@
         .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
         h1 { text-align: center; color: var(--primary-cyan); font-size: 24px; font-weight: 900; text-transform: uppercase; }
         h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
-        select, textarea, input[type="text"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; }
+        select, textarea, input[type="text"], input[type="password"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; }
         .select-voz { font-size: 12px; padding: 10px; margin-top: -8px; background: #0d1117; border-color: var(--primary-cyan); color: var(--primary-cyan); }
         select:focus, textarea:focus, input:focus { border-color: var(--primary-purple); outline: none; }
         textarea { height: 120px; color: #3fb950; resize: vertical; }
@@ -43,11 +43,17 @@
 
 <div class="container">
     <div class="card">
-        <h1>👁️ MEGA STUDIO 58.0 (CLEAN & FAST)</h1>
+        <h1>👁️ MEGA STUDIO 59.0 (BLINDADO)</h1>
+    </div>
+
+    <div class="card" style="border-color: var(--primary-yellow);">
+        <h2 style="color: var(--primary-yellow);">🔑 1. COFRE DO DIRETOR (API KEY)</h2>
+        <span class="label-text">Cole sua chave (AIza...) aqui. Ela ficará salva na memória do seu aparelho.</span>
+        <input type="password" id="api_key_input" placeholder="Cole a sua nova chave API do Google aqui..." onchange="salvarChave()">
     </div>
 
     <div class="card">
-        <h2>👥 1. ELENCO E VOZ (DNA)</h2>
+        <h2>👥 2. ELENCO E VOZ (DNA)</h2>
         <div class="grid-elenco">
             <div>
                 <span class="label-text">Personagem 1 (Protagonista):</span>
@@ -76,7 +82,7 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-purple);">🖼️ 2. BANCO DE IMAGEM (MOLDE DE UNIVERSO)</h2>
+        <h2 style="color: var(--primary-purple);">🖼️ 3. BANCO DE IMAGEM (MOLDE DE UNIVERSO)</h2>
         <div class="file-upload-wrapper">
             <span class="label-text" style="margin-bottom: 10px;">A IA VAI LER ESTA FOTO PARA COPIAR A LUZ, O CENÁRIO E A VIBE:</span>
             <label for="imagem_ref" class="custom-file-upload">📂 CARREGAR PRINT DO VÍDEO (JPG/PNG)</label>
@@ -86,7 +92,7 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-green);">📝 3. HISTÓRIA COMPLETA (GERAÇÃO MULTI-CENA)</h2>
+        <h2 style="color: var(--primary-green);">📝 4. HISTÓRIA COMPLETA (GERAÇÃO MULTI-CENA)</h2>
         <span class="label-text">Cole aqui a HISTÓRIA INTEIRA do vídeo viral. A IA vai fatiar automaticamente.</span>
         <textarea id="roteiro_base" placeholder="Ex: Uma Pera faz levantamento terra na academia. O Abacate a ajuda com muita intimidade. O Banana fica triste olhando de longe..."></textarea>
         
@@ -98,14 +104,14 @@
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-cyan);">🎬 4. STORYBOARD (CENAS FATIADAS)</h2>
+        <h2 style="color: var(--primary-cyan);">🎬 5. STORYBOARD (CENAS FATIADAS)</h2>
         <div id="output-storyboard">
             <div style="text-align: center; color: var(--text-muted);">As cenas completas geradas pela IA vão aparecer aqui.</div>
         </div>
     </div>
 
     <div class="card">
-        <h2 style="color: var(--primary-red);">🚀 5. TERMINAL DO DIRETOR (PROMPTS)</h2>
+        <h2 style="color: var(--primary-red);">🚀 6. TERMINAL DO DIRETOR (PROMPTS)</h2>
         <textarea id="final" readonly placeholder="Os prompts técnicos vão aparecer aqui quando clicar em 'ENVIAR AO TERMINAL' numa cena..."></textarea>
         <div style="display: flex; gap: 10px;">
             <button onclick="copiarTexto(document.getElementById('final').value)" style="background: var(--primary-red);">📸 COPIAR PROMPT GERAL</button>
@@ -114,7 +120,13 @@
 </div>
 
 <script>
-const API_KEY = "AIzaSyBo78a2qnlti79q1_fJK7YQDtxJFSysmGI"; // Sua chave
+// =====================================
+// SISTEMA DE SEGURANÇA (LOCAL STORAGE)
+// =====================================
+function salvarChave() {
+    const key = document.getElementById("api_key_input").value.trim();
+    localStorage.setItem("gemini_api_key_mod", key);
+}
 
 const personagens = {
     'Heróis Oficiais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pera Fit"},
@@ -137,6 +149,10 @@ const d = {
 };
 
 function carregarMenus() {
+    // Carrega a chave guardada se existir
+    const savedKey = localStorage.getItem("gemini_api_key_mod");
+    if(savedKey) document.getElementById("api_key_input").value = savedKey;
+
     ['prota', 'coadj1', 'multidao'].forEach(s => { 
         let sel = document.getElementById(s); sel.innerHTML = '<option value="">-- Nenhum Ator --</option>'; 
         Object.keys(personagens).forEach(g => { 
@@ -185,7 +201,9 @@ async function chamarGeminiAPI() {
     const btn = document.getElementById("btnGerar");
     const loader = document.getElementById("loader");
     const roteiroBase = document.getElementById("roteiro_base").value.trim();
+    const chave_api = document.getElementById("api_key_input").value.trim();
     
+    if (!chave_api) { alert("⚠️ ERRO: Cole a sua Chave da API no Cofre (Passo 1)!"); return; }
     if (!roteiroBase) { alert("Cole a história completa do vídeo!"); return; }
 
     let elenco = [];
@@ -234,8 +252,7 @@ async function chamarGeminiAPI() {
     document.getElementById("output-storyboard").innerHTML = "";
 
     try {
-        // ATUALIZAÇÃO IMPORTANTE DA API PARA A VERSÃO GEMINI 2.5 FLASH
-        const resposta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+        const resposta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${chave_api}`, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contents: [{ parts: partesConteudo }] })
         });
