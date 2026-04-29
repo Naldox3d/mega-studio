@@ -178,8 +178,12 @@
                 <span class="label-text">1. Escolha o Grupo / Categoria:</span>
                 <select id="categoria_lib" onchange="carregarOpcoesLib()">
                     <option value="">-- Selecione o Grupo --</option>
-                    <option value="grafica">🖨️ Gráfica & Branding (Banners/Mockups)</option>
+                    <option value="acao">🔥 Ação & Combate Tático</option>
                     <option value="survival">☠️ Desafios Virais (Survival 9:16)</option>
+                    <option value="presidio">⛓️ Sistema Prisional (Cárcere)</option>
+                    <option value="politica">👔 Política & Advocacia</option>
+                    <option value="grafica">🖨️ Gráfica & Branding (Banners/Mockups)</option>
+                    <option value="audio_dna">🎙️ Áudio DNA (Falas e Reações)</option>
                 </select>
             </div>
             <div>
@@ -528,19 +532,53 @@ function copiarRoteiroCompleto() {
 }
 
 // ========================================================
-// BIBLIOTECA DE PROMPTS (MÓDULO 7)
+// BIBLIOTECA DE PROMPTS GIGANTE: PACOTE DE EXPANSÃO VOL.1
 // ========================================================
 const bancoDePromptsLib = {
-    "grafica": [
-        { titulo: "Banner YouTube - A Retomada", texto: "Epic wide cinematic banner, aspect ratio 21:9. All characters (Tomato, Dragon Fruit, Lemon, Avocado) arranged in an 'Avengers' style composition. Favela landscape in the background with sunset. High contrast, sharp details, plenty of negative space in the center for channel logo. Professional movie art." },
-        { titulo: "Mockup: Caneca Guarda de Elite", texto: "Product photography. A matte black ceramic mug on a wooden table. On the mug, a white minimalist logo of the 'Elite Fruit Guard' (shield and fruit icon). Soft studio lighting, bokeh background, realistic textures." },
-        { titulo: "Cartão de Visita Tático (Rocha)", texto: "Graphic design mockup. A stack of premium black business cards. Gold foil text: 'LIMAO ROCHA - TACTICAL SOLUTIONS'. Minimalist icon of a lemon with a scar. Realistic shadows, professional lighting." },
-        { titulo: "Flyer Baile Funk do Abacatudo", texto: "Graphic design flyer, aspect ratio 4:5. Neon purple and green colors. Large text 'BAILE DO CHEFE'. Background shows a silhouette of an Avocado boss and huge speakers. Grainy texture, street art style, vibrant and energetic." }
+    "acao": [
+        { titulo: "Sniper no Telhado (Laser Verde)", texto: "Hyper-realistic 8k movie still. Anthropomorphic Lemon character, tough expression, eye scar, wearing a professional black tactical vest. Crouched on a concrete favela rooftop at night, holding a sniper rifle with a glowing green laser pointing down. Cinematic lighting, gritty urban action style." },
+        { titulo: "Milícia Invadindo o Beco (Fumaça)", texto: "Cinematic ultra-wide shot. Massive Anthropomorphic Avocado crime boss walking through thick smoke in a narrow favela alley. Flanked by elite fruit soldiers in black tactical gear holding flashlights. Lens flare, wet ground reflecting dim streetlights. Heavy tension." },
+        { titulo: "Fuga de Moto na Ladeira", texto: "Action sequence, extreme motion blur. Anthropomorphic Tomato man driving a dirt bike down a steep, narrow favela staircase. Anthropomorphic Dragon Fruit girl holding onto him holding a pistol. Sparks flying from the walls. Dynamic low-angle tracking shot." },
+        { titulo: "O Ultimato do Abacatudo", texto: "Close-up dramatic shot. Massive Avocado boss holding a glowing golden seed, looking down with a menacing smile. Rain pouring down his scarred rind. Cinematic rim lighting, dark and moody atmosphere." },
+        { titulo: "Tiroteio na Casa do Irmão", texto: "Interior action shot. A worn-out favela bar 'CASA DO IRMAO' getting destroyed by gunfire. Anthropomorphic Tomato taking cover behind a wooden table. Glass shattering, neon sign sparking. Gritty realism." },
+        { titulo: "Invasão da Guarda de Elite", texto: "Low angle. A squad of Anthropomorphic Banana soldiers kicking down a wooden door in the favela. Flashlights cutting through the dust. Tactical breach, high adrenaline, 8k render." }
     ],
     "survival": [
-        { titulo: "Desafio Viral 9:16 - Fios Elétricos", texto: "Extreme survival challenge, aspect ratio 9:16. Vertical shot. Anthropomorphic Tomato man balancing on thin, sparking electrical wires high above a favela street. Muzzle flashes from below as soldiers shoot at his feet. Intense height perspective, sparks flying, sweat and terror on the character's face. Blockbuster action style." },
-        { titulo: "Fuga da Horda Zumbi - Patins", texto: "Fast-paced TikTok viral style, aspect ratio 9:16. Anthropomorphic Dragon Fruit girl on roller skates speeding down a steep favela hill. Behind her, a swarm of rotten, decaying fruit zombies. Motion blur, high contrast, cinematic depth of field, extreme tension." },
-        { titulo: "O Poço das Motosserras", texto: "Horror survival, aspect ratio 9:16. Close up from above looking down. Anthropomorphic Caju character hanging by his hands from a rusty pipe. Below him, two Anthropomorphic Apples with chainsaws looking up and revving the engines. Dark, smoky pit, glowing red eyes, hyper-realistic textures." }
+        { titulo: "Fios Elétricos (9:16 - TikTok)", texto: "Extreme survival challenge, aspect ratio 9:16. Anthropomorphic Tomato man balancing on thin, sparking electrical wires high above a favela street. Muzzle flashes from below. Intense height perspective, sparks flying, sweat and terror." },
+        { titulo: "Fuga da Horda Zumbi (Patins)", texto: "Fast-paced TikTok viral style, aspect ratio 9:16. Anthropomorphic Dragon Fruit girl on roller skates speeding down a steep favela hill. Behind her, a swarm of rotten, decaying fruit zombies. Motion blur, high contrast, extreme tension." },
+        { titulo: "O Poço das Motosserras", texto: "Horror survival, aspect ratio 9:16. Close up from above looking down. Anthropomorphic Caju character hanging by his hands from a rusty pipe. Below him, two Anthropomorphic Apples with chainsaws looking up. Dark, smoky pit, glowing red eyes." },
+        { titulo: "A Ponte de Vidro Falsa", texto: "Squid Game style challenge, aspect ratio 9:16. Anthropomorphic Tomato stepping onto a glowing glass platform suspended over a dark abyss. Cracks starting to form under his boot. Extreme close-up on his terrified eyes." },
+        { titulo: "Corredor de Lasers", texto: "Sci-fi survival, aspect ratio 9:16. Anthropomorphic Lemon doing a tactical backbend to dodge a grid of deadly red laser beams in a dark concrete tunnel. Foggy atmosphere making the lasers glow intensely." },
+        { titulo: "A Caixa d'Água Inundando", texto: "Drowning trap, aspect ratio 9:16. Anthropomorphic Pear trapped inside a giant glass water tank filling up rapidly. She is banging on the glass, bubbles escaping her mouth. Desperate and claustrophobic atmosphere." }
+    ],
+    "presidio": [
+        { titulo: "Elinaldo no Cárcere (Solitária)", texto: "Anthropomorphic Tomato man in a bright orange prison jumpsuit, sitting in a dark, grimy solitary confinement cell. A single ray of light shining from a small barred window. Distressed skin. Gritty Netflix-style cinematography." },
+        { titulo: "A Rebelião no Pátio", texto: "Epic wide shot of a prison yard riot. Hundreds of anthropomorphic fruit inmates in orange uniforms fighting. Smoke grenades going off. Guards in riot gear holding shields. Chaos, dust, dynamic action." },
+        { titulo: "O Interrogatório (Delegado)", texto: "Dark interrogation room. Anthropomorphic Pineapple police delegate, wearing aviator sunglasses, leaning over a metal table. Desk lamp shining aggressively on a sweaty Anthropomorphic Tomato. Neo-noir lighting." },
+        { titulo: "Contrabando no Refeitório", texto: "Prison cafeteria. Anthropomorphic Cashew sliding a shiv under a metal lunch tray to an Anthropomorphic Tomato. Nervous glances. Highly detailed textures of the stainless steel and the food." },
+        { titulo: "A Caminhada no Corredor", texto: "Tracking shot from behind. Elinaldo walking down a long prison cell block in handcuffs. Other fruit inmates reaching their arms through the bars. Cold fluorescent lighting, oppressive atmosphere." }
+    ],
+    "politica": [
+        { titulo: "Advogado Mamão (Proposta Suja)", texto: "Anthropomorphic Papaya lawyer, wearing a bespoke navy blue suit, gold watch, greasy smile. Sliding a manila envelope full of cash across a polished mahogany desk. Luxurious office, symmetrical lighting, 8k render." },
+        { titulo: "Político Melancia (Comício Falso)", texto: "Anthropomorphic Watermelon politician standing behind a podium. Green suit and presidential sash. Fake charismatic smile. Background: blurred cheering crowd and Brazilian flags. High-end political photography." },
+        { titulo: "Encontro no Carro de Luxo", texto: "Interior of a luxury black SUV at night. The Papaya lawyer talking to the Avocado crime boss in the backseat. Rain on the windows, neon city lights reflecting. Mafia cinematic style." },
+        { titulo: "A Coletiva de Imprensa", texto: "Dozens of microphones and camera flashes going off. The Watermelon politician sweating nervously at a press conference as a scandal breaks. High stress, paparazzi aesthetic." }
+    ],
+    "grafica": [
+        { titulo: "Banner YouTube - Todos os Heróis", texto: "Epic wide cinematic banner, aspect ratio 21:9. Tomato, Dragon Fruit, and Lemon arranged in an 'Avengers' style composition. Favela landscape in the background with sunset. Sharp details, negative space in the center for text." },
+        { titulo: "Banner YouTube - O Lado Obscuro", texto: "Dark themed banner, aspect ratio 21:9. Avocado boss and Pineapple delegate standing in the shadows. Glowing red and green rim lights. Very menacing, negative space on the left for the channel name." },
+        { titulo: "Mockup: Action Figure Elinaldo", texto: "Product photography. A toy box packaging for an 'Elinaldo Tomato' action figure. The box is highly detailed with plastic window showing the toy inside holding a pistol. Studio lighting, white background." },
+        { titulo: "Mockup: Camiseta 'A Retomada'", texto: "Apparel mockup. A black oversized t-shirt hanging on a brick wall. The shirt features a gritty, streetwear-style graphic of a Tomato with the text 'FAVELA RESISTE'. Photorealistic fabric textures." },
+        { titulo: "Cartão de Visita (Rocha Tático)", texto: "Graphic design mockup. A stack of premium black matte business cards. Gold foil text: 'LIMAO ROCHA - TACTICAL SOLUTIONS'. Minimalist icon of a lemon with a scar. Realistic shadows." },
+        { titulo: "Flyer de Baile Funk (Abacatudo)", texto: "Graphic design flyer, aspect ratio 4:5. Neon purple and green colors. Large aggressive typography 'BAILE DO CHEFE'. Background silhouette of an Avocado boss and huge speakers. Street art style." },
+        { titulo: "Grafite na Parede (Logo)", texto: "Urban street art. A hyper-realistic graffiti mural on a weathered favela brick wall. The mural depicts a heroic Tomato character. Paint drips, realistic brick textures, daylight." }
+    ],
+    "audio_dna": [
+        { titulo: "Reação: O Pânico da Sabrina", texto: "Dublagem Tática: [SABRINA, voz ofegante e desesperada]: 'Elinaldo, a ponte tá cedendo! Eu não vou conseguir segurar, me puxa agora! AGORA!'" },
+        { titulo: "Ameaça: Abacatudo no Rádio", texto: "Dublagem Tática: [ABACATUDO, voz grave com efeito de rádio tático]: 'Cês acham que a favela é bagunça? Fecha as saídas. Quero o vermelho vivo. A rosa cês podem jogar no poço.'" },
+        { titulo: "Fofoca: Dona Moranguinho", texto: "Dublagem Tática: [DONA MORANGUINHO, voz nasal, falando rápido e baixo]: 'Misericórdia, menina! Tu viu a viatura subindo o beco do Elinaldo? Levaram ele algemado! E o advogado Mamão já tava lá embaixo esperando...'" },
+        { titulo: "Tática: Limão Rocha no Ponto", texto: "Dublagem Tática: [ROCHA, voz fria, som de vento no fundo]: 'Tomate, não avança. Tem três na esquina. Espera o meu disparo. Três, dois, um... Fogo.'" },
+        { titulo: "Dor: Elinaldo Atingido", texto: "Dublagem Tática: [ELINALDO, gemendo de dor, som de tecido rasgando]: 'Agh... pegou de raspão. Sabrina, pega a mochila e corre. Não olha pra trás, só corre!'" }
     ]
 };
 
