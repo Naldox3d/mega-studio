@@ -178,29 +178,73 @@ function salvarChave() {
     localStorage.setItem(chaveStorageMod, key);
 }
 
-// --- DATABASE DA NOVELA (DNA BLINDADO) ---
+// --- DATABASE DA NOVELA (DNA BLINDADO ATUALIZADO) ---
 const personagens = {
-    'Heróis Oficiais': {'P01':"Limão Rocha", 'P02':"Tomate Elinaldo", 'P03':"Sabrina Pitaya", 'P04':"Pera Fit"},
-    'Figuras da Favela': {'F_MAE': "Mãe do Elinaldo", 'F_CHEF': "Chefe Rico (Abacate)", 'F_POLI': "Miliciano (Guarda)"},
-    'Comédia & Pop': {'COM01':"Caju Nordestino", 'B01': "Banana Bananildo"},
-    'Animes & Terror': {'TER01':"Maçã Motosserra"},
-    'Multidões e Grupos': {'G01': "Grupo de Fãs", 'G02': "Horda de Zumbis", 'G07': "Guarda de Elite", 'G11': "Multidão do Funk"}
+    'Heróis & Aliados': {
+        'P01': "Limão Rocha", 
+        'P02': "Tomate Elinaldo", 
+        'P03': "Sabrina Pitaya", 
+        'P04': "Pera Fit",
+        'P05': "Oswaldo Rocha (Oz)"
+    },
+    'Vilões & Chefões': {
+        'V_CHEF': "Abacatudo (Dono da Rua)", 
+        'V_POLI': "Miliciano (Guarda)"
+    },
+    'Figuras da Favela': {
+        'F_MAE': "Mãe do Elinaldo", 
+        'COM01': "Caju Nordestino", 
+        'B01': "Banana Bananildo"
+    },
+    'Animes & Terror': {
+        'TER01': "Maçã Motosserra"
+    },
+    'Multidões e Guardas': {
+        'G01': "Soldado Cenoura (E.G.D. 1)", 
+        'G02': "Soldado Banana (E.G.D. 2)", 
+        'G07': "Guarda de Elite", 
+        'G11': "Multidão do Funk",
+        'G02_Z': "Horda de Zumbis"
+    }
 };
 
 const vozes = {
-    'Vozes Oficiais': {'V_ELI': "Voz do Tomate Elinaldo", 'V_SAB': "Voz doce da Sabrina", 'V_ROC': "Voz grossa do Sgt Rocha", 'V_MAE': "Voz de Mãe Humilde (Idosa)"},
-    'Vozes da Favela': {'V_GIG': "Voz Deep do Abacate Chefe", 'V_FUNK': "Sons de Baile Funk / Foley"}
+    'Vozes Oficiais': {
+        'V_ELI': "Voz do Tomate Elinaldo", 
+        'V_SAB': "Voz doce da Sabrina", 
+        'V_ROC': "Voz grossa do Sgt Rocha", 
+        'V_OZ': "Voz de Oswaldo (Lira)",
+        'V_MAE': "Voz de Mãe Humilde (Idosa)"
+    },
+    'Vozes da Favela': {
+        'V_GIG': "Voz Deep do Abacate Chefe", 
+        'V_TAC': "Voz Tática Militar (E.G.D.)",
+        'V_FUNK': "Sons de Baile Funk / Foley"
+    }
 };
 
 const d = { 
-    'P01':{d:"Anthropomorphic Lemon character, tough expression"}, 
-    'P02':{d:"Anthropomorphic Tomato character, huge expressive eyes, distressed clothes"},
-    'P03':{d:"Sabrina Pitaya, Anthropomorphic Dragon Fruit female character, pink scaly skin, punk rock moicano hair, distressed denim jacket, camo pants"}, 
-    'P04':{d:"Anthropomorphic Pear female, athletic"},
-    'F_MAE':{d:"Anthropomorphic small elderly Tomato character, weary expression, wearing simple modest clothes"},
-    'F_CHEF':{d:"Anthropomorphic Avocado character, giant, muscular, wearing heavy trench coat"},
-    'F_POLI':{d:"Anthropomorphic fruit in BOPE tactical gear"},
-    'G07':{d:"Group of heavily armed fruit soldiers in black tactical gear"}, 
+    // HERÓIS
+    'P01': { d: "Anthropomorphic Lemon character, tough expression, rough yellow rind, thick black mustache, eye scar, tactical vest over white dress shirt" }, 
+    'P02': { d: "Anthropomorphic Tomato character, huge expressive eyes, distressed clothes, vibrant red skin with subtle droplets" },
+    'P03': { d: "Sabrina Pitaya, Anthropomorphic Dragon Fruit female character, pink scaly skin, punk rock moicano hair, tactical denim jacket, camo pants" }, 
+    'P04': { d: "Anthropomorphic Pear female, athletic build, high-detail 3D" },
+    'P05': { d: "Oswaldo Rocha, young anthropomorphic lemon-headed character, smoother surface, vibrant yellow skin, expressive conflicted eyes, athletic runner build, agile posture like Spider-Man, wearing a dark gray hoodie and sneakers" },
+
+    // VILÕES E FAVELA
+    'V_CHEF': { d: "Abacatudo, massive Anthropomorphic Avocado crime boss, dark green rugose rind head, deep facial scars, golden seed on top, wearing a long worn-out leather trench coat" },
+    'V_POLI': { d: "Anthropomorphic fruit in black tactical BOPE gear, masked, urban combat style" },
+    'F_MAE': { d: "Anthropomorphic small elderly Tomato character, weary expression, wearing simple modest clothes and headscarf" },
+    'COM01': { d: "Anthropomorphic Cashew character, nordestino hat, expressive comedic face" },
+    'B01': { d: "Tall slender Banana character, goofy expressions, street style clothes" },
+    'TER01': { d: "Anthropomorphic Apple, chainsaw hands, horror 3D style" },
+
+    // GUARDAS E GRUPOS
+    'G01': { d: "Soldado Cenoura, Carrot elite soldier, orange rind texture, green leaves on top, full black E.G.D. tactical armor, holding assault rifle" },
+    'G02': { d: "Soldado Banana, Banana elite soldier, yellow skin with dark spots, black tactical gear, focused military gaze" },
+    'G07': { d: "Group of heavily armed fruit soldiers in black tactical gear" }, 
+    'G11': { d: "Crowd of diverse anthropomorphic fruit characters in a favela dance party atmosphere" },
+    'G02_Z': { d: "Swarm of rotten zombie fruits, decaying textures, glowing eyes, horror 3D style" }
 };
 
 function carregarMenus() {
@@ -214,7 +258,7 @@ function carregarMenus() {
             Object.keys(personagens[g]).forEach(id => grp.appendChild(new Option(personagens[g][id], id))); 
             sel.appendChild(grp); 
         }); 
-    });
+    }); 
     
     ['prota', 'coadj1', 'multidao'].forEach(b => {
         let sV = document.getElementById(`voz_${b}`); sV.innerHTML = '<option value="">🗣️ Voz Padrão</option>'; 
