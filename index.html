@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 65.1 — O COFRE DE NOVELA (SERIAL)</title>
+    <title>MEGA STUDIO 65.2 — O COFRE DE NOVELA (SERIAL + BIBLIOTECA)</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -49,7 +49,7 @@
 
 <div class="container">
     <div class="card">
-        <h1>👁️ MEGA STUDIO 65.1 — O COFRE DE NOVELA (SERIAL)</h1>
+        <h1>👁️ MEGA STUDIO 65.2 — O COFRE DE NOVELA (SERIAL + BIBLIOTECA)</h1>
     </div>
 
     <div class="card" style="border-color: var(--primary-yellow);">
@@ -168,17 +168,47 @@
         <textarea id="final_aud" class="textarea-terminal" style="color: var(--primary-orange);" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
         <button onclick="copiarTexto('final_aud', 'Áudio')" style="background: var(--primary-orange); color: #000; padding: 12px; font-size: 14px;">🔊 COPIAR ROTEIRO DE ÁUDIO</button>
     </div>
+
+    <div class="card" style="border-color: var(--primary-purple);">
+        <h2 style="color: var(--primary-purple);">📚 7. BIBLIOTECA DE PROMPTS (TRAMPO FREELANCE / +200 IDEIAS)</h2>
+        <span class="label-text" style="margin-bottom: 15px;">Explore ideias avulsas e copie direto para a sua área de transferência.</span>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+            <div>
+                <span class="label-text">1. Escolha o Grupo / Categoria:</span>
+                <select id="categoria_lib" onchange="carregarOpcoesLib()">
+                    <option value="">-- Selecione o Grupo --</option>
+                    <option value="acao">🔥 Ação & Combate Tático</option>
+                    <option value="cenarios">🏙️ Cenários & Favela Cinematic</option>
+                    <option value="personagens">🧬 Folha de Personagem (Model Sheet)</option>
+                    <option value="flyers">📰 Posters & Capas (21:9 e 4:5)</option>
+                </select>
+            </div>
+            <div>
+                <span class="label-text">2. Escolha o Prompt Específico:</span>
+                <select id="listaPrompts_lib" onchange="mostrarPromptLib()" disabled>
+                    <option value="">-- Escolha o grupo primeiro --</option>
+                </select>
+            </div>
+        </div>
+
+        <span class="label-text" style="color: var(--primary-purple);">📝 BLOCO DE NOTAS (PRONTO PARA COPIAR):</span>
+        <textarea id="blocoNota_lib" class="textarea-terminal" style="height: 140px; color: var(--primary-purple);" readonly placeholder="O prompt profissional aparecerá aqui..."></textarea>
+        
+        <button onclick="copiarPromptLib()" style="background: var(--primary-purple); margin-top: 15px; padding: 12px; font-size: 14px;">📋 COPIAR PROMPT PARA A ÁREA DE TRANSFERÊNCIA</button>
+    </div>
+
 </div>
 
 <script>
-// --- CORE LOGIC ---
+// --- CORE LOGIC ORIGINAL ---
 const chaveStorageMod = "gemini_api_key_novela";
 function salvarChave() {
     const key = document.getElementById("api_key_input").value.trim();
     localStorage.setItem(chaveStorageMod, key);
 }
 
-// --- DATABASE DA NOVELA (DNA BLINDADO ATUALIZADO) ---
+// --- DATABASE DA NOVELA ---
 const personagens = {
     'Heróis & Aliados': {
         'P01': "Limão Rocha", 
@@ -224,22 +254,17 @@ const vozes = {
 };
 
 const d = { 
-    // HERÓIS
     'P01': { d: "Anthropomorphic Lemon character, tough expression, rough yellow rind, thick black mustache, eye scar, tactical vest over white dress shirt" }, 
     'P02': { d: "Anthropomorphic Tomato character, huge expressive eyes, distressed clothes, vibrant red skin with subtle droplets" },
     'P03': { d: "Sabrina Pitaya, Anthropomorphic Dragon Fruit female character, pink scaly skin, punk rock moicano hair, tactical denim jacket, camo pants" }, 
     'P04': { d: "Anthropomorphic Pear female, athletic build, high-detail 3D" },
     'P05': { d: "Oswaldo Rocha, young anthropomorphic lemon-headed character, smoother surface, vibrant yellow skin, expressive conflicted eyes, athletic runner build, agile posture like Spider-Man, wearing a dark gray hoodie and sneakers" },
-
-    // VILÕES E FAVELA
     'V_CHEF': { d: "Abacatudo, massive Anthropomorphic Avocado crime boss, dark green rugose rind head, deep facial scars, golden seed on top, wearing a long worn-out leather trench coat" },
     'V_POLI': { d: "Anthropomorphic fruit in black tactical BOPE gear, masked, urban combat style" },
     'F_MAE': { d: "Anthropomorphic small elderly Tomato character, weary expression, wearing simple modest clothes and headscarf" },
     'COM01': { d: "Anthropomorphic Cashew character, nordestino hat, expressive comedic face" },
     'B01': { d: "Tall slender Banana character, goofy expressions, street style clothes" },
     'TER01': { d: "Anthropomorphic Apple, chainsaw hands, horror 3D style" },
-
-    // GUARDAS E GRUPOS
     'G01': { d: "Soldado Cenoura, Carrot elite soldier, orange rind texture, green leaves on top, full black E.G.D. tactical armor, holding assault rifle" },
     'G02': { d: "Soldado Banana, Banana elite soldier, yellow skin with dark spots, black tactical gear, focused military gaze" },
     'G07': { d: "Group of heavily armed fruit soldiers in black tactical gear" }, 
@@ -297,9 +322,6 @@ function getNome(id) {
     return "Personagem";
 }
 
-// =====================================
-// PASSO A: GERAR ESTRUTURA (BEAT SHEET)
-// =====================================
 async function gerarEstrutura() {
     const btn = document.getElementById("btnEstrutura");
     const loader = document.getElementById("loader_estrutura");
@@ -340,7 +362,6 @@ async function gerarEstrutura() {
             output.value = JSON.stringify(estruturaDaNovela, null, 2);
             for (let i = 1; i <= 6; i++) document.getElementById(`btn_novela_${i}`).disabled = false;
             
-            // Zera o storyboard para a nova novela
             document.getElementById("output-storyboard").innerHTML = "";
             cenasGeradasSequencial = [];
             roteiroCompletoEmTexto = "";
@@ -351,9 +372,6 @@ async function gerarEstrutura() {
     finally { btn.disabled = false; loader.style.display = "none"; }
 }
 
-// =====================================
-// PASSO B: GERAR BLOCO DE CENAS
-// =====================================
 async function gerarBlocoCenas(start, end) {
     const loader = document.getElementById("loader_cenas");
     const storyboard = document.getElementById("output-storyboard");
@@ -417,7 +435,6 @@ async function gerarBlocoCenas(start, end) {
     finally { loader.style.display = "none"; }
 }
 
-// --- PROCESSAR E INSERIR NA TELA ---
 function processarResposta(textoBruto) {
     const storyboard = document.getElementById("output-storyboard");
     let htmlFinal = "";
@@ -454,7 +471,6 @@ function processarResposta(textoBruto) {
     });
 
     if (htmlFinal !== "") { 
-        // Em vez de substituir, ele adiciona as novas cenas embaixo das antigas!
         storyboard.innerHTML += htmlFinal; 
     } else {
         alert("Erro: A IA não formatou as cenas corretamente.");
@@ -491,6 +507,72 @@ function copiarTexto(idElemento, tipo) {
 function copiarRoteiroCompleto() {
     if(!roteiroCompletoEmTexto) return alert("Nenhum roteiro gerado!");
     navigator.clipboard.writeText(roteiroCompletoEmTexto).then(() => alert("📜 Roteiro completo copiado!"));
+}
+
+// ========================================================
+// LOGIC: BIBLIOTECA DE PROMPTS (MÓDULO 7 - FREELANCE)
+// ========================================================
+const bancoDePromptsLib = {
+    "acao": [
+        { titulo: "Sniper no Telhado (Limão Rocha)", texto: "Hyper-realistic 8k movie still. Anthropomorphic Lemon character, tough expression, rough yellow rind, eye scar, wearing a professional black tactical vest. He is crouched on a concrete favela rooftop at night, holding a sniper rifle with a glowing green laser. Background: sprawling favela lights, blurred depth of field. Cinematic lighting, gritty urban action style." },
+        { titulo: "Milícia Invadindo o Beco (Abacatudo)", texto: "Cinematic ultra-wide shot. Massive Anthropomorphic Avocado crime boss walking through thick smoke in a narrow favela alley. He is flanked by elite anthropomorphic fruit soldiers in black tactical gear holding flashlights. Lens flare from the flashlights, wet ground with puddles reflecting the dim streetlights. Heavy tension, blockbuster movie quality, 8k resolution." },
+        { titulo: "Fuga Sob Fogo Cruzado", texto: "Action sequence, motion blur. Anthropomorphic Tomato man protecting an Anthropomorphic Dragon Fruit woman as they run through a favela alley. Sparks are flying from the brick walls from gunfire. Dynamic low-angle tracking shot, debris in the air, high contrast lighting, intense and gritty atmosphere." }
+    ],
+    "cenarios": [
+        { titulo: "Favela Noturna Panorâmica (Cristo ao Fundo)", texto: "Epic wide establishing shot. A sprawling Brazilian favela at night built on a steep hill. Thousands of glowing warm yellow windows. Tangled electrical wires in the foreground. In the far distance, the Christ the Redeemer statue is faintly illuminated against a dark, moody sky. High-end architectural visualization, Unreal Engine 5 render style, hyper-detailed." },
+        { titulo: "Bar 'Casa do Irmão' (Fachada)", texto: "Hyper-realistic street photography. A worn-out, colorful favela storefront named 'CASA DO IRMAO'. Peeling blue paint, old posters on the brick wall. A few plastic tables outside. Dim street lamp illuminating the entrance. Gritty urban aesthetic, highly detailed textures, 8k." },
+        { titulo: "Baile Funk (Multidão Neon)", texto: "Vibrant cinematic shot inside a favela alley turned into a street party. A massive crowd of diverse anthropomorphic fruit characters dancing. Heavy neon lighting (purple and green). Huge sound system speakers stacked high. Smoke machines, laser lights, high energy, motion blur on the dancers." }
+    ],
+    "personagens": [
+        { titulo: "Model Sheet: Tomate Elinaldo", texto: "Character design model sheet. Anthropomorphic Tomato man, distressed clothes, large expressive eyes, subtle sweat droplets on red skin. Front view, side profile, and back view arranged side-by-side on a neutral grey background. T-pose and casual pose. High-detail 3D render, Pixar meets gritty realism style, clean studio lighting." },
+        { titulo: "Model Sheet: Sabrina Pitaya", texto: "Character design model sheet. Anthropomorphic Dragon Fruit female character, pink scaly skin, punk rock moicano hair, tactical denim jacket, camo pants. Front, side, and back profiles arranged on a white background. Expressions chart in the corner. Professional 3D concept art, symmetrical lighting." }
+    ],
+    "flyers": [
+        { titulo: "Pôster de Cinema 21:9 (A Retomada)", texto: "Cinematic poster, aspect ratio 21:9. Anthropomorphic Tomato man standing in the rain in the middle of a favela street, holding a handgun at his side. A massive shadow of an Avocado boss looms in the background sky. Bold, dramatic lighting, high contrast red and green tones. Blockbuster movie poster style." },
+        { titulo: "Cartaz de Procurado (Flyer 4:5)", texto: "Graphic design piece, aspect ratio 4:5. Gritty 'WANTED' poster taped to a brick wall. The poster features a mugshot of an Anthropomorphic Tomato. Stamped with red text 'PROCURADO PELA MILÍCIA'. Urban decay background, hyper-realistic textures, peeling tape." }
+    ]
+};
+
+function carregarOpcoesLib() {
+    const cat = document.getElementById('categoria_lib').value;
+    const selLista = document.getElementById('listaPrompts_lib');
+    const txtBloco = document.getElementById('blocoNota_lib');
+    
+    selLista.innerHTML = '<option value="">-- Selecione a Ideia --</option>';
+    txtBloco.value = "";
+    
+    if (cat === "") {
+        selLista.disabled = true;
+        return;
+    }
+
+    selLista.disabled = false;
+    bancoDePromptsLib[cat].forEach((item, index) => {
+        selLista.appendChild(new Option(item.titulo, index));
+    });
+}
+
+function mostrarPromptLib() {
+    const cat = document.getElementById('categoria_lib').value;
+    const index = document.getElementById('listaPrompts_lib').value;
+    const txtBloco = document.getElementById('blocoNota_lib');
+    
+    if (index === "") {
+        txtBloco.value = "";
+        return;
+    }
+    txtBloco.value = bancoDePromptsLib[cat][index].texto;
+}
+
+function copiarPromptLib() {
+    const texto = document.getElementById('blocoNota_lib').value;
+    if (!texto) {
+        alert("⚠️ Selecione um prompt primeiro!");
+        return;
+    }
+    navigator.clipboard.writeText(texto).then(() => {
+        alert("✅ PROMPT COPIADO COM SUCESSO!");
+    });
 }
 </script>
 </body>
