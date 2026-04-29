@@ -235,7 +235,14 @@
                 <input type="text" id="comercial_input" placeholder="Descreva o produto e a marca...">
                 <button onclick="gerarComercialIA()" style="background: var(--primary-purple); color: #000;">🤖 GERAR CAMPANHA DE VENDAS</button>
                 <div id="loader_agencia" class="loader">⚖️ CRIANDO ROTEIRO PUBLICITÁRIO...</div>
+                
                 <textarea id="resultado_agencia" class="textarea-terminal" style="height: 180px; margin-top:15px; color: var(--primary-purple);" readonly placeholder="O Roteiro completo do Comercial aparecerá aqui..."></textarea>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <button onclick="fatiarECopiarAgencia('imagem')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR SÓ IMAGEM</button>
+                    <button onclick="fatiarECopiarAgencia('video')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR SÓ VÍDEO</button>
+                    <button onclick="fatiarECopiarAgencia('audio')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR SÓ ÁUDIO</button>
+                </div>
             </div>
 
             <div class="card" style="margin-top:20px; border-color: var(--primary-cyan);">
@@ -636,6 +643,36 @@ function copiarDoCofre(texto) {
 }
 
 function limparCofre() { localStorage.removeItem("cofre_modeship"); atualizarCofre(); }
+
+// NOVA FUNÇÃO FATIADORA DA AGÊNCIA
+function fatiarECopiarAgencia(tipo) {
+    const textoCompleto = document.getElementById("resultado_agencia").value;
+    if (!textoCompleto) {
+        alert("⚠️ Gere a campanha primeiro!");
+        return;
+    }
+
+    let textoCopiado = "";
+    
+    if (tipo === 'imagem') {
+        const match = textoCompleto.match(/Prompt de Imagem[\s\S]*?```([\s\S]*?)```/);
+        textoCopiado = match ? match[1].trim() : "Prompt de imagem não encontrado.";
+    } 
+    else if (tipo === 'video') {
+        const match = textoCompleto.match(/Prompt de Vídeo[\s\S]*?```([\s\S]*?)```/);
+        textoCopiado = match ? match[1].trim() : "Prompt de vídeo não encontrado.";
+    } 
+    else if (tipo === 'audio') {
+        // Pega do Áudio até o final do texto
+        const match = textoCompleto.match(/Roteiro de Áudio[\s\S]*/);
+        textoCopiado = match ? match[0].trim() : "Roteiro de áudio não encontrado.";
+    }
+
+    navigator.clipboard.writeText(textoCopiado).then(() => {
+        alert(`✅ Prompt de ${tipo.toUpperCase()} copiado!`);
+        salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado); // Salva no Cofre também!
+    });
+}
 
 </script>
 </body>
