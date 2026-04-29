@@ -170,20 +170,16 @@
     </div>
 
     <div class="card" style="border-color: var(--primary-purple);">
-        <h2 style="color: var(--primary-purple);">📚 7. BIBLIOTECA DE PROMPTS (ECOSSISTEMA ELINALDO)</h2>
-        <span class="label-text" style="margin-bottom: 15px;">Explore ideias avulsas e copie direto para a sua área de transferência.</span>
+        <h2 style="color: var(--primary-purple);">📚 7. BIBLIOTECA DE PROMPTS (TRAMPO FREELANCE E IDEAÇÃO)</h2>
+        <span class="label-text" style="margin-bottom: 15px;">Explore ideias gráficas e desafios virais isolados para copiar direto.</span>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
             <div>
                 <span class="label-text">1. Escolha o Grupo / Categoria:</span>
                 <select id="categoria_lib" onchange="carregarOpcoesLib()">
                     <option value="">-- Selecione o Grupo --</option>
-                    <option value="acao">🔥 Ação & Combate Tático</option>
-                    <option value="survival">☠️ Desafios Virais (Survival 9:16)</option>
-                    <option value="presidio">⛓️ Sistema Prisional (Cárcere)</option>
-                    <option value="politica">👔 Política & Advocacia</option>
                     <option value="grafica">🖨️ Gráfica & Branding (Banners/Mockups)</option>
-                    <option value="audio_dna">🎙️ Áudio DNA (Falas e Reações)</option>
+                    <option value="survival">☠️ Desafios Virais (Survival 9:16)</option>
                 </select>
             </div>
             <div>
@@ -210,7 +206,7 @@ function salvarChave() {
     localStorage.setItem(chaveStorageMod, key);
 }
 
-// --- DATABASE DA NOVELA ---
+// --- DATABASE DA NOVELA (ATUALIZADO COM EXPANSÃO) ---
 const personagens = {
     'Heróis & Aliados': {
         'P01': "Limão Rocha", 
@@ -221,10 +217,18 @@ const personagens = {
     },
     'Vilões & Chefões': {
         'V_CHEF': "Abacatudo (Dono da Rua)", 
-        'V_POLI': "Miliciano (Guarda)"
+        'V_POLI': "Miliciano (Guarda)",
+        'V_ADV': "Advogado Mamão",
+        'V_PREF': "Político Melancia"
+    },
+    'Sistema Prisional': {
+        'PR_DEL': "Delegado Abacaxi",
+        'PR_DET': "Detento Abacaxi (Brutamontes)",
+        'PR_GUA': "Guarda Prisional Banana"
     },
     'Figuras da Favela': {
         'F_MAE': "Mãe do Elinaldo", 
+        'F_FOF': "Dona Moranguinho (Fofoqueira)",
         'COM01': "Caju Nordestino", 
         'B01': "Banana Bananildo"
     },
@@ -248,6 +252,12 @@ const vozes = {
         'V_OZ': "Voz de Oswaldo (Lira)",
         'V_MAE': "Voz de Mãe Humilde (Idosa)"
     },
+    'Expansão (Política & Prisão)': {
+        'V_ADV': "Voz de Advogado (Sebosa)",
+        'V_PREF': "Voz de Político (Carismática/Falsa)",
+        'V_DEL': "Voz de Delegado (Militar/Ríspida)",
+        'V_FOF': "Voz Dona Moranguinho (Nasal/Rápida)"
+    },
     'Vozes da Favela': {
         'V_GIG': "Voz Deep do Abacate Chefe", 
         'V_TAC': "Voz Tática Militar (E.G.D.)",
@@ -263,7 +273,13 @@ const d = {
     'P05': { d: "Oswaldo Rocha, young anthropomorphic lemon-headed character, smoother surface, vibrant yellow skin, expressive conflicted eyes, athletic runner build, agile posture like Spider-Man, wearing a dark gray hoodie and sneakers" },
     'V_CHEF': { d: "Abacatudo, massive Anthropomorphic Avocado crime boss, dark green rugose rind head, deep facial scars, golden seed on top, wearing a long worn-out leather trench coat" },
     'V_POLI': { d: "Anthropomorphic fruit in black tactical BOPE gear, masked, urban combat style" },
+    'V_ADV': { d: "Anthropomorphic Papaya character, lawyer, wearing a bespoke expensive navy blue suit, gold watch, silk tie, greasy manipulative smile" },
+    'V_PREF': { d: "Anthropomorphic Watermelon politician, wearing a green suit and a presidential sash, fake charismatic smile" },
+    'PR_DEL': { d: "Anthropomorphic Pineapple police delegate, wearing aviator sunglasses and a crisp police uniform, stern military posture" },
+    'PR_DET': { d: "Massive Anthropomorphic Pineapple thug in a grey prison undershirt, heavily scarred, muscular build, prison environment" },
+    'PR_GUA': { d: "Anthropomorphic Banana in grey and black prison guard uniform, holding a baton, serious expression" },
     'F_MAE': { d: "Anthropomorphic small elderly Tomato character, weary expression, wearing simple modest clothes and headscarf" },
+    'F_FOF': { d: "Anthropomorphic Strawberry elderly woman, wearing curlers in hair and a floral house dress, leaning out of a favela window gossiping" },
     'COM01': { d: "Anthropomorphic Cashew character, nordestino hat, expressive comedic face" },
     'B01': { d: "Tall slender Banana character, goofy expressions, street style clothes" },
     'TER01': { d: "Anthropomorphic Apple, chainsaw hands, horror 3D style" },
@@ -512,35 +528,19 @@ function copiarRoteiroCompleto() {
 }
 
 // ========================================================
-// NOVO BANCO DE DADOS: GRÁFICA + SURVIVAL + EXPANSÃO LORE
+// BIBLIOTECA DE PROMPTS (MÓDULO 7)
 // ========================================================
 const bancoDePromptsLib = {
-    "acao": [
-        { titulo: "Sniper no Telhado (Limão Rocha)", texto: "Hyper-realistic 8k movie still. Anthropomorphic Lemon character, tough expression, rough yellow rind, eye scar, wearing a professional black tactical vest. He is crouched on a concrete favela rooftop at night, holding a sniper rifle with a glowing green laser. Cinematic lighting, gritty urban action style." },
-        { titulo: "Milícia Invadindo o Beco (Abacatudo)", texto: "Cinematic ultra-wide shot. Massive Anthropomorphic Avocado crime boss walking through thick smoke in a narrow favela alley. He is flanked by elite fruit soldiers in black tactical gear holding flashlights. Lens flare from the flashlights, wet ground with puddles reflecting the dim streetlights. Heavy tension, 8k resolution." }
-    ],
-    "survival": [
-        { titulo: "Desafio Viral 9:16 - Fios Elétricos", texto: "Extreme survival challenge, aspect ratio 9:16. Vertical shot. Anthropomorphic Tomato man balancing on thin, sparking electrical wires high above a favela street. Muzzle flashes from below as soldiers shoot at his feet. Intense height perspective, sparks flying, sweat and terror on the character's face. Blockbuster action style." },
-        { titulo: "Fuga da Horda Zumbi - Patins", texto: "Fast-paced TikTok viral style, aspect ratio 9:16. Anthropomorphic Dragon Fruit girl on roller skates speeding down a steep favela hill. Behind her, a swarm of rotten, decaying fruit zombies. Motion blur, high contrast, cinematic depth of field, extreme tension." },
-        { titulo: "O Poço das Motosserras", texto: "Horror survival, aspect ratio 9:16. Close up from above looking down. Anthropomorphic Caju character hanging by his hands from a rusty pipe. Below him, two Anthropomorphic Apples with chainsaws looking up and revving the engines. Dark, smoky pit, glowing red eyes, hyper-realistic textures." }
-    ],
-    "presidio": [
-        { titulo: "Elinaldo no Cárcere (Uniforme)", texto: "Anthropomorphic Tomato man in a bright orange prison jumpsuit, sitting on a concrete bench inside a dark, grimy prison cell. Dramatic high-contrast bars shadow over his face. Distressed skin, sorrowful eyes. Gritty Netflix-style cinematography, 8k." },
-        { titulo: "O Confronto no Pátio", texto: "Wide shot of a prison yard. Group of tough anthropomorphic fruit inmates in grey undershirts. In the center, Elinaldo facing a massive, rotten Pineapple thug. Guards in tactical gear visible in towers. Intense sunlight, lens flare, gritty textures." }
-    ],
-    "politica": [
-        { titulo: "Advogado Mamão (Terno Caro)", texto: "Anthropomorphic Papaya lawyer, wearing a bespoke expensive navy blue suit, gold watch, and silk tie. He has a greasy, manipulative smile. Sitting in a luxurious office with leather chairs and favela view through the window. Symmetrical lighting, 8k render." },
-        { titulo: "Político Melancia (Comício)", texto: "Anthropomorphic Watermelon politician standing behind a podium with many microphones. Wearing a green suit and a presidential sash. Fake charismatic smile. Background: blurred crowd and flags. High-end political photography style." }
-    ],
     "grafica": [
         { titulo: "Banner YouTube - A Retomada", texto: "Epic wide cinematic banner, aspect ratio 21:9. All characters (Tomato, Dragon Fruit, Lemon, Avocado) arranged in an 'Avengers' style composition. Favela landscape in the background with sunset. High contrast, sharp details, plenty of negative space in the center for channel logo. Professional movie art." },
         { titulo: "Mockup: Caneca Guarda de Elite", texto: "Product photography. A matte black ceramic mug on a wooden table. On the mug, a white minimalist logo of the 'Elite Fruit Guard' (shield and fruit icon). Soft studio lighting, bokeh background, realistic textures." },
         { titulo: "Cartão de Visita Tático (Rocha)", texto: "Graphic design mockup. A stack of premium black business cards. Gold foil text: 'LIMAO ROCHA - TACTICAL SOLUTIONS'. Minimalist icon of a lemon with a scar. Realistic shadows, professional lighting." },
         { titulo: "Flyer Baile Funk do Abacatudo", texto: "Graphic design flyer, aspect ratio 4:5. Neon purple and green colors. Large text 'BAILE DO CHEFE'. Background shows a silhouette of an Avocado boss and huge speakers. Grainy texture, street art style, vibrant and energetic." }
     ],
-    "audio_dna": [
-        { titulo: "Gritos e Reações (Script)", texto: "Dublagem Tática: [SABRINA: 'SOCORRO! ME TIRA DAQUI!'], [ELINALDO: 'AGUENTA FIRME, EU TÔ CHEGANDO!'], [GUARDA: 'PARADO! MÃOS ONDE EU POSSA VER!']. Efeitos: Som de rádio comunicador, sirene abafada, passos rápidos no cascalho." },
-        { titulo: "A Vizinha Fofoqueira (Script)", texto: "Voz Dona Moranguinho (Nasal/Rápida): 'Misericórdia! Tu viu quem subiu o beco com o Abacatudo? O filho do Rocha! Vai dar ruim, eu tô avisando...'" }
+    "survival": [
+        { titulo: "Desafio Viral 9:16 - Fios Elétricos", texto: "Extreme survival challenge, aspect ratio 9:16. Vertical shot. Anthropomorphic Tomato man balancing on thin, sparking electrical wires high above a favela street. Muzzle flashes from below as soldiers shoot at his feet. Intense height perspective, sparks flying, sweat and terror on the character's face. Blockbuster action style." },
+        { titulo: "Fuga da Horda Zumbi - Patins", texto: "Fast-paced TikTok viral style, aspect ratio 9:16. Anthropomorphic Dragon Fruit girl on roller skates speeding down a steep favela hill. Behind her, a swarm of rotten, decaying fruit zombies. Motion blur, high contrast, cinematic depth of field, extreme tension." },
+        { titulo: "O Poço das Motosserras", texto: "Horror survival, aspect ratio 9:16. Close up from above looking down. Anthropomorphic Caju character hanging by his hands from a rusty pipe. Below him, two Anthropomorphic Apples with chainsaws looking up and revving the engines. Dark, smoky pit, glowing red eyes, hyper-realistic textures." }
     ]
 };
 
