@@ -82,7 +82,7 @@
                 <b style="font-size:16px;">📂 GUIA RÁPIDO DO DIRETOR:</b><br><br>
                 1. <b>PRODUÇÃO:</b> Use o <b>Modo Novela</b>. Comece gerando a <b>Estrutura (4A)</b> e depois gere os lotes de 5 em 5 para não sobrecarregar a API e manter a qualidade do DNA Blindado.<br>
                 2. <b>GAVETA DE IDEIAS:</b> Dentro da estrutura (Passo 4A), use a gaveta para pegar ideias prontas de Prisão, Ação ou Desafios Virais.<br>
-                3. <b>COMERCIAL:</b> No <b>Modo Agência</b>, o gerador de IA cria campanhas de vendas para o Elinaldo anunciar marcas reais (Nike, Apple, etc) ou para você vender seus mockups.
+                3. <b>COMERCIAL:</b> No <b>Modo Agência</b>, o gerador de IA cria campanhas de vendas fatiadas por cena (15, 30s) para o Elinaldo anunciar marcas reais.
             </div>
 
             <div class="card" style="margin-top: 15px; border-color: var(--primary-yellow);">
@@ -230,18 +230,31 @@
             <h1 style="color: var(--primary-purple);">💰 AGÊNCIA MODESHIP MONETIZAÇÃO</h1>
             
             <div class="card" style="border-color: var(--primary-purple); background: rgba(188, 140, 255, 0.03);">
-                <h2 style="color: var(--primary-purple);">📢 GERADOR DE COMERCIAIS PUBLICITÁRIOS (IA)</h2>
-                <span class="label-text">O que o Elinaldo vai anunciar hoje? (Ex: Nike, Coca-Cola)</span>
-                <input type="text" id="comercial_input" placeholder="Descreva o produto e a marca...">
-                <button onclick="gerarComercialIA()" style="background: var(--primary-purple); color: #000;">🤖 GERAR CAMPANHA DE VENDAS</button>
-                <div id="loader_agencia" class="loader">⚖️ CRIANDO ROTEIRO PUBLICITÁRIO...</div>
+                <h2 style="color: var(--primary-purple);">📢 GERADOR DE COMERCIAIS (SEQUÊNCIA TÁTICA)</h2>
                 
-                <textarea id="resultado_agencia" class="textarea-terminal" style="height: 180px; margin-top:15px; color: var(--primary-purple);" readonly placeholder="O Roteiro completo do Comercial aparecerá aqui..."></textarea>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <div>
+                        <span class="label-text">Produto/Marca:</span>
+                        <input type="text" id="comercial_input" placeholder="Ex: Tênis Nike, Refrigerante">
+                    </div>
+                    <div>
+                        <span class="label-text">Duração do Comercial:</span>
+                        <select id="tempo_comercial" style="margin-bottom:0;">
+                            <option value="15">⏳ 15 Segundos (Vídeo Curto)</option>
+                            <option value="30">⏳ 30 Segundos (Padrão TV/YouTube)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button onclick="gerarComercialIA()" style="background: var(--primary-purple); color: #000;">🤖 GERAR CAMPANHA FATIADA</button>
+                <div id="loader_agencia" class="loader">⚖️ FATIANDO O COMERCIAL EM CENAS...</div>
+                
+                <textarea id="resultado_agencia" class="textarea-terminal" style="height: 300px; margin-top:15px; color: var(--primary-purple);" readonly placeholder="O Comercial estruturado por cenas (1, 2, 3...) aparecerá aqui."></textarea>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
-                    <button onclick="fatiarECopiarAgencia('imagem')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR SÓ IMAGEM</button>
-                    <button onclick="fatiarECopiarAgencia('video')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR SÓ VÍDEO</button>
-                    <button onclick="fatiarECopiarAgencia('audio')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR SÓ ÁUDIO</button>
+                    <button onclick="fatiarECopiarAgencia('imagem')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR PROMPTS DE IMAGEM</button>
+                    <button onclick="fatiarECopiarAgencia('video')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR PROMPTS DE VÍDEO</button>
+                    <button onclick="fatiarECopiarAgencia('audio')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR ROTEIRO DE ÁUDIO</button>
                 </div>
             </div>
 
@@ -613,10 +626,33 @@ function copiarRoteiroCompleto() {
 
 async function gerarComercialIA() {
     const prod = document.getElementById("comercial_input").value;
+    const tempo = document.getElementById("tempo_comercial").value;
+    
     if(!prod) return alert("Diga qual produto você quer anunciar!");
+    
     document.getElementById("loader_agencia").style.display = "block";
-    const prompt = `Crie um roteiro publicitário dinâmico de 15 segundos para a marca/produto "${prod}" no Universo Modeship (Favela) estrelando o Tomate Elinaldo. Crie: 1. Prompt de Imagem (Inglês detalhado, Flow Labs VO3 style), 2. Prompt de Vídeo (Inglês), 3. Roteiro de Áudio com Locução de Vendas e Efeitos Sonoros (Português).`;
-    const res = await chamarIA(prompt);
+    
+    const promptPublicitario = `
+    Você é o diretor Modeship. Crie um roteiro de comercial para a marca/produto "${prod}" no Universo Favela 3D estrelando o Tomate Elinaldo.
+    A duração total do comercial é de ${tempo} segundos.
+    
+    FATIE o comercial em 4 cenas. Para CADA CENA, use EXATAMENTE a seguinte formatação:
+
+    [CENA X - INÍCIOs até FIMs]
+    [IMAGEM]: Prompt em inglês detalhado para Flow Labs VO3 style.
+    [VIDEO]: Prompt em inglês para Luma/Kling.
+    [AUDIO]: Locução em português e Efeitos Sonoros (SFX).
+
+    Exemplo de saída esperada (NÃO USE MARKDOWN \`\`\`):
+    [CENA 1 - 0-3s]
+    [IMAGEM]: Cinematic close-up...
+    [VIDEO]: Fast zoom out...
+    [AUDIO]: [SFX] Batida de funk. [LOCUÇÃO] "No corre da favela..."
+    
+    Agora gere o roteiro completo de ${tempo} segundos para "${prod}":
+    `;
+    
+    const res = await chamarIA(promptPublicitario);
     document.getElementById("loader_agencia").style.display = "none";
     if(res) document.getElementById("resultado_agencia").value = res;
 }
@@ -644,7 +680,7 @@ function copiarDoCofre(texto) {
 
 function limparCofre() { localStorage.removeItem("cofre_modeship"); atualizarCofre(); }
 
-// NOVA FUNÇÃO FATIADORA DA AGÊNCIA
+// NOVA FUNÇÃO FATIADORA DA AGÊNCIA (AJUSTADA PARA A NOVA FORMATAÇÃO)
 function fatiarECopiarAgencia(tipo) {
     const textoCompleto = document.getElementById("resultado_agencia").value;
     if (!textoCompleto) {
@@ -655,22 +691,37 @@ function fatiarECopiarAgencia(tipo) {
     let textoCopiado = "";
     
     if (tipo === 'imagem') {
-        const match = textoCompleto.match(/Prompt de Imagem[\s\S]*?```([\s\S]*?)```/);
-        textoCopiado = match ? match[1].trim() : "Prompt de imagem não encontrado.";
+        const matches = textoCompleto.match(/\[IMAGEM\]:\s*(.*?)(?=\n\[VIDEO\]|\n\[CENA|$)/gs);
+        if (matches) {
+            textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[IMAGEM\]:\s*/, '').trim()}`).join('\n\n');
+        } else {
+            textoCopiado = "Prompts de imagem não encontrados na estrutura.";
+        }
     } 
     else if (tipo === 'video') {
-        const match = textoCompleto.match(/Prompt de Vídeo[\s\S]*?```([\s\S]*?)```/);
-        textoCopiado = match ? match[1].trim() : "Prompt de vídeo não encontrado.";
+        const matches = textoCompleto.match(/\[VIDEO\]:\s*(.*?)(?=\n\[AUDIO\]|\n\[CENA|$)/gs);
+        if (matches) {
+             textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[VIDEO\]:\s*/, '').trim()}`).join('\n\n');
+        } else {
+             textoCopiado = "Prompts de vídeo não encontrados na estrutura.";
+        }
     } 
     else if (tipo === 'audio') {
-        // Pega do Áudio até o final do texto
-        const match = textoCompleto.match(/Roteiro de Áudio[\s\S]*/);
-        textoCopiado = match ? match[0].trim() : "Roteiro de áudio não encontrado.";
+        const matches = textoCompleto.match(/\[CENA\s*\d+\s*-\s*.*?s\].*?\[AUDIO\]:\s*(.*?)(?=\n\[CENA|$)/gs);
+        if (matches) {
+            textoCopiado = matches.map(m => {
+                const tempo = m.match(/\[CENA\s*\d+\s*-\s*(.*?s)\]/)[1];
+                const audio = m.match(/\[AUDIO\]:\s*([\s\S]*?)(?=\n\[CENA|$)/)[1].trim();
+                return `[Tempo: ${tempo}]\n${audio}`;
+            }).join('\n\n');
+        } else {
+            textoCopiado = "Roteiro de áudio não encontrado na estrutura.";
+        }
     }
 
     navigator.clipboard.writeText(textoCopiado).then(() => {
-        alert(`✅ Prompt de ${tipo.toUpperCase()} copiado!`);
-        salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado); // Salva no Cofre também!
+        alert(`✅ Prompts de ${tipo.toUpperCase()} copiados!`);
+        salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado); 
     });
 }
 
