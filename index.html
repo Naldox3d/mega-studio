@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 65.5 — AGÊNCIA & ECOSSISTEMA TOTAL</title>
+    <title>MEGA STUDIO 65.6 — AGÊNCIA & ECOSSISTEMA TOTAL</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -49,7 +49,7 @@
         .btn-terminal { background: var(--primary-cyan); color: #000; margin-top: 10px; padding: 10px; font-size: 13px;}
         .loader { display: none; text-align: center; color: var(--primary-green); font-weight: bold; margin: 10px 0; }
         
-        .file-upload-wrapper { background: #0d1117; border: 2px dashed var(--border-color); border-radius: 8px; padding: 15px; text-align: center; margin-bottom: 15px; }
+        .file-upload-wrapper { background: #0d1117; border: 2px dashed var(--border-color); border-radius: 8px; padding: 15px; text-align: center; margin-bottom: 15px; margin-top: 15px;}
         input[type="file"] { display: none; }
         .custom-file-upload { display: inline-block; padding: 10px 20px; cursor: pointer; background: var(--primary-purple); color: #000; font-weight: bold; border-radius: 6px; text-transform: uppercase; font-size: 12px; }
         #preview_img { max-width: 100%; max-height: 250px; border-radius: 8px; margin-top: 10px; display: none; border: 2px solid var(--primary-purple); }
@@ -62,6 +62,13 @@
         .menu-info { border-left: 4px solid var(--primary-cyan); padding-left: 15px; margin-top: 10px; }
         .salvo-item { background: #0d1117; padding: 12px; border-radius: 6px; border: 1px solid #30363d; margin-bottom: 8px; cursor: pointer; font-size: 12px;}
         .salvo-item:hover { border-color: var(--primary-green); background: #161b22; }
+
+        /* Estilos para as Abas Internas da Novela (Zero vs Continuação) */
+        .sub-nav-btn { background: #1c2128; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; cursor: pointer; border-radius: 6px; font-weight: bold; margin-right: 10px; font-size: 12px;}
+        .sub-nav-btn.active { background: var(--primary-yellow); color: #000; border-color: var(--primary-yellow);}
+        .modo-historia { display: none; margin-top: 15px; }
+        .modo-historia.active { display: block; }
+
     </style>
 </head>
 <body>
@@ -77,15 +84,15 @@
     <!-- DASHBOARD -->
     <div id="tab-home" class="tab-content active">
         <div class="card">
-            <h1>👁️ CENTRAL DE COMANDO MODESHIP 65.5</h1>
+            <h1>👁️ CENTRAL DE COMANDO MODESHIP 65.6</h1>
             <p style="text-align:center; color: var(--text-muted); margin-bottom: 20px;">O sistema integrado de produção de roteiros e monetização de IP.</p>
             
             <div class="instruction-box">
                 <b style="font-size:16px; color: var(--primary-cyan);">📋 MENU INFORMATIVO: PASSO A PASSO</b><br>
                 <div class="menu-info">
-                    <b style="color:var(--primary-green);">1. PROJETO DO ZERO:</b> Tem uma ideia nova? Vá no Modo Novela, cole na caixa do <b>Passo 4A</b> e clique em Gerar Estrutura. Depois, gere as cenas de 5 em 5 para não estourar a API. Copie os prompts, gere as imagens no Flow Labs e o áudio no CapCut/Moises.<br><br>
-                    <b style="color:var(--primary-blue);">2. SER CONTINUAÇÃO:</b> Quer continuar uma história antiga? Copie a última cena do seu roteiro salvo no cofre, cole no Modo Novela e peça: <i>"A partir daqui, continue a história do Elinaldo..."</i><br><br>
-                    <b style="color:var(--primary-purple);">3. TRABALHO FREELANCE (VENDAS):</b> Fechou uma parceria? Vá no <b>Modo Agência</b>. Coloque o produto real (ex: Caneca, Camisa, Tênis). A IA vai gerar um roteiro onde os personagens (Elinaldo/Sabrina) vendem a marca no mundo real, fatiado por cenas para o TikTok/Insta.
+                    <b style="color:var(--primary-green);">1. PROJETO DO ZERO:</b> Tem uma ideia nova? Vá no Modo Novela, cole na caixa do <b>Passo 1</b> e clique em Gerar Estrutura. Depois, gere as cenas de 5 em 5 para não estourar a API.<br><br>
+                    <b style="color:var(--primary-blue);">2. SER CONTINUAÇÃO:</b> Vá no Modo Novela, clique no botão "Ser Continuação". Cole o texto final do episódio anterior na primeira caixa e a ideia para o novo episódio na segunda caixa.<br><br>
+                    <b style="color:var(--primary-purple);">3. TRABALHO FREELANCE (VENDAS):</b> Fechou uma parceria? Vá no <b>Modo Agência</b> e digite o produto (ex: Caneca Oficial).
                 </div>
             </div>
 
@@ -99,8 +106,10 @@
 
     <!-- MODO NOVELA -->
     <div id="tab-novela" class="tab-content">
+        
+        <!-- SEÇÃO 2 E 3 UNIFICADAS: VISUAL E ELENCO -->
         <div class="card">
-            <h2>👥 2. ELENCO E VOZ (DNA BLINDADO)</h2>
+            <h2>👥 2. ELENCO, VOZ E MOLDE VISUAL (DNA BLINDADO)</h2>
             <div class="grid-elenco">
                 <div>
                     <span class="label-text">Personagem 1 (Protagonista):</span>
@@ -147,12 +156,9 @@
                     </select>
                 </div>
             </div>
-        </div>
-
-        <div class="card">
-            <h2 style="color: var(--primary-purple);">🖼️ 3. BANCO DE IMAGEM (MOLDE DE UNIVERSO)</h2>
+            
             <div class="file-upload-wrapper">
-                <span class="label-text" style="margin-bottom: 10px;">A IA VAI LER ESTA FOTO PARA COPIAR A LUZ, O CENÁRIO E A VIBE:</span>
+                <span class="label-text" style="margin-bottom: 10px;">BANCO DE IMAGEM: A IA VAI LER ESTA FOTO PARA COPIAR A LUZ, O CENÁRIO E A VIBE DO VÍDEO ANTERIOR:</span>
                 <label for="imagem_ref" class="custom-file-upload">📂 CARREGAR PRINT DO VÍDEO (JPG/PNG)</label>
                 <input type="file" id="imagem_ref" accept="image/png, image/jpeg" onchange="mostrarPreview(event)">
                 <br><img id="preview_img" src="" alt="Preview">
@@ -160,10 +166,11 @@
         </div>
 
         <div class="card" style="border-color: var(--primary-yellow);">
-            <h2 style="color: var(--primary-yellow);">📝 4A. PASSO 1: A ESTRUTURA DA NOVELA (BEAT SHEET)</h2>
+            <h2 style="color: var(--primary-yellow);">📝 PASSO 1: A ESTRUTURA DA NOVELA (BEAT SHEET)</h2>
             
+            <!-- GAVETA DESCIDA -->
             <div style="background: #1c2128; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px dashed var(--primary-yellow);">
-                <span class="label-text" style="color: var(--primary-yellow); margin-bottom: 10px;">💡 GAVETA DO UNIVERSO (COPIE IDEIAS PARA A SUA HISTÓRIA):</span>
+                <span class="label-text" style="color: var(--primary-yellow); margin-bottom: 10px;">💡 GAVETA DO UNIVERSO (OPCIONAL): Copie ideias prontas para sua história.</span>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                     <select id="cat_universo" onchange="carregarUniverso()">
                         <option value="">-- Categoria da História --</option>
@@ -177,21 +184,39 @@
                         <option value="">-- Escolha a Ideia --</option>
                     </select>
                 </div>
-                <textarea id="texto_universo" style="height: 80px; color: var(--primary-yellow); font-size: 13px;" readonly placeholder="A ideia aparecerá aqui... copie o que gostar e cole na caixa de Estrutura abaixo!"></textarea>
+                <textarea id="texto_universo" style="height: 60px; color: var(--primary-yellow); font-size: 13px;" readonly placeholder="A ideia aparecerá aqui..."></textarea>
             </div>
 
-            <span class="label-text">Cole aqui a sua IDEIA COMPLETA (3+ minutos). A IA vai gerar a estrutura tática (várias cenas).</span>
-            <textarea id="novela_prompt" placeholder="Ex: Elinaldo é preso na obra, mas a Sabrina fez um acordo com o miliciano..."></textarea>
+            <!-- BOTÕES PARA ESCOLHER MODO (ZERO VS CONTINUAÇÃO) -->
+            <div style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                <button class="sub-nav-btn active" onclick="switchModoHistoria('modo-zero', this)">🆕 Projeto do Zero</button>
+                <button class="sub-nav-btn" onclick="switchModoHistoria('modo-continuacao', this)">🔄 Ser Continuação</button>
+            </div>
+
+            <!-- MODO: PROJETO DO ZERO -->
+            <div id="modo-zero" class="modo-historia active">
+                <span class="label-text">Cole aqui a sua IDEIA COMPLETA (3+ minutos).</span>
+                <textarea id="novela_prompt_zero" placeholder="Ex: Elinaldo é preso na obra, mas a Sabrina fez um acordo com o miliciano..."></textarea>
+            </div>
+
+            <!-- MODO: CONTINUAÇÃO -->
+            <div id="modo-continuacao" class="modo-historia">
+                <span class="label-text" style="color: var(--primary-blue);">1. COPIE AQUI O FINAL DO EPISÓDIO ANTERIOR:</span>
+                <textarea id="prompt_cont_passado" style="height: 80px; margin-bottom: 15px; border-color: var(--primary-blue);" placeholder="Ex: O episódio 1 terminou com o Elinaldo sendo encurralado no beco..."></textarea>
+                
+                <span class="label-text" style="color: var(--primary-green);">2. A IDEIA PARA O NOVO EPISÓDIO (O QUE ACONTECE AGORA):</span>
+                <textarea id="prompt_cont_futuro" style="height: 80px; border-color: var(--primary-green);" placeholder="Ex: Agora a Sabrina precisa encontrar o Limão Rocha para pedir ajuda e invadir o galpão..."></textarea>
+            </div>
             
-            <div style="display: flex; gap: 10px;">
-                <button id="btnEstrutura" onclick="gerarEstrutura()" style="background: var(--primary-yellow); color: #000; width: 100%;">📜 PASSO 1: GERAR ESTRUTURA</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="btnEstrutura" onclick="gerarEstrutura()" style="background: var(--primary-yellow); color: #000; width: 100%;">📜 GERAR ESTRUTURA</button>
             </div>
             <div id="loader_estrutura" class="loader">👁️ A IA está a desenhar a estrutura da sua novela... Aguarde.</div>
-            <textarea id="estrutura_output" readonly placeholder="A estrutura tática das cenas aparecerá aqui (em JSON). NÃO EDITE ESTA ÁREA."></textarea>
+            <textarea id="estrutura_output" style="margin-top: 15px;" readonly placeholder="A estrutura tática das cenas aparecerá aqui (em JSON)."></textarea>
         </div>
 
         <div class="card">
-            <h2 style="color: var(--primary-green);">🎬 4B. PASSO 2: GERAÇÃO SEQUENCIAL (O COFRE)</h2>
+            <h2 style="color: var(--primary-green);">🎬 PASSO 2: GERAÇÃO SEQUENCIAL (O COFRE)</h2>
             <span class="label-text" style="color: var(--primary-yellow); margin-bottom:10px;">⏰ Deseja incluir a minutagem visual nas cenas?</span>
             <select id="op_tempo_novela" style="margin-bottom: 15px;">
                 <option value="com_tempo">⏳ Sim, com marcação de tempo (Ex: 0-3s)</option>
@@ -210,7 +235,7 @@
         </div>
 
         <div class="card">
-            <h2 style="color: var(--primary-cyan);">🎬 5. STORYBOARD (CENAS FATIADAS)</h2>
+            <h2 style="color: var(--primary-cyan);">🎬 PASSO 3: STORYBOARD (CENAS FATIADAS)</h2>
             <button id="btnCopiarTudo" onclick="copiarRoteiroCompleto('novela')" style="background: var(--primary-yellow); color: #000; margin-bottom: 15px; display: none;">📜 COPIAR ROTEIRO COMPLETO (TEXTO PURO)</button>
             
             <div id="output-storyboard">
@@ -229,7 +254,7 @@
         </div>
 
         <div class="card">
-            <h2 style="color: var(--primary-orange);">🚀 6. TRINDADE DOS TERMINAIS (CORTES ISOLADOS)</h2>
+            <h2 style="color: var(--primary-orange);">🚀 PASSO 4: TERMINAIS ISOLADOS</h2>
             
             <span class="label-text" style="color: var(--primary-purple);">📸 1. PROMPT DE IMAGEM (INGLÊS - Para Midjourney/Flow):</span>
             <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
@@ -308,45 +333,28 @@
 
 <script>
 // ========================================================
-// 1. DATA CORE (COMPLETO - NADA CORTADO)
+// 1. DATA CORE (COMPLETO)
 // ========================================================
 const chaveStorageMod = "gemini_api_key_novela";
 function salvarChave() { localStorage.setItem(chaveStorageMod, document.getElementById("api_key_input").value.trim()); }
 
-// 🔴 O DELAY 2.0 (TRAVA GLOBAL DE 5 SEGUNDOS)
+// TRAVA GLOBAL DE 5 SEGUNDOS
 let travaDeTempoAPI = false;
+let modoAtualHistoria = 'modo-zero'; // Controla qual caixa vai ser lida
 
 const personagens = {
-    'Heróis & Aliados': {
-        'P01': "Limão Rocha", 'P02': "Tomate Elinaldo", 'P03': "Sabrina Pitaya", 'P04': "Pera Fit", 'P05': "Oswaldo Rocha (Oz)"
-    },
-    'Vilões & Chefões': {
-        'V_CHEF': "Abacatudo (Dono da Rua)", 'V_POLI': "Miliciano (Guarda)", 'V_ADV': "Advogado Mamão", 'V_PREF': "Político Melancia"
-    },
-    'Sistema Prisional': {
-        'PR_DEL': "Delegado Abacaxi", 'PR_DET': "Detento Abacaxi (Brutamontes)", 'PR_GUA': "Guarda Prisional Banana"
-    },
-    'Figuras da Favela': {
-        'F_MAE': "Mãe do Elinaldo", 'F_FOF': "Dona Moranguinho (Fofoqueira)", 'COM01': "Caju Nordestino", 'B01': "Banana Bananildo"
-    },
-    'Animes & Terror': {
-        'TER01': "Maçã Motosserra"
-    },
-    'Multidões e Guardas': {
-        'G01': "Soldado Cenoura (E.G.D. 1)", 'G02': "Soldado Banana (E.G.D. 2)", 'G07': "Guarda de Elite", 'G11': "Multidão do Funk", 'G02_Z': "Horda de Zumbis"
-    }
+    'Heróis & Aliados': { 'P01': "Limão Rocha", 'P02': "Tomate Elinaldo", 'P03': "Sabrina Pitaya", 'P04': "Pera Fit", 'P05': "Oswaldo Rocha (Oz)" },
+    'Vilões & Chefões': { 'V_CHEF': "Abacatudo (Dono da Rua)", 'V_POLI': "Miliciano (Guarda)", 'V_ADV': "Advogado Mamão", 'V_PREF': "Político Melancia" },
+    'Sistema Prisional': { 'PR_DEL': "Delegado Abacaxi", 'PR_DET': "Detento Abacaxi (Brutamontes)", 'PR_GUA': "Guarda Prisional Banana" },
+    'Figuras da Favela': { 'F_MAE': "Mãe do Elinaldo", 'F_FOF': "Dona Moranguinho (Fofoqueira)", 'COM01': "Caju Nordestino", 'B01': "Banana Bananildo" },
+    'Animes & Terror': { 'TER01': "Maçã Motosserra" },
+    'Multidões e Guardas': { 'G01': "Soldado Cenoura (E.G.D. 1)", 'G02': "Soldado Banana (E.G.D. 2)", 'G07': "Guarda de Elite", 'G11': "Multidão do Funk", 'G02_Z': "Horda de Zumbis" }
 };
 
 const vozes = {
-    'Vozes Oficiais': {
-        'V_ELI': "Voz do Tomate Elinaldo", 'V_SAB': "Voz doce da Sabrina", 'V_ROC': "Voz grossa do Sgt Rocha", 'V_OZ': "Voz de Oswaldo (Lira)", 'V_MAE': "Voz de Mãe Humilde (Idosa)"
-    },
-    'Expansão (Política & Prisão)': {
-        'V_ADV': "Voz de Advogado (Sebosa)", 'V_PREF': "Voz de Político (Carismática/Falsa)", 'V_DEL': "Voz de Delegado (Militar/Ríspida)", 'V_FOF': "Voz Dona Moranguinho (Nasal/Rápida)"
-    },
-    'Vozes da Favela': {
-        'V_GIG': "Voz Deep do Abacate Chefe", 'V_TAC': "Voz Tática Militar (E.G.D.)", 'V_FUNK': "Sons de Baile Funk / Foley"
-    }
+    'Vozes Oficiais': { 'V_ELI': "Voz do Tomate Elinaldo", 'V_SAB': "Voz doce da Sabrina", 'V_ROC': "Voz grossa do Sgt Rocha", 'V_OZ': "Voz de Oswaldo (Lira)", 'V_MAE': "Voz de Mãe Humilde (Idosa)" },
+    'Expansão (Política & Prisão)': { 'V_ADV': "Voz de Advogado (Sebosa)", 'V_PREF': "Voz de Político (Carismática/Falsa)", 'V_DEL': "Voz de Delegado (Militar/Ríspida)", 'V_FOF': "Voz Dona Moranguinho (Nasal/Rápida)" },
+    'Vozes da Favela': { 'V_GIG': "Voz Deep do Abacate Chefe", 'V_TAC': "Voz Tática Militar (E.G.D.)", 'V_FUNK': "Sons de Baile Funk / Foley" }
 };
 
 const d = { 
@@ -419,13 +427,22 @@ const graficaFreelance = [
 ];
 
 // ========================================================
-// 2. FUNÇÕES DA INTERFACE & INTEGRAÇÃO IA
+// 2. FUNÇÕES DA INTERFACE
 // ========================================================
 function switchTab(event, tabId) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     event.currentTarget.classList.add('active');
+}
+
+// Controla a visibilidade das caixas Zero vs Continuação
+function switchModoHistoria(modoId, btn) {
+    document.querySelectorAll('.modo-historia').forEach(m => m.classList.remove('active'));
+    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(modoId).classList.add('active');
+    btn.classList.add('active');
+    modoAtualHistoria = modoId;
 }
 
 function carregarMenus() {
@@ -452,9 +469,7 @@ function carregarMenus() {
 
     let selGrafica = document.getElementById('listaGrafica');
     selGrafica.innerHTML = '<option value="">-- Selecione o Design Gráfico --</option>';
-    graficaFreelance.forEach((item, index) => {
-        selGrafica.appendChild(new Option(item.titulo, index));
-    });
+    graficaFreelance.forEach((item, index) => { selGrafica.appendChild(new Option(item.titulo, index)); });
 
     atualizarCofre();
 }
@@ -513,7 +528,9 @@ function getNome(id) {
     return "Personagem";
 }
 
-// 🔴 CÉREBRO DA IA COM TRAVA DE SEGURANÇA
+// ========================================================
+// 3. COMUNICAÇÃO COM A API DO GOOGLE
+// ========================================================
 async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
     if (travaDeTempoAPI) {
         alert("⏳ SISTEMA ESFRIANDO: Aguarde 5 segundos antes de enviar outro comando para a IA.");
@@ -532,10 +549,8 @@ async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
             body: JSON.stringify({ contents: [{ parts: partesConteudo }] })
         });
         const dados = await resposta.json();
-        
         if(dados.error) { alert("Erro da API: " + dados.error.message); return null; }
         
-        // Ativa a trava de 5 segundos
         travaDeTempoAPI = true;
         setTimeout(() => { travaDeTempoAPI = false; }, 5000);
 
@@ -544,8 +559,20 @@ async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
 }
 
 async function gerarEstrutura() {
-    const promptNovela = document.getElementById("novela_prompt").value.trim();
-    if (!promptNovela) { alert("Cole a sua ideia completa da novela!"); return; }
+    let promptNovela = "";
+
+    // Verifica qual aba está ativa para montar o prompt correto
+    if (modoAtualHistoria === 'modo-zero') {
+        promptNovela = document.getElementById("novela_prompt_zero").value.trim();
+        if (!promptNovela) { alert("Cole a sua ideia na caixa de texto!"); return; }
+    } else {
+        const passado = document.getElementById("prompt_cont_passado").value.trim();
+        const futuro = document.getElementById("prompt_cont_futuro").value.trim();
+        if (!passado || !futuro) { alert("Preencha as duas caixas da continuação!"); return; }
+        
+        // Monta o prompt de continuação automaticamente
+        promptNovela = `ATENÇÃO, ESTA É UMA CONTINUAÇÃO (PARTE 2). O episódio anterior terminou exatamente assim: "${passado}". A partir desse ponto, inicie a nova estrutura com a seguinte ideia: "${futuro}".`;
+    }
 
     const btn = document.getElementById("btnEstrutura");
     const loader = document.getElementById("loader_estrutura");
@@ -580,8 +607,8 @@ async function gerarBlocoCenas(start, end) {
     const loader = document.getElementById("loader_cenas");
     const estilo = document.getElementById("estilo_render").value;
     const usaTempo = document.getElementById("op_tempo_novela").value === "com_tempo";
-    
     const regraTempo = usaTempo ? "IMPORTANTE: Inclua uma marcação de tempo visual no título (Ex: CENA 1 [0-3s])." : "NÃO inclua marcação de tempo.";
+    
     loader.style.display = "block";
 
     let elenco = [];
@@ -672,7 +699,6 @@ function copiarRoteiroCompleto(modo) {
     navigator.clipboard.writeText(textoAlvo).then(() => alert("📜 Roteiro completo copiado para a área de transferência!"));
 }
 
-// 🔴 NOVA FUNÇÃO PARA COPIAR O LOTE INTEIRO DOS TERMINAIS DA NOVELA
 function copiarLoteTrindade(tipo) {
     if(cenasGeradasSequencial.length === 0) return alert("⚠️ Gere as cenas primeiro!");
     let textoCopiado = "";
@@ -693,7 +719,6 @@ async function gerarComercialIA() {
     const usaTempoAge = document.getElementById("op_tempo_agencia").value === "com_tempo";
     
     if(!prod) return alert("Diga qual produto você quer anunciar!");
-    
     document.getElementById("loader_agencia").style.display = "block";
     
     const formatoCena = usaTempoAge ? "[CENA X - INÍCIOs até FIMs]" : "[CENA X]";
@@ -723,13 +748,11 @@ async function gerarComercialIA() {
     if(res) document.getElementById("resultado_agencia").value = res;
 }
 
-// FATIADOR DA AGÊNCIA (MANUTENÇÃO DOS MÓDULOS)
 function fatiarECopiarAgencia(tipo) {
     const textoCompleto = document.getElementById("resultado_agencia").value;
     if (!textoCompleto) { alert("⚠️ Gere a campanha primeiro!"); return; }
 
     let textoCopiado = "";
-    
     if (tipo === 'imagem') {
         const matches = textoCompleto.match(/\[IMAGEM\]:\s*(.*?)(?=\n\[VIDEO\]|\n\[CENA|$)/gs);
         if (matches) textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[IMAGEM\]:\s*/, '').trim()}`).join('\n\n');
@@ -759,7 +782,6 @@ function fatiarECopiarAgencia(tipo) {
     });
 }
 
-// SISTEMA DE COFRE (MEMÓRIA LOCAL)
 function salvarNoCofre(titulo, texto) {
     let list = JSON.parse(localStorage.getItem("cofre_modeship") || "[]");
     list.unshift({titulo: titulo + " (" + new Date().toLocaleTimeString().slice(0,5) + ")", texto});
@@ -776,10 +798,7 @@ function atualizarCofre() {
     });
 }
 
-function copiarDoCofre(texto) {
-    navigator.clipboard.writeText(texto).then(() => alert("Recuperado do Cofre e copiado para área de transferência!"));
-}
-
+function copiarDoCofre(texto) { navigator.clipboard.writeText(texto).then(() => alert("Recuperado do Cofre e copiado para área de transferência!")); }
 function limparCofre() { localStorage.removeItem("cofre_modeship"); atualizarCofre(); }
 
 </script>
