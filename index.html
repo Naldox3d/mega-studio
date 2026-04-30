@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 65.4 — AGÊNCIA & ECOSSISTEMA TOTAL</title>
+    <title>MEGA STUDIO 65.5 — AGÊNCIA & ECOSSISTEMA TOTAL</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -14,7 +14,6 @@
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 0; margin: 0; }
         
-        /* SISTEMA DE ABAS (NEW) */
         .navbar { background: #010409; padding: 15px; display: flex; justify-content: center; gap: 15px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
         .nav-btn { background: #0d1117; border: 1px solid var(--border-color); color: var(--text-muted); padding: 12px 24px; cursor: pointer; border-radius: 8px; font-weight: bold; text-transform: uppercase; transition: 0.3s; font-size: 13px; }
         .nav-btn:hover { border-color: var(--primary-purple); color: #fff; }
@@ -29,8 +28,9 @@
         h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
         
         select, textarea, input[type="text"], input[type="password"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; }
-        .select-idade { font-size: 12px; padding: 10px; margin-top: -8px; margin-bottom: 12px; background: #0d1117; border-color: var(--primary-yellow); color: var(--primary-yellow); }
-        .select-voz { font-size: 12px; padding: 10px; margin-top: -8px; background: #0d1117; border-color: var(--primary-cyan); color: var(--primary-cyan); }
+        .select-idade, .select-voz { font-size: 12px; padding: 10px; margin-top: -8px; margin-bottom: 12px; background: #0d1117; }
+        .select-idade { border-color: var(--primary-yellow); color: var(--primary-yellow); }
+        .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); margin-bottom: 0;}
         select:focus, textarea:focus, input:focus { border-color: var(--primary-purple); outline: none; }
         textarea { height: 120px; color: #3fb950; resize: vertical; }
         .textarea-terminal { height: 100px; background: #000; color: #ff7b72; font-family: monospace; border-color: var(--border-color); }
@@ -58,7 +58,8 @@
         .btn-bloco-novela { background: var(--primary-green); color: #000; width: auto; padding: 10px 20px; font-size: 13px; margin: 5px; }
         .btn-bloco-novela:disabled { background: #444; color: #888; }
         
-        .instruction-box { background: rgba(227, 179, 65, 0.08); border: 1px solid var(--primary-yellow); padding: 20px; border-radius: 8px; color: var(--primary-yellow); font-size: 14px; line-height: 1.6; }
+        .instruction-box { background: rgba(227, 179, 65, 0.08); border: 1px solid var(--primary-yellow); padding: 20px; border-radius: 8px; color: var(--primary-yellow); font-size: 14px; line-height: 1.6; margin-bottom: 15px;}
+        .menu-info { border-left: 4px solid var(--primary-cyan); padding-left: 15px; margin-top: 10px; }
         .salvo-item { background: #0d1117; padding: 12px; border-radius: 6px; border: 1px solid #30363d; margin-bottom: 8px; cursor: pointer; font-size: 12px;}
         .salvo-item:hover { border-color: var(--primary-green); background: #161b22; }
     </style>
@@ -73,16 +74,19 @@
 
 <div class="container">
 
+    <!-- DASHBOARD -->
     <div id="tab-home" class="tab-content active">
         <div class="card">
-            <h1>👁️ CENTRAL DE COMANDO MODESHIP 65.4</h1>
+            <h1>👁️ CENTRAL DE COMANDO MODESHIP 65.5</h1>
             <p style="text-align:center; color: var(--text-muted); margin-bottom: 20px;">O sistema integrado de produção de roteiros e monetização de IP.</p>
             
             <div class="instruction-box">
-                <b style="font-size:16px;">📂 GUIA RÁPIDO DO DIRETOR:</b><br><br>
-                1. <b>PRODUÇÃO:</b> Use o <b>Modo Novela</b>. Comece gerando a <b>Estrutura (4A)</b> e depois gere os lotes de 5 em 5 para não sobrecarregar a API e manter a qualidade do DNA Blindado.<br>
-                2. <b>GAVETA DE IDEIAS:</b> Dentro da estrutura (Passo 4A), use a gaveta para pegar ideias prontas de Prisão, Ação ou Desafios Virais.<br>
-                3. <b>COMERCIAL:</b> No <b>Modo Agência</b>, o gerador de IA cria campanhas de vendas fatiadas por cena (15, 30s) para o Elinaldo anunciar marcas reais.
+                <b style="font-size:16px; color: var(--primary-cyan);">📋 MENU INFORMATIVO: PASSO A PASSO</b><br>
+                <div class="menu-info">
+                    <b style="color:var(--primary-green);">1. PROJETO DO ZERO:</b> Tem uma ideia nova? Vá no Modo Novela, cole na caixa do <b>Passo 4A</b> e clique em Gerar Estrutura. Depois, gere as cenas de 5 em 5 para não estourar a API. Copie os prompts, gere as imagens no Flow Labs e o áudio no CapCut/Moises.<br><br>
+                    <b style="color:var(--primary-blue);">2. SER CONTINUAÇÃO:</b> Quer continuar uma história antiga? Copie a última cena do seu roteiro salvo no cofre, cole no Modo Novela e peça: <i>"A partir daqui, continue a história do Elinaldo..."</i><br><br>
+                    <b style="color:var(--primary-purple);">3. TRABALHO FREELANCE (VENDAS):</b> Fechou uma parceria? Vá no <b>Modo Agência</b>. Coloque o produto real (ex: Caneca, Camisa, Tênis). A IA vai gerar um roteiro onde os personagens (Elinaldo/Sabrina) vendem a marca no mundo real, fatiado por cenas para o TikTok/Insta.
+                </div>
             </div>
 
             <div class="card" style="margin-top: 15px; border-color: var(--primary-yellow);">
@@ -93,6 +97,7 @@
         </div>
     </div>
 
+    <!-- MODO NOVELA -->
     <div id="tab-novela" class="tab-content">
         <div class="card">
             <h2>👥 2. ELENCO E VOZ (DNA BLINDADO)</h2>
@@ -187,7 +192,11 @@
 
         <div class="card">
             <h2 style="color: var(--primary-green);">🎬 4B. PASSO 2: GERAÇÃO SEQUENCIAL (O COFRE)</h2>
-            <span class="label-text">Aperte um botão para gerar os prompts (Trindade da IA) de 5 cenas por vez. ISSO GARANTE A QUALIDADE.</span>
+            <span class="label-text" style="color: var(--primary-yellow); margin-bottom:10px;">⏰ Deseja incluir a minutagem visual nas cenas?</span>
+            <select id="op_tempo_novela" style="margin-bottom: 15px;">
+                <option value="com_tempo">⏳ Sim, com marcação de tempo (Ex: 0-3s)</option>
+                <option value="sem_tempo">❌ Não, apenas a descrição da cena</option>
+            </select>
             
             <div style="display: flex; flex-wrap: wrap;">
                 <button class="btn-bloco-novela" id="btn_novela_1" onclick="gerarBlocoCenas(1, 5)" disabled>🔥 GERA CENAS 1-5</button>
@@ -197,14 +206,25 @@
                 <button class="btn-bloco-novela" id="btn_novela_5" onclick="gerarBlocoCenas(21, 25)" disabled>🔥 GERA CENAS 21-25</button>
                 <button class="btn-bloco-novela" id="btn_novela_6" onclick="gerarBlocoCenas(26, 30)" disabled>🔥 GERA CENAS 26-30</button>
             </div>
-            <div id="loader_cenas" class="loader">👁️ A IA está a escrever os roteiros detalhados das cenas selecionadas... Aguarde.</div>
+            <div id="loader_cenas" class="loader">👁️ A IA está a escrever os roteiros detalhados das cenas... Aguarde.</div>
         </div>
 
         <div class="card">
             <h2 style="color: var(--primary-cyan);">🎬 5. STORYBOARD (CENAS FATIADAS)</h2>
-            <button id="btnCopiarTudo" onclick="copiarRoteiroCompleto()" style="background: var(--primary-yellow); color: #000; margin-bottom: 15px; display: none;">📜 COPIAR ROTEIRO COMPLETO</button>
+            <button id="btnCopiarTudo" onclick="copiarRoteiroCompleto('novela')" style="background: var(--primary-yellow); color: #000; margin-bottom: 15px; display: none;">📜 COPIAR ROTEIRO COMPLETO (TEXTO PURO)</button>
+            
             <div id="output-storyboard">
                 <div style="text-align: center; color: var(--text-muted);">As cenas completas geradas pela IA vão aparecer aqui.</div>
+            </div>
+
+            <!-- BOTÕES PARA COPIAR O LOTE INTEIRO (PARA TERMINAIS) -->
+            <div style="border-top: 1px dashed var(--border-color); margin-top: 20px; padding-top: 20px;">
+                <h3 style="color: var(--primary-cyan); font-size: 14px; text-transform: uppercase; margin-bottom: 10px;">📦 Copiar Lote Completo:</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                    <button onclick="copiarLoteTrindade('img')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR TODAS IMAGENS</button>
+                    <button onclick="copiarLoteTrindade('vid')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR TODOS VÍDEOS</button>
+                    <button onclick="copiarLoteTrindade('aud')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR TODOS ÁUDIOS</button>
+                </div>
             </div>
         </div>
 
@@ -212,19 +232,20 @@
             <h2 style="color: var(--primary-orange);">🚀 6. TRINDADE DOS TERMINAIS (CORTES ISOLADOS)</h2>
             
             <span class="label-text" style="color: var(--primary-purple);">📸 1. PROMPT DE IMAGEM (INGLÊS - Para Midjourney/Flow):</span>
-            <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
+            <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
             <button onclick="copiarTexto('final_img', 'Imagem')" style="background: var(--primary-purple); margin-bottom: 20px; padding: 12px; font-size: 14px; color:#000;">📸 COPIAR SÓ IMAGEM</button>
 
             <span class="label-text" style="color: var(--primary-cyan);">🎥 2. PROMPT DE VÍDEO (INGLÊS - Para Luma/Kling):</span>
-            <textarea id="final_vid" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
+            <textarea id="final_vid" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
             <button onclick="copiarTexto('final_vid', 'Vídeo')" style="background: var(--primary-cyan); color: #000; margin-bottom: 20px; padding: 12px; font-size: 14px;">🎥 COPIAR SÓ VÍDEO</button>
 
-            <span class="label-text" style="color: var(--primary-orange);">🔊 3. PROMPT DE ÁUDIO & VOZ (PORTUGUÊS - Para Suno/CapCut):</span>
-            <textarea id="final_aud" class="textarea-terminal" style="color: var(--primary-orange);" readonly placeholder="Aperte 'ENVIAR AO TERMINAL' em uma cena acima..."></textarea>
+            <span class="label-text" style="color: var(--primary-orange);">🔊 3. PROMPT DE ÁUDIO & VOZ (PORTUGUÊS - Para Suno/CapCut/Moises):</span>
+            <textarea id="final_aud" class="textarea-terminal" style="color: var(--primary-orange);" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
             <button onclick="copiarTexto('final_aud', 'Áudio')" style="background: var(--primary-orange); color: #000; padding: 12px; font-size: 14px;">🔊 COPIAR ROTEIRO DE ÁUDIO</button>
         </div>
     </div>
 
+    <!-- MODO AGÊNCIA -->
     <div id="tab-agencia" class="tab-content">
         <div class="card">
             <h1 style="color: var(--primary-purple);">💰 AGÊNCIA MODESHIP MONETIZAÇÃO</h1>
@@ -234,8 +255,8 @@
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                     <div>
-                        <span class="label-text">Produto/Marca:</span>
-                        <input type="text" id="comercial_input" placeholder="Ex: Tênis Nike, Refrigerante">
+                        <span class="label-text">Produto/Marca do Freelance:</span>
+                        <input type="text" id="comercial_input" placeholder="Ex: Tênis Nike, Caneca Oficial">
                     </div>
                     <div>
                         <span class="label-text">Duração do Comercial:</span>
@@ -246,15 +267,23 @@
                     </div>
                 </div>
 
+                <span class="label-text" style="color: var(--primary-yellow); margin-top:10px;">⏰ Incluir minutagem nas Cenas da Agência?</span>
+                <select id="op_tempo_agencia" style="margin-bottom: 15px;">
+                    <option value="com_tempo">⏳ Sim, colocar [0-3s], [3-7s]...</option>
+                    <option value="sem_tempo">❌ Não, apenas separar as cenas</option>
+                </select>
+
                 <button onclick="gerarComercialIA()" style="background: var(--primary-purple); color: #000;">🤖 GERAR CAMPANHA FATIADA</button>
                 <div id="loader_agencia" class="loader">⚖️ FATIANDO O COMERCIAL EM CENAS...</div>
                 
-                <textarea id="resultado_agencia" class="textarea-terminal" style="height: 300px; margin-top:15px; color: var(--primary-purple);" readonly placeholder="O Comercial estruturado por cenas (1, 2, 3...) aparecerá aqui."></textarea>
+                <textarea id="resultado_agencia" class="textarea-terminal" style="height: 300px; margin-top:15px; color: var(--primary-purple);" readonly placeholder="O Comercial estruturado por cenas aparecerá aqui."></textarea>
                 
+                <button onclick="copiarTexto('resultado_agencia', 'Roteiro Completo Agência')" style="background: var(--primary-yellow); color: #000; width: 100%; font-size: 14px; padding: 12px; margin-top: 10px; margin-bottom: 10px;">📜 COPIAR ROTEIRO COMPLETO (AGÊNCIA)</button>
+
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
-                    <button onclick="fatiarECopiarAgencia('imagem')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR PROMPTS DE IMAGEM</button>
-                    <button onclick="fatiarECopiarAgencia('video')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR PROMPTS DE VÍDEO</button>
-                    <button onclick="fatiarECopiarAgencia('audio')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR ROTEIRO DE ÁUDIO</button>
+                    <button onclick="fatiarECopiarAgencia('imagem')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR MÓDULO IMAGENS</button>
+                    <button onclick="fatiarECopiarAgencia('video')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR MÓDULO VÍDEOS</button>
+                    <button onclick="fatiarECopiarAgencia('audio')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR MÓDULO ÁUDIOS</button>
                 </div>
             </div>
 
@@ -268,7 +297,7 @@
             
             <div class="card" style="margin-top:20px; border-color: var(--primary-green);">
                 <h2 style="color: var(--primary-green);">⭐ COFRE DE FAVORITOS (LOCAL)</h2>
-                <span class="label-text">Os prompts copiados são salvos aqui na memória do seu navegador.</span>
+                <span class="label-text">Os prompts copiados são salvos aqui na memória.</span>
                 <div id="salvos_container"></div>
                 <button onclick="limparCofre()" style="background: transparent; border: 1px solid var(--primary-red); color: var(--primary-red); font-size:10px; margin-top:10px;">LIMPAR TUDO</button>
             </div>
@@ -279,10 +308,13 @@
 
 <script>
 // ========================================================
-// 1. DATA CORE (40K CHARS PRESERVED)
+// 1. DATA CORE (COMPLETO - NADA CORTADO)
 // ========================================================
 const chaveStorageMod = "gemini_api_key_novela";
 function salvarChave() { localStorage.setItem(chaveStorageMod, document.getElementById("api_key_input").value.trim()); }
+
+// 🔴 O DELAY 2.0 (TRAVA GLOBAL DE 5 SEGUNDOS)
+let travaDeTempoAPI = false;
 
 const personagens = {
     'Heróis & Aliados': {
@@ -481,7 +513,13 @@ function getNome(id) {
     return "Personagem";
 }
 
+// 🔴 CÉREBRO DA IA COM TRAVA DE SEGURANÇA
 async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
+    if (travaDeTempoAPI) {
+        alert("⏳ SISTEMA ESFRIANDO: Aguarde 5 segundos antes de enviar outro comando para a IA.");
+        return null;
+    }
+
     const chave_api = document.getElementById("api_key_input").value.trim();
     if (!chave_api) { alert("⚠️ ERRO: Cole a sua Chave da API no Cofre!"); return null; }
     
@@ -494,7 +532,13 @@ async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
             body: JSON.stringify({ contents: [{ parts: partesConteudo }] })
         });
         const dados = await resposta.json();
+        
         if(dados.error) { alert("Erro da API: " + dados.error.message); return null; }
+        
+        // Ativa a trava de 5 segundos
+        travaDeTempoAPI = true;
+        setTimeout(() => { travaDeTempoAPI = false; }, 5000);
+
         return dados.candidates[0].content.parts[0].text;
     } catch (erro) { alert("Falha na ligação à IA: " + erro); return null; }
 }
@@ -535,6 +579,9 @@ async function gerarBlocoCenas(start, end) {
 
     const loader = document.getElementById("loader_cenas");
     const estilo = document.getElementById("estilo_render").value;
+    const usaTempo = document.getElementById("op_tempo_novela").value === "com_tempo";
+    
+    const regraTempo = usaTempo ? "IMPORTANTE: Inclua uma marcação de tempo visual no título (Ex: CENA 1 [0-3s])." : "NÃO inclua marcação de tempo.";
     loader.style.display = "block";
 
     let elenco = [];
@@ -549,7 +596,7 @@ async function gerarBlocoCenas(start, end) {
         }
     });
 
-    const promptCenasMestre = `Você é o diretor Modeship. Estilo Visual: ${estilo}. ELENCO DA CENA: ${elenco.join('\n')}. 1. Se houver foto anexada, COPIE A VIBE DELA (Luz, cenário). 2. Leia as headlines abaixo para as Cenas ${start} até ${end}. 3. Crie os roteiros completos, substituindo personagens originais pelo nosso ELENCO (mantenha o DNA Blindado no prompt). Saída Múlti-Bloco (MOLDE): --- CENA [Nº]: [Headline da Estrutura] AÇÃO: [O que acontece na cena (detalhado, em português)] PROMPT_IMAGEM: [Prompt em inglês para Midjourney. Descreva o ator e o cenário] PROMPT_VIDEO: [Prompt em inglês para Luma/Kling. SEM SONS AQUI] PROMPT_AUDIO: [Instruções APENAS EM PORTUGUÊS. Detalhe os SFX de favela, música e falas exatas] --- ESTRUTURA TÁTICA DAS CENAS (${start}-${end}): ${JSON.stringify(estruturaDaNovela.scenes.slice(start - 1, end), null, 2)}`;
+    const promptCenasMestre = `Você é o diretor Modeship. Estilo Visual: ${estilo}. ELENCO DA CENA: ${elenco.join('\n')}. 1. Se houver foto anexada, COPIE A VIBE DELA (Luz, cenário). 2. Leia as headlines abaixo para as Cenas ${start} até ${end}. 3. Crie os roteiros completos, substituindo personagens originais pelo nosso ELENCO (mantenha o DNA Blindado no prompt). ${regraTempo} Saída Múlti-Bloco (MOLDE): --- CENA [Nº]: [Título/Tempo] AÇÃO: [O que acontece na cena (detalhado, em português)] PROMPT_IMAGEM: [Prompt em inglês para Midjourney. Descreva o ator e o cenário] PROMPT_VIDEO: [Prompt em inglês para Luma/Kling. SEM SONS AQUI] PROMPT_AUDIO: [Instruções APENAS EM PORTUGUÊS. Detalhe os SFX de favela, música e falas exatas] --- ESTRUTURA TÁTICA DAS CENAS (${start}-${end}): ${JSON.stringify(estruturaDaNovela.scenes.slice(start - 1, end), null, 2)}`;
 
     const res = await chamarIA(promptCenasMestre, base64Imagem, mimeTypeImagem);
     loader.style.display = "none";
@@ -589,7 +636,7 @@ function processarResposta(textoBruto) {
             <div class="cena-bloco">
                 <div class="cena-titulo">${titulo}</div>
                 <div class="cena-acao"><b>AÇÃO:</b> ${acao}</div>
-                <button class="btn-terminal" onclick="enviarTerminal(${indexInicial})">⬇️ ENVIAR AOS TERMINAIS (IMG/VÍD/ÁUDIO)</button>
+                <button class="btn-terminal" onclick="enviarTerminal(${indexInicial})">⬇️ ENVIAR AOS TERMINAIS (ISOLADO)</button>
             </div>`;
             indexInicial++;
         }
@@ -614,23 +661,42 @@ function copiarTexto(idElemento, tipo) {
     const texto = document.getElementById(idElemento).value;
     if(!texto) return alert(`Terminal de ${tipo} vazio!`);
     navigator.clipboard.writeText(texto).then(() => {
-        alert(`Prompt de ${tipo} copiado!`);
+        alert(`✅ Prompt de ${tipo} copiado!`);
         salvarNoCofre(tipo, texto);
     });
 }
 
-function copiarRoteiroCompleto() {
-    if(!roteiroCompletoEmTexto) return alert("Nenhum roteiro gerado!");
-    navigator.clipboard.writeText(roteiroCompletoEmTexto).then(() => alert("📜 Roteiro completo copiado!"));
+function copiarRoteiroCompleto(modo) {
+    let textoAlvo = modo === 'novela' ? roteiroCompletoEmTexto : document.getElementById("resultado_agencia").value;
+    if(!textoAlvo) return alert("Nenhum roteiro gerado!");
+    navigator.clipboard.writeText(textoAlvo).then(() => alert("📜 Roteiro completo copiado para a área de transferência!"));
 }
 
+// 🔴 NOVA FUNÇÃO PARA COPIAR O LOTE INTEIRO DOS TERMINAIS DA NOVELA
+function copiarLoteTrindade(tipo) {
+    if(cenasGeradasSequencial.length === 0) return alert("⚠️ Gere as cenas primeiro!");
+    let textoCopiado = "";
+    cenasGeradasSequencial.forEach(cena => {
+        if (tipo === 'img') textoCopiado += `${cena.titulo}:\n${cena.pImg}\n\n`;
+        if (tipo === 'vid') textoCopiado += `${cena.titulo}:\n${cena.pVid}\n\n`;
+        if (tipo === 'aud') textoCopiado += `${cena.titulo}:\n${cena.pAud}\n\n`;
+    });
+    navigator.clipboard.writeText(textoCopiado).then(() => alert(`✅ Lote de Prompts copiado! (Cole direto no seu gerador)`));
+}
+
+// ========================================================
+// MODO AGÊNCIA: COMERCIAL FATIADO
+// ========================================================
 async function gerarComercialIA() {
     const prod = document.getElementById("comercial_input").value;
     const tempo = document.getElementById("tempo_comercial").value;
+    const usaTempoAge = document.getElementById("op_tempo_agencia").value === "com_tempo";
     
     if(!prod) return alert("Diga qual produto você quer anunciar!");
     
     document.getElementById("loader_agencia").style.display = "block";
+    
+    const formatoCena = usaTempoAge ? "[CENA X - INÍCIOs até FIMs]" : "[CENA X]";
     
     const promptPublicitario = `
     Você é o diretor Modeship. Crie um roteiro de comercial para a marca/produto "${prod}" no Universo Favela 3D estrelando o Tomate Elinaldo.
@@ -638,13 +704,13 @@ async function gerarComercialIA() {
     
     FATIE o comercial em 4 cenas. Para CADA CENA, use EXATAMENTE a seguinte formatação:
 
-    [CENA X - INÍCIOs até FIMs]
+    ${formatoCena}
     [IMAGEM]: Prompt em inglês detalhado para Flow Labs VO3 style.
     [VIDEO]: Prompt em inglês para Luma/Kling.
     [AUDIO]: Locução em português e Efeitos Sonoros (SFX).
 
     Exemplo de saída esperada (NÃO USE MARKDOWN \`\`\`):
-    [CENA 1 - 0-3s]
+    ${usaTempoAge ? '[CENA 1 - 0-3s]' : '[CENA 1]'}
     [IMAGEM]: Cinematic close-up...
     [VIDEO]: Fast zoom out...
     [AUDIO]: [SFX] Batida de funk. [LOCUÇÃO] "No corre da favela..."
@@ -655,6 +721,42 @@ async function gerarComercialIA() {
     const res = await chamarIA(promptPublicitario);
     document.getElementById("loader_agencia").style.display = "none";
     if(res) document.getElementById("resultado_agencia").value = res;
+}
+
+// FATIADOR DA AGÊNCIA (MANUTENÇÃO DOS MÓDULOS)
+function fatiarECopiarAgencia(tipo) {
+    const textoCompleto = document.getElementById("resultado_agencia").value;
+    if (!textoCompleto) { alert("⚠️ Gere a campanha primeiro!"); return; }
+
+    let textoCopiado = "";
+    
+    if (tipo === 'imagem') {
+        const matches = textoCompleto.match(/\[IMAGEM\]:\s*(.*?)(?=\n\[VIDEO\]|\n\[CENA|$)/gs);
+        if (matches) textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[IMAGEM\]:\s*/, '').trim()}`).join('\n\n');
+    } 
+    else if (tipo === 'video') {
+        const matches = textoCompleto.match(/\[VIDEO\]:\s*(.*?)(?=\n\[AUDIO\]|\n\[CENA|$)/gs);
+        if (matches) textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[VIDEO\]:\s*/, '').trim()}`).join('\n\n');
+    } 
+    else if (tipo === 'audio') {
+        const matches = textoCompleto.match(/\[CENA.*?\]\s*.*?\[AUDIO\]:\s*(.*?)(?=\n\[CENA|$)/gs);
+        if (matches) {
+            textoCopiado = matches.map(m => {
+                let tempoMatch = m.match(/\[CENA(.*?)\]/);
+                let tituloCena = tempoMatch ? tempoMatch[1].trim() : "AUDIO";
+                let audioStr = m.match(/\[AUDIO\]:\s*([\s\S]*?)(?=\n\[CENA|$)/);
+                let audio = audioStr ? audioStr[1].trim() : "N/A";
+                return `[CENA ${tituloCena}]\n${audio}`;
+            }).join('\n\n');
+        }
+    }
+
+    if(!textoCopiado) return alert("Erro ao fatiar. A IA mudou o formato da resposta.");
+
+    navigator.clipboard.writeText(textoCopiado).then(() => {
+        alert(`✅ Módulo de ${tipo.toUpperCase()} copiado!`);
+        salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado); 
+    });
 }
 
 // SISTEMA DE COFRE (MEMÓRIA LOCAL)
@@ -679,51 +781,6 @@ function copiarDoCofre(texto) {
 }
 
 function limparCofre() { localStorage.removeItem("cofre_modeship"); atualizarCofre(); }
-
-// NOVA FUNÇÃO FATIADORA DA AGÊNCIA (AJUSTADA PARA A NOVA FORMATAÇÃO)
-function fatiarECopiarAgencia(tipo) {
-    const textoCompleto = document.getElementById("resultado_agencia").value;
-    if (!textoCompleto) {
-        alert("⚠️ Gere a campanha primeiro!");
-        return;
-    }
-
-    let textoCopiado = "";
-    
-    if (tipo === 'imagem') {
-        const matches = textoCompleto.match(/\[IMAGEM\]:\s*(.*?)(?=\n\[VIDEO\]|\n\[CENA|$)/gs);
-        if (matches) {
-            textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[IMAGEM\]:\s*/, '').trim()}`).join('\n\n');
-        } else {
-            textoCopiado = "Prompts de imagem não encontrados na estrutura.";
-        }
-    } 
-    else if (tipo === 'video') {
-        const matches = textoCompleto.match(/\[VIDEO\]:\s*(.*?)(?=\n\[AUDIO\]|\n\[CENA|$)/gs);
-        if (matches) {
-             textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[VIDEO\]:\s*/, '').trim()}`).join('\n\n');
-        } else {
-             textoCopiado = "Prompts de vídeo não encontrados na estrutura.";
-        }
-    } 
-    else if (tipo === 'audio') {
-        const matches = textoCompleto.match(/\[CENA\s*\d+\s*-\s*.*?s\].*?\[AUDIO\]:\s*(.*?)(?=\n\[CENA|$)/gs);
-        if (matches) {
-            textoCopiado = matches.map(m => {
-                const tempo = m.match(/\[CENA\s*\d+\s*-\s*(.*?s)\]/)[1];
-                const audio = m.match(/\[AUDIO\]:\s*([\s\S]*?)(?=\n\[CENA|$)/)[1].trim();
-                return `[Tempo: ${tempo}]\n${audio}`;
-            }).join('\n\n');
-        } else {
-            textoCopiado = "Roteiro de áudio não encontrado na estrutura.";
-        }
-    }
-
-    navigator.clipboard.writeText(textoCopiado).then(() => {
-        alert(`✅ Prompts de ${tipo.toUpperCase()} copiados!`);
-        salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado); 
-    });
-}
 
 </script>
 </body>
