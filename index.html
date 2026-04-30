@@ -6,75 +6,239 @@
     <title>MEGA STUDIO 65.7 — MULTIVERSO TOTAL</title>
     <style>
         :root {
-            --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
-            --text-main: #e6edf3; --text-muted: #8b949e; --primary-blue: #58a6ff;
-            --primary-purple: #bc8cff; --primary-green: #3fb950; --primary-red: #f85149;
-            --primary-cyan: #39c5bb; --primary-yellow: #e3b341; --primary-orange: #ff9800;
+            color-scheme: dark;
+            --bg-color: #0b0e14;
+            --bg-soft: #0d1117;
+            --card-bg: rgba(22, 27, 34, 0.92);
+            --card-bg-strong: #161b22;
+            --border-color: #30363d;
+            --text-main: #e6edf3;
+            --text-muted: #8b949e;
+            --primary-blue: #58a6ff;
+            --primary-purple: #bc8cff;
+            --primary-green: #3fb950;
+            --primary-red: #f85149;
+            --primary-cyan: #39c5bb;
+            --primary-yellow: #e3b341;
+            --primary-orange: #ff9800;
+            --radius: 14px;
+            --radius-sm: 9px;
+            --shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
             --titan-grad: linear-gradient(135deg, #3fb950 0%, #2ea043 100%);
         }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); padding: 0; margin: 0; }
-        
-        .navbar { background: #010409; padding: 15px; display: flex; justify-content: center; gap: 15px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-        .nav-btn { background: #0d1117; border: 1px solid var(--border-color); color: var(--text-muted); padding: 12px 24px; cursor: pointer; border-radius: 8px; font-weight: bold; text-transform: uppercase; transition: 0.3s; font-size: 13px; }
-        .nav-btn:hover { border-color: var(--primary-purple); color: #fff; }
-        .nav-btn.active { border-color: var(--primary-cyan); color: var(--primary-cyan); background: rgba(57, 197, 187, 0.1); box-shadow: 0 0 15px rgba(57, 197, 187, 0.2); }
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 1fr; gap: 15px; padding: 0 15px;}
-        .card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        h1 { text-align: center; color: var(--primary-cyan); font-size: 24px; font-weight: 900; text-transform: uppercase; }
-        h2 { color: var(--primary-blue); font-size: 13px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
-        
-        select, textarea, input[type="text"], input[type="password"] { width: 100%; padding: 14px; background: #010409; color: #58a6ff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(57, 197, 187, 0.14), transparent 32rem),
+                radial-gradient(circle at top right, rgba(188, 140, 255, 0.13), transparent 26rem),
+                var(--bg-color);
+            color: var(--text-main);
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: rgba(1, 4, 9, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 12px max(12px, env(safe-area-inset-left));
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 22px rgba(0,0,0,0.45);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        .nav-btn {
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 12px 18px;
+            cursor: pointer;
+            border-radius: 999px;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+            font-size: clamp(11px, 2vw, 13px);
+            width: auto;
+            min-width: max-content;
+            min-height: 44px;
+            white-space: nowrap;
+        }
+        .nav-btn:hover { border-color: var(--primary-purple); color: #fff; transform: translateY(-1px); }
+        .nav-btn.active { border-color: var(--primary-cyan); color: var(--primary-cyan); background: rgba(57, 197, 187, 0.1); box-shadow: 0 0 18px rgba(57, 197, 187, 0.22); }
+        .tab-content { display: none; animation: fadeIn 0.35s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .container { width: min(1200px, 100%); margin: 22px auto; display: grid; grid-template-columns: 1fr; gap: 18px; padding: 0 clamp(12px, 3vw, 20px); }
+        .card { background: var(--card-bg); padding: clamp(15px, 3vw, 22px); border-radius: var(--radius); border: 1px solid var(--border-color); box-shadow: var(--shadow); }
+        .card .card { box-shadow: none; background: rgba(13, 17, 23, 0.65); }
+        h1 { text-align: center; color: var(--primary-cyan); font-size: clamp(20px, 4vw, 30px); line-height: 1.15; font-weight: 950; text-transform: uppercase; margin-top: 0; }
+        h2 { color: var(--primary-blue); font-size: clamp(12px, 2.2vw, 14px); border-bottom: 1px dashed var(--border-color); padding-bottom: 9px; margin: 0 0 15px; text-transform: uppercase; letter-spacing: .04em; }
+        h3 { line-height: 1.25; }
+        p { line-height: 1.55; }
+
+        select, textarea, input[type="text"], input[type="password"] {
+            width: 100%;
+            min-height: 46px;
+            padding: 13px 14px;
+            background: #010409;
+            color: #58a6ff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
         .select-idade, .select-voz { font-size: 12px; padding: 10px; margin-top: -8px; margin-bottom: 12px; background: #0d1117; }
         .select-idade { border-color: var(--primary-yellow); color: var(--primary-yellow); }
         .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); margin-bottom: 0;}
-        select:focus, textarea:focus, input:focus { border-color: var(--primary-purple); outline: none; }
-        textarea { height: 120px; color: #3fb950; resize: vertical; }
-        .textarea-terminal { height: 100px; background: #000; color: #ff7b72; font-family: monospace; border-color: var(--border-color); }
-        
-        button { background: var(--titan-grad); color: #fff; padding: 16px; border: none; width: 100%; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; font-size: 16px; transition: all 0.2s ease;}
+        select:focus, textarea:focus, input:focus { border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(188, 140, 255, 0.18); }
+        textarea { min-height: 120px; color: #3fb950; resize: vertical; }
+        .textarea-terminal { min-height: 105px; background: #000; color: #ff7b72; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; border-color: var(--border-color); }
+
+        button {
+            background: var(--titan-grad);
+            color: #fff;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 850;
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            font-size: 15px;
+            min-height: 44px;
+            transition: transform 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
+            touch-action: manipulation;
+        }
+        button:hover:not(:disabled) { filter: brightness(1.08); }
         button:active { transform: scale(0.98); }
-        button:disabled { background: #555; cursor: not-allowed; }
-        
-        .grid-elenco { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold;}
-        
-        #output-storyboard { background: #0d1117; padding: 15px; border-radius: 6px; min-height: 100px; }
-        .cena-bloco { border: 2px solid var(--primary-cyan); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: 6px; }
-        .cena-titulo { font-weight: bold; color: var(--primary-cyan); margin-bottom: 8px; font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
-        .cena-acao { color: var(--text-main); font-size: 14px; margin-bottom: 10px; }
-        .btn-terminal { background: var(--primary-cyan); color: #000; margin-top: 10px; padding: 10px; font-size: 13px;}
-        .loader { display: none; text-align: center; color: var(--primary-green); font-weight: bold; margin: 10px 0; }
-        
-        .file-upload-wrapper { background: #0d1117; border: 2px dashed var(--border-color); border-radius: 8px; padding: 15px; text-align: center; margin-bottom: 15px; margin-top: 15px;}
+        button:focus-visible { outline: 3px solid rgba(57, 197, 187, 0.45); outline-offset: 2px; }
+        button:disabled { background: #555; cursor: not-allowed; opacity: 0.65; }
+
+        .grid-elenco { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr)); gap: 15px; }
+        .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; font-weight: 800; letter-spacing: .04em; }
+
+        #output-storyboard { background: #0d1117; padding: clamp(12px, 3vw, 16px); border-radius: var(--radius-sm); min-height: 100px; overflow-wrap: anywhere; }
+        .cena-bloco { border: 1px solid rgba(57, 197, 187, 0.75); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: var(--radius-sm); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
+        .cena-titulo { font-weight: 850; color: var(--primary-cyan); margin-bottom: 8px; font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 7px;}
+        .cena-acao { color: var(--text-main); font-size: 14px; line-height: 1.55; margin-bottom: 10px; }
+        .btn-terminal { background: var(--primary-cyan); color: #000; margin-top: 10px; padding: 11px; font-size: 13px;}
+        .loader { display: none; text-align: center; color: var(--primary-green); font-weight: 850; margin: 12px 0; }
+        .loader::after { content: ""; display: inline-block; width: 1em; text-align: left; animation: dots 1.2s infinite steps(4, end); }
+        @keyframes dots { 0%, 20% { content: ""; } 40% { content: "."; } 60% { content: ".."; } 80%, 100% { content: "..."; } }
+
+        .file-upload-wrapper { background: #0d1117; border: 2px dashed var(--border-color); border-radius: var(--radius); padding: 16px; text-align: center; margin-bottom: 15px; margin-top: 15px; }
         input[type="file"] { display: none; }
-        .custom-file-upload { display: inline-block; padding: 10px 20px; cursor: pointer; background: var(--primary-purple); color: #000; font-weight: bold; border-radius: 6px; text-transform: uppercase; font-size: 12px; }
-        #preview_img { max-width: 100%; max-height: 250px; border-radius: 8px; margin-top: 10px; display: none; border: 2px solid var(--primary-purple); }
-        
-        #estrutura_output { height: 150px; background: #010409; color: var(--primary-yellow); font-family: monospace; }
-        .btn-bloco-novela { background: var(--primary-green); color: #000; width: auto; padding: 10px 20px; font-size: 13px; margin: 5px; }
+        .custom-file-upload { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 10px 18px; cursor: pointer; background: var(--primary-purple); color: #000; font-weight: 850; border-radius: var(--radius-sm); text-transform: uppercase; font-size: 12px; }
+        #preview_img { max-width: 100%; max-height: 250px; border-radius: var(--radius-sm); margin-top: 10px; display: none; border: 2px solid var(--primary-purple); object-fit: contain; }
+
+        #estrutura_output { min-height: 160px; background: #010409; color: var(--primary-yellow); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+        .btn-bloco-novela { background: var(--primary-green); color: #000; width: auto; padding: 11px 18px; font-size: 13px; margin: 5px; flex: 1 1 145px; }
         .btn-bloco-novela:disabled { background: #444; color: #888; }
-        
-        .instruction-box { background: rgba(227, 179, 65, 0.08); border: 1px solid var(--primary-yellow); padding: 20px; border-radius: 8px; color: var(--primary-yellow); font-size: 14px; line-height: 1.6; margin-bottom: 15px;}
+
+        .instruction-box { background: rgba(227, 179, 65, 0.08); border: 1px solid var(--primary-yellow); padding: clamp(15px, 3vw, 20px); border-radius: var(--radius); color: var(--primary-yellow); font-size: 14px; line-height: 1.65; margin-bottom: 15px;}
         .menu-info { border-left: 4px solid var(--primary-cyan); padding-left: 15px; margin-top: 10px; }
-        .salvo-item { background: #0d1117; padding: 12px; border-radius: 6px; border: 1px solid #30363d; margin-bottom: 8px; cursor: pointer; font-size: 12px;}
+        .salvo-item { background: #0d1117; padding: 12px; border-radius: var(--radius-sm); border: 1px solid #30363d; margin-bottom: 8px; cursor: pointer; font-size: 12px; color: var(--text-main); text-align: left; text-transform: none; }
         .salvo-item:hover { border-color: var(--primary-green); background: #161b22; }
 
-        .sub-nav-btn { background: #1c2128; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; cursor: pointer; border-radius: 6px; font-weight: bold; margin-right: 10px; font-size: 12px;}
+        .sub-nav-btn { background: #1c2128; border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 16px; cursor: pointer; border-radius: var(--radius-sm); font-weight: 850; margin: 4px 8px 4px 0; font-size: 12px; width: auto; }
         .sub-nav-btn.active { background: var(--primary-yellow); color: #000; border-color: var(--primary-yellow);}
         .modo-historia { display: none; margin-top: 15px; }
         .modo-historia.active { display: block; }
+
+        #toast {
+            position: fixed;
+            right: clamp(12px, 3vw, 22px);
+            bottom: clamp(12px, 3vw, 22px);
+            z-index: 2000;
+            display: grid;
+            gap: 10px;
+            width: min(390px, calc(100vw - 24px));
+            pointer-events: none;
+        }
+        .toast-item {
+            background: rgba(13, 17, 23, 0.96);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--primary-cyan);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            box-shadow: var(--shadow);
+            font-size: 13px;
+            line-height: 1.4;
+            animation: toastIn 0.25s ease;
+        }
+        .toast-item.success { border-left-color: var(--primary-green); }
+        .toast-item.warning { border-left-color: var(--primary-yellow); }
+        .toast-item.error { border-left-color: var(--primary-red); }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .smart-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .smart-chip {
+            border: 1px solid var(--border-color);
+            background: rgba(1, 4, 9, 0.55);
+            color: var(--text-main);
+            border-radius: var(--radius-sm);
+            padding: 11px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .smart-chip b { color: var(--primary-cyan); display: block; margin-bottom: 4px; }
+
+        @media (max-width: 860px) {
+            .navbar { justify-content: flex-start; }
+            .nav-btn { flex: 0 0 auto; }
+            .container { margin: 14px auto; }
+            [style*="grid-template-columns: 1fr 1fr"],
+            [style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+            .card > div[style*="display: flex"] { flex-wrap: wrap !important; }
+            .btn-bloco-novela { flex: 1 1 calc(50% - 10px); }
+        }
+
+        @media (max-width: 560px) {
+            body { background-attachment: fixed; }
+            .navbar { padding: 10px 8px; gap: 8px; }
+            .nav-btn { padding: 10px 12px; font-size: 11px; }
+            .container { padding: 0 10px; gap: 12px; }
+            .card { border-radius: 12px; }
+            button { font-size: 13px; padding: 13px 11px; }
+            .btn-bloco-novela, .sub-nav-btn { width: 100%; flex-basis: 100%; margin: 4px 0; }
+            .cena-bloco { padding: 12px; }
+            textarea { min-height: 110px; }
+            #estrutura_output { min-height: 180px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+        }
     </style>
 </head>
 <body>
+<div id="toast" aria-live="polite" aria-atomic="true"></div>
 
 <div class="navbar">
-    <button class="nav-btn active" onclick="switchTab(event, 'tab-home')">🏠 Dashboard</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-novela')">🎬 Modo Novela</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-agencia')">💰 Modo Agência</button>
+    <button type="button" class="nav-btn active" onclick="switchTab(event, 'tab-home')">🏠 Dashboard</button>
+    <button type="button" class="nav-btn" onclick="switchTab(event, 'tab-novela')">🎬 Modo Novela</button>
+    <button type="button" class="nav-btn" onclick="switchTab(event, 'tab-agencia')">💰 Modo Agência</button>
 </div>
 
 <div class="container">
@@ -96,8 +260,14 @@
 
             <div class="card" style="margin-top: 15px; border-color: var(--primary-yellow);">
                 <h2 style="color: var(--primary-yellow);">🔑 1. COFRE DO DIRETOR (API KEY)</h2>
-                <span class="label-text">Cole sua chave. Ela ficará salva na memória do aparelho.</span>
-                <input type="password" id="api_key_input" placeholder="Cole a sua chave API do Google aqui..." onchange="salvarChave()">
+                <span class="label-text">Cole sua chave. Ela ficará salva apenas neste navegador.</span>
+                <input type="password" id="api_key_input" placeholder="Cole a sua chave API do Google aqui..." onchange="salvarChave()" autocomplete="off">
+                <div class="smart-panel" aria-label="Diagnóstico rápido do sistema">
+                    <div class="smart-chip"><b>Responsivo</b>Layout adaptável para celular, tablet e PC.</div>
+                    <div class="smart-chip"><b>IA segura</b>Melhor tratamento de erro e resposta quebrada.</div>
+                    <div class="smart-chip"><b>Cofre local</b>Favoritos salvos no próprio aparelho.</div>
+                </div>
+                <button type="button" onclick="verificarSistema()" style="background: transparent; border: 1px solid var(--primary-cyan); color: var(--primary-cyan); margin-top: 12px; font-size: 12px; padding: 10px;">🧠 VERIFICAR SISTEMA</button>
             </div>
         </div>
     </div>
@@ -185,11 +355,12 @@
                     </select>
                 </div>
                 <textarea id="texto_universo" style="height: 60px; color: var(--primary-yellow); font-size: 13px;" readonly placeholder="A ideia aparecerá aqui..."></textarea>
+                <button type="button" onclick="usarIdeiaUniverso()" style="background: transparent; border: 1px solid var(--primary-yellow); color: var(--primary-yellow); font-size: 12px; padding: 10px; margin-top: -2px;">➕ USAR ESTA IDEIA NO PROMPT</button>
             </div>
 
             <div style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-                <button class="sub-nav-btn active" onclick="switchModoHistoria('modo-zero', this)">🆕 Projeto do Zero</button>
-                <button class="sub-nav-btn" onclick="switchModoHistoria('modo-continuacao', this)">🔄 Ser Continuação</button>
+                <button type="button" class="sub-nav-btn active" onclick="switchModoHistoria('modo-zero', this)">🆕 Projeto do Zero</button>
+                <button type="button" class="sub-nav-btn" onclick="switchModoHistoria('modo-continuacao', this)">🔄 Ser Continuação</button>
             </div>
 
             <div id="modo-zero" class="modo-historia active">
@@ -221,12 +392,12 @@
             </select>
             
             <div style="display: flex; flex-wrap: wrap;">
-                <button class="btn-bloco-novela" id="btn_novela_1" onclick="gerarBlocoCenas(1, 5)" disabled>🔥 CENAS 1-5</button>
-                <button class="btn-bloco-novela" id="btn_novela_2" onclick="gerarBlocoCenas(6, 10)" disabled>🔥 CENAS 6-10</button>
-                <button class="btn-bloco-novela" id="btn_novela_3" onclick="gerarBlocoCenas(11, 15)" disabled>🔥 CENAS 11-15</button>
-                <button class="btn-bloco-novela" id="btn_novela_4" onclick="gerarBlocoCenas(16, 20)" disabled>🔥 CENAS 16-20</button>
-                <button class="btn-bloco-novela" id="btn_novela_5" onclick="gerarBlocoCenas(21, 25)" disabled>🔥 CENAS 21-25</button>
-                <button class="btn-bloco-novela" id="btn_novela_6" onclick="gerarBlocoCenas(26, 30)" disabled>🔥 CENAS 26-30</button>
+                <button type="button" class="btn-bloco-novela" id="btn_novela_1" onclick="gerarBlocoCenas(1, 5)" disabled>🔥 CENAS 1-5</button>
+                <button type="button" class="btn-bloco-novela" id="btn_novela_2" onclick="gerarBlocoCenas(6, 10)" disabled>🔥 CENAS 6-10</button>
+                <button type="button" class="btn-bloco-novela" id="btn_novela_3" onclick="gerarBlocoCenas(11, 15)" disabled>🔥 CENAS 11-15</button>
+                <button type="button" class="btn-bloco-novela" id="btn_novela_4" onclick="gerarBlocoCenas(16, 20)" disabled>🔥 CENAS 16-20</button>
+                <button type="button" class="btn-bloco-novela" id="btn_novela_5" onclick="gerarBlocoCenas(21, 25)" disabled>🔥 CENAS 21-25</button>
+                <button type="button" class="btn-bloco-novela" id="btn_novela_6" onclick="gerarBlocoCenas(26, 30)" disabled>🔥 CENAS 26-30</button>
             </div>
             <div id="loader_cenas" class="loader">👁️ A IA está a escrever os roteiros detalhados das cenas... Aguarde.</div>
         </div>
@@ -333,10 +504,114 @@
 // 1. DATA CORE MULTIVERSO (EXTENSÃO GIGANTE)
 // ========================================================
 const chaveStorageMod = "gemini_api_key_novela";
-function salvarChave() { localStorage.setItem(chaveStorageMod, document.getElementById("api_key_input").value.trim()); }
+function salvarChave() {
+    const valor = document.getElementById("api_key_input").value.trim();
+    if (valor) {
+        localStorage.setItem(chaveStorageMod, valor);
+        notify("🔐 Chave salva neste navegador.", "success");
+    } else {
+        localStorage.removeItem(chaveStorageMod);
+        notify("Chave removida do cofre local.", "warning");
+    }
+}
 
 let travaDeTempoAPI = false;
 let modoAtualHistoria = 'modo-zero'; 
+
+// ================== CAMADA INTELIGENTE: UX, SEGURANÇA E RESILIÊNCIA ==================
+function notify(message, type = "info", timeout = 3600) {
+    const box = document.getElementById("toast");
+    if (!box) { console.log(message); return; }
+    const item = document.createElement("div");
+    item.className = `toast-item ${type}`;
+    item.textContent = message;
+    box.appendChild(item);
+    setTimeout(() => {
+        item.style.opacity = "0";
+        item.style.transform = "translateY(8px)";
+        setTimeout(() => item.remove(), 250);
+    }, timeout);
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>'"]/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+    }[char]));
+}
+
+function setLoading(id, active) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = active ? "block" : "none";
+}
+
+async function copyToClipboard(text, label = "Texto") {
+    if (!text || !String(text).trim()) {
+        notify(`Terminal de ${label} vazio.`, "warning");
+        return false;
+    }
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+        } else {
+            const tmp = document.createElement("textarea");
+            tmp.value = text;
+            tmp.setAttribute("readonly", "");
+            tmp.style.position = "fixed";
+            tmp.style.left = "-9999px";
+            document.body.appendChild(tmp);
+            tmp.select();
+            document.execCommand("copy");
+            tmp.remove();
+        }
+        notify(`✅ ${label} copiado.`, "success");
+        return true;
+    } catch (erro) {
+        notify("Não consegui copiar automaticamente. Selecione o texto e copie manualmente.", "error");
+        console.error(erro);
+        return false;
+    }
+}
+
+function extrairJSON(texto) {
+    const limpo = String(texto || "").replace(/```json/gi, "").replace(/```/g, "").trim();
+    try { return JSON.parse(limpo); } catch (erro) {}
+    const inicio = limpo.indexOf("{");
+    const fim = limpo.lastIndexOf("}");
+    if (inicio !== -1 && fim !== -1 && fim > inicio) {
+        return JSON.parse(limpo.slice(inicio, fim + 1));
+    }
+    throw new Error("A resposta não contém um JSON válido.");
+}
+
+function verificarSistema() {
+    const temChave = !!document.getElementById("api_key_input").value.trim();
+    const favoritos = JSON.parse(localStorage.getItem("cofre_modeship") || "[]").length;
+    const cenas = cenasGeradasSequencial.length;
+    const estrutura = estruturaDaNovela?.scenes?.length || 0;
+    const partes = [
+        temChave ? "API ok" : "sem API key",
+        `${estrutura} cenas na estrutura`,
+        `${cenas} cenas geradas`,
+        `${favoritos} favoritos salvos`
+    ];
+    notify(`🧠 Diagnóstico: ${partes.join(" • ")}`, temChave ? "success" : "warning", 5200);
+}
+
+function usarIdeiaUniverso() {
+    const ideia = document.getElementById("texto_universo").value.trim();
+    if (!ideia) return notify("Escolha uma ideia da gaveta primeiro.", "warning");
+    const alvo = modoAtualHistoria === "modo-continuacao" ? "prompt_cont_futuro" : "novela_prompt_zero";
+    const campo = document.getElementById(alvo);
+    const prefixo = campo.value.trim() ? "\n\n" : "";
+    campo.value += `${prefixo}${ideia}`;
+    campo.focus();
+    notify("Ideia adicionada ao prompt.", "success");
+}
+
 
 // ================== MENU DE PERSONAGENS & COMBOS ==================
 const personagens = {
@@ -598,29 +873,58 @@ function getNome(id) {
 // ========================================================
 async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
     if (travaDeTempoAPI) {
-        alert("⏳ SISTEMA ESFRIANDO: Aguarde 5 segundos antes de enviar outro comando para a IA.");
+        notify("⏳ Aguarde alguns segundos antes de enviar outro comando para a IA.", "warning");
         return null;
     }
 
     const chave_api = document.getElementById("api_key_input").value.trim();
-    if (!chave_api) { alert("⚠️ ERRO: Cole a sua Chave da API no Cofre!"); return null; }
-    
-    let partesConteudo = [{ text: promptMestre }];
-    if (imageBase64) { partesConteudo.push({ inlineData: { data: imageBase64, mimeType: imageType } }); }
+    if (!chave_api) {
+        notify("⚠️ Cole sua chave da API no Cofre do Diretor primeiro.", "warning");
+        document.getElementById("api_key_input")?.focus();
+        return null;
+    }
+
+    const partesConteudo = [{ text: promptMestre }];
+    if (imageBase64 && imageType) {
+        partesConteudo.push({ inlineData: { data: imageBase64, mimeType: imageType } });
+    }
+
+    travaDeTempoAPI = true;
+    setTimeout(() => { travaDeTempoAPI = false; }, 5000);
 
     try {
-        const resposta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${chave_api}`, {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: [{ parts: partesConteudo }] })
+        const resposta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(chave_api)}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: partesConteudo }],
+                generationConfig: { temperature: 0.8, topP: 0.9 }
+            })
         });
-        const dados = await resposta.json();
-        if(dados.error) { alert("Erro da API: " + dados.error.message); return null; }
-        
-        travaDeTempoAPI = true;
-        setTimeout(() => { travaDeTempoAPI = false; }, 5000);
 
-        return dados.candidates[0].content.parts[0].text;
-    } catch (erro) { alert("Falha na ligação à IA: " + erro); return null; }
+        let dados;
+        try { dados = await resposta.json(); }
+        catch (erro) { throw new Error("A API respondeu, mas não enviou JSON válido."); }
+
+        if (!resposta.ok || dados.error) {
+            const msg = dados?.error?.message || `Erro HTTP ${resposta.status}`;
+            notify("Erro da API: " + msg, "error", 6500);
+            console.error(dados);
+            return null;
+        }
+
+        const texto = dados?.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("\n").trim();
+        if (!texto) {
+            notify("A IA respondeu vazio. Tente novamente com um prompt mais específico.", "warning");
+            console.warn(dados);
+            return null;
+        }
+        return texto;
+    } catch (erro) {
+        notify("Falha na ligação com a IA. Verifique internet, chave API e permissões do navegador.", "error", 6500);
+        console.error(erro);
+        return null;
+    }
 }
 
 async function gerarEstrutura() {
@@ -628,55 +932,64 @@ async function gerarEstrutura() {
 
     if (modoAtualHistoria === 'modo-zero') {
         promptNovela = document.getElementById("novela_prompt_zero").value.trim();
-        if (!promptNovela) { alert("Cole a sua ideia na caixa de texto!"); return; }
+        if (!promptNovela) { notify("Cole a sua ideia na caixa de texto.", "warning"); return; }
     } else {
         const passado = document.getElementById("prompt_cont_passado").value.trim();
         const futuro = document.getElementById("prompt_cont_futuro").value.trim();
-        if (!passado || !futuro) { alert("Preencha as duas caixas da continuação!"); return; }
+        if (!passado || !futuro) { notify("Preencha as duas caixas da continuação.", "warning"); return; }
         promptNovela = `ATENÇÃO, ESTA É UMA CONTINUAÇÃO. O episódio anterior terminou assim: "${passado}". A partir desse ponto, inicie a nova estrutura com a seguinte ideia: "${futuro}".`;
     }
 
     const btn = document.getElementById("btnEstrutura");
-    const loader = document.getElementById("loader_estrutura");
     const output = document.getElementById("estrutura_output");
 
     for (let i = 1; i <= 6; i++) document.getElementById(`btn_novela_${i}`).disabled = true;
-    btn.disabled = true; loader.style.display = "block";
-    output.value = "Gerando a estrutura tática da novela... Aguarde.";
+    btn.disabled = true;
+    setLoading("loader_estrutura", true);
+    output.value = "Gerando a estrutura tática da novela...";
 
-    const promptMestre = `Você é o diretor Criativo. Crie a ESTRUTURA TÁTICA de um vídeo longo (3+ minutos). Sua Missão: FATIE a história completa abaixo em até 30 cenas. Saída: APENAS UM OBJETO JSON PURA com uma lista chamada "scenes", cada uma com "cena": [headline curta]. História: ${promptNovela}`;
+    const promptMestre = `Você é o diretor criativo de uma produtora audiovisual. Crie a ESTRUTURA TÁTICA de um vídeo longo de 3+ minutos. FATIE a história completa abaixo em até 30 cenas. Responda APENAS com um OBJETO JSON válido, sem markdown, no formato: {"scenes":[{"cena":"headline curta"}]}. História: ${promptNovela}`;
 
     const res = await chamarIA(promptMestre);
-    btn.disabled = false; loader.style.display = "none";
-    
+    btn.disabled = false;
+    setLoading("loader_estrutura", false);
+
     if (res) {
-        let jsonTexto = res.replace(/```json/g, "").replace(/```/g, "").trim();
         try {
-            estruturaDaNovela = JSON.parse(jsonTexto);
+            const json = extrairJSON(res);
+            if (!Array.isArray(json.scenes) || json.scenes.length === 0) {
+                throw new Error('O JSON precisa ter a lista "scenes".');
+            }
+            estruturaDaNovela = json;
             output.value = JSON.stringify(estruturaDaNovela, null, 2);
             for (let i = 1; i <= 6; i++) document.getElementById(`btn_novela_${i}`).disabled = false;
             document.getElementById("output-storyboard").innerHTML = "";
             cenasGeradasSequencial = [];
             roteiroCompletoEmTexto = "";
-            alert("📜 PASSO 1 Concluído! Estrutura travada.");
-        } catch (erro) { output.value = "Erro no formato JSON retornado.\n" + jsonTexto; }
+            notify(`📜 Estrutura criada com ${estruturaDaNovela.scenes.length} cenas.`, "success");
+        } catch (erro) {
+            output.value = "A IA respondeu, mas o JSON veio quebrado. Copie este texto e tente novamente:\n\n" + res;
+            notify("Erro no formato JSON retornado pela IA.", "error", 6500);
+            console.error(erro, res);
+        }
     }
 }
 
 async function gerarBlocoCenas(start, end) {
-    if (!estruturaDaNovela) { alert("⚠️ Gere a Estrutura da Novela primeiro!"); return; }
+    if (!estruturaDaNovela?.scenes?.length) { notify("⚠️ Gere a Estrutura da Novela primeiro.", "warning"); return; }
 
-    const loader = document.getElementById("loader_cenas");
     const estilo = document.getElementById("estilo_render").value;
     const usaTempo = document.getElementById("op_tempo_novela").value === "com_tempo";
     const regraTempo = usaTempo ? "IMPORTANTE: Inclua uma marcação de tempo visual no título (Ex: CENA 1 [0-3s])." : "NÃO inclua marcação de tempo.";
-    
-    loader.style.display = "block";
+    const blocoSelecionado = estruturaDaNovela.scenes.slice(start - 1, end);
+    if (!blocoSelecionado.length) { notify("Esse bloco não possui cenas na estrutura atual.", "warning"); return; }
+
+    setLoading("loader_cenas", true);
 
     let elenco = [];
     ['prota', 'coadj1', 'multidao'].forEach(id => {
         let val = document.getElementById(id).value;
-        if(val) { 
+        if(val) {
             let dna = d[val] ? d[val].d : "Character/Group description";
             let idade_texto = document.getElementById(`idade_${id}`).options[document.getElementById(`idade_${id}`).selectedIndex].text;
             let voz_val = document.getElementById(`voz_${id}`).value;
@@ -685,11 +998,34 @@ async function gerarBlocoCenas(start, end) {
         }
     });
 
-    const promptCenasMestre = `Você é o diretor Criativo. Estilo Visual: ${estilo}. ELENCO/COMBOS NA CENA: ${elenco.join('\n')}. 1. Se houver foto anexada, COPIE A VIBE DELA (Luz, cenário). 2. Leia as headlines abaixo para as Cenas ${start} até ${end}. 3. Crie os roteiros, aplicando o DNA Blindado dos nossos Combos/Atores. ${regraTempo} Saída Múlti-Bloco (MOLDE): --- CENA [Nº]: [Título/Tempo] AÇÃO: [O que acontece na cena (detalhado, português)] PROMPT_IMAGEM: [Prompt em inglês, MUITO DETALHADO, inclua o DNA do ator e o estilo visual exigido] PROMPT_VIDEO: [Prompt em inglês para Luma/Kling. SEM SONS AQUI] PROMPT_AUDIO: [Instruções APENAS EM PORTUGUÊS. Detalhe os SFX de ambiente, trilha e falas exatas] --- ESTRUTURA TÁTICA DAS CENAS (${start}-${end}): ${JSON.stringify(estruturaDaNovela.scenes.slice(start - 1, end), null, 2)}`;
+    if (elenco.length === 0) {
+        notify("Você pode gerar sem elenco, mas escolher personagens melhora o DNA visual.", "warning");
+    }
+
+    const promptCenasMestre = `Você é o diretor criativo. Estilo Visual: ${estilo}.
+ELENCO/COMBOS NA CENA:
+${elenco.join('\n') || 'Nenhum elenco fixo selecionado.'}
+
+REGRAS:
+1. Se houver foto anexada, copie a vibe dela: luz, cenário, enquadramento e atmosfera.
+2. Leia as headlines das Cenas ${start} até ${end}.
+3. Crie roteiros com DNA visual consistente.
+4. ${regraTempo}
+5. Responda com blocos exatamente neste molde, sem mudar os nomes dos campos:
+---
+CENA [Nº]: [Título/Tempo]
+AÇÃO: [O que acontece na cena, detalhado, em português]
+PROMPT_IMAGEM: [Prompt em inglês muito detalhado, com DNA do ator e estilo visual]
+PROMPT_VIDEO: [Prompt em inglês para Luma/Kling/Runway, sem sons]
+PROMPT_AUDIO: [Apenas em português: SFX, trilha e falas exatas]
+---
+
+ESTRUTURA TÁTICA DAS CENAS (${start}-${end}):
+${JSON.stringify(blocoSelecionado, null, 2)}`;
 
     const res = await chamarIA(promptCenasMestre, base64Imagem, mimeTypeImagem);
-    loader.style.display = "none";
-    
+    setLoading("loader_cenas", false);
+
     if (res) {
         processarResposta(res);
         document.getElementById("btnCopiarTudo").style.display = "block";
@@ -699,19 +1035,19 @@ async function gerarBlocoCenas(start, end) {
 function processarResposta(textoBruto) {
     const storyboard = document.getElementById("output-storyboard");
     let htmlFinal = "";
-    const blocos = textoBruto.split("---");
-    let indexInicial = cenasGeradasSequencial.length; 
+    const blocos = String(textoBruto || "").split(/\n?---\n?/g);
+    let indexInicial = cenasGeradasSequencial.length;
 
     blocos.forEach(bloco => {
         if (bloco.includes("CENA") && bloco.includes("PROMPT_IMAGEM")) {
             let titulo = "Cena";
-            let matchTitulo = bloco.match(/CENA(.*?)\n/);
-            if(matchTitulo) titulo = "CENA" + matchTitulo[1];
+            let matchTitulo = bloco.match(/CENA\s*([^\n]*)/i);
+            if(matchTitulo) titulo = "CENA " + matchTitulo[1].trim().replace(/^[:\-]\s*/, "");
 
-            let acaoMatch = bloco.match(/AÇÃO:\s*([\s\S]*?)(?=PROMPT_IMAGEM:)/);
-            let imgMatch = bloco.match(/PROMPT_IMAGEM:\s*([\s\S]*?)(?=PROMPT_VIDEO:)/);
-            let vidMatch = bloco.match(/PROMPT_VIDEO:\s*([\s\S]*?)(?=PROMPT_AUDIO:)/);
-            let audMatch = bloco.match(/PROMPT_AUDIO:\s*([\s\S]*?)(?=$|---)/);
+            let acaoMatch = bloco.match(/AÇÃO:\s*([\s\S]*?)(?=PROMPT_IMAGEM:)/i);
+            let imgMatch = bloco.match(/PROMPT_IMAGEM:\s*([\s\S]*?)(?=PROMPT_VIDEO:)/i);
+            let vidMatch = bloco.match(/PROMPT_VIDEO:\s*([\s\S]*?)(?=PROMPT_AUDIO:)/i);
+            let audMatch = bloco.match(/PROMPT_AUDIO:\s*([\s\S]*?)$/i);
 
             let acao = acaoMatch ? acaoMatch[1].trim() : "N/A";
             let pImg = imgMatch ? imgMatch[1].trim() : "N/A";
@@ -723,15 +1059,21 @@ function processarResposta(textoBruto) {
 
             htmlFinal += `
             <div class="cena-bloco">
-                <div class="cena-titulo">${titulo}</div>
-                <div class="cena-acao"><b>AÇÃO:</b> ${acao}</div>
-                <button class="btn-terminal" onclick="enviarTerminal(${indexInicial})">⬇️ ENVIAR AOS TERMINAIS (ISOLADO)</button>
+                <div class="cena-titulo">${escapeHTML(titulo)}</div>
+                <div class="cena-acao"><b>AÇÃO:</b> ${escapeHTML(acao)}</div>
+                <button type="button" class="btn-terminal" onclick="enviarTerminal(${indexInicial})">⬇️ ENVIAR AOS TERMINAIS (ISOLADO)</button>
             </div>`;
             indexInicial++;
         }
     });
 
-    if (htmlFinal !== "") { storyboard.innerHTML += htmlFinal; } else { alert("Erro: A IA não formatou as cenas corretamente."); }
+    if (htmlFinal !== "") {
+        storyboard.innerHTML += htmlFinal;
+        notify("🎬 Cenas adicionadas ao storyboard.", "success");
+    } else {
+        notify("A IA não usou o molde esperado. Tente gerar este bloco novamente.", "error", 6500);
+        console.warn("Resposta bruta da IA:", textoBruto);
+    }
 }
 
 function enviarTerminal(index) {
@@ -746,79 +1088,79 @@ function enviarTerminal(index) {
     setTimeout(() => { termImg.style.borderColor = "var(--border-color)"; termVid.style.borderColor = "var(--border-color)"; termAud.style.borderColor = "var(--border-color)"; }, 500);
 }
 
-function copiarTexto(idElemento, tipo) {
+async function copiarTexto(idElemento, tipo) {
     const texto = document.getElementById(idElemento).value;
-    if(!texto) return alert(`Terminal de ${tipo} vazio!`);
-    navigator.clipboard.writeText(texto).then(() => {
-        alert(`✅ Prompt de ${tipo} copiado!`);
-        salvarNoCofre(tipo, texto);
-    });
+    const ok = await copyToClipboard(texto, tipo);
+    if (ok) salvarNoCofre(tipo, texto);
 }
 
-function copiarRoteiroCompleto(modo) {
+async function copiarRoteiroCompleto(modo) {
     let textoAlvo = modo === 'novela' ? roteiroCompletoEmTexto : document.getElementById("resultado_agencia").value;
-    if(!textoAlvo) return alert("Nenhum roteiro gerado!");
-    navigator.clipboard.writeText(textoAlvo).then(() => alert("📜 Roteiro completo copiado para a área de transferência!"));
+    await copyToClipboard(textoAlvo, "Roteiro completo");
 }
 
-function copiarLoteTrindade(tipo) {
-    if(cenasGeradasSequencial.length === 0) return alert("⚠️ Gere as cenas primeiro!");
+async function copiarLoteTrindade(tipo) {
+    if(cenasGeradasSequencial.length === 0) return notify("⚠️ Gere as cenas primeiro.", "warning");
     let textoCopiado = "";
     cenasGeradasSequencial.forEach(cena => {
         if (tipo === 'img') textoCopiado += `${cena.titulo}:\n${cena.pImg}\n\n`;
         if (tipo === 'vid') textoCopiado += `${cena.titulo}:\n${cena.pVid}\n\n`;
         if (tipo === 'aud') textoCopiado += `${cena.titulo}:\n${cena.pAud}\n\n`;
     });
-    navigator.clipboard.writeText(textoCopiado).then(() => alert(`✅ Lote de Prompts copiado! (Cole direto no seu gerador)`));
+    await copyToClipboard(textoCopiado, "Lote de prompts");
 }
 
 // ========================================================
 // MODO AGÊNCIA: COMERCIAL FATIADO
 // ========================================================
 async function gerarComercialIA() {
-    const prod = document.getElementById("comercial_input").value;
+    const prod = document.getElementById("comercial_input").value.trim();
     const tempo = document.getElementById("tempo_comercial").value;
     const usaTempoAge = document.getElementById("op_tempo_agencia").value === "com_tempo";
-    
-    if(!prod) return alert("Diga qual produto você quer anunciar!");
-    document.getElementById("loader_agencia").style.display = "block";
-    
+
+    if(!prod) return notify("Diga qual produto você quer anunciar.", "warning");
+    setLoading("loader_agencia", true);
+
     const formatoCena = usaTempoAge ? "[CENA X - INÍCIOs até FIMs]" : "[CENA X]";
-    
+
     const promptPublicitario = `
-    Você é o diretor Criativo. Crie um roteiro de comercial para a marca/produto "${prod}".
-    A duração total do comercial é de ${tempo} segundos.
-    
-    FATIE o comercial em 4 a 6 cenas. Para CADA CENA, use EXATAMENTE a seguinte formatação:
+Você é um diretor criativo de anúncios curtos. Crie um roteiro de comercial para a marca/produto "${prod}".
+A duração total do comercial é de ${tempo} segundos.
 
-    ${formatoCena}
-    [IMAGEM]: Prompt em inglês detalhado (Midjourney Style).
-    [VIDEO]: Prompt em inglês para Luma/Kling.
-    [AUDIO]: Locução em português e Efeitos Sonoros (SFX).
+FATIE o comercial em 4 a 6 cenas. Para CADA CENA, use EXATAMENTE a seguinte formatação:
 
-    Agora gere o roteiro completo de ${tempo} segundos para "${prod}":
-    `;
-    
+${formatoCena}
+[IMAGEM]: Prompt em inglês detalhado, visual publicitário, pronto para gerador de imagem.
+[VIDEO]: Prompt em inglês para Luma/Kling/Runway, com câmera, movimento e ação.
+[AUDIO]: Locução em português, trilha e efeitos sonoros.
+
+Crie uma campanha clara, com gancho nos primeiros segundos, benefício do produto, prova visual e chamada final para ação.
+Agora gere o roteiro completo de ${tempo} segundos para "${prod}":
+`;
+
     const res = await chamarIA(promptPublicitario);
-    document.getElementById("loader_agencia").style.display = "none";
-    if(res) document.getElementById("resultado_agencia").value = res;
+    setLoading("loader_agencia", false);
+    if(res) {
+        document.getElementById("resultado_agencia").value = res;
+        notify("💰 Campanha fatiada gerada.", "success");
+    }
 }
 
-function fatiarECopiarAgencia(tipo) {
+async function fatiarECopiarAgencia(tipo) {
     const textoCompleto = document.getElementById("resultado_agencia").value;
-    if (!textoCompleto) { alert("⚠️ Gere a campanha primeiro!"); return; }
+    if (!textoCompleto) { notify("⚠️ Gere a campanha primeiro.", "warning"); return; }
 
     let textoCopiado = "";
     if (tipo === 'imagem') {
-        const matches = textoCompleto.match(/\[IMAGEM\]:\s*(.*?)(?=\n\[VIDEO\]|\n\[CENA|$)/gs);
+        const matches = textoCompleto.match(/\[IMAGEM\]:\s*([\s\S]*?)(?=\n\[VIDEO\]|\n\[CENA|$)/g);
         if (matches) textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[IMAGEM\]:\s*/, '').trim()}`).join('\n\n');
-    } 
+    }
     else if (tipo === 'video') {
-        const matches = textoCompleto.match(/\[VIDEO\]:\s*(.*?)(?=\n\[AUDIO\]|\n\[CENA|$)/gs);
+        const matches = textoCompleto.match(/\[VIDEO\]:\s*([\s\S]*?)(?=\n\[AUDIO\]|\n\[CENA|$)/g);
         if (matches) textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[VIDEO\]:\s*/, '').trim()}`).join('\n\n');
-    } 
+    }
     else if (tipo === 'audio') {
-        const matches = textoCompleto.match(/\[CENA.*?\]\s*.*?\[AUDIO\]:\s*(.*?)(?=\n\[CENA|$)/gs);
+        const matches = textoCompleto.match(/\[CENA.*?\][\s\S]*?\[AUDIO\]:\s*([\s\S]*?)(?=\n\[CENA|$)/g);
         if (matches) {
             textoCopiado = matches.map(m => {
                 let tempoMatch = m.match(/\[CENA(.*?)\]/);
@@ -830,12 +1172,10 @@ function fatiarECopiarAgencia(tipo) {
         }
     }
 
-    if(!textoCopiado) return alert("Erro ao fatiar. A IA mudou o formato da resposta.");
+    if(!textoCopiado) return notify("Erro ao fatiar. A IA mudou o formato da resposta.", "error", 6500);
 
-    navigator.clipboard.writeText(textoCopiado).then(() => {
-        alert(`✅ Módulo de ${tipo.toUpperCase()} copiado!`);
-        salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado); 
-    });
+    const ok = await copyToClipboard(textoCopiado, `Módulo ${tipo.toUpperCase()}`);
+    if (ok) salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado);
 }
 
 function salvarNoCofre(titulo, texto) {
@@ -848,14 +1188,34 @@ function salvarNoCofre(titulo, texto) {
 function atualizarCofre() {
     let list = JSON.parse(localStorage.getItem("cofre_modeship") || "[]");
     const box = document.getElementById("salvos_container");
-    box.innerHTML = list.length ? "" : "<p style='text-align:center; color:#555;'>Vazio.</p>";
+    box.innerHTML = "";
+    if (!list.length) {
+        const vazio = document.createElement("p");
+        vazio.style.textAlign = "center";
+        vazio.style.color = "#555";
+        vazio.textContent = "Vazio.";
+        box.appendChild(vazio);
+        return;
+    }
     list.forEach(s => {
-        box.innerHTML += `<div class="salvo-item" onclick="copiarDoCofre('${s.texto.replace(/'/g, "\\'")}')" title="${s.texto}">📌 <b>${s.titulo}</b></div>`;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "salvo-item";
+        btn.title = s.texto;
+        btn.innerHTML = `📌 <b>${escapeHTML(s.titulo)}</b>`;
+        btn.addEventListener("click", () => copiarDoCofre(s.texto));
+        box.appendChild(btn);
     });
 }
 
-function copiarDoCofre(texto) { navigator.clipboard.writeText(texto).then(() => alert("Recuperado do Cofre e copiado para área de transferência!")); }
-function limparCofre() { localStorage.removeItem("cofre_modeship"); atualizarCofre(); }
+async function copiarDoCofre(texto) {
+    await copyToClipboard(texto, "Item do Cofre");
+}
+function limparCofre() {
+    localStorage.removeItem("cofre_modeship");
+    atualizarCofre();
+    notify("Cofre limpo.", "warning");
+}
 
 </script>
 </body>
