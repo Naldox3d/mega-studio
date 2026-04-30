@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 65.6 — AGÊNCIA & ECOSSISTEMA TOTAL</title>
+    <title>MEGA STUDIO 65.7 — MULTIVERSO TOTAL</title>
     <style>
         :root {
             --bg-color: #0b0e14; --card-bg: #161b22; --border-color: #30363d;
@@ -63,12 +63,10 @@
         .salvo-item { background: #0d1117; padding: 12px; border-radius: 6px; border: 1px solid #30363d; margin-bottom: 8px; cursor: pointer; font-size: 12px;}
         .salvo-item:hover { border-color: var(--primary-green); background: #161b22; }
 
-        /* Estilos para as Abas Internas da Novela (Zero vs Continuação) */
         .sub-nav-btn { background: #1c2128; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; cursor: pointer; border-radius: 6px; font-weight: bold; margin-right: 10px; font-size: 12px;}
         .sub-nav-btn.active { background: var(--primary-yellow); color: #000; border-color: var(--primary-yellow);}
         .modo-historia { display: none; margin-top: 15px; }
         .modo-historia.active { display: block; }
-
     </style>
 </head>
 <body>
@@ -84,15 +82,15 @@
     <!-- DASHBOARD -->
     <div id="tab-home" class="tab-content active">
         <div class="card">
-            <h1>👁️ CENTRAL DE COMANDO MODESHIP 65.6</h1>
-            <p style="text-align:center; color: var(--text-muted); margin-bottom: 20px;">O sistema integrado de produção de roteiros e monetização de IP.</p>
+            <h1>👁️ CENTRAL DE COMANDO MODESHIP 65.7</h1>
+            <p style="text-align:center; color: var(--text-muted); margin-bottom: 20px;">Multiverso: Do Favela 3D aos Animes, True Crime e Bíblico.</p>
             
             <div class="instruction-box">
                 <b style="font-size:16px; color: var(--primary-cyan);">📋 MENU INFORMATIVO: PASSO A PASSO</b><br>
                 <div class="menu-info">
-                    <b style="color:var(--primary-green);">1. PROJETO DO ZERO:</b> Tem uma ideia nova? Vá no Modo Novela, cole na caixa do <b>Passo 1</b> e clique em Gerar Estrutura. Depois, gere as cenas de 5 em 5 para não estourar a API.<br><br>
+                    <b style="color:var(--primary-green);">1. PROJETO DO ZERO:</b> Tem uma ideia nova? Vá no Modo Novela, escolha os "Combos" no Elenco (para cenas em grupo), cole na caixa do <b>Passo 1</b> e clique em Gerar Estrutura.<br><br>
                     <b style="color:var(--primary-blue);">2. SER CONTINUAÇÃO:</b> Vá no Modo Novela, clique no botão "Ser Continuação". Cole o texto final do episódio anterior na primeira caixa e a ideia para o novo episódio na segunda caixa.<br><br>
-                    <b style="color:var(--primary-purple);">3. TRABALHO FREELANCE (VENDAS):</b> Fechou uma parceria? Vá no <b>Modo Agência</b> e digite o produto (ex: Caneca Oficial).
+                    <b style="color:var(--primary-purple);">3. TRABALHO FREELANCE (VENDAS):</b> Fechou uma parceria? Vá no <b>Modo Agência</b> e digite o produto. A IA fará os personagens venderem o produto fatiado por segundos.
                 </div>
             </div>
 
@@ -107,12 +105,11 @@
     <!-- MODO NOVELA -->
     <div id="tab-novela" class="tab-content">
         
-        <!-- SEÇÃO 2 E 3 UNIFICADAS: VISUAL E ELENCO -->
         <div class="card">
-            <h2>👥 2. ELENCO, VOZ E MOLDE VISUAL (DNA BLINDADO)</h2>
+            <h2>👥 2. ELENCO, COMBOS E MOLDE VISUAL (DNA BLINDADO)</h2>
             <div class="grid-elenco">
                 <div>
-                    <span class="label-text">Personagem 1 (Protagonista):</span>
+                    <span class="label-text">Personagem / Combo 1:</span>
                     <select id="prota"></select>
                     <select id="idade_prota" class="select-idade">
                         <option value="Adult">👨 Fase Adulta (Padrão)</option>
@@ -124,7 +121,7 @@
                     <select id="voz_prota" class="select-voz"></select>
                 </div>
                 <div>
-                    <span class="label-text">Personagem 2:</span>
+                    <span class="label-text">Personagem / Combo 2:</span>
                     <select id="coadj1"></select>
                     <select id="idade_coadj1" class="select-idade">
                         <option value="Adult">👨 Fase Adulta (Padrão)</option>
@@ -136,7 +133,7 @@
                     <select id="voz_coadj1" class="select-voz"></select>
                 </div>
                 <div>
-                    <span class="label-text">Personagem 3 / Grupo:</span>
+                    <span class="label-text">Personagem / Combo 3:</span>
                     <select id="multidao"></select>
                     <select id="idade_multidao" class="select-idade">
                         <option value="Adult">👨 Fase Adulta (Padrão)</option>
@@ -148,11 +145,13 @@
                     <select id="voz_multidao" class="select-voz"></select>
                 </div>
                 <div>
-                    <span class="label-text">Estilo Visual:</span>
+                    <span class="label-text">Estilo Visual da IA:</span>
                     <select id="estilo_render">
-                        <option value="Hiper-realista, visual de filme blockbuster 8k, fotografia real, Flow VO3 style">🎥 LIVE ACTION (Realismo)</option>
-                        <option value="Estilo Pixar/Dreamworks, 3D estilizado, 8k cinematic">🧬 LORE OFICIAL (3D Cinema)</option>
-                        <option value="Estilo Anime, sombras de alto contraste">🎌 ANIME SHONEN</option>
+                        <option value="Hiper-realista, visual de filme blockbuster 8k, fotografia real, Netflix style">🎥 LIVE ACTION / SÉRIE (Realismo)</option>
+                        <option value="Estilo Pixar/Dreamworks, 3D estilizado, 8k cinematic">🧬 3D CINEMA (Estilo Pixar/Modeship)</option>
+                        <option value="Estilo Anime, estúdio Ufotable/Mappa, sombras de alto contraste, 2D art">🎌 ANIME / MANGÁ</option>
+                        <option value="Estilo Quadrinhos, Marvel/DC comic book art, cel shading">🦸 QUADRINHOS / HQ</option>
+                        <option value="Vintage 90s cartoon style, hand drawn animation">📺 DESENHO ANOS 90</option>
                     </select>
                 </div>
             </div>
@@ -168,17 +167,18 @@
         <div class="card" style="border-color: var(--primary-yellow);">
             <h2 style="color: var(--primary-yellow);">📝 PASSO 1: A ESTRUTURA DA NOVELA (BEAT SHEET)</h2>
             
-            <!-- GAVETA DESCIDA -->
             <div style="background: #1c2128; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px dashed var(--primary-yellow);">
                 <span class="label-text" style="color: var(--primary-yellow); margin-bottom: 10px;">💡 GAVETA DO UNIVERSO (OPCIONAL): Copie ideias prontas para sua história.</span>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                     <select id="cat_universo" onchange="carregarUniverso()">
                         <option value="">-- Categoria da História --</option>
-                        <option value="survival">☠️ Desafios Virais (Survival)</option>
-                        <option value="acao">🔥 Ação & Combate</option>
+                        <option value="acao">🔥 Ação, Gangues & Combate</option>
+                        <option value="drama">💔 Drama, Traição & Casamento</option>
+                        <option value="crime">🔪 True Crime & Investigação</option>
                         <option value="presidio">⛓️ Sistema Prisional</option>
-                        <option value="politica">👔 Política & Advocacia</option>
-                        <option value="audio_dna">🎙️ Áudio DNA (Falas)</option>
+                        <option value="biblia">✝️ Contos Bíblicos Epic</option>
+                        <option value="anime">🎌 Batalha Shonen (Animes)</option>
+                        <option value="survival">☠️ Desafios Virais (Survival)</option>
                     </select>
                     <select id="ideia_universo" onchange="mostrarUniverso()" disabled>
                         <option value="">-- Escolha a Ideia --</option>
@@ -187,25 +187,22 @@
                 <textarea id="texto_universo" style="height: 60px; color: var(--primary-yellow); font-size: 13px;" readonly placeholder="A ideia aparecerá aqui..."></textarea>
             </div>
 
-            <!-- BOTÕES PARA ESCOLHER MODO (ZERO VS CONTINUAÇÃO) -->
             <div style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
                 <button class="sub-nav-btn active" onclick="switchModoHistoria('modo-zero', this)">🆕 Projeto do Zero</button>
                 <button class="sub-nav-btn" onclick="switchModoHistoria('modo-continuacao', this)">🔄 Ser Continuação</button>
             </div>
 
-            <!-- MODO: PROJETO DO ZERO -->
             <div id="modo-zero" class="modo-historia active">
                 <span class="label-text">Cole aqui a sua IDEIA COMPLETA (3+ minutos).</span>
-                <textarea id="novela_prompt_zero" placeholder="Ex: Elinaldo é preso na obra, mas a Sabrina fez um acordo com o miliciano..."></textarea>
+                <textarea id="novela_prompt_zero" placeholder="Ex: Elinaldo descobre uma traição. O Goku enfrenta o vilão. David luta contra Golias..."></textarea>
             </div>
 
-            <!-- MODO: CONTINUAÇÃO -->
             <div id="modo-continuacao" class="modo-historia">
                 <span class="label-text" style="color: var(--primary-blue);">1. COPIE AQUI O FINAL DO EPISÓDIO ANTERIOR:</span>
-                <textarea id="prompt_cont_passado" style="height: 80px; margin-bottom: 15px; border-color: var(--primary-blue);" placeholder="Ex: O episódio 1 terminou com o Elinaldo sendo encurralado no beco..."></textarea>
+                <textarea id="prompt_cont_passado" style="height: 80px; margin-bottom: 15px; border-color: var(--primary-blue);" placeholder="Ex: O episódio 1 terminou com a porta sendo arrombada e um tiro ecoando..."></textarea>
                 
                 <span class="label-text" style="color: var(--primary-green);">2. A IDEIA PARA O NOVO EPISÓDIO (O QUE ACONTECE AGORA):</span>
-                <textarea id="prompt_cont_futuro" style="height: 80px; border-color: var(--primary-green);" placeholder="Ex: Agora a Sabrina precisa encontrar o Limão Rocha para pedir ajuda e invadir o galpão..."></textarea>
+                <textarea id="prompt_cont_futuro" style="height: 80px; border-color: var(--primary-green);" placeholder="Ex: Descobrimos que foi a polícia. Agora eles precisam fugir para o galpão abandonado..."></textarea>
             </div>
             
             <div style="display: flex; gap: 10px; margin-top: 15px;">
@@ -224,12 +221,12 @@
             </select>
             
             <div style="display: flex; flex-wrap: wrap;">
-                <button class="btn-bloco-novela" id="btn_novela_1" onclick="gerarBlocoCenas(1, 5)" disabled>🔥 GERA CENAS 1-5</button>
-                <button class="btn-bloco-novela" id="btn_novela_2" onclick="gerarBlocoCenas(6, 10)" disabled>🔥 GERA CENAS 6-10</button>
-                <button class="btn-bloco-novela" id="btn_novela_3" onclick="gerarBlocoCenas(11, 15)" disabled>🔥 GERA CENAS 11-15</button>
-                <button class="btn-bloco-novela" id="btn_novela_4" onclick="gerarBlocoCenas(16, 20)" disabled>🔥 GERA CENAS 16-20</button>
-                <button class="btn-bloco-novela" id="btn_novela_5" onclick="gerarBlocoCenas(21, 25)" disabled>🔥 GERA CENAS 21-25</button>
-                <button class="btn-bloco-novela" id="btn_novela_6" onclick="gerarBlocoCenas(26, 30)" disabled>🔥 GERA CENAS 26-30</button>
+                <button class="btn-bloco-novela" id="btn_novela_1" onclick="gerarBlocoCenas(1, 5)" disabled>🔥 CENAS 1-5</button>
+                <button class="btn-bloco-novela" id="btn_novela_2" onclick="gerarBlocoCenas(6, 10)" disabled>🔥 CENAS 6-10</button>
+                <button class="btn-bloco-novela" id="btn_novela_3" onclick="gerarBlocoCenas(11, 15)" disabled>🔥 CENAS 11-15</button>
+                <button class="btn-bloco-novela" id="btn_novela_4" onclick="gerarBlocoCenas(16, 20)" disabled>🔥 CENAS 16-20</button>
+                <button class="btn-bloco-novela" id="btn_novela_5" onclick="gerarBlocoCenas(21, 25)" disabled>🔥 CENAS 21-25</button>
+                <button class="btn-bloco-novela" id="btn_novela_6" onclick="gerarBlocoCenas(26, 30)" disabled>🔥 CENAS 26-30</button>
             </div>
             <div id="loader_cenas" class="loader">👁️ A IA está a escrever os roteiros detalhados das cenas... Aguarde.</div>
         </div>
@@ -242,7 +239,6 @@
                 <div style="text-align: center; color: var(--text-muted);">As cenas completas geradas pela IA vão aparecer aqui.</div>
             </div>
 
-            <!-- BOTÕES PARA COPIAR O LOTE INTEIRO (PARA TERMINAIS) -->
             <div style="border-top: 1px dashed var(--border-color); margin-top: 20px; padding-top: 20px;">
                 <h3 style="color: var(--primary-cyan); font-size: 14px; text-transform: uppercase; margin-bottom: 10px;">📦 Copiar Lote Completo:</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
@@ -256,15 +252,15 @@
         <div class="card">
             <h2 style="color: var(--primary-orange);">🚀 PASSO 4: TERMINAIS ISOLADOS</h2>
             
-            <span class="label-text" style="color: var(--primary-purple);">📸 1. PROMPT DE IMAGEM (INGLÊS - Para Midjourney/Flow):</span>
+            <span class="label-text" style="color: var(--primary-purple);">📸 1. PROMPT DE IMAGEM (INGLÊS):</span>
             <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
             <button onclick="copiarTexto('final_img', 'Imagem')" style="background: var(--primary-purple); margin-bottom: 20px; padding: 12px; font-size: 14px; color:#000;">📸 COPIAR SÓ IMAGEM</button>
 
-            <span class="label-text" style="color: var(--primary-cyan);">🎥 2. PROMPT DE VÍDEO (INGLÊS - Para Luma/Kling):</span>
+            <span class="label-text" style="color: var(--primary-cyan);">🎥 2. PROMPT DE VÍDEO (INGLÊS - Luma/Kling/Runway):</span>
             <textarea id="final_vid" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
             <button onclick="copiarTexto('final_vid', 'Vídeo')" style="background: var(--primary-cyan); color: #000; margin-bottom: 20px; padding: 12px; font-size: 14px;">🎥 COPIAR SÓ VÍDEO</button>
 
-            <span class="label-text" style="color: var(--primary-orange);">🔊 3. PROMPT DE ÁUDIO & VOZ (PORTUGUÊS - Para Suno/CapCut/Moises):</span>
+            <span class="label-text" style="color: var(--primary-orange);">🔊 3. PROMPT DE ÁUDIO & VOZ (PORTUGUÊS):</span>
             <textarea id="final_aud" class="textarea-terminal" style="color: var(--primary-orange);" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
             <button onclick="copiarTexto('final_aud', 'Áudio')" style="background: var(--primary-orange); color: #000; padding: 12px; font-size: 14px;">🔊 COPIAR ROTEIRO DE ÁUDIO</button>
         </div>
@@ -281,13 +277,14 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                     <div>
                         <span class="label-text">Produto/Marca do Freelance:</span>
-                        <input type="text" id="comercial_input" placeholder="Ex: Tênis Nike, Caneca Oficial">
+                        <input type="text" id="comercial_input" placeholder="Ex: Tênis Nike, Caneca Oficial, Jogo Mobile">
                     </div>
                     <div>
                         <span class="label-text">Duração do Comercial:</span>
                         <select id="tempo_comercial" style="margin-bottom:0;">
                             <option value="15">⏳ 15 Segundos (Vídeo Curto)</option>
                             <option value="30">⏳ 30 Segundos (Padrão TV/YouTube)</option>
+                            <option value="60">⏳ 60 Segundos (Review Completa)</option>
                         </select>
                     </div>
                 </div>
@@ -333,101 +330,170 @@
 
 <script>
 // ========================================================
-// 1. DATA CORE (COMPLETO)
+// 1. DATA CORE MULTIVERSO (EXTENSÃO GIGANTE)
 // ========================================================
 const chaveStorageMod = "gemini_api_key_novela";
 function salvarChave() { localStorage.setItem(chaveStorageMod, document.getElementById("api_key_input").value.trim()); }
 
-// TRAVA GLOBAL DE 5 SEGUNDOS
 let travaDeTempoAPI = false;
-let modoAtualHistoria = 'modo-zero'; // Controla qual caixa vai ser lida
+let modoAtualHistoria = 'modo-zero'; 
 
+// ================== MENU DE PERSONAGENS & COMBOS ==================
 const personagens = {
-    'Heróis & Aliados': { 'P01': "Limão Rocha", 'P02': "Tomate Elinaldo", 'P03': "Sabrina Pitaya", 'P04': "Pera Fit", 'P05': "Oswaldo Rocha (Oz)" },
-    'Vilões & Chefões': { 'V_CHEF': "Abacatudo (Dono da Rua)", 'V_POLI': "Miliciano (Guarda)", 'V_ADV': "Advogado Mamão", 'V_PREF': "Político Melancia" },
-    'Sistema Prisional': { 'PR_DEL': "Delegado Abacaxi", 'PR_DET': "Detento Abacaxi (Brutamontes)", 'PR_GUA': "Guarda Prisional Banana" },
-    'Figuras da Favela': { 'F_MAE': "Mãe do Elinaldo", 'F_FOF': "Dona Moranguinho (Fofoqueira)", 'COM01': "Caju Nordestino", 'B01': "Banana Bananildo" },
-    'Animes & Terror': { 'TER01': "Maçã Motosserra" },
-    'Multidões e Guardas': { 'G01': "Soldado Cenoura (E.G.D. 1)", 'G02': "Soldado Banana (E.G.D. 2)", 'G07': "Guarda de Elite", 'G11': "Multidão do Funk", 'G02_Z': "Horda de Zumbis" }
+    '🍅 Universo Modeship (Heróis)': { 'P01': "Limão Rocha", 'P02': "Tomate Elinaldo", 'P03': "Sabrina Pitaya", 'P04': "Pera Fit", 'P05': "Oswaldo Rocha (Oz)" },
+    '🥑 Universo Modeship (Vilões)': { 'V_CHEF': "Abacatudo (Chefe)", 'V_POLI': "Miliciano", 'V_ADV': "Advogado Mamão", 'V_PREF': "Político Melancia" },
+    '🔗 Grupos Fechados (Combos Favela)': { 
+        'GRP_01': "Combo: Elinaldo & Sabrina (Casal)", 
+        'GRP_02': "Combo: Trio de Heróis (Elinaldo, Rocha, Sabrina)", 
+        'GRP_03': "Combo: Bonde do Abacatudo (Vilões)", 
+        'GRP_04': "Combo: Multidão no Baile Funk" 
+    },
+    '💔 Drama, Traição & Policial': { 
+        'DRAM_01': "Casal em Crise (Esposa e Marido)", 
+        'DRAM_02': "Triângulo Amoroso Proibido", 
+        'CRI_01': "Pessoa Comum virando Criminoso", 
+        'CRI_02': "Investigador / Detetive Noir" 
+    },
+    '✝️ Histórias Bíblicas & Épicas': { 
+        'BIB_01': "Davi (Guerreiro Jovem)", 
+        'BIB_02': "Golias (Gigante Blindado)", 
+        'BIB_03': "Moisés (Líder Ancião)", 
+        'BIB_04': "Jesus (Figura de Luz Celestial)", 
+        'BIB_05': "Multidão do Egito Antigo" 
+    },
+    '🦸 Heróis Marvel, DC & Quadrinhos': { 
+        'HQ_01': "Homem-Aranha (Traje Urbano)", 
+        'HQ_02': "Batman (Cavaleiro das Trevas)", 
+        'HQ_03': "Tartarugas Ninjas (O Grupo)", 
+        'HQ_04': "Venom / Máscara (Anti-herói Cômico)" 
+    },
+    '🎌 Animes & Mangás Populares': { 
+        'ANI_01': "Goku (Estilo Dragon Ball)", 
+        'ANI_02': "Seiya (Cavaleiros do Zodíaco)", 
+        'ANI_03': "Tanjiro (Demon Slayer)", 
+        'ANI_04': "Sung Jinwoo (Solo Leveling)", 
+        'ANI_05': "Hobin (Viral Hit)", 
+        'ANI_06': "Okarun & Momo (Dandadan)", 
+        'ANI_07': "Ash & Pikachu (Pokemon)", 
+        'ANI_08': "Tai & Agumon (Digimon)" 
+    },
+    '🎮 Games Clássicos & Cultura Pop': { 
+        'GAM_01': "Mario Bros (Estilo Pixar)", 
+        'GAM_02': "Sonic the Hedgehog", 
+        'GAM_03': "Donkey Kong (Gorila Gigante)", 
+        'POP_01': "Michael Jackson (Visual Thriller)", 
+        'POP_02': "Bruce Lee (Mestre de MMA)", 
+        'POP_03': "Caça-Fantasmas (O Esquadrão)", 
+        'POP_04': "Zumbis (Estilo Zumbilândia)", 
+        'POP_05': "Jon Snow (Game of Thrones)" 
+    },
+    '📺 Nostalgia, Desenhos & Comédia': { 
+        'NOS_01': "A Turma da Caverna do Dragão", 
+        'NOS_02': "He-Man (Mestres do Universo)", 
+        'NOS_03': "Scooby-Doo (Turma do Mistério)", 
+        'NOS_04': "Chaves (No Barril)", 
+        'NOS_05': "Chapolin Colorado", 
+        'NOS_06': "De Volta para o Futuro (Doc & Marty)", 
+        'NOS_07': "Daniel-san & Johnny (Cobra Kai)" 
+    },
+    '🌀 Animação Moderna & Web': { 
+        'MOD_01': "Rick & Morty (Cientista e Neto)", 
+        'MOD_02': "Pomni (O Incrível Circo Digital)", 
+        'MOD_03': "Star (Princesa Maluca das Forças do Mal)" 
+    }
 };
 
 const vozes = {
-    'Vozes Oficiais': { 'V_ELI': "Voz do Tomate Elinaldo", 'V_SAB': "Voz doce da Sabrina", 'V_ROC': "Voz grossa do Sgt Rocha", 'V_OZ': "Voz de Oswaldo (Lira)", 'V_MAE': "Voz de Mãe Humilde (Idosa)" },
-    'Expansão (Política & Prisão)': { 'V_ADV': "Voz de Advogado (Sebosa)", 'V_PREF': "Voz de Político (Carismática/Falsa)", 'V_DEL': "Voz de Delegado (Militar/Ríspida)", 'V_FOF': "Voz Dona Moranguinho (Nasal/Rápida)" },
-    'Vozes da Favela': { 'V_GIG': "Voz Deep do Abacate Chefe", 'V_TAC': "Voz Tática Militar (E.G.D.)", 'V_FUNK': "Sons de Baile Funk / Foley" }
+    'Vozes Modeship': { 'V_ELI': "Voz do Tomate Elinaldo", 'V_SAB': "Voz doce da Sabrina", 'V_GIG': "Voz Grave Abacatudo" },
+    'Vozes Dramáticas & True Crime': { 'V_DRAM': "Voz de Choro/Desespero", 'V_NARR': "Locutor de Investigação Sombria (Foley policial)" },
+    'Vozes Bíblicas': { 'V_DEUS': "Voz Celestial e Ecoante", 'V_EPI': "Locutor Épico de Cinema" },
+    'Vozes Anime & Ação': { 'V_SHONEN': "Gritos de Batalha Anime", 'V_MONS': "Rugido de Monstro/Zumbi" },
+    'Vozes Comédia': { 'V_CHAV': "Voz Fina e Engraçada (Estilo Chaves)", 'V_TOON': "Efeitos Sonoros de Desenho Animado (Boing, Crash)" }
 };
 
+// ================== DNA DOS PERSONAGENS (PROMPTS) ==================
 const d = { 
-    'P01': { d: "Anthropomorphic Lemon character, tough expression, rough yellow rind, thick black mustache, eye scar, tactical vest over white dress shirt, realistic 8k, Flow VO3 style" }, 
-    'P02': { d: "Anthropomorphic Tomato character, huge expressive eyes, distressed clothes, vibrant red skin with subtle droplets, masterpiece photography" },
-    'P03': { d: "Sabrina Pitaya, Anthropomorphic Dragon Fruit female character, pink scaly skin, punk rock moicano hair, tactical denim jacket, camo pants" }, 
+    // MODESHIP
+    'P01': { d: "Anthropomorphic Lemon character, tough expression, eye scar, tactical vest, realistic 8k, Flow VO3 style" }, 
+    'P02': { d: "Anthropomorphic Tomato character, huge expressive eyes, distressed clothes, vibrant red skin, Flow VO3 style" },
+    'P03': { d: "Sabrina Pitaya, Anthropomorphic Dragon Fruit female character, punk rock moicano hair, tactical denim jacket" }, 
     'P04': { d: "Anthropomorphic Pear female, athletic build, high-detail 3D" },
-    'P05': { d: "Oswaldo Rocha, young anthropomorphic lemon-headed character, smoother surface, vibrant yellow skin, expressive conflicted eyes, athletic runner build, agile posture like Spider-Man, wearing a dark gray hoodie and sneakers" },
-    'V_CHEF': { d: "Abacatudo, massive Anthropomorphic Avocado crime boss, dark green rugose rind head, deep facial scars, golden seed on top, wearing a long worn-out leather trench coat" },
+    'P05': { d: "Oswaldo Rocha, young anthropomorphic lemon-headed character, athletic runner build, dark gray hoodie" },
+    'V_CHEF': { d: "Massive Anthropomorphic Avocado crime boss, dark green rugose rind head, wearing a long worn-out leather trench coat" },
     'V_POLI': { d: "Anthropomorphic fruit in black tactical BOPE gear, masked, urban combat style" },
-    'V_ADV': { d: "Anthropomorphic Papaya character, lawyer, wearing a bespoke expensive navy blue suit, gold watch, silk tie, greasy manipulative smile" },
-    'V_PREF': { d: "Anthropomorphic Watermelon politician, wearing a green suit and a presidential sash, fake charismatic smile" },
-    'PR_DEL': { d: "Anthropomorphic Pineapple police delegate, wearing aviator sunglasses and a crisp police uniform, stern military posture" },
-    'PR_DET': { d: "Massive Anthropomorphic Pineapple thug in a grey prison undershirt, heavily scarred, muscular build, prison environment" },
-    'PR_GUA': { d: "Anthropomorphic Banana in grey and black prison guard uniform, holding a baton, serious expression" },
-    'F_MAE': { d: "Anthropomorphic small elderly Tomato character, weary expression, wearing simple modest clothes and headscarf" },
-    'F_FOF': { d: "Anthropomorphic Strawberry elderly woman, wearing curlers in hair and a floral house dress, leaning out of a favela window gossiping" },
-    'COM01': { d: "Anthropomorphic Cashew character, nordestino hat, expressive comedic face" },
-    'B01': { d: "Tall slender Banana character, goofy expressions, street style clothes" },
-    'TER01': { d: "Anthropomorphic Apple, chainsaw hands, horror 3D style" },
-    'G01': { d: "Soldado Cenoura, Carrot elite soldier, orange rind texture, green leaves on top, full black E.G.D. tactical armor, holding assault rifle" },
-    'G02': { d: "Soldado Banana, Banana elite soldier, yellow skin with dark spots, black tactical gear, focused military gaze" },
-    'G07': { d: "Group of heavily armed fruit soldiers in black tactical gear" }, 
-    'G11': { d: "Crowd of diverse anthropomorphic fruit characters in a favela dance party atmosphere" },
-    'G02_Z': { d: "Swarm of rotten zombie fruits, decaying textures, glowing eyes, horror 3D style" }
+    'V_ADV': { d: "Anthropomorphic Papaya character, lawyer, bespoke expensive navy blue suit, greasy manipulative smile" },
+    'V_PREF': { d: "Anthropomorphic Watermelon politician, wearing a green suit and a presidential sash, fake smile" },
+    // COMBOS MODESHIP
+    'GRP_01': { d: "Duo shot. Anthropomorphic Tomato character alongside Sabrina Pitaya (Dragon Fruit female). Standing together, highly detailed, Flow VO3 style." },
+    'GRP_02': { d: "Group shot of three characters: Anthropomorphic Tomato, Dragon Fruit girl, and tough Lemon character with an eye scar. Heroic poses, highly detailed 8k." },
+    'GRP_03': { d: "Massive Anthropomorphic Avocado crime boss surrounded by tough Pineapple thugs and elite fruit soldiers. Dark, menacing atmosphere." },
+    'GRP_04': { d: "Massive crowd of diverse anthropomorphic fruit characters in a favela street, civilians only, vibrant atmosphere, highly detailed." },
+    // DRAMA E TRUE CRIME
+    'DRAM_01': { d: "Cinematic medium shot, a husband looking guilty and avoiding eye contact, while a crying woman confronts him. Dramatic indoor lighting, soap opera lighting, realistic 8k photography." },
+    'DRAM_02': { d: "Tense romantic scene, three people in a room, two holding hands secretly while the third looks away oblivious. High emotional tension, cinematic shadows." },
+    'CRI_01': { d: "Gritty neo-noir photography. An ordinary-looking man standing in a dark alley, holding a handgun nervously, sweat on his face. Cinematic rim lighting, true crime documentary style." },
+    'CRI_02': { d: "A hardboiled detective wearing a trench coat and fedora, smoking a cigarette under a streetlamp in the rain. Gloomy atmosphere, high contrast shadows." },
+    // BÍBLICO
+    'BIB_01': { d: "Ancient biblical young warrior holding a leather sling, wearing rough tunic, standing in a desert valley. Cinematic lighting, epic historical film style, photorealistic 8k." },
+    'BIB_02': { d: "Massive giant Philistine warrior in heavy ancient bronze armor holding a massive spear. Intimidating angle, historical epic film." },
+    'BIB_03': { d: "Ancient wise prophet holding a wooden staff, parting a massive wall of blue ocean water. Epic magical lighting, blockbuster VFX." },
+    'BIB_04': { d: "A divine glowing male figure in ancient robes, soft celestial light radiating from behind, peaceful expression, renaissance painting style mixed with modern 8k render." },
+    'BIB_05': { d: "Massive crowd of ancient Hebrew people in desert robes, cinematic wide shot, historical epic." },
+    // HERÓIS
+    'HQ_01': { d: "Super hero in a red and blue webbed spandex suit, crouching on a brick wall in a gritty favela setting, dynamic comic book lighting, realistic cinematic." },
+    'HQ_02': { d: "Dark knight vigilante in a high-tech black bat-suit, standing on a gargoyle raining at night, moody neo-noir atmosphere, DC comics cinematic style." },
+    'HQ_03': { d: "Group of four anthropomorphic mutated ninja turtles wearing colorful bandanas and holding ninja weapons, standing in a dark city sewer, stylized 3D blockbuster." },
+    'HQ_04': { d: "A chaotic anti-hero with a bright green bald head, wearing a yellow zoot suit, doing a crazy exaggerated cartoonish expression, realistic CGI." },
+    // ANIMES
+    'ANI_01': { d: "Muscular anime warrior with glowing spiky blonde hair, torn orange martial arts gi, glowing golden aura, epic anime battle style, 8k render." },
+    'ANI_02': { d: "Young anime knight in mythical greek silver armor with wings, cosmic background, cosmos energy, Saint Seiya style 8k." },
+    'ANI_03': { d: "Anime swordsman wearing a green and black checkered haori, holding a katana with a water trail effect, Ufotable animation style." },
+    'ANI_04': { d: "Anime shadow monarch, wearing a black trench coat, glowing blue eyes, surrounded by shadow soldiers, Solo Leveling style, epic dark fantasy." },
+    'ANI_05': { d: "Skinny teen street fighter in casual clothes doing a martial arts stance, streaming camera HUD overlay, Viral Hit manhwa style." },
+    'ANI_06': { d: "Two anime teens, a boy with supernatural speed and a girl with psychic aura, fighting bizarre yokai spirits, Dandadan manga art style." },
+    'ANI_07': { d: "Young anime boy with a red cap, standing next to a cute yellow electric mouse monster, bright vibrant colors, Pokemon adventure style." },
+    'ANI_08': { d: "Anime boy with goggles, standing next to a small orange dinosaur monster breathing fire, digital world background, Digimon style." },
+    // GAMES & POP
+    'GAM_01': { d: "Short Italian plumber with a red hat and mustache, wearing denim overalls, standing in a vibrant mushroom kingdom, high-end Pixar 3D style." },
+    'GAM_02': { d: "Anthropomorphic blue hedgehog with red shoes, running at supersonic speed, motion blur, blue lightning trails, high-end CGI game render." },
+    'GAM_03': { d: "Massive muscular cartoon gorilla wearing a red tie, standing in a jungle beating his chest, stylized 3D animation." },
+    'POP_01': { d: "Pop star wearing a red leather jacket with black stripes, performing a zombie dance routine in a foggy graveyard at night, Thriller music video style, 8k photography." },
+    'POP_02': { d: "Legendary Chinese martial artist with a muscular lean physique, wearing a yellow jumpsuit with black stripes, doing a high kick, dramatic action lighting." },
+    'POP_03': { d: "Group of four parapsychologists wearing beige jumpsuits and proton packs on their backs, shooting laser beams at a floating green ghost, 80s movie aesthetic." },
+    'POP_04': { d: "A group of heavily armed survivors shooting at running zombies in an abandoned amusement park, Zombieland comedy horror style." },
+    'POP_05': { d: "Medieval fantasy warrior with curly black hair, wearing heavy dark northern furs and holding a Valyrian steel sword in a snowy landscape, Game of Thrones style." },
+    // NOSTALGIA & WEB
+    'NOS_01': { d: "Group of six medieval fantasy teenagers (a ranger, a cavalier, a thief, an acrobat, a magician, a barbarian) facing a multi-headed dragon, Dungeons and Dragons 80s cartoon stylized as a realistic fantasy film." },
+    'NOS_02': { d: "Muscular blonde barbarian hero holding a glowing magic sword high in the air, wearing a fur loincloth, Castle Grayskull background, He-Man fantasy style." },
+    'NOS_03': { d: "A cowardly Great Dane dog and a scared skinny teenager with a green shirt, running away from a glowing ghost in a haunted mansion, stylized 3D animation." },
+    'NOS_04': { d: "A poor Mexican kid wearing a striped shirt and a hat with ear flaps, hiding inside a wooden barrel in a vecindad courtyard, El Chavo del Ocho realistic heartwarming photography." },
+    'NOS_05': { d: "A clumsy hero wearing a red superhero suit with a yellow heart on his chest, holding a squeaky red and yellow hammer, Chapolin Colorado comedy style." },
+    'NOS_06': { d: "A crazy white-haired scientist and a teenager in a red puffy vest, standing next to a glowing silver time machine car with gull-wing doors, 1980s sci-fi movie style." },
+    'NOS_07': { d: "Two karate instructors in gis, one in black and yellow Cobra Kai gi, one in white Miyagi-Do gi, facing off in a karate tournament, 80s action drama." },
+    'MOD_01': { d: "An animated mad scientist with blue spiky hair and a drooling lip, next to a nervous teenager, standing in a green swirling portal, adult swim animation style." },
+    'MOD_02': { d: "A nervous cartoon girl wearing a jester outfit with red and blue colors, trapped in an insane surreal digital circus room, The Amazing Digital Circus 3D style." },
+    'MOD_03': { d: "A magical energetic blonde teenage princess holding a wand that shoots rainbows and puppies, vibrant crazy colorful magical girl animation style." }
 };
 
 const gavetaUniverso = {
-    "acao": [
-        { titulo: "Sniper no Telhado (Laser Verde)", texto: "Hyper-realistic 8k movie still. Anthropomorphic Lemon character, tough expression, eye scar, wearing a professional black tactical vest. Crouched on a concrete favela rooftop at night, holding a sniper rifle with a glowing green laser pointing down. Cinematic lighting, gritty urban action style." },
-        { titulo: "Milícia Invadindo o Beco (Fumaça)", texto: "Cinematic ultra-wide shot. Massive Anthropomorphic Avocado crime boss walking through thick smoke in a narrow favela alley. Flanked by elite fruit soldiers in black tactical gear holding flashlights. Lens flare, wet ground reflecting dim streetlights. Heavy tension." },
-        { titulo: "Fuga de Moto na Ladeira", texto: "Action sequence, extreme motion blur. Anthropomorphic Tomato man driving a dirt bike down a steep, narrow favela staircase. Anthropomorphic Dragon Fruit girl holding onto him holding a pistol. Sparks flying from the walls. Dynamic low-angle tracking shot." },
-        { titulo: "O Ultimato do Abacatudo", texto: "Close-up dramatic shot. Massive Avocado boss holding a glowing golden seed, looking down with a menacing smile. Rain pouring down his scarred rind. Cinematic rim lighting, dark and moody atmosphere." },
-        { titulo: "Tiroteio na Casa do Irmão", texto: "Interior action shot. A worn-out favela bar 'CASA DO IRMAO' getting destroyed by gunfire. Anthropomorphic Tomato taking cover behind a wooden table. Glass shattering, neon sign sparking. Gritty realism." }
-    ],
-    "survival": [
-        { titulo: "Fios Elétricos (9:16 - TikTok)", texto: "Extreme survival challenge, aspect ratio 9:16. Anthropomorphic Tomato man balancing on thin, sparking electrical wires high above a favela street. Muzzle flashes from below as soldiers shoot at his feet. Intense height perspective, sparks flying, sweat and terror on the character's face. Blockbuster action style." },
-        { titulo: "Fuga da Horda Zumbi - Patins", texto: "Fast-paced TikTok viral style, aspect ratio 9:16. Anthropomorphic Dragon Fruit girl on roller skates speeding down a steep favela hill. Behind her, a swarm of rotten, decaying fruit zombies. Motion blur, high contrast, cinematic depth of field, extreme tension." },
-        { titulo: "O Poço das Motosserras", texto: "Horror survival, aspect ratio 9:16. Close up from above looking down. Anthropomorphic Caju character hanging by his hands from a rusty pipe. Below him, two Anthropomorphic Apples with chainsaws looking up and revving the engines. Dark, smoky pit, glowing red eyes, hyper-realistic textures." },
-        { titulo: "A Ponte de Vidro Falsa", texto: "Squid Game style challenge, aspect ratio 9:16. Anthropomorphic Tomato stepping onto a glowing glass platform suspended over a dark abyss. Cracks starting to form under his boot. Extreme close-up on his terrified eyes." },
-        { titulo: "Corredor de Lasers", texto: "Sci-fi survival, aspect ratio 9:16. Anthropomorphic Lemon doing a tactical backbend to dodge a grid of deadly red laser beams in a dark concrete tunnel. Foggy atmosphere making the lasers glow intensely." }
-    ],
-    "presidio": [
-        { titulo: "Elinaldo no Cárcere (Uniforme)", texto: "Anthropomorphic Tomato man in a bright orange prison jumpsuit, sitting on a concrete bench inside a dark, grimy prison cell. Dramatic high-contrast bars shadow over his face. Distressed skin, sorrowful eyes. Gritty Netflix-style cinematography, 8k." },
-        { titulo: "O Confronto no Pátio", texto: "Wide shot of a prison yard. Group of tough anthropomorphic fruit inmates in grey undershirts. In the center, Elinaldo facing a massive, rotten Pineapple thug. Guards in tactical gear visible in towers. Intense sunlight, lens flare, gritty textures." },
-        { titulo: "O Interrogatório (Delegado)", texto: "Dark interrogation room. Anthropomorphic Pineapple police delegate, wearing aviator sunglasses, leaning over a metal table. Desk lamp shining aggressively on a sweaty Anthropomorphic Tomato. Neo-noir lighting." },
-        { titulo: "Contrabando no Refeitório", texto: "Prison cafeteria. Anthropomorphic Cashew sliding a shiv under a metal lunch tray to an Anthropomorphic Tomato. Nervous glances. Highly detailed textures of the stainless steel and the food." }
-    ],
-    "politica": [
-        { titulo: "Advogado Mamão (Terno Caro)", texto: "Anthropomorphic Papaya lawyer, wearing a bespoke expensive navy blue suit, gold watch, and silk tie. He has a greasy, manipulative smile. Sitting in a luxurious office with leather chairs and favela view through the window. Symmetrical lighting, 8k render." },
-        { titulo: "Político Melancia (Comício)", texto: "Anthropomorphic Watermelon politician standing behind a podium with many microphones. Wearing a green suit and a presidential sash. Fake charismatic smile. Background: blurred crowd and flags. High-end political photography style." },
-        { titulo: "Encontro no Carro de Luxo", texto: "Interior of a luxury black SUV at night. The Papaya lawyer talking to the Avocado crime boss in the backseat. Rain on the windows, neon city lights reflecting. Mafia cinematic style." }
-    ],
-    "audio_dna": [
-        { titulo: "Gritos e Reações (Script)", texto: "Dublagem Tática: [SABRINA: 'SOCORRO! ME TIRA DAQUI!'], [ELINALDO: 'AGUENTA FIRME, EU TÔ CHEGANDO!'], [GUARDA: 'PARADO! MÃOS ONDE EU POSSA VER!']. Efeitos: Som de rádio comunicador, sirene abafada, passos rápidos no cascalho." },
-        { titulo: "A Vizinha Fofoqueira (Script)", texto: "Voz Dona Moranguinho (Nasal/Rápida): 'Misericórdia! Tu viu quem subiu o beco com o Abacatudo? O filho do Rocha! Vai dar ruim, eu tô avisando...'" },
-        { titulo: "Ameaça: Abacatudo no Rádio", texto: "Dublagem Tática: [ABACATUDO, voz grave com efeito de rádio tático]: 'Cês acham que a favela é bagunça? Fecha as saídas. Quero o vermelho vivo. A rosa cês podem jogar no poço.'" },
-        { titulo: "Tática: Limão Rocha no Ponto", texto: "Dublagem Tática: [ROCHA, voz fria, som de vento no fundo]: 'Tomate, não avança. Tem três na esquina. Espera o meu disparo. Três, dois, um... Fogo.'" }
-    ]
+    "acao": [ { titulo: "Tiroteio no Galpão", texto: "Action sequence, extreme motion blur. Characters taking cover behind wooden crates as gunfire shatters the windows. Gritty action lighting." } ],
+    "drama": [ { titulo: "O Flagrante da Traição", texto: "Soap opera drama. A wife opens the bedroom door and drops her purse in shock as she sees her husband with another woman. High emotional tension." } ],
+    "crime": [ { titulo: "Escondendo as Provas", texto: "True crime thriller. A nervous ordinary citizen digging a hole in the forest at midnight in the pouring rain, illuminated only by car headlights." } ],
+    "presidio": [ { titulo: "Rebelião no Pátio", texto: "Prison riot scene. Inmates fighting guards in a concrete yard, smoke grenades, intense cinematic sunlight." } ],
+    "biblia": [ { titulo: "O Mar Vermelho", texto: "Biblical epic. Moses holding his staff high as massive walls of ocean water part in the middle, divine light shining down." } ],
+    "anime": [ { titulo: "O Golpe Final (Aura)", texto: "Anime climax. The hero charges up a massive glowing energy attack, ground shattering, epic aura colors, Ufotable animation style." } ],
+    "survival": [ { titulo: "Ponte de Vidro Falsa", texto: "Squid Game style challenge. Character stepping onto a glowing glass platform suspended over a dark abyss. Extreme close-up on terrified eyes." } ]
 };
 
 const graficaFreelance = [
-    { titulo: "Banner YouTube - A Retomada", texto: "Epic wide cinematic banner, aspect ratio 21:9. All characters (Tomato, Dragon Fruit, Lemon, Avocado) arranged in an 'Avengers' style composition. Favela landscape in the background with sunset. High contrast, sharp details, plenty of negative space in the center for channel logo. Professional movie art." },
-    { titulo: "Banner YouTube - O Lado Obscuro", texto: "Dark themed banner, aspect ratio 21:9. Avocado boss and Pineapple delegate standing in the shadows. Glowing red and green rim lights. Very menacing, negative space on the left for the channel name." },
-    { titulo: "Mockup: Action Figure Elinaldo", texto: "Product photography. A toy box packaging for an 'Elinaldo Tomato' action figure. The box is highly detailed with plastic window showing the toy inside holding a pistol. Studio lighting, white background." },
-    { titulo: "Mockup: Camiseta 'A Retomada'", texto: "Apparel mockup. A black oversized t-shirt hanging on a brick wall. The shirt features a gritty, streetwear-style graphic of a Tomato with the text 'FAVELA RESISTE'. Photorealistic fabric textures." },
-    { titulo: "Cartão de Visita Tático (Rocha)", texto: "Graphic design mockup. A stack of premium black business cards. Gold foil text: 'LIMAO ROCHA - TACTICAL SOLUTIONS'. Minimalist icon of a lemon with a scar. Realistic shadows, professional lighting." },
-    { titulo: "Flyer Baile Funk do Abacatudo", texto: "Graphic design flyer, aspect ratio 4:5. Neon purple and green colors. Large text 'BAILE DO CHEFE'. Background shows a silhouette of an Avocado boss and huge speakers. Grainy texture, street art style, vibrant and energetic." },
-    { titulo: "Grafite na Parede (Logo)", texto: "Urban street art. A hyper-realistic graffiti mural on a weathered favela brick wall. The mural depicts a heroic Tomato character. Paint drips, realistic brick textures, daylight." }
+    { titulo: "Banner YouTube - Anime Clímax", texto: "Epic wide cinematic banner, aspect ratio 21:9. Anime heroes charging their auras, vibrant colors, plenty of negative space in the center for channel logo." },
+    { titulo: "Capa Documentário True Crime", texto: "YouTube thumbnail style. A dark silhouette of a criminal in an interrogation room, red police lights reflecting. Bold text space." },
+    { titulo: "Mockup: Action Figure do Personagem", texto: "Product photography. A toy box packaging for an action figure. The box is highly detailed with plastic window. Studio lighting." },
+    { titulo: "Cartaz de Comédia (Chaves/Chapolin)", texto: "Movie poster mockup. A funny bright and colorful poster featuring comedic characters, slapstick tone, big text space at the top." }
 ];
 
 // ========================================================
-// 2. FUNÇÕES DA INTERFACE
+// 2. FUNÇÕES DA INTERFACE E IA
 // ========================================================
 function switchTab(event, tabId) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -436,7 +502,6 @@ function switchTab(event, tabId) {
     event.currentTarget.classList.add('active');
 }
 
-// Controla a visibilidade das caixas Zero vs Continuação
 function switchModoHistoria(modoId, btn) {
     document.querySelectorAll('.modo-historia').forEach(m => m.classList.remove('active'));
     document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
@@ -561,7 +626,6 @@ async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
 async function gerarEstrutura() {
     let promptNovela = "";
 
-    // Verifica qual aba está ativa para montar o prompt correto
     if (modoAtualHistoria === 'modo-zero') {
         promptNovela = document.getElementById("novela_prompt_zero").value.trim();
         if (!promptNovela) { alert("Cole a sua ideia na caixa de texto!"); return; }
@@ -569,9 +633,7 @@ async function gerarEstrutura() {
         const passado = document.getElementById("prompt_cont_passado").value.trim();
         const futuro = document.getElementById("prompt_cont_futuro").value.trim();
         if (!passado || !futuro) { alert("Preencha as duas caixas da continuação!"); return; }
-        
-        // Monta o prompt de continuação automaticamente
-        promptNovela = `ATENÇÃO, ESTA É UMA CONTINUAÇÃO (PARTE 2). O episódio anterior terminou exatamente assim: "${passado}". A partir desse ponto, inicie a nova estrutura com a seguinte ideia: "${futuro}".`;
+        promptNovela = `ATENÇÃO, ESTA É UMA CONTINUAÇÃO. O episódio anterior terminou assim: "${passado}". A partir desse ponto, inicie a nova estrutura com a seguinte ideia: "${futuro}".`;
     }
 
     const btn = document.getElementById("btnEstrutura");
@@ -582,7 +644,7 @@ async function gerarEstrutura() {
     btn.disabled = true; loader.style.display = "block";
     output.value = "Gerando a estrutura tática da novela... Aguarde.";
 
-    const promptMestre = `Você é o diretor Modeship. Crie a ESTRUTURA TÁTICA de um vídeo longo (3+ minutos) para o TikTok. Sua Missão: FATIE a história completa abaixo em até 30 cenas. Saída: APENAS UM OBJETO JSON PURA com uma lista chamada "scenes", cada uma com "cena": [headline curta]. História: ${promptNovela}`;
+    const promptMestre = `Você é o diretor Criativo. Crie a ESTRUTURA TÁTICA de um vídeo longo (3+ minutos). Sua Missão: FATIE a história completa abaixo em até 30 cenas. Saída: APENAS UM OBJETO JSON PURA com uma lista chamada "scenes", cada uma com "cena": [headline curta]. História: ${promptNovela}`;
 
     const res = await chamarIA(promptMestre);
     btn.disabled = false; loader.style.display = "none";
@@ -615,15 +677,15 @@ async function gerarBlocoCenas(start, end) {
     ['prota', 'coadj1', 'multidao'].forEach(id => {
         let val = document.getElementById(id).value;
         if(val) { 
-            let dna = d[val] ? d[val].d : "Character description";
+            let dna = d[val] ? d[val].d : "Character/Group description";
             let idade_texto = document.getElementById(`idade_${id}`).options[document.getElementById(`idade_${id}`).selectedIndex].text;
             let voz_val = document.getElementById(`voz_${id}`).value;
             let voz = voz_val ? document.getElementById(`voz_${id}`).options[document.getElementById(`voz_${id}`).selectedIndex].text : "Voz Natural";
-            elenco.push(`- Ator: ${getNome(val)} | DNA Visual: (${dna}) | Fase: (${idade_texto}) | Design de Áudio: (${voz})`);
+            elenco.push(`- Personagem/Grupo: ${getNome(val)} | DNA Visual: (${dna}) | Fase: (${idade_texto}) | Voz: (${voz})`);
         }
     });
 
-    const promptCenasMestre = `Você é o diretor Modeship. Estilo Visual: ${estilo}. ELENCO DA CENA: ${elenco.join('\n')}. 1. Se houver foto anexada, COPIE A VIBE DELA (Luz, cenário). 2. Leia as headlines abaixo para as Cenas ${start} até ${end}. 3. Crie os roteiros completos, substituindo personagens originais pelo nosso ELENCO (mantenha o DNA Blindado no prompt). ${regraTempo} Saída Múlti-Bloco (MOLDE): --- CENA [Nº]: [Título/Tempo] AÇÃO: [O que acontece na cena (detalhado, em português)] PROMPT_IMAGEM: [Prompt em inglês para Midjourney. Descreva o ator e o cenário] PROMPT_VIDEO: [Prompt em inglês para Luma/Kling. SEM SONS AQUI] PROMPT_AUDIO: [Instruções APENAS EM PORTUGUÊS. Detalhe os SFX de favela, música e falas exatas] --- ESTRUTURA TÁTICA DAS CENAS (${start}-${end}): ${JSON.stringify(estruturaDaNovela.scenes.slice(start - 1, end), null, 2)}`;
+    const promptCenasMestre = `Você é o diretor Criativo. Estilo Visual: ${estilo}. ELENCO/COMBOS NA CENA: ${elenco.join('\n')}. 1. Se houver foto anexada, COPIE A VIBE DELA (Luz, cenário). 2. Leia as headlines abaixo para as Cenas ${start} até ${end}. 3. Crie os roteiros, aplicando o DNA Blindado dos nossos Combos/Atores. ${regraTempo} Saída Múlti-Bloco (MOLDE): --- CENA [Nº]: [Título/Tempo] AÇÃO: [O que acontece na cena (detalhado, português)] PROMPT_IMAGEM: [Prompt em inglês, MUITO DETALHADO, inclua o DNA do ator e o estilo visual exigido] PROMPT_VIDEO: [Prompt em inglês para Luma/Kling. SEM SONS AQUI] PROMPT_AUDIO: [Instruções APENAS EM PORTUGUÊS. Detalhe os SFX de ambiente, trilha e falas exatas] --- ESTRUTURA TÁTICA DAS CENAS (${start}-${end}): ${JSON.stringify(estruturaDaNovela.scenes.slice(start - 1, end), null, 2)}`;
 
     const res = await chamarIA(promptCenasMestre, base64Imagem, mimeTypeImagem);
     loader.style.display = "none";
@@ -724,22 +786,16 @@ async function gerarComercialIA() {
     const formatoCena = usaTempoAge ? "[CENA X - INÍCIOs até FIMs]" : "[CENA X]";
     
     const promptPublicitario = `
-    Você é o diretor Modeship. Crie um roteiro de comercial para a marca/produto "${prod}" no Universo Favela 3D estrelando o Tomate Elinaldo.
+    Você é o diretor Criativo. Crie um roteiro de comercial para a marca/produto "${prod}".
     A duração total do comercial é de ${tempo} segundos.
     
-    FATIE o comercial em 4 cenas. Para CADA CENA, use EXATAMENTE a seguinte formatação:
+    FATIE o comercial em 4 a 6 cenas. Para CADA CENA, use EXATAMENTE a seguinte formatação:
 
     ${formatoCena}
-    [IMAGEM]: Prompt em inglês detalhado para Flow Labs VO3 style.
+    [IMAGEM]: Prompt em inglês detalhado (Midjourney Style).
     [VIDEO]: Prompt em inglês para Luma/Kling.
     [AUDIO]: Locução em português e Efeitos Sonoros (SFX).
 
-    Exemplo de saída esperada (NÃO USE MARKDOWN \`\`\`):
-    ${usaTempoAge ? '[CENA 1 - 0-3s]' : '[CENA 1]'}
-    [IMAGEM]: Cinematic close-up...
-    [VIDEO]: Fast zoom out...
-    [AUDIO]: [SFX] Batida de funk. [LOCUÇÃO] "No corre da favela..."
-    
     Agora gere o roteiro completo de ${tempo} segundos para "${prod}":
     `;
     
