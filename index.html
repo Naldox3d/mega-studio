@@ -55,6 +55,7 @@ label:first-child{margin-top:0}
 select,input,textarea{width:100%;background:#04080d;border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:11px 13px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
 select:focus,input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.1)}
 textarea{min-height:90px;resize:vertical}
+input[type="file"]{padding:8px 13px; cursor:pointer;}
 
 /* BUTTONS */
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
@@ -94,7 +95,6 @@ textarea{min-height:90px;resize:vertical}
 .ep-card{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;border-left:3px solid var(--gold)}
 .ep-num{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--gold);margin-bottom:6px}
 .ep-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:10px}
-.ep-body{font-size:13px;color:#8aa4bf;line-height:1.7}
 .ep-prompts{margin-top:12px;display:grid;gap:8px}
 .prompt-row{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;padding:12px}
 .prompt-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
@@ -102,13 +102,7 @@ textarea{min-height:90px;resize:vertical}
 .copy-btn{float:right;background:var(--border2);border:none;color:var(--muted);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;margin-left:8px}
 .copy-btn:hover{background:var(--gold);color:#06090d}
 
-.art-preview{background:linear-gradient(135deg,rgba(212,160,23,.08),rgba(0,212,200,.05));border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px}
-.art-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.art-meta div{background:rgba(0,0,0,.24);border:1px solid var(--border);border-radius:10px;padding:10px}
-.art-meta b{display:block;color:var(--gold2);font-size:12px;text-transform:uppercase;letter-spacing:1px}
-@media(max-width:900px){.art-meta{grid-template-columns:1fr}}
-
- /* STATUS BAR */
+/* STATUS BAR */
 .status-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
 .stat{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px}
 .stat-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold2);line-height:1}
@@ -121,33 +115,36 @@ textarea{min-height:90px;resize:vertical}
 /* LOADING */
 .loading{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:13px;font-weight:700}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse .8s ease-in-out infinite}
-.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+.dot:nth-child(2){animation-delay:.15s}
+.dot:nth-child(3){animation-delay:.3s}
 @keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:#111820;border:1px solid var(--gold);color:var(--text);padding:12px 18px;border-radius:12px;z-index:9999;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:slideIn .25s ease}
+#vg-toast{position:fixed;bottom:20px;right:20px;background:#111820;border:1px solid var(--gold);color:var(--text);padding:12px 18px;border-radius:12px;z-index:99999;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);display:none;}
 @keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .hint{background:rgba(212,160,23,.06);border:1px solid rgba(212,160,23,.25);border-radius:10px;padding:12px;font-size:12.5px;color:#b8943c;margin-top:12px}
 
-@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}.tpl-grid{grid-template-columns:repeat(2,1fr)}.char-grid{grid-template-columns:repeat(3,1fr)}.status-bar{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.tpl-grid{grid-template-columns:repeat(2,1fr)}.char-grid{grid-template-columns:repeat(2,1fr)}.status-bar{grid-template-columns:1fr 1fr}nav button{min-width:90px}}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr} .tpl-grid{grid-template-columns:repeat(2,1fr)} .char-grid{grid-template-columns:repeat(3,1fr)} .status-bar{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.tpl-grid{grid-template-columns:repeat(2,1fr)} .char-grid{grid-template-columns:repeat(2,1fr)} .status-bar{grid-template-columns:1fr 1fr} nav button{min-width:90px}}
 </style>
 </head>
 <body>
-<div class="wrap">
 
+<div id="vg-toast">Notificação</div>
+
+<div class="wrap">
 <!-- MASTHEAD -->
 <div class="masthead">
   <div class="brand">
     <div class="brand-icon">🍅</div>
     <div>
       <div class="brand-name">Fruits Adventures</div>
-      <div class="brand-sub">Studio Pro Viral — DNA, Roteiro, Flow Labs, Gráfica e API</div>
+      <div class="brand-sub">Studio Pro Viral — Visão Computacional + Google Gemini API</div>
     </div>
   </div>
   <div class="masthead-right">
     <div class="badge-row">
-      <span class="badge gold">API Opcional</span>
+      <span class="badge gold">Gemini API</span>
       <span class="badge cyan">Flow Labs</span>
       <span class="badge red">Studio Pro</span>
     </div>
@@ -172,7 +169,7 @@ textarea{min-height:90px;resize:vertical}
     <div class="panel-title">🎭 DNA do Elenco — Personagens Travados</div>
     <h3>Escolha até 2 protagonistas e 1 vilão</h3>
     <div class="char-grid" id="charGrid"></div>
-    <div class="hint">Dica de produção: Flow Labs mantém consistência visual melhor com 2 personagens por cena. Escolha no máximo 3 no total.</div>
+    <div class="hint">Dica de produção: Flow Labs mantém consistência visual melhor com 2 personagens por cena.</div>
   </div>
   <div class="g2">
     <div class="panel">
@@ -190,12 +187,10 @@ textarea{min-height:90px;resize:vertical}
         <option>Base E.G.D. — quartel militar, concreto, sirenes, fumaça</option>
         <option>Centro de Poder — palanque, salões dourados, corrupção</option>
         <option>Mercado Noturno — caos, barracas, fofoca, néon</option>
-        <option>Arena Subterrânea — jogos, sobrevivência, regras mortais</option>
-        <option>Escritório do Crime — madeira escura, dossiê, traição</option>
         <option>Rua Cyberpunk Caruaru — motos, hologramas, noite</option>
       </select>
       <div class="btns">
-        <button class="btn gold" onclick="sortearElenco()">Sortear Elenco Viral</button>
+        <button class="btn gold" onclick="sortearElenco()">Sortear Elenco</button>
         <button class="btn outline" onclick="copyDNA()">Copiar DNA</button>
       </div>
     </div>
@@ -205,7 +200,7 @@ textarea{min-height:90px;resize:vertical}
 <!-- ==================== FORMATO ==================== -->
 <section id="formato" class="tab">
   <div class="panel">
-    <div class="panel-title">🎬 Formato Viral Internacional — Escolha o DNA da História</div>
+    <div class="panel-title">🎬 Formato Viral Internacional</div>
     <div class="tpl-grid" id="tplGrid"></div>
     <div id="tplDetail" class="panel" style="background:rgba(212,160,23,.04);border-color:rgba(212,160,23,.3);display:none">
       <div class="panel-title" id="tplDetailTitle">Detalhe do Formato</div>
@@ -220,7 +215,6 @@ textarea{min-height:90px;resize:vertical}
         <option>TikTok / Reels curto (15-30s)</option>
         <option>Shorts dramático (45-60s)</option>
         <option>Episódio médio YouTube (3-5 min)</option>
-        <option>Episódio completo (8-12 min)</option>
       </select>
       <label>Motor viral principal</label>
       <select id="motor">
@@ -229,31 +223,24 @@ textarea{min-height:90px;resize:vertical}
         <option>Vilão sendo exposto ao vivo</option>
         <option>Aliança inesperada muda tudo</option>
         <option>Sacrifício emocional que parte o coração</option>
-        <option>Plot twist que reescreve o passado</option>
-        <option>Confronto público com humilhação</option>
-        <option>Segredo revelado por acidente</option>
       </select>
       <label>Tom emocional</label>
       <select id="tom">
         <option>Drama intenso com humor ácido</option>
         <option>Tensão pura sem alívio</option>
-        <option>Humor absurdo com lição de vida</option>
-        <option>Romance impossível com tragédia</option>
         <option>Ação cinematográfica épica</option>
-        <option>Mistério e paranoia crescente</option>
-        <option>Comédia tropical caótica</option>
       </select>
       <label>Slogan / chamada opcional</label>
       <input id="slogan" placeholder="Ex: Na Terra de Elinaldo, nenhuma fruta é inocente.">
     </div>
     <div class="panel">
       <div class="panel-title">📊 Preview do Formato</div>
-      <div class="out" id="formatoOut" style="min-height:200px">Selecione um formato e configure à esquerda.</div>
+      <div class="out" id="formatoOut" style="min-height:200px">Selecione um formato.</div>
     </div>
   </div>
 </section>
 
-<!-- ==================== GERADOR ==================== -->
+<!-- ==================== GERADOR & VISÃO ==================== -->
 <section id="gerador" class="tab">
   <div class="status-bar" id="statusBar">
     <div class="stat"><div class="stat-val" id="stElenco">—</div><div class="stat-lbl">Elenco</div></div>
@@ -261,11 +248,25 @@ textarea{min-height:90px;resize:vertical}
     <div class="stat"><div class="stat-val" id="stMotor">—</div><div class="stat-lbl">Motor</div></div>
     <div class="stat"><div class="stat-val" id="stDuracao">—</div><div class="stat-lbl">Duração</div></div>
   </div>
+  
+  <div class="panel" style="border-color:var(--cyan); background:rgba(0,212,200,0.03);">
+      <div class="panel-title" style="color:var(--cyan); border-bottom-color:rgba(0,212,200,0.3);">📸 Olho da IA (Visão Computacional)</div>
+      <label style="color:var(--cyan);">Anexe um print da cena anterior. A API Gemini lerá a imagem para manter o figurino, cenário e luz no próximo roteiro e prompts.</label>
+      <div style="display:flex; gap:14px; align-items:center; margin-top:10px;">
+        <input type="file" id="imgUpload" accept="image/png, image/jpeg, image/webp" onchange="readImage(event)" style="flex:1; border-color:var(--cyan);">
+        <button class="btn red" onclick="clearImage()" style="padding:11px 14px">Remover</button>
+      </div>
+      <div id="imgPreviewBox" style="display:none; margin-top:14px; text-align:center; padding:14px; background:rgba(0,0,0,0.4); border:1px dashed var(--cyan); border-radius:12px;">
+        <img id="imgPreview" src="" style="max-height:180px; border-radius:8px; box-shadow:var(--shadow)">
+        <div style="color:var(--cyan); font-size:12px; font-weight:700; margin-top:8px; letter-spacing:1px">A IA ESTÁ VENDO ESTA IMAGEM 👀</div>
+      </div>
+  </div>
+
   <div class="g2">
     <div class="panel">
       <div class="panel-title">✍️ Gerar Roteiro Viral</div>
       <label>Ideia livre (opcional)</label>
-      <textarea id="ideaLivre" placeholder="Escreva qualquer faísca de ideia. Ex: OZ encontra uma câmera escondida no quartel com imagens do Delegado Abacaxi numa reunião proibida."></textarea>
+      <textarea id="ideaLivre" placeholder="Ex: OZ encontra uma câmera escondida no quartel..."></textarea>
       <label>Número de atos/cenas</label>
       <select id="numCenas">
         <option value="3">3 cenas — TikTok / Shorts</option>
@@ -273,15 +274,15 @@ textarea{min-height:90px;resize:vertical}
         <option value="7">7 cenas — Episódio médio</option>
       </select>
       <div class="btns">
-        <button class="btn gold" onclick="gerarLocal()">Gerar Local (rápido)</button>
-        <button class="btn cyan" onclick="gerarAPI()">Gerar com Claude API</button>
-        <button class="btn outline" onclick="copyText(state.roteiro,'Roteiro copiado')">Copiar Roteiro</button>
+        <button class="btn gold" onclick="gerarLocal()">Gerar Local (Rápido)</button>
+        <button class="btn cyan" onclick="gerarAPI()">Gerar com Gemini (Texto/Visão)</button>
+        <button class="btn outline" onclick="copyText(state.roteiro,'Roteiro copiado')">Copiar</button>
       </div>
-      <div class="hint">Claude API: cole sua chave na aba "API Config". Gera histórias muito mais criativas com o DNA preservado.</div>
+      <div class="hint">Para o Olho da IA funcionar, use o botão "Gerar com Gemini" e configure a chave na aba API Config.</div>
     </div>
     <div class="panel">
       <div class="panel-title">📜 Roteiro Gerado</div>
-      <div class="out" id="roteiroOut">Configure o elenco, escolha um formato e clique em Gerar.</div>
+      <div class="out" id="roteiroOut">Configure o elenco, escolha um formato e anexe a foto (opcional).</div>
     </div>
   </div>
 </section>
@@ -292,11 +293,11 @@ textarea{min-height:90px;resize:vertical}
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
       <div>
         <div class="panel-title" style="border:0;padding:0;margin:0">🎥 Cenas Fatiadas — Prompts Completos</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">Imagem (Tripo/Midjourney) · Vídeo (Flow Labs/Veo 3) · Áudio · Suno AI · CapCut</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">Imagem (Midjourney) · Vídeo (Flow Labs) · Áudio · Suno AI · CapCut</div>
       </div>
       <div class="btns" style="margin:0">
         <button class="btn gold" onclick="gerarCenas()">Gerar Cenas</button>
-        <button class="btn cyan" onclick="gerarCenasAPI()">Cenas com Claude API</button>
+        <button class="btn cyan" onclick="gerarCenasAPI()">Cenas com Gemini API</button>
         <button class="btn outline" onclick="copyAllCenas()">Copiar Tudo</button>
       </div>
     </div>
@@ -304,54 +305,32 @@ textarea{min-height:90px;resize:vertical}
   <div id="cenaContainer"></div>
 </section>
 
-
 <!-- ==================== GRÁFICA ==================== -->
 <section id="grafica" class="tab">
   <div class="g2">
     <div class="panel">
-      <div class="panel-title">🎨 Gráfica Viral — Thumbnail, Produto e Divulgação</div>
+      <div class="panel-title">🎨 Gráfica Viral</div>
       <label>Tipo de arte</label>
       <select id="artTipo">
         <option>Thumbnail YouTube 16:9 — 1280x720</option>
-        <option>Capa TikTok / Reels / Shorts 9:16 — 1080x1920</option>
+        <option>Capa TikTok / Reels 9:16 — 1080x1920</option>
         <option>Post Instagram quadrado — 1080x1080</option>
-        <option>Poster cinematográfico A3 — 300 DPI</option>
-        <option>Camiseta PNG transparente — 4500x5400 300 DPI</option>
-        <option>Caneca wrap — 2700x1120 300 DPI</option>
-        <option>Sticker recortado — 2000x2000 300 DPI</option>
-        <option>Banner do canal YouTube — 2560x1440</option>
       </select>
       <label>Estilo visual</label>
       <select id="artEstilo">
         <option>3D cartoon cinematográfico premium</option>
         <option>Poster sombrio estilo série viral</option>
-        <option>Streetwear tropical colecionável</option>
-        <option>Meme limpo com tipografia forte</option>
-        <option>Mockup real de produto para loja</option>
-        <option>Arte vetorial limpa para logo/SVG</option>
-        <option>Editorial de marca para divulgação</option>
       </select>
       <label>Texto principal</label>
-      <input id="artTexto" placeholder="Ex: A TRAIÇÃO DO DELEGADO ABACAXI">
-      <label>Texto secundário / chamada</label>
-      <input id="artSub" placeholder="Ex: Novo episódio • Fruits Adventures">
+      <input id="artTexto" placeholder="Ex: A TRAIÇÃO DO DELEGADO">
       <div class="btns">
         <button class="btn gold" onclick="gerarGrafica()">Gerar Gráfica</button>
         <button class="btn cyan" onclick="copyText(state.grafica,'Prompt gráfico copiado!')">Copiar Prompt</button>
-        <button class="btn outline" onclick="downloadGraficaTXT()">Baixar TXT Gráfico</button>
       </div>
-      <div class="hint">Essa aba não cria o PNG direto; ela gera o prompt com medida, estilo e especificação para você usar em geradores de imagem, vetor ou mockup.</div>
     </div>
     <div class="panel">
       <div class="panel-title">🖼️ Saída Gráfica</div>
-      <div class="art-preview">
-        <div class="art-meta">
-          <div><b>DNA</b><span id="artMetaDna" style="color:var(--muted);font-size:12px">Selecione elenco</span></div>
-          <div><b>Formato</b><span id="artMetaFmt" style="color:var(--muted);font-size:12px">Escolha tipo</span></div>
-          <div><b>Uso</b><span id="artMetaUse" style="color:var(--muted);font-size:12px">Divulgação</span></div>
-        </div>
-        <div class="out" id="graficaOut" style="min-height:260px">Gere uma arte para thumbnail, capa, produto ou divulgação.</div>
-      </div>
+      <div class="out" id="graficaOut" style="min-height:260px">Prompt para thumbnail, capa ou divulgação aparece aqui.</div>
     </div>
   </div>
 </section>
@@ -360,21 +339,23 @@ textarea{min-height:90px;resize:vertical}
 <section id="api" class="tab">
   <div class="g2">
     <div class="panel">
-      <div class="panel-title">⚡ Claude API — Configuração</div>
+      <div class="panel-title">⚡ API — Configuração Google Gemini</div>
       <div class="api-panel">
-        <div class="api-title">Credenciais</div>
         <label>Provedor</label>
-        <select id="apiProvider">
-          <option value="claude">Claude / Anthropic</option>
-          <option value="openai">OpenAI compatível</option>
+        <select id="apiProvider" disabled>
+          <option value="gemini">Google Gemini (Suporta Visão)</option>
         </select>
-        <label>Endpoint</label>
-        <input id="apiEndpoint" value="https://api.anthropic.com/v1/messages" placeholder="Claude: https://api.anthropic.com/v1/messages | OpenAI: https://api.openai.com/v1/chat/completions">
+        <label>Endpoint URL (Gemini)</label>
+        <input id="apiEndpoint" value="https://generativelanguage.googleapis.com/v1beta/models/" readonly style="color:var(--muted); background:var(--s2)">
         <label>Modelo</label>
-        <input id="apiModel" value="claude-sonnet-4-20250514" placeholder="Claude: claude-sonnet-4-20250514 | OpenAI: gpt-4o-mini">
-        <label>API Key</label>
-        <input id="apiKey" type="password" placeholder="sk-ant-api03-...">
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">A chave fica apenas no navegador durante esta sessão. Nunca é salva ou enviada a terceiros.</div>
+        <select id="apiModel">
+          <option value="gemini-2.5-flash">gemini-2.5-flash (Rápido e Suporta Visão)</option>
+          <option value="gemini-2.5-pro">gemini-2.5-pro (Avançado e Suporta Visão)</option>
+          <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+        </select>
+        <label>API Key (Google AI Studio)</label>
+        <input id="apiKey" type="password" placeholder="AIzaSy...">
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Obtenha sua chave gratuita no <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--cyan)">Google AI Studio</a>. A chave não é salva.</div>
       </div>
       <div class="btns">
         <button class="btn cyan" onclick="testarAPI()">Testar Conexão</button>
@@ -382,8 +363,7 @@ textarea{min-height:90px;resize:vertical}
     </div>
     <div class="panel">
       <div class="panel-title">📋 Status da API</div>
-      <div class="out" id="apiStatus" style="min-height:120px">Configure suas credenciais e teste a conexão.</div>
-      <div class="hint">Com Claude API, o roteiro usa o DNA completo do personagem, o formato escolhido e o motor viral para gerar histórias únicas e prontas para produção.</div>
+      <div class="out" id="apiStatus" style="min-height:120px">Configure sua chave do Google Gemini.</div>
     </div>
   </div>
 </section>
@@ -392,24 +372,80 @@ textarea{min-height:90px;resize:vertical}
 <section id="export" class="tab">
   <div class="g2">
     <div class="panel">
-      <div class="panel-title">📦 Exportar Pacote Completo</div>
+      <div class="panel-title">📦 Exportar Pacote</div>
       <div class="btns">
-        <button class="btn gold" onclick="downloadTXT()">Baixar .TXT Completo</button>
+        <button class="btn gold" onclick="downloadTXT()">Baixar .TXT</button>
         <button class="btn cyan" onclick="copyText(buildExport(),'Pacote copiado!')">Copiar Pacote</button>
         <button class="btn red" onclick="limpar()">Limpar Tudo</button>
       </div>
-      <div class="hint">O pacote contém: DNA do elenco · Formato · Roteiro completo · Prompts de cena (imagem, vídeo, áudio, Suno, CapCut) · Hashtags e descrição YouTube.</div>
     </div>
     <div class="panel">
-      <div class="panel-title">👁️ Preview do Pacote</div>
+      <div class="panel-title">👁️ Preview</div>
       <div class="out" id="exportOut" style="min-height:300px">Gere roteiro e cenas primeiro.</div>
     </div>
   </div>
 </section>
 
-</div><!-- /wrap -->
+</div>
 
 <script>
+/* ─── TOAST / COPY ─── */
+function toast(msg){
+  const t = document.getElementById('vg-toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  t.style.animation = 'none';
+  t.offsetHeight; 
+  t.style.animation = 'slideIn 0.25s ease';
+  setTimeout(() => { t.style.display = 'none'; }, 2400);
+}
+function copyText(txt, msg){
+  if(!txt){ toast('Nada para copiar.'); return; }
+  if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(txt).then(() => toast(msg || 'Copiado!')).catch(() => fallbackCopy(txt, msg));
+  } else { fallbackCopy(txt, msg); }
+}
+function fallbackCopy(txt, msg) {
+  let ta = document.createElement('textarea');
+  ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast(msg || 'Copiado!'); } catch(err) { toast('Erro ao copiar.'); }
+  document.body.removeChild(ta);
+}
+function copyPromptBox(btn) {
+  const text = btn.parentElement.nextElementSibling.innerText;
+  copyText(text, 'Prompt Copiado!');
+  const oldText = btn.innerText; btn.innerText = "✓"; btn.style.background = "var(--gold)"; btn.style.color = "#000";
+  setTimeout(() => { btn.innerText = oldText; btn.style.background = ""; btn.style.color = ""; }, 2000);
+}
+
+/* ─── IMAGE VISION HANDLING ─── */
+let base64Imagem = null;
+let mimeTypeImagem = null;
+
+function readImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        mimeTypeImagem = file.type;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById('imgPreview');
+            img.src = e.target.result;
+            document.getElementById('imgPreviewBox').style.display = 'block';
+            base64Imagem = e.target.result.split(',')[1];
+        }
+        reader.readAsDataURL(file);
+    }
+}
+function clearImage() {
+    document.getElementById('imgUpload').value = "";
+    document.getElementById('imgPreview').src = "";
+    document.getElementById('imgPreviewBox').style.display = 'none';
+    base64Imagem = null;
+    mimeTypeImagem = null;
+    toast("Imagem removida.");
+}
+
 /* ─── DATA ─── */
 const CHARS=[
  {e:'🍅',n:'Tomate Elinaldo',t:'herói improvável',v:'tomate vermelho antropomórfico, camisa laranja surrada, tênis simples, olhar honesto e cansado mas corajoso',voz:'masculina brasileira, grave, honesta e corajosa',frase:'Coragem não é não sentir medo. É continuar mesmo tremendo.'},
@@ -426,374 +462,186 @@ const CHARS=[
 
 const TEMPLATES=[
  {id:'squid',icon:'🦑',name:'Squid Game',tag:'Competição mortal',color:'var(--red)',
-  desc:'Jogos mortais onde frutas competem por prêmio mas apenas uma sobrevive. Regras bizarras, eliminação emocional, traição entre aliados.',
-  estrutura:['ABERTURA: A convocação misteriosa chega.',
-   'REGRA: As regras absurdas são anunciadas — parece simples.',
-   'ALIANÇA: Protagonista forma aliança improvável.',
-   'TRAIÇÃO: O aliado mais improvável trai.',
-   'FINAL: Sobrevivente ganha mas perde algo maior.'],
-  suno:'dark Korean horror drama, electronic tension, low bass drones, heartbeat percussion, K-drama emotional strings, competitive survival atmosphere',
-  hashtags:'#SquidGameFruits #FruitsAdventures #Sobrevivência #TikTokBrasil'},
-
+  desc:'Jogos mortais onde frutas competem por prêmio mas apenas uma sobrevive.',
+  estrutura:['ABERTURA: A convocação misteriosa chega.','REGRA: As regras absurdas são anunciadas.','ALIANÇA: Protagonista forma aliança.','TRAIÇÃO: O aliado trai.','FINAL: Sobrevivente ganha mas perde algo maior.'],
+  suno:'dark Korean horror drama, electronic tension, low bass drones, heartbeat percussion, competitive survival atmosphere'},
  {id:'lacasa',icon:'🔴',name:'La Casa de Papel',tag:'Assalto das frutas',color:'var(--red)',
-  desc:'Assalto cinematográfico com frutas usando uniformes vermelhos. Plano meticuloso, reféns, professor por trás de tudo, drama ao vivo.',
-  estrutura:['PLANO: O Mestre explica o assalto impossível.',
-   'INTRUSÃO: A equipe entra — tudo parece perfeito.',
-   'COMPLICAÇÃO: Um elemento humano quebra o plano.',
-   'NEGOCIAÇÃO: Pressão externa força improvisação.',
-   'SAÍDA: Fuga épica com sacrifício emocional.'],
-  suno:'cinematic heist score, Spanish guitar tension, orchestral buildup, tactical drums, emotional piano breaks, La Casa atmosphere',
-  hashtags:'#LaCasaDeFrutas #FruitsAdventures #Assalto #HeistBrasil'},
-
- {id:'aot',icon:'⚔️',name:'Attack on Titan',tag:'Épico de guerra',color:'var(--orange)',
-  desc:'Frutas guerreiras contra ameaça monstruosa. Corporação militar, sacrifício, revelação de que o verdadeiro inimigo estava dentro.',
-  estrutura:['ATAQUE: Ameaça gigante destrói o que era seguro.',
-   'JURAMENTO: Protagonista jura vingança a custo de tudo.',
-   'REVELAÇÃO: Aliado era o inimigo desde o início.',
-   'ESCOLHA: Destruir tudo para salvar todos — ou não.',
-   'CONSEQUÊNCIA: A vitória tem preço irrecuperável.'],
-  suno:'orchestral epic battle score, German choral vocals, massive percussion, tragic heroic strings, Attack on Titan-style cinematic intensity',
-  hashtags:'#AttackOnFruits #FruitsAdventures #EpicoSombrio #Anime'},
-
+  desc:'Assalto cinematográfico com frutas usando uniformes vermelhos.',
+  estrutura:['PLANO: O Mestre explica o assalto.','INTRUSÃO: A equipe entra.','COMPLICAÇÃO: Um elemento quebra o plano.','NEGOCIAÇÃO: Pressão externa.','SAÍDA: Fuga épica com sacrifício.'],
+  suno:'cinematic heist score, Spanish guitar tension, orchestral buildup, tactical drums'},
  {id:'breaking',icon:'🧪',name:'Breaking Bad',tag:'Transformação criminal',color:'var(--gold)',
-  desc:'Fruta comum vira rei do crime por necessidade. Cada escolha errada transforma o herói no que ele mais odiava. Drama de identidade.',
-  estrutura:['DESESPERO: Situação impossível exige decisão extrema.',
-   'PRIMEIRA VEZ: O herói cruza uma linha que não volta.',
-   'ESCALADA: Cada solução cria um problema maior.',
-   'IDENTIDADE: Olha no espelho e não reconhece mais.',
-   'QUEDA: O império construído destrói o que amava.'],
-  suno:'desert noir tension, minimal electronic guitar, dark ambient bass, transformative score, crime drama atmosphere, Breaking Bad style',
-  hashtags:'#BreakingFruits #FruitsAdventures #Drama #CrimeBrasil'},
-
- {id:'arcane',icon:'🔮',name:'Arcane',tag:'Duas irmãs, mundos opostos',color:'var(--purple)',
-  desc:'Duas frutas cresceram juntas na favela. Uma tenta mudar o sistema por dentro. A outra vira arma do sistema. Tragédia de família.',
-  estrutura:['INFÂNCIA: Memória feliz de antes — o que havia de bom.',
-   'SEPARAÇÃO: O evento que dividiu os dois caminhos.',
-   'CONTRASTE: Os dois mundos se desenvolvem em paralelo.',
-   'COLISÃO: Os caminhos se cruzam — nenhum está errado.',
-   'TRAGÉDIA: A luta entre eles destrói o que os une.'],
-  suno:'alternative emotional score, piano melancholy, electronic dark dream-pop, Arcane-style character theme, tragic siblings motif, Imagine Dragons energy',
-  hashtags:'#ArcaneFruits #FruitsAdventures #Tragédia #Animation'},
-
- {id:'sponge',icon:'🧽',name:'SpongeBob Universe',tag:'Humor absurdo tropical',color:'var(--blue)',
-  desc:'Humor caótico, situações impossíveis, personagens exagerados. Parece bobo mas tem crítica social embutida. Viral puro.',
-  estrutura:['SITUAÇÃO RIDÍCULA: Problema absurdo que não deveria existir.',
-   'PLANO PIOR: A solução é mais ridícula que o problema.',
-   'CAOS: Tudo explode de maneira inesperada.',
-   'PIOR AINDA: Entra um terceiro personagem e piora tudo.',
-   'RESOLUÇÃO ABSURDA: Resolve do jeito mais idiota possível.'],
-  suno:'tropical cartoon music, ukulele and steel drums, playful brass, underwater vibes, comedic timing percussions, bright cheerful chaos',
-  hashtags:'#SpongeFruits #FruitsAdventures #Humor #TropicalVibes'},
-
- {id:'insideout',icon:'🎭',name:'Inside Out',tag:'As emoções são frutas',color:'var(--cyan)',
-  desc:'As emoções do protagonista são frutas que brigam pelo controle. Alegria vs. Tristeza vs. Raiva. Drama interno que todo mundo sente.',
-  estrutura:['EQUILÍBRIO: A emoção dominante controla tudo bem.',
-   'EVENTO: Algo externo desequilibra o painel emocional.',
-   'BRIGA INTERNA: Alegria e tristeza entram em conflito.',
-   'MEMÓRIA FUNDAMENTAL: Uma lembrança muda o entendimento.',
-   'INTEGRAÇÃO: A emoção "negativa" salva o dia.'],
-  suno:'emotional orchestral score, playful colorful themes for each emotion, whimsical piano, heartfelt strings, Pixar-style emotional journey',
-  hashtags:'#InsideOutFruits #FruitsAdventures #Emoções #Viral'},
-
- {id:'naruto',icon:'🍃',name:'Naruto Arc',tag:'Redenção e superação',color:'var(--green)',
-  desc:'Fruta rejeitada por todos treina sozinha e enfrenta o maior inimigo — que é um espelho do próprio herói. Redenção épica.',
-  estrutura:['REJEIÇÃO: O herói é o pior, o mais fraco, o excluído.',
-   'TREINO: Uma figura improvável acredita e treina.',
-   'TESTE: Primeira vitória real — ainda que parcial.',
-   'VILÃO ESPELHO: O antagonista é o que o herói poderia ser.',
-   'REDENÇÃO: O herói salva o vilão e o mundo ao mesmo tempo.'],
-  suno:'Japanese anime epic score, emotional rock guitar, traditional flute alongside electric bass, shonen battle themes, triumph and loss arc',
-  hashtags:'#NarutoFruits #FruitsAdventures #Redenção #AnimeBR'}
+  desc:'Fruta comum vira rei do crime por necessidade.',
+  estrutura:['DESESPERO: Situação impossível.','PRIMEIRA VEZ: Cruza uma linha.','ESCALADA: Novo problema maior.','IDENTIDADE: Não se reconhece.','QUEDA: O império destrói o que amava.'],
+  suno:'desert noir tension, minimal electronic guitar, dark ambient bass, crime drama atmosphere'}
 ];
 
-let state={
- elenco:[],
- tplId:null,
- roteiro:'',
- cenas:[],
- tpl:null,
- grafica:''
-};
+let state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null,grafica:''};
 
-/* ─── INIT ─── */
-window.onload=()=>{
- buildChars();
- buildTemplates();
- updateStatus();
-};
+window.onload=()=>{buildChars();buildTemplates();updateStatus();};
 
 function buildChars(){
  const g=document.getElementById('charGrid');
- g.innerHTML=CHARS.map((c,i)=>`
-  <div class="char-card" id="cc${i}" onclick="toggleChar(${i})">
-   <span class="char-emoji">${c.e}</span>
-   <div class="char-name">${c.n}</div>
-   <div class="char-type">${c.t}</div>
-  </div>`).join('');
+ g.innerHTML=CHARS.map((c,i)=>`<div class="char-card" id="cc${i}" onclick="toggleChar(${i})"><span class="char-emoji">${c.e}</span><div class="char-name">${c.n}</div><div class="char-type">${c.t}</div></div>`).join('');
 }
-
 function toggleChar(i){
  const idx=state.elenco.indexOf(i);
- if(idx>=0){state.elenco.splice(idx,1)}
- else if(state.elenco.length<3){state.elenco.push(i)}
- else{toast('Máximo 3 personagens.');return}
- document.querySelectorAll('.char-card').forEach((c,j)=>{
-  c.classList.toggle('sel',state.elenco.includes(j));
- });
- renderDNA();
- updateStatus();
+ if(idx>=0){state.elenco.splice(idx,1)} else if(state.elenco.length<3){state.elenco.push(i)} else{toast('Máximo 3 personagens.');return}
+ document.querySelectorAll('.char-card').forEach((c,j)=>{c.classList.toggle('sel',state.elenco.includes(j));});
+ renderDNA(); updateStatus();
 }
-
 function sortearElenco(){
- state.elenco=[];
- const herois=[0,1,2],viloes=[3,4,5,6,7,8,9];
- state.elenco.push(herois[Math.floor(Math.random()*herois.length)]);
- state.elenco.push(viloes[Math.floor(Math.random()*viloes.length)]);
- document.querySelectorAll('.char-card').forEach((c,j)=>{
-  c.classList.toggle('sel',state.elenco.includes(j));
- });
- renderDNA();
- updateStatus();
- toast('Elenco sortido!');
+ state.elenco=[]; const herois=[0,1,2],viloes=[3,4,5,6,7,8,9];
+ state.elenco.push(herois[Math.floor(Math.random()*herois.length)]); state.elenco.push(viloes[Math.floor(Math.random()*viloes.length)]);
+ document.querySelectorAll('.char-card').forEach((c,j)=>{c.classList.toggle('sel',state.elenco.includes(j));});
+ renderDNA(); updateStatus(); toast('Elenco sortido!');
 }
-
 function renderDNA(){
  if(!state.elenco.length){$('dnaOut').textContent='Nenhum personagem selecionado.';return}
- $('dnaOut').textContent=state.elenco.map(i=>{
-  const c=CHARS[i];
-  return `${c.e} ${c.n.toUpperCase()} (${c.t})\nVisual: ${c.v}\nVoz: ${c.voz}\nFrase DNA: "${c.frase}"`;
- }).join('\n\n');
+ $('dnaOut').textContent=state.elenco.map(i=>{const c=CHARS[i]; return `${c.e} ${c.n.toUpperCase()}\nVisual: ${c.v}`;}).join('\n\n');
 }
-
-function dnaStr(){
- return state.elenco.map(i=>{const c=CHARS[i];return `${c.n} (${c.t}) — Visual: ${c.v} — Voz: ${c.voz} — Frase: "${c.frase}"`}).join('\n');
-}
-
+function dnaStr(){return state.elenco.map(i=>{const c=CHARS[i];return `${c.n} — Visual: ${c.v}`}).join('\n');}
 function copyDNA(){copyText($('dnaOut').textContent,'DNA copiado!')}
 
-/* ─── TEMPLATES ─── */
 function buildTemplates(){
  const g=document.getElementById('tplGrid');
- g.innerHTML=TEMPLATES.map(t=>`
-  <div class="tpl-card" id="tpl_${t.id}" onclick="selectTpl('${t.id}')">
-   <span class="tpl-icon">${t.icon}</span>
-   <div class="tpl-name">${t.name}</div>
-   <div class="tpl-tag">${t.tag}</div>
-  </div>`).join('');
+ g.innerHTML=TEMPLATES.map(t=>`<div class="tpl-card" id="tpl_${t.id}" onclick="selectTpl('${t.id}')"><span class="tpl-icon">${t.icon}</span><div class="tpl-name">${t.name}</div><div class="tpl-tag">${t.tag}</div></div>`).join('');
 }
-
 function selectTpl(id){
- const t=TEMPLATES.find(x=>x.id===id);
- if(!t) return;
+ const t=TEMPLATES.find(x=>x.id===id); if(!t) return;
  state.tplId=id;state.tpl=t;
  document.querySelectorAll('.tpl-card').forEach(c=>c.classList.remove('sel'));
  document.getElementById('tpl_'+id).classList.add('sel');
- const detail=$('tplDetail');
- detail.style.display='block';
- $('tplDetailTitle').textContent=`${t.icon} ${t.name} — ${t.tag}`;
- $('tplDetailBody').innerHTML=`
-  <p style="color:var(--muted);font-size:13px;margin-bottom:14px">${t.desc}</p>
-  <h3>Estrutura dos Atos</h3>
-  ${t.estrutura.map((s,i)=>`<div style="padding:8px 12px;border-left:2px solid var(--gold);margin-bottom:6px;font-size:12.5px;color:#8aa4bf"><b style="color:var(--gold2)">Ato ${i+1}:</b> ${s}</div>`).join('')}
-  <h3 style="margin-top:14px">Prompt Suno AI Base</h3>
-  <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);background:rgba(0,0,0,.3);padding:10px;border-radius:8px">${t.suno}</div>`;
- updateFormatoOut();
- updateStatus();
+ $('tplDetail').style.display='block'; $('tplDetailTitle').textContent=`${t.icon} ${t.name}`;
+ $('tplDetailBody').innerHTML=`<p style="color:var(--muted);font-size:13px;margin-bottom:14px">${t.desc}</p>`;
+ updateFormatoOut(); updateStatus();
 }
-
 function updateFormatoOut(){
  if(!state.tpl){$('formatoOut').textContent='Selecione um formato acima.';return}
  const t=state.tpl;
- const dur=$('duracao')?.value||'';const motor=$('motor')?.value||'';const tom=$('tom')?.value||'';
- $('formatoOut').textContent=`FORMATO: ${t.name} — ${t.tag}
-DESCRIÇÃO: ${t.desc}
-DURAÇÃO: ${dur}
-MOTOR VIRAL: ${motor}
-TOM: ${tom}
-
-ESTRUTURA DOS ATOS:
-${t.estrutura.map((s,i)=>`Ato ${i+1}: ${s}`).join('\n')}
-
-SUNO AI BASE:
-${t.suno}`;
+ $('formatoOut').textContent=`FORMATO: ${t.name}\nDESCRIÇÃO: ${t.desc}\n\nESTRUTURA:\n${t.estrutura.join('\n')}\n\nSUNO: ${t.suno}`;
 }
-
-['duracao','motor','tom'].forEach(id=>{
- setTimeout(()=>{const el=document.getElementById(id);if(el)el.addEventListener('change',updateFormatoOut)},200);
-});
-
-/* ─── STATUS ─── */
+['duracao','motor','tom'].forEach(id=>{setTimeout(()=>{const el=document.getElementById(id);if(el)el.addEventListener('change',updateFormatoOut)},200);});
 function updateStatus(){
- $('stElenco').textContent=state.elenco.length||'—';
- $('stFormato').textContent=state.tpl?state.tpl.icon+'':' — ';
- $('stMotor').textContent=$('motor')?.value?.split(' ').slice(0,2).join(' ')||'—';
- $('stDuracao').textContent=$('duracao')?.value?.split('(')[0].trim().split(' ').slice(-1)[0]||'—';
+ $('stElenco').textContent=state.elenco.length||'—'; $('stFormato').textContent=state.tpl?state.tpl.icon+'':' — ';
+ $('stMotor').textContent=$('motor')?.value?.split(' ').slice(0,2).join(' ')||'—'; $('stDuracao').textContent=$('duracao')?.value?.split('(')[0].trim().split(' ').slice(-1)[0]||'—';
 }
 
-/* ─── ROTEIRO LOCAL ─── */
 function gerarLocal(){
- if(!state.elenco.length){toast('Selecione ao menos 1 personagem.');return}
- if(!state.tpl){toast('Selecione um formato viral.');return}
- updateStatus();
- const t=state.tpl;
- const chars=state.elenco.map(i=>CHARS[i]);
- const prot=chars[0];const anta=chars[1]||chars[0];
- const uni=$('universo')?.value||'Terra de Elinaldo';
- const motor=$('motor')?.value||'Revelação chocante no final';
- const tom=$('tom')?.value||'Drama intenso';
- const idea=$('ideaLivre')?.value||`${prot.n} descobre algo que ${anta.n} quer esconder a todo custo.`;
+ if(!state.elenco.length){toast('Selecione ao menos 1 personagem.');return} if(!state.tpl){toast('Selecione um formato viral.');return}
+ updateStatus(); const t=state.tpl; const chars=state.elenco.map(i=>CHARS[i]); const prot=chars[0];const anta=chars[1]||chars[0];
+ const uni=$('universo')?.value||'Terra de Elinaldo'; const idea=$('ideaLivre')?.value||`${prot.n} descobre algo que ${anta.n} quer esconder.`;
  const nCenas=parseInt($('numCenas')?.value)||5;
+ 
+ let refImgTxt = base64Imagem ? "\n[NOTA: Imagem de referência anexada para continuidade de cenários e figurinos]" : "";
 
- const atos=t.estrutura.slice(0,nCenas).map((s,i)=>`
-ATO ${i+1} — ${s.split(':')[0]}:
-${prot.n} ${s.split(':').slice(1).join(':').trim().toLowerCase().replace('[protagonista]',prot.n).replace('[antagonista]',anta.n)}
-Cenário: ${uni}
-Ação chave: ${['age com instinto', 'hesita e depois decide', 'encontra prova decisiva', 'recua para planejar', 'age no limite do tempo'][i%5]}
-Linha de diálogo: "${['Eu sabia que ia acabar assim.', 'Você não devia ter feito isso.', 'Agora não tem mais volta.', 'Isso muda tudo que eu achava que sabia.', 'É agora ou nunca.'][i%5]}"`.trim()).join('\n\n');
-
- const slogan=$('slogan')?.value||'Inscreva-se para entrar na Terra de Elinaldo.';
- const dur=$('duracao')?.value||'';
-
- state.roteiro=`FRUITS ADVENTURES — ROTEIRO VIRAL
-FORMATO: ${t.name} (${t.tag})
-ELENCO: ${chars.map(c=>c.n).join(' · ')}
-UNIVERSO: ${uni}
-MOTOR VIRAL: ${motor}
-TOM: ${tom}
-DURAÇÃO: ${dur}
-
-═══════════════════════════════
-TÍTULO: ${t.name.toUpperCase()} DAS FRUTAS — ${idea.slice(0,40).toUpperCase()}...
-LOGLINE: ${prot.n} enfrenta ${anta.n} num conflito de ${tom.toLowerCase()} inspirado em ${t.name}. ${idea}
-═══════════════════════════════
-
-${atos}
-
-═══════════════════════════════
-CHAMADA FINAL: ${slogan}
-DESCRIÇÃO YOUTUBE: ${prot.n} se inspira no universo ${t.name} neste episódio épico de Fruits Adventures. Comente qual personagem quer ver no próximo!
-HASHTAGS: ${t.hashtags} #Roteiro #Animacao3D
-MÚSICA SUNO: ${t.suno}`;
-
- $('roteiroOut').textContent=state.roteiro;
- $('exportOut').textContent=buildExport();
- toast('Roteiro local gerado!');
+ const atos=t.estrutura.slice(0,nCenas).map((s,i)=>`ATO ${i+1}: ${prot.n} e ${anta.n}. Cenário: ${uni}.`).join('\n\n');
+ state.roteiro=`TÍTULO: ${t.name.toUpperCase()} DAS FRUTAS\nLOGLINE: ${idea}${refImgTxt}\n\n${atos}\nMÚSICA SUNO: ${t.suno}`;
+ $('roteiroOut').textContent=state.roteiro; $('exportOut').textContent=buildExport(); toast('Roteiro local gerado!');
 }
 
-/* ─── ROTEIRO API ─── */
-async function gerarAPI(){
- if(!state.elenco.length||!state.tpl){toast('Configure elenco e formato primeiro.');return}
- const key=$('apiKey')?.value?.trim();
- if(!key){toast('Configure a API Key na aba API Config.');return}
+/* ─── API MULTIMODAL CALL (GOOGLE GEMINI) ─── */
+async function callGemini(userMsg, key){
+ const model = $('apiModel')?.value || 'gemini-2.5-flash';
+ const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+ 
+ let partesConteudo = [{ text: userMsg }];
 
- $('roteiroOut').innerHTML=loadingHTML('Gerando roteiro com Claude API...');
- const prompt=buildPromptRoteiro();
- try{
-  const txt=await callClaude(prompt,key);
-  state.roteiro=txt;
-  $('roteiroOut').textContent=txt;
-  $('exportOut').textContent=buildExport();
-  toast('Roteiro API gerado!');
- }catch(e){
-  $('roteiroOut').textContent='Erro na API: '+e.message+'\n\nGerando localmente...';
-  setTimeout(gerarLocal,500);
+ if (base64Imagem && mimeTypeImagem) {
+    partesConteudo.push({
+      inlineData: { mimeType: mimeTypeImagem, data: base64Imagem }
+    });
  }
+
+ try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: partesConteudo }],
+        generationConfig: { temperature: 0.8, topP: 0.9 }
+      })
+    });
+
+    const data = await res.json();
+    if(!res.ok || data.error) throw new Error(data.error?.message || `Erro HTTP ${res.status}`);
+
+    const texto = data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("\n").trim();
+    if (!texto) throw new Error("A API respondeu vazio.");
+    
+    return texto;
+ } catch (e) { throw e; }
 }
 
-function buildPromptRoteiro(){
- const t=state.tpl;const chars=state.elenco.map(i=>CHARS[i]);
- const uni=$('universo')?.value||'Terra de Elinaldo';
- const motor=$('motor')?.value||'';const tom=$('tom')?.value||'';
- const nC=parseInt($('numCenas')?.value)||5;
- const idea=$('ideaLivre')?.value||`Conflito épico inspirado em ${t.name}`;
- return `Você é roteirista brasileiro especialista em conteúdo viral para TikTok, YouTube e Reels.
-Crie um roteiro COMPLETO para Fruits Adventures no formato "${t.name}" com estas características:
-
-DNA DO ELENCO:
-${dnaStr()}
-
-UNIVERSO: ${uni}
-FORMATO: ${t.name} — ${t.desc}
-MOTOR VIRAL: ${motor}
-TOM: ${tom}
-IDEIA BASE: ${idea}
-NÚMERO DE ATOS: ${nC}
-
-ESTRUTURA OBRIGATÓRIA DO FORMATO ${t.name.toUpperCase()}:
-${t.estrutura.join('\n')}
-
-REGRAS:
-- Escreva em português brasileiro, tom natural
-- Mantenha o DNA visual e vocal de cada personagem
-- Inclua título viral, logline, ${nC} atos com ação e diálogo, chamada para inscrição
-- Termine com prompt Suno AI em inglês: "${t.suno}"
-- Adicione hashtags e descrição YouTube
-- Seja CINEMATOGRÁFICO, VIRAL e EMOCIONAL`;
+async function testarAPI(){
+ const key=$('apiKey')?.value?.trim();
+ if(!key){$('apiStatus').textContent='Insira a API Key do Google Gemini.';return}
+ $('apiStatus').innerHTML=loadingHTML('Conectando aos servidores do Google...');
+ try{
+  const txt = await callGemini('Por favor, responda apenas e exatamente com esta frase: "Fruits Adventures API Gemini conectada com sucesso! 🍅"', key);
+  $('apiStatus').textContent=txt; toast('API conectada!');
+ }catch(e){$('apiStatus').textContent='Erro: '+e.message;}
 }
 
-/* ─── CENAS LOCAL ─── */
+async function gerarAPI(){
+ if(!state.elenco.length||!state.tpl){toast('Configure elenco e formato.');return}
+ const key=$('apiKey')?.value?.trim(); if(!key){toast('Configure a API Key do Gemini.');return}
+ $('roteiroOut').innerHTML=loadingHTML('Gerando roteiro com Google Gemini...');
+ 
+ let imgContext = base64Imagem ? "\n\nAtenção: O usuário anexou uma imagem de referência visual. Analise as cores, a iluminação, o enquadramento e as roupas dos personagens na imagem. Mantenha essa mesma estética e continuidade de cena no roteiro e na descrição da iluminação." : "";
+
+ const prompt=`DNA DO ELENCO:\n${dnaStr()}\n\nUNIVERSO: ${$('universo')?.value}\nFORMATO: ${state.tpl.name}\nIDEIA BASE: ${$('ideaLivre')?.value}\nNÚMERO DE Cenas: ${$('numCenas')?.value}\n\n${imgContext}\n\nCrie um roteiro viral, inclua título, logline, os atos da história, chamada e o prompt musical para Suno AI (${state.tpl.suno}).`;
+ 
+ try{
+  const txt=await callGemini(prompt,key);
+  state.roteiro=txt; $('roteiroOut').textContent=txt; $('exportOut').textContent=buildExport(); toast('Roteiro Gemini gerado!');
+ }catch(e){ $('roteiroOut').textContent='Erro: '+e.message; }
+}
+
 function gerarCenas(){
  if(!state.roteiro){gerarLocal()}
- const t=state.tpl||TEMPLATES[0];
- const chars=state.elenco.map(i=>CHARS[i]);
- const prot=chars[0]||CHARS[0];const anta=chars[1]||CHARS[3];
- const uni=$('universo')?.value||'Terra de Elinaldo';
+ const t=state.tpl||TEMPLATES[0]; const prot=CHARS[state.elenco[0]]||CHARS[0];
  const nC=parseInt($('numCenas')?.value)||5;
-
- const beats=['GANCHO','CONFLITO','ESCOLHA','VIRADA','CLÍMAX','EPÍLOGO','RESOLUÇÃO'];
- const cams=['close extremo no rosto, zoom dramático','plano médio com sombra ao fundo','travelling lateral perseguindo o herói','macro no objeto decisivo, foco puxado','dolly-in alternando olhares','wide shot contemplativo, solidão','close nos olhos com lágrima ou determinação'];
- const sfx=['hit grave seco + silêncio','sub grave crescendo + chuva','respiração, batida leve, som de rua','riser de suspense + click digital','silêncio total + batida do coração','eco longo + vento suave','acorde emocional + reverb longo'];
-
- state.cenas=Array.from({length:nC},(_,i)=>{
-  const beat=beats[i%beats.length];
-  const cam=cams[i%cams.length];
-  const s=sfx[i%sfx.length];
-  return {
-   title:`CENA ${i+1}: ${beat} — Formato ${t.name}`,
-   img:`3D cinematic stylized render, Fruits Adventures universe, ${prot.n} (${prot.v}) ${i%2===1?`and ${anta.n} (${anta.v})`:'alone'}, ${beat} moment, ${uni}, dramatic cinematic lighting, high contrast, consistent character DNA, no text, clean composition`,
-   vid:`Flow Labs / Veo 3: ${cam}. Personagens: ${prot.n}${i%2===1?' e '+anta.n:''}. Ação: ${beat} — cena avança a trama sem repetir o beat anterior. Vertical 9:16 para TikTok/Reels, 6-8 segundos, movimento suave mas dramático.`,
-   aud:`Ambiente: ${uni}. SFX: ${s}. Voz de ${prot.n} (${prot.voz}): "${prot.frase}". Português do Brasil natural, linha curta, timing emocional.`,
-   suno:`${t.suno}, scene ${i+1} of ${nC}, ${['intro tension','rising action','character choice','revelation','climax','resolution','denouement'][i%7]}`,
-   cap:`CapCut: aplicar ${cam}; adicionar ${s} no banco de sons; legenda em caixa alta curta no centro; corte no beat; transição: ${['smash cut','fade','whip pan','jump cut','dissolve'][i%5]}.`
-  }
- });
- renderCenas();
- $('exportOut').textContent=buildExport();
- toast('Cenas geradas!');
+ state.cenas=Array.from({length:nC},(_,i)=>({
+   title:`CENA ${i+1}`,
+   img:`3D cinematic stylized render, ${prot.n} (${prot.v}), dramatic lighting, consistent DNA, 8k`,
+   vid:`Flow Labs: Close up. ${prot.n} action. Vertical 9:16, cinematic motion.`,
+   aud:`SFX: Hit grave. Voz (${prot.n}): "${prot.frase}"`,
+   suno:`${t.suno}, scene ${i+1}`,
+   cap:`CapCut: legenda forte, corte no beat.`
+ }));
+ renderCenas(); $('exportOut').textContent=buildExport(); toast('Cenas locais geradas!');
 }
 
 async function gerarCenasAPI(){
  if(!state.roteiro){gerarLocal()}
- const key=$('apiKey')?.value?.trim();
- if(!key){toast('Configure a API Key.');return}
- const t=state.tpl||TEMPLATES[0];
- const chars=state.elenco.map(i=>CHARS[i]);
- const nC=parseInt($('numCenas')?.value)||5;
+ const key=$('apiKey')?.value?.trim(); if(!key){toast('Configure a API Key do Gemini.');return}
+ $('cenaContainer').innerHTML=`<div style="padding:24px;text-align:center">${loadingHTML('Gerando cenas com Google Gemini...')}</div>`;
+ 
+ let imgContext = base64Imagem ? "\n\nAtenção: Há uma imagem de referência visual enviada pelo usuário. Identifique o estilo, as cores principais, a iluminação e o figurino presentes na imagem. Incorpore essas exatas descrições visuais nos campos 'img' e 'vid' para manter a continuidade computacional (como se fosse o próximo frame do vídeo)." : "";
 
- $('cenaContainer').innerHTML=`<div style="padding:24px;text-align:center">${loadingHTML('Gerando cenas com Claude API...')}</div>`;
- const prompt=`Crie ${nC} cenas em JSON array para Fruits Adventures, formato ${t.name}.
+ const prompt=`Crie ${parseInt($('numCenas')?.value)||5} cenas em JSON array para Fruits Adventures.
 DNA: ${dnaStr()}
 Universo: ${$('universo')?.value}
-Cada item deve ter: title, img, vid, aud, suno (em inglês), cap.
-img = prompt Midjourney/Tripo 3D cinematográfico preservando DNA visual.
-vid = prompt Flow Labs / Veo 3 com câmera e ação.
-aud = direção de voz e ambience em português.
-suno = prompt musical em inglês baseado em: ${t.suno}
-cap = instrução de edição CapCut em português.
-Retorne SOMENTE o JSON array, sem texto extra.`;
+${imgContext}
+Cada item deve ter exatamente estas chaves: title, img, vid, aud, suno, cap.
+img e vid DEVEM ser em INGLÊS. aud, suno e cap em PORTUGUÊS.
+Retorne SOMENTE o array JSON formatado corretamente, começando com [ e terminando com ], sem nenhum texto antes ou depois.`;
  try{
-  const txt=await callClaude(prompt,key);
-  const match=txt.match(/\[[\s\S]*\]/);
-  state.cenas=JSON.parse(match?.[0]||txt);
-  renderCenas();
-  $('exportOut').textContent=buildExport();
-  toast('Cenas API geradas!');
- }catch(e){toast('API falhou. Gerando cenas locais.');gerarCenas();}
+  const txt=await callGemini(prompt,key);
+  let limpo = txt.replace(/
+```json/gi, "").replace(/```/g, "").trim();
+  const match = limpo.match(/\[[\s\S]*\]/); 
+  state.cenas=JSON.parse(match?.[0]||limpo);
+  renderCenas(); $('exportOut').textContent=buildExport(); toast('Cenas Gemini geradas!');
+ }catch(e){
+  $('cenaContainer').innerHTML=`<div style="padding:24px; color:var(--red)">Erro ao gerar cenas: ${e.message}. Tente novamente.</div>`;
+  toast('Falha na API Gemini.');
+ }
 }
 
 function renderCenas(){
  const colors={'img':'var(--green)','vid':'var(--cyan)','aud':'var(--orange)','suno':'var(--purple)','cap':'var(--red)'};
- const labels={'img':'📸 Imagem (Tripo / Midjourney)','vid':'🎥 Vídeo (Flow Labs / Veo 3)','aud':'🎙️ Áudio & Voz','suno':'🎵 Suno AI','cap':'✂️ CapCut'};
+ const labels={'img':'📸 Imagem (Midjourney)','vid':'🎥 Vídeo (Flow Labs)','aud':'🎙️ Áudio & Voz','suno':'🎵 Suno AI','cap':'✂️ CapCut'};
  $('cenaContainer').innerHTML=state.cenas.map((c,i)=>`
   <div class="ep-card">
    <div class="ep-num">CENA ${i+1} / ${state.cenas.length}</div>
@@ -801,173 +649,40 @@ function renderCenas(){
    <div class="ep-prompts">
     ${Object.keys(labels).map(k=>`
      <div class="prompt-row">
-      <div class="prompt-label" style="color:${colors[k]}">${labels[k]}<button class="copy-btn" onclick="copyText(\`${safeTick(c[k]||'')}\`,'Copiado!')">copiar</button></div>
+      <div class="prompt-label" style="color:${colors[k]}">${labels[k]}<button class="copy-btn" onclick="copyPromptBox(this)">copiar</button></div>
       <div class="prompt-text">${esc(c[k]||'')}</div>
      </div>`).join('')}
    </div>
   </div>`).join('');
 }
 
-/* ─── API CALL ─── */
-async function callClaude(userMsg,key){
- const provider=$('apiProvider')?.value||'claude';
- const endpoint=$('apiEndpoint')?.value?.trim()||(provider==='openai'?'https://api.openai.com/v1/chat/completions':'https://api.anthropic.com/v1/messages');
- const model=$('apiModel')?.value?.trim()||(provider==='openai'?'gpt-4o-mini':'claude-sonnet-4-20250514');
- let res, data;
- if(provider==='openai'){
-  res=await fetch(endpoint,{
-   method:'POST',
-   headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-   body:JSON.stringify({model,temperature:.85,messages:[{role:'system',content:'Você é roteirista e diretor criativo brasileiro especialista em Fruits Adventures, Flow Labs, CapCut, TikTok, Reels e YouTube.'},{role:'user',content:userMsg}]})
-  });
-  data=await res.json();
-  if(!res.ok) throw new Error(data.error?.message||JSON.stringify(data));
-  return data.choices?.[0]?.message?.content || data.output_text || JSON.stringify(data);
- }
- res=await fetch(endpoint,{
-  method:'POST',
-  headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-  body:JSON.stringify({model,max_tokens:2500,messages:[{role:'user',content:userMsg}]})
- });
- data=await res.json();
- if(!res.ok) throw new Error(data.error?.message||JSON.stringify(data));
- return data.content?.map(b=>b.text||'').join('')||'';
-}
-
-async function testarAPI(){
- const key=$('apiKey')?.value?.trim();
- if(!key){$('apiStatus').textContent='Insira uma API Key.';return}
- $('apiStatus').innerHTML=loadingHTML('Testando conexão...');
- try{
-  const txt=await callClaude('Responda apenas: "Fruits Adventures API conectada com sucesso! 🍅"',key);
-  $('apiStatus').textContent=txt;
-  toast('API conectada!');
- }catch(e){$('apiStatus').textContent='Erro: '+e.message;}
-}
-
-
-/* ─── GRÁFICA ─── */
 function gerarGrafica(){
- const t=state.tpl||TEMPLATES[0];
- const elenco=state.elenco.map(i=>CHARS[i]);
- const hero=elenco[0]||CHARS[0];
- const vilao=elenco[1]||CHARS[3];
- const tipo=$('artTipo')?.value||'Thumbnail YouTube 16:9 — 1280x720';
- const estilo=$('artEstilo')?.value||'3D cartoon cinematográfico premium';
- const texto=$('artTexto')?.value||`${t.name.toUpperCase()} DAS FRUTAS`;
- const sub=$('artSub')?.value||'Fruits Adventures';
- const uni=$('universo')?.value||'Terra de Elinaldo';
- const formato=state.tpl?`${state.tpl.name} — ${state.tpl.tag}`:'Formato viral livre';
- const medida=tipo.includes('1280x720')?'1280x720':tipo.includes('1080x1920')?'1080x1920':tipo.includes('1080x1080')?'1080x1080':tipo.includes('4500x5400')?'4500x5400 300 DPI':tipo.includes('2700x1120')?'2700x1120 300 DPI':tipo.includes('2000x2000')?'2000x2000 300 DPI':tipo.includes('2560x1440')?'2560x1440':'A3 300 DPI';
- state.grafica=`FRUITS ADVENTURES — PROMPT GRÁFICO
-
-TIPO DE ARTE: ${tipo}
-MEDIDA: ${medida}
-ESTILO: ${estilo}
-FORMATO DA HISTÓRIA: ${formato}
-UNIVERSO: ${uni}
-
-PERSONAGENS:
-- ${hero.n}: ${hero.v}
-- ${vilao.n}: ${vilao.v}
-
-TEXTO PRINCIPAL: "${texto}"
-TEXTO SECUNDÁRIO: "${sub}"
-
-PROMPT PRINCIPAL:
-Create a premium viral artwork for Fruits Adventures, ${tipo}, featuring ${hero.n} and ${vilao.n}. Preserve character DNA exactly: ${hero.n} has ${hero.v}; ${vilao.n} has ${vilao.v}. Visual style: ${estilo}. Story format inspiration: ${formato}. Setting: ${uni}. Strong readable composition, dramatic lighting, high contrast, Brazilian viral cartoon cinematic look, clean typography, no messy extra text. Main text: "${texto}". Secondary text: "${sub}". Make it look like a professional YouTube/TikTok/Reels campaign asset.
-
-PROMPT VETOR / SVG:
-Redraw the composition as clean vector art, closed shapes, separated colors, readable silhouettes, scalable SVG/PDF style, preserving the same character DNA and typography hierarchy.
-
-PROMPT MOCKUP:
-Create a realistic commercial mockup using this artwork, premium studio lighting, realistic material, soft shadows, ready for e-commerce and social media promotion.
-
-CHECKLIST:
-- conferir ortografia do texto
-- manter personagem reconhecível
-- usar contraste forte
-- deixar margem segura
-- gerar versão sem texto como backup
-- para impressão usar 300 DPI quando aplicável`;
- $('graficaOut').textContent=state.grafica;
- $('artMetaDna').textContent=elenco.length?elenco.map(c=>c.n).join(' + '):'Tomate Elinaldo + vilão';
- $('artMetaFmt').textContent=tipo.split('—')[0].trim();
- $('artMetaUse').textContent=medida;
- $('exportOut').textContent=buildExport();
- toast('Gráfica gerada!');
-}
-function downloadGraficaTXT(){
- if(!state.grafica){toast('Gere a gráfica primeiro.');return}
- const b=new Blob([state.grafica],{type:'text/plain;charset=utf-8'});
- const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fruits-adventures-grafica-prompt.txt';a.click();URL.revokeObjectURL(a.href);
+ const t=state.tpl||TEMPLATES[0]; const prot=CHARS[state.elenco[0]]||CHARS[0];
+ state.grafica=`TIPO: ${$('artTipo')?.value}\nPROMPT:\nCreate a viral artwork featuring ${prot.n}. Preserve DNA: ${prot.v}. Format: ${t.name}. Dramatic lighting, typography: "${$('artTexto')?.value||'Vídeo Novo'}".`;
+ $('graficaOut').textContent=state.grafica; $('exportOut').textContent=buildExport(); toast('Gráfica gerada!');
 }
 
-/* ─── EXPORT ─── */
 function buildExport(){
- return `FRUITS ADVENTURES — PACOTE VIRAL COMPLETO
-${'═'.repeat(50)}
-
-DNA DO ELENCO:
-${dnaStr()||'Nenhum personagem selecionado.'}
-
-UNIVERSO: ${$('universo')?.value||'—'}
-FORMATO: ${state.tpl?state.tpl.name+' — '+state.tpl.desc:'Nenhum selecionado.'}
-MOTOR VIRAL: ${$('motor')?.value||'—'}
-TOM: ${$('tom')?.value||'—'}
-
-${'═'.repeat(50)}
-ROTEIRO:
-${state.roteiro||'Ainda não gerado.'}
-
-${'═'.repeat(50)}
-CENAS:
-${state.cenas.length?state.cenas.map((c,i)=>`
-─── CENA ${i+1}: ${c.title} ───
-IMAGEM: ${c.img}
-VÍDEO: ${c.vid}
-ÁUDIO: ${c.aud}
-SUNO AI: ${c.suno}
-CAPCUT: ${c.cap}`).join('\n'):'Ainda não geradas.'}
-
-${'═'.repeat(50)}
-GRÁFICA:
-${state.grafica||'Ainda não gerada.'}`;
+ return `FRUITS ADVENTURES — PACOTE VIRAL\n${'═'.repeat(50)}\nROTEIRO:\n${state.roteiro||'...'}\n${'═'.repeat(50)}\nCENAS:\n${state.cenas.map((c,i)=>`CENA ${i+1}:\nIMG: ${c.img}\nVID: ${c.vid}\nAUD: ${c.aud}\nSUNO: ${c.suno}`).join('\n\n')}`;
 }
-
 function copyAllCenas(){copyText(state.cenas.map((c,i)=>`CENA ${i+1}: ${c.title}\nIMG: ${c.img}\nVID: ${c.vid}\nAUD: ${c.aud}\nSUNO: ${c.suno}\nCAPCUT: ${c.cap}`).join('\n\n'),'Todas as cenas copiadas!')}
-
 function downloadTXT(){
  const b=new Blob([buildExport()],{type:'text/plain;charset=utf-8'});
- const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fruits-adventures-viral-pack.txt';a.click();URL.revokeObjectURL(a.href);
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fruits-pack.txt';a.click();URL.revokeObjectURL(a.href);
 }
-
 function limpar(){
  state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null};
  document.querySelectorAll('.char-card,.tpl-card').forEach(c=>c.classList.remove('sel'));
- $('dnaOut').textContent='Selecione personagens acima.';
- $('roteiroOut').textContent='Configure o elenco, escolha um formato e clique em Gerar.';
- $('cenaContainer').innerHTML='';
- $('exportOut').textContent='Gere roteiro e cenas primeiro.';
- $('tplDetail').style.display='none';
- toast('Tudo limpo!');
+ $('dnaOut').textContent='Selecione personagens.'; $('roteiroOut').textContent='...'; $('cenaContainer').innerHTML=''; clearImage(); toast('Tudo limpo!');
 }
-
-/* ─── UTILS ─── */
 function tab(ev,id){
- document.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));
- $(id).classList.add('act');
- document.querySelectorAll('nav button').forEach(b=>b.classList.remove('act'));
- ev.currentTarget.classList.add('act');
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('act')); $(id).classList.add('act');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('act')); ev.currentTarget.classList.add('act');
  if(id==='export') $('exportOut').textContent=buildExport();
- updateStatus();
 }
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function safeTick(s){return String(s||'').replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$\{/g,'\\${')}
-function copyText(txt,msg){if(!txt){toast('Nada para copiar.');return}navigator.clipboard.writeText(txt).then(()=>toast(msg||'Copiado!'))}
 function loadingHTML(msg){return `<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:4px">${msg}</span></div>`}
-function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2400)}
 </script>
 </body>
 </html>
