@@ -102,6 +102,12 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 .copy-btn{float:right;background:var(--border2);border:none;color:var(--muted);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;margin-left:8px}
 .copy-btn:hover{background:var(--gold);color:#06090d}
 
+.art-preview{background:linear-gradient(135deg,rgba(212,160,23,.08),rgba(0,212,200,.05));border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px}
+.art-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.art-meta div{background:rgba(0,0,0,.24);border:1px solid var(--border);border-radius:10px;padding:10px}
+.art-meta b{display:block;color:var(--gold2);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+@media(max-width:900px){.art-meta{grid-template-columns:1fr}}
+
 /* STATUS BAR */
 .status-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
 .stat{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px}
@@ -546,9 +552,13 @@ async function callGemini(userMsg, key){
  
  let partesConteudo = [{ text: userMsg }];
 
+ // Se houver imagem anexada, injeta na requisição do Gemini
  if (base64Imagem && mimeTypeImagem) {
     partesConteudo.push({
-      inlineData: { mimeType: mimeTypeImagem, data: base64Imagem }
+      inlineData: {
+        mimeType: mimeTypeImagem,
+        data: base64Imagem
+      }
     });
  }
 
@@ -563,13 +573,18 @@ async function callGemini(userMsg, key){
     });
 
     const data = await res.json();
-    if(!res.ok || data.error) throw new Error(data.error?.message || `Erro HTTP ${res.status}`);
+    
+    if(!res.ok || data.error) {
+       throw new Error(data.error?.message || `Erro HTTP ${res.status}`);
+    }
 
     const texto = data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("\n").trim();
     if (!texto) throw new Error("A API respondeu vazio.");
     
     return texto;
- } catch (e) { throw e; }
+ } catch (e) {
+    throw e;
+ }
 }
 
 async function testarAPI(){
@@ -628,9 +643,11 @@ img e vid DEVEM ser em INGLÊS. aud, suno e cap em PORTUGUÊS.
 Retorne SOMENTE o array JSON formatado corretamente, começando com [ e terminando com ], sem nenhum texto antes ou depois.`;
  try{
   const txt=await callGemini(prompt,key);
-  let limpo = txt.replace(/
-```json/gi, "").replace(/```/g, "").trim();
+  
+  // Limpeza de markdown caso o Gemini responda com blocos de código
+  let limpo = txt.replace(/```json/gi, "").replace(/```/g, "").trim();
   const match = limpo.match(/\[[\s\S]*\]/); 
+  
   state.cenas=JSON.parse(match?.[0]||limpo);
   renderCenas(); $('exportOut').textContent=buildExport(); toast('Cenas Gemini geradas!');
  }catch(e){
