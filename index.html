@@ -1,1222 +1,973 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA STUDIO 65.7 — MULTIVERSO TOTAL</title>
-    <style>
-        :root {
-            color-scheme: dark;
-            --bg-color: #0b0e14;
-            --bg-soft: #0d1117;
-            --card-bg: rgba(22, 27, 34, 0.92);
-            --card-bg-strong: #161b22;
-            --border-color: #30363d;
-            --text-main: #e6edf3;
-            --text-muted: #8b949e;
-            --primary-blue: #58a6ff;
-            --primary-purple: #bc8cff;
-            --primary-green: #3fb950;
-            --primary-red: #f85149;
-            --primary-cyan: #39c5bb;
-            --primary-yellow: #e3b341;
-            --primary-orange: #ff9800;
-            --radius: 14px;
-            --radius-sm: 9px;
-            --shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
-            --titan-grad: linear-gradient(135deg, #3fb950 0%, #2ea043 100%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Fruits Adventures | Studio Pro Viral Modelado</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --bg:#06090d;--s1:#0c1118;--s2:#101720;--border:#1e2d3d;--border2:#2a3d52;
+  --gold:#d4a017;--gold2:#f0c040;--cyan:#00d4c8;--red:#e8334a;--green:#27c87a;
+  --orange:#f07030;--purple:#9b6dff;--blue:#3a9fe8;
+  --text:#eef2f8;--muted:#6b8096;--dim:#3a5068;
+  --glow:0 0 24px rgba(212,160,23,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;line-height:1.55;min-height:100vh;
+  background-image:radial-gradient(ellipse 60% 40% at 15% 0%,rgba(212,160,23,.06),transparent),
+  radial-gradient(ellipse 50% 35% at 85% 100%,rgba(0,212,200,.05),transparent)}
+.wrap{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(57, 197, 187, 0.14), transparent 32rem),
-                radial-gradient(circle at top right, rgba(188, 140, 255, 0.13), transparent 26rem),
-                var(--bg-color);
-            color: var(--text-main);
-            padding: 0;
-            margin: 0;
-            overflow-x: hidden;
-        }
+/* HEADER */
+.masthead{display:grid;grid-template-columns:1fr auto;align-items:start;gap:24px;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1a1200,#3a2800);border:1px solid var(--gold);display:grid;place-items:center;font-size:26px}
+.brand-name{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;line-height:1;color:var(--gold2)}
+.brand-sub{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.masthead-right{text-align:right}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid}
+.badge.gold{color:var(--gold2);border-color:rgba(212,160,23,.5);background:rgba(212,160,23,.1)}
+.badge.cyan{color:var(--cyan);border-color:rgba(0,212,200,.4);background:rgba(0,212,200,.08)}
+.badge.red{color:var(--red);border-color:rgba(232,51,74,.4);background:rgba(232,51,74,.08)}
 
-        .navbar {
-            background: rgba(1, 4, 9, 0.88);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 12px max(12px, env(safe-area-inset-left));
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 22px rgba(0,0,0,0.45);
-            overflow-x: auto;
-            scrollbar-width: thin;
-        }
-        .nav-btn {
-            background: #0d1117;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 12px 18px;
-            cursor: pointer;
-            border-radius: 999px;
-            font-weight: 800;
-            text-transform: uppercase;
-            transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-            font-size: clamp(11px, 2vw, 13px);
-            width: auto;
-            min-width: max-content;
-            min-height: 44px;
-            white-space: nowrap;
-        }
-        .nav-btn:hover { border-color: var(--primary-purple); color: #fff; transform: translateY(-1px); }
-        .nav-btn.active { border-color: var(--primary-cyan); color: var(--primary-cyan); background: rgba(57, 197, 187, 0.1); box-shadow: 0 0 18px rgba(57, 197, 187, 0.22); }
-        .tab-content { display: none; animation: fadeIn 0.35s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* NAV */
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;padding:8px;background:var(--s1);border:1px solid var(--border);border-radius:16px}
+nav button{flex:1;min-width:120px;padding:12px 14px;background:transparent;border:1px solid transparent;border-radius:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+nav button:hover{color:var(--text);background:rgba(255,255,255,.04)}
+nav button.act{background:rgba(212,160,23,.12);border-color:rgba(212,160,23,.45);color:var(--gold2)}
 
-        .container { width: min(1200px, 100%); margin: 22px auto; display: grid; grid-template-columns: 1fr; gap: 18px; padding: 0 clamp(12px, 3vw, 20px); }
-        .card { background: var(--card-bg); padding: clamp(15px, 3vw, 22px); border-radius: var(--radius); border: 1px solid var(--border-color); box-shadow: var(--shadow); }
-        .card .card { box-shadow: none; background: rgba(13, 17, 23, 0.65); }
-        h1 { text-align: center; color: var(--primary-cyan); font-size: clamp(20px, 4vw, 30px); line-height: 1.15; font-weight: 950; text-transform: uppercase; margin-top: 0; }
-        h2 { color: var(--primary-blue); font-size: clamp(12px, 2.2vw, 14px); border-bottom: 1px dashed var(--border-color); padding-bottom: 9px; margin: 0 0 15px; text-transform: uppercase; letter-spacing: .04em; }
-        h3 { line-height: 1.25; }
-        p { line-height: 1.55; }
+/* TABS */
+.tab{display:none}.tab.act{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-        select, textarea, input[type="text"], input[type="password"] {
-            width: 100%;
-            min-height: 46px;
-            padding: 13px 14px;
-            background: #010409;
-            color: #58a6ff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            margin-bottom: 12px;
-            font-size: 14px;
-            line-height: 1.4;
-            outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-        .select-idade, .select-voz { font-size: 12px; padding: 10px; margin-top: -8px; margin-bottom: 12px; background: #0d1117; }
-        .select-idade { border-color: var(--primary-yellow); color: var(--primary-yellow); }
-        .select-voz { border-color: var(--primary-cyan); color: var(--primary-cyan); margin-bottom: 0;}
-        select:focus, textarea:focus, input:focus { border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(188, 140, 255, 0.18); }
-        textarea { min-height: 120px; color: #3fb950; resize: vertical; }
-        .textarea-terminal { min-height: 105px; background: #000; color: #ff7b72; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; border-color: var(--border-color); }
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
 
-        button {
-            background: var(--titan-grad);
-            color: #fff;
-            padding: 15px;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            font-weight: 850;
-            border-radius: var(--radius-sm);
-            text-transform: uppercase;
-            font-size: 15px;
-            min-height: 44px;
-            transition: transform 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
-            touch-action: manipulation;
-        }
-        button:hover:not(:disabled) { filter: brightness(1.08); }
-        button:active { transform: scale(0.98); }
-        button:focus-visible { outline: 3px solid rgba(57, 197, 187, 0.45); outline-offset: 2px; }
-        button:disabled { background: #555; cursor: not-allowed; opacity: 0.65; }
+/* PANELS */
+.panel{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:22px;margin-bottom:20px}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+h3{font-size:13px;color:var(--gold2);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;margin-top:14px}
+label:first-child{margin-top:0}
+select,input,textarea{width:100%;background:#04080d;border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:11px 13px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+select:focus,input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.1)}
+textarea{min-height:90px;resize:vertical}
 
-        .grid-elenco { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr)); gap: 15px; }
-        .label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; font-weight: 800; letter-spacing: .04em; }
+/* BUTTONS */
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{padding:11px 18px;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;cursor:pointer;border:1px solid;transition:all .18s}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#06090d}
+.btn.outline{background:transparent;border-color:var(--border2);color:var(--muted)}
+.btn.outline:hover{border-color:var(--gold);color:var(--gold2)}
+.btn.cyan{background:rgba(0,212,200,.12);border-color:rgba(0,212,200,.4);color:var(--cyan)}
+.btn.red{background:rgba(232,51,74,.1);border-color:rgba(232,51,74,.35);color:var(--red)}
+.btn.green{background:rgba(39,200,122,.1);border-color:rgba(39,200,122,.35);color:var(--green)}
+.btn.purple{background:rgba(155,109,255,.1);border-color:rgba(155,109,255,.35);color:var(--purple)}
 
-        #output-storyboard { background: #0d1117; padding: clamp(12px, 3vw, 16px); border-radius: var(--radius-sm); min-height: 100px; overflow-wrap: anywhere; }
-        .cena-bloco { border: 1px solid rgba(57, 197, 187, 0.75); padding: 15px; margin-bottom: 15px; background: #1c2128; border-radius: var(--radius-sm); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
-        .cena-titulo { font-weight: 850; color: var(--primary-cyan); margin-bottom: 8px; font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 7px;}
-        .cena-acao { color: var(--text-main); font-size: 14px; line-height: 1.55; margin-bottom: 10px; }
-        .btn-terminal { background: var(--primary-cyan); color: #000; margin-top: 10px; padding: 11px; font-size: 13px;}
-        .loader { display: none; text-align: center; color: var(--primary-green); font-weight: 850; margin: 12px 0; }
-        .loader::after { content: ""; display: inline-block; width: 1em; text-align: left; animation: dots 1.2s infinite steps(4, end); }
-        @keyframes dots { 0%, 20% { content: ""; } 40% { content: "."; } 60% { content: ".."; } 80%, 100% { content: "..."; } }
+/* OUTPUT */
+.out{background:#020509;border:1px solid var(--border);border-radius:12px;padding:18px;min-height:200px;font-family:'DM Mono',monospace;font-size:12.5px;color:#b8cfe8;white-space:pre-wrap;overflow:auto;line-height:1.65}
 
-        .file-upload-wrapper { background: #0d1117; border: 2px dashed var(--border-color); border-radius: var(--radius); padding: 16px; text-align: center; margin-bottom: 15px; margin-top: 15px; }
-        input[type="file"] { display: none; }
-        .custom-file-upload { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 10px 18px; cursor: pointer; background: var(--primary-purple); color: #000; font-weight: 850; border-radius: var(--radius-sm); text-transform: uppercase; font-size: 12px; }
-        #preview_img { max-width: 100%; max-height: 250px; border-radius: var(--radius-sm); margin-top: 10px; display: none; border: 2px solid var(--primary-purple); object-fit: contain; }
+/* TEMPLATE CARDS */
+.tpl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.tpl-card{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:14px 12px;cursor:pointer;transition:all .2s;text-align:center}
+.tpl-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--glow)}
+.tpl-card.sel{border-color:var(--gold);background:rgba(212,160,23,.08);box-shadow:var(--glow)}
+.tpl-icon{font-size:28px;margin-bottom:6px;display:block}
+.tpl-name{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold2)}
+.tpl-tag{font-size:10px;color:var(--muted);margin-top:3px}
 
-        #estrutura_output { min-height: 160px; background: #010409; color: var(--primary-yellow); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-        .btn-bloco-novela { background: var(--primary-green); color: #000; width: auto; padding: 11px 18px; font-size: 13px; margin: 5px; flex: 1 1 145px; }
-        .btn-bloco-novela:disabled { background: #444; color: #888; }
+/* CHARACTER CARDS */
+.char-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.char-card{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;transition:all .18s;text-align:center}
+.char-card:hover{border-color:var(--cyan)}
+.char-card.sel{border-color:var(--cyan);background:rgba(0,212,200,.07)}
+.char-emoji{font-size:26px;margin-bottom:5px;display:block}
+.char-name{font-size:10px;font-weight:700;color:var(--text);line-height:1.3}
+.char-type{font-size:9px;color:var(--muted);margin-top:2px}
 
-        .instruction-box { background: rgba(227, 179, 65, 0.08); border: 1px solid var(--primary-yellow); padding: clamp(15px, 3vw, 20px); border-radius: var(--radius); color: var(--primary-yellow); font-size: 14px; line-height: 1.65; margin-bottom: 15px;}
-        .menu-info { border-left: 4px solid var(--primary-cyan); padding-left: 15px; margin-top: 10px; }
-        .salvo-item { background: #0d1117; padding: 12px; border-radius: var(--radius-sm); border: 1px solid #30363d; margin-bottom: 8px; cursor: pointer; font-size: 12px; color: var(--text-main); text-align: left; text-transform: none; }
-        .salvo-item:hover { border-color: var(--primary-green); background: #161b22; }
+/* EPISODE OUTPUT */
+.ep-card{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;border-left:3px solid var(--gold)}
+.ep-num{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--gold);margin-bottom:6px}
+.ep-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:10px}
+.ep-body{font-size:13px;color:#8aa4bf;line-height:1.7}
+.ep-prompts{margin-top:12px;display:grid;gap:8px}
+.prompt-row{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;padding:12px}
+.prompt-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
+.prompt-text{font-size:12px;font-family:'DM Mono',monospace;color:#8fcfcb;line-height:1.55}
+.copy-btn{float:right;background:var(--border2);border:none;color:var(--muted);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;margin-left:8px}
+.copy-btn:hover{background:var(--gold);color:#06090d}
 
-        .sub-nav-btn { background: #1c2128; border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 16px; cursor: pointer; border-radius: var(--radius-sm); font-weight: 850; margin: 4px 8px 4px 0; font-size: 12px; width: auto; }
-        .sub-nav-btn.active { background: var(--primary-yellow); color: #000; border-color: var(--primary-yellow);}
-        .modo-historia { display: none; margin-top: 15px; }
-        .modo-historia.active { display: block; }
+.art-preview{background:linear-gradient(135deg,rgba(212,160,23,.08),rgba(0,212,200,.05));border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px}
+.art-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.art-meta div{background:rgba(0,0,0,.24);border:1px solid var(--border);border-radius:10px;padding:10px}
+.art-meta b{display:block;color:var(--gold2);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+@media(max-width:900px){.art-meta{grid-template-columns:1fr}}
 
-        #toast {
-            position: fixed;
-            right: clamp(12px, 3vw, 22px);
-            bottom: clamp(12px, 3vw, 22px);
-            z-index: 2000;
-            display: grid;
-            gap: 10px;
-            width: min(390px, calc(100vw - 24px));
-            pointer-events: none;
-        }
-        .toast-item {
-            background: rgba(13, 17, 23, 0.96);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            border-left: 5px solid var(--primary-cyan);
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            box-shadow: var(--shadow);
-            font-size: 13px;
-            line-height: 1.4;
-            animation: toastIn 0.25s ease;
-        }
-        .toast-item.success { border-left-color: var(--primary-green); }
-        .toast-item.warning { border-left-color: var(--primary-yellow); }
-        .toast-item.error { border-left-color: var(--primary-red); }
-        @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+ /* STATUS BAR */
+.status-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold2);line-height:1}
+.stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:1px;text-transform:uppercase}
 
-        .smart-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .smart-chip {
-            border: 1px solid var(--border-color);
-            background: rgba(1, 4, 9, 0.55);
-            color: var(--text-main);
-            border-radius: var(--radius-sm);
-            padding: 11px;
-            font-size: 12px;
-            text-align: center;
-        }
-        .smart-chip b { color: var(--primary-cyan); display: block; margin-bottom: 4px; }
+/* API SECTION */
+.api-panel{background:rgba(0,212,200,.04);border:1px solid rgba(0,212,200,.2);border-radius:14px;padding:16px;margin-bottom:16px}
+.api-title{font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
 
-        @media (max-width: 860px) {
-            .navbar { justify-content: flex-start; }
-            .nav-btn { flex: 0 0 auto; }
-            .container { margin: 14px auto; }
-            [style*="grid-template-columns: 1fr 1fr"],
-            [style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
-            .card > div[style*="display: flex"] { flex-wrap: wrap !important; }
-            .btn-bloco-novela { flex: 1 1 calc(50% - 10px); }
-        }
+/* LOADING */
+.loading{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:13px;font-weight:700}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse .8s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
 
-        @media (max-width: 560px) {
-            body { background-attachment: fixed; }
-            .navbar { padding: 10px 8px; gap: 8px; }
-            .nav-btn { padding: 10px 12px; font-size: 11px; }
-            .container { padding: 0 10px; gap: 12px; }
-            .card { border-radius: 12px; }
-            button { font-size: 13px; padding: 13px 11px; }
-            .btn-bloco-novela, .sub-nav-btn { width: 100%; flex-basis: 100%; margin: 4px 0; }
-            .cena-bloco { padding: 12px; }
-            textarea { min-height: 110px; }
-            #estrutura_output { min-height: 180px; }
-        }
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#111820;border:1px solid var(--gold);color:var(--text);padding:12px 18px;border-radius:12px;z-index:9999;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:slideIn .25s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hint{background:rgba(212,160,23,.06);border:1px solid rgba(212,160,23,.25);border-radius:10px;padding:12px;font-size:12.5px;color:#b8943c;margin-top:12px}
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
-        }
-    </style>
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}.tpl-grid{grid-template-columns:repeat(2,1fr)}.char-grid{grid-template-columns:repeat(3,1fr)}.status-bar{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.tpl-grid{grid-template-columns:repeat(2,1fr)}.char-grid{grid-template-columns:repeat(2,1fr)}.status-bar{grid-template-columns:1fr 1fr}nav button{min-width:90px}}
+</style>
 </head>
 <body>
-<div id="toast" aria-live="polite" aria-atomic="true"></div>
+<div class="wrap">
 
-<div class="navbar">
-    <button type="button" class="nav-btn active" onclick="switchTab(event, 'tab-home')">🏠 Dashboard</button>
-    <button type="button" class="nav-btn" onclick="switchTab(event, 'tab-novela')">🎬 Modo Novela</button>
-    <button type="button" class="nav-btn" onclick="switchTab(event, 'tab-agencia')">💰 Modo Agência</button>
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="brand">
+    <div class="brand-icon">🍅</div>
+    <div>
+      <div class="brand-name">Fruits Adventures</div>
+      <div class="brand-sub">Studio Pro Viral — DNA, Roteiro, Flow Labs, Gráfica e API</div>
+    </div>
+  </div>
+  <div class="masthead-right">
+    <div class="badge-row">
+      <span class="badge gold">API Opcional</span>
+      <span class="badge cyan">Flow Labs</span>
+      <span class="badge red">Studio Pro</span>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--muted)">Formatos virais da gringa adaptados ao universo Fruits Adventures</div>
+  </div>
 </div>
 
-<div class="container">
+<!-- NAV -->
+<nav>
+  <button class="act" onclick="tab(event,'elenco')">🎭 Elenco</button>
+  <button onclick="tab(event,'formato')">🎬 Formato Viral</button>
+  <button onclick="tab(event,'gerador')">✍️ Gerador</button>
+  <button onclick="tab(event,'cenas')">🎥 Cenas & Prompts</button>
+  <button onclick="tab(event,'grafica')">🎨 Gráfica</button>
+  <button onclick="tab(event,'api')">⚡ API Config</button>
+  <button onclick="tab(event,'export')">📦 Exportar</button>
+</nav>
 
-    <!-- DASHBOARD -->
-    <div id="tab-home" class="tab-content active">
-        <div class="card">
-            <h1>👁️ CENTRAL DE COMANDO MODESHIP 65.7</h1>
-            <p style="text-align:center; color: var(--text-muted); margin-bottom: 20px;">Multiverso: Do Favela 3D aos Animes, True Crime e Bíblico.</p>
-            
-            <div class="instruction-box">
-                <b style="font-size:16px; color: var(--primary-cyan);">📋 MENU INFORMATIVO: PASSO A PASSO</b><br>
-                <div class="menu-info">
-                    <b style="color:var(--primary-green);">1. PROJETO DO ZERO:</b> Tem uma ideia nova? Vá no Modo Novela, escolha os "Combos" no Elenco (para cenas em grupo), cole na caixa do <b>Passo 1</b> e clique em Gerar Estrutura.<br><br>
-                    <b style="color:var(--primary-blue);">2. SER CONTINUAÇÃO:</b> Vá no Modo Novela, clique no botão "Ser Continuação". Cole o texto final do episódio anterior na primeira caixa e a ideia para o novo episódio na segunda caixa.<br><br>
-                    <b style="color:var(--primary-purple);">3. TRABALHO FREELANCE (VENDAS):</b> Fechou uma parceria? Vá no <b>Modo Agência</b> e digite o produto. A IA fará os personagens venderem o produto fatiado por segundos.
-                </div>
-            </div>
-
-            <div class="card" style="margin-top: 15px; border-color: var(--primary-yellow);">
-                <h2 style="color: var(--primary-yellow);">🔑 1. COFRE DO DIRETOR (API KEY)</h2>
-                <span class="label-text">Cole sua chave. Ela ficará salva apenas neste navegador.</span>
-                <input type="password" id="api_key_input" placeholder="Cole a sua chave API do Google aqui..." onchange="salvarChave()" autocomplete="off">
-                <div class="smart-panel" aria-label="Diagnóstico rápido do sistema">
-                    <div class="smart-chip"><b>Responsivo</b>Layout adaptável para celular, tablet e PC.</div>
-                    <div class="smart-chip"><b>IA segura</b>Melhor tratamento de erro e resposta quebrada.</div>
-                    <div class="smart-chip"><b>Cofre local</b>Favoritos salvos no próprio aparelho.</div>
-                </div>
-                <button type="button" onclick="verificarSistema()" style="background: transparent; border: 1px solid var(--primary-cyan); color: var(--primary-cyan); margin-top: 12px; font-size: 12px; padding: 10px;">🧠 VERIFICAR SISTEMA</button>
-            </div>
-        </div>
+<!-- ==================== ELENCO ==================== -->
+<section id="elenco" class="tab act">
+  <div class="panel">
+    <div class="panel-title">🎭 DNA do Elenco — Personagens Travados</div>
+    <h3>Escolha até 2 protagonistas e 1 vilão</h3>
+    <div class="char-grid" id="charGrid"></div>
+    <div class="hint">Dica de produção: Flow Labs mantém consistência visual melhor com 2 personagens por cena. Escolha no máximo 3 no total.</div>
+  </div>
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title">💡 DNA Travado</div>
+      <div class="out" id="dnaOut" style="min-height:140px">Selecione personagens acima.</div>
     </div>
-
-    <!-- MODO NOVELA -->
-    <div id="tab-novela" class="tab-content">
-        
-        <div class="card">
-            <h2>👥 2. ELENCO, COMBOS E MOLDE VISUAL (DNA BLINDADO)</h2>
-            <div class="grid-elenco">
-                <div>
-                    <span class="label-text">Personagem / Combo 1:</span>
-                    <select id="prota"></select>
-                    <select id="idade_prota" class="select-idade">
-                        <option value="Adult">👨 Fase Adulta (Padrão)</option>
-                        <option value="Baby">👶 Fase Bebê</option>
-                        <option value="Child">🧒 Fase Criança</option>
-                        <option value="Teen">🧑 Fase Jovem</option>
-                        <option value="Elderly">👴 Fase Idosa</option>
-                    </select>
-                    <select id="voz_prota" class="select-voz"></select>
-                </div>
-                <div>
-                    <span class="label-text">Personagem / Combo 2:</span>
-                    <select id="coadj1"></select>
-                    <select id="idade_coadj1" class="select-idade">
-                        <option value="Adult">👨 Fase Adulta (Padrão)</option>
-                        <option value="Baby">👶 Fase Bebê</option>
-                        <option value="Child">🧒 Fase Criança</option>
-                        <option value="Teen">🧑 Fase Jovem</option>
-                        <option value="Elderly">👴 Fase Idosa</option>
-                    </select>
-                    <select id="voz_coadj1" class="select-voz"></select>
-                </div>
-                <div>
-                    <span class="label-text">Personagem / Combo 3:</span>
-                    <select id="multidao"></select>
-                    <select id="idade_multidao" class="select-idade">
-                        <option value="Adult">👨 Fase Adulta (Padrão)</option>
-                        <option value="Baby">👶 Fase Bebê</option>
-                        <option value="Child">🧒 Fase Criança</option>
-                        <option value="Teen">🧑 Fase Jovem</option>
-                        <option value="Elderly">👴 Fase Idosa</option>
-                    </select>
-                    <select id="voz_multidao" class="select-voz"></select>
-                </div>
-                <div>
-                    <span class="label-text">Estilo Visual da IA:</span>
-                    <select id="estilo_render">
-                        <option value="Hiper-realista, visual de filme blockbuster 8k, fotografia real, Netflix style">🎥 LIVE ACTION / SÉRIE (Realismo)</option>
-                        <option value="Estilo Pixar/Dreamworks, 3D estilizado, 8k cinematic">🧬 3D CINEMA (Estilo Pixar/Modeship)</option>
-                        <option value="Estilo Anime, estúdio Ufotable/Mappa, sombras de alto contraste, 2D art">🎌 ANIME / MANGÁ</option>
-                        <option value="Estilo Quadrinhos, Marvel/DC comic book art, cel shading">🦸 QUADRINHOS / HQ</option>
-                        <option value="Vintage 90s cartoon style, hand drawn animation">📺 DESENHO ANOS 90</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="file-upload-wrapper">
-                <span class="label-text" style="margin-bottom: 10px;">BANCO DE IMAGEM: A IA VAI LER ESTA FOTO PARA COPIAR A LUZ, O CENÁRIO E A VIBE DO VÍDEO ANTERIOR:</span>
-                <label for="imagem_ref" class="custom-file-upload">📂 CARREGAR PRINT DO VÍDEO (JPG/PNG)</label>
-                <input type="file" id="imagem_ref" accept="image/png, image/jpeg" onchange="mostrarPreview(event)">
-                <br><img id="preview_img" src="" alt="Preview">
-            </div>
-        </div>
-
-        <div class="card" style="border-color: var(--primary-yellow);">
-            <h2 style="color: var(--primary-yellow);">📝 PASSO 1: A ESTRUTURA DA NOVELA (BEAT SHEET)</h2>
-            
-            <div style="background: #1c2128; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px dashed var(--primary-yellow);">
-                <span class="label-text" style="color: var(--primary-yellow); margin-bottom: 10px;">💡 GAVETA DO UNIVERSO (OPCIONAL): Copie ideias prontas para sua história.</span>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                    <select id="cat_universo" onchange="carregarUniverso()">
-                        <option value="">-- Categoria da História --</option>
-                        <option value="acao">🔥 Ação, Gangues & Combate</option>
-                        <option value="drama">💔 Drama, Traição & Casamento</option>
-                        <option value="crime">🔪 True Crime & Investigação</option>
-                        <option value="presidio">⛓️ Sistema Prisional</option>
-                        <option value="biblia">✝️ Contos Bíblicos Epic</option>
-                        <option value="anime">🎌 Batalha Shonen (Animes)</option>
-                        <option value="survival">☠️ Desafios Virais (Survival)</option>
-                    </select>
-                    <select id="ideia_universo" onchange="mostrarUniverso()" disabled>
-                        <option value="">-- Escolha a Ideia --</option>
-                    </select>
-                </div>
-                <textarea id="texto_universo" style="height: 60px; color: var(--primary-yellow); font-size: 13px;" readonly placeholder="A ideia aparecerá aqui..."></textarea>
-                <button type="button" onclick="usarIdeiaUniverso()" style="background: transparent; border: 1px solid var(--primary-yellow); color: var(--primary-yellow); font-size: 12px; padding: 10px; margin-top: -2px;">➕ USAR ESTA IDEIA NO PROMPT</button>
-            </div>
-
-            <div style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-                <button type="button" class="sub-nav-btn active" onclick="switchModoHistoria('modo-zero', this)">🆕 Projeto do Zero</button>
-                <button type="button" class="sub-nav-btn" onclick="switchModoHistoria('modo-continuacao', this)">🔄 Ser Continuação</button>
-            </div>
-
-            <div id="modo-zero" class="modo-historia active">
-                <span class="label-text">Cole aqui a sua IDEIA COMPLETA (3+ minutos).</span>
-                <textarea id="novela_prompt_zero" placeholder="Ex: Elinaldo descobre uma traição. O Goku enfrenta o vilão. David luta contra Golias..."></textarea>
-            </div>
-
-            <div id="modo-continuacao" class="modo-historia">
-                <span class="label-text" style="color: var(--primary-blue);">1. COPIE AQUI O FINAL DO EPISÓDIO ANTERIOR:</span>
-                <textarea id="prompt_cont_passado" style="height: 80px; margin-bottom: 15px; border-color: var(--primary-blue);" placeholder="Ex: O episódio 1 terminou com a porta sendo arrombada e um tiro ecoando..."></textarea>
-                
-                <span class="label-text" style="color: var(--primary-green);">2. A IDEIA PARA O NOVO EPISÓDIO (O QUE ACONTECE AGORA):</span>
-                <textarea id="prompt_cont_futuro" style="height: 80px; border-color: var(--primary-green);" placeholder="Ex: Descobrimos que foi a polícia. Agora eles precisam fugir para o galpão abandonado..."></textarea>
-            </div>
-            
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button id="btnEstrutura" onclick="gerarEstrutura()" style="background: var(--primary-yellow); color: #000; width: 100%;">📜 GERAR ESTRUTURA</button>
-            </div>
-            <div id="loader_estrutura" class="loader">👁️ A IA está a desenhar a estrutura da sua novela... Aguarde.</div>
-            <textarea id="estrutura_output" style="margin-top: 15px;" readonly placeholder="A estrutura tática das cenas aparecerá aqui (em JSON)."></textarea>
-        </div>
-
-        <div class="card">
-            <h2 style="color: var(--primary-green);">🎬 PASSO 2: GERAÇÃO SEQUENCIAL (O COFRE)</h2>
-            <span class="label-text" style="color: var(--primary-yellow); margin-bottom:10px;">⏰ Deseja incluir a minutagem visual nas cenas?</span>
-            <select id="op_tempo_novela" style="margin-bottom: 15px;">
-                <option value="com_tempo">⏳ Sim, com marcação de tempo (Ex: 0-3s)</option>
-                <option value="sem_tempo">❌ Não, apenas a descrição da cena</option>
-            </select>
-            
-            <div style="display: flex; flex-wrap: wrap;">
-                <button type="button" class="btn-bloco-novela" id="btn_novela_1" onclick="gerarBlocoCenas(1, 5)" disabled>🔥 CENAS 1-5</button>
-                <button type="button" class="btn-bloco-novela" id="btn_novela_2" onclick="gerarBlocoCenas(6, 10)" disabled>🔥 CENAS 6-10</button>
-                <button type="button" class="btn-bloco-novela" id="btn_novela_3" onclick="gerarBlocoCenas(11, 15)" disabled>🔥 CENAS 11-15</button>
-                <button type="button" class="btn-bloco-novela" id="btn_novela_4" onclick="gerarBlocoCenas(16, 20)" disabled>🔥 CENAS 16-20</button>
-                <button type="button" class="btn-bloco-novela" id="btn_novela_5" onclick="gerarBlocoCenas(21, 25)" disabled>🔥 CENAS 21-25</button>
-                <button type="button" class="btn-bloco-novela" id="btn_novela_6" onclick="gerarBlocoCenas(26, 30)" disabled>🔥 CENAS 26-30</button>
-            </div>
-            <div id="loader_cenas" class="loader">👁️ A IA está a escrever os roteiros detalhados das cenas... Aguarde.</div>
-        </div>
-
-        <div class="card">
-            <h2 style="color: var(--primary-cyan);">🎬 PASSO 3: STORYBOARD (CENAS FATIADAS)</h2>
-            <button id="btnCopiarTudo" onclick="copiarRoteiroCompleto('novela')" style="background: var(--primary-yellow); color: #000; margin-bottom: 15px; display: none;">📜 COPIAR ROTEIRO COMPLETO (TEXTO PURO)</button>
-            
-            <div id="output-storyboard">
-                <div style="text-align: center; color: var(--text-muted);">As cenas completas geradas pela IA vão aparecer aqui.</div>
-            </div>
-
-            <div style="border-top: 1px dashed var(--border-color); margin-top: 20px; padding-top: 20px;">
-                <h3 style="color: var(--primary-cyan); font-size: 14px; text-transform: uppercase; margin-bottom: 10px;">📦 Copiar Lote Completo:</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-                    <button onclick="copiarLoteTrindade('img')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR TODAS IMAGENS</button>
-                    <button onclick="copiarLoteTrindade('vid')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR TODOS VÍDEOS</button>
-                    <button onclick="copiarLoteTrindade('aud')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR TODOS ÁUDIOS</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2 style="color: var(--primary-orange);">🚀 PASSO 4: TERMINAIS ISOLADOS</h2>
-            
-            <span class="label-text" style="color: var(--primary-purple);">📸 1. PROMPT DE IMAGEM (INGLÊS):</span>
-            <textarea id="final_img" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
-            <button onclick="copiarTexto('final_img', 'Imagem')" style="background: var(--primary-purple); margin-bottom: 20px; padding: 12px; font-size: 14px; color:#000;">📸 COPIAR SÓ IMAGEM</button>
-
-            <span class="label-text" style="color: var(--primary-cyan);">🎥 2. PROMPT DE VÍDEO (INGLÊS - Luma/Kling/Runway):</span>
-            <textarea id="final_vid" class="textarea-terminal" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
-            <button onclick="copiarTexto('final_vid', 'Vídeo')" style="background: var(--primary-cyan); color: #000; margin-bottom: 20px; padding: 12px; font-size: 14px;">🎥 COPIAR SÓ VÍDEO</button>
-
-            <span class="label-text" style="color: var(--primary-orange);">🔊 3. PROMPT DE ÁUDIO & VOZ (PORTUGUÊS):</span>
-            <textarea id="final_aud" class="textarea-terminal" style="color: var(--primary-orange);" readonly placeholder="Aperte 'ENVIAR AOS TERMINAIS' em uma cena acima..."></textarea>
-            <button onclick="copiarTexto('final_aud', 'Áudio')" style="background: var(--primary-orange); color: #000; padding: 12px; font-size: 14px;">🔊 COPIAR ROTEIRO DE ÁUDIO</button>
-        </div>
+    <div class="panel">
+      <div class="panel-title">⚙️ Conflito Base</div>
+      <label>Conflito principal da história</label>
+      <textarea id="conflito" placeholder="Ex: Uma gravação secreta prova que o Delegado Abacaxi está protegendo o Mamão Advogado. Tomate Elinaldo tem o arquivo."></textarea>
+      <label>Universo / local</label>
+      <select id="universo">
+        <option>Favela do Tomate — becos estreitos, neon, chuva e tensão</option>
+        <option>Terra de Elinaldo — praia tropical, palmeiras, aventura</option>
+        <option>Base E.G.D. — quartel militar, concreto, sirenes, fumaça</option>
+        <option>Centro de Poder — palanque, salões dourados, corrupção</option>
+        <option>Mercado Noturno — caos, barracas, fofoca, néon</option>
+        <option>Arena Subterrânea — jogos, sobrevivência, regras mortais</option>
+        <option>Escritório do Crime — madeira escura, dossiê, traição</option>
+        <option>Rua Cyberpunk Caruaru — motos, hologramas, noite</option>
+      </select>
+      <div class="btns">
+        <button class="btn gold" onclick="sortearElenco()">Sortear Elenco Viral</button>
+        <button class="btn outline" onclick="copyDNA()">Copiar DNA</button>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- MODO AGÊNCIA -->
-    <div id="tab-agencia" class="tab-content">
-        <div class="card">
-            <h1 style="color: var(--primary-purple);">💰 AGÊNCIA MODESHIP MONETIZAÇÃO</h1>
-            
-            <div class="card" style="border-color: var(--primary-purple); background: rgba(188, 140, 255, 0.03);">
-                <h2 style="color: var(--primary-purple);">📢 GERADOR DE COMERCIAIS (SEQUÊNCIA TÁTICA)</h2>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                    <div>
-                        <span class="label-text">Produto/Marca do Freelance:</span>
-                        <input type="text" id="comercial_input" placeholder="Ex: Tênis Nike, Caneca Oficial, Jogo Mobile">
-                    </div>
-                    <div>
-                        <span class="label-text">Duração do Comercial:</span>
-                        <select id="tempo_comercial" style="margin-bottom:0;">
-                            <option value="15">⏳ 15 Segundos (Vídeo Curto)</option>
-                            <option value="30">⏳ 30 Segundos (Padrão TV/YouTube)</option>
-                            <option value="60">⏳ 60 Segundos (Review Completa)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <span class="label-text" style="color: var(--primary-yellow); margin-top:10px;">⏰ Incluir minutagem nas Cenas da Agência?</span>
-                <select id="op_tempo_agencia" style="margin-bottom: 15px;">
-                    <option value="com_tempo">⏳ Sim, colocar [0-3s], [3-7s]...</option>
-                    <option value="sem_tempo">❌ Não, apenas separar as cenas</option>
-                </select>
-
-                <button onclick="gerarComercialIA()" style="background: var(--primary-purple); color: #000;">🤖 GERAR CAMPANHA FATIADA</button>
-                <div id="loader_agencia" class="loader">⚖️ FATIANDO O COMERCIAL EM CENAS...</div>
-                
-                <textarea id="resultado_agencia" class="textarea-terminal" style="height: 300px; margin-top:15px; color: var(--primary-purple);" readonly placeholder="O Comercial estruturado por cenas aparecerá aqui."></textarea>
-                
-                <button onclick="copiarTexto('resultado_agencia', 'Roteiro Completo Agência')" style="background: var(--primary-yellow); color: #000; width: 100%; font-size: 14px; padding: 12px; margin-top: 10px; margin-bottom: 10px;">📜 COPIAR ROTEIRO COMPLETO (AGÊNCIA)</button>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
-                    <button onclick="fatiarECopiarAgencia('imagem')" style="background: var(--primary-purple); color: #000; font-size: 12px; padding: 10px;">📸 COPIAR MÓDULO IMAGENS</button>
-                    <button onclick="fatiarECopiarAgencia('video')" style="background: var(--primary-cyan); color: #000; font-size: 12px; padding: 10px;">🎥 COPIAR MÓDULO VÍDEOS</button>
-                    <button onclick="fatiarECopiarAgencia('audio')" style="background: var(--primary-orange); color: #000; font-size: 12px; padding: 10px;">🔊 COPIAR MÓDULO ÁUDIOS</button>
-                </div>
-            </div>
-
-            <div class="card" style="margin-top:20px; border-color: var(--primary-cyan);">
-                <h2 style="color: var(--primary-cyan);">🎨 CATÁLOGO DE MOCKUPS & GRÁFICA (PRONTOS)</h2>
-                <span class="label-text">Selecione uma ideia para gerar designs reais de produtos.</span>
-                <select id="listaGrafica" onchange="mostrarGrafica()"></select>
-                <textarea id="texto_grafica" readonly style="height: 120px; color: var(--primary-cyan); font-size:13px;"></textarea>
-                <button onclick="copiarTexto('texto_grafica', 'Design Gráfico')" style="background: var(--primary-cyan); color: #000;">📋 COPIAR DESIGN</button>
-            </div>
-            
-            <div class="card" style="margin-top:20px; border-color: var(--primary-green);">
-                <h2 style="color: var(--primary-green);">⭐ COFRE DE FAVORITOS (LOCAL)</h2>
-                <span class="label-text">Os prompts copiados são salvos aqui na memória.</span>
-                <div id="salvos_container"></div>
-                <button onclick="limparCofre()" style="background: transparent; border: 1px solid var(--primary-red); color: var(--primary-red); font-size:10px; margin-top:10px;">LIMPAR TUDO</button>
-            </div>
-        </div>
+<!-- ==================== FORMATO ==================== -->
+<section id="formato" class="tab">
+  <div class="panel">
+    <div class="panel-title">🎬 Formato Viral Internacional — Escolha o DNA da História</div>
+    <div class="tpl-grid" id="tplGrid"></div>
+    <div id="tplDetail" class="panel" style="background:rgba(212,160,23,.04);border-color:rgba(212,160,23,.3);display:none">
+      <div class="panel-title" id="tplDetailTitle">Detalhe do Formato</div>
+      <div id="tplDetailBody"></div>
     </div>
+  </div>
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title">🎯 Ajustes do Formato</div>
+      <label>Duração alvo</label>
+      <select id="duracao">
+        <option>TikTok / Reels curto (15-30s)</option>
+        <option>Shorts dramático (45-60s)</option>
+        <option>Episódio médio YouTube (3-5 min)</option>
+        <option>Episódio completo (8-12 min)</option>
+      </select>
+      <label>Motor viral principal</label>
+      <select id="motor">
+        <option>Revelação chocante no final</option>
+        <option>POV dramático do protagonista</option>
+        <option>Vilão sendo exposto ao vivo</option>
+        <option>Aliança inesperada muda tudo</option>
+        <option>Sacrifício emocional que parte o coração</option>
+        <option>Plot twist que reescreve o passado</option>
+        <option>Confronto público com humilhação</option>
+        <option>Segredo revelado por acidente</option>
+      </select>
+      <label>Tom emocional</label>
+      <select id="tom">
+        <option>Drama intenso com humor ácido</option>
+        <option>Tensão pura sem alívio</option>
+        <option>Humor absurdo com lição de vida</option>
+        <option>Romance impossível com tragédia</option>
+        <option>Ação cinematográfica épica</option>
+        <option>Mistério e paranoia crescente</option>
+        <option>Comédia tropical caótica</option>
+      </select>
+      <label>Slogan / chamada opcional</label>
+      <input id="slogan" placeholder="Ex: Na Terra de Elinaldo, nenhuma fruta é inocente.">
+    </div>
+    <div class="panel">
+      <div class="panel-title">📊 Preview do Formato</div>
+      <div class="out" id="formatoOut" style="min-height:200px">Selecione um formato e configure à esquerda.</div>
+    </div>
+  </div>
+</section>
 
-</div>
+<!-- ==================== GERADOR ==================== -->
+<section id="gerador" class="tab">
+  <div class="status-bar" id="statusBar">
+    <div class="stat"><div class="stat-val" id="stElenco">—</div><div class="stat-lbl">Elenco</div></div>
+    <div class="stat"><div class="stat-val" id="stFormato">—</div><div class="stat-lbl">Formato</div></div>
+    <div class="stat"><div class="stat-val" id="stMotor">—</div><div class="stat-lbl">Motor</div></div>
+    <div class="stat"><div class="stat-val" id="stDuracao">—</div><div class="stat-lbl">Duração</div></div>
+  </div>
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title">✍️ Gerar Roteiro Viral</div>
+      <label>Ideia livre (opcional)</label>
+      <textarea id="ideaLivre" placeholder="Escreva qualquer faísca de ideia. Ex: OZ encontra uma câmera escondida no quartel com imagens do Delegado Abacaxi numa reunião proibida."></textarea>
+      <label>Número de atos/cenas</label>
+      <select id="numCenas">
+        <option value="3">3 cenas — TikTok / Shorts</option>
+        <option value="5" selected>5 cenas — Padrão viral</option>
+        <option value="7">7 cenas — Episódio médio</option>
+      </select>
+      <div class="btns">
+        <button class="btn gold" onclick="gerarLocal()">Gerar Local (rápido)</button>
+        <button class="btn cyan" onclick="gerarAPI()">Gerar com Claude API</button>
+        <button class="btn outline" onclick="copyText(state.roteiro,'Roteiro copiado')">Copiar Roteiro</button>
+      </div>
+      <div class="hint">Claude API: cole sua chave na aba "API Config". Gera histórias muito mais criativas com o DNA preservado.</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">📜 Roteiro Gerado</div>
+      <div class="out" id="roteiroOut">Configure o elenco, escolha um formato e clique em Gerar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CENAS ==================== -->
+<section id="cenas" class="tab">
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="panel-title" style="border:0;padding:0;margin:0">🎥 Cenas Fatiadas — Prompts Completos</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">Imagem (Tripo/Midjourney) · Vídeo (Flow Labs/Veo 3) · Áudio · Suno AI · CapCut</div>
+      </div>
+      <div class="btns" style="margin:0">
+        <button class="btn gold" onclick="gerarCenas()">Gerar Cenas</button>
+        <button class="btn cyan" onclick="gerarCenasAPI()">Cenas com Claude API</button>
+        <button class="btn outline" onclick="copyAllCenas()">Copiar Tudo</button>
+      </div>
+    </div>
+  </div>
+  <div id="cenaContainer"></div>
+</section>
+
+
+<!-- ==================== GRÁFICA ==================== -->
+<section id="grafica" class="tab">
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title">🎨 Gráfica Viral — Thumbnail, Produto e Divulgação</div>
+      <label>Tipo de arte</label>
+      <select id="artTipo">
+        <option>Thumbnail YouTube 16:9 — 1280x720</option>
+        <option>Capa TikTok / Reels / Shorts 9:16 — 1080x1920</option>
+        <option>Post Instagram quadrado — 1080x1080</option>
+        <option>Poster cinematográfico A3 — 300 DPI</option>
+        <option>Camiseta PNG transparente — 4500x5400 300 DPI</option>
+        <option>Caneca wrap — 2700x1120 300 DPI</option>
+        <option>Sticker recortado — 2000x2000 300 DPI</option>
+        <option>Banner do canal YouTube — 2560x1440</option>
+      </select>
+      <label>Estilo visual</label>
+      <select id="artEstilo">
+        <option>3D cartoon cinematográfico premium</option>
+        <option>Poster sombrio estilo série viral</option>
+        <option>Streetwear tropical colecionável</option>
+        <option>Meme limpo com tipografia forte</option>
+        <option>Mockup real de produto para loja</option>
+        <option>Arte vetorial limpa para logo/SVG</option>
+        <option>Editorial de marca para divulgação</option>
+      </select>
+      <label>Texto principal</label>
+      <input id="artTexto" placeholder="Ex: A TRAIÇÃO DO DELEGADO ABACAXI">
+      <label>Texto secundário / chamada</label>
+      <input id="artSub" placeholder="Ex: Novo episódio • Fruits Adventures">
+      <div class="btns">
+        <button class="btn gold" onclick="gerarGrafica()">Gerar Gráfica</button>
+        <button class="btn cyan" onclick="copyText(state.grafica,'Prompt gráfico copiado!')">Copiar Prompt</button>
+        <button class="btn outline" onclick="downloadGraficaTXT()">Baixar TXT Gráfico</button>
+      </div>
+      <div class="hint">Essa aba não cria o PNG direto; ela gera o prompt com medida, estilo e especificação para você usar em geradores de imagem, vetor ou mockup.</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">🖼️ Saída Gráfica</div>
+      <div class="art-preview">
+        <div class="art-meta">
+          <div><b>DNA</b><span id="artMetaDna" style="color:var(--muted);font-size:12px">Selecione elenco</span></div>
+          <div><b>Formato</b><span id="artMetaFmt" style="color:var(--muted);font-size:12px">Escolha tipo</span></div>
+          <div><b>Uso</b><span id="artMetaUse" style="color:var(--muted);font-size:12px">Divulgação</span></div>
+        </div>
+        <div class="out" id="graficaOut" style="min-height:260px">Gere uma arte para thumbnail, capa, produto ou divulgação.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== API ==================== -->
+<section id="api" class="tab">
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title">⚡ Claude API — Configuração</div>
+      <div class="api-panel">
+        <div class="api-title">Credenciais</div>
+        <label>Provedor</label>
+        <select id="apiProvider">
+          <option value="claude">Claude / Anthropic</option>
+          <option value="openai">OpenAI compatível</option>
+        </select>
+        <label>Endpoint</label>
+        <input id="apiEndpoint" value="https://api.anthropic.com/v1/messages" placeholder="Claude: https://api.anthropic.com/v1/messages | OpenAI: https://api.openai.com/v1/chat/completions">
+        <label>Modelo</label>
+        <input id="apiModel" value="claude-sonnet-4-20250514" placeholder="Claude: claude-sonnet-4-20250514 | OpenAI: gpt-4o-mini">
+        <label>API Key</label>
+        <input id="apiKey" type="password" placeholder="sk-ant-api03-...">
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">A chave fica apenas no navegador durante esta sessão. Nunca é salva ou enviada a terceiros.</div>
+      </div>
+      <div class="btns">
+        <button class="btn cyan" onclick="testarAPI()">Testar Conexão</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">📋 Status da API</div>
+      <div class="out" id="apiStatus" style="min-height:120px">Configure suas credenciais e teste a conexão.</div>
+      <div class="hint">Com Claude API, o roteiro usa o DNA completo do personagem, o formato escolhido e o motor viral para gerar histórias únicas e prontas para produção.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EXPORT ==================== -->
+<section id="export" class="tab">
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title">📦 Exportar Pacote Completo</div>
+      <div class="btns">
+        <button class="btn gold" onclick="downloadTXT()">Baixar .TXT Completo</button>
+        <button class="btn cyan" onclick="copyText(buildExport(),'Pacote copiado!')">Copiar Pacote</button>
+        <button class="btn red" onclick="limpar()">Limpar Tudo</button>
+      </div>
+      <div class="hint">O pacote contém: DNA do elenco · Formato · Roteiro completo · Prompts de cena (imagem, vídeo, áudio, Suno, CapCut) · Hashtags e descrição YouTube.</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">👁️ Preview do Pacote</div>
+      <div class="out" id="exportOut" style="min-height:300px">Gere roteiro e cenas primeiro.</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
 
 <script>
-// ========================================================
-// 1. DATA CORE MULTIVERSO (EXTENSÃO GIGANTE)
-// ========================================================
-const chaveStorageMod = "gemini_api_key_novela";
-function salvarChave() {
-    const valor = document.getElementById("api_key_input").value.trim();
-    if (valor) {
-        localStorage.setItem(chaveStorageMod, valor);
-        notify("🔐 Chave salva neste navegador.", "success");
-    } else {
-        localStorage.removeItem(chaveStorageMod);
-        notify("Chave removida do cofre local.", "warning");
-    }
-}
-
-let travaDeTempoAPI = false;
-let modoAtualHistoria = 'modo-zero'; 
-
-// ================== CAMADA INTELIGENTE: UX, SEGURANÇA E RESILIÊNCIA ==================
-function notify(message, type = "info", timeout = 3600) {
-    const box = document.getElementById("toast");
-    if (!box) { console.log(message); return; }
-    const item = document.createElement("div");
-    item.className = `toast-item ${type}`;
-    item.textContent = message;
-    box.appendChild(item);
-    setTimeout(() => {
-        item.style.opacity = "0";
-        item.style.transform = "translateY(8px)";
-        setTimeout(() => item.remove(), 250);
-    }, timeout);
-}
-
-function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>'"]/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "'": "&#39;",
-        '"': "&quot;"
-    }[char]));
-}
-
-function setLoading(id, active) {
-    const el = document.getElementById(id);
-    if (el) el.style.display = active ? "block" : "none";
-}
-
-async function copyToClipboard(text, label = "Texto") {
-    if (!text || !String(text).trim()) {
-        notify(`Terminal de ${label} vazio.`, "warning");
-        return false;
-    }
-    try {
-        if (navigator.clipboard && window.isSecureContext) {
-            await navigator.clipboard.writeText(text);
-        } else {
-            const tmp = document.createElement("textarea");
-            tmp.value = text;
-            tmp.setAttribute("readonly", "");
-            tmp.style.position = "fixed";
-            tmp.style.left = "-9999px";
-            document.body.appendChild(tmp);
-            tmp.select();
-            document.execCommand("copy");
-            tmp.remove();
-        }
-        notify(`✅ ${label} copiado.`, "success");
-        return true;
-    } catch (erro) {
-        notify("Não consegui copiar automaticamente. Selecione o texto e copie manualmente.", "error");
-        console.error(erro);
-        return false;
-    }
-}
-
-function extrairJSON(texto) {
-    const limpo = String(texto || "").replace(/```json/gi, "").replace(/```/g, "").trim();
-    try { return JSON.parse(limpo); } catch (erro) {}
-    const inicio = limpo.indexOf("{");
-    const fim = limpo.lastIndexOf("}");
-    if (inicio !== -1 && fim !== -1 && fim > inicio) {
-        return JSON.parse(limpo.slice(inicio, fim + 1));
-    }
-    throw new Error("A resposta não contém um JSON válido.");
-}
-
-function verificarSistema() {
-    const temChave = !!document.getElementById("api_key_input").value.trim();
-    const favoritos = JSON.parse(localStorage.getItem("cofre_modeship") || "[]").length;
-    const cenas = cenasGeradasSequencial.length;
-    const estrutura = estruturaDaNovela?.scenes?.length || 0;
-    const partes = [
-        temChave ? "API ok" : "sem API key",
-        `${estrutura} cenas na estrutura`,
-        `${cenas} cenas geradas`,
-        `${favoritos} favoritos salvos`
-    ];
-    notify(`🧠 Diagnóstico: ${partes.join(" • ")}`, temChave ? "success" : "warning", 5200);
-}
-
-function usarIdeiaUniverso() {
-    const ideia = document.getElementById("texto_universo").value.trim();
-    if (!ideia) return notify("Escolha uma ideia da gaveta primeiro.", "warning");
-    const alvo = modoAtualHistoria === "modo-continuacao" ? "prompt_cont_futuro" : "novela_prompt_zero";
-    const campo = document.getElementById(alvo);
-    const prefixo = campo.value.trim() ? "\n\n" : "";
-    campo.value += `${prefixo}${ideia}`;
-    campo.focus();
-    notify("Ideia adicionada ao prompt.", "success");
-}
-
-
-// ================== MENU DE PERSONAGENS & COMBOS ==================
-const personagens = {
-    '🍅 Universo Modeship (Heróis)': { 'P01': "Limão Rocha", 'P02': "Tomate Elinaldo", 'P03': "Sabrina Pitaya", 'P04': "Pera Fit", 'P05': "Oswaldo Rocha (Oz)" },
-    '🥑 Universo Modeship (Vilões)': { 'V_CHEF': "Abacatudo (Chefe)", 'V_POLI': "Miliciano", 'V_ADV': "Advogado Mamão", 'V_PREF': "Político Melancia" },
-    '🔗 Grupos Fechados (Combos Favela)': { 
-        'GRP_01': "Combo: Elinaldo & Sabrina (Casal)", 
-        'GRP_02': "Combo: Trio de Heróis (Elinaldo, Rocha, Sabrina)", 
-        'GRP_03': "Combo: Bonde do Abacatudo (Vilões)", 
-        'GRP_04': "Combo: Multidão no Baile Funk" 
-    },
-    '💔 Drama, Traição & Policial': { 
-        'DRAM_01': "Casal em Crise (Esposa e Marido)", 
-        'DRAM_02': "Triângulo Amoroso Proibido", 
-        'CRI_01': "Pessoa Comum virando Criminoso", 
-        'CRI_02': "Investigador / Detetive Noir" 
-    },
-    '✝️ Histórias Bíblicas & Épicas': { 
-        'BIB_01': "Davi (Guerreiro Jovem)", 
-        'BIB_02': "Golias (Gigante Blindado)", 
-        'BIB_03': "Moisés (Líder Ancião)", 
-        'BIB_04': "Jesus (Figura de Luz Celestial)", 
-        'BIB_05': "Multidão do Egito Antigo" 
-    },
-    '🦸 Heróis Marvel, DC & Quadrinhos': { 
-        'HQ_01': "Homem-Aranha (Traje Urbano)", 
-        'HQ_02': "Batman (Cavaleiro das Trevas)", 
-        'HQ_03': "Tartarugas Ninjas (O Grupo)", 
-        'HQ_04': "Venom / Máscara (Anti-herói Cômico)" 
-    },
-    '🎌 Animes & Mangás Populares': { 
-        'ANI_01': "Goku (Estilo Dragon Ball)", 
-        'ANI_02': "Seiya (Cavaleiros do Zodíaco)", 
-        'ANI_03': "Tanjiro (Demon Slayer)", 
-        'ANI_04': "Sung Jinwoo (Solo Leveling)", 
-        'ANI_05': "Hobin (Viral Hit)", 
-        'ANI_06': "Okarun & Momo (Dandadan)", 
-        'ANI_07': "Ash & Pikachu (Pokemon)", 
-        'ANI_08': "Tai & Agumon (Digimon)" 
-    },
-    '🎮 Games Clássicos & Cultura Pop': { 
-        'GAM_01': "Mario Bros (Estilo Pixar)", 
-        'GAM_02': "Sonic the Hedgehog", 
-        'GAM_03': "Donkey Kong (Gorila Gigante)", 
-        'POP_01': "Michael Jackson (Visual Thriller)", 
-        'POP_02': "Bruce Lee (Mestre de MMA)", 
-        'POP_03': "Caça-Fantasmas (O Esquadrão)", 
-        'POP_04': "Zumbis (Estilo Zumbilândia)", 
-        'POP_05': "Jon Snow (Game of Thrones)" 
-    },
-    '📺 Nostalgia, Desenhos & Comédia': { 
-        'NOS_01': "A Turma da Caverna do Dragão", 
-        'NOS_02': "He-Man (Mestres do Universo)", 
-        'NOS_03': "Scooby-Doo (Turma do Mistério)", 
-        'NOS_04': "Chaves (No Barril)", 
-        'NOS_05': "Chapolin Colorado", 
-        'NOS_06': "De Volta para o Futuro (Doc & Marty)", 
-        'NOS_07': "Daniel-san & Johnny (Cobra Kai)" 
-    },
-    '🌀 Animação Moderna & Web': { 
-        'MOD_01': "Rick & Morty (Cientista e Neto)", 
-        'MOD_02': "Pomni (O Incrível Circo Digital)", 
-        'MOD_03': "Star (Princesa Maluca das Forças do Mal)" 
-    }
-};
-
-const vozes = {
-    'Vozes Modeship': { 'V_ELI': "Voz do Tomate Elinaldo", 'V_SAB': "Voz doce da Sabrina", 'V_GIG': "Voz Grave Abacatudo" },
-    'Vozes Dramáticas & True Crime': { 'V_DRAM': "Voz de Choro/Desespero", 'V_NARR': "Locutor de Investigação Sombria (Foley policial)" },
-    'Vozes Bíblicas': { 'V_DEUS': "Voz Celestial e Ecoante", 'V_EPI': "Locutor Épico de Cinema" },
-    'Vozes Anime & Ação': { 'V_SHONEN': "Gritos de Batalha Anime", 'V_MONS': "Rugido de Monstro/Zumbi" },
-    'Vozes Comédia': { 'V_CHAV': "Voz Fina e Engraçada (Estilo Chaves)", 'V_TOON': "Efeitos Sonoros de Desenho Animado (Boing, Crash)" }
-};
-
-// ================== DNA DOS PERSONAGENS (PROMPTS) ==================
-const d = { 
-    // MODESHIP
-    'P01': { d: "Anthropomorphic Lemon character, tough expression, eye scar, tactical vest, realistic 8k, Flow VO3 style" }, 
-    'P02': { d: "Anthropomorphic Tomato character, huge expressive eyes, distressed clothes, vibrant red skin, Flow VO3 style" },
-    'P03': { d: "Sabrina Pitaya, Anthropomorphic Dragon Fruit female character, punk rock moicano hair, tactical denim jacket" }, 
-    'P04': { d: "Anthropomorphic Pear female, athletic build, high-detail 3D" },
-    'P05': { d: "Oswaldo Rocha, young anthropomorphic lemon-headed character, athletic runner build, dark gray hoodie" },
-    'V_CHEF': { d: "Massive Anthropomorphic Avocado crime boss, dark green rugose rind head, wearing a long worn-out leather trench coat" },
-    'V_POLI': { d: "Anthropomorphic fruit in black tactical BOPE gear, masked, urban combat style" },
-    'V_ADV': { d: "Anthropomorphic Papaya character, lawyer, bespoke expensive navy blue suit, greasy manipulative smile" },
-    'V_PREF': { d: "Anthropomorphic Watermelon politician, wearing a green suit and a presidential sash, fake smile" },
-    // COMBOS MODESHIP
-    'GRP_01': { d: "Duo shot. Anthropomorphic Tomato character alongside Sabrina Pitaya (Dragon Fruit female). Standing together, highly detailed, Flow VO3 style." },
-    'GRP_02': { d: "Group shot of three characters: Anthropomorphic Tomato, Dragon Fruit girl, and tough Lemon character with an eye scar. Heroic poses, highly detailed 8k." },
-    'GRP_03': { d: "Massive Anthropomorphic Avocado crime boss surrounded by tough Pineapple thugs and elite fruit soldiers. Dark, menacing atmosphere." },
-    'GRP_04': { d: "Massive crowd of diverse anthropomorphic fruit characters in a favela street, civilians only, vibrant atmosphere, highly detailed." },
-    // DRAMA E TRUE CRIME
-    'DRAM_01': { d: "Cinematic medium shot, a husband looking guilty and avoiding eye contact, while a crying woman confronts him. Dramatic indoor lighting, soap opera lighting, realistic 8k photography." },
-    'DRAM_02': { d: "Tense romantic scene, three people in a room, two holding hands secretly while the third looks away oblivious. High emotional tension, cinematic shadows." },
-    'CRI_01': { d: "Gritty neo-noir photography. An ordinary-looking man standing in a dark alley, holding a handgun nervously, sweat on his face. Cinematic rim lighting, true crime documentary style." },
-    'CRI_02': { d: "A hardboiled detective wearing a trench coat and fedora, smoking a cigarette under a streetlamp in the rain. Gloomy atmosphere, high contrast shadows." },
-    // BÍBLICO
-    'BIB_01': { d: "Ancient biblical young warrior holding a leather sling, wearing rough tunic, standing in a desert valley. Cinematic lighting, epic historical film style, photorealistic 8k." },
-    'BIB_02': { d: "Massive giant Philistine warrior in heavy ancient bronze armor holding a massive spear. Intimidating angle, historical epic film." },
-    'BIB_03': { d: "Ancient wise prophet holding a wooden staff, parting a massive wall of blue ocean water. Epic magical lighting, blockbuster VFX." },
-    'BIB_04': { d: "A divine glowing male figure in ancient robes, soft celestial light radiating from behind, peaceful expression, renaissance painting style mixed with modern 8k render." },
-    'BIB_05': { d: "Massive crowd of ancient Hebrew people in desert robes, cinematic wide shot, historical epic." },
-    // HERÓIS
-    'HQ_01': { d: "Super hero in a red and blue webbed spandex suit, crouching on a brick wall in a gritty favela setting, dynamic comic book lighting, realistic cinematic." },
-    'HQ_02': { d: "Dark knight vigilante in a high-tech black bat-suit, standing on a gargoyle raining at night, moody neo-noir atmosphere, DC comics cinematic style." },
-    'HQ_03': { d: "Group of four anthropomorphic mutated ninja turtles wearing colorful bandanas and holding ninja weapons, standing in a dark city sewer, stylized 3D blockbuster." },
-    'HQ_04': { d: "A chaotic anti-hero with a bright green bald head, wearing a yellow zoot suit, doing a crazy exaggerated cartoonish expression, realistic CGI." },
-    // ANIMES
-    'ANI_01': { d: "Muscular anime warrior with glowing spiky blonde hair, torn orange martial arts gi, glowing golden aura, epic anime battle style, 8k render." },
-    'ANI_02': { d: "Young anime knight in mythical greek silver armor with wings, cosmic background, cosmos energy, Saint Seiya style 8k." },
-    'ANI_03': { d: "Anime swordsman wearing a green and black checkered haori, holding a katana with a water trail effect, Ufotable animation style." },
-    'ANI_04': { d: "Anime shadow monarch, wearing a black trench coat, glowing blue eyes, surrounded by shadow soldiers, Solo Leveling style, epic dark fantasy." },
-    'ANI_05': { d: "Skinny teen street fighter in casual clothes doing a martial arts stance, streaming camera HUD overlay, Viral Hit manhwa style." },
-    'ANI_06': { d: "Two anime teens, a boy with supernatural speed and a girl with psychic aura, fighting bizarre yokai spirits, Dandadan manga art style." },
-    'ANI_07': { d: "Young anime boy with a red cap, standing next to a cute yellow electric mouse monster, bright vibrant colors, Pokemon adventure style." },
-    'ANI_08': { d: "Anime boy with goggles, standing next to a small orange dinosaur monster breathing fire, digital world background, Digimon style." },
-    // GAMES & POP
-    'GAM_01': { d: "Short Italian plumber with a red hat and mustache, wearing denim overalls, standing in a vibrant mushroom kingdom, high-end Pixar 3D style." },
-    'GAM_02': { d: "Anthropomorphic blue hedgehog with red shoes, running at supersonic speed, motion blur, blue lightning trails, high-end CGI game render." },
-    'GAM_03': { d: "Massive muscular cartoon gorilla wearing a red tie, standing in a jungle beating his chest, stylized 3D animation." },
-    'POP_01': { d: "Pop star wearing a red leather jacket with black stripes, performing a zombie dance routine in a foggy graveyard at night, Thriller music video style, 8k photography." },
-    'POP_02': { d: "Legendary Chinese martial artist with a muscular lean physique, wearing a yellow jumpsuit with black stripes, doing a high kick, dramatic action lighting." },
-    'POP_03': { d: "Group of four parapsychologists wearing beige jumpsuits and proton packs on their backs, shooting laser beams at a floating green ghost, 80s movie aesthetic." },
-    'POP_04': { d: "A group of heavily armed survivors shooting at running zombies in an abandoned amusement park, Zombieland comedy horror style." },
-    'POP_05': { d: "Medieval fantasy warrior with curly black hair, wearing heavy dark northern furs and holding a Valyrian steel sword in a snowy landscape, Game of Thrones style." },
-    // NOSTALGIA & WEB
-    'NOS_01': { d: "Group of six medieval fantasy teenagers (a ranger, a cavalier, a thief, an acrobat, a magician, a barbarian) facing a multi-headed dragon, Dungeons and Dragons 80s cartoon stylized as a realistic fantasy film." },
-    'NOS_02': { d: "Muscular blonde barbarian hero holding a glowing magic sword high in the air, wearing a fur loincloth, Castle Grayskull background, He-Man fantasy style." },
-    'NOS_03': { d: "A cowardly Great Dane dog and a scared skinny teenager with a green shirt, running away from a glowing ghost in a haunted mansion, stylized 3D animation." },
-    'NOS_04': { d: "A poor Mexican kid wearing a striped shirt and a hat with ear flaps, hiding inside a wooden barrel in a vecindad courtyard, El Chavo del Ocho realistic heartwarming photography." },
-    'NOS_05': { d: "A clumsy hero wearing a red superhero suit with a yellow heart on his chest, holding a squeaky red and yellow hammer, Chapolin Colorado comedy style." },
-    'NOS_06': { d: "A crazy white-haired scientist and a teenager in a red puffy vest, standing next to a glowing silver time machine car with gull-wing doors, 1980s sci-fi movie style." },
-    'NOS_07': { d: "Two karate instructors in gis, one in black and yellow Cobra Kai gi, one in white Miyagi-Do gi, facing off in a karate tournament, 80s action drama." },
-    'MOD_01': { d: "An animated mad scientist with blue spiky hair and a drooling lip, next to a nervous teenager, standing in a green swirling portal, adult swim animation style." },
-    'MOD_02': { d: "A nervous cartoon girl wearing a jester outfit with red and blue colors, trapped in an insane surreal digital circus room, The Amazing Digital Circus 3D style." },
-    'MOD_03': { d: "A magical energetic blonde teenage princess holding a wand that shoots rainbows and puppies, vibrant crazy colorful magical girl animation style." }
-};
-
-const gavetaUniverso = {
-    "acao": [ { titulo: "Tiroteio no Galpão", texto: "Action sequence, extreme motion blur. Characters taking cover behind wooden crates as gunfire shatters the windows. Gritty action lighting." } ],
-    "drama": [ { titulo: "O Flagrante da Traição", texto: "Soap opera drama. A wife opens the bedroom door and drops her purse in shock as she sees her husband with another woman. High emotional tension." } ],
-    "crime": [ { titulo: "Escondendo as Provas", texto: "True crime thriller. A nervous ordinary citizen digging a hole in the forest at midnight in the pouring rain, illuminated only by car headlights." } ],
-    "presidio": [ { titulo: "Rebelião no Pátio", texto: "Prison riot scene. Inmates fighting guards in a concrete yard, smoke grenades, intense cinematic sunlight." } ],
-    "biblia": [ { titulo: "O Mar Vermelho", texto: "Biblical epic. Moses holding his staff high as massive walls of ocean water part in the middle, divine light shining down." } ],
-    "anime": [ { titulo: "O Golpe Final (Aura)", texto: "Anime climax. The hero charges up a massive glowing energy attack, ground shattering, epic aura colors, Ufotable animation style." } ],
-    "survival": [ { titulo: "Ponte de Vidro Falsa", texto: "Squid Game style challenge. Character stepping onto a glowing glass platform suspended over a dark abyss. Extreme close-up on terrified eyes." } ]
-};
-
-const graficaFreelance = [
-    { titulo: "Banner YouTube - Anime Clímax", texto: "Epic wide cinematic banner, aspect ratio 21:9. Anime heroes charging their auras, vibrant colors, plenty of negative space in the center for channel logo." },
-    { titulo: "Capa Documentário True Crime", texto: "YouTube thumbnail style. A dark silhouette of a criminal in an interrogation room, red police lights reflecting. Bold text space." },
-    { titulo: "Mockup: Action Figure do Personagem", texto: "Product photography. A toy box packaging for an action figure. The box is highly detailed with plastic window. Studio lighting." },
-    { titulo: "Cartaz de Comédia (Chaves/Chapolin)", texto: "Movie poster mockup. A funny bright and colorful poster featuring comedic characters, slapstick tone, big text space at the top." }
+/* ─── DATA ─── */
+const CHARS=[
+ {e:'🍅',n:'Tomate Elinaldo',t:'herói improvável',v:'tomate vermelho antropomórfico, camisa laranja surrada, tênis simples, olhar honesto e cansado mas corajoso',voz:'masculina brasileira, grave, honesta e corajosa',frase:'Coragem não é não sentir medo. É continuar mesmo tremendo.'},
+ {e:'🩷',n:'Sabrina Pitaya',t:'protetora estratégica',v:'pitaya rosa antropomórfica, jaqueta jeans, cabelo lateral estilizado, escamas delicadas, botas de combate',voz:'feminina firme, protetora e decidida',frase:'Ou você vira sombra... ou vira história.'},
+ {e:'🥑',n:'OZ Abacate',t:'herói jovem urbano',v:'abacate jovem, jaqueta verde neon, fones, skate, cabelo estilizado',voz:'jovem, rápida, gírias de rua, energia explosiva',frase:'A cabeça planeja. O coração acelera. OZ executa.'},
+ {e:'🍍',n:'Delegado Abacaxi',t:'autoridade corrompida',v:'abacaxi forte, uniforme tático preto, óculos aviador, rádio comunicador',voz:'grossa, autoritária, policial corrupta',frase:'A lei sou eu. E quem discorda vira exemplo.'},
+ {e:'🍉',n:'Político Melancia',t:'vilão do poder',v:'melancia de terno escuro, faixa política, palanque, expressão falsa',voz:'pomposa e falsa, discurso público com ameaça',frase:'Prometo hoje, esqueço amanhã.'},
+ {e:'🟠',n:'Advogado Mamão',t:'vilão manipulador',v:'mamão de terno risca-de-giz, relógio de ouro, escritório luxuoso, sorriso cínico',voz:'elegante, fria, manipuladora',frase:'No contrato, você já perdeu.'},
+ {e:'🍋',n:'Limão Rocha',t:'vilão ácido',v:'limão com colete tático, bigode, cicatriz, olhar agressivo',voz:'rouca, seca, ameaçadora com ironia ácida',frase:'Ácido por fora, podre por dentro.'},
+ {e:'🍌',n:'Soldado Banana',t:'guarda de elite',v:'banana em armadura tática preta E.G.D., postura rígida, olhar desconfiado',voz:'militar, seca, obediente',frase:'Não escorre. Não quebra. Não perdoa.'},
+ {e:'🥕',n:'Soldado Cenoura',t:'guarda disciplinado',v:'cenoura em uniforme tático preto, folhas no topo, expressão dura',voz:'grave, disciplinada, leal e explosiva',frase:'Raiz firme, folha erguida, inimigo abatido.'},
+ {e:'🥑',n:'Abacatudo',t:'dono da rua / mafioso',v:'abacate grande, casaco de couro longo, terno escuro, cicatrizes, relógio de ouro pesado',voz:'muito grave, rouca, mafiosa e lenta',frase:'A vida amassa quem é fraco.'}
 ];
 
-// ========================================================
-// 2. FUNÇÕES DA INTERFACE E IA
-// ========================================================
-function switchTab(event, tabId) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
+const TEMPLATES=[
+ {id:'squid',icon:'🦑',name:'Squid Game',tag:'Competição mortal',color:'var(--red)',
+  desc:'Jogos mortais onde frutas competem por prêmio mas apenas uma sobrevive. Regras bizarras, eliminação emocional, traição entre aliados.',
+  estrutura:['ABERTURA: A convocação misteriosa chega.',
+   'REGRA: As regras absurdas são anunciadas — parece simples.',
+   'ALIANÇA: Protagonista forma aliança improvável.',
+   'TRAIÇÃO: O aliado mais improvável trai.',
+   'FINAL: Sobrevivente ganha mas perde algo maior.'],
+  suno:'dark Korean horror drama, electronic tension, low bass drones, heartbeat percussion, K-drama emotional strings, competitive survival atmosphere',
+  hashtags:'#SquidGameFruits #FruitsAdventures #Sobrevivência #TikTokBrasil'},
+
+ {id:'lacasa',icon:'🔴',name:'La Casa de Papel',tag:'Assalto das frutas',color:'var(--red)',
+  desc:'Assalto cinematográfico com frutas usando uniformes vermelhos. Plano meticuloso, reféns, professor por trás de tudo, drama ao vivo.',
+  estrutura:['PLANO: O Mestre explica o assalto impossível.',
+   'INTRUSÃO: A equipe entra — tudo parece perfeito.',
+   'COMPLICAÇÃO: Um elemento humano quebra o plano.',
+   'NEGOCIAÇÃO: Pressão externa força improvisação.',
+   'SAÍDA: Fuga épica com sacrifício emocional.'],
+  suno:'cinematic heist score, Spanish guitar tension, orchestral buildup, tactical drums, emotional piano breaks, La Casa atmosphere',
+  hashtags:'#LaCasaDeFrutas #FruitsAdventures #Assalto #HeistBrasil'},
+
+ {id:'aot',icon:'⚔️',name:'Attack on Titan',tag:'Épico de guerra',color:'var(--orange)',
+  desc:'Frutas guerreiras contra ameaça monstruosa. Corporação militar, sacrifício, revelação de que o verdadeiro inimigo estava dentro.',
+  estrutura:['ATAQUE: Ameaça gigante destrói o que era seguro.',
+   'JURAMENTO: Protagonista jura vingança a custo de tudo.',
+   'REVELAÇÃO: Aliado era o inimigo desde o início.',
+   'ESCOLHA: Destruir tudo para salvar todos — ou não.',
+   'CONSEQUÊNCIA: A vitória tem preço irrecuperável.'],
+  suno:'orchestral epic battle score, German choral vocals, massive percussion, tragic heroic strings, Attack on Titan-style cinematic intensity',
+  hashtags:'#AttackOnFruits #FruitsAdventures #EpicoSombrio #Anime'},
+
+ {id:'breaking',icon:'🧪',name:'Breaking Bad',tag:'Transformação criminal',color:'var(--gold)',
+  desc:'Fruta comum vira rei do crime por necessidade. Cada escolha errada transforma o herói no que ele mais odiava. Drama de identidade.',
+  estrutura:['DESESPERO: Situação impossível exige decisão extrema.',
+   'PRIMEIRA VEZ: O herói cruza uma linha que não volta.',
+   'ESCALADA: Cada solução cria um problema maior.',
+   'IDENTIDADE: Olha no espelho e não reconhece mais.',
+   'QUEDA: O império construído destrói o que amava.'],
+  suno:'desert noir tension, minimal electronic guitar, dark ambient bass, transformative score, crime drama atmosphere, Breaking Bad style',
+  hashtags:'#BreakingFruits #FruitsAdventures #Drama #CrimeBrasil'},
+
+ {id:'arcane',icon:'🔮',name:'Arcane',tag:'Duas irmãs, mundos opostos',color:'var(--purple)',
+  desc:'Duas frutas cresceram juntas na favela. Uma tenta mudar o sistema por dentro. A outra vira arma do sistema. Tragédia de família.',
+  estrutura:['INFÂNCIA: Memória feliz de antes — o que havia de bom.',
+   'SEPARAÇÃO: O evento que dividiu os dois caminhos.',
+   'CONTRASTE: Os dois mundos se desenvolvem em paralelo.',
+   'COLISÃO: Os caminhos se cruzam — nenhum está errado.',
+   'TRAGÉDIA: A luta entre eles destrói o que os une.'],
+  suno:'alternative emotional score, piano melancholy, electronic dark dream-pop, Arcane-style character theme, tragic siblings motif, Imagine Dragons energy',
+  hashtags:'#ArcaneFruits #FruitsAdventures #Tragédia #Animation'},
+
+ {id:'sponge',icon:'🧽',name:'SpongeBob Universe',tag:'Humor absurdo tropical',color:'var(--blue)',
+  desc:'Humor caótico, situações impossíveis, personagens exagerados. Parece bobo mas tem crítica social embutida. Viral puro.',
+  estrutura:['SITUAÇÃO RIDÍCULA: Problema absurdo que não deveria existir.',
+   'PLANO PIOR: A solução é mais ridícula que o problema.',
+   'CAOS: Tudo explode de maneira inesperada.',
+   'PIOR AINDA: Entra um terceiro personagem e piora tudo.',
+   'RESOLUÇÃO ABSURDA: Resolve do jeito mais idiota possível.'],
+  suno:'tropical cartoon music, ukulele and steel drums, playful brass, underwater vibes, comedic timing percussions, bright cheerful chaos',
+  hashtags:'#SpongeFruits #FruitsAdventures #Humor #TropicalVibes'},
+
+ {id:'insideout',icon:'🎭',name:'Inside Out',tag:'As emoções são frutas',color:'var(--cyan)',
+  desc:'As emoções do protagonista são frutas que brigam pelo controle. Alegria vs. Tristeza vs. Raiva. Drama interno que todo mundo sente.',
+  estrutura:['EQUILÍBRIO: A emoção dominante controla tudo bem.',
+   'EVENTO: Algo externo desequilibra o painel emocional.',
+   'BRIGA INTERNA: Alegria e tristeza entram em conflito.',
+   'MEMÓRIA FUNDAMENTAL: Uma lembrança muda o entendimento.',
+   'INTEGRAÇÃO: A emoção "negativa" salva o dia.'],
+  suno:'emotional orchestral score, playful colorful themes for each emotion, whimsical piano, heartfelt strings, Pixar-style emotional journey',
+  hashtags:'#InsideOutFruits #FruitsAdventures #Emoções #Viral'},
+
+ {id:'naruto',icon:'🍃',name:'Naruto Arc',tag:'Redenção e superação',color:'var(--green)',
+  desc:'Fruta rejeitada por todos treina sozinha e enfrenta o maior inimigo — que é um espelho do próprio herói. Redenção épica.',
+  estrutura:['REJEIÇÃO: O herói é o pior, o mais fraco, o excluído.',
+   'TREINO: Uma figura improvável acredita e treina.',
+   'TESTE: Primeira vitória real — ainda que parcial.',
+   'VILÃO ESPELHO: O antagonista é o que o herói poderia ser.',
+   'REDENÇÃO: O herói salva o vilão e o mundo ao mesmo tempo.'],
+  suno:'Japanese anime epic score, emotional rock guitar, traditional flute alongside electric bass, shonen battle themes, triumph and loss arc',
+  hashtags:'#NarutoFruits #FruitsAdventures #Redenção #AnimeBR'}
+];
+
+let state={
+ elenco:[],
+ tplId:null,
+ roteiro:'',
+ cenas:[],
+ tpl:null,
+ grafica:''
+};
+
+/* ─── INIT ─── */
+window.onload=()=>{
+ buildChars();
+ buildTemplates();
+ updateStatus();
+};
+
+function buildChars(){
+ const g=document.getElementById('charGrid');
+ g.innerHTML=CHARS.map((c,i)=>`
+  <div class="char-card" id="cc${i}" onclick="toggleChar(${i})">
+   <span class="char-emoji">${c.e}</span>
+   <div class="char-name">${c.n}</div>
+   <div class="char-type">${c.t}</div>
+  </div>`).join('');
 }
 
-function switchModoHistoria(modoId, btn) {
-    document.querySelectorAll('.modo-historia').forEach(m => m.classList.remove('active'));
-    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(modoId).classList.add('active');
-    btn.classList.add('active');
-    modoAtualHistoria = modoId;
+function toggleChar(i){
+ const idx=state.elenco.indexOf(i);
+ if(idx>=0){state.elenco.splice(idx,1)}
+ else if(state.elenco.length<3){state.elenco.push(i)}
+ else{toast('Máximo 3 personagens.');return}
+ document.querySelectorAll('.char-card').forEach((c,j)=>{
+  c.classList.toggle('sel',state.elenco.includes(j));
+ });
+ renderDNA();
+ updateStatus();
 }
 
-function carregarMenus() {
-    const savedKey = localStorage.getItem(chaveStorageMod);
-    if(savedKey) document.getElementById("api_key_input").value = savedKey;
-
-    ['prota', 'coadj1', 'multidao'].forEach(s => { 
-        let sel = document.getElementById(s); sel.innerHTML = '<option value="">-- Nenhum Ator --</option>'; 
-        Object.keys(personagens).forEach(g => { 
-            let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(personagens[g]).forEach(id => grp.appendChild(new Option(personagens[g][id], id))); 
-            sel.appendChild(grp); 
-        }); 
-    }); 
-    
-    ['prota', 'coadj1', 'multidao'].forEach(b => {
-        let sV = document.getElementById(`voz_${b}`); sV.innerHTML = '<option value="">🗣️ Voz Padrão</option>'; 
-        Object.keys(vozes).forEach(g => { 
-            let grp = document.createElement('optgroup'); grp.label = g; 
-            Object.keys(vozes[g]).forEach(id => grp.appendChild(new Option("🎙️ " + vozes[g][id], vozes[g][id]))); 
-            sV.appendChild(grp); 
-        });
-    });
-
-    let selGrafica = document.getElementById('listaGrafica');
-    selGrafica.innerHTML = '<option value="">-- Selecione o Design Gráfico --</option>';
-    graficaFreelance.forEach((item, index) => { selGrafica.appendChild(new Option(item.titulo, index)); });
-
-    atualizarCofre();
+function sortearElenco(){
+ state.elenco=[];
+ const herois=[0,1,2],viloes=[3,4,5,6,7,8,9];
+ state.elenco.push(herois[Math.floor(Math.random()*herois.length)]);
+ state.elenco.push(viloes[Math.floor(Math.random()*viloes.length)]);
+ document.querySelectorAll('.char-card').forEach((c,j)=>{
+  c.classList.toggle('sel',state.elenco.includes(j));
+ });
+ renderDNA();
+ updateStatus();
+ toast('Elenco sortido!');
 }
 
-window.onload = carregarMenus;
-
-function carregarUniverso() {
-    const cat = document.getElementById('cat_universo').value;
-    const selLista = document.getElementById('ideia_universo');
-    const txtBloco = document.getElementById('texto_universo');
-    selLista.innerHTML = '<option value="">-- Escolha a Ideia --</option>';
-    txtBloco.value = "";
-    if (cat === "") { selLista.disabled = true; return; }
-    selLista.disabled = false;
-    gavetaUniverso[cat].forEach((item, index) => { selLista.appendChild(new Option(item.titulo, index)); });
+function renderDNA(){
+ if(!state.elenco.length){$('dnaOut').textContent='Nenhum personagem selecionado.';return}
+ $('dnaOut').textContent=state.elenco.map(i=>{
+  const c=CHARS[i];
+  return `${c.e} ${c.n.toUpperCase()} (${c.t})\nVisual: ${c.v}\nVoz: ${c.voz}\nFrase DNA: "${c.frase}"`;
+ }).join('\n\n');
 }
 
-function mostrarUniverso() {
-    const cat = document.getElementById('cat_universo').value;
-    const index = document.getElementById('ideia_universo').value;
-    const txtBloco = document.getElementById('texto_universo');
-    if (index === "") { txtBloco.value = ""; return; }
-    txtBloco.value = gavetaUniverso[cat][index].texto;
+function dnaStr(){
+ return state.elenco.map(i=>{const c=CHARS[i];return `${c.n} (${c.t}) — Visual: ${c.v} — Voz: ${c.voz} — Frase: "${c.frase}"`}).join('\n');
 }
 
-function mostrarGrafica() {
-    const index = document.getElementById('listaGrafica').value;
-    const txtBloco = document.getElementById('texto_grafica');
-    if (index === "") { txtBloco.value = ""; return; }
-    txtBloco.value = graficaFreelance[index].texto;
+function copyDNA(){copyText($('dnaOut').textContent,'DNA copiado!')}
+
+/* ─── TEMPLATES ─── */
+function buildTemplates(){
+ const g=document.getElementById('tplGrid');
+ g.innerHTML=TEMPLATES.map(t=>`
+  <div class="tpl-card" id="tpl_${t.id}" onclick="selectTpl('${t.id}')">
+   <span class="tpl-icon">${t.icon}</span>
+   <div class="tpl-name">${t.name}</div>
+   <div class="tpl-tag">${t.tag}</div>
+  </div>`).join('');
 }
 
-let cenasGeradasSequencial = [];
-let estruturaDaNovela = null; 
-let base64Imagem = null;
-let mimeTypeImagem = null;
-let roteiroCompletoEmTexto = "";
-
-function mostrarPreview(event) {
-    const file = event.target.files[0];
-    if (file) {
-        mimeTypeImagem = file.type;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = document.getElementById('preview_img');
-            img.src = e.target.result;
-            img.style.display = 'inline-block';
-            base64Imagem = e.target.result.split(',')[1]; 
-        }
-        reader.readAsDataURL(file);
-    }
+function selectTpl(id){
+ const t=TEMPLATES.find(x=>x.id===id);
+ if(!t) return;
+ state.tplId=id;state.tpl=t;
+ document.querySelectorAll('.tpl-card').forEach(c=>c.classList.remove('sel'));
+ document.getElementById('tpl_'+id).classList.add('sel');
+ const detail=$('tplDetail');
+ detail.style.display='block';
+ $('tplDetailTitle').textContent=`${t.icon} ${t.name} — ${t.tag}`;
+ $('tplDetailBody').innerHTML=`
+  <p style="color:var(--muted);font-size:13px;margin-bottom:14px">${t.desc}</p>
+  <h3>Estrutura dos Atos</h3>
+  ${t.estrutura.map((s,i)=>`<div style="padding:8px 12px;border-left:2px solid var(--gold);margin-bottom:6px;font-size:12.5px;color:#8aa4bf"><b style="color:var(--gold2)">Ato ${i+1}:</b> ${s}</div>`).join('')}
+  <h3 style="margin-top:14px">Prompt Suno AI Base</h3>
+  <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);background:rgba(0,0,0,.3);padding:10px;border-radius:8px">${t.suno}</div>`;
+ updateFormatoOut();
+ updateStatus();
 }
 
-function getNome(id) {
-    for (let g in personagens) if (personagens[g][id]) return personagens[g][id];
-    return "Personagem";
+function updateFormatoOut(){
+ if(!state.tpl){$('formatoOut').textContent='Selecione um formato acima.';return}
+ const t=state.tpl;
+ const dur=$('duracao')?.value||'';const motor=$('motor')?.value||'';const tom=$('tom')?.value||'';
+ $('formatoOut').textContent=`FORMATO: ${t.name} — ${t.tag}
+DESCRIÇÃO: ${t.desc}
+DURAÇÃO: ${dur}
+MOTOR VIRAL: ${motor}
+TOM: ${tom}
+
+ESTRUTURA DOS ATOS:
+${t.estrutura.map((s,i)=>`Ato ${i+1}: ${s}`).join('\n')}
+
+SUNO AI BASE:
+${t.suno}`;
 }
 
-// ========================================================
-// 3. COMUNICAÇÃO COM A API DO GOOGLE
-// ========================================================
-async function chamarIA(promptMestre, imageBase64 = null, imageType = null) {
-    if (travaDeTempoAPI) {
-        notify("⏳ Aguarde alguns segundos antes de enviar outro comando para a IA.", "warning");
-        return null;
-    }
+['duracao','motor','tom'].forEach(id=>{
+ setTimeout(()=>{const el=document.getElementById(id);if(el)el.addEventListener('change',updateFormatoOut)},200);
+});
 
-    const chave_api = document.getElementById("api_key_input").value.trim();
-    if (!chave_api) {
-        notify("⚠️ Cole sua chave da API no Cofre do Diretor primeiro.", "warning");
-        document.getElementById("api_key_input")?.focus();
-        return null;
-    }
-
-    const partesConteudo = [{ text: promptMestre }];
-    if (imageBase64 && imageType) {
-        partesConteudo.push({ inlineData: { data: imageBase64, mimeType: imageType } });
-    }
-
-    travaDeTempoAPI = true;
-    setTimeout(() => { travaDeTempoAPI = false; }, 5000);
-
-    try {
-        const resposta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(chave_api)}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{ parts: partesConteudo }],
-                generationConfig: { temperature: 0.8, topP: 0.9 }
-            })
-        });
-
-        let dados;
-        try { dados = await resposta.json(); }
-        catch (erro) { throw new Error("A API respondeu, mas não enviou JSON válido."); }
-
-        if (!resposta.ok || dados.error) {
-            const msg = dados?.error?.message || `Erro HTTP ${resposta.status}`;
-            notify("Erro da API: " + msg, "error", 6500);
-            console.error(dados);
-            return null;
-        }
-
-        const texto = dados?.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("\n").trim();
-        if (!texto) {
-            notify("A IA respondeu vazio. Tente novamente com um prompt mais específico.", "warning");
-            console.warn(dados);
-            return null;
-        }
-        return texto;
-    } catch (erro) {
-        notify("Falha na ligação com a IA. Verifique internet, chave API e permissões do navegador.", "error", 6500);
-        console.error(erro);
-        return null;
-    }
+/* ─── STATUS ─── */
+function updateStatus(){
+ $('stElenco').textContent=state.elenco.length||'—';
+ $('stFormato').textContent=state.tpl?state.tpl.icon+'':' — ';
+ $('stMotor').textContent=$('motor')?.value?.split(' ').slice(0,2).join(' ')||'—';
+ $('stDuracao').textContent=$('duracao')?.value?.split('(')[0].trim().split(' ').slice(-1)[0]||'—';
 }
 
-async function gerarEstrutura() {
-    let promptNovela = "";
+/* ─── ROTEIRO LOCAL ─── */
+function gerarLocal(){
+ if(!state.elenco.length){toast('Selecione ao menos 1 personagem.');return}
+ if(!state.tpl){toast('Selecione um formato viral.');return}
+ updateStatus();
+ const t=state.tpl;
+ const chars=state.elenco.map(i=>CHARS[i]);
+ const prot=chars[0];const anta=chars[1]||chars[0];
+ const uni=$('universo')?.value||'Terra de Elinaldo';
+ const motor=$('motor')?.value||'Revelação chocante no final';
+ const tom=$('tom')?.value||'Drama intenso';
+ const idea=$('ideaLivre')?.value||`${prot.n} descobre algo que ${anta.n} quer esconder a todo custo.`;
+ const nCenas=parseInt($('numCenas')?.value)||5;
 
-    if (modoAtualHistoria === 'modo-zero') {
-        promptNovela = document.getElementById("novela_prompt_zero").value.trim();
-        if (!promptNovela) { notify("Cole a sua ideia na caixa de texto.", "warning"); return; }
-    } else {
-        const passado = document.getElementById("prompt_cont_passado").value.trim();
-        const futuro = document.getElementById("prompt_cont_futuro").value.trim();
-        if (!passado || !futuro) { notify("Preencha as duas caixas da continuação.", "warning"); return; }
-        promptNovela = `ATENÇÃO, ESTA É UMA CONTINUAÇÃO. O episódio anterior terminou assim: "${passado}". A partir desse ponto, inicie a nova estrutura com a seguinte ideia: "${futuro}".`;
-    }
+ const atos=t.estrutura.slice(0,nCenas).map((s,i)=>`
+ATO ${i+1} — ${s.split(':')[0]}:
+${prot.n} ${s.split(':').slice(1).join(':').trim().toLowerCase().replace('[protagonista]',prot.n).replace('[antagonista]',anta.n)}
+Cenário: ${uni}
+Ação chave: ${['age com instinto', 'hesita e depois decide', 'encontra prova decisiva', 'recua para planejar', 'age no limite do tempo'][i%5]}
+Linha de diálogo: "${['Eu sabia que ia acabar assim.', 'Você não devia ter feito isso.', 'Agora não tem mais volta.', 'Isso muda tudo que eu achava que sabia.', 'É agora ou nunca.'][i%5]}"`.trim()).join('\n\n');
 
-    const btn = document.getElementById("btnEstrutura");
-    const output = document.getElementById("estrutura_output");
+ const slogan=$('slogan')?.value||'Inscreva-se para entrar na Terra de Elinaldo.';
+ const dur=$('duracao')?.value||'';
 
-    for (let i = 1; i <= 6; i++) document.getElementById(`btn_novela_${i}`).disabled = true;
-    btn.disabled = true;
-    setLoading("loader_estrutura", true);
-    output.value = "Gerando a estrutura tática da novela...";
+ state.roteiro=`FRUITS ADVENTURES — ROTEIRO VIRAL
+FORMATO: ${t.name} (${t.tag})
+ELENCO: ${chars.map(c=>c.n).join(' · ')}
+UNIVERSO: ${uni}
+MOTOR VIRAL: ${motor}
+TOM: ${tom}
+DURAÇÃO: ${dur}
 
-    const promptMestre = `Você é o diretor criativo de uma produtora audiovisual. Crie a ESTRUTURA TÁTICA de um vídeo longo de 3+ minutos. FATIE a história completa abaixo em até 30 cenas. Responda APENAS com um OBJETO JSON válido, sem markdown, no formato: {"scenes":[{"cena":"headline curta"}]}. História: ${promptNovela}`;
+═══════════════════════════════
+TÍTULO: ${t.name.toUpperCase()} DAS FRUTAS — ${idea.slice(0,40).toUpperCase()}...
+LOGLINE: ${prot.n} enfrenta ${anta.n} num conflito de ${tom.toLowerCase()} inspirado em ${t.name}. ${idea}
+═══════════════════════════════
 
-    const res = await chamarIA(promptMestre);
-    btn.disabled = false;
-    setLoading("loader_estrutura", false);
+${atos}
 
-    if (res) {
-        try {
-            const json = extrairJSON(res);
-            if (!Array.isArray(json.scenes) || json.scenes.length === 0) {
-                throw new Error('O JSON precisa ter a lista "scenes".');
-            }
-            estruturaDaNovela = json;
-            output.value = JSON.stringify(estruturaDaNovela, null, 2);
-            for (let i = 1; i <= 6; i++) document.getElementById(`btn_novela_${i}`).disabled = false;
-            document.getElementById("output-storyboard").innerHTML = "";
-            cenasGeradasSequencial = [];
-            roteiroCompletoEmTexto = "";
-            notify(`📜 Estrutura criada com ${estruturaDaNovela.scenes.length} cenas.`, "success");
-        } catch (erro) {
-            output.value = "A IA respondeu, mas o JSON veio quebrado. Copie este texto e tente novamente:\n\n" + res;
-            notify("Erro no formato JSON retornado pela IA.", "error", 6500);
-            console.error(erro, res);
-        }
-    }
+═══════════════════════════════
+CHAMADA FINAL: ${slogan}
+DESCRIÇÃO YOUTUBE: ${prot.n} se inspira no universo ${t.name} neste episódio épico de Fruits Adventures. Comente qual personagem quer ver no próximo!
+HASHTAGS: ${t.hashtags} #Roteiro #Animacao3D
+MÚSICA SUNO: ${t.suno}`;
+
+ $('roteiroOut').textContent=state.roteiro;
+ $('exportOut').textContent=buildExport();
+ toast('Roteiro local gerado!');
 }
 
-async function gerarBlocoCenas(start, end) {
-    if (!estruturaDaNovela?.scenes?.length) { notify("⚠️ Gere a Estrutura da Novela primeiro.", "warning"); return; }
+/* ─── ROTEIRO API ─── */
+async function gerarAPI(){
+ if(!state.elenco.length||!state.tpl){toast('Configure elenco e formato primeiro.');return}
+ const key=$('apiKey')?.value?.trim();
+ if(!key){toast('Configure a API Key na aba API Config.');return}
 
-    const estilo = document.getElementById("estilo_render").value;
-    const usaTempo = document.getElementById("op_tempo_novela").value === "com_tempo";
-    const regraTempo = usaTempo ? "IMPORTANTE: Inclua uma marcação de tempo visual no título (Ex: CENA 1 [0-3s])." : "NÃO inclua marcação de tempo.";
-    const blocoSelecionado = estruturaDaNovela.scenes.slice(start - 1, end);
-    if (!blocoSelecionado.length) { notify("Esse bloco não possui cenas na estrutura atual.", "warning"); return; }
+ $('roteiroOut').innerHTML=loadingHTML('Gerando roteiro com Claude API...');
+ const prompt=buildPromptRoteiro();
+ try{
+  const txt=await callClaude(prompt,key);
+  state.roteiro=txt;
+  $('roteiroOut').textContent=txt;
+  $('exportOut').textContent=buildExport();
+  toast('Roteiro API gerado!');
+ }catch(e){
+  $('roteiroOut').textContent='Erro na API: '+e.message+'\n\nGerando localmente...';
+  setTimeout(gerarLocal,500);
+ }
+}
 
-    setLoading("loader_cenas", true);
+function buildPromptRoteiro(){
+ const t=state.tpl;const chars=state.elenco.map(i=>CHARS[i]);
+ const uni=$('universo')?.value||'Terra de Elinaldo';
+ const motor=$('motor')?.value||'';const tom=$('tom')?.value||'';
+ const nC=parseInt($('numCenas')?.value)||5;
+ const idea=$('ideaLivre')?.value||`Conflito épico inspirado em ${t.name}`;
+ return `Você é roteirista brasileiro especialista em conteúdo viral para TikTok, YouTube e Reels.
+Crie um roteiro COMPLETO para Fruits Adventures no formato "${t.name}" com estas características:
 
-    let elenco = [];
-    ['prota', 'coadj1', 'multidao'].forEach(id => {
-        let val = document.getElementById(id).value;
-        if(val) {
-            let dna = d[val] ? d[val].d : "Character/Group description";
-            let idade_texto = document.getElementById(`idade_${id}`).options[document.getElementById(`idade_${id}`).selectedIndex].text;
-            let voz_val = document.getElementById(`voz_${id}`).value;
-            let voz = voz_val ? document.getElementById(`voz_${id}`).options[document.getElementById(`voz_${id}`).selectedIndex].text : "Voz Natural";
-            elenco.push(`- Personagem/Grupo: ${getNome(val)} | DNA Visual: (${dna}) | Fase: (${idade_texto}) | Voz: (${voz})`);
-        }
-    });
+DNA DO ELENCO:
+${dnaStr()}
 
-    if (elenco.length === 0) {
-        notify("Você pode gerar sem elenco, mas escolher personagens melhora o DNA visual.", "warning");
-    }
+UNIVERSO: ${uni}
+FORMATO: ${t.name} — ${t.desc}
+MOTOR VIRAL: ${motor}
+TOM: ${tom}
+IDEIA BASE: ${idea}
+NÚMERO DE ATOS: ${nC}
 
-    const promptCenasMestre = `Você é o diretor criativo. Estilo Visual: ${estilo}.
-ELENCO/COMBOS NA CENA:
-${elenco.join('\n') || 'Nenhum elenco fixo selecionado.'}
+ESTRUTURA OBRIGATÓRIA DO FORMATO ${t.name.toUpperCase()}:
+${t.estrutura.join('\n')}
 
 REGRAS:
-1. Se houver foto anexada, copie a vibe dela: luz, cenário, enquadramento e atmosfera.
-2. Leia as headlines das Cenas ${start} até ${end}.
-3. Crie roteiros com DNA visual consistente.
-4. ${regraTempo}
-5. Responda com blocos exatamente neste molde, sem mudar os nomes dos campos:
----
-CENA [Nº]: [Título/Tempo]
-AÇÃO: [O que acontece na cena, detalhado, em português]
-PROMPT_IMAGEM: [Prompt em inglês muito detalhado, com DNA do ator e estilo visual]
-PROMPT_VIDEO: [Prompt em inglês para Luma/Kling/Runway, sem sons]
-PROMPT_AUDIO: [Apenas em português: SFX, trilha e falas exatas]
----
-
-ESTRUTURA TÁTICA DAS CENAS (${start}-${end}):
-${JSON.stringify(blocoSelecionado, null, 2)}`;
-
-    const res = await chamarIA(promptCenasMestre, base64Imagem, mimeTypeImagem);
-    setLoading("loader_cenas", false);
-
-    if (res) {
-        processarResposta(res);
-        document.getElementById("btnCopiarTudo").style.display = "block";
-    }
+- Escreva em português brasileiro, tom natural
+- Mantenha o DNA visual e vocal de cada personagem
+- Inclua título viral, logline, ${nC} atos com ação e diálogo, chamada para inscrição
+- Termine com prompt Suno AI em inglês: "${t.suno}"
+- Adicione hashtags e descrição YouTube
+- Seja CINEMATOGRÁFICO, VIRAL e EMOCIONAL`;
 }
 
-function processarResposta(textoBruto) {
-    const storyboard = document.getElementById("output-storyboard");
-    let htmlFinal = "";
-    const blocos = String(textoBruto || "").split(/\n?---\n?/g);
-    let indexInicial = cenasGeradasSequencial.length;
+/* ─── CENAS LOCAL ─── */
+function gerarCenas(){
+ if(!state.roteiro){gerarLocal()}
+ const t=state.tpl||TEMPLATES[0];
+ const chars=state.elenco.map(i=>CHARS[i]);
+ const prot=chars[0]||CHARS[0];const anta=chars[1]||CHARS[3];
+ const uni=$('universo')?.value||'Terra de Elinaldo';
+ const nC=parseInt($('numCenas')?.value)||5;
 
-    blocos.forEach(bloco => {
-        if (bloco.includes("CENA") && bloco.includes("PROMPT_IMAGEM")) {
-            let titulo = "Cena";
-            let matchTitulo = bloco.match(/CENA\s*([^\n]*)/i);
-            if(matchTitulo) titulo = "CENA " + matchTitulo[1].trim().replace(/^[:\-]\s*/, "");
+ const beats=['GANCHO','CONFLITO','ESCOLHA','VIRADA','CLÍMAX','EPÍLOGO','RESOLUÇÃO'];
+ const cams=['close extremo no rosto, zoom dramático','plano médio com sombra ao fundo','travelling lateral perseguindo o herói','macro no objeto decisivo, foco puxado','dolly-in alternando olhares','wide shot contemplativo, solidão','close nos olhos com lágrima ou determinação'];
+ const sfx=['hit grave seco + silêncio','sub grave crescendo + chuva','respiração, batida leve, som de rua','riser de suspense + click digital','silêncio total + batida do coração','eco longo + vento suave','acorde emocional + reverb longo'];
 
-            let acaoMatch = bloco.match(/AÇÃO:\s*([\s\S]*?)(?=PROMPT_IMAGEM:)/i);
-            let imgMatch = bloco.match(/PROMPT_IMAGEM:\s*([\s\S]*?)(?=PROMPT_VIDEO:)/i);
-            let vidMatch = bloco.match(/PROMPT_VIDEO:\s*([\s\S]*?)(?=PROMPT_AUDIO:)/i);
-            let audMatch = bloco.match(/PROMPT_AUDIO:\s*([\s\S]*?)$/i);
-
-            let acao = acaoMatch ? acaoMatch[1].trim() : "N/A";
-            let pImg = imgMatch ? imgMatch[1].trim() : "N/A";
-            let pVid = vidMatch ? vidMatch[1].trim() : "N/A";
-            let pAud = audMatch ? audMatch[1].trim() : "N/A";
-
-            cenasGeradasSequencial.push({ titulo, acao, pImg, pVid, pAud });
-            roteiroCompletoEmTexto += `=== ${titulo} ===\nAÇÃO: ${acao}\n📸 IMAGEM: ${pImg}\n🎥 VÍDEO: ${pVid}\n🔊 ÁUDIO: ${pAud}\n\n`;
-
-            htmlFinal += `
-            <div class="cena-bloco">
-                <div class="cena-titulo">${escapeHTML(titulo)}</div>
-                <div class="cena-acao"><b>AÇÃO:</b> ${escapeHTML(acao)}</div>
-                <button type="button" class="btn-terminal" onclick="enviarTerminal(${indexInicial})">⬇️ ENVIAR AOS TERMINAIS (ISOLADO)</button>
-            </div>`;
-            indexInicial++;
-        }
-    });
-
-    if (htmlFinal !== "") {
-        storyboard.innerHTML += htmlFinal;
-        notify("🎬 Cenas adicionadas ao storyboard.", "success");
-    } else {
-        notify("A IA não usou o molde esperado. Tente gerar este bloco novamente.", "error", 6500);
-        console.warn("Resposta bruta da IA:", textoBruto);
-    }
+ state.cenas=Array.from({length:nC},(_,i)=>{
+  const beat=beats[i%beats.length];
+  const cam=cams[i%cams.length];
+  const s=sfx[i%sfx.length];
+  return {
+   title:`CENA ${i+1}: ${beat} — Formato ${t.name}`,
+   img:`3D cinematic stylized render, Fruits Adventures universe, ${prot.n} (${prot.v}) ${i%2===1?`and ${anta.n} (${anta.v})`:'alone'}, ${beat} moment, ${uni}, dramatic cinematic lighting, high contrast, consistent character DNA, no text, clean composition`,
+   vid:`Flow Labs / Veo 3: ${cam}. Personagens: ${prot.n}${i%2===1?' e '+anta.n:''}. Ação: ${beat} — cena avança a trama sem repetir o beat anterior. Vertical 9:16 para TikTok/Reels, 6-8 segundos, movimento suave mas dramático.`,
+   aud:`Ambiente: ${uni}. SFX: ${s}. Voz de ${prot.n} (${prot.voz}): "${prot.frase}". Português do Brasil natural, linha curta, timing emocional.`,
+   suno:`${t.suno}, scene ${i+1} of ${nC}, ${['intro tension','rising action','character choice','revelation','climax','resolution','denouement'][i%7]}`,
+   cap:`CapCut: aplicar ${cam}; adicionar ${s} no banco de sons; legenda em caixa alta curta no centro; corte no beat; transição: ${['smash cut','fade','whip pan','jump cut','dissolve'][i%5]}.`
+  }
+ });
+ renderCenas();
+ $('exportOut').textContent=buildExport();
+ toast('Cenas geradas!');
 }
 
-function enviarTerminal(index) {
-    const cena = cenasGeradasSequencial[index];
-    const termImg = document.getElementById("final_img");
-    const termVid = document.getElementById("final_vid");
-    const termAud = document.getElementById("final_aud");
-    
-    termImg.value = cena.pImg; termVid.value = cena.pVid; termAud.value = cena.pAud;
-    
-    termImg.style.borderColor = "var(--primary-purple)"; termVid.style.borderColor = "var(--primary-cyan)"; termAud.style.borderColor = "var(--primary-orange)";
-    setTimeout(() => { termImg.style.borderColor = "var(--border-color)"; termVid.style.borderColor = "var(--border-color)"; termAud.style.borderColor = "var(--border-color)"; }, 500);
+async function gerarCenasAPI(){
+ if(!state.roteiro){gerarLocal()}
+ const key=$('apiKey')?.value?.trim();
+ if(!key){toast('Configure a API Key.');return}
+ const t=state.tpl||TEMPLATES[0];
+ const chars=state.elenco.map(i=>CHARS[i]);
+ const nC=parseInt($('numCenas')?.value)||5;
+
+ $('cenaContainer').innerHTML=`<div style="padding:24px;text-align:center">${loadingHTML('Gerando cenas com Claude API...')}</div>`;
+ const prompt=`Crie ${nC} cenas em JSON array para Fruits Adventures, formato ${t.name}.
+DNA: ${dnaStr()}
+Universo: ${$('universo')?.value}
+Cada item deve ter: title, img, vid, aud, suno (em inglês), cap.
+img = prompt Midjourney/Tripo 3D cinematográfico preservando DNA visual.
+vid = prompt Flow Labs / Veo 3 com câmera e ação.
+aud = direção de voz e ambience em português.
+suno = prompt musical em inglês baseado em: ${t.suno}
+cap = instrução de edição CapCut em português.
+Retorne SOMENTE o JSON array, sem texto extra.`;
+ try{
+  const txt=await callClaude(prompt,key);
+  const match=txt.match(/\[[\s\S]*\]/);
+  state.cenas=JSON.parse(match?.[0]||txt);
+  renderCenas();
+  $('exportOut').textContent=buildExport();
+  toast('Cenas API geradas!');
+ }catch(e){toast('API falhou. Gerando cenas locais.');gerarCenas();}
 }
 
-async function copiarTexto(idElemento, tipo) {
-    const texto = document.getElementById(idElemento).value;
-    const ok = await copyToClipboard(texto, tipo);
-    if (ok) salvarNoCofre(tipo, texto);
+function renderCenas(){
+ const colors={'img':'var(--green)','vid':'var(--cyan)','aud':'var(--orange)','suno':'var(--purple)','cap':'var(--red)'};
+ const labels={'img':'📸 Imagem (Tripo / Midjourney)','vid':'🎥 Vídeo (Flow Labs / Veo 3)','aud':'🎙️ Áudio & Voz','suno':'🎵 Suno AI','cap':'✂️ CapCut'};
+ $('cenaContainer').innerHTML=state.cenas.map((c,i)=>`
+  <div class="ep-card">
+   <div class="ep-num">CENA ${i+1} / ${state.cenas.length}</div>
+   <div class="ep-title">${esc(c.title)}</div>
+   <div class="ep-prompts">
+    ${Object.keys(labels).map(k=>`
+     <div class="prompt-row">
+      <div class="prompt-label" style="color:${colors[k]}">${labels[k]}<button class="copy-btn" onclick="copyText(\`${safeTick(c[k]||'')}\`,'Copiado!')">copiar</button></div>
+      <div class="prompt-text">${esc(c[k]||'')}</div>
+     </div>`).join('')}
+   </div>
+  </div>`).join('');
 }
 
-async function copiarRoteiroCompleto(modo) {
-    let textoAlvo = modo === 'novela' ? roteiroCompletoEmTexto : document.getElementById("resultado_agencia").value;
-    await copyToClipboard(textoAlvo, "Roteiro completo");
+/* ─── API CALL ─── */
+async function callClaude(userMsg,key){
+ const provider=$('apiProvider')?.value||'claude';
+ const endpoint=$('apiEndpoint')?.value?.trim()||(provider==='openai'?'https://api.openai.com/v1/chat/completions':'https://api.anthropic.com/v1/messages');
+ const model=$('apiModel')?.value?.trim()||(provider==='openai'?'gpt-4o-mini':'claude-sonnet-4-20250514');
+ let res, data;
+ if(provider==='openai'){
+  res=await fetch(endpoint,{
+   method:'POST',
+   headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+   body:JSON.stringify({model,temperature:.85,messages:[{role:'system',content:'Você é roteirista e diretor criativo brasileiro especialista em Fruits Adventures, Flow Labs, CapCut, TikTok, Reels e YouTube.'},{role:'user',content:userMsg}]})
+  });
+  data=await res.json();
+  if(!res.ok) throw new Error(data.error?.message||JSON.stringify(data));
+  return data.choices?.[0]?.message?.content || data.output_text || JSON.stringify(data);
+ }
+ res=await fetch(endpoint,{
+  method:'POST',
+  headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+  body:JSON.stringify({model,max_tokens:2500,messages:[{role:'user',content:userMsg}]})
+ });
+ data=await res.json();
+ if(!res.ok) throw new Error(data.error?.message||JSON.stringify(data));
+ return data.content?.map(b=>b.text||'').join('')||'';
 }
 
-async function copiarLoteTrindade(tipo) {
-    if(cenasGeradasSequencial.length === 0) return notify("⚠️ Gere as cenas primeiro.", "warning");
-    let textoCopiado = "";
-    cenasGeradasSequencial.forEach(cena => {
-        if (tipo === 'img') textoCopiado += `${cena.titulo}:\n${cena.pImg}\n\n`;
-        if (tipo === 'vid') textoCopiado += `${cena.titulo}:\n${cena.pVid}\n\n`;
-        if (tipo === 'aud') textoCopiado += `${cena.titulo}:\n${cena.pAud}\n\n`;
-    });
-    await copyToClipboard(textoCopiado, "Lote de prompts");
+async function testarAPI(){
+ const key=$('apiKey')?.value?.trim();
+ if(!key){$('apiStatus').textContent='Insira uma API Key.';return}
+ $('apiStatus').innerHTML=loadingHTML('Testando conexão...');
+ try{
+  const txt=await callClaude('Responda apenas: "Fruits Adventures API conectada com sucesso! 🍅"',key);
+  $('apiStatus').textContent=txt;
+  toast('API conectada!');
+ }catch(e){$('apiStatus').textContent='Erro: '+e.message;}
 }
 
-// ========================================================
-// MODO AGÊNCIA: COMERCIAL FATIADO
-// ========================================================
-async function gerarComercialIA() {
-    const prod = document.getElementById("comercial_input").value.trim();
-    const tempo = document.getElementById("tempo_comercial").value;
-    const usaTempoAge = document.getElementById("op_tempo_agencia").value === "com_tempo";
 
-    if(!prod) return notify("Diga qual produto você quer anunciar.", "warning");
-    setLoading("loader_agencia", true);
+/* ─── GRÁFICA ─── */
+function gerarGrafica(){
+ const t=state.tpl||TEMPLATES[0];
+ const elenco=state.elenco.map(i=>CHARS[i]);
+ const hero=elenco[0]||CHARS[0];
+ const vilao=elenco[1]||CHARS[3];
+ const tipo=$('artTipo')?.value||'Thumbnail YouTube 16:9 — 1280x720';
+ const estilo=$('artEstilo')?.value||'3D cartoon cinematográfico premium';
+ const texto=$('artTexto')?.value||`${t.name.toUpperCase()} DAS FRUTAS`;
+ const sub=$('artSub')?.value||'Fruits Adventures';
+ const uni=$('universo')?.value||'Terra de Elinaldo';
+ const formato=state.tpl?`${state.tpl.name} — ${state.tpl.tag}`:'Formato viral livre';
+ const medida=tipo.includes('1280x720')?'1280x720':tipo.includes('1080x1920')?'1080x1920':tipo.includes('1080x1080')?'1080x1080':tipo.includes('4500x5400')?'4500x5400 300 DPI':tipo.includes('2700x1120')?'2700x1120 300 DPI':tipo.includes('2000x2000')?'2000x2000 300 DPI':tipo.includes('2560x1440')?'2560x1440':'A3 300 DPI';
+ state.grafica=`FRUITS ADVENTURES — PROMPT GRÁFICO
 
-    const formatoCena = usaTempoAge ? "[CENA X - INÍCIOs até FIMs]" : "[CENA X]";
+TIPO DE ARTE: ${tipo}
+MEDIDA: ${medida}
+ESTILO: ${estilo}
+FORMATO DA HISTÓRIA: ${formato}
+UNIVERSO: ${uni}
 
-    const promptPublicitario = `
-Você é um diretor criativo de anúncios curtos. Crie um roteiro de comercial para a marca/produto "${prod}".
-A duração total do comercial é de ${tempo} segundos.
+PERSONAGENS:
+- ${hero.n}: ${hero.v}
+- ${vilao.n}: ${vilao.v}
 
-FATIE o comercial em 4 a 6 cenas. Para CADA CENA, use EXATAMENTE a seguinte formatação:
+TEXTO PRINCIPAL: "${texto}"
+TEXTO SECUNDÁRIO: "${sub}"
 
-${formatoCena}
-[IMAGEM]: Prompt em inglês detalhado, visual publicitário, pronto para gerador de imagem.
-[VIDEO]: Prompt em inglês para Luma/Kling/Runway, com câmera, movimento e ação.
-[AUDIO]: Locução em português, trilha e efeitos sonoros.
+PROMPT PRINCIPAL:
+Create a premium viral artwork for Fruits Adventures, ${tipo}, featuring ${hero.n} and ${vilao.n}. Preserve character DNA exactly: ${hero.n} has ${hero.v}; ${vilao.n} has ${vilao.v}. Visual style: ${estilo}. Story format inspiration: ${formato}. Setting: ${uni}. Strong readable composition, dramatic lighting, high contrast, Brazilian viral cartoon cinematic look, clean typography, no messy extra text. Main text: "${texto}". Secondary text: "${sub}". Make it look like a professional YouTube/TikTok/Reels campaign asset.
 
-Crie uma campanha clara, com gancho nos primeiros segundos, benefício do produto, prova visual e chamada final para ação.
-Agora gere o roteiro completo de ${tempo} segundos para "${prod}":
-`;
+PROMPT VETOR / SVG:
+Redraw the composition as clean vector art, closed shapes, separated colors, readable silhouettes, scalable SVG/PDF style, preserving the same character DNA and typography hierarchy.
 
-    const res = await chamarIA(promptPublicitario);
-    setLoading("loader_agencia", false);
-    if(res) {
-        document.getElementById("resultado_agencia").value = res;
-        notify("💰 Campanha fatiada gerada.", "success");
-    }
+PROMPT MOCKUP:
+Create a realistic commercial mockup using this artwork, premium studio lighting, realistic material, soft shadows, ready for e-commerce and social media promotion.
+
+CHECKLIST:
+- conferir ortografia do texto
+- manter personagem reconhecível
+- usar contraste forte
+- deixar margem segura
+- gerar versão sem texto como backup
+- para impressão usar 300 DPI quando aplicável`;
+ $('graficaOut').textContent=state.grafica;
+ $('artMetaDna').textContent=elenco.length?elenco.map(c=>c.n).join(' + '):'Tomate Elinaldo + vilão';
+ $('artMetaFmt').textContent=tipo.split('—')[0].trim();
+ $('artMetaUse').textContent=medida;
+ $('exportOut').textContent=buildExport();
+ toast('Gráfica gerada!');
+}
+function downloadGraficaTXT(){
+ if(!state.grafica){toast('Gere a gráfica primeiro.');return}
+ const b=new Blob([state.grafica],{type:'text/plain;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fruits-adventures-grafica-prompt.txt';a.click();URL.revokeObjectURL(a.href);
 }
 
-async function fatiarECopiarAgencia(tipo) {
-    const textoCompleto = document.getElementById("resultado_agencia").value;
-    if (!textoCompleto) { notify("⚠️ Gere a campanha primeiro.", "warning"); return; }
+/* ─── EXPORT ─── */
+function buildExport(){
+ return `FRUITS ADVENTURES — PACOTE VIRAL COMPLETO
+${'═'.repeat(50)}
 
-    let textoCopiado = "";
-    if (tipo === 'imagem') {
-        const matches = textoCompleto.match(/\[IMAGEM\]:\s*([\s\S]*?)(?=\n\[VIDEO\]|\n\[CENA|$)/g);
-        if (matches) textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[IMAGEM\]:\s*/, '').trim()}`).join('\n\n');
-    }
-    else if (tipo === 'video') {
-        const matches = textoCompleto.match(/\[VIDEO\]:\s*([\s\S]*?)(?=\n\[AUDIO\]|\n\[CENA|$)/g);
-        if (matches) textoCopiado = matches.map((m, i) => `CENA ${i+1}:\n${m.replace(/\[VIDEO\]:\s*/, '').trim()}`).join('\n\n');
-    }
-    else if (tipo === 'audio') {
-        const matches = textoCompleto.match(/\[CENA.*?\][\s\S]*?\[AUDIO\]:\s*([\s\S]*?)(?=\n\[CENA|$)/g);
-        if (matches) {
-            textoCopiado = matches.map(m => {
-                let tempoMatch = m.match(/\[CENA(.*?)\]/);
-                let tituloCena = tempoMatch ? tempoMatch[1].trim() : "AUDIO";
-                let audioStr = m.match(/\[AUDIO\]:\s*([\s\S]*?)(?=\n\[CENA|$)/);
-                let audio = audioStr ? audioStr[1].trim() : "N/A";
-                return `[CENA ${tituloCena}]\n${audio}`;
-            }).join('\n\n');
-        }
-    }
+DNA DO ELENCO:
+${dnaStr()||'Nenhum personagem selecionado.'}
 
-    if(!textoCopiado) return notify("Erro ao fatiar. A IA mudou o formato da resposta.", "error", 6500);
+UNIVERSO: ${$('universo')?.value||'—'}
+FORMATO: ${state.tpl?state.tpl.name+' — '+state.tpl.desc:'Nenhum selecionado.'}
+MOTOR VIRAL: ${$('motor')?.value||'—'}
+TOM: ${$('tom')?.value||'—'}
 
-    const ok = await copyToClipboard(textoCopiado, `Módulo ${tipo.toUpperCase()}`);
-    if (ok) salvarNoCofre(`Campanha ${tipo.toUpperCase()}`, textoCopiado);
+${'═'.repeat(50)}
+ROTEIRO:
+${state.roteiro||'Ainda não gerado.'}
+
+${'═'.repeat(50)}
+CENAS:
+${state.cenas.length?state.cenas.map((c,i)=>`
+─── CENA ${i+1}: ${c.title} ───
+IMAGEM: ${c.img}
+VÍDEO: ${c.vid}
+ÁUDIO: ${c.aud}
+SUNO AI: ${c.suno}
+CAPCUT: ${c.cap}`).join('\n'):'Ainda não geradas.'}
+
+${'═'.repeat(50)}
+GRÁFICA:
+${state.grafica||'Ainda não gerada.'}`;
 }
 
-function salvarNoCofre(titulo, texto) {
-    let list = JSON.parse(localStorage.getItem("cofre_modeship") || "[]");
-    list.unshift({titulo: titulo + " (" + new Date().toLocaleTimeString().slice(0,5) + ")", texto});
-    localStorage.setItem("cofre_modeship", JSON.stringify(list.slice(0, 15)));
-    atualizarCofre();
+function copyAllCenas(){copyText(state.cenas.map((c,i)=>`CENA ${i+1}: ${c.title}\nIMG: ${c.img}\nVID: ${c.vid}\nAUD: ${c.aud}\nSUNO: ${c.suno}\nCAPCUT: ${c.cap}`).join('\n\n'),'Todas as cenas copiadas!')}
+
+function downloadTXT(){
+ const b=new Blob([buildExport()],{type:'text/plain;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fruits-adventures-viral-pack.txt';a.click();URL.revokeObjectURL(a.href);
 }
 
-function atualizarCofre() {
-    let list = JSON.parse(localStorage.getItem("cofre_modeship") || "[]");
-    const box = document.getElementById("salvos_container");
-    box.innerHTML = "";
-    if (!list.length) {
-        const vazio = document.createElement("p");
-        vazio.style.textAlign = "center";
-        vazio.style.color = "#555";
-        vazio.textContent = "Vazio.";
-        box.appendChild(vazio);
-        return;
-    }
-    list.forEach(s => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "salvo-item";
-        btn.title = s.texto;
-        btn.innerHTML = `📌 <b>${escapeHTML(s.titulo)}</b>`;
-        btn.addEventListener("click", () => copiarDoCofre(s.texto));
-        box.appendChild(btn);
-    });
+function limpar(){
+ state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null};
+ document.querySelectorAll('.char-card,.tpl-card').forEach(c=>c.classList.remove('sel'));
+ $('dnaOut').textContent='Selecione personagens acima.';
+ $('roteiroOut').textContent='Configure o elenco, escolha um formato e clique em Gerar.';
+ $('cenaContainer').innerHTML='';
+ $('exportOut').textContent='Gere roteiro e cenas primeiro.';
+ $('tplDetail').style.display='none';
+ toast('Tudo limpo!');
 }
 
-async function copiarDoCofre(texto) {
-    await copyToClipboard(texto, "Item do Cofre");
+/* ─── UTILS ─── */
+function tab(ev,id){
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));
+ $(id).classList.add('act');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('act'));
+ ev.currentTarget.classList.add('act');
+ if(id==='export') $('exportOut').textContent=buildExport();
+ updateStatus();
 }
-function limparCofre() {
-    localStorage.removeItem("cofre_modeship");
-    atualizarCofre();
-    notify("Cofre limpo.", "warning");
-}
-
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function safeTick(s){return String(s||'').replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$\{/g,'\\${')}
+function copyText(txt,msg){if(!txt){toast('Nada para copiar.');return}navigator.clipboard.writeText(txt).then(()=>toast(msg||'Copiado!'))}
+function loadingHTML(msg){return `<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:4px">${msg}</span></div>`}
+function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2400)}
 </script>
 </body>
 </html>
