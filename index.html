@@ -102,12 +102,6 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 .copy-btn{float:right;background:var(--border2);border:none;color:var(--muted);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;margin-left:8px}
 .copy-btn:hover{background:var(--gold);color:#06090d}
 
-.art-preview{background:linear-gradient(135deg,rgba(212,160,23,.08),rgba(0,212,200,.05));border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px}
-.art-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.art-meta div{background:rgba(0,0,0,.24);border:1px solid var(--border);border-radius:10px;padding:10px}
-.art-meta b{display:block;color:var(--gold2);font-size:12px;text-transform:uppercase;letter-spacing:1px}
-@media(max-width:900px){.art-meta{grid-template-columns:1fr}}
-
 /* STATUS BAR */
 .status-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
 .stat{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px}
@@ -475,10 +469,30 @@ const TEMPLATES=[
   desc:'Assalto cinematográfico com frutas usando uniformes vermelhos.',
   estrutura:['PLANO: O Mestre explica o assalto.','INTRUSÃO: A equipe entra.','COMPLICAÇÃO: Um elemento quebra o plano.','NEGOCIAÇÃO: Pressão externa.','SAÍDA: Fuga épica com sacrifício.'],
   suno:'cinematic heist score, Spanish guitar tension, orchestral buildup, tactical drums'},
+ {id:'aot',icon:'⚔️',name:'Attack on Titan',tag:'Épico de guerra',color:'var(--orange)',
+  desc:'Frutas guerreiras contra ameaça monstruosa.',
+  estrutura:['ATAQUE: Ameaça gigante destrói o que era seguro.','JURAMENTO: Protagonista jura vingança a custo de tudo.','REVELAÇÃO: Aliado era o inimigo desde o início.','ESCOLHA: Destruir tudo para salvar todos — ou não.','CONSEQUÊNCIA: A vitória tem preço irrecuperável.'],
+  suno:'orchestral epic battle score, massive percussion, tragic heroic strings, anime cinematic intensity'},
  {id:'breaking',icon:'🧪',name:'Breaking Bad',tag:'Transformação criminal',color:'var(--gold)',
   desc:'Fruta comum vira rei do crime por necessidade.',
   estrutura:['DESESPERO: Situação impossível.','PRIMEIRA VEZ: Cruza uma linha.','ESCALADA: Novo problema maior.','IDENTIDADE: Não se reconhece.','QUEDA: O império destrói o que amava.'],
-  suno:'desert noir tension, minimal electronic guitar, dark ambient bass, crime drama atmosphere'}
+  suno:'desert noir tension, minimal electronic guitar, dark ambient bass, crime drama atmosphere'},
+ {id:'arcane',icon:'🔮',name:'Arcane',tag:'Dois mundos opostos',color:'var(--purple)',
+  desc:'Duas frutas cresceram juntas na favela. Uma tenta mudar o sistema por dentro. A outra vira arma do sistema.',
+  estrutura:['INFÂNCIA: Memória feliz de antes.','SEPARAÇÃO: O evento que dividiu os dois caminhos.','CONTRASTE: Os mundos se desenvolvem em paralelo.','COLISÃO: Os caminhos se cruzam.','TRAGÉDIA: A luta entre eles destrói o que os une.'],
+  suno:'alternative emotional score, piano melancholy, electronic dark dream-pop, tragic siblings motif'},
+ {id:'sponge',icon:'🧽',name:'SpongeBob',tag:'Humor absurdo',color:'var(--blue)',
+  desc:'Humor caótico, situações impossíveis, personagens exagerados.',
+  estrutura:['SITUAÇÃO RIDÍCULA: Problema absurdo.','PLANO PIOR: A solução é pior que o problema.','CAOS: Tudo explode inesperadamente.','PIOR AINDA: Entra um terceiro personagem.','RESOLUÇÃO ABSURDA: Resolve do jeito mais idiota possível.'],
+  suno:'tropical cartoon music, ukulele and steel drums, playful brass, underwater vibes, bright cheerful chaos'},
+ {id:'insideout',icon:'🎭',name:'Inside Out',tag:'As emoções são frutas',color:'var(--cyan)',
+  desc:'As emoções do protagonista são frutas que brigam pelo controle.',
+  estrutura:['EQUILÍBRIO: A emoção dominante controla tudo bem.','EVENTO: Algo externo desequilibra o painel.','BRIGA INTERNA: Conflito pelo controle.','MEMÓRIA: Uma lembrança muda o entendimento.','INTEGRAÇÃO: A emoção rejeitada salva o dia.'],
+  suno:'emotional orchestral score, whimsical piano, heartfelt strings, emotional journey'},
+ {id:'naruto',icon:'🍃',name:'Naruto Arc',tag:'Redenção e superação',color:'var(--green)',
+  desc:'Fruta rejeitada treina sozinha e enfrenta o maior inimigo.',
+  estrutura:['REJEIÇÃO: O herói é excluído.','TREINO: Uma figura improvável acredita e treina.','TESTE: Primeira vitória parcial.','VILÃO ESPELHO: O antagonista é o que o herói poderia ser.','REDENÇÃO: O herói salva o vilão e o mundo.'],
+  suno:'Japanese anime epic score, emotional rock guitar, traditional flute, shonen battle themes'}
 ];
 
 let state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null,grafica:''};
