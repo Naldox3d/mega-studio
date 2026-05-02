@@ -82,6 +82,14 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 .tpl-name{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold2)}
 .tpl-tag{font-size:10px;color:var(--muted);margin-top:3px}
 
+.theme-filter{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px 0}
+.theme-chip{padding:9px 12px;border-radius:999px;border:1px solid var(--border2);background:rgba(255,255,255,.02);color:var(--muted);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .18s}
+.theme-chip:hover{border-color:var(--gold);color:var(--gold2)}
+.theme-chip.act{background:rgba(212,160,23,.13);border-color:var(--gold);color:var(--gold2)}
+.custom-theme-box{margin-top:16px;background:rgba(0,212,200,.035);border:1px solid rgba(0,212,200,.25);border-radius:16px;padding:16px}
+.custom-theme-box .panel-title{color:var(--cyan);border-bottom-color:rgba(0,212,200,.25)}
+.mini-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:8px}
+
 /* CHARACTER CARDS */
 .char-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .char-card{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;transition:all .18s;text-align:center}
@@ -200,8 +208,49 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 <!-- ==================== FORMATO ==================== -->
 <section id="formato" class="tab">
   <div class="panel">
-    <div class="panel-title">🎬 Formato Viral Internacional</div>
+    <div class="panel-title">🎬 Banco de Temas — Viral, Cristão, Clip, TV, Novelas e Custom</div>
+    <div class="theme-filter" id="themeFilter"></div>
     <div class="tpl-grid" id="tplGrid"></div>
+
+    <div class="custom-theme-box">
+      <div class="panel-title">🧩 Tema totalmente customizado</div>
+      <div class="g2">
+        <div>
+          <label>Nome do tema</label>
+          <input id="temaNome" placeholder="Ex: O Pomar do Presidente, Chaves das Frutas, Minha Novela Tropical">
+          <label>Grupo</label>
+          <select id="temaGrupo">
+            <option value="custom">Custom livre</option>
+            <option value="crista">Cristão</option>
+            <option value="clip">Clip musical</option>
+            <option value="tvnovela">TV / novela</option>
+            <option value="frutas">Frutas Adventures</option>
+            <option value="liveaction">Live action frutas humanizadas</option>
+            <option value="famosos">Paródia de figuras virais</option>
+          </select>
+          <label>Emoji/ícone</label>
+          <input id="temaIcon" placeholder="Ex: 🎤, 📺, 🙏, 🍅" maxlength="4">
+        </div>
+        <div>
+          <label>Descrição do tema</label>
+          <textarea id="temaDesc" placeholder="Explique o clima do tema: humor, drama, fé, clipe musical, novela, ação, etc."></textarea>
+        </div>
+      </div>
+      <label>Estrutura narrativa — uma etapa por linha</label>
+      <textarea id="temaEstrutura" placeholder="ABERTURA: ...
+CONFLITO: ...
+VIRADA: ...
+CLÍMAX: ...
+FINAL: ..."></textarea>
+      <label>Prompt musical Suno / clima sonoro</label>
+      <input id="temaSuno" placeholder="Ex: Brazilian cinematic gospel trap, emotional choir, viral drums">
+      <div class="btns">
+        <button class="btn cyan" onclick="criarTemaCustom()">Usar meu tema customizado</button>
+        <button class="btn outline" onclick="setThemeGroup('custom')">Ver custom</button>
+      </div>
+      <div class="mini-note">Para rostos de famosos ou personagens conhecidos, use como paródia/arquetipo: “inspirado no humor de vila mexicana”, “líder político genérico”, “apresentador viral genérico”, sem copiar o rosto real de ninguém.</div>
+    </div>
+
     <div id="tplDetail" class="panel" style="background:rgba(212,160,23,.04);border-color:rgba(212,160,23,.3);display:none">
       <div class="panel-title" id="tplDetailTitle">Detalhe do Formato</div>
       <div id="tplDetailBody"></div>
@@ -460,44 +509,135 @@ const CHARS=[
  {e:'🥑',n:'Abacatudo',t:'dono da rua / mafioso',v:'abacate grande, casaco de couro longo, terno escuro, cicatrizes, relógio de ouro pesado',voz:'muito grave, rouca, mafiosa e lenta',frase:'A vida amassa quem é fraco.'}
 ];
 
+const THEME_GROUPS=[
+ {id:'all',name:'Todos'},
+ {id:'viral',name:'Virais'},
+ {id:'crista',name:'Cristãs'},
+ {id:'clip',name:'Clip musical'},
+ {id:'tvnovela',name:'TV & novelas'},
+ {id:'frutas',name:'Fruits'},
+ {id:'liveaction',name:'Live action'},
+ {id:'famosos',name:'Paródias virais'},
+ {id:'custom',name:'Custom'}
+];
+let currentThemeGroup='all';
+
 const TEMPLATES=[
- {id:'squid',icon:'🦑',name:'Squid Game',tag:'Competição mortal',color:'var(--red)',
+ {id:'squid',group:'viral',icon:'🦑',name:'Squid Game',tag:'Competição mortal',color:'var(--red)',
   desc:'Jogos mortais onde frutas competem por prêmio mas apenas uma sobrevive.',
   estrutura:['ABERTURA: A convocação misteriosa chega.','REGRA: As regras absurdas são anunciadas.','ALIANÇA: Protagonista forma aliança.','TRAIÇÃO: O aliado trai.','FINAL: Sobrevivente ganha mas perde algo maior.'],
   suno:'dark Korean horror drama, electronic tension, low bass drones, heartbeat percussion, competitive survival atmosphere'},
- {id:'lacasa',icon:'🔴',name:'La Casa de Papel',tag:'Assalto das frutas',color:'var(--red)',
+ {id:'lacasa',group:'viral',icon:'🔴',name:'La Casa de Papel',tag:'Assalto das frutas',color:'var(--red)',
   desc:'Assalto cinematográfico com frutas usando uniformes vermelhos.',
   estrutura:['PLANO: O Mestre explica o assalto.','INTRUSÃO: A equipe entra.','COMPLICAÇÃO: Um elemento quebra o plano.','NEGOCIAÇÃO: Pressão externa.','SAÍDA: Fuga épica com sacrifício.'],
   suno:'cinematic heist score, Spanish guitar tension, orchestral buildup, tactical drums'},
- {id:'aot',icon:'⚔️',name:'Attack on Titan',tag:'Épico de guerra',color:'var(--orange)',
+ {id:'aot',group:'viral',icon:'⚔️',name:'Attack on Titan',tag:'Épico de guerra',color:'var(--orange)',
   desc:'Frutas guerreiras contra ameaça monstruosa.',
   estrutura:['ATAQUE: Ameaça gigante destrói o que era seguro.','JURAMENTO: Protagonista jura vingança a custo de tudo.','REVELAÇÃO: Aliado era o inimigo desde o início.','ESCOLHA: Destruir tudo para salvar todos — ou não.','CONSEQUÊNCIA: A vitória tem preço irrecuperável.'],
   suno:'orchestral epic battle score, massive percussion, tragic heroic strings, anime cinematic intensity'},
- {id:'breaking',icon:'🧪',name:'Breaking Bad',tag:'Transformação criminal',color:'var(--gold)',
+ {id:'breaking',group:'viral',icon:'🧪',name:'Breaking Bad',tag:'Transformação criminal',color:'var(--gold)',
   desc:'Fruta comum vira rei do crime por necessidade.',
   estrutura:['DESESPERO: Situação impossível.','PRIMEIRA VEZ: Cruza uma linha.','ESCALADA: Novo problema maior.','IDENTIDADE: Não se reconhece.','QUEDA: O império destrói o que amava.'],
   suno:'desert noir tension, minimal electronic guitar, dark ambient bass, crime drama atmosphere'},
- {id:'arcane',icon:'🔮',name:'Arcane',tag:'Dois mundos opostos',color:'var(--purple)',
+ {id:'arcane',group:'viral',icon:'🔮',name:'Arcane',tag:'Dois mundos opostos',color:'var(--purple)',
   desc:'Duas frutas cresceram juntas na favela. Uma tenta mudar o sistema por dentro. A outra vira arma do sistema.',
   estrutura:['INFÂNCIA: Memória feliz de antes.','SEPARAÇÃO: O evento que dividiu os dois caminhos.','CONTRASTE: Os mundos se desenvolvem em paralelo.','COLISÃO: Os caminhos se cruzam.','TRAGÉDIA: A luta entre eles destrói o que os une.'],
   suno:'alternative emotional score, piano melancholy, electronic dark dream-pop, tragic siblings motif'},
- {id:'sponge',icon:'🧽',name:'SpongeBob',tag:'Humor absurdo',color:'var(--blue)',
+ {id:'sponge',group:'viral',icon:'🧽',name:'SpongeBob',tag:'Humor absurdo',color:'var(--blue)',
   desc:'Humor caótico, situações impossíveis, personagens exagerados.',
   estrutura:['SITUAÇÃO RIDÍCULA: Problema absurdo.','PLANO PIOR: A solução é pior que o problema.','CAOS: Tudo explode inesperadamente.','PIOR AINDA: Entra um terceiro personagem.','RESOLUÇÃO ABSURDA: Resolve do jeito mais idiota possível.'],
   suno:'tropical cartoon music, ukulele and steel drums, playful brass, underwater vibes, bright cheerful chaos'},
- {id:'insideout',icon:'🎭',name:'Inside Out',tag:'As emoções são frutas',color:'var(--cyan)',
+ {id:'insideout',group:'viral',icon:'🎭',name:'Inside Out',tag:'As emoções são frutas',color:'var(--cyan)',
   desc:'As emoções do protagonista são frutas que brigam pelo controle.',
   estrutura:['EQUILÍBRIO: A emoção dominante controla tudo bem.','EVENTO: Algo externo desequilibra o painel.','BRIGA INTERNA: Conflito pelo controle.','MEMÓRIA: Uma lembrança muda o entendimento.','INTEGRAÇÃO: A emoção rejeitada salva o dia.'],
   suno:'emotional orchestral score, whimsical piano, heartfelt strings, emotional journey'},
- {id:'naruto',icon:'🍃',name:'Naruto Arc',tag:'Redenção e superação',color:'var(--green)',
+ {id:'naruto',group:'viral',icon:'🍃',name:'Naruto Arc',tag:'Redenção e superação',color:'var(--green)',
   desc:'Fruta rejeitada treina sozinha e enfrenta o maior inimigo.',
   estrutura:['REJEIÇÃO: O herói é excluído.','TREINO: Uma figura improvável acredita e treina.','TESTE: Primeira vitória parcial.','VILÃO ESPELHO: O antagonista é o que o herói poderia ser.','REDENÇÃO: O herói salva o vilão e o mundo.'],
-  suno:'Japanese anime epic score, emotional rock guitar, traditional flute, shonen battle themes'}
+  suno:'Japanese anime epic score, emotional rock guitar, traditional flute, shonen battle themes'},
+
+ {id:'exodo',group:'crista',icon:'🙏',name:'Êxodo das Frutas',tag:'Libertação e fé',color:'var(--gold)',
+  desc:'Uma fruta líder guia o povo para fora da opressão, com milagres, coragem e escolha espiritual.',
+  estrutura:['CHAMADO: O herói recebe uma missão maior que ele.','OPRESSÃO: O povo sofre nas mãos do vilão.','SINAL: Um milagre visual confirma a missão.','TRAVESSIA: A fuga acontece sob perseguição.','LIBERTAÇÃO: O povo cruza o limite e renasce.'],
+  suno:'cinematic gospel orchestral, choir, Brazilian percussion, epic hope, emotional faith theme'},
+ {id:'davigolias',group:'crista',icon:'🪨',name:'Davi vs Golias Fruit',tag:'Pequeno vence gigante',color:'var(--gold)',
+  desc:'Um personagem pequeno enfrenta um gigante arrogante com fé, estratégia e coragem.',
+  estrutura:['DESAFIO: O gigante humilha todos.','RECUSA: Ninguém acredita no herói.','FÉ: O herói escolhe arma simples.','CONFRONTO: O duelo acontece em câmera lenta.','VITÓRIA: O improvável derruba o impossível.'],
+  suno:'epic biblical battle score, choir rise, drums, heroic strings, emotional victory'},
+ {id:'parabola',group:'crista',icon:'🌱',name:'Parábola Moderna',tag:'Moral forte',color:'var(--green)',
+  desc:'História curta com virada moral: perdão, arrependimento, humildade ou propósito.',
+  estrutura:['ERRO: O personagem toma a decisão errada.','PERDA: A consequência chega.','ENCONTRO: Alguém sábio mostra outra visão.','ESCOLHA: O personagem decide mudar.','LIÇÃO: Final com frase forte e compartilhável.'],
+  suno:'soft gospel pop, warm piano, choir pads, inspirational cinematic ending'},
+ {id:'arca',group:'crista',icon:'🕊️',name:'Arca Tropical',tag:'Salvação no caos',color:'var(--blue)',
+  desc:'Uma enchente ou crise obriga as frutas a entrarem numa arca improvisada.',
+  estrutura:['AVISO: Sinais estranhos aparecem.','ZOMBARIA: Todos ignoram o aviso.','CONSTRUÇÃO: A arca é montada às pressas.','TEMPESTADE: O caos toma a cidade.','ALIANÇA: Um novo começo surge.'],
+  suno:'cinematic worship atmosphere, rain ambience, hopeful choir, soft percussion'},
+
+ {id:'clipfunk',group:'clip',icon:'🎤',name:'Trap/Funk Fruit Clip',tag:'Batida viral',color:'var(--purple)',
+  desc:'Clipe musical vertical com refrão chiclete, dança de frutas e cortes rápidos.',
+  estrutura:['HOOK: Frase curta que gruda.','VERSO 1: Protagonista apresenta o conflito rimando.','DROP: Dança/efeito visual marcante.','VERSO 2: Vilão responde no beat.','REFRÃO FINAL: Todo mundo repete a frase viral.'],
+  suno:'Brazilian trap funk, viral chorus, heavy 808, claps, energetic fruit dance anthem'},
+ {id:'louvorclip',group:'clip',icon:'🎶',name:'Louvor Cinemático',tag:'Clip cristão emocional',color:'var(--cyan)',
+  desc:'Clipe de fé com visual cinematográfico, emoção, luz divina e mensagem positiva.',
+  estrutura:['SILÊNCIO: O herói está sozinho.','ORAÇÃO: A voz começa baixa.','LUZ: O cenário muda com esperança.','CORAL: Todos entram no refrão.','FINAL: Mensagem de fé na tela.'],
+  suno:'Brazilian worship pop, emotional choir, cinematic drums, piano, uplifting gospel chorus'},
+ {id:'forroclip',group:'clip',icon:'🪗',name:'Forró Viral das Frutas',tag:'Nordeste dançante',color:'var(--orange)',
+  desc:'Forró animado com humor, dança e visual de festa tropical.',
+  estrutura:['CHAMADA: Frase de forró para abrir.','XOTE: Personagens dançam e provocam.','CONFUSÃO: Vilão entra querendo acabar com a festa.','SANFONA: Batalha musical.','ARRASTA-PÉ FINAL: Todo mundo dança.'],
+  suno:'Brazilian forro, accordion, zabumba, triangle, viral dance chorus, joyful tropical'},
+
+ {id:'novela9',group:'tvnovela',icon:'📺',name:'Novela das 9 Fruit',tag:'Traição e lágrima',color:'var(--red)',
+  desc:'Drama de novela com segredo de família, zoom no rosto e revelação no jantar.',
+  estrutura:['JANTAR: Todos reunidos fingindo paz.','OLHAR: Close nos olhos de quem sabe o segredo.','ACUSAÇÃO: A verdade começa a sair.','TAPA MORAL: Frase dramática explode.','GANCHO: Porta abre com nova revelação.'],
+  suno:'Brazilian telenovela orchestral drama, piano suspense, strings, emotional stinger'},
+ {id:'chavesfruit',group:'tvnovela',icon:'🏘️',name:'Vila das Frutas',tag:'Humor de vila',color:'var(--gold)',
+  desc:'Comédia de vila inspirada em sitcom clássica latina: confusão inocente, bordões e cenário simples, sem copiar rostos reais.',
+  estrutura:['MAL-ENTENDIDO: O herói entende tudo errado.','VIZINHO: Alguém aparece irritado.','BORDÃO: Frase repetível vira piada.','CONFUSÃO: Todo mundo acusa todo mundo.','FINAL: A solução era simples e absurda.'],
+  suno:'light Latin sitcom music, playful marimba, brass stabs, funny neighborhood mood'},
+ {id:'telejornal',group:'tvnovela',icon:'📰',name:'Telejornal Caótico',tag:'Breaking news fruit',color:'var(--blue)',
+  desc:'Noticiário urgente cobrindo uma crise absurda entre frutas humanizadas.',
+  estrutura:['PLANTÃO: Alerta urgente na tela.','REPÓRTER: Entrada ao vivo no caos.','ENTREVISTA: Personagem dá depoimento absurdo.','VAZAMENTO: Surge prova inesperada.','ENCERRAMENTO: Âncora solta frase viral.'],
+  suno:'urgent TV news theme, orchestral hits, tension pulses, satirical breaking news'},
+ {id:'reality',group:'tvnovela',icon:'🏆',name:'Reality das Frutas',tag:'Votação e treta',color:'var(--purple)',
+  desc:'Confinamento, prova, intriga, paredão e treta ao vivo.',
+  estrutura:['ENTRADA: Todos chegam no confinamento.','PROVA: Desafio ridículo viral.','TRETA: Alguém trai a aliança.','PAREDÃO: Discursos dramáticos.','ELIMINAÇÃO: Saída com frase final.'],
+  suno:'reality show tension, pop drums, suspense risers, audience reaction, dramatic stings'},
+
+ {id:'pomar',group:'frutas',icon:'🍇',name:'Guardiões do Pomar',tag:'Lore oficial Fruits',color:'var(--green)',
+  desc:'Aventura original do universo Fruits Adventures com guardiões, vilões e relíquias tropicais.',
+  estrutura:['MAPA: Um segredo do pomar aparece.','EQUIPE: Frutas com poderes se unem.','ATAQUE: Vilão invade a região.','RELÍQUIA: Objeto sagrado escolhe o herói.','BATALHA: O pomar é salvo com custo.'],
+  suno:'tropical cinematic adventure, heroic brass, Brazilian percussion, magical fruit fantasy'},
+ {id:'egdguerra',group:'frutas',icon:'⚙️',name:'Guerra E.G.D.',tag:'Militar frutas',color:'var(--red)',
+  desc:'Conflito tático entre frutas rebeldes e uma força militar corrupta.',
+  estrutura:['MISSÃO: Infiltração noturna.','ALERTA: Sirenes acordam a base.','FUGA: Herói corre com arquivo secreto.','CONFRONTO: Soldados bloqueiam a saída.','EXPOSIÇÃO: Prova vai ao ar.'],
+  suno:'military cinematic percussion, dark synths, tactical drums, heroic brass'},
+
+ {id:'livehero',group:'liveaction',icon:'🎬',name:'Live Action Fruit Heroes',tag:'Frutas humanizadas realistas',color:'var(--cyan)',
+  desc:'Frutas com corpo humano, textura realista, roupas cinematográficas e atuação de filme.',
+  estrutura:['ESTABELECIMENTO: Cena realista em cidade tropical.','AÇÃO: O herói age como pessoa real.','CONFLITO: Vilão humano-fruta aparece.','PERSEGUIÇÃO: Movimento de câmera handheld.','GANCHO: Close realista para continuar.'],
+  suno:'live action superhero score, cinematic drums, hybrid orchestral synth, emotional brass'},
+ {id:'docreal',group:'liveaction',icon:'🎥',name:'Documentário Realista',tag:'Found footage',color:'var(--muted)',
+  desc:'Estilo câmera na mão, entrevistas falsas, provas visuais e tensão realista.',
+  estrutura:['ARQUIVO: Gravação encontrada.','ENTREVISTA: Testemunha conta a versão.','PROVA: A câmera mostra algo estranho.','CORTE: Áudio falha no pior momento.','REVELAÇÃO: Último frame explica tudo.'],
+  suno:'documentary tension score, subtle piano, low drones, investigative percussion'},
+
+ {id:'presidente',group:'famosos',icon:'🎙️',name:'Presidente Genérico Viral',tag:'Sátira política neutra',color:'var(--gold)',
+  desc:'Uma fruta-líder fictícia faz discurso viral, debate ou pronunciamento satírico sem representar político real.',
+  estrutura:['PALANQUE: A fruta-líder promete algo absurdo.','PERGUNTA: Repórter aperta com uma verdade.','REAÇÃO: O público divide opiniões.','VAZAMENTO: Prova aparece no telão.','FRASE VIRAL: Final com bordão neutro.'],
+  suno:'satirical political TV theme, brass, drums, crowd ambience, dramatic debate stings'},
+ {id:'influencer',group:'famosos',icon:'📱',name:'Influencer Viral Fruit',tag:'Trend e meme',color:'var(--purple)',
+  desc:'Paródia de criador viral genérico: react, trend, publi falsa e meme rápido.',
+  estrutura:['HOOK: Começa com frase chocante.','REACT: Reação exagerada.','CORTE: Zoom e legenda grande.','PLOT: Algo dá errado ao vivo.','CALL: O público é chamado a comentar.'],
+  suno:'viral social media beat, pop trap, fast cuts, meme sound effects'},
+ {id:'auditório',group:'famosos',icon:'🎭',name:'Apresentador de Auditório',tag:'Show popular',color:'var(--orange)',
+  desc:'Programa de auditório fictício com plateia, competição e revelação dramática.',
+  estrutura:['ENTRADA: Música e aplausos.','QUADRO: Frutas participam de desafio.','SURPRESA: Convidado inesperado entra.','CONFISSÃO: Segredo revelado no palco.','PLATEIA: Reação explode com bordão.'],
+  suno:'Brazilian TV variety show theme, brass, drums, applause, comedic stingers'}
 ];
 
 let state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null,grafica:''};
 
-window.onload=()=>{buildChars();buildTemplates();updateStatus();};
+window.onload=()=>{buildChars();buildThemeFilters();buildTemplates();updateStatus();};
 
 function buildChars(){
  const g=document.getElementById('charGrid');
@@ -522,9 +662,33 @@ function renderDNA(){
 function dnaStr(){return state.elenco.map(i=>{const c=CHARS[i];return `${c.n} — Visual: ${c.v}`}).join('\n');}
 function copyDNA(){copyText($('dnaOut').textContent,'DNA copiado!')}
 
+function buildThemeFilters(){
+ const f=document.getElementById('themeFilter'); if(!f) return;
+ f.innerHTML=THEME_GROUPS.map(g=>`<button class="theme-chip ${g.id===currentThemeGroup?'act':''}" onclick="setThemeGroup('${g.id}')">${g.name}</button>`).join('');
+}
+function setThemeGroup(group){
+ currentThemeGroup=group;
+ buildThemeFilters(); buildTemplates();
+}
 function buildTemplates(){
  const g=document.getElementById('tplGrid');
- g.innerHTML=TEMPLATES.map(t=>`<div class="tpl-card" id="tpl_${t.id}" onclick="selectTpl('${t.id}')"><span class="tpl-icon">${t.icon}</span><div class="tpl-name">${t.name}</div><div class="tpl-tag">${t.tag}</div></div>`).join('');
+ const list=TEMPLATES.filter(t=>currentThemeGroup==='all'||t.group===currentThemeGroup);
+ g.innerHTML=list.map(t=>`<div class="tpl-card" id="tpl_${t.id}" onclick="selectTpl('${t.id}')"><span class="tpl-icon">${t.icon}</span><div class="tpl-name">${t.name}</div><div class="tpl-tag">${t.tag}</div></div>`).join('') || '<div class="hint">Nenhum tema neste grupo ainda. Crie um tema customizado abaixo.</div>';
+ if(state.tplId){ const card=document.getElementById('tpl_'+state.tplId); if(card) card.classList.add('sel'); }
+}
+function criarTemaCustom(){
+ const nome=($('temaNome')?.value||'Tema Custom Fruits').trim();
+ const desc=($('temaDesc')?.value||'Tema criado pelo usuário para gerar histórias virais customizadas.').trim();
+ const icon=($('temaIcon')?.value||'🧩').trim();
+ const grupo=$('temaGrupo')?.value||'custom';
+ const estruturaTxt=($('temaEstrutura')?.value||'ABERTURA: Hook forte nos 3 primeiros segundos.\nCONFLITO: O problema aparece visualmente.\nVIRADA: Algo inesperado muda tudo.\nCLÍMAX: A cena mais compartilhável acontece.\nFINAL: Gancho para continuação.').trim();
+ const suno=($('temaSuno')?.value||'cinematic viral Brazilian score, emotional drums, catchy hook').trim();
+ const id='custom_'+Date.now();
+ const novo={id,group:grupo,icon,name:nome,tag:'Custom livre',color:'var(--cyan)',desc,estrutura:estruturaTxt.split('\n').filter(Boolean),suno};
+ TEMPLATES.push(novo);
+ setThemeGroup(grupo);
+ selectTpl(id);
+ toast('Tema customizado ativado!');
 }
 function selectTpl(id){
  const t=TEMPLATES.find(x=>x.id===id); if(!t) return;
