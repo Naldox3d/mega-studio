@@ -718,8 +718,8 @@ function gerarLocal(){
  
  let refImgTxt = base64Imagem ? "\n[NOTA: Imagem de referência anexada para continuidade de cenários e figurinos]" : "";
 
- const atos=t.estrutura.slice(0,nCenas).map((s,i)=>`ATO ${i+1}: ${prot.n} e ${anta.n}. Cenário: ${uni}.`).join('\n\n');
- state.roteiro=`TÍTULO: ${t.name.toUpperCase()} DAS FRUTAS\nLOGLINE: ${idea}${refImgTxt}\n\n${atos}\nMÚSICA SUNO: ${t.suno}`;
+ const atos=t.estrutura.slice(0,nCenas).map((s,i)=>`CENA ${i+1} | TEMPO 00:${String(i*6).padStart(2,'0')}-00:${String((i+1)*6).padStart(2,'0')}\nROTEIRO: ${s} ${prot.n} enfrenta ${anta.n}. Cenário: ${uni}.\nSTORYBOARD: plano cinematográfico, câmera em movimento, luz dramática, expressão forte, ação clara e gancho visual para corte.`).join('\n\n');
+ state.roteiro=`TÍTULO: ${t.name.toUpperCase()} DAS FRUTAS\nLOGLINE: ${idea}${refImgTxt}\nGANCHO 0-3s: Algo impossível aparece na tela e prende a atenção imediatamente.\n\n${atos}\n\nFORMATOS DE FOTO: YouTube 16:9, TikTok/Reels 9:16 e Instagram 4:5 serão gerados na aba Cenas.\nMÚSICA SUNO: ${t.suno}`;
  $('roteiroOut').textContent=state.roteiro; $('exportOut').textContent=buildExport(); toast('Roteiro local gerado!');
 }
 
@@ -782,7 +782,38 @@ async function gerarAPI(){
  
  let imgContext = base64Imagem ? "\n\nAtenção: O usuário anexou uma imagem de referência visual. Analise as cores, a iluminação, o enquadramento e as roupas dos personagens na imagem. Mantenha essa mesma estética e continuidade de cena no roteiro e na descrição da iluminação." : "";
 
- const prompt=`DNA DO ELENCO:\n${dnaStr()}\n\nUNIVERSO: ${$('universo')?.value}\nFORMATO: ${state.tpl.name}\nIDEIA BASE: ${$('ideaLivre')?.value}\nNÚMERO DE Cenas: ${$('numCenas')?.value}\n\n${imgContext}\n\nCrie um roteiro viral, inclua título, logline, os atos da história, chamada e o prompt musical para Suno AI (${state.tpl.suno}).`;
+ const prompt=`DNA DO ELENCO:
+${dnaStr()}
+
+UNIVERSO: ${$('universo')?.value}
+FORMATO: ${state.tpl.name}
+IDEIA BASE: ${$('ideaLivre')?.value}
+NÚMERO DE CENAS: ${$('numCenas')?.value}
+DURAÇÃO ALVO: ${$('duracao')?.value}
+MOTOR VIRAL: ${$('motor')?.value}
+TOM EMOCIONAL: ${$('tom')?.value}
+
+${imgContext}
+
+Crie um pacote COMPLETO para produção viral, não apenas roteiro simples.
+
+A resposta deve vir em português e incluir obrigatoriamente:
+1. TÍTULO forte.
+2. LOGLINE.
+3. GANCHO DOS 3 PRIMEIROS SEGUNDOS.
+4. ROTEIRO COM TEMPO, dividido por cena, com marcação tipo 00:00-00:05.
+5. STORYBOARD por cena, descrevendo enquadramento, ação, cenário, luz, emoção e movimento de câmera.
+6. PROMPTS DE FOTO/IMAGEM para cada plataforma:
+   - YouTube thumbnail 16:9
+   - TikTok capa 9:16
+   - Reels capa 9:16
+   - Instagram feed 4:5
+7. PROMPTS DE VÍDEO para Flow Labs em inglês, mantendo DNA visual.
+8. FALAS/VOZES, SFX e música Suno AI (${state.tpl.suno}).
+9. Legendas curtas estilo CapCut.
+10. CTA final para comentar/seguir.
+
+Use linguagem direta, pronta para copiar e produzir.`;
  
  try{
   const txt=await callGemini(prompt,key);
@@ -796,11 +827,17 @@ function gerarCenas(){
  const nC=parseInt($('numCenas')?.value)||5;
  state.cenas=Array.from({length:nC},(_,i)=>({
    title:`CENA ${i+1}`,
+   tempo:`00:${String(i*6).padStart(2,'0')}-00:${String((i+1)*6).padStart(2,'0')}`,
+   storyboard:`Quadro ${i+1}: ${prot.n} aparece em plano cinematográfico, cenário ${$('universo')?.value||'Terra de Elinaldo'}, luz dramática, expressão intensa, câmera aproximando para revelar tensão.`,
    img:`3D cinematic stylized render, ${prot.n} (${prot.v}), dramatic lighting, consistent DNA, 8k`,
-   vid:`Flow Labs: Close up. ${prot.n} action. Vertical 9:16, cinematic motion.`,
+   vid:`Flow Labs: Close up. ${prot.n} action. Vertical 9:16, cinematic motion, continuous camera movement, dramatic reveal.`,
+   youtube:`YouTube thumbnail 16:9, ${prot.n} shocked face, big bold Portuguese text, high contrast, cinematic fruits universe, viral drama composition.`,
+   tiktok:`TikTok cover 9:16, ${prot.n} centered, emotional expression, bold top text, neon contrast, mobile-first viral composition.`,
+   reels:`Instagram Reels cover 9:16, ${prot.n} in dramatic pose, clean bold title area, cinematic lighting, sharp colorful 3D style.`,
+   instagram:`Instagram feed 4:5, poster style, ${prot.n}, dramatic background, premium 3D cartoon, strong readable headline area.`,
    aud:`SFX: Hit grave. Voz (${prot.n}): "${prot.frase}"`,
    suno:`${t.suno}, scene ${i+1}`,
-   cap:`CapCut: legenda forte, corte no beat.`
+   cap:`CapCut: legenda forte, corte no beat, zoom no susto e texto grande em amarelo.`
  }));
  renderCenas(); $('exportOut').textContent=buildExport(); toast('Cenas locais geradas!');
 }
@@ -816,8 +853,15 @@ async function gerarCenasAPI(){
 DNA: ${dnaStr()}
 Universo: ${$('universo')?.value}
 ${imgContext}
-Cada item deve ter exatamente estas chaves: title, img, vid, aud, suno, cap.
-img e vid DEVEM ser em INGLÊS. aud, suno e cap em PORTUGUÊS.
+Cada item deve ter exatamente estas chaves: title, tempo, storyboard, img, vid, youtube, tiktok, reels, instagram, aud, suno, cap.
+tempo deve ser no formato 00:00-00:05.
+storyboard, aud, suno e cap em PORTUGUÊS.
+img, vid, youtube, tiktok, reels e instagram DEVEM ser prompts em INGLÊS, prontos para IA de imagem/vídeo.
+youtube = prompt de thumbnail YouTube 16:9.
+tiktok = prompt de capa TikTok 9:16.
+reels = prompt de capa Reels 9:16.
+instagram = prompt de post Instagram feed 4:5.
+Inclua em storyboard: enquadramento, movimento de câmera, iluminação, ação, emoção e cenário.
 Retorne SOMENTE o array JSON formatado corretamente, começando com [ e terminando com ], sem nenhum texto antes ou depois.`;
  try{
   const txt=await callGemini(prompt,key);
@@ -835,8 +879,8 @@ Retorne SOMENTE o array JSON formatado corretamente, começando com [ e terminan
 }
 
 function renderCenas(){
- const colors={'img':'var(--green)','vid':'var(--cyan)','aud':'var(--orange)','suno':'var(--purple)','cap':'var(--red)'};
- const labels={'img':'📸 Imagem (Midjourney)','vid':'🎥 Vídeo (Flow Labs)','aud':'🎙️ Áudio & Voz','suno':'🎵 Suno AI','cap':'✂️ CapCut'};
+ const colors={'tempo':'var(--gold)','storyboard':'var(--blue)','img':'var(--green)','vid':'var(--cyan)','youtube':'var(--red)','tiktok':'var(--purple)','reels':'var(--orange)','instagram':'var(--green)','aud':'var(--orange)','suno':'var(--purple)','cap':'var(--red)'};
+ const labels={'tempo':'⏱️ Tempo','storyboard':'🧩 Storyboard','img':'📸 Imagem Base (Midjourney)','vid':'🎥 Vídeo (Flow Labs)','youtube':'▶️ Foto YouTube 16:9','tiktok':'📱 Foto TikTok 9:16','reels':'🎬 Foto Reels 9:16','instagram':'🖼️ Foto Instagram 4:5','aud':'🎙️ Áudio & Voz','suno':'🎵 Suno AI','cap':'✂️ CapCut'};
  $('cenaContainer').innerHTML=state.cenas.map((c,i)=>`
   <div class="ep-card">
    <div class="ep-num">CENA ${i+1} / ${state.cenas.length}</div>
