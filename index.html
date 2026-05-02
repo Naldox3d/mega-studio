@@ -89,6 +89,11 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 .custom-theme-box{margin-top:16px;background:rgba(0,212,200,.035);border:1px solid rgba(0,212,200,.25);border-radius:16px;padding:16px}
 .custom-theme-box .panel-title{color:var(--cyan);border-bottom-color:rgba(0,212,200,.25)}
 .mini-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:8px}
+.map-box{margin-top:16px;background:rgba(58,159,232,.045);border:1px solid rgba(58,159,232,.25);border-radius:16px;padding:16px}
+.map-box .panel-title{color:var(--blue);border-bottom-color:rgba(58,159,232,.25)}
+.map-preview{width:100%;min-height:220px;border:1px solid var(--border2);border-radius:12px;background:#020509;overflow:hidden;margin-top:12px}
+.map-preview iframe{width:100%;height:240px;border:0;display:block}
+.small-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 /* CHARACTER CARDS */
 .char-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
@@ -156,7 +161,7 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
       <span class="badge cyan">Flow Labs</span>
       <span class="badge red">Studio Pro</span>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:var(--muted)">Formatos virais da gringa adaptados ao universo Fruits Adventures</div>
+    <div style="margin-top:8px;font-size:11px;color:var(--muted)">Formatos virais, live action real com Maps e datas anuais para Fruits Adventures</div>
   </div>
 </div>
 
@@ -208,7 +213,7 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 <!-- ==================== FORMATO ==================== -->
 <section id="formato" class="tab">
   <div class="panel">
-    <div class="panel-title">🎬 Banco de Temas — Viral, Cristão, Clip, TV, Novelas e Custom</div>
+    <div class="panel-title">🎬 Banco de Temas — Viral, Cristão, Clip, TV, Novelas, Datas e Custom</div>
     <div class="theme-filter" id="themeFilter"></div>
     <div class="tpl-grid" id="tplGrid"></div>
 
@@ -226,6 +231,7 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
             <option value="tvnovela">TV / novela</option>
             <option value="frutas">Frutas Adventures</option>
             <option value="liveaction">Live action frutas humanizadas</option>
+            <option value="datas">Datas anuais / calendário</option>
             <option value="famosos">Paródia de figuras virais</option>
           </select>
           <label>Emoji/ícone</label>
@@ -309,6 +315,47 @@ FINAL: ..."></textarea>
         <img id="imgPreview" src="" style="max-height:180px; border-radius:8px; box-shadow:var(--shadow)">
         <div style="color:var(--cyan); font-size:12px; font-weight:700; margin-top:8px; letter-spacing:1px">A IA ESTÁ VENDO ESTA IMAGEM 👀</div>
       </div>
+  </div>
+
+  <div class="map-box">
+      <div class="panel-title">🗺️ Live Action Real — Rua, Coordenadas e Google Maps</div>
+      <div class="g2">
+        <div>
+          <label>Endereço real / nome da rua</label>
+          <input id="realAddress" placeholder="Ex: Rua 25 de Março, São Paulo, SP ou Centro de Caruaru">
+          <div class="small-row">
+            <div>
+              <label>Latitude</label>
+              <input id="realLat" placeholder="Ex: -8.28436">
+            </div>
+            <div>
+              <label>Longitude</label>
+              <input id="realLng" placeholder="Ex: -35.96992">
+            </div>
+          </div>
+          <label>Google Maps link opcional</label>
+          <input id="mapsLink" placeholder="Cole um link do Google Maps se quiser">
+          <label>Estilo live action no local</label>
+          <select id="realLook">
+            <option>Live action cinematográfico realista, personagens frutas humanizadas integrados na rua real</option>
+            <option>Found footage realista, câmera de celular, perseguição na rua real</option>
+            <option>Clipe musical live action, dança e luz natural da cidade</option>
+            <option>Novela live action, drama emocional em locação real</option>
+            <option>Documentário investigativo, câmera na mão e provas na rua real</option>
+          </select>
+        </div>
+        <div>
+          <label>Como usar esta locação na história</label>
+          <textarea id="realSceneUse" placeholder="Ex: usar a rua como beco de perseguição, ponto de encontro secreto, praça do comício, feira, igreja, escola, mercado..."></textarea>
+          <div class="btns">
+            <button class="btn cyan" onclick="previewMap()">Ver no mapa</button>
+            <button class="btn gold" onclick="usarLocalReal()">Usar local real no roteiro</button>
+            <button class="btn outline" onclick="openMaps()">Abrir Google Maps</button>
+          </div>
+          <div class="mini-note">A IA não acessa o Street View sozinha: ela usa o endereço, coordenadas, link e a descrição que você colocar. Se anexar um print da rua no “Olho da IA”, o Gemini também lê a imagem para manter fachada, luz e cenário.</div>
+        </div>
+      </div>
+      <div class="map-preview" id="mapPreview"><div style="padding:18px;color:var(--muted);font-family:'DM Mono',monospace">Digite endereço ou coordenadas e clique em “Ver no mapa”.</div></div>
   </div>
 
   <div class="g2">
@@ -517,6 +564,7 @@ const THEME_GROUPS=[
  {id:'tvnovela',name:'TV & novelas'},
  {id:'frutas',name:'Fruits'},
  {id:'liveaction',name:'Live action'},
+ {id:'datas',name:'Datas anuais'},
  {id:'famosos',name:'Paródias virais'},
  {id:'custom',name:'Custom'}
 ];
@@ -621,6 +669,31 @@ const TEMPLATES=[
   estrutura:['ARQUIVO: Gravação encontrada.','ENTREVISTA: Testemunha conta a versão.','PROVA: A câmera mostra algo estranho.','CORTE: Áudio falha no pior momento.','REVELAÇÃO: Último frame explica tudo.'],
   suno:'documentary tension score, subtle piano, low drones, investigative percussion'},
 
+ {id:'maes',group:'datas',icon:'🌷',name:'Dia das Mães Fruit',tag:'Emoção familiar',color:'var(--purple)',
+  desc:'Especial anual para Dia das Mães com emoção, reconciliação, sacrifício materno e final compartilhável.',
+  estrutura:['GANCHO: O herói esquece ou perde o presente da mãe.','MEMÓRIA: Flashback revela o sacrifício dela.','CONFLITO: O vilão tenta impedir a homenagem.','SURPRESA: A comunidade se une.','FINAL: Mensagem emocionante para marcar mães nos comentários.'],
+  suno:'Brazilian emotional cinematic pop, soft piano, warm strings, family choir, viral heartfelt ending'},
+ {id:'pascoa',group:'datas',icon:'🐰',name:'Páscoa das Frutas',tag:'Renascimento e esperança',color:'var(--green)',
+  desc:'Especial de Páscoa com caça ao ovo, fé, renascimento, perdão e aventura familiar.',
+  estrutura:['GANCHO: Um ovo misterioso aparece no pomar.','BUSCA: As frutas seguem pistas pela cidade.','PROVAÇÃO: O vilão tenta roubar a esperança.','RENASCIMENTO: Um personagem escolhe perdoar.','FINAL: Luz, família e promessa de novo começo.'],
+  suno:'cinematic Easter adventure, hopeful choir, playful percussion, warm acoustic guitar, emotional strings'},
+ {id:'natal',group:'datas',icon:'🎄',name:'Natal na Favela do Tomate',tag:'Natal cinematográfico',color:'var(--red)',
+  desc:'Especial de Natal com família, luzes, neve tropical imaginária, presente secreto e redenção do vilão.',
+  estrutura:['ABERTURA: As luzes de Natal acendem na favela.','PROBLEMA: O presente ou comida da ceia desaparece.','JORNADA: O herói procura o culpado.','REVELAÇÃO: O vilão roubou por necessidade ou vingança.','FINAL: Perdão, ceia coletiva e gancho mágico.'],
+  suno:'Brazilian Christmas cinematic score, bells, emotional choir, warm piano, festive percussion, magical ending'},
+ {id:'saojoao',group:'datas',icon:'🔥',name:'São João das Frutas',tag:'Festa junina viral',color:'var(--orange)',
+  desc:'Tema brasileiro de festa junina com quadrilha, fogueira, forró, competição e confusão viral.',
+  estrutura:['ABERTURA: A festa começa com bandeirinhas e forró.','DESAFIO: Uma competição divide a vila.','CONFUSÃO: O vilão sabota a quadrilha.','VIRADA: A música muda e todos entram na dança.','FINAL: Revelação no palco e chamada para comentar.'],
+  suno:'Brazilian forró cinematic, accordion, zabumba, triangle, festive crowd, viral dance hook'},
+ {id:'criancas',group:'datas',icon:'🧸',name:'Dia das Crianças Fruit',tag:'Aventura infantil',color:'var(--blue)',
+  desc:'Especial de Dia das Crianças com aventura leve, brincadeira, amizade e lição emocional.',
+  estrutura:['GANCHO: Um brinquedo mágico ganha vida.','AVENTURA: As frutas crianças seguem uma pista.','PERIGO: O brinquedo cai nas mãos erradas.','CORAGEM: A criança fruta toma uma decisão adulta.','FINAL: Amizade, risada e moral simples.'],
+  suno:'playful cinematic kids adventure, xylophone, ukulele, bright drums, emotional happy ending'},
+ {id:'anonovo',group:'datas',icon:'🎆',name:'Ano Novo Fruit',tag:'Virada e promessa',color:'var(--cyan)',
+  desc:'História de Réveillon com contagem regressiva, promessa, fogos, recomeço e plot twist na virada.',
+  estrutura:['ABERTURA: Faltam 10 segundos para a virada.','PROMESSA: O herói promete mudar.','AMEAÇA: O vilão tenta estragar a contagem.','VIRADA: O relógio para no zero.','FINAL: Fogos revelam uma mensagem secreta no céu.'],
+  suno:'New Year cinematic EDM, countdown, big drums, emotional synths, fireworks, viral drop'},
+
  {id:'presidente',group:'famosos',icon:'🎙️',name:'Presidente Genérico Viral',tag:'Sátira política neutra',color:'var(--gold)',
   desc:'Uma fruta-líder fictícia faz discurso viral, debate ou pronunciamento satírico sem representar político real.',
   estrutura:['PALANQUE: A fruta-líder promete algo absurdo.','PERGUNTA: Repórter aperta com uma verdade.','REAÇÃO: O público divide opiniões.','VAZAMENTO: Prova aparece no telão.','FRASE VIRAL: Final com bordão neutro.'],
@@ -710,10 +783,65 @@ function updateStatus(){
  $('stMotor').textContent=$('motor')?.value?.split(' ').slice(0,2).join(' ')||'—'; $('stDuracao').textContent=$('duracao')?.value?.split('(')[0].trim().split(' ').slice(-1)[0]||'—';
 }
 
+
+function getLocationQuery(){
+ const addr=($('realAddress')?.value||'').trim();
+ const lat=($('realLat')?.value||'').trim();
+ const lng=($('realLng')?.value||'').trim();
+ if(lat && lng) return `${lat},${lng}`;
+ return addr;
+}
+function getMapsUrl(){
+ const link=($('mapsLink')?.value||'').trim();
+ if(link) return link;
+ const q=getLocationQuery();
+ if(!q) return '';
+ return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+}
+function locationContext(){
+ const addr=($('realAddress')?.value||'').trim();
+ const lat=($('realLat')?.value||'').trim();
+ const lng=($('realLng')?.value||'').trim();
+ const link=($('mapsLink')?.value||'').trim();
+ const look=($('realLook')?.value||'').trim();
+ const use=($('realSceneUse')?.value||'').trim();
+ if(!addr && !lat && !lng && !link && !use) return '';
+ return `
+
+LOCAL REAL / GOOGLE MAPS PARA LIVE ACTION:
+Endereço ou rua: ${addr || 'não informado'}
+Coordenadas: ${lat && lng ? `${lat}, ${lng}` : 'não informado'}
+Google Maps: ${link || 'não informado'}
+Estilo: ${look || 'live action cinematográfico realista'}
+Uso narrativo: ${use || 'usar como cenário real principal da história'}
+Instrução: adaptar a rua real como locação de live action, mantendo arquitetura, iluminação, calçadas, fachadas, postes, trânsito, clima e referências urbanas descritas. Integrar os personagens como frutas humanizadas realistas, sem alterar o endereço real.`;
+}
+function previewMap(){
+ const q=getLocationQuery();
+ const link=getMapsUrl();
+ if(!q && !link){toast('Digite endereço, coordenadas ou link do Maps.');return}
+ const embedQ=q || link;
+ $('mapPreview').innerHTML=`<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(embedQ)}&output=embed"></iframe>`;
+ toast('Mapa carregado.');
+}
+function openMaps(){
+ const url=getMapsUrl();
+ if(!url){toast('Digite endereço, coordenadas ou link do Maps.');return}
+ window.open(url,'_blank');
+}
+function usarLocalReal(){
+ const ctx=locationContext();
+ if(!ctx){toast('Preencha endereço, coordenadas ou descrição do local.');return}
+ const atual=($('ideaLivre')?.value||'').trim();
+ const complemento=`\n\nUse esta locação real como base visual da história:${ctx}\nGerar cenas live action com personagens frutas humanizadas dentro desse local real.`;
+ $('ideaLivre').value = atual ? atual + complemento : complemento.trim();
+ toast('Local real adicionado na ideia livre.');
+}
+
 function gerarLocal(){
  if(!state.elenco.length){toast('Selecione ao menos 1 personagem.');return} if(!state.tpl){toast('Selecione um formato viral.');return}
  updateStatus(); const t=state.tpl; const chars=state.elenco.map(i=>CHARS[i]); const prot=chars[0];const anta=chars[1]||chars[0];
- const uni=$('universo')?.value||'Terra de Elinaldo'; const idea=$('ideaLivre')?.value||`${prot.n} descobre algo que ${anta.n} quer esconder.`;
+ const uni=($('universo')?.value||'Terra de Elinaldo') + (locationContext()||''); const idea=$('ideaLivre')?.value||`${prot.n} descobre algo que ${anta.n} quer esconder.`;
  const nCenas=parseInt($('numCenas')?.value)||5;
  
  let refImgTxt = base64Imagem ? "\n[NOTA: Imagem de referência anexada para continuidade de cenários e figurinos]" : "";
@@ -785,7 +913,7 @@ async function gerarAPI(){
  const prompt=`DNA DO ELENCO:
 ${dnaStr()}
 
-UNIVERSO: ${$('universo')?.value}
+UNIVERSO: ${$('universo')?.value}${locationContext()}
 FORMATO: ${state.tpl.name}
 IDEIA BASE: ${$('ideaLivre')?.value}
 NÚMERO DE CENAS: ${$('numCenas')?.value}
@@ -795,7 +923,7 @@ TOM EMOCIONAL: ${$('tom')?.value}
 
 ${imgContext}
 
-Crie um pacote COMPLETO para produção viral, não apenas roteiro simples.
+Crie um pacote COMPLETO para produção viral, não apenas roteiro simples. Se houver LOCAL REAL / GOOGLE MAPS, trate como live action em locação real, usando endereço, coordenadas e descrição do mapa como referência visual principal.
 
 A resposta deve vir em português e incluir obrigatoriamente:
 1. TÍTULO forte.
@@ -828,7 +956,7 @@ function gerarCenas(){
  state.cenas=Array.from({length:nC},(_,i)=>({
    title:`CENA ${i+1}`,
    tempo:`00:${String(i*6).padStart(2,'0')}-00:${String((i+1)*6).padStart(2,'0')}`,
-   storyboard:`Quadro ${i+1}: ${prot.n} aparece em plano cinematográfico, cenário ${$('universo')?.value||'Terra de Elinaldo'}, luz dramática, expressão intensa, câmera aproximando para revelar tensão.`,
+   storyboard:`Quadro ${i+1}: ${prot.n} aparece em plano cinematográfico, cenário ${($('universo')?.value||'Terra de Elinaldo') + (locationContext()||'')}, luz dramática, expressão intensa, câmera aproximando para revelar tensão.`,
    img:`3D cinematic stylized render, ${prot.n} (${prot.v}), dramatic lighting, consistent DNA, 8k`,
    vid:`Flow Labs: Close up. ${prot.n} action. Vertical 9:16, cinematic motion, continuous camera movement, dramatic reveal.`,
    youtube:`YouTube thumbnail 16:9, ${prot.n} shocked face, big bold Portuguese text, high contrast, cinematic fruits universe, viral drama composition.`,
@@ -851,7 +979,7 @@ async function gerarCenasAPI(){
 
  const prompt=`Crie ${parseInt($('numCenas')?.value)||5} cenas em JSON array para Fruits Adventures.
 DNA: ${dnaStr()}
-Universo: ${$('universo')?.value}
+Universo: ${$('universo')?.value}${locationContext()}
 ${imgContext}
 Cada item deve ter exatamente estas chaves: title, tempo, storyboard, img, vid, youtube, tiktok, reels, instagram, aud, suno, cap.
 tempo deve ser no formato 00:00-00:05.
@@ -902,9 +1030,9 @@ function gerarGrafica(){
 }
 
 function buildExport(){
- return `FRUITS ADVENTURES — PACOTE VIRAL\n${'═'.repeat(50)}\nROTEIRO:\n${state.roteiro||'...'}\n${'═'.repeat(50)}\nCENAS:\n${state.cenas.map((c,i)=>`CENA ${i+1}:\nIMG: ${c.img}\nVID: ${c.vid}\nAUD: ${c.aud}\nSUNO: ${c.suno}`).join('\n\n')}`;
+ return `FRUITS ADVENTURES — PACOTE VIRAL\n${'═'.repeat(50)}\nLOCAL REAL / MAPS:\n${locationContext()||'Não configurado'}\n${'═'.repeat(50)}\nROTEIRO:\n${state.roteiro||'...'}\n${'═'.repeat(50)}\nCENAS:\n${state.cenas.map((c,i)=>`CENA ${i+1}:\nTEMPO: ${c.tempo||''}\nSTORYBOARD: ${c.storyboard||''}\nIMG: ${c.img||''}\nVID: ${c.vid||''}\nYOUTUBE: ${c.youtube||''}\nTIKTOK: ${c.tiktok||''}\nREELS: ${c.reels||''}\nINSTAGRAM: ${c.instagram||''}\nAUD: ${c.aud||''}\nSUNO: ${c.suno||''}\nCAPCUT: ${c.cap||''}`).join('\n\n')}`;
 }
-function copyAllCenas(){copyText(state.cenas.map((c,i)=>`CENA ${i+1}: ${c.title}\nIMG: ${c.img}\nVID: ${c.vid}\nAUD: ${c.aud}\nSUNO: ${c.suno}\nCAPCUT: ${c.cap}`).join('\n\n'),'Todas as cenas copiadas!')}
+function copyAllCenas(){copyText(state.cenas.map((c,i)=>`CENA ${i+1}: ${c.title}\nTEMPO: ${c.tempo||''}\nSTORYBOARD: ${c.storyboard||''}\nIMG: ${c.img||''}\nVID: ${c.vid||''}\nYOUTUBE: ${c.youtube||''}\nTIKTOK: ${c.tiktok||''}\nREELS: ${c.reels||''}\nINSTAGRAM: ${c.instagram||''}\nAUD: ${c.aud||''}\nSUNO: ${c.suno||''}\nCAPCUT: ${c.cap||''}`).join('\n\n'),'Todas as cenas copiadas!')}
 function downloadTXT(){
  const b=new Blob([buildExport()],{type:'text/plain;charset=utf-8'});
  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fruits-pack.txt';a.click();URL.revokeObjectURL(a.href);
