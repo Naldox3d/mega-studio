@@ -4085,5 +4085,380 @@ function smartRenderNarrator(){
 })();
 </script>
 
+
+
+<style>
+/* NARRADOR SMART V3 - escuta limpa, sem markdown e com leitura em partes */
+.narrator-clean-preview{
+  border:1px solid rgba(39,200,122,.28);
+  background:rgba(39,200,122,.055);
+  color:#cfeedd;
+}
+.narrator-status{
+  border:1px solid rgba(0,212,200,.22);
+  background:rgba(0,212,200,.045);
+  border-radius:10px;
+  padding:8px 10px;
+  color:#9fb5cc;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.5px;
+  margin:8px 0 10px;
+}
+.narrator-mini-label{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin:0 0 5px;
+}
+.narrator-controls .narrator-field{display:block}
+</style>
+
+<script>
+/* =========================================================
+   NARRADOR SMART V3
+   - Corrige leitura de asteriscos/markdown no Web Speech
+   - Gera texto limpo para ouvir e para ElevenLabs
+   - Divide narração longa em partes para evitar travar
+   - Mantém compatibilidade com o Narrador IA já existente
+   ========================================================= */
+(function(){
+  window.narratorSpeech = window.narratorSpeech || {
+    queue: [],
+    index: 0,
+    speaking: false,
+    paused: false,
+    lastCleanText: ''
+  };
+
+  function nToast(msg){
+    if(typeof smartToast === 'function') smartToast(msg);
+    else if(typeof toast === 'function') toast(msg);
+    else console.log(msg);
+  }
+
+  function nCopy(txt, msg){
+    if(typeof smartCopyText === 'function') return smartCopyText(txt, msg || 'Copiado!');
+    if(typeof copyText === 'function') return copyText(txt, msg || 'Copiado!');
+    navigator.clipboard?.writeText(txt);
+  }
+
+  function normalizeAccentsForRegex(txt){ return String(txt || ''); }
+
+  function narratorStripMarkdown(txt){
+    let s = normalizeAccentsForRegex(txt);
+
+    // Blocos de codigo e markdown comum.
+    s = s.replace(/```[\s\S]*?```/g, ' ');
+    s = s.replace(/`([^`]+)`/g, '$1');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '$1');
+    s = s.replace(/__([^_]+)__/g, '$1');
+    s = s.replace(/\*([^*]+)\*/g, '$1');
+    s = s.replace(/_([^_]+)_/g, '$1');
+    s = s.replace(/^\s{0,3}#{1,6}\s*/gm, '');
+    s = s.replace(/^\s*>\s?/gm, '');
+    s = s.replace(/^\s*[-*•]\s+/gm, '');
+    s = s.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+
+    // Remove emojis que a voz costuma soletrar mal, sem mexer no conteudo.
+    s = s.replace(/[🎙️✨🚀▶⏸■📜🎬🎥📦🧭🎨🍅🥑🥕🍌🩷]/g, ' ');
+
+    return s;
+  }
+
+  function narratorExtractVoiceBlock(txt){
+    const source = String(txt || '');
+    const tags = [
+      'TEXTO SÓ DA VOZ', 'TEXTO SO DA VOZ', 'NARRAÇÃO FINAL', 'NARRACAO FINAL',
+      'NARRADOR / RÁDIO', 'NARRADOR / RADIO', 'NARRAÇÃO', 'NARRACAO'
+    ];
+    for(const tag of tags){
+      const safe = tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const re = new RegExp(safe + '\\s*:?\\s*([\\s\\S]*?)(?=\\n\\s*(?:PAUSAS E EMOÇÕES|PAUSAS E EMOCOES|SFX\\s*/|SONS SUGERIDOS|VERSÃO CURTA|VERSAO CURTA|PROMPTS|STORYBOARD|FLOW LABS|CAPCUT|SRT|CSV|LUT|TEXTO SÓ DA VOZ|TEXTO SO DA VOZ)\\s*:?|$)', 'i');
+      const m = source.match(re);
+      if(m && m[1] && m[1].trim().length > 80) return m[1].trim();
+    }
+    return source;
+  }
+
+  function narratorCleanForSpeech(txt, opts){
+    opts = opts || {};
+    const mode = opts.mode || document.getElementById('narratorListenMode')?.value || 'voz';
+    let s = String(txt || '');
+
+    if(mode === 'voz') s = narratorExtractVoiceBlock(s);
+    s = narratorStripMarkdown(s);
+
+    // Remove secoes tecnicas inteiras que nao devem ser faladas.
+    s = s.replace(/\b(?:SFX|SONS SUGERIDOS|SOM|MÚSICA|MUSICA|TRILHA|EFEITOS SONOROS)\s*\/?.*?:[\s\S]*?(?=\n\s*[A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s\/]{3,}:|$)/gi, ' ');
+    s = s.replace(/\b(?:PAUSAS E EMOÇÕES|PAUSAS E EMOCOES|VERSÃO CURTA PARA CHAMADA|VERSAO CURTA PARA CHAMADA)\s*:[\s\S]*?(?=\n\s*[A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s\/]{3,}:|$)/gi, ' ');
+
+    // Remove parenteses/colchetes de direcao sonora.
+    s = s.replace(/[\[(]\s*(?:SFX|SOM|SOM DE|MÚSICA|MUSICA|TRILHA|EFEITO|PAUSA|CORTE|RÁDIO|RADIO|AMBIENTE|CHUVA|TROVÃO|TROVAO|SIRENE|PASSOS|RESPIRAÇÃO|RESPIRACAO)[^\])]*[\])]/gi, ' ');
+
+    const techHeadings = /^(?:TÍTULO|TITULO|NARRAÇÃO FINAL|NARRACAO FINAL|TEXTO SÓ DA VOZ|TEXTO SO DA VOZ|PAUSAS E EMOÇÕES|PAUSAS E EMOCOES|SFX|SONS SUGERIDOS|VERSÃO CURTA|VERSAO CURTA|STORYBOARD|PROMPT|FLOW LABS|ELEVENLABS|CSV|SRT|CAPCUT|LUT|YOUTUBE|TIKTOK|REELS|INSTAGRAM|CORREÇÃO DE COR|CORRECAO DE COR)\s*:?\s*$/i;
+    const skipLine = /^(?:SFX|SOM|MÚSICA|MUSICA|TRILHA|EFEITO|PAUSA|CORTE|CÂMERA|CAMERA|LUZ|ENQUADRAMENTO|PROMPT|FLOW LABS|CAPCUT|SRT|CSV|LUT|YOUTUBE|TIKTOK|REELS|INSTAGRAM)\b/i;
+
+    const lines = s.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map(line => {
+      if(techHeadings.test(line)) return '';
+      if(skipLine.test(line)) return '';
+
+      // NARRADOR TITAN: texto -> texto. Personagem: fala -> Personagem disse: fala.
+      line = line.replace(/^(?:NARRADOR(?:\s+TITAN)?|LOCUTOR|VOZ OFF)\s*:\s*/i, '');
+      line = line.replace(/^([A-ZÁÉÍÓÚÂÊÔÃÕÇ][\wÁÉÍÓÚÂÊÔÃÕÇãõáéíóúâêôç\s]{2,35})\s*:\s*(.+)$/i, function(_, name, speech){
+        const upper = name.toUpperCase();
+        if(/^(TÍTULO|TITULO|SFX|SOM|MÚSICA|MUSICA|TRILHA|CAPCUT|STORYBOARD|PROMPT|FLOW|SRT|CSV|LUT)$/.test(upper)) return '';
+        return name.trim() + ' disse: ' + speech.trim();
+      });
+      return line;
+    }).filter(Boolean);
+
+    s = lines.join('\n');
+
+    // Limpeza final para o sintetizador nao falar simbolos.
+    s = s.replace(/[\*_#~^|<>]/g, ' ');
+    s = s.replace(/\s+([,.;:!?])/g, '$1');
+    s = s.replace(/([.!?])\s*([A-ZÁÉÍÓÚÂÊÔÃÕÇ])/g, '$1\n$2');
+    s = s.replace(/[ \t]{2,}/g, ' ');
+    s = s.replace(/\n{3,}/g, '\n\n').trim();
+
+    return s;
+  }
+
+  function narratorCurrentRawText(){
+    const box = document.getElementById('narratorText');
+    const txt = box?.innerText || '';
+    if(txt && !/Gere o pacote primeiro/i.test(txt)) return txt;
+    if(typeof narratorBuildStory === 'function') return narratorBuildStory();
+    return document.getElementById('turboResultOut')?.innerText || '';
+  }
+
+  function narratorSplitIntoChunks(txt, maxLen){
+    maxLen = maxLen || 850;
+    const paragraphs = String(txt || '').split(/\n{2,}|(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕÇ])/).map(p => p.trim()).filter(Boolean);
+    const chunks = [];
+    let current = '';
+    paragraphs.forEach(p => {
+      if((current + ' ' + p).trim().length > maxLen && current){
+        chunks.push(current.trim());
+        current = p;
+      }else{
+        current = (current ? current + ' ' : '') + p;
+      }
+      while(current.length > maxLen){
+        chunks.push(current.slice(0, maxLen));
+        current = current.slice(maxLen);
+      }
+    });
+    if(current.trim()) chunks.push(current.trim());
+    return chunks;
+  }
+
+  function narratorSetStatus(msg){
+    const el = document.getElementById('narratorStatus');
+    if(el) el.textContent = msg || '';
+  }
+
+  window.narratorRenderCleanPreview = function(){
+    const box = document.getElementById('narratorText');
+    if(!box) return;
+    const clean = narratorCleanForSpeech(narratorCurrentRawText(), {mode: document.getElementById('narratorListenMode')?.value || 'voz'});
+    if(!clean){ nToast('Nada para limpar ainda.'); return; }
+    window.narratorSpeech.lastCleanText = clean;
+    box.textContent = clean;
+    box.classList.add('narrator-clean-preview');
+    narratorSetStatus('Preview limpo pronto. Agora clique em Ouvir.');
+    nToast('Texto limpo para ouvir.');
+  };
+
+  window.narratorSpeak = function(){
+    const raw = narratorCurrentRawText();
+    const clean = narratorCleanForSpeech(raw, {mode: document.getElementById('narratorListenMode')?.value || 'voz'});
+    if(!clean.trim()) return nToast('Gere ou monte a narração primeiro.');
+    if(!('speechSynthesis' in window)) return nToast('Este navegador não liberou voz automática.');
+
+    window.speechSynthesis.cancel();
+    window.narratorSpeech.queue = narratorSplitIntoChunks(clean, 850);
+    window.narratorSpeech.index = 0;
+    window.narratorSpeech.speaking = true;
+    window.narratorSpeech.paused = false;
+    window.narratorSpeech.lastCleanText = clean;
+
+    function speakNext(){
+      if(!window.narratorSpeech.speaking) return;
+      if(window.narratorSpeech.index >= window.narratorSpeech.queue.length){
+        window.narratorSpeech.speaking = false;
+        narratorSetStatus('Leitura finalizada.');
+        return;
+      }
+
+      const part = window.narratorSpeech.queue[window.narratorSpeech.index];
+      const utter = new SpeechSynthesisUtterance(part);
+      const voices = window.speechSynthesis.getVoices();
+      const voiceIndex = Number(document.getElementById('narratorVoice')?.value || -1);
+      if(voices[voiceIndex]) utter.voice = voices[voiceIndex];
+      utter.rate = Number(document.getElementById('narratorRate')?.value || 0.95);
+      utter.pitch = Number(document.getElementById('narratorPitch')?.value || 1);
+      utter.lang = (utter.voice && utter.voice.lang) || 'pt-BR';
+      utter.onend = function(){
+        window.narratorSpeech.index += 1;
+        speakNext();
+      };
+      utter.onerror = function(){
+        window.narratorSpeech.index += 1;
+        speakNext();
+      };
+      window.narratorState = window.narratorState || {};
+      window.narratorState.utterance = utter;
+      narratorSetStatus('Lendo parte ' + (window.narratorSpeech.index + 1) + ' de ' + window.narratorSpeech.queue.length + ' — texto limpo, sem asteriscos.');
+      window.speechSynthesis.speak(utter);
+    }
+
+    speakNext();
+  };
+
+  window.narratorPause = function(){
+    if(!('speechSynthesis' in window)) return;
+    if(window.speechSynthesis.speaking && !window.speechSynthesis.paused){
+      window.speechSynthesis.pause();
+      window.narratorSpeech.paused = true;
+      narratorSetStatus('Pausado. Clique em Pausar/Continuar para retomar.');
+    }else if(window.speechSynthesis.paused){
+      window.speechSynthesis.resume();
+      window.narratorSpeech.paused = false;
+      narratorSetStatus('Continuando leitura.');
+    }
+  };
+
+  window.narratorStop = function(){
+    if('speechSynthesis' in window) window.speechSynthesis.cancel();
+    window.narratorSpeech.speaking = false;
+    window.narratorSpeech.paused = false;
+    narratorSetStatus('Leitura parada.');
+  };
+
+  window.narratorCopyVoiceOnly = function(){
+    const clean = narratorCleanForSpeech(narratorCurrentRawText(), {mode:'voz'});
+    if(!clean.trim()) return nToast('Nada para copiar.');
+    nCopy(clean, 'Só a voz limpa foi copiada!');
+  };
+
+  window.narratorSendToElevenLabsBox = function(){
+    const clean = narratorCleanForSpeech(narratorCurrentRawText(), {mode:'voz'});
+    if(!clean.trim()) return nToast('Nada para copiar.');
+    nCopy(clean, 'Texto limpo para ElevenLabs copiado!');
+  };
+
+  window.narratorCopy = function(){
+    const txt = document.getElementById('narratorText')?.innerText || narratorCurrentRawText();
+    if(!txt.trim()) return nToast('Nada para copiar.');
+    nCopy(txt, 'Narração copiada!');
+  };
+
+  window.narratorDownload = function(){
+    const mode = document.getElementById('narratorListenMode')?.value || 'voz';
+    const clean = narratorCleanForSpeech(narratorCurrentRawText(), {mode});
+    const blob = new Blob([clean], {type:'text/plain;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'fruits_adventures_narrador_limpo.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  // Prompt IA sem markdown para evitar futuros asteriscos no resultado.
+  if(typeof window.narratorAIPrompt === 'function'){
+    const oldPrompt = window.narratorAIPrompt;
+    window.narratorAIPrompt = function(){
+      return oldPrompt() + '\n\nREGRA FINAL DE FORMATAÇÃO: não use markdown. Não use asteriscos, hashtags, listas com bullets, colchetes técnicos ou código. Escreva em texto limpo para narração. Se precisar indicar som, use uma seção separada chamada SONS SUGERIDOS, mas nunca misture isso no TEXTO SÓ DA VOZ.';
+    };
+  }
+
+  // Layout atualizado: modo de leitura + botao limpar preview.
+  window.smartRenderNarrator = function(){
+    return `<div class="narrator-box">
+      <div class="narrator-title">🎙️ Narrador IA / Rádio</div>
+      <div class="narrator-sub">
+        A IA lê roteiro, storyboards, sons, falas e pós-produção. O botão Ouvir agora usa texto limpo, sem ler asteriscos, markdown ou comandos técnicos.
+      </div>
+      <div class="narrator-controls">
+        <span class="narrator-field"><span class="narrator-mini-label">Estilo IA</span><select id="narratorAIStyle">
+          <option value="radio_livro">Rádio / livro narrado</option>
+          <option value="trailer_epico">Trailer épico</option>
+          <option value="infantil_aventura">Infantil aventura</option>
+          <option value="misterio">Mistério e suspense</option>
+          <option value="comedia">Comédia</option>
+          <option value="audiobook">Audiobook dramático</option>
+        </select></span>
+        <span class="narrator-field"><span class="narrator-mini-label">Tamanho</span><select id="narratorAISize">
+          <option value="curto">Curto</option>
+          <option value="medio" selected>Médio</option>
+          <option value="completo">Completo</option>
+        </select></span>
+        <span class="narrator-field"><span class="narrator-mini-label">SFX no texto</span><select id="narratorAISfx">
+          <option value="sim" selected>Com SFX</option>
+          <option value="nao">Só voz</option>
+        </select></span>
+      </div>
+      <div class="narrator-controls">
+        <span class="narrator-field"><span class="narrator-mini-label">Voz do navegador</span><select id="narratorVoice"></select></span>
+        <span class="narrator-field"><span class="narrator-mini-label">Velocidade</span><input id="narratorRate" type="number" min="0.6" max="1.4" step="0.05" value="0.88" title="Velocidade"></span>
+        <span class="narrator-field"><span class="narrator-mini-label">Tom</span><input id="narratorPitch" type="number" min="0.6" max="1.4" step="0.05" value="0.95" title="Tom"></span>
+      </div>
+      <div class="narrator-controls" style="grid-template-columns:1fr 1fr 1fr">
+        <span class="narrator-field"><span class="narrator-mini-label">Modo de ouvir</span><select id="narratorListenMode">
+          <option value="voz" selected>Só história limpa</option>
+          <option value="falas">História + falas</option>
+          <option value="tudo">Tudo limpo</option>
+        </select></span>
+        <span class="narrator-field"><span class="narrator-mini-label">Dica</span><input value="Ouvir usa limpeza automática" readonly></span>
+        <span class="narrator-field"><span class="narrator-mini-label">Destino</span><input value="ElevenLabs / CapCut" readonly></span>
+      </div>
+      <div class="narrator-buttons">
+        <button class="package-btn" onclick="narratorGenerateAI()">✨ Gerar história IA</button>
+        <button class="package-btn" onclick="narratorRender()">Montar local</button>
+        <button class="package-btn" onclick="narratorRenderCleanPreview()">Limpar p/ ouvir</button>
+        <button class="package-btn" onclick="narratorSpeak()">▶ Ouvir limpo</button>
+        <button class="package-btn" onclick="narratorPause()">⏸ Pausar/Continuar</button>
+        <button class="package-btn" onclick="narratorStop()">■ Parar</button>
+        <button class="package-btn" onclick="narratorCopy()">Copiar tudo</button>
+        <button class="package-btn" onclick="narratorCopyVoiceOnly()">Copiar só voz limpa</button>
+        <button class="package-btn" onclick="narratorSendToElevenLabsBox()">Copiar p/ ElevenLabs</button>
+        <button class="package-btn" onclick="narratorDownload()">Baixar TXT limpo</button>
+      </div>
+      <div id="narratorStatus" class="narrator-status">Pronto. Gere a história IA ou monte local; depois use Ouvir limpo.</div>
+      <div class="hint" style="margin-bottom:10px">
+        O navegador pode soar robótico, mas agora ele não deve ler asteriscos. Para voz final profissional: use “Copiar só voz limpa” e cole no ElevenLabs/CapCut.
+      </div>
+      <div class="narrator-reader" id="narratorText">Gere o pacote primeiro. Depois clique em “Gerar história IA”.</div>
+    </div>`;
+  };
+
+  // Reforca recriacao da aba com o layout V3 ao abrir/atualizar.
+  const prevShowV3 = window.smartShow;
+  window.smartShow = function(key){
+    if(typeof prevShowV3 === 'function') prevShowV3(key);
+    if(key === 'narrador'){
+      const body = document.getElementById('smartBody_narrador');
+      if(body && !document.getElementById('narratorListenMode')){
+        body.innerHTML = window.smartRenderNarrator();
+      }
+      if(typeof narratorPopulateVoices === 'function') narratorPopulateVoices();
+      setTimeout(function(){ if(typeof narratorRender === 'function') narratorRender(); }, 80);
+    }
+  };
+
+  const prevRefreshV3 = window.smartRefresh;
+  window.smartRefresh = function(){
+    if(typeof prevRefreshV3 === 'function') prevRefreshV3();
+    const btn = Array.from(document.querySelectorAll('.smart-tab')).find(b => /narrador/i.test((b.textContent || '')));
+    if(btn) btn.textContent = 'Narrador IA';
+  };
+})();
+</script>
+
 </body>
 </html>
