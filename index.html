@@ -156,6 +156,19 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 .quick-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.quick-chip{border:1px solid var(--border2);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer}.quick-chip:hover{color:var(--gold2);border-color:var(--gold)}
 @media(max-width:900px){.gfx-toolbar,.var-grid{grid-template-columns:1fr}.gfx-grid{grid-template-columns:1fr}}
 
+
+/* TURBO CREATOR */
+.turbo-hero{border:1px solid rgba(212,160,23,.45);background:linear-gradient(135deg,rgba(212,160,23,.08),rgba(0,212,200,.035));box-shadow:0 0 28px rgba(212,160,23,.08)}
+.turbo-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--gold2);line-height:1;margin-bottom:8px}
+.turbo-sub{font-size:13px;color:#9fb5cc;margin-bottom:18px}
+.turbo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.turbo-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.turbo-bigbtn{font-size:15px;padding:15px 22px;border-radius:14px}
+.turbo-pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.turbo-pill{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,212,200,.25);border-radius:999px;padding:5px 9px;background:rgba(0,212,200,.05)}
+.turbo-output{min-height:260px}
+@media(max-width:900px){.turbo-grid,.turbo-grid-2{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -184,7 +197,8 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 
 <!-- NAV -->
 <nav>
-  <button class="act" onclick="tab(event,'elenco')">🎭 Elenco</button>
+  <button class="act" onclick="tab(event,'turbo')">🚀 Turbo</button>
+  <button onclick="tab(event,'elenco')">🎭 Elenco</button>
   <button onclick="tab(event,'formato')">🎬 Formato Viral</button>
   <button onclick="tab(event,'gerador')">✍️ Gerador</button>
   <button onclick="tab(event,'cenas')">🎥 Cenas & Prompts</button>
@@ -193,8 +207,116 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
   <button onclick="tab(event,'export')">📦 Exportar</button>
 </nav>
 
+
+<!-- ==================== TURBO ==================== -->
+<section id="turbo" class="tab act">
+  <div class="panel turbo-hero">
+    <div class="turbo-title">🚀 Criador Turbo — 3 cliques e pacote completo</div>
+    <div class="turbo-sub">Escolha o básico. A IA monta tema, roteiro, storyboard, prompts, artes, Suno, CapCut e deixa pronto para Parte 2.</div>
+
+    <div class="turbo-grid">
+      <div>
+        <label>O que você quer criar?</label>
+        <select id="turboTipo">
+          <option value="viral">História viral curta</option>
+          <option value="parte2">Parte 2 de uma história</option>
+          <option value="live">Live action em rua real</option>
+          <option value="data">Vídeo de data anual</option>
+          <option value="clip">Clipe musical</option>
+          <option value="grafica">Arte gráfica / thumbnail</option>
+        </select>
+      </div>
+      <div>
+        <label>Tema rápido</label>
+        <select id="turboTema">
+          <option value="ia">✨ IA escolhe o melhor</option>
+        </select>
+      </div>
+      <div>
+        <label>Humor / tempero viral</label>
+        <select id="turboHumor">
+          <option value="politico">Zoeira política leve</option>
+          <option value="meme">Meme viral genérico</option>
+          <option value="vila">Humor de vila / confusão</option>
+          <option value="novela">Drama de novela</option>
+          <option value="superheroi">Crossover super-herói genérico</option>
+          <option value="cristao">Cristão emocionante</option>
+          <option value="sem">Sem humor, mais sério</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="turbo-grid" style="margin-top:12px">
+      <div>
+        <label>Herói</label>
+        <select id="turboHeroi"></select>
+      </div>
+      <div>
+        <label>Aliado / parceira</label>
+        <select id="turboAliado"></select>
+      </div>
+      <div>
+        <label>Vilão</label>
+        <select id="turboVilao"></select>
+      </div>
+    </div>
+
+    <div class="turbo-grid-2" style="margin-top:12px">
+      <div>
+        <label>Local</label>
+        <select id="turboLocalModo" onchange="turboToggleLocal()">
+          <option value="ia">IA cria o local</option>
+          <option value="preset">Usar universo/local já selecionado</option>
+          <option value="custom">Escrever local simples</option>
+          <option value="maps">Endereço / Google Maps / link</option>
+        </select>
+      </div>
+      <div>
+        <label>Local, link ou ideia curta</label>
+        <input id="turboLocal" placeholder="Ex: Praça do Wi-Fi Grátis, Rua real, Google Maps, feira, igreja...">
+      </div>
+    </div>
+
+    <label>Pedido extra opcional</label>
+    <textarea id="turboExtra" placeholder="Ex: quero final com plot twist, mais engraçado, usar telão público, continuar da traição da Sabrina..."></textarea>
+
+    <div class="btns">
+      <button class="btn gold turbo-bigbtn" onclick="gerarTurbo(1)">🚀 Gerar pacote completo</button>
+      <button class="btn cyan turbo-bigbtn" onclick="gerarTurbo(2)">Gerar Parte 2</button>
+      <button class="btn green turbo-bigbtn" onclick="gerarTurbo(3)">Gerar Parte 3</button>
+      <button class="btn outline" onclick="prepararTurboPrompt()">Só preparar prompt</button>
+      <button class="btn purple" onclick="turboGerarArtes()">Gerar artes</button>
+    </div>
+
+    <div class="turbo-pill-row">
+      <span class="turbo-pill">Roteiro</span>
+      <span class="turbo-pill">Tempo por cena</span>
+      <span class="turbo-pill">Storyboard</span>
+      <span class="turbo-pill">Flow Labs</span>
+      <span class="turbo-pill">YouTube</span>
+      <span class="turbo-pill">TikTok</span>
+      <span class="turbo-pill">Reels</span>
+      <span class="turbo-pill">Instagram</span>
+      <span class="turbo-pill">Suno</span>
+      <span class="turbo-pill">CapCut</span>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title">🧠 Prompt Turbo montado</div>
+      <div class="out turbo-output" id="turboPromptOut">Escolha as opções e clique em “Gerar pacote completo”.</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">📜 Resultado Turbo</div>
+      <div class="out turbo-output" id="turboResultOut">O resultado também aparecerá na aba Gerador e poderá virar cenas, artes e exportação.</div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ==================== ELENCO ==================== -->
-<section id="elenco" class="tab act">
+<section id="elenco" class="tab">
   <div class="panel">
     <div class="panel-title">🎭 DNA do Elenco — Personagens Travados</div>
     <h3>Escolha até 2 protagonistas e 1 vilão</h3>
@@ -903,7 +1025,7 @@ const TEMPLATES=[
 
 let state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null,grafica:''};
 
-window.onload=()=>{buildChars();buildThemeFilters();buildTemplates();buildGfxLibrary();buildSeriesStudio();updateStatus();toggleUniversoSmart();};
+window.onload=()=>{buildChars();buildThemeFilters();buildTemplates();buildGfxLibrary();buildSeriesStudio();buildTurboCreator();updateStatus();toggleUniversoSmart();};
 
 function buildChars(){
  const g=document.getElementById('charGrid');
@@ -1449,6 +1571,219 @@ async function gerarSerieSmart(parte){
   }else{
     toast('Prompt pronto. Coloque API Key para gerar com Gemini.');
   }
+}
+
+
+/* ─── CRIADOR TURBO: FLUXO DIRETO ─── */
+function buildTurboCreator(){
+  const charOptions=(CHARS||[]).map((c,i)=>`<option value="${i}">${c.e} ${c.n} — ${c.t}</option>`).join('');
+  ['turboHeroi','turboAliado','turboVilao'].forEach(id=>{const el=$(id); if(el) el.innerHTML=charOptions;});
+  if($('turboHeroi')) $('turboHeroi').value='0';
+  if($('turboAliado')) $('turboAliado').value='1';
+  if($('turboVilao')) $('turboVilao').value='4';
+
+  const temaEl=$('turboTema');
+  if(temaEl){
+    const grupos={
+      viral:'Virais',
+      crista:'Cristãs',
+      clip:'Clip musical',
+      tvnovela:'TV / novelas',
+      frutas:'Fruits',
+      liveaction:'Live action',
+      datas:'Datas anuais',
+      famosos:'Paródias virais',
+      custom:'Custom'
+    };
+    const opts=['<option value="ia">✨ IA escolhe o melhor</option>'].concat((TEMPLATES||[]).map(t=>`<option value="${t.id}">${t.icon||''} ${t.name} — ${grupos[t.group]||t.group}</option>`));
+    temaEl.innerHTML=opts.join('');
+  }
+}
+function turboToggleLocal(){
+  const modo=$('turboLocalModo')?.value||'ia';
+  const input=$('turboLocal');
+  if(!input) return;
+  const ph={
+    ia:'A IA inventa um local simples e viral',
+    preset:'Usa o universo/local selecionado nas abas avançadas',
+    custom:'Ex: Praça do Wi-Fi Grátis, feira, escola, igreja, bairro popular...',
+    maps:'Cole endereço, coordenadas, Google Maps, YouTube ou Instagram'
+  };
+  input.placeholder=ph[modo]||ph.ia;
+}
+function turboChar(id, fallback){
+  const v=$(id)?.value;
+  return CHARS[Number(v)] || fallback || CHARS[0];
+}
+function turboPickTemplate(){
+  const chosen=$('turboTema')?.value||'ia';
+  if(chosen && chosen!=='ia') return TEMPLATES.find(t=>t.id===chosen)||TEMPLATES[0];
+  const tipo=$('turboTipo')?.value||'viral';
+  const humor=$('turboHumor')?.value||'politico';
+  const map={
+    live:'livehero',
+    data:'maes',
+    clip:'clipfunk',
+    grafica:'presidente',
+    parte2:'presidente'
+  };
+  if(map[tipo]) return TEMPLATES.find(t=>t.id===map[tipo])||TEMPLATES[0];
+  if(humor==='politico') return TEMPLATES.find(t=>t.id==='presidente')||TEMPLATES[0];
+  if(humor==='vila') return TEMPLATES.find(t=>t.id==='chavesfruit')||TEMPLATES[0];
+  if(humor==='novela') return TEMPLATES.find(t=>t.id==='novela9')||TEMPLATES[0];
+  if(humor==='superheroi') return TEMPLATES.find(t=>t.id==='livehero')||TEMPLATES[0];
+  if(humor==='cristao') return TEMPLATES.find(t=>t.id==='parabola')||TEMPLATES[0];
+  return TEMPLATES.find(t=>t.id==='presidente')||TEMPLATES[0];
+}
+function turboLocationContext(){
+  const modo=$('turboLocalModo')?.value||'ia';
+  const loc=($('turboLocal')?.value||'').trim();
+  if(modo==='ia') return 'LOCAL: a IA deve criar um local simples, visual, viral e fácil de entender.';
+  if(modo==='preset') return 'LOCAL: '+getUniversoContext()+(locationContext?locationContext():'');
+  if(modo==='maps') return `LOCAL / REFERÊNCIA EXTERNA: ${loc||'não informado'}\nUsar como referência de endereço/link/nicho. Se houver print no Olho da IA, priorizar a imagem para fachada, luz e cenário. Não copiar rostos, marcas ou logos reais.`;
+  return `LOCAL CUSTOM SIMPLES: ${loc||'local popular brasileiro criado pela IA'}`;
+}
+function turboBuildPrompt(parte=1){
+  const tipo=$('turboTipo')?.value||'viral';
+  const humor=$('turboHumor')?.value||'politico';
+  const extra=($('turboExtra')?.value||'').trim();
+  const t=turboPickTemplate();
+  const heroi=turboChar('turboHeroi',CHARS[0]);
+  const aliado=turboChar('turboAliado',CHARS[1]);
+  const vilao=turboChar('turboVilao',CHARS[4]);
+  const prev=(state.seriesHistory&&state.seriesHistory.length)?state.seriesHistory.slice(-1)[0].text.slice(0,2500):'Nenhum episódio anterior salvo.';
+  const humorMap={
+    politico:'Zoeira política leve, com sátira genérica de frutas, sem atacar pessoa real.',
+    meme:'Meme viral genérico com zoom, silêncio, texto grande e reação engraçada.',
+    vila:'Humor de vila, mal-entendido, fofoca, confusão e bordão original.',
+    novela:'Drama de novela, close no rosto, traição, segredo e frase forte.',
+    superheroi:'Crossover com super-herói genérico e original, sem copiar personagens famosos.',
+    cristao:'Tom cristão emocionante com esperança, perdão e superação.',
+    sem:'Sem humor; manter mais sério, cinematográfico e direto.'
+  };
+  return `CRIADOR TURBO — FRUITS ADVENTURES
+
+OBJETIVO:
+Gerar um PACOTE COMPLETO pronto para produção, com poucas escolhas do usuário.
+
+TIPO DE VÍDEO:
+${tipo}
+
+PARTE:
+${parte}
+
+TEMA / MOLDE AUTOMÁTICO:
+${t.icon||''} ${t.name}
+Descrição: ${t.desc}
+Estrutura base:
+${(t.estrutura||[]).join('\n')}
+Suno base: ${t.suno}
+
+PERSONAGENS ESCOLHIDOS:
+Herói: ${heroi.n}
+DNA visual: ${heroi.v}
+Voz: ${heroi.voz}
+Frase/bordão: ${heroi.frase}
+
+Aliado/parceira: ${aliado.n}
+DNA visual: ${aliado.v}
+Voz: ${aliado.voz}
+Frase/bordão: ${aliado.frase}
+
+Vilão: ${vilao.n}
+DNA visual: ${vilao.v}
+Voz: ${vilao.voz}
+Frase/bordão: ${vilao.frase}
+
+LOCAL:
+${turboLocationContext()}
+
+HUMOR / TEMPERO VIRAL:
+${humorMap[humor]||humorMap.politico}
+
+PEDIDO EXTRA DO USUÁRIO:
+${extra||'Nenhum. A IA deve escolher o caminho mais viral, simples e fácil de produzir.'}
+
+CONTINUIDADE:
+${parte>1 ? 'Continuar diretamente do final do episódio anterior, sem reiniciar a história.\nEPISÓDIO ANTERIOR:\n'+prev : 'Criar Parte 1 com final aberto para Parte 2.'}
+
+REGRAS:
+1. Não copiar rosto real, marca, logo, personagem famoso protegido ou fala exata de série famosa.
+2. Pode usar paródia segura, arquétipos, humor genérico e memes originais.
+3. Não exigir muitas configurações. Decidir automaticamente o que faltar.
+4. Manter consistência visual dos personagens.
+5. Evitar repetição: variar ângulo, local, piada, conflito, abertura e cliffhanger.
+
+ENTREGAR EM PORTUGUÊS, COM:
+1. TÍTULO forte.
+2. LOGLINE.
+3. GANCHO dos 3 primeiros segundos.
+4. ROTEIRO com 5 cenas e tempo exato, total 45 a 60 segundos.
+5. STORYBOARD por cena: enquadramento, câmera, luz, ação e emoção.
+6. FALAS curtas dos personagens.
+7. PIADA ou meme integrado, se o humor pedir.
+8. PROMPT DE IMAGEM por cena.
+9. PROMPT FLOW LABS em inglês por cena.
+10. CAPA YOUTUBE 16:9.
+11. CAPA TIKTOK 9:16.
+12. CAPA REELS 9:16.
+13. POST INSTAGRAM 4:5.
+14. ÁUDIO, SFX, VOZ, SUNO AI e LEGENDA CAPCUT.
+15. FINAL com cliffhanger e pergunta: “Quer gerar a Parte ${parte+1}?”`;
+}
+function turboApplyState(){
+  const t=turboPickTemplate();
+  state.tpl=t; state.tplId=t.id;
+  state.elenco=[Number($('turboHeroi')?.value||0),Number($('turboAliado')?.value||1),Number($('turboVilao')?.value||4)];
+  state.elenco=[...new Set(state.elenco)].slice(0,3);
+  document.querySelectorAll('.char-card').forEach((c,j)=>{c.classList.toggle('sel',state.elenco.includes(j));});
+  renderDNA(); updateStatus();
+  try{selectTpl(t.id)}catch(e){}
+}
+function prepararTurboPrompt(){
+  turboApplyState();
+  const prompt=turboBuildPrompt(1);
+  if($('ideaLivre')) $('ideaLivre').value=prompt;
+  if($('turboPromptOut')) $('turboPromptOut').textContent=prompt;
+  toast('Prompt Turbo preparado.');
+}
+async function gerarTurbo(parte=1){
+  turboApplyState();
+  const prompt=turboBuildPrompt(parte);
+  if($('ideaLivre')) $('ideaLivre').value=prompt;
+  if($('turboPromptOut')) $('turboPromptOut').textContent=prompt;
+  if($('turboResultOut')) $('turboResultOut').innerHTML=loadingHTML('Gerando pacote Turbo...');
+  const key=$('apiKey')?.value?.trim();
+  if(!key){
+    const msg='Prompt Turbo pronto. Configure a API Key na aba API Config para gerar com Gemini. Você também pode copiar este prompt e usar em outro chat.';
+    if($('turboResultOut')) $('turboResultOut').textContent=msg;
+    if($('roteiroOut')) $('roteiroOut').textContent=msg+'\n\n'+prompt;
+    state.roteiro=prompt;
+    toast('Configure a API Key para gerar com Gemini.');
+    return;
+  }
+  try{
+    await gerarAPI();
+    const txt=state.roteiro||$('roteiroOut')?.textContent||'';
+    if($('turboResultOut')) $('turboResultOut').textContent=txt;
+    state.seriesHistory=state.seriesHistory||[];
+    state.seriesHistory.push({parte,text:txt});
+    toast('Pacote Turbo gerado!');
+  }catch(e){
+    if($('turboResultOut')) $('turboResultOut').textContent='Erro: '+e.message;
+  }
+}
+function turboGerarArtes(){
+  turboApplyState();
+  if($('gfxTitulo')) $('gfxTitulo').value='A VERDADE APARECEU';
+  if($('gfxSubtitulo')) $('gfxSubtitulo').value='Assista até o final';
+  if($('gfxPersonagem')) $('gfxPersonagem').value=turboChar('turboHeroi',CHARS[0]).n;
+  if($('gfxPersonagem2')) $('gfxPersonagem2').value=turboChar('turboVilao',CHARS[4]).n;
+  if($('gfxLocal')) $('gfxLocal').value=($('turboLocal')?.value||getUniversoContext()||'Fruits Adventures');
+  gfxSelectedId='yt_thumb_twist';
+  try{selectGfx(gfxSelectedId);gerarGrafica();}catch(e){}
+  const btn=[...document.querySelectorAll('nav button')].find(b=>b.getAttribute('onclick')?.includes('grafica'));
+  if(btn) tab({currentTarget:btn},'grafica');
 }
 
 </script>
