@@ -139,6 +139,23 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 
 @media(max-width:900px){.g2,.g3{grid-template-columns:1fr} .tpl-grid{grid-template-columns:repeat(2,1fr)} .char-grid{grid-template-columns:repeat(3,1fr)} .status-bar{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.tpl-grid{grid-template-columns:repeat(2,1fr)} .char-grid{grid-template-columns:repeat(2,1fr)} .status-bar{grid-template-columns:1fr 1fr} nav button{min-width:90px}}
+
+/* GRAPHIC PROMPT ARSENAL */
+.gfx-toolbar{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.gfx-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:420px;overflow:auto;padding-right:4px}
+.gfx-card{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:13px;cursor:pointer;transition:all .18s}
+.gfx-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+.gfx-card.sel{border-color:var(--cyan);background:rgba(0,212,200,.07);box-shadow:0 0 18px rgba(0,212,200,.10)}
+.gfx-name{font-size:12px;font-weight:800;color:var(--gold2);letter-spacing:.7px;text-transform:uppercase}
+.gfx-desc{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.35}
+.gfx-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.gfx-tag{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,212,200,.25);border-radius:999px;padding:3px 7px;background:rgba(0,212,200,.05)}
+.var-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.var-grid label{margin-top:8px}
+.smart-box{border:1px solid rgba(0,212,200,.24);background:rgba(0,212,200,.04);border-radius:14px;padding:14px;margin-top:14px}
+.smart-title{font-size:12px;font-weight:800;color:var(--cyan);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.quick-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.quick-chip{border:1px solid var(--border2);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer}.quick-chip:hover{color:var(--gold2);border-color:var(--gold)}
+@media(max-width:900px){.gfx-toolbar,.var-grid{grid-template-columns:1fr}.gfx-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -403,32 +420,46 @@ FINAL: ..."></textarea>
 
 <!-- ==================== GRÁFICA ==================== -->
 <section id="grafica" class="tab">
-  <div class="g2">
-    <div class="panel">
-      <div class="panel-title">🎨 Gráfica Viral</div>
-      <label>Tipo de arte</label>
-      <select id="artTipo">
-        <option>Thumbnail YouTube 16:9 — 1280x720</option>
-        <option>Capa TikTok / Reels 9:16 — 1080x1920</option>
-        <option>Post Instagram quadrado — 1080x1080</option>
+  <div class="panel">
+    <div class="panel-title">📚 Arsenal de Prompts Gráficos — substituir, modelar e copiar</div>
+    <div class="gfx-toolbar">
+      <input id="gfxBusca" placeholder="Buscar: flyer, youtube, gospel, natal, live action..." oninput="renderGfxLibrary()">
+      <select id="gfxCategoria" onchange="renderGfxLibrary()"></select>
+      <select id="gfxPlataforma" onchange="renderGfxLibrary()">
+        <option value="all">Todas as plataformas</option><option value="youtube">YouTube 16:9</option><option value="tiktok">TikTok 9:16</option><option value="reels">Reels 9:16</option><option value="instagram">Instagram</option><option value="story">Story 9:16</option><option value="print">Flyer / Cartaz</option>
       </select>
-      <label>Estilo visual</label>
-      <select id="artEstilo">
-        <option>3D cartoon cinematográfico premium</option>
-        <option>Poster sombrio estilo série viral</option>
-      </select>
-      <label>Texto principal</label>
-      <input id="artTexto" placeholder="Ex: A TRAIÇÃO DO DELEGADO">
-      <div class="btns">
-        <button class="btn gold" onclick="gerarGrafica()">Gerar Gráfica</button>
-        <button class="btn cyan" onclick="copyText(state.grafica,'Prompt gráfico copiado!')">Copiar Prompt</button>
+    </div>
+    <div class="g2">
+      <div>
+        <div class="gfx-grid" id="gfxGrid"></div>
+        <div class="smart-box"><div class="smart-title">➕ Prompt custom salvo rápido</div>
+          <label>Nome do prompt custom</label><input id="gfxCustomNome" placeholder="Ex: Flyer gospel da minha igreja">
+          <label>Prompt com variáveis</label><textarea id="gfxCustomPrompt" placeholder="Use variáveis como {{personagem}}, {{titulo}}, {{plataforma}}, {{local_real}}, {{referencia_link}}"></textarea>
+          <div class="btns"><button class="btn purple" onclick="salvarGfxCustom()">Salvar no arsenal</button><button class="btn outline" onclick="carregarGfxCustoms()">Recarregar meus prompts</button></div>
+        </div>
+      </div>
+      <div>
+        <div class="smart-box" style="margin-top:0"><div class="smart-title">🧩 Variáveis substituíveis</div>
+          <div class="var-grid">
+            <div><label>Título principal</label><input id="gfxTitulo" placeholder="Ex: A TRAIÇÃO DO DELEGADO"></div><div><label>Subtítulo</label><input id="gfxSubtitulo" placeholder="Ex: O vídeo proibido apareceu"></div>
+            <div><label>Personagem principal</label><input id="gfxPersonagem" placeholder="Auto: primeiro personagem do elenco"></div><div><label>Personagem 2 / vilão</label><input id="gfxPersonagem2" placeholder="Auto: segundo personagem do elenco"></div>
+            <div><label>Nicho</label><input id="gfxNicho" placeholder="Ex: flyer de artista, gospel, novela, curso"></div><div><label>CTA</label><input id="gfxCta" placeholder="Ex: Assista agora / Comente parte 2"></div>
+            <div><label>Data</label><input id="gfxData" placeholder="Ex: Domingo, 19h"></div><div><label>Local</label><input id="gfxLocal" placeholder="Ex: Favela do Tomate / Rua real"></div>
+          </div>
+          <label>Estilo visual</label><select id="artEstilo"><option>3D cartoon cinematográfico premium</option><option>Live action realista com frutas humanizadas</option><option>Poster sombrio estilo série viral</option><option>Design premium clean tipo campanha profissional</option><option>Gospel cinematográfico emocional</option><option>Flyer musical urbano com neon</option><option>Novela brasileira dramática</option></select>
+          <label>Plataforma de saída</label><select id="artTipo"><option>YouTube 16:9 — 1280x720</option><option>TikTok / Reels 9:16 — 1080x1920</option><option>Instagram feed 4:5 — 1080x1350</option><option>Instagram quadrado 1:1 — 1080x1080</option><option>Story 9:16 — 1080x1920</option><option>Flyer / Cartaz vertical print</option></select>
+          <div class="quick-row"><button class="quick-chip" onclick="setGfxQuick('A VERDADE APARECEU','Comente PARTE 2','viral plot twist')">Plot twist</button><button class="quick-chip" onclick="setGfxQuick('CULTO ESPECIAL','Traga sua família','gospel igreja')">Gospel</button><button class="quick-chip" onclick="setGfxQuick('FELIZ DIA DAS MÃES','Especial emocionante','data anual mães')">Dia das Mães</button><button class="quick-chip" onclick="setGfxQuick('NATAL DAS FRUTAS','Uma noite de perdão','natal campanha')">Natal</button><button class="quick-chip" onclick="setGfxQuick('NOVO CLIPE','Ouça agora','música artista')">Clipe</button></div>
+        </div>
+        <div class="smart-box"><div class="smart-title">🧠 Modelar por referência / link / nicho</div>
+          <label>Link de referência</label><input id="gfxRefLink" placeholder="Cole link de YouTube, site, Instagram, Google Maps ou referência">
+          <label>O que copiar da referência?</label><textarea id="gfxRefCopiar" placeholder="Ex: composição, tipografia, estilo de capa, clima, luz, cores, nicho..."></textarea>
+          <label>O que NÃO copiar?</label><input id="gfxRefEvitar" placeholder="Ex: não copiar rosto real, marca, logo, texto protegido">
+          <div class="hint">Para a IA ver visualmente, anexe também um print no Olho da IA. O link entra como contexto de nicho/referência no prompt.</div>
+        </div>
       </div>
     </div>
-    <div class="panel">
-      <div class="panel-title">🖼️ Saída Gráfica</div>
-      <div class="out" id="graficaOut" style="min-height:260px">Prompt para thumbnail, capa ou divulgação aparece aqui.</div>
-    </div>
   </div>
+  <div class="g2"><div class="panel"><div class="panel-title">🎨 Montador Gráfico Smart</div><label>Prompt selecionado</label><div class="out" id="gfxSelectedOut" style="min-height:120px">Escolha um prompt no Arsenal.</div><div class="btns"><button class="btn gold" onclick="gerarGrafica()">Gerar prompt final</button><button class="btn cyan" onclick="copyText(state.grafica,'Prompt gráfico copiado!')">Copiar prompt final</button><button class="btn green" onclick="mandarPromptParaIdea()">Mandar para Gerador</button><button class="btn outline" onclick="variarGfxPrompt()">Variação anti-repetição</button></div></div><div class="panel"><div class="panel-title">🖼️ Saída Gráfica Final</div><div class="out" id="graficaOut" style="min-height:340px">Escolha um prompt pronto, preencha as variáveis e gere o prompt final.</div></div></div>
 </section>
 
 <!-- ==================== API ==================== -->
@@ -710,7 +741,7 @@ const TEMPLATES=[
 
 let state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null,grafica:''};
 
-window.onload=()=>{buildChars();buildThemeFilters();buildTemplates();updateStatus();};
+window.onload=()=>{buildChars();buildThemeFilters();buildTemplates();buildGfxLibrary();updateStatus();};
 
 function buildChars(){
  const g=document.getElementById('charGrid');
@@ -1023,11 +1054,43 @@ function renderCenas(){
   </div>`).join('');
 }
 
-function gerarGrafica(){
- const t=state.tpl||TEMPLATES[0]; const prot=CHARS[state.elenco[0]]||CHARS[0];
- state.grafica=`TIPO: ${$('artTipo')?.value}\nPROMPT:\nCreate a viral artwork featuring ${prot.n}. Preserve DNA: ${prot.v}. Format: ${t.name}. Dramatic lighting, typography: "${$('artTexto')?.value||'Vídeo Novo'}".`;
- $('graficaOut').textContent=state.grafica; $('exportOut').textContent=buildExport(); toast('Gráfica gerada!');
-}
+
+const GFX_LIBRARY=[
+ {id:'yt_thumb_twist',cat:'Social / Conteúdo',plats:['youtube'],name:'Thumbnail Viral Plot Twist',desc:'Capa chamativa para YouTube com susto, revelação e texto grande.',tags:['youtube','viral','plot twist'],prompt:'Create a viral YouTube thumbnail for {{tema}} featuring {{personagem}} with a shocked expression and {{personagem2}} in the background, dramatic scene from {{universo}}, huge readable headline "{{titulo}}", subtitle "{{subtitulo}}", high contrast, emotional tension, cinematic lighting, click-worthy composition, no tiny text, optimized for {{plataforma}}.'},
+ {id:'tiktok_cover',cat:'Social / Conteúdo',plats:['tiktok','reels','story'],name:'Capa TikTok/Reels',desc:'Vertical com frase forte e personagem central.',tags:['tiktok','reels','vertical'],prompt:'Create a vertical 9:16 viral cover for {{plataforma}}, featuring {{personagem}} centered, bold headline "{{titulo}}", short subtitle "{{subtitulo}}", high readability on mobile, dynamic crop, strong emotion, trending social media look, background inspired by {{universo}}, style {{estilo}}.'},
+ {id:'insta_post_45',cat:'Social / Conteúdo',plats:['instagram'],name:'Post Instagram 4:5',desc:'Arte vertical premium para feed.',tags:['instagram','feed','4:5'],prompt:'Design a premium Instagram feed artwork in 4:5 format for {{tema}}, featuring {{personagem}}, title "{{titulo}}", subtitle "{{subtitulo}}", elegant layout, clear text hierarchy, cinematic yet clean composition, colors matching {{paleta}}, designed for high engagement.'},
+ {id:'flyer_artista',cat:'Música / Artista',plats:['instagram','story','print'],name:'Flyer de Artista',desc:'Flyer para cantor, DJ, banda ou show.',tags:['flyer','artista','show'],prompt:'Create a high-impact music event flyer featuring {{personagem}} as the main artist, visual style {{estilo}}, dramatic lighting, premium composition, bold headline "{{titulo}}", supporting text "{{subtitulo}}", date "{{data}}", location "{{local}}", CTA "{{cta}}", layered typography, modern advertising quality, optimized for {{plataforma}}.'},
+ {id:'album_cover',cat:'Música / Artista',plats:['instagram','print'],name:'Capa de Álbum / Single',desc:'Capa musical cinematográfica.',tags:['album','single','music'],prompt:'Create a cinematic album cover for {{tema}}, featuring {{personagem}} in a symbolic pose, minimal but powerful typography "{{titulo}}", mood {{clima}}, visual style {{estilo}}, premium music cover design, square 1:1 composition, no clutter.'},
+ {id:'clip_visualizer',cat:'Música / Artista',plats:['youtube','reels','tiktok'],name:'Visualizer de Clipe',desc:'Arte para clipe, teaser e visualizer.',tags:['clipe','visualizer','music'],prompt:'Create a music video visualizer frame for {{tema}}, featuring {{personagem}} in {{universo}}, energetic cinematic lighting, rhythm-driven composition, title "{{titulo}}", neon accents, motion-ready framing, designed for {{plataforma}}.'},
+ {id:'poster_cinema',cat:'Cinema / Viral',plats:['youtube','instagram','print'],name:'Poster Cinemático Fruits',desc:'Cartaz de episódio ou temporada.',tags:['poster','cinema','fruits'],prompt:'Create a cinematic movie poster for Fruits Adventures featuring {{personagem}} and {{personagem2}}, universe {{universo}}, atmosphere {{clima}}, dramatic lighting, premium poster design, bold title "{{titulo}}", tagline "{{subtitulo}}", emotional intensity, high-detail composition, optimized for {{plataforma}}.'},
+ {id:'novela_poster',cat:'Cinema / Viral',plats:['instagram','youtube','story'],name:'Cartaz de Novela Viral',desc:'Drama, traição e olhar intenso.',tags:['novela','drama','tv'],prompt:'Create a Brazilian soap opera style promotional artwork featuring {{personagem}} and {{personagem2}}, intense emotional close-ups, dramatic split composition, title "{{titulo}}", subtitle "{{subtitulo}}", warm cinematic lighting, betrayal mood, premium TV drama poster, optimized for {{plataforma}}.'},
+ {id:'live_action_street',cat:'Live Action / Local Real',plats:['youtube','instagram','tiktok','reels'],name:'Live Action Rua Real',desc:'Personagens frutas em local real, endereço ou mapa.',tags:['live action','google maps','rua real'],prompt:'Create a live-action realistic promotional scene featuring {{personagem}} as a humanized fruit character in a real-world location inspired by {{local_real}}. Preserve street atmosphere, architecture, sidewalks, signs, lighting, crowd flow and urban texture. Use reference link/context: {{referencia_link}}. Adapt it to Fruits Adventures without copying real faces or logos. Title "{{titulo}}", style {{estilo}}, optimized for {{plataforma}}.'},
+ {id:'maps_story',cat:'Live Action / Local Real',plats:['youtube','tiktok','reels'],name:'Cena Google Maps / Endereço',desc:'Transforma endereço em cena de perseguição.',tags:['maps','endereço','perseguição'],prompt:'Generate a cinematic prompt for a real-location chase scene at {{local_real}} using coordinates/context when available. Characters: {{personagem}} and {{personagem2}}. The environment must feel like a real Brazilian street, with authentic storefronts, cables, traffic, pedestrians and natural imperfections. Add dramatic headline "{{titulo}}" for {{plataforma}}. Avoid using real brand logos or identifiable real people.'},
+ {id:'gospel_flyer',cat:'Cristão / Igreja',plats:['instagram','story','print'],name:'Flyer Gospel / Culto',desc:'Arte de culto, conferência ou evento cristão.',tags:['gospel','igreja','culto'],prompt:'Create an emotional gospel event flyer featuring {{personagem}}, warm spiritual atmosphere, elegant typography with title "{{titulo}}", subtitle "{{subtitulo}}", date "{{data}}", location "{{local}}", CTA "{{cta}}", soft golden light, choir-inspired cinematic mood, premium church design, optimized for {{plataforma}}.'},
+ {id:'oracao_campaign',cat:'Cristão / Igreja',plats:['instagram','story'],name:'Campanha de Oração',desc:'Post espiritual emocional.',tags:['oração','campanha','fé'],prompt:'Design a heartfelt prayer campaign artwork for {{tema}}, featuring {{personagem}} in a humble emotional moment, title "{{titulo}}", message "{{subtitulo}}", warm light, peaceful atmosphere, faith, hope and redemption mood, clean premium typography, optimized for {{plataforma}}.'},
+ {id:'maes',cat:'Datas Anuais',plats:['instagram','story','youtube','print'],name:'Dia das Mães',desc:'Campanha emocional de Dia das Mães.',tags:['mães','data anual','emocional'],prompt:'Create an emotional Mothers Day promotional artwork featuring {{personagem}} in a warm affectionate scene, headline "{{titulo}}", subtitle "{{subtitulo}}", floral accents, soft golden lighting, family emotion, premium seasonal design, optimized for {{plataforma}}.'},
+ {id:'pascoa',cat:'Datas Anuais',plats:['instagram','story','print'],name:'Páscoa',desc:'Arte de Páscoa cristã ou comercial.',tags:['páscoa','data anual'],prompt:'Create an Easter themed promotional design featuring {{personagem}}, headline "{{titulo}}", subtitle "{{subtitulo}}", warm spiritual/festive atmosphere, symbolic Easter elements, elegant seasonal typography, vibrant composition, premium visual quality, optimized for {{plataforma}}.'},
+ {id:'natal_gfx',cat:'Datas Anuais',plats:['instagram','story','youtube','print'],name:'Natal',desc:'Especial de Natal com luzes e emoção.',tags:['natal','data anual'],prompt:'Create a Christmas promotional artwork featuring {{personagem}} in {{universo}}, cozy festive mood, cinematic lights, holiday decorations, emotional composition, bold seasonal headline "{{titulo}}", subtitle "{{subtitulo}}", premium advertising look, optimized for {{plataforma}}.'},
+ {id:'saojoao_gfx',cat:'Datas Anuais',plats:['instagram','story','print'],name:'São João',desc:'Flyer festa junina com energia brasileira.',tags:['são joão','forró','festa'],prompt:'Create a Brazilian São João festival flyer featuring {{personagem}}, colorful flags, bonfire, forró energy, title "{{titulo}}", date "{{data}}", location "{{local}}", joyful crowd atmosphere, premium festive design, optimized for {{plataforma}}.'},
+ {id:'blackfriday',cat:'Comercial',plats:['instagram','story','youtube'],name:'Black Friday / Oferta',desc:'Promoção forte com CTA.',tags:['promoção','oferta','black friday'],prompt:'Create a high-conversion Black Friday promotional design for {{tema}}, featuring {{personagem}}, giant headline "{{titulo}}", offer subtitle "{{subtitulo}}", CTA "{{cta}}", strong contrast, premium e-commerce layout, urgency elements, optimized for {{plataforma}}.'},
+ {id:'curso_banner',cat:'Comercial',plats:['youtube','instagram','print'],name:'Banner de Curso',desc:'Landing, anúncio ou capa de curso.',tags:['curso','landing','banner'],prompt:'Create a professional course banner for {{tema}}, featuring {{personagem}} as the expert/hero figure, headline "{{titulo}}", subtitle "{{subtitulo}}", CTA "{{cta}}", clean premium educational design, trustworthy visual hierarchy, optimized for {{plataforma}}.'},
+ {id:'ref_model',cat:'Modelar Referência',plats:['youtube','instagram','tiktok','reels','story','print'],name:'Modelar por Link / Print',desc:'Usa link e print como inspiração sem copiar.',tags:['referência','link','modelar'],prompt:'Analyze the reference context {{referencia_link}} and the attached screenshot if available. Extract only the style DNA: composition, color palette, typography mood, niche, visual rhythm and audience. Create a new original Fruits Adventures artwork featuring {{personagem}} and {{personagem2}}, title "{{titulo}}", adapted to {{plataforma}}, copying the vibe but not copying logos, real faces, protected text or exact layout. What to copy: {{referencia_copiar}}. What to avoid: {{referencia_evitar}}.'}
+];
+let gfxSelectedId='yt_thumb_twist';
+let gfxVariation=0;
+function buildGfxLibrary(){ const cat=$('gfxCategoria'); if(cat){const cats=['all',...new Set(GFX_LIBRARY.map(x=>x.cat))]; cat.innerHTML=cats.map(c=>`<option value="${c}">${c==='all'?'Todas as categorias':c}</option>`).join('');} carregarGfxCustoms(false); renderGfxLibrary(); selectGfx(gfxSelectedId); }
+function carregarGfxCustoms(showToast=true){try{const saved=JSON.parse(localStorage.getItem('gfx_custom_prompts')||'[]'); saved.forEach(x=>{if(!GFX_LIBRARY.some(g=>g.id===x.id))GFX_LIBRARY.push(x)}); if(showToast)toast('Prompts custom carregados.')}catch(e){}}
+function salvarGfxCustom(){const nome=$('gfxCustomNome')?.value.trim(); const prompt=$('gfxCustomPrompt')?.value.trim(); if(!nome||!prompt){toast('Preencha nome e prompt custom.');return} const item={id:'custom_'+Date.now(),cat:'Meus Prompts',plats:['youtube','instagram','tiktok','reels','story','print'],name:nome,desc:'Prompt custom salvo por você.',tags:['custom','meu prompt'],prompt}; const saved=JSON.parse(localStorage.getItem('gfx_custom_prompts')||'[]'); saved.push(item); localStorage.setItem('gfx_custom_prompts',JSON.stringify(saved)); GFX_LIBRARY.push(item); gfxSelectedId=item.id; renderGfxLibrary(); selectGfx(item.id); toast('Prompt salvo no arsenal!')}
+function renderGfxLibrary(){const grid=$('gfxGrid'); if(!grid)return; const q=($('gfxBusca')?.value||'').toLowerCase(); const cat=$('gfxCategoria')?.value||'all'; const plat=$('gfxPlataforma')?.value||'all'; const list=GFX_LIBRARY.filter(x=>(cat==='all'||x.cat===cat)&&(plat==='all'||x.plats.includes(plat))&&(!q||(x.name+x.desc+x.cat+x.tags.join(' ')).toLowerCase().includes(q))); grid.innerHTML=list.map(x=>`<div class="gfx-card ${x.id===gfxSelectedId?'sel':''}" onclick="selectGfx('${x.id}')"><div class="gfx-name">${x.name}</div><div class="gfx-desc">${x.desc}</div><div class="gfx-tags">${x.tags.slice(0,4).map(t=>`<span class="gfx-tag">${t}</span>`).join('')}</div></div>`).join('') || '<div class="hint">Nenhum prompt encontrado. Tente outro filtro ou salve um custom.</div>';}
+function selectGfx(id){gfxSelectedId=id; renderGfxLibrary(); const item=GFX_LIBRARY.find(x=>x.id===id); if($('gfxSelectedOut')) $('gfxSelectedOut').textContent=item?`PROMPT BASE: ${item.name}\nCATEGORIA: ${item.cat}\nTAGS: ${item.tags.join(', ')}\n\n${item.prompt}`:'Escolha um prompt.'}
+function getCharName(pos){const i=state.elenco[pos]; return CHARS[i]?.n || (pos===0?'Tomate Elinaldo':'Sabrina Pitaya')}
+function getCharVisual(pos){const i=state.elenco[pos]; return CHARS[i]?.v || ''}
+function gfxVars(){const t=state.tpl||TEMPLATES[0]; const real=(typeof locationContext==='function')?locationContext():''; const universo=$('universo')?.value||'Fruits Adventures'; return {titulo:$('gfxTitulo')?.value||'A VERDADE APARECEU',subtitulo:$('gfxSubtitulo')?.value||'O segredo que mudou tudo',personagem:$('gfxPersonagem')?.value||getCharName(0),personagem2:$('gfxPersonagem2')?.value||getCharName(1),personagem_visual:getCharVisual(0),personagem2_visual:getCharVisual(1),tema:t?.name||'Fruits Adventures',universo,nicho:$('gfxNicho')?.value||'conteúdo viral',cta:$('gfxCta')?.value||'Assista agora',data:$('gfxData')?.value||'Data a definir',local:$('gfxLocal')?.value||universo,estilo:$('artEstilo')?.value||'3D cartoon cinematográfico premium',plataforma:$('artTipo')?.value||'YouTube 16:9',paleta:'gold, cyan, dark cinematic tones',clima:'dramatic, emotional, viral, cinematic',local_real:real||($('gfxLocal')?.value||universo),referencia_link:$('gfxRefLink')?.value||'sem link de referência',referencia_copiar:$('gfxRefCopiar')?.value||'composição, clima, nicho e energia visual',referencia_evitar:$('gfxRefEvitar')?.value||'não copiar rosto real, marca, logo, layout idêntico ou texto protegido'}}
+function applyVars(str,vars){return str.replace(/{{\s*([\w_]+)\s*}}/g,(m,k)=>vars[k]||m)}
+function setGfxQuick(titulo,sub,nicho){if($('gfxTitulo'))$('gfxTitulo').value=titulo;if($('gfxSubtitulo'))$('gfxSubtitulo').value=sub;if($('gfxNicho'))$('gfxNicho').value=nicho;toast('Variáveis rápidas aplicadas.')}
+function variarGfxPrompt(){gfxVariation=(gfxVariation+1)%5;gerarGrafica();toast('Variação anti-repetição aplicada.')}
+function gerarGrafica(){const item=GFX_LIBRARY.find(x=>x.id===gfxSelectedId)||GFX_LIBRARY[0]; const vars=gfxVars(); const variations=['Variation rule: use a fresh composition, avoid repeating the same camera angle, text layout, color balance and background from previous generations.','Variation rule: create a more premium advertising layout with stronger negative space and clearer text hierarchy.','Variation rule: create a more cinematic dramatic angle, with foreground/midground/background depth.','Variation rule: create a more viral social-media design, high contrast, emotional face/expression, very readable mobile headline.','Variation rule: create a more realistic live-action adaptation, authentic Brazilian street details and natural lighting.']; const base=applyVars(item.prompt,vars); state.grafica=`ARSENAL: ${item.name}\nCATEGORIA: ${item.cat}\nPLATAFORMA: ${vars.plataforma}\n\nPROMPT FINAL:\n${base}\n\nDNA DOS PERSONAGENS:\n${dnaStr()||'Use personagens Fruits Adventures selecionados.'}\n\nCONTEXTO DE LOCAL / MAPS:\n${vars.local_real}\n\nREFERÊNCIA / NICHO:\nLink: ${vars.referencia_link}\nCopiar apenas: ${vars.referencia_copiar}\nEvitar: ${vars.referencia_evitar}\n\nANTI-REPETIÇÃO:\n${variations[gfxVariation]}\n\nNEGATIVE PROMPT / CUIDADOS:\nNo real person face copying, no logos, no copyrighted character, no tiny unreadable text, no watermark, no distorted hands, no duplicate characters unless requested.`; $('graficaOut').textContent=state.grafica; if($('exportOut'))$('exportOut').textContent=buildExport(); toast('Prompt gráfico smart gerado!')}
+function mandarPromptParaIdea(){if(!state.grafica)gerarGrafica(); if($('ideaLivre')){$('ideaLivre').value=(($('ideaLivre').value||'')+'\n\nPROMPT GRÁFICO / REFERÊNCIA VISUAL:\n'+state.grafica).trim(); toast('Prompt enviado para o Gerador.'); const btn=[...document.querySelectorAll('nav button')].find(b=>b.getAttribute('onclick')?.includes('gerador')); tab({currentTarget:btn},'gerador')}}
 
 function buildExport(){
  return `FRUITS ADVENTURES — PACOTE VIRAL\n${'═'.repeat(50)}\nLOCAL REAL / MAPS:\n${locationContext()||'Não configurado'}\n${'═'.repeat(50)}\nROTEIRO:\n${state.roteiro||'...'}\n${'═'.repeat(50)}\nCENAS:\n${state.cenas.map((c,i)=>`CENA ${i+1}:\nTEMPO: ${c.tempo||''}\nSTORYBOARD: ${c.storyboard||''}\nIMG: ${c.img||''}\nVID: ${c.vid||''}\nYOUTUBE: ${c.youtube||''}\nTIKTOK: ${c.tiktok||''}\nREELS: ${c.reels||''}\nINSTAGRAM: ${c.instagram||''}\nAUD: ${c.aud||''}\nSUNO: ${c.suno||''}\nCAPCUT: ${c.cap||''}`).join('\n\n')}`;
