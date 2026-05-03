@@ -1,4 +1,4 @@
-<!doctype html>
+ / <!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
@@ -13,17 +13,23 @@
 <div class="wrap">
 <header><div class="brand"><h1>🍓 Fruits Adventures <b>API Viral Studio</b></h1><div class="sub">Modelar vídeos virais com IA: referência entra, nodes processam, pacote sai pronto para produção.</div></div><div><span class="pill" id="apiPill">IA: econômico automático</span></div></header>
 <div class="tabs"><button class="tab active" onclick="showTab('modelar',this)">1. Modelar Viral</button><button class="tab" onclick="showTab('nodes',this)">2. Node Studio</button><button class="tab" onclick="showTab('cenas',this)">3. Cena por Cena</button><button class="tab" onclick="showTab('exportar',this)">4. Exportar</button><button class="tab" onclick="showTab('api',this)">API Config</button></div>
-<section id="modelar" class="page"><div class="grid"><div class="card"><h2>Entrada Viral</h2><div class="hint">Site novo, leve e 100% API. Sem banco gigante. A IA usa Gemini, OpenRouter e Groq para modelar a referência viral.</div><div class="field"><label>Referência viral / link / ideia</label><textarea id="viralInput" placeholder="Cole aqui o link, descreva o vídeo viral, ou escreva a ideia. Ex: vídeo de perseguição no beco, final com plot twist..."></textarea></div><div class="field"><label>Prints / frames do vídeo</label><input id="imgFiles" type="file" accept="image/*" multiple onchange="loadImages(event)"><div class="file-row" id="thumbs"></div></div><div class="field"><label>O que manter do viral?</label><textarea id="keepInput">gancho forte, ritmo rápido, tensão, humor visual, final com virada</textarea></div><div class="field"><label>O que mudar para Fruits Adventures?</label><textarea id="changeInput">adaptar para mundo Fruits Adventures, personagens frutas humanizados, praia/portal como identidade visual quando fizer sentido, sem copiar rostos, marcas ou falas originais</textarea></div><div class="field"><label>Personagens</label><select id="charMode"><option value="auto">IA escolhe conforme a referência</option><option value="fixo">Usar Tomate Elinaldo e Sabrina Pitaya como principais</option></select></div><div class="btns"><button class="primary" onclick="runFullStudio()">🚀 Modelar viral com IA</button><button onclick="fillTest()">Carregar teste beco</button><button onclick="clearAll()" class="danger">Limpar</button></div></div><div class="card"><h2>Resultado rápido</h2><div class="out" id="mainOut">Cole uma referência e clique em “Modelar viral com IA”.</div></div></div></section>
-<section id="nodes" class="page hide"><div class="card"><h2>Node Studio</h2><p class="sub">Fluxo visual estilo nodes: clique em um node para ver a saída. Pode rodar tudo ou copiar apenas uma etapa.</p><div class="nodes" id="nodeGrid"></div></div><div class="grid" style="margin-top:16px"><div class="card"><h3 id="nodeTitle">Node selecionado</h3><div class="btns"><button class="primary" onclick="runSelectedNode()">Gerar este node</button><button onclick="copySelectedNode()">Copiar node</button><button onclick="sendNodeToMain()">Mandar para resultado</button></div></div><div class="card"><div class="out" id="nodeOut">Clique em um node.</div></div></div></section>
+<section id="modelar" class="page"><div class="grid"><div class="card"><h2>Entrada Viral</h2><div class="hint">Site novo, leve e 100% API. Sem banco gigante. A IA usa Gemini, OpenRouter e Groq para modelar a referência viral.</div><div class="field"><label>Referência viral / link / ideia</label><textarea id="viralInput" placeholder="Cole aqui o link, descreva o vídeo viral, ou escreva a ideia. Ex: vídeo de perseguição no beco, final com plot twist..."></textarea></div><div class="field"><label>Prints / frames do vídeo</label><input id="imgFiles" type="file" accept="image/*" multiple onchange="loadImages(event)"><div class="file-row" id="thumbs"></div></div><div class="field"><label>O que manter do viral?</label><textarea id="keepInput">gancho forte, ritmo rápido, tensão, humor visual, final com virada</textarea></div><div class="field"><label>O que mudar para Fruits Adventures?</label><textarea id="changeInput">adaptar para mundo Fruits Adventures, personagens frutas humanizados, praia/portal como identidade visual quando fizer sentido, sem copiar rostos, marcas ou falas originais</textarea></div><div class="field"><label>Personagens</label><select id="charMode"><option value="auto">IA escolhe conforme a referência</option><option value="fixo">Usar Tomate Elinaldo e Sabrina Pitaya como principais</option></select></div><div class="field"><label>DNA dos personagens Fruits Adventures</label><textarea id="characterDna">Tomate Elinaldo: protagonista tomate humanizado, curioso, corajoso, expressivo, meio atrapalhado, mas inteligente quando a situação aperta. Visual cinematográfico, carismático, energia de herói improvável e reação facial forte para vídeos virais.
+
+Sabrina Pitaya: personagem pitaya humanizada, forte, esperta, estilosa, protetora e com presença marcante. Tem humor seco, atitude confiante e ajuda a resolver o caos com inteligência.
+
+Mundo Fruits Adventures: personagens frutas humanizados, praia, portal mágico, aventura viral, humor visual, ação leve, cores vivas, acabamento premium, tensão divertida, sem copiar rostos, marcas ou falas originais.</textarea></div><div class="btns"><button class="primary" onclick="runFullStudio()">🚀 Modelar viral com IA</button><button onclick="fillTest()">Carregar teste beco</button><button onclick="clearAll()" class="danger">Limpar</button></div></div><div class="card"><h2>Resultado rápido</h2><div class="out" id="mainOut">Cole uma referência e clique em “Modelar viral com IA”.</div></div></div></section>
+<section id="nodes" class="page hide"><div class="card"><h2>Node Studio</h2><p class="sub">Fluxo visual estilo nodes: clique em um node para ver a saída. Pode rodar tudo ou copiar apenas uma etapa.</p><div class="nodes" id="nodeGrid"></div></div><div class="grid" style="margin-top:16px"><div class="card"><h3 id="nodeTitle">Node selecionado</h3><div class="btns"><button class="primary" onclick="loadQuickNodeTest(true)">Carregar teste rápido</button><button onclick="runSelectedNode()">Gerar este node</button><button onclick="copySelectedNode()">Copiar node</button><button onclick="sendNodeToMain()">Mandar para resultado</button></div></div><div class="card"><div class="out" id="nodeOut">Clique em um node.</div></div></div></section>
 <section id="cenas" class="page hide"><div class="card"><h2>Cena por Cena</h2><div class="hint">Aqui fica prático: escolha a cena e copie Storyboard 3x3, imagem, vídeo ou áudio. Sem abas duplicadas.</div><div class="scene-list" id="sceneList"></div></div><div class="split" style="margin-top:14px"><div class="card"><h3 id="sceneTitle">Cena</h3><div class="btns"><button class="gold" onclick="copyScenePart('scene')">Copiar cena</button><button class="primary" onclick="copyScenePart('story3x3')">Storyboard 3x3</button><button onclick="copyScenePart('image')">Imagem</button><button onclick="copyScenePart('video')">Vídeo</button><button onclick="copyScenePart('audio')">Áudio/CapCut</button></div></div><div class="card"><div class="out" id="sceneOut">Gere o pacote primeiro.</div></div></div></section>
 <section id="exportar" class="page hide"><div class="grid"><div class="card"><h2>Exportar pacote</h2><div class="btns"><button class="primary" onclick="copyText(state.full,'Pacote completo copiado')">Copiar pacote completo</button><button onclick="downloadTxt('fruits_adventures_pacote.txt',state.full)">Baixar TXT</button><button onclick="copyClient()">Copiar versão cliente</button><button onclick="copyTech()">Copiar versão técnica</button></div><div class="hint" style="margin-top:12px">Exportar é o fim do trabalho. Produção cena por cena fica na aba “Cena por Cena”.</div></div><div class="card"><h2>Pacote final</h2><div class="out" id="exportOut">Nada gerado ainda.</div></div></div></section>
 <section id="api" class="page hide"><div class="api-grid"><div class="api-box"><h3>Gemini</h3><p class="mini">Visão, prints e análise de referência.</p><input id="geminiKey" placeholder="API Key Gemini"><input id="geminiModel" value="gemini-2.5-flash"></div><div class="api-box"><h3>OpenRouter</h3><p class="mini">Fallback para pacote grande, roteiro, prompts, SRT.</p><input id="openrouterKey" placeholder="API Key OpenRouter"><input id="openrouterModel" value="openrouter/free"></div><div class="api-box"><h3>Groq</h3><p class="mini">Texto rápido, limpeza, resumo, narração curta.</p><input id="groqKey" placeholder="API Key Groq"><input id="groqModel" value="llama-3.1-8b-instant"></div><div class="api-box"><h3>Modo</h3><select id="apiMode"><option value="auto">Econômico automático</option><option value="gemini">Só Gemini</option><option value="openrouter">Só OpenRouter</option><option value="groq">Só Groq</option><option value="local">Local sem API</option></select><div class="btns"><button class="primary" onclick="saveKeys()">Salvar chaves</button><button onclick="loadKeys()">Carregar</button><button onclick="testAPI()">Testar modo</button><button class="danger" onclick="clearKeys()">Apagar</button></div></div></div><div class="card" style="margin-top:14px"><h3>Status da API</h3><div class="out" id="apiStatus">Configure as chaves e teste.</div></div></section>
 </div>
 <script>
 const $=id=>document.getElementById(id); const state={images:[],full:'',nodes:{},selectedNode:'input',scenes:[],scene:0};
-const nodes=[['input','INPUT VIRAL','Referência, link, prints e intenção.'],['dna','ANÁLISE DNA','Gancho, ritmo, câmera, conflito e motivo viral.'],['modelar','MODELAR FRUITS','Recriação original no universo Fruits Adventures.'],['roteiro','ROTEIRO','Roteiro curto, cenas e viradas.'],['cenas','CENAS','Separação prática por cena.'],['story','STORYBOARD 3x3','Prompt para imagem única com vários quadros.'],['imagem','IMAGEM','Prompts individuais por cena.'],['video','VÍDEO','Flow Labs / prompt de vídeo.'],['audio','ÁUDIO','Narração limpa, SRT, CapCut.'],['export','EXPORTAR','Pacote final para copiar ou baixar.']];
-function unlock(){if(($('pass').value||'').trim().toLowerCase()==='titan'){$('gate').style.display='none';localStorage.setItem('fat_unlocked','1')}else alert('Senha incorreta.')} if(localStorage.getItem('fat_unlocked')==='1') setTimeout(()=>{$('gate').style.display='none'},80);
-function showTab(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.add('hide'));$(id).classList.remove('hide');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active'); if(id==='nodes')renderNodes(); if(id==='cenas')renderScenes(); if(id==='exportar')$('exportOut').textContent=state.full||'Nada gerado ainda.'}
+const nodes=[['input','INPUT VIRAL','Referência, link, prints e intenção.'],['personagens','DNA PERSONAGENS','Tomate Elinaldo, Sabrina Pitaya e regras do mundo.'],['dna','ANÁLISE DNA','Gancho, ritmo, câmera, conflito e motivo viral.'],['modelar','MODELAR FRUITS','Recriação original no universo Fruits Adventures.'],['roteiro','ROTEIRO','Roteiro curto, cenas e viradas.'],['cenas','CENAS','Separação prática por cena.'],['story','STORYBOARD 3x3','Prompt para imagem única com vários quadros.'],['imagem','IMAGEM','Prompts individuais por cena.'],['video','VÍDEO','Flow Labs / prompt de vídeo.'],['audio','ÁUDIO','Narração limpa, SRT, CapCut.'],['export','EXPORTAR','Pacote final para copiar ou baixar.']];
+const DEV_MODE=true;
+function unlock(){if(DEV_MODE || ($('pass').value||'').trim().toLowerCase()==='titan'){$('gate').style.display='none';localStorage.setItem('fat_unlocked','1')}else alert('Senha incorreta.')}
+if(DEV_MODE || localStorage.getItem('fat_unlocked')==='1') setTimeout(()=>{$('gate').style.display='none';localStorage.setItem('fat_unlocked','1')},80);
+function showTab(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.add('hide'));$(id).classList.remove('hide');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active'); if(id==='nodes'){if(!state.full)loadQuickNodeTest(false);renderNodes();} if(id==='cenas')renderScenes(); if(id==='exportar')$('exportOut').textContent=state.full||'Nada gerado ainda.'}
 function renderNodes(){const g=$('nodeGrid');g.innerHTML=nodes.map(n=>`<div class="node ${state.selectedNode===n[0]?'active':''}" onclick="selectNode('${n[0]}')"><div class="k">${n[0]}</div><div class="t">${n[1]}</div><div class="d">${n[2]}</div><div class="status ${state.nodes[n[0]]?'ok':''}">${state.nodes[n[0]]?'pronto':'aguardando'}</div></div>`).join('')}
 function selectNode(id){state.selectedNode=id;renderNodes();$('nodeTitle').textContent=nodes.find(n=>n[0]===id)?.[1]||id;$('nodeOut').textContent=state.nodes[id]||'Este node ainda não foi gerado.'}
 function loadImages(ev){state.images=[];$('thumbs').innerHTML='';[...ev.target.files].slice(0,8).forEach(file=>{const r=new FileReader();r.onload=e=>{state.images.push({name:file.name,type:file.type,data:e.target.result.split(',')[1],url:e.target.result});const im=document.createElement('img');im.src=e.target.result;im.className='thumb';$('thumbs').appendChild(im)};r.readAsDataURL(file)})}
@@ -49,14 +55,18 @@ ${$('changeInput').value}
 PERSONAGENS:
 ${$('charMode').value==='fixo'?'Tomate Elinaldo e Sabrina Pitaya principais. Vilão e apoio definidos pela IA.':'IA escolhe personagens frutas conforme a referência.'}
 
+DNA DOS PERSONAGENS FRUITS ADVENTURES:
+${$('characterDna')?.value||''}
+
 IDENTIDADE DO UNIVERSO:
 praia, portal mágico, aventura viral, personagens frutas humanizados, humor cinematográfico, ação leve, cores vivas com acabamento premium. Use isso como cartão de visita quando fizer sentido, sem forçar.
 
 ENTREGUE COM ESTES BLOCOS EXATOS:
 1. DNA VIRAL RECONHECIDO
-2. MODELAGEM FRUITS ADVENTURES
-3. ROTEIRO COMPLETO
-4. CENAS NUMERADAS
+2. DNA DOS PERSONAGENS FRUITS ADVENTURES
+3. MODELAGEM FRUITS ADVENTURES
+4. ROTEIRO COMPLETO
+5. CENAS NUMERADAS
 Use formato:
 CENA 1 — título
 Tempo:
@@ -65,15 +75,15 @@ Emoção:
 Visual:
 Virada:
 
-5. STORYBOARD 3x3 POR CENA
-6. PROMPTS DE IMAGEM POR CENA
-7. PROMPTS DE VÍDEO / FLOW LABS POR CENA
-8. ÁUDIO / NARRAÇÃO LIMPA / SRT / CAPCUT
-9. PACOTE FINAL EXPORTÁVEL
+6. STORYBOARD 3x3 POR CENA
+7. PROMPTS DE IMAGEM POR CENA
+8. PROMPTS DE VÍDEO / FLOW LABS POR CENA
+9. ÁUDIO / NARRAÇÃO LIMPA / SRT / CAPCUT
+10. PACOTE FINAL EXPORTÁVEL
 
 Regras: não copiar rostos, marcas, falas protegidas ou cenas idênticas. Use apenas o DNA viral. Texto limpo, funcional e pronto para copiar.`}
 async function runFullStudio(){try{$('mainOut').textContent='Modelando viral com IA...'; const txt=await callAI(studioPrompt(),{images:state.images}); state.full=txt||localPackage(); $('mainOut').textContent=state.full; buildNodes(); extractScenes(); renderNodes(); renderScenes(); $('exportOut').textContent=state.full; document.querySelector('[onclick*="nodes"]').click()}catch(e){$('mainOut').textContent='Erro: '+e.message}}
-function buildNodes(){const t=state.full; state.nodes.input=`REFERÊNCIA\n${$('viralInput').value}\n\nPRINTS: ${state.images.length}`; state.nodes.dna=slice(t,'DNA VIRAL','MODELAGEM')||slice(t,'DNA','ROTEIRO')||t.slice(0,1200); state.nodes.modelar=slice(t,'MODELAGEM','ROTEIRO')||''; state.nodes.roteiro=slice(t,'ROTEIRO','CENAS')||''; state.nodes.cenas=slice(t,'CENAS','STORYBOARD')||''; state.nodes.story=slice(t,'STORYBOARD','PROMPTS DE IMAGEM')||''; state.nodes.imagem=slice(t,'PROMPTS DE IMAGEM','PROMPTS DE VÍDEO')||slice(t,'PROMPTS DE IMAGEM','AUDIO')||''; state.nodes.video=slice(t,'PROMPTS DE VÍDEO','ÁUDIO')||slice(t,'FLOW LABS','ÁUDIO')||''; state.nodes.audio=slice(t,'ÁUDIO','PACOTE FINAL')||slice(t,'NARRAÇÃO','PACOTE FINAL')||''; state.nodes.export=t;}
+function buildNodes(){const t=state.full; state.nodes.input=`REFERÊNCIA\n${$('viralInput').value}\n\nPRINTS: ${state.images.length}`; state.nodes.personagens=slice(t,'DNA DOS PERSONAGENS','MODELAGEM')||($('characterDna')?.value||'DNA dos personagens não encontrado.'); state.nodes.dna=slice(t,'DNA VIRAL','DNA DOS PERSONAGENS')||slice(t,'DNA VIRAL','MODELAGEM')||slice(t,'DNA','ROTEIRO')||t.slice(0,1200); state.nodes.modelar=slice(t,'MODELAGEM','ROTEIRO')||''; state.nodes.roteiro=slice(t,'ROTEIRO','CENAS')||''; state.nodes.cenas=slice(t,'CENAS','STORYBOARD')||''; state.nodes.story=slice(t,'STORYBOARD','PROMPTS DE IMAGEM')||''; state.nodes.imagem=slice(t,'PROMPTS DE IMAGEM','PROMPTS DE VÍDEO')||slice(t,'PROMPTS DE IMAGEM','AUDIO')||''; state.nodes.video=slice(t,'PROMPTS DE VÍDEO','ÁUDIO')||slice(t,'FLOW LABS','ÁUDIO')||''; state.nodes.audio=slice(t,'ÁUDIO','PACOTE FINAL')||slice(t,'NARRAÇÃO','PACOTE FINAL')||''; state.nodes.export=t;}
 function slice(t,a,b){const l=t.toLowerCase(), ia=l.indexOf(a.toLowerCase()); if(ia<0)return''; const ib=l.indexOf(b.toLowerCase(),ia+a.length); return t.slice(ia,ib>ia?ib:t.length).trim()}
 function runSelectedNode(){const id=state.selectedNode; if(!state.full&&id!=='input')return $('nodeOut').textContent='Gere o pacote completo primeiro.'; buildNodes(); selectNode(id)}function copySelectedNode(){copyText(state.nodes[state.selectedNode]||'','Node copiado')}function sendNodeToMain(){$('mainOut').textContent=state.nodes[state.selectedNode]||'';document.querySelector('[onclick*="modelar"]').click()}
 function extractScenes(){const text=state.full||''; const re=/CENA\s*(\d+)\s*[—\-:]?\s*([^\n]*)([\s\S]*?)(?=\n\s*CENA\s*\d+\s*[—\-:]|\n\s*5\.\s*STORYBOARD|\n\s*STORYBOARD|$)/gi; const arr=[]; let m; while((m=re.exec(text))&&arr.length<12){const body=(m[3]||'').trim(); if(body.length>20)arr.push({num:m[1],title:`Cena ${m[1]} — ${(m[2]||'').trim()||'sem título'}`,body})} if(!arr.length){arr.push({num:'1',title:'Cena 1',body:text.slice(0,1500)||'Gere o pacote primeiro.'})} state.scenes=arr;}
@@ -81,7 +91,59 @@ function renderScenes(){extractScenes();$('sceneList').innerHTML=state.scenes.ma
 function scenePrompt(kind,s){if(kind==='scene')return `${s.title}\n\n${s.body}`; if(kind==='story3x3')return `PROMPT STORYBOARD 3x3 — ${s.title}\n\nCrie UMA imagem única em formato storyboard cinematográfico 3x3, mostrando a MESMA cena evoluindo em 9 quadros.\n\nQuadros: T-5, T-1, T, T+1, T+5, T+30, ângulo alternativo, transição espontânea, quadro final impactante.\n\nRegras: ultra-realista, iluminação cinematográfica, DOF raso, tom coeso, continuidade de personagens/cenário/luz/direção de arte, pequenas legendas por quadro.\n\nCENA BASE:\n${s.body}`; if(kind==='image')return `PROMPT IMAGEM — ${s.title}\n\nCrie uma imagem principal cinematográfica e ultra-realista para esta cena. Sem texto grande na imagem.\n\nCENA BASE:\n${s.body}`; if(kind==='video')return `PROMPT VÍDEO / FLOW LABS — ${s.title}\n\nCrie um vídeo curto com movimento de câmera claro, ação objetiva, continuidade visual e gancho no final.\n\nCENA BASE:\n${s.body}`; if(kind==='audio')return `ÁUDIO / CAPCUT — ${s.title}\n\nCrie narração limpa, SFX, legendas SRT e instruções CapCut para esta cena. Não use markdown nem asteriscos.\n\nCENA BASE:\n${s.body}`}
 function copyScenePart(k){const s=state.scenes[state.scene]||state.scenes[0]; const txt=scenePrompt(k,s); $('sceneOut').textContent=txt; copyText(txt,'Copiado: '+k)}
 function copyText(txt,msg){navigator.clipboard?.writeText(txt||''); toast(msg||'Copiado')}function downloadTxt(name,txt){const b=new Blob([txt||''],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href)}function copyClient(){copyText((state.nodes.dna||'')+'\n\n'+(state.nodes.roteiro||''),'Versão cliente copiada')}function copyTech(){copyText((state.nodes.story||'')+'\n\n'+(state.nodes.imagem||'')+'\n\n'+(state.nodes.video||'')+'\n\n'+(state.nodes.audio||''),'Versão técnica copiada')}
-function localPackage(){return `1. DNA VIRAL RECONHECIDO\nGancho rápido, conflito visual, transformação em aventura Fruits Adventures.\n\n2. MODELAGEM FRUITS ADVENTURES\nRecriar a referência como vídeo original com personagens frutas humanizados, praia/portal e final com virada.\n\n3. ROTEIRO COMPLETO\nAbertura com impacto, perseguição ou desafio, revelação e gancho para continuação.\n\n4. CENAS NUMERADAS\nCENA 1 — Gancho inicial\nTempo: 0-3s\nAção: personagem entra em perigo ou descobre algo estranho.\nEmoção: surpresa e tensão.\nVisual: praia/portal com energia cinematográfica.\nVirada: algo inesperado aparece.\n\nCENA 2 — Conflito\nTempo: 3-10s\nAção: a ameaça cresce e o personagem precisa agir.\nEmoção: urgência.\nVisual: câmera em movimento, cortes rápidos.\nVirada: aliado ou vilão muda o rumo.\n\nCENA 3 — Final impactante\nTempo: 10-20s\nAção: revelação final e gancho da parte 2.\nEmoção: choque divertido.\nVisual: close cinematográfico e portal brilhando.\nVirada: a verdadeira ameaça aparece.\n\n5. STORYBOARD 3x3 POR CENA\nUse o botão Cena por Cena para copiar o prompt 3x3.\n\n6. PROMPTS DE IMAGEM POR CENA\nUse o botão Imagem.\n\n7. PROMPTS DE VÍDEO / FLOW LABS POR CENA\nUse o botão Vídeo.\n\n8. ÁUDIO / NARRAÇÃO LIMPA / SRT / CAPCUT\nUse o botão Áudio/CapCut.\n\n9. PACOTE FINAL EXPORTÁVEL\nPacote local gerado sem API.`}
+function localPackage(){const dna=$('characterDna')?.value||`Tomate Elinaldo: protagonista tomate humanizado, curioso, corajoso e expressivo.
+
+Sabrina Pitaya: pitaya humanizada, forte, esperta, estilosa e protetora.
+
+Mundo Fruits Adventures: praia, portal mágico, aventura viral, humor visual e personagens frutas humanizados.`;return `1. DNA VIRAL RECONHECIDO
+Gancho rápido, conflito visual, transformação em aventura Fruits Adventures, ritmo de perseguição, cortes rápidos e final com virada.
+
+2. DNA DOS PERSONAGENS FRUITS ADVENTURES
+${dna}
+
+3. MODELAGEM FRUITS ADVENTURES
+Recriar a referência como vídeo original com Tomate Elinaldo e Sabrina Pitaya, personagens frutas humanizados, praia/portal e final com virada.
+
+4. ROTEIRO COMPLETO
+Abertura com impacto, perseguição ou desafio, revelação e gancho para continuação.
+
+5. CENAS NUMERADAS
+CENA 1 — Gancho inicial
+Tempo: 0-3s
+Ação: Tomate Elinaldo percebe algo estranho perto do portal enquanto Sabrina Pitaya nota uma ameaça se aproximando.
+Emoção: surpresa e tensão divertida.
+Visual: praia/portal com energia cinematográfica, luz colorida e câmera baixa.
+Virada: o portal pisca como se estivesse chamando alguém.
+
+CENA 2 — Conflito
+Tempo: 3-10s
+Ação: os personagens correm, desviam de obstáculos e tentam entender quem está controlando o portal.
+Emoção: urgência, humor visual e adrenalina.
+Visual: câmera em movimento, cortes rápidos, cenário tropical com brilho mágico.
+Virada: Sabrina percebe que o vilão queria que eles corressem para ativar o portal.
+
+CENA 3 — Final impactante
+Tempo: 10-20s
+Ação: Tomate Elinaldo tenta fechar o portal, mas uma sombra-fruta aparece do outro lado.
+Emoção: choque divertido e suspense.
+Visual: close cinematográfico, vento forte, portal brilhando e frutas iluminadas por trás.
+Virada: a verdadeira ameaça aparece e deixa gancho para parte 2.
+
+6. STORYBOARD 3x3 POR CENA
+Use o botão Cena por Cena para copiar o prompt 3x3.
+
+7. PROMPTS DE IMAGEM POR CENA
+Use o botão Imagem.
+
+8. PROMPTS DE VÍDEO / FLOW LABS POR CENA
+Use o botão Vídeo.
+
+9. ÁUDIO / NARRAÇÃO LIMPA / SRT / CAPCUT
+Use o botão Áudio/CapCut.
+
+10. PACOTE FINAL EXPORTÁVEL
+Pacote local gerado sem API, com DNA dos personagens incluso.`}
+function loadQuickNodeTest(goToNode=true){state.full=localPackage();if(!$('viralInput').value.trim()){$('viralInput').value='Teste rápido: perseguição em beco chuvoso vira uma aventura Fruits Adventures com portal mágico no final.';$('keepInput').value='gancho forte, perseguição, tensão, cortes rápidos, humor visual e final com virada';$('changeInput').value='adaptar para Fruits Adventures com Tomate Elinaldo e Sabrina Pitaya, personagens frutas humanizados, praia/portal e identidade visual própria';$('charMode').value='fixo';}state.selectedNode='personagens';buildNodes();extractScenes();renderNodes();renderScenes();$('mainOut').textContent=state.full;$('nodeOut').textContent=state.nodes.personagens||'Teste rápido carregado.';$('nodeTitle').textContent='DNA PERSONAGENS';$('exportOut').textContent=state.full;if(goToNode)document.querySelector('[onclick*="nodes"]').click();}
 function fillTest(){$('viralInput').value='Vídeo viral de perseguição em beco chuvoso, com dois personagens fugindo, vilão aparece no final e revela que deixou eles correrem de propósito.';$('keepInput').value='perseguição, tensão, luz dramática, final com plot twist, ritmo rápido';$('changeInput').value='adaptar para Fruits Adventures com Tomate Elinaldo e Sabrina Pitaya, sem copiar a obra original, usando praia/portal como identidade quando fizer sentido'}function clearAll(){state.full='';state.nodes={};state.scenes=[];$('mainOut').textContent='Limpo.';$('nodeOut').textContent='Clique em um node.';$('sceneOut').textContent='Gere o pacote primeiro.';$('exportOut').textContent='Nada gerado ainda.'}loadKeys();renderNodes();
 </script>
 </body>
