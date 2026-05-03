@@ -223,74 +223,15 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 @media(max-width:560px){.focus-steps,.mode-grid{grid-template-columns:1fr}}
 
 
-/* ACCESS GATE */
-#accessGate{
-  position:fixed; inset:0; z-index:999999; display:flex; align-items:center; justify-content:center;
-  background:
-    radial-gradient(ellipse 60% 40% at 15% 5%,rgba(212,160,23,.16),transparent),
-    radial-gradient(ellipse 55% 35% at 90% 90%,rgba(0,212,200,.12),transparent),
-    #05080d;
-  padding:22px;
-}
-.access-card{
-  width:min(760px,100%); border:1px solid rgba(212,160,23,.42); border-radius:24px;
-  background:linear-gradient(145deg,rgba(12,17,24,.98),rgba(8,12,18,.96));
-  box-shadow:0 20px 80px rgba(0,0,0,.55),0 0 40px rgba(212,160,23,.10);
-  padding:28px;
-}
-.access-mark{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.access-logo{width:58px;height:58px;border-radius:17px;border:1px solid var(--gold);display:grid;place-items:center;font-size:30px;background:linear-gradient(135deg,#231500,#3b2800)}
-.access-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--gold2);line-height:1}
-.access-subtitle{font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
-.creator-box{border:1px solid rgba(0,212,200,.24);background:rgba(0,212,200,.045);border-radius:16px;padding:16px;margin:16px 0}
-.creator-line{font-size:14px;color:#dce8f5;margin:6px 0}
-.creator-line b{color:var(--cyan)}
-.access-note{font-size:12.5px;color:#93a9be;line-height:1.55;margin-top:10px}
-.access-grid{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:18px}
-.access-input{height:46px}
-.access-error{display:none;color:var(--red);font-size:12px;font-weight:800;margin-top:10px}
-.access-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px;font-size:11px;color:var(--dim)}
-@media(max-width:620px){.access-grid{grid-template-columns:1fr}.access-title{font-size:30px}.access-card{padding:20px}}
-body.locked{overflow:hidden}
+/* MULTI REFERENCE GALLERY */
+.ref-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:10px}
+.ref-item{border:1px solid rgba(155,109,255,.28);background:rgba(0,0,0,.28);border-radius:12px;padding:8px;text-align:center}
+.ref-item img,.ref-item video{width:100%;max-height:150px;object-fit:cover;border-radius:9px}
+.ref-name{font-size:10px;color:#9fb5cc;margin-top:6px;word-break:break-word}
 
 </style>
 </head>
-<body class="locked">
-
-<div id="accessGate" style="display:flex">
-  <div class="access-card">
-    <div class="access-mark">
-      <div class="access-logo">🍅</div>
-      <div>
-        <div class="access-title">Fruits Adventures Titan</div>
-        <div class="access-subtitle">Portal criativo de modelagem viral, paródias e animação</div>
-      </div>
-    </div>
-
-    <div class="creator-box">
-      <div class="creator-line"><b>Criador do portal:</b> Elinaldo Menezes de Medeiros</div>
-      <div class="creator-line"><b>Mundo autoral:</b> Fruits Adventures</div>
-      <div class="creator-line"><b>Formação:</b> estudante de Design de Animação — Faculdade Unicesumar</div>
-      <div class="creator-line"><b>Propósito:</b> transformar referências virais em histórias, storyboards, vozes, SRT, prompts e produção audiovisual com personagens próprios.</div>
-      <div class="access-note">
-        Este portal é um laboratório criativo autoral para desenvolvimento de narrativas, personagens, animação, paródias seguras, encenações e produção com IA.
-      </div>
-    </div>
-
-    <label>Senha de acesso</label>
-    <div class="access-grid">
-      <input id="accessPassword" class="access-input" type="password" autocomplete="off" placeholder="Digite a senha para entrar">
-      <button class="btn gold turbo-bigbtn" onclick="unlockPortal()">Entrar no portal</button>
-    </div>
-    <div id="accessError" class="access-error">Senha incorreta. Tente novamente.</div>
-
-    <div class="access-foot">
-      <span>© Fruits Adventures Titan — Portal autoral</span>
-      <span>Reconhecer → Modelar → Produzir</span>
-    </div>
-  </div>
-</div>
-
+<body>
 
 <div id="vg-toast">Notificação</div>
 
@@ -310,7 +251,7 @@ body.locked{overflow:hidden}
       <span class="badge cyan">Flow Labs</span>
       <span class="badge red">Studio Pro</span>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:var(--muted)">Portal autoral de Elinaldo Menezes — suba uma referência viral e recrie com personagens próprios</div>
+    <div style="margin-top:8px;font-size:11px;color:var(--muted)">Suba uma referência viral e recrie com personagens próprios</div>
   </div>
 </div>
 
@@ -440,9 +381,9 @@ body.locked{overflow:hidden}
       <div class="modeler-title">🎬 Referência para modelar vídeo viral</div>
       <div class="turbo-grid-2">
         <div>
-          <label>Vídeo ou print de referência</label>
-          <input type="file" id="viralRefUpload" accept="image/png,image/jpeg,image/webp,video/mp4,video/webm,video/quicktime" onchange="readViralReference(event)">
-          <div class="mini-note">Para API, use vídeo curto/leve ou prints. Se o vídeo for grande, envie 3 a 6 prints principais.</div>
+          <label>Vídeos ou prints de referência</label>
+          <input type="file" id="viralRefUpload" multiple accept="image/png,image/jpeg,image/webp,video/mp4,video/webm,video/quicktime" onchange="readViralReference(event)">
+          <div class="mini-note">Agora você pode selecionar vários prints de uma vez: começo, meio, final e detalhes importantes. Para vídeo grande, prefira 3 a 6 prints.</div>
         </div>
         <div>
           <label>O que quer modelar?</label>
@@ -1423,8 +1364,17 @@ async function callGemini(userMsg, key){
  
  let partesConteudo = [{ text: userMsg }];
 
- // Se houver imagem anexada, injeta na requisição do Gemini
- if (base64Imagem && mimeTypeImagem) {
+ // Se houver referências do Modelador, envia múltiplos prints/vídeos ao Gemini
+ if (typeof viralReferences !== 'undefined' && viralReferences && viralReferences.length) {
+    viralReferences.slice(0, 6).forEach((ref) => {
+      partesConteudo.push({
+        inlineData: {
+          mimeType: ref.mimeType,
+          data: ref.data
+        }
+      });
+    });
+ } else if (base64Imagem && mimeTypeImagem) {
     partesConteudo.push({
       inlineData: {
         mimeType: mimeTypeImagem,
@@ -1473,7 +1423,7 @@ async function gerarAPI(){
  const key=$('apiKey')?.value?.trim(); if(!key){toast('Configure a API Key do Gemini.');return}
  $('roteiroOut').innerHTML=loadingHTML('Gerando roteiro com Google Gemini...');
  
- let imgContext = base64Imagem ? "\n\nAtenção: O usuário anexou uma imagem de referência visual. Analise as cores, a iluminação, o enquadramento e as roupas dos personagens na imagem. Mantenha essa mesma estética e continuidade de cena no roteiro e na descrição da iluminação." : "";
+ let imgContext = base64Imagem ? "\n\nAtenção: O usuário anexou uma ou mais referências visuais. Analise as cores, a iluminação, o enquadramento, a sequência, o cenário e as roupas/personagens nas referências. Mantenha essa mesma estética e continuidade de cena no roteiro e na descrição da iluminação." : "";
 
  const prompt=`DNA DO ELENCO:
 ${dnaStr()}
@@ -2122,43 +2072,89 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 
-/* ─── MODELADOR DE VÍDEO: upload de referência imagem/vídeo ─── */
+
+/* ─── MODELADOR DE VÍDEO: upload múltiplo de referências imagem/vídeo ─── */
 let viralReferenceName = "";
+let viralReferences = [];
+
 function readViralReference(event){
-  const file = event.target.files && event.target.files[0];
+  const files = Array.from((event.target && event.target.files) || []);
   const box = $('viralRefPreview');
-  if(!file){ return; }
-  viralReferenceName = file.name || "referência enviada";
-  mimeTypeImagem = file.type;
-  const reader = new FileReader();
-  reader.onload = function(e){
-    const dataUrl = e.target.result;
-    base64Imagem = String(dataUrl).split(',')[1];
-    if(box){
-      box.style.display='block';
-      if((file.type||'').startsWith('video/')){
-        box.innerHTML = `<video src="${dataUrl}" controls muted></video><div class="mini-note" style="margin-top:8px">Vídeo de referência carregado: ${esc(viralReferenceName)}. Se a API falhar por tamanho, use prints dos melhores frames.</div>`;
-      }else{
-        box.innerHTML = `<img src="${dataUrl}" alt="Referência"><div class="mini-note" style="margin-top:8px">Print/imagem de referência carregado: ${esc(viralReferenceName)}.</div>`;
+  viralReferences = [];
+  viralReferenceName = files.map(f=>f.name).join(', ');
+
+  if(!files.length){ return; }
+
+  if(box){
+    box.style.display='block';
+    box.innerHTML = `<div class="mini-note">Carregando ${files.length} referência(s)...</div>`;
+  }
+
+  let loaded = 0;
+  files.forEach((file, idx)=>{
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const dataUrl = e.target.result;
+      const base64 = String(dataUrl).split(',')[1];
+      viralReferences.push({
+        name: file.name || `referencia_${idx+1}`,
+        mimeType: file.type || 'image/png',
+        data: base64,
+        dataUrl
+      });
+
+      // Mantém compatibilidade com o sistema antigo: a primeira imagem/vídeo também vai no base64Imagem
+      if(idx===0){
+        mimeTypeImagem = file.type;
+        base64Imagem = base64;
       }
-    }
-    toast('Referência visual carregada para o Titan.');
-  };
-  reader.readAsDataURL(file);
+
+      loaded++;
+      if(loaded === files.length){
+        renderViralReferencePreview();
+        toast(`${files.length} referência(s) carregada(s) para o Titan.`);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
 }
+
+function renderViralReferencePreview(){
+  const box = $('viralRefPreview');
+  if(!box) return;
+  box.style.display='block';
+
+  const gallery = viralReferences.map((ref, i)=>{
+    const media = (ref.mimeType||'').startsWith('video/')
+      ? `<video src="${ref.dataUrl}" controls muted></video>`
+      : `<img src="${ref.dataUrl}" alt="Referência ${i+1}">`;
+    return `<div class="ref-item">${media}<div class="ref-name">${i+1}. ${esc(ref.name)}</div></div>`;
+  }).join('');
+
+  box.innerHTML = `
+    <div class="mini-note">
+      ${viralReferences.length} referência(s) carregada(s). Use começo, meio e final para o Titan entender a sequência visual.
+    </div>
+    <div class="ref-gallery">${gallery}</div>
+  `;
+}
+
 function modelarContext(){
   const obj=$('modelarObjetivo')?.value||'refazer';
   const copiar=($('modelarCopiar')?.value||'').trim();
   const melhorar=($('modelarMelhorar')?.value||'').trim();
-  const hasRef=!!base64Imagem;
+  const count=(viralReferences && viralReferences.length) ? viralReferences.length : (base64Imagem ? 1 : 0);
+  const nomes=(viralReferences && viralReferences.length) ? viralReferences.map((r,i)=>`${i+1}. ${r.name}`).join('; ') : (base64Imagem ? (viralReferenceName || 'referência enviada') : 'nenhuma');
+
   return `
 
 MODO MODELADOR DE VÍDEO VIRAL:
 Objetivo: ${obj}
-Referência visual enviada: ${hasRef ? (viralReferenceName || 'sim') : 'não enviada'}
+Referências visuais enviadas: ${count}
+Arquivos: ${nomes}
 O que copiar/modelar: ${copiar || 'extrair automaticamente o DNA visual e viral da referência: cenário, câmera, luz, ritmo, tensão, composição, estilo e energia.'}
 O que mudar/melhorar: ${melhorar || 'melhorar gancho, clareza narrativa, impacto visual, plot twist, continuidade e potencial viral.'}
-Instrução central: NÃO copiar a obra original literalmente. Usar a referência apenas como DNA de estilo/ritmo/cenário. Recriar de forma original com personagens Fruits Adventures, mantendo consistência visual e deixando pronto para produção e continuação.`;
+Instrução central: se houver múltiplos prints, trate como sequência começo-meio-final. Primeiro reconheça o que acontece em cada referência. Depois recrie de forma original com personagens Fruits Adventures, mantendo consistência visual, melhorando o potencial viral e deixando pronto para produção e continuação. Não copiar literalmente a obra original.`;
 }
 
 
@@ -2178,67 +2174,6 @@ function setTitanMode(tipo,objetivo){
   if($('modelarMelhorar')) $('modelarMelhorar').value=extras[objetivo]||extras.refazer;
   toast('Modo Titan aplicado.');
 }
-
-
-
-/* ─── FORÇAR SENHA EM TODO RELOAD ─── */
-function forceLockPortal(){
-  const gate=document.getElementById('accessGate');
-  const input=document.getElementById('accessPassword');
-  const err=document.getElementById('accessError');
-
-  // Nunca reutilizar desbloqueio antigo
-  try{
-    sessionStorage.removeItem('fruits_titan_unlocked');
-    localStorage.removeItem('fruits_titan_unlocked');
-  }catch(e){}
-
-  document.body.classList.add('locked');
-  if(gate){
-    gate.style.display='flex';
-    gate.removeAttribute('data-unlocked');
-  }
-  if(input){
-    input.value='';
-    setTimeout(()=>input.focus(),150);
-  }
-  if(err) err.style.display='none';
-}
-
-// Executa no carregamento normal, reload e quando o navegador restaura a página do cache
-window.addEventListener('load', forceLockPortal);
-window.addEventListener('pageshow', forceLockPortal);
-document.addEventListener('visibilitychange', ()=>{
-  if(document.visibilityState==='visible') forceLockPortal();
-});
-
-/* ─── PORTAL DE ACESSO ─── */
-const PORTAL_PASSWORD = "fruits2026";
-function unlockPortal(){
-  const input=document.getElementById('accessPassword');
-  const err=document.getElementById('accessError');
-  const gate=document.getElementById('accessGate');
-  const pass=(input?.value||'').trim();
-  if(pass===PORTAL_PASSWORD){
-    if(gate){
-      gate.style.display='none';
-      gate.setAttribute('data-unlocked','yes');
-    }
-    document.body.classList.remove('locked');
-    toast('Bem-vindo ao Fruits Adventures Titan!');
-  }else{
-    if(err) err.style.display='block';
-    if(input) input.select();
-  }
-}
-function initAccessGate(){
-  forceLockPortal();
-  const input=document.getElementById('accessPassword');
-  if(input){
-    input.addEventListener('keydown',e=>{ if(e.key==='Enter') unlockPortal(); });
-  }
-}
-document.addEventListener('DOMContentLoaded', initAccessGate);
 
 </script>
 </body>
