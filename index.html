@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Fruits Adventures Titan | Prompt Mestre Final</title>
+<title>Fruits Adventures Smart Output | Titan | Prompt Mestre Final</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
 :root{
@@ -293,6 +293,131 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 body.locked{overflow:hidden}
 @media(max-width:620px){.access-grid{grid-template-columns:1fr}.access-title{font-size:30px}.access-card{padding:20px}}
 
+
+/* QUICK TEST PRESET - VIDEO DO BECO */
+.quick-preset-box{
+  border:1px solid rgba(0,212,200,.42);
+  background:linear-gradient(135deg,rgba(0,212,200,.08),rgba(212,160,23,.045));
+  border-radius:16px;
+  padding:14px;
+  margin:14px 0;
+}
+.quick-preset-title{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:6px;
+}
+.quick-preset-text{
+  font-size:12px;
+  color:#a9bdd1;
+  line-height:1.45;
+  margin-bottom:10px;
+}
+
+
+/* SMART RESULT NAVIGATOR - OUTPUT UX */
+.smart-output-panel{
+  border:1px solid rgba(0,212,200,.35);
+  background:linear-gradient(135deg,rgba(0,212,200,.055),rgba(155,109,255,.035));
+  border-radius:18px;
+  padding:16px;
+  margin:18px 0;
+}
+.smart-output-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;
+  letter-spacing:2.5px;
+  color:var(--cyan);
+  line-height:1;
+}
+.smart-output-sub{font-size:12px;color:#9fb5cc;margin:8px 0 14px;line-height:1.45}
+.smart-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.smart-tab{
+  border:1px solid rgba(0,212,200,.28);
+  background:rgba(0,212,200,.055);
+  color:var(--cyan);
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.smart-tab:hover,.smart-tab.act{border-color:var(--gold);color:var(--gold2);background:rgba(212,160,23,.10)}
+.smart-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.smart-card{
+  border:1px solid var(--border);
+  background:#050910;
+  border-radius:14px;
+  overflow:hidden;
+  display:none;
+}
+.smart-card.show{display:block}
+.smart-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 14px;
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.025);
+}
+.smart-card-title{font-weight:900;color:var(--gold2);font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.smart-card-note{font-size:11px;color:var(--muted);margin-top:2px}
+.smart-actions{display:flex;gap:8px;flex-wrap:wrap}
+.smart-btn{
+  border:1px solid var(--border2);
+  background:#020509;
+  color:#9fb5cc;
+  border-radius:9px;
+  padding:7px 9px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.6px;
+  cursor:pointer;
+}
+.smart-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.smart-body{
+  white-space:pre-wrap;
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  line-height:1.65;
+  color:#b8cfe8;
+  max-height:420px;
+  overflow:auto;
+  padding:14px;
+}
+.smart-empty{
+  border:1px dashed rgba(0,212,200,.25);
+  border-radius:14px;
+  padding:18px;
+  color:#9fb5cc;
+  font-size:13px;
+  background:rgba(0,0,0,.20);
+}
+.quick-jump-bar{
+  position:sticky;
+  bottom:0;
+  z-index:50;
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  background:rgba(5,8,13,.92);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(0,212,200,.18);
+  border-radius:14px;
+  padding:8px;
+  margin-top:10px;
+}
+.raw-output-compact .out{
+  max-height:360px;
+  overflow:auto;
+}
+
 </style>
 </head>
 <body class="locked">
@@ -386,7 +511,19 @@ body.locked{overflow:hidden}
     <div class="turbo-title">🎥 Modelador Viral Titan — referência vira cena original</div>
     <div class="turbo-sub">Pegue um vídeo, trailer, cena, meme ou ideia viral. O Titan reconhece o DNA, recria como paródia/encenação original com seus personagens e entrega o pacote de produção completo.</div>
 
-    <div class="mode-grid">
+    
+    <div class="quick-preset-box">
+      <div class="quick-preset-title">⚡ Teste pronto — remodelar vídeo do beco</div>
+      <div class="quick-preset-text">
+        Clique aqui para preencher o site com a modelagem que criamos: Tomate + Sabrina, Cenoura e Banana bloqueando as saídas, Abacatudo como vilão, beco chuvoso e pacote Titan completo.
+      </div>
+      <div class="btns" style="margin-top:8px">
+        <button class="btn gold" onclick="carregarTesteBecoTitan()">Carregar teste do vídeo do beco</button>
+        <button class="btn cyan" onclick="carregarTesteBecoTitan(); gerarTurbo(1);">Carregar e gerar agora</button>
+      </div>
+    </div>
+
+<div class="mode-grid">
       <div class="mode-card" onclick="setTitanMode('modelar','refazer')"><b>🎬 Modelar vídeo</b><span>Refaz uma referência com seus personagens.</span></div>
       <div class="mode-card" onclick="setTitanMode('modelar','parodia')"><b>😂 Paródia</b><span>Recria a energia de filme/série/trailer com humor seguro.</span></div>
       <div class="mode-card" onclick="setTitanMode('modelar','encenacao')"><b>🎭 Encenação</b><span>Transforma referência em cena dramática original.</span></div>
@@ -567,6 +704,40 @@ body.locked{overflow:hidden}
   </div>
 </section>
 
+
+
+  <div class="smart-output-panel" id="smartOutputPanel">
+    <div class="smart-output-title">🧭 Central Smart do Resultado</div>
+    <div class="smart-output-sub">
+      Depois de gerar, use estes botões para abrir só o que importa: Storyboards, SRT, ElevenLabs, CapCut, LUT, Flow Labs e Artes. Assim você não precisa caçar no textão gigante.
+    </div>
+    <div class="smart-tabs" id="smartTabs">
+      <button class="smart-tab act" onclick="smartShow('resumo')">Resumo</button>
+      <button class="smart-tab" onclick="smartShow('story')">Storyboards</button>
+      <button class="smart-tab" onclick="smartShow('image')">Prompts Imagem</button>
+      <button class="smart-tab" onclick="smartShow('flow')">Flow Labs</button>
+      <button class="smart-tab" onclick="smartShow('srt')">SRT</button>
+      <button class="smart-tab" onclick="smartShow('eleven')">ElevenLabs</button>
+      <button class="smart-tab" onclick="smartShow('csv')">CSV Voz</button>
+      <button class="smart-tab" onclick="smartShow('post')">CapCut / Pós</button>
+      <button class="smart-tab" onclick="smartShow('lut')">Cor / LUT</button>
+      <button class="smart-tab" onclick="smartShow('artes')">Artes</button>
+      <button class="smart-tab" onclick="smartShow('all')">Tudo</button>
+    </div>
+    <div class="smart-grid" id="smartOutputCards">
+      <div class="smart-empty">
+        Gere o pacote no Turbo. Quando o resultado aparecer, esta central separa automaticamente cada bloco para copiar com 1 clique.
+      </div>
+    </div>
+    <div class="quick-jump-bar">
+      <button class="smart-btn" onclick="smartRefresh()">Atualizar central</button>
+      <button class="smart-btn" onclick="smartCopy('story')">Copiar Storyboards</button>
+      <button class="smart-btn" onclick="smartCopy('srt')">Copiar SRT</button>
+      <button class="smart-btn" onclick="smartCopy('eleven')">Copiar ElevenLabs</button>
+      <button class="smart-btn" onclick="smartCopy('post')">Copiar CapCut/Pós</button>
+      <button class="smart-btn" onclick="smartGoRaw()">Ir ao texto bruto</button>
+    </div>
+  </div>
 
 <!-- ==================== ELENCO ==================== -->
 <section id="elenco" class="tab">
@@ -1465,7 +1636,7 @@ function gerarLocal(){
 
  const atos=t.estrutura.slice(0,nCenas).map((s,i)=>`CENA ${i+1} | TEMPO 00:${String(i*6).padStart(2,'0')}-00:${String((i+1)*6).padStart(2,'0')}\nROTEIRO: ${s} ${prot.n} enfrenta ${anta.n}. Cenário: ${uni}.\nSTORYBOARD: plano cinematográfico, câmera em movimento, luz dramática, expressão forte, ação clara e gancho visual para corte.`).join('\n\n');
  state.roteiro=`TÍTULO: ${t.name.toUpperCase()} DAS FRUTAS\nLOGLINE: ${idea}${refImgTxt}\nGANCHO 0-3s: Algo impossível aparece na tela e prende a atenção imediatamente.\n\n${atos}\n\nFORMATOS DE FOTO: YouTube 16:9, TikTok/Reels 9:16 e Instagram 4:5 serão gerados na aba Cenas.\nMÚSICA SUNO: ${t.suno}`;
- $('roteiroOut').textContent=state.roteiro; $('exportOut').textContent=buildExport(); titanAfterGeneration(state.roteiro); toast('Roteiro local gerado!');
+ $('roteiroOut').textContent=state.roteiro; setTimeout(smartRefresh,300); $('exportOut').textContent=buildExport(); titanAfterGeneration(state.roteiro); toast('Roteiro local gerado!');
 }
 
 /* ─── API MULTIMODAL CALL (GOOGLE GEMINI) ─── */
@@ -1573,7 +1744,7 @@ Use linguagem direta, pronta para copiar e produzir.`;
  
  try{
   const txt=await callGemini(prompt,key);
-  state.roteiro=txt; $('roteiroOut').textContent=txt; $('exportOut').textContent=buildExport(); titanAfterGeneration(txt); toast('Roteiro Gemini gerado!');
+  state.roteiro=txt; $('roteiroOut').textContent=txt; setTimeout(smartRefresh,300); $('exportOut').textContent=buildExport(); titanAfterGeneration(txt); toast('Roteiro Gemini gerado!');
  }catch(e){ $('roteiroOut').textContent='Erro: '+e.message; }
 }
 
@@ -2050,7 +2221,7 @@ async function gerarTurbo(parte=1){
   try{
     await gerarAPI();
     const txt=state.roteiro||$('roteiroOut')?.textContent||'';
-    if($('turboResultOut')) $('turboResultOut').textContent=txt;
+    if($('turboResultOut')) $('turboResultOut').textContent=txt; setTimeout(smartRefresh,300);
     titanAfterGeneration(txt);
     state.seriesHistory=state.seriesHistory||[];
     state.seriesHistory.push({parte,text:txt});
@@ -2385,6 +2556,292 @@ document.addEventListener('visibilitychange', ()=>{
   if(document.visibilityState==='visible') forceLockPortal();
 });
 document.addEventListener('DOMContentLoaded', initAccessGate);
+
+
+/* ─── PRESET PRONTO: MODELAGEM DO VÍDEO DO BECO ─── */
+const TESTE_BECO_TITAN_PROMPT = 'Modele os prints/vídeo de referência em uma nova Parte 1 original do universo Fruits Adventures.\n\nOBJETIVO:\nRefazer a ideia do vídeo anterior porque ele não ficou viral o suficiente. A nova versão precisa ser mais clara, mais tensa, mais cinematográfica e mais fácil de produzir.\n\nDNA visual a copiar:\nBeco chuvoso da Favela do Tomate, noite, chão molhado, luz amarela de poste, sombras azuladas, paredes gastas, fios aparentes, clima de perseguição, suspense urbano, close sombrio do vilão, Sabrina e Tomate assustados e sensação de perigo.\n\nPersonagens obrigatórios:\n- Tomate Elinaldo como herói vulnerável, corajoso e perseguido.\n- Sabrina Pitaya como protetora estratégica, mas com segredo.\n- Soldado Cenoura como guarda disciplinado bloqueando uma saída.\n- Soldado Banana como guarda de elite bloqueando a outra saída.\n- Abacatudo como vilão principal, mafioso, dono da rua e ameaça maior.\n\nHistória base remodelada:\nTomate Elinaldo e Sabrina Pitaya tentam fugir por um beco chuvoso. Tomate carrega um cartão de memória molhado com uma prova contra Abacatudo. Sabrina tenta tirar Tomate do beco, mas a primeira saída está trancada. Soldado Cenoura aparece com uma lanterna forte e bloqueia o caminho. Eles tentam correr para o outro lado, mas Soldado Banana surge na outra ponta. Quando Tomate acha que Sabrina está tentando pegar a prova dele, Abacatudo aparece na chuva e revela que deixou os dois correrem apenas para descobrir quem estava ajudando Tomate.\n\nFinal obrigatório:\nTomate e Sabrina acham que escaparam pelo beco vazio, mas Soldado Cenoura e Soldado Banana fecham as duas saídas. Então Abacatudo aparece na chuva e diz:\n“Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.”\n\nEntregar pacote completo:\n1. DNA da referência reconhecido\n2. título forte\n3. logline\n4. gancho dos 3 primeiros segundos\n5. roteiro com tempo por cena\n6. storyboard visual numerado em quantidade smart\n7. prompt de imagem por storyboard\n8. prompt Flow Labs por storyboard\n9. falas por personagem\n10. SRT CapCut completo\n11. ElevenLabs com personagem, emoção, voz sugerida e fala\n12. CSV de dublagem\n13. música de fundo sugerida\n14. efeitos sonoros por storyboard\n15. transições\n16. estilo de legenda CapCut\n17. correção de cor por cena\n18. LUT sugerido\n19. capa YouTube 16:9\n20. capa TikTok 9:16\n21. capa Reels 9:16\n22. post Instagram 4:5\n23. final pronto para Parte 2';
+
+function setSelectByText(selectId, textNeedle){
+  const el=$(selectId);
+  if(!el) return;
+  const needle=String(textNeedle||'').toLowerCase();
+  const opt=[...el.options].find(o=>String(o.textContent||'').toLowerCase().includes(needle));
+  if(opt) el.value=opt.value;
+}
+
+function carregarTesteBecoTitan(){
+  if($('turboTipo')) $('turboTipo').value='modelar';
+  if($('turboTema')) $('turboTema').value='ia';
+  if($('turboHumor')) {
+    const sem=[...$('turboHumor').options].find(o=>o.textContent.toLowerCase().includes('sem humor'));
+    $('turboHumor').value = sem ? sem.value : $('turboHumor').value;
+  }
+
+  setSelectByText('turboHeroi','Tomate Elinaldo');
+  setSelectByText('turboAliado','Sabrina Pitaya');
+  setSelectByText('turboVilao','Abacatudo');
+
+  if($('turboLocalModo')) $('turboLocalModo').value='custom';
+  if($('turboLocalVisualRef')) $('turboLocalVisualRef').value='Beco chuvoso da Favela do Tomate, noite, chão molhado, luz amarela de poste, paredes gastas, fios aparentes, suspense urbano, perseguição e ameaça mafiosa.';
+
+  if($('modelarObjetivo')) $('modelarObjetivo').value='refazer';
+  if($('modelarCopiar')) $('modelarCopiar').value='Copiar o DNA visual dos prints: beco chuvoso, noite, chão molhado, luz amarela e azul, paredes gastas, fios aparentes, close sombrio do vilão, Sabrina e Tomate assustados, tensão de perseguição, câmera cinematográfica, suspense urbano e sensação de perigo.';
+  if($('modelarMelhorar')) $('modelarMelhorar').value='Refazer para ficar mais viral: gancho forte nos 3 primeiros segundos, perseguição mais clara, Abacatudo mais ameaçador, entrada de Soldado Cenoura e Soldado Banana bloqueando as saídas, falas curtas, plot twist final e estrutura pronta para continuação.';
+
+  if($('turboExtra')) $('turboExtra').value=TESTE_BECO_TITAN_PROMPT;
+
+  toast('Teste do vídeo do beco carregado no site.');
+}
+
+
+/* ─── CENTRAL SMART DO RESULTADO: separa textão em blocos úteis ─── */
+window.smartSections = window.smartSections || {};
+
+function smartEsc(s){
+  return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function smartToast(msg){
+  if(typeof toast === 'function') toast(msg);
+  else console.log(msg);
+}
+function smartCopyText(txt,msg){
+  if(typeof copyText === 'function') return copyText(txt,msg||'Copiado!');
+  navigator.clipboard?.writeText(txt || '');
+  smartToast(msg || 'Copiado!');
+}
+function smartRawText(){
+  const candidates=[
+    window.state && state.roteiro,
+    document.getElementById('turboResultOut')?.innerText,
+    document.getElementById('roteiroOut')?.innerText,
+    document.getElementById('exportOut')?.innerText
+  ].filter(Boolean).map(String);
+  return candidates.sort((a,b)=>b.length-a.length)[0] || '';
+}
+function smartSlice(text, startTerms, endTerms){
+  const lower=text.toLowerCase();
+  let start=-1, used='';
+  for(const term of startTerms){
+    const i=lower.indexOf(term.toLowerCase());
+    if(i>=0 && (start<0 || i<start)){ start=i; used=term; }
+  }
+  if(start<0) return '';
+  let end=text.length;
+  const searchFrom=start + used.length;
+  for(const term of endTerms){
+    const i=lower.indexOf(term.toLowerCase(), searchFrom);
+    if(i>=0 && i<end) end=i;
+  }
+  return text.slice(start,end).trim();
+}
+function smartRegexCollect(text, regex){
+  const parts=[];
+  let m;
+  while((m=regex.exec(text))!==null){
+    const block=(m[0]||'').trim();
+    if(block.length>25) parts.push(block);
+  }
+  return parts.join('\n\n---\n\n');
+}
+function smartBuildSections(){
+  const text=smartRawText();
+  if(!text.trim()) return {};
+  const endAll=[
+    '\n## ', '\n# ', '\n### ',
+    '\nSRT', '\nELEVEN', '\nCSV', '\nPÓS', '\nPOS', '\nCAPCUT',
+    '\nFLOW', '\nPROMPT FLOW', '\nPROMPTS FLOW',
+    '\nPROMPT DE IMAGEM', '\nPROMPTS DE IMAGEM',
+    '\nYOUTUBE', '\nTIKTOK', '\nREELS', '\nINSTAGRAM',
+    '\nMÚSICA', '\nMUSICA', '\nSFX', '\nLUT', '\nCORREÇÃO', '\nCORRECAO'
+  ];
+
+  const sections={};
+  sections.resumo = smartSlice(text,
+    ['DNA da referência', 'DNA DA REFERÊNCIA', 'DNA RECONHECIDO', 'TÍTULO', 'Titulo', 'Título'],
+    ['STORYBOARD', 'Storyboard', 'PROMPT DE IMAGEM', 'FLOW LABS', 'SRT CAPCUT']
+  ) || text.slice(0, Math.min(2500,text.length));
+
+  sections.story = smartSlice(text,
+    ['STORYBOARD VISUAL', 'STORYBOARDS VISUAIS', 'STORYBOARD 1', '### STORYBOARD 1', '## STORYBOARD'],
+    ['SRT CAPCUT', 'SRT', 'ELEVENLABS', 'CSV', 'PÓS-PRODUÇÃO', 'POS-PRODUCAO', 'CAPCUT', 'MÚSICA', 'MUSICA']
+  ) || smartRegexCollect(text, /(?:^|\n)(?:#{1,4}\s*)?STORYBOARD\s*(?:VISUAL\s*)?(?:\d+|FINAL)[\s\S]*?(?=(?:\n(?:#{1,4}\s*)?STORYBOARD\s*(?:VISUAL\s*)?(?:\d+|FINAL)|\n(?:#{1,4}\s*)?(?:SRT|ELEVENLABS|CSV|PÓS|POS|CAPCUT|MÚSICA|MUSICA)|$))/gi);
+
+  sections.image = smartSlice(text,
+    ['PROMPTS DE IMAGEM', 'PROMPT DE IMAGEM', 'PROMPTS DE FOTO', 'PROMPT DE FOTO'],
+    ['PROMPT FLOW', 'FLOW LABS', 'SRT', 'ELEVENLABS', 'CSV', 'PÓS', 'POS', 'CAPCUT']
+  );
+
+  sections.flow = smartSlice(text,
+    ['FLOW LABS', 'PROMPT FLOW', 'PROMPTS FLOW', 'PROMPT DE VÍDEO', 'PROMPTS DE VÍDEO'],
+    ['SRT', 'ELEVENLABS', 'CSV', 'PÓS', 'POS', 'CAPCUT', 'YOUTUBE', 'TIKTOK']
+  );
+
+  sections.srt = smartSlice(text,
+    ['SRT CAPCUT', 'SRT COMPLETO', '\nSRT\n', 'LEGENDAS SRT'],
+    ['ELEVENLABS', 'CSV', 'PÓS', 'POS', 'CAPCUT', 'MÚSICA', 'MUSICA', 'LUT']
+  ) || smartRegexCollect(text, /(?:\n|^)\d+\s*\n\d{2}:\d{2}:\d{2},\d{3}\s*-->\s*\d{2}:\d{2}:\d{2},\d{3}[\s\S]*?(?=\n\n(?:ELEVENLABS|CSV|PÓS|POS|CAPCUT|MÚSICA|MUSICA)|$)/gi);
+
+  sections.eleven = smartSlice(text,
+    ['ELEVENLABS', 'ROTEIRO DE VOZ', 'VOZES', 'FALAS POR PERSONAGEM'],
+    ['CSV', 'SRT', 'PÓS', 'POS', 'CAPCUT', 'MÚSICA', 'MUSICA', 'LUT']
+  );
+
+  sections.csv = smartSlice(text,
+    ['CSV DE DUBLAGEM', 'CSV VOZ', 'CSV'],
+    ['PÓS-PRODUÇÃO', 'POS-PRODUCAO', 'CAPCUT', 'MÚSICA', 'MUSICA', 'SFX', 'LUT']
+  );
+
+  sections.post = smartSlice(text,
+    ['PÓS-PRODUÇÃO SMART', 'POS-PRODUCAO SMART', 'CAPCUT ASSISTANT', 'CAPCUT', 'PÓS PRODUÇÃO'],
+    ['LUT', 'CORREÇÃO DE COR', 'CORRECAO DE COR', 'CAPA YOUTUBE', 'YOUTUBE', 'TIKTOK']
+  );
+
+  sections.lut = smartSlice(text,
+    ['LUT', 'CORREÇÃO DE COR', 'CORRECAO DE COR', 'COLOR GRADE', 'COR / LUT'],
+    ['CAPA YOUTUBE', 'YOUTUBE', 'TIKTOK', 'REELS', 'INSTAGRAM', 'FINAL']
+  );
+
+  sections.artes = smartSlice(text,
+    ['CAPA YOUTUBE', 'YOUTUBE 16:9', 'TIKTOK 9:16', 'REELS 9:16', 'INSTAGRAM 4:5', 'ARTES'],
+    ['FINAL', 'GANCHO', 'PARTE 2']
+  );
+
+  sections.all = text;
+
+  Object.keys(sections).forEach(k=>{
+    if(!sections[k] || sections[k].trim().length<20) sections[k]='';
+  });
+  return sections;
+}
+function smartTitle(key){
+  return ({
+    resumo:'Resumo / DNA / História',
+    story:'Storyboards Visuais Numerados',
+    image:'Prompts de Imagem',
+    flow:'Prompts Flow Labs',
+    srt:'SRT CapCut',
+    eleven:'ElevenLabs / Vozes',
+    csv:'CSV de Dublagem',
+    post:'CapCut / Pós-Produção',
+    lut:'Correção de Cor / LUT',
+    artes:'Artes YouTube / TikTok / Reels / Instagram',
+    all:'Resultado Completo'
+  })[key] || key;
+}
+function smartNote(key){
+  return ({
+    resumo:'Valide se a IA reconheceu corretamente a referência.',
+    story:'Use cada Storyboard para gerar imagens na ordem.',
+    image:'Copie para gerar imagens fixas.',
+    flow:'Copie para gerar vídeos/animações.',
+    srt:'Importe ou cole no CapCut como legenda.',
+    eleven:'Use para gerar dublagem por personagem.',
+    csv:'Organização para voz, tempo e emoção.',
+    post:'Guia de música, SFX, transição e edição.',
+    lut:'Guia de cor para manter visual consistente.',
+    artes:'Prompts para capa e posts.',
+    all:'Texto bruto completo.'
+  })[key] || '';
+}
+function smartRefresh(){
+  const cards=document.getElementById('smartOutputCards');
+  if(!cards) return;
+  window.smartSections = smartBuildSections();
+  const keys=['resumo','story','image','flow','srt','eleven','csv','post','lut','artes','all'];
+  const hasAny=keys.some(k=>window.smartSections[k]);
+  if(!hasAny){
+    cards.innerHTML='<div class="smart-empty">Ainda não encontrei resultado gerado. Clique em “Gerar pacote completo” primeiro.</div>';
+    return;
+  }
+  cards.innerHTML=keys.map(k=>{
+    const body=window.smartSections[k] || 'Este bloco não apareceu com clareza no resultado. Use “Tudo” ou gere novamente pedindo este bloco.';
+    return `<div class="smart-card ${k==='resumo'?'show':''}" data-smart="${k}">
+      <div class="smart-head">
+        <div>
+          <div class="smart-card-title">${smartEsc(smartTitle(k))}</div>
+          <div class="smart-card-note">${smartEsc(smartNote(k))}</div>
+        </div>
+        <div class="smart-actions">
+          <button class="smart-btn" onclick="smartCopy('${k}')">Copiar</button>
+          <button class="smart-btn" onclick="smartExpand('${k}')">Expandir</button>
+        </div>
+      </div>
+      <div class="smart-body" id="smartBody_${k}">${smartEsc(body)}</div>
+    </div>`;
+  }).join('');
+  smartShow('resumo');
+}
+function smartShow(key){
+  if(!window.smartSections || !Object.keys(window.smartSections).length) smartRefresh();
+  document.querySelectorAll('.smart-tab').forEach(b=>b.classList.toggle('act', (b.textContent||'').toLowerCase().includes(key==='all'?'tudo':key)));
+  document.querySelectorAll('.smart-card').forEach(c=>{
+    c.classList.toggle('show', key==='all' || c.dataset.smart===key);
+  });
+  document.getElementById('smartOutputPanel')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function smartCopy(key){
+  if(!window.smartSections || !Object.keys(window.smartSections).length) smartRefresh();
+  const txt=window.smartSections[key] || '';
+  if(!txt.trim()) return smartToast('Esse bloco ainda não apareceu no resultado.');
+  smartCopyText(txt, smartTitle(key)+' copiado!');
+}
+function smartExpand(key){
+  const body=document.getElementById('smartBody_'+key);
+  if(!body) return;
+  body.style.maxHeight = body.style.maxHeight==='none' ? '420px' : 'none';
+}
+function smartGoRaw(){
+  const el=document.getElementById('turboResultOut') || document.getElementById('roteiroOut');
+  el?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function smartAutoInit(){
+  document.body.classList.add('raw-output-compact');
+  const targets=['turboResultOut','roteiroOut'];
+  targets.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    const obs=new MutationObserver(()=>setTimeout(smartRefresh,250));
+    obs.observe(el,{childList:true,subtree:true,characterData:true});
+  });
+  setTimeout(smartRefresh,600);
+}
+document.addEventListener('DOMContentLoaded', smartAutoInit);
+
+/* ─── GARANTIR SENHA EM TODO RELOAD NA VERSÃO OTIMIZADA ─── */
+if(typeof PORTAL_PASSWORD === 'undefined'){
+  var PORTAL_PASSWORD = "fruits2026";
+}
+function forceLockPortalSmart(){
+  const gate=document.getElementById('accessGate');
+  const input=document.getElementById('accessPassword');
+  const err=document.getElementById('accessError');
+  try{
+    sessionStorage.removeItem('fruits_titan_unlocked');
+    localStorage.removeItem('fruits_titan_unlocked');
+  }catch(e){}
+  if(gate){
+    document.body.classList.add('locked');
+    gate.style.display='flex';
+  }
+  if(input){ input.value=''; setTimeout(()=>input.focus(),150); }
+  if(err) err.style.display='none';
+}
+if(typeof unlockPortal !== 'function'){
+  function unlockPortal(){
+    const input=document.getElementById('accessPassword');
+    const err=document.getElementById('accessError');
+    const gate=document.getElementById('accessGate');
+    if((input?.value||'').trim()===PORTAL_PASSWORD){
+      if(gate) gate.style.display='none';
+      document.body.classList.remove('locked');
+      smartToast('Bem-vindo ao Fruits Adventures Titan!');
+    }else{
+      if(err) err.style.display='block';
+      input?.select();
+    }
+  }
+}
+window.addEventListener('pageshow', ()=>{ if(document.getElementById('accessGate')) forceLockPortalSmart(); });
 
 </script>
 </body>
