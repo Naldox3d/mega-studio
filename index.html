@@ -3,21 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fruits Adventures Studio — MVP</title>
-  <meta name="description" content="Motor de pré-produção para transformar vídeo, ideia ou universo em história, personagens, model sheets, storyboard e prompts finais." />
+  <title>Fruits Adventures Studio — API Dark</title>
+  <meta name="description" content="Motor de pré-produção IA com API para histórias, personagens, model sheets, storyboard e prompts." />
   <style>
     :root {
-      --bg: #f6f6f4;
-      --card: #ffffff;
-      --text: #161616;
-      --muted: #666666;
-      --line: #deded8;
-      --dark: #111111;
-      --soft: #eeeeea;
-      --accent: #ffcc33;
-      --ok: #0f8a45;
-      --warn: #936f00;
+      --bg: #05080d;
+      --panel: #0b111a;
+      --panel2: #101824;
+      --card: #0f1722;
+      --text: #f4f7fb;
+      --muted: #9aa8ba;
+      --line: #203149;
+      --gold: #ffcc33;
+      --cyan: #00e5ff;
+      --green: #00d084;
+      --red: #ff5a66;
+      --dark: #02040a;
+      --soft: #172233;
       --radius: 22px;
+      --shadow: 0 18px 45px rgba(0,0,0,0.35);
     }
 
     * { box-sizing: border-box; }
@@ -25,12 +29,15 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(0,229,255,.12), transparent 34%),
+        radial-gradient(circle at top right, rgba(255,204,51,.10), transparent 35%),
+        var(--bg);
       color: var(--text);
     }
 
     .app {
-      max-width: 1280px;
+      max-width: 1320px;
       margin: 0 auto;
       padding: 28px;
     }
@@ -46,7 +53,7 @@
     .badge-row {
       display: flex;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
@@ -54,51 +61,53 @@
       display: inline-flex;
       padding: 7px 11px;
       border-radius: 999px;
-      background: var(--soft);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--line);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
+      color: var(--muted);
     }
 
     .badge.ok {
-      background: #e9f8ee;
-      color: var(--ok);
-      border-color: #c8ead3;
+      color: var(--green);
+      border-color: rgba(0,208,132,.35);
+      background: rgba(0,208,132,.08);
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(34px, 6vw, 62px);
+      font-size: clamp(34px, 6vw, 64px);
       letter-spacing: -2px;
       line-height: 0.95;
     }
 
     .subtitle {
-      max-width: 720px;
+      max-width: 760px;
       color: var(--muted);
       font-size: 17px;
-      line-height: 1.5;
+      line-height: 1.55;
       margin-top: 16px;
     }
 
     .main-grid {
       display: grid;
-      grid-template-columns: 390px 1fr;
+      grid-template-columns: 410px 1fr;
       gap: 22px;
       align-items: start;
     }
 
     .card {
-      background: var(--card);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 22px;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.04);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
     }
 
     .section-title {
       font-size: 20px;
-      font-weight: 800;
+      font-weight: 900;
       margin: 0 0 14px;
       display: flex;
       align-items: center;
@@ -108,8 +117,9 @@
     label {
       display: block;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 8px;
+      color: #dce6f4;
     }
 
     input, textarea, select {
@@ -118,9 +128,14 @@
       border-radius: 16px;
       padding: 13px 14px;
       font: inherit;
-      background: #fff;
+      background: rgba(2,4,10,.7);
       color: var(--text);
       outline: none;
+    }
+
+    input[type="file"] {
+      padding: 11px;
+      cursor: pointer;
     }
 
     textarea {
@@ -138,19 +153,19 @@
 
     .mode-card {
       border: 1px solid var(--line);
-      background: var(--soft);
+      background: rgba(255,255,255,0.03);
       padding: 14px;
       border-radius: 18px;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    .mode-card:hover { background: #fff; }
+    .mode-card:hover { border-color: rgba(0,229,255,.45); }
 
     .mode-card.active {
-      background: #fff;
-      border-color: var(--dark);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.07);
+      background: rgba(0,229,255,0.08);
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 1px rgba(0,229,255,.12), 0 10px 25px rgba(0,0,0,.25);
     }
 
     .mode-card strong { display: block; margin-bottom: 4px; }
@@ -160,9 +175,9 @@
       border: 0;
       border-radius: 17px;
       padding: 14px 18px;
-      background: var(--dark);
-      color: white;
-      font-weight: 800;
+      background: var(--gold);
+      color: #121212;
+      font-weight: 900;
       cursor: pointer;
       transition: 0.2s;
       font-size: 15px;
@@ -173,29 +188,42 @@
       gap: 8px;
     }
 
-    .button:hover { transform: translateY(-1px); opacity: 0.92; }
-    .button.secondary { background: var(--soft); color: var(--dark); border: 1px solid var(--line); }
+    .button:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .button.secondary { background: var(--soft); color: var(--text); border: 1px solid var(--line); }
     .button.full { width: 100%; }
-    .button.green { background: var(--ok); }
+    .button.green { background: var(--green); color: #001b10; }
+    .button:disabled { opacity: .55; cursor: wait; transform: none; }
 
     .rule-box {
-      background: #fff8d7;
-      border: 1px solid #efd675;
+      background: rgba(255,204,51,0.1);
+      border: 1px solid rgba(255,204,51,0.35);
       border-radius: 18px;
       padding: 16px;
       line-height: 1.5;
-      color: #4b3b00;
-      font-weight: 700;
+      color: #ffeaa3;
+      font-weight: 800;
+    }
+
+    .api-status {
+      margin-top: 12px;
+      padding: 13px;
+      border-radius: 16px;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.24);
+      color: #c7f8ff;
+      font-size: 14px;
+      line-height: 1.45;
     }
 
     .tabs {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 8px;
-      background: var(--soft);
+      background: rgba(255,255,255,0.04);
       padding: 6px;
       border-radius: 18px;
       margin-bottom: 16px;
+      border: 1px solid var(--line);
     }
 
     .tab {
@@ -204,14 +232,14 @@
       background: transparent;
       border-radius: 14px;
       cursor: pointer;
-      font-weight: 800;
-      color: #555;
+      font-weight: 900;
+      color: var(--muted);
     }
 
     .tab.active {
-      background: white;
-      color: var(--dark);
-      box-shadow: 0 5px 12px rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      box-shadow: 0 5px 12px rgba(0,0,0,0.2);
     }
 
     .content-panel { display: none; }
@@ -224,7 +252,8 @@
     }
 
     .info-box {
-      background: var(--soft);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.04);
       border-radius: 18px;
       padding: 16px;
       min-height: 110px;
@@ -232,7 +261,7 @@
 
     .info-box small {
       display: block;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--muted);
       margin-bottom: 8px;
     }
@@ -246,7 +275,7 @@
     }
 
     .character-card {
-      background: white;
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--line);
       border-radius: 20px;
       padding: 17px;
@@ -256,7 +285,7 @@
     .character-card p { color: var(--muted); line-height: 1.4; font-size: 14px; }
 
     .outfit {
-      background: var(--soft);
+      background: rgba(0,0,0,0.22);
       border-radius: 16px;
       padding: 12px;
       font-size: 14px;
@@ -267,14 +296,15 @@
     pre {
       white-space: pre-wrap;
       word-break: break-word;
-      background: var(--dark);
-      color: white;
+      background: #02040a;
+      color: #eaf3ff;
       padding: 18px;
       border-radius: 18px;
-      max-height: 520px;
+      max-height: 540px;
       overflow: auto;
       line-height: 1.45;
       font-size: 14px;
+      border: 1px solid var(--line);
     }
 
     .storyboard-list {
@@ -283,7 +313,7 @@
     }
 
     .scene-card {
-      background: white;
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 16px;
@@ -307,13 +337,13 @@
     .project-item {
       padding: 12px;
       border-radius: 16px;
-      background: var(--soft);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--line);
       cursor: pointer;
     }
 
     .project-item:hover {
-      background: white;
+      border-color: rgba(0,229,255,.45);
     }
 
     .small-text {
@@ -326,15 +356,15 @@
       position: fixed;
       right: 20px;
       bottom: 20px;
-      background: var(--dark);
-      color: white;
+      background: #f3f7ff;
+      color: #05080d;
       border-radius: 16px;
       padding: 13px 16px;
       opacity: 0;
       pointer-events: none;
       transform: translateY(10px);
       transition: 0.25s;
-      font-weight: 800;
+      font-weight: 900;
       z-index: 99;
     }
 
@@ -343,7 +373,7 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 1060px) {
+    @media (max-width: 1080px) {
       header { flex-direction: column; align-items: flex-start; }
       .main-grid { grid-template-columns: 1fr; }
       .character-grid, .info-grid { grid-template-columns: 1fr; }
@@ -356,16 +386,16 @@
     <header>
       <div>
         <div class="badge-row">
-          <span class="badge">MVP V1</span>
-          <span class="badge">Pré-produção IA</span>
-          <span class="badge">Model sheet primeiro</span>
+          <span class="badge">MVP API V2</span>
+          <span class="badge">Modo escuro</span>
+          <span class="badge">OpenAI Ready</span>
           <span class="badge ok">Pronto para testar</span>
         </div>
         <h1>Fruits Adventures Studio</h1>
-        <p class="subtitle">Motor simples para transformar vídeo, ideia ou universo em história, personagens, model sheets, storyboard e prompts finais sem misturar projetos.</p>
+        <p class="subtitle">Motor de criação para transformar vídeo, imagem, ideia ou universo em história, personagens, model sheets, storyboard e prompts finais sem misturar projetos.</p>
       </div>
       <div class="top-actions">
-        <button class="button green" onclick="generatePackage()">Gerar pacote</button>
+        <button id="generateBtn" class="button green" onclick="generateWithAPI()">Gerar com IA</button>
         <button class="button secondary" onclick="saveProject()">Salvar projeto</button>
         <button class="button secondary" onclick="exportProject()">Exportar JSON</button>
       </div>
@@ -386,11 +416,21 @@
         </div>
 
         <div class="field">
-          <label for="sourceText">Vídeo, ideia ou resumo</label>
+          <label for="sourceText">História, resumo, link ou orientação</label>
           <textarea id="sourceText">Uma banana adulta humilde é humilhada por um personagem rico. Ela tenta cuidar de uma criança, passa por chuva, rejeição e dificuldade, mas encontra uma pequena esperança no final.</textarea>
         </div>
 
-        <button class="button full" onclick="generatePackage()">Analisar agora</button>
+        <div class="field">
+          <label for="mediaFile">Imagem ou vídeo de referência</label>
+          <input id="mediaFile" type="file" accept="image/*,video/*" />
+          <p class="small-text">Imagem funciona melhor nesta versão. Vídeo será enviado como arquivo para análise quando o modelo/API aceitar esse formato.</p>
+        </div>
+
+        <button id="analyzeBtn" class="button full" onclick="generateWithAPI()">Analisar com IA</button>
+
+        <div class="api-status" id="apiStatus">
+          Inteligência: conectada ao backend quando você rodar o servidor com OPENAI_API_KEY. Se abrir só o HTML, usa modo demonstração.
+        </div>
 
         <hr style="border:0;border-top:1px solid var(--line);margin:22px 0;">
 
@@ -435,7 +475,8 @@
     let state = {
       mode: "viral",
       selectedCharacter: 0,
-      analysis: null
+      analysis: null,
+      lastUsedAPI: false
     };
 
     function renderModes() {
@@ -451,12 +492,59 @@
     function setMode(mode) {
       state.mode = mode;
       renderModes();
-      generatePackage();
+      generateDemoPackage();
     }
 
-    function analyzeProject() {
-      const sourceText = document.getElementById("sourceText").value.trim();
+    async function generateWithAPI() {
+      const btn = document.getElementById("generateBtn");
+      const analyzeBtn = document.getElementById("analyzeBtn");
+      btn.disabled = true;
+      analyzeBtn.disabled = true;
+      setApiStatus("Analisando com IA...");
 
+      try {
+        const form = new FormData();
+        form.append("title", document.getElementById("projectTitle").value);
+        form.append("mode", state.mode);
+        form.append("sourceText", document.getElementById("sourceText").value);
+        const file = document.getElementById("mediaFile").files[0];
+        if (file) form.append("media", file);
+
+        const response = await fetch("/api/analyze", {
+          method: "POST",
+          body: form
+        });
+
+        if (!response.ok) throw new Error("Backend não respondeu");
+
+        const data = await response.json();
+        state.analysis = normalizeAnalysis(data);
+        state.lastUsedAPI = true;
+        setApiStatus("IA ativa: análise feita pelo backend/API.");
+        renderAll();
+        showToast("Análise IA pronta");
+      } catch (error) {
+        console.warn(error);
+        generateDemoPackage();
+        state.lastUsedAPI = false;
+        setApiStatus("Modo demonstração: backend/API não está ligado. Rode npm install e npm start com OPENAI_API_KEY.");
+        showToast("Usando modo demo");
+      } finally {
+        btn.disabled = false;
+        analyzeBtn.disabled = false;
+      }
+    }
+
+    function setApiStatus(text) {
+      document.getElementById("apiStatus").textContent = text;
+    }
+
+    function generateDemoPackage() {
+      state.analysis = normalizeAnalysis(demoAnalysis());
+      renderAll();
+    }
+
+    function demoAnalysis() {
       const rules = {
         viral: "Este projeto é uma referência externa. Não usar Tomate Elinaldo, Sabrina Pitaya ou OZ automaticamente.",
         original: "Este projeto é original. Criar personagens próprios desta história e salvar tudo separado.",
@@ -465,69 +553,150 @@
       };
 
       return {
-        sourceText,
-        rule: rules[state.mode],
+        project_type: state.mode,
+        anti_mix_rule: rules[state.mode],
         story: {
-          logline: createLogline(sourceText),
+          logline: "Um personagem humilde enfrenta um conflito forte, passa por tensão emocional, encontra outros personagens importantes e chega a uma virada final com impacto visual.",
           theme: "desigualdade, humilhação, cuidado, sobrevivência, esperança",
           tone: "dramático, sentimental, simples, viral e visualmente claro",
-          conflict: "pobreza e vulnerabilidade contra poder, riqueza e indiferença"
+          conflict: "pobreza e vulnerabilidade contra poder, riqueza e indiferença",
+          beginning: "Apresentar o protagonista e a situação de dificuldade.",
+          middle: "Aumentar o contraste social e o sofrimento emocional.",
+          ending: "Fechar com uma pequena esperança ou alívio."
         },
-        characters: createCharacters(sourceText),
-        storyboard: createStoryboard(sourceText)
+        characters: [
+          {
+            name: "Protagonista humilde",
+            role: "protagonista",
+            identity: "Personagem fruta adulto, aparência cansada, sensível e pobre.",
+            base_outfit: "regata branca velha, bermuda jeans azul curta, chinelo simples",
+            expressions: ["neutro", "triste", "preocupado", "assustado", "esperançoso", "aliviado"],
+            outfit_states: ["limpa", "suja", "molhada", "rasgada", "muito danificada"],
+            model_sheet_prompt: ""
+          },
+          {
+            name: "Personagem rico",
+            role: "contraste social / antagonista",
+            identity: "Personagem fruta ou vegetal elegante, confiante, arrogante e superior.",
+            base_outfit: "terno elegante, camisa branca, gravata escura, sapato social",
+            expressions: ["neutro", "confiante", "debochado", "bravo", "desconfiado", "surpreso"],
+            outfit_states: ["limpa", "levemente suja", "molhada", "rasgada", "danificada"],
+            model_sheet_prompt: ""
+          },
+          {
+            name: "Criança emocional",
+            role: "carga emocional",
+            identity: "Criança pequena, inocente, vulnerável, olhos grandes e expressivos.",
+            base_outfit: "roupa infantil simples, confortável e humilde",
+            expressions: ["neutra", "triste", "curiosa", "assustada", "esperançosa", "feliz simples"],
+            outfit_states: ["limpa", "suja", "molhada", "rasgada"],
+            model_sheet_prompt: ""
+          }
+        ],
+        storyboard: [
+          {
+            title: "Abertura",
+            action: "Mostrar o protagonista e o mundo onde ele vive, deixando claro o problema principal.",
+            emotion: "solidão e necessidade",
+            camera: "plano aberto cinematográfico",
+            image_prompt: "",
+            video_prompt: ""
+          },
+          {
+            title: "Contraste",
+            action: "Mostrar o personagem com poder, dinheiro ou vantagem em oposição ao protagonista.",
+            emotion: "inferioridade e tensão",
+            camera: "plano médio com contraste visual",
+            image_prompt: "",
+            video_prompt: ""
+          },
+          {
+            title: "Conflito",
+            action: "O protagonista é rejeitado, humilhado ou impedido de conseguir o que precisa.",
+            emotion: "vergonha e tristeza",
+            camera: "close emocional",
+            image_prompt: "",
+            video_prompt: ""
+          },
+          {
+            title: "Coração da história",
+            action: "Revelar quem depende do protagonista ou por que o problema importa.",
+            emotion: "afeto e responsabilidade",
+            camera: "plano íntimo",
+            image_prompt: "",
+            video_prompt: ""
+          },
+          {
+            title: "Pior momento",
+            action: "Chuva, perda, cansaço, solidão ou fracasso aumentam o drama.",
+            emotion: "desespero",
+            camera: "plano fechado com chuva e movimento",
+            image_prompt: "",
+            video_prompt: ""
+          },
+          {
+            title: "Virada",
+            action: "Uma pequena ajuda, descoberta ou decisão muda o rumo.",
+            emotion: "surpresa e esperança",
+            camera: "travelling lento",
+            image_prompt: "",
+            video_prompt: ""
+          },
+          {
+            title: "Final",
+            action: "O protagonista encontra esperança, alívio ou uma solução simples e emocional.",
+            emotion: "alívio",
+            camera: "plano final emotivo",
+            image_prompt: "",
+            video_prompt: ""
+          }
+        ],
+        final_package: ""
       };
     }
 
-    function createLogline(text) {
-      if (!text) return "Uma história emocional será organizada em personagens, conflito, model sheets e storyboard.";
-      return "Um personagem principal enfrenta um conflito forte, passa por tensão emocional, encontra outros personagens importantes e chega a uma virada final com impacto visual.";
-    }
-
-    function createCharacters(text) {
-      return [
-        {
-          name: "Protagonista humilde",
-          role: "protagonista",
-          identity: "Personagem fruta adulto, aparência cansada, sensível e pobre.",
-          baseOutfit: "regata branca velha, bermuda jeans azul curta, chinelo simples",
-          expressions: ["neutro", "triste", "preocupado", "assustado", "esperançoso", "aliviado"],
-          outfitStates: ["limpa", "suja", "molhada", "rasgada", "muito danificada"]
+    function normalizeAnalysis(data) {
+      const analysis = {
+        rule: data.anti_mix_rule || data.rule || "Cada projeto deve ter sua própria bíblia visual.",
+        story: {
+          logline: data.story?.logline || "História organizada pela IA.",
+          theme: data.story?.theme || "tema emocional",
+          tone: data.story?.tone || "cinematográfico",
+          conflict: data.story?.conflict || "conflito principal",
+          beginning: data.story?.beginning || "",
+          middle: data.story?.middle || "",
+          ending: data.story?.ending || ""
         },
-        {
-          name: "Personagem rico",
-          role: "contraste social / antagonista",
-          identity: "Personagem fruta ou vegetal elegante, confiante, arrogante e superior.",
-          baseOutfit: "terno elegante, camisa branca, gravata escura, sapato social",
-          expressions: ["neutro", "confiante", "debochado", "bravo", "desconfiado", "surpreso"],
-          outfitStates: ["limpa", "levemente suja", "molhada", "rasgada", "danificada"]
-        },
-        {
-          name: "Criança emocional",
-          role: "carga emocional",
-          identity: "Criança pequena, inocente, vulnerável, olhos grandes e expressivos.",
-          baseOutfit: "roupa infantil simples, confortável e humilde",
-          expressions: ["neutra", "triste", "curiosa", "assustada", "esperançosa", "feliz simples"],
-          outfitStates: ["limpa", "suja", "molhada", "rasgada"]
-        }
-      ];
-    }
+        characters: (data.characters || []).map(c => ({
+          name: c.name || "Personagem",
+          role: c.role || "função narrativa",
+          identity: c.identity || "identidade visual",
+          baseOutfit: c.base_outfit || c.baseOutfit || "roupa base",
+          expressions: c.expressions || ["neutro", "triste", "feliz"],
+          outfitStates: c.outfit_states || c.outfitStates || ["limpa", "suja", "molhada", "rasgada"],
+          modelSheetPrompt: c.model_sheet_prompt || ""
+        })),
+        storyboard: (data.storyboard || []).map(s => ({
+          title: s.title || "Cena",
+          action: s.action || String(s),
+          emotion: s.emotion || "",
+          camera: s.camera || "",
+          imagePrompt: s.image_prompt || "",
+          videoPrompt: s.video_prompt || ""
+        })),
+        finalPackage: data.final_package || ""
+      };
 
-    function createStoryboard(text) {
-      return [
-        "Abertura: mostrar o protagonista e o mundo onde ele vive, deixando claro o problema principal.",
-        "Contraste: mostrar o personagem com poder, dinheiro ou vantagem em oposição ao protagonista.",
-        "Conflito: o protagonista é rejeitado, humilhado ou impedido de conseguir o que precisa.",
-        "Coração da história: revelar quem depende do protagonista ou por que o problema importa.",
-        "Pior momento: chuva, perda, cansaço, solidão ou fracasso aumentam o drama.",
-        "Virada: uma pequena ajuda, descoberta ou decisão muda o rumo.",
-        "Final: o protagonista encontra esperança, alívio ou uma solução simples e emocional."
-      ];
-    }
+      if (!analysis.characters.length) analysis.characters = demoAnalysis().characters.map(c => ({
+        name: c.name, role: c.role, identity: c.identity, baseOutfit: c.base_outfit,
+        expressions: c.expressions, outfitStates: c.outfit_states, modelSheetPrompt: ""
+      }));
 
-    function generatePackage() {
-      state.analysis = analyzeProject();
-      renderAll();
-      showToast("Pacote gerado");
+      if (!analysis.storyboard.length) analysis.storyboard = demoAnalysis().storyboard.map(s => ({
+        title: s.title, action: s.action, emotion: s.emotion, camera: s.camera, imagePrompt: "", videoPrompt: ""
+      }));
+
+      return analysis;
     }
 
     function renderAll() {
@@ -549,6 +718,8 @@
           ${infoBox("Conflito", s.conflict)}
           ${infoBox("Tema", s.theme)}
           ${infoBox("Tom", s.tone)}
+          ${infoBox("Início", s.beginning || "A IA definirá o começo quando o backend estiver ativo.")}
+          ${infoBox("Final", s.ending || "A IA definirá o final quando o backend estiver ativo.")}
         </div>
       `;
     }
@@ -559,10 +730,10 @@
         <div class="character-grid">
           ${state.analysis.characters.map((c, index) => `
             <div class="character-card">
-              <span class="badge">${c.role}</span>
-              <h3>${c.name}</h3>
-              <p>${c.identity}</p>
-              <div class="outfit"><strong>Roupa base:</strong><br>${c.baseOutfit}</div>
+              <span class="badge">${escapeHtml(c.role)}</span>
+              <h3>${escapeHtml(c.name)}</h3>
+              <p>${escapeHtml(c.identity)}</p>
+              <div class="outfit"><strong>Roupa base:</strong><br>${escapeHtml(c.baseOutfit)}</div>
               <button class="button secondary full" onclick="selectCharacter(${index})">Abrir model sheet</button>
             </div>
           `).join("")}
@@ -572,13 +743,13 @@
 
     function renderModelSheet() {
       const c = state.analysis.characters[state.selectedCharacter];
-      const prompt = buildModelSheetPrompt(c);
+      const prompt = c.modelSheetPrompt || buildModelSheetPrompt(c);
       document.getElementById("modelsheet").innerHTML = `
         <h2 class="section-title">🧩 Prompt de model sheet</h2>
         <div class="field">
           <label>Personagem</label>
           <select onchange="selectCharacter(Number(this.value))">
-            ${state.analysis.characters.map((char, index) => `<option value="${index}" ${index === state.selectedCharacter ? 'selected' : ''}>${char.name}</option>`).join("")}
+            ${state.analysis.characters.map((char, index) => `<option value="${index}" ${index === state.selectedCharacter ? 'selected' : ''}>${escapeHtml(char.name)}</option>`).join("")}
           </select>
         </div>
         <pre>${escapeHtml(prompt)}</pre>
@@ -591,12 +762,14 @@
         <h2 class="section-title">🎞️ Storyboard base</h2>
         <div class="storyboard-list">
           ${state.analysis.storyboard.map((scene, index) => {
-            const prompt = buildScenePrompt(scene, index);
+            const prompt = scene.imagePrompt || buildScenePrompt(scene, index);
             return `
               <div class="scene-card">
-                <strong>Cena ${index + 1}</strong>
-                <p>${scene}</p>
-                <button class="button secondary" onclick="copyText(\`${escapeBacktick(prompt)}\`)">Copiar prompt da cena</button>
+                <strong>Cena ${index + 1} — ${escapeHtml(scene.title)}</strong>
+                <p>${escapeHtml(scene.action)}</p>
+                <p><b>Emoção:</b> ${escapeHtml(scene.emotion || "não definida")} · <b>Câmera:</b> ${escapeHtml(scene.camera || "não definida")}</p>
+                <button class="button secondary" onclick="copyText(\`${escapeBacktick(prompt)}\`)">Copiar prompt de imagem</button>
+                <button class="button secondary" onclick="copyText(\`${escapeBacktick(scene.videoPrompt || prompt)}\`)">Copiar prompt de vídeo</button>
               </div>
             `;
           }).join("")}
@@ -605,10 +778,10 @@
     }
 
     function renderFinalPackage() {
-      const text = buildFullPackage();
+      const text = state.analysis.finalPackage || buildFullPackage();
       document.getElementById("pacote").innerHTML = `
         <h2 class="section-title">📦 Pacote final do projeto</h2>
-        <p class="small-text">Copie este pacote para entregar ao cliente, colar no ChatGPT, ou usar como base no Flow, Runway, Kling, Luma, CapCut e ElevenLabs.</p>
+        <p class="small-text">Copie este pacote para entregar ao cliente, colar no Flow, Runway, Kling, Luma, CapCut, ElevenLabs ou usar como briefing.</p>
         <pre>${escapeHtml(text)}</pre>
         <button class="button" onclick="copyText(\`${escapeBacktick(text)}\`)">Copiar pacote completo</button>
       `;
@@ -621,7 +794,7 @@
     }
 
     function infoBox(title, text) {
-      return `<div class="info-box"><small>${title}</small><p>${text}</p></div>`;
+      return `<div class="info-box"><small>${escapeHtml(title)}</small><p>${escapeHtml(text)}</p></div>`;
     }
 
     function buildModelSheetPrompt(character) {
@@ -654,7 +827,10 @@ Organizado como folha de referência visual.`;
     }
 
     function buildScenePrompt(scene, index) {
-      return `Cena ${index + 1}: ${scene}
+      return `Cena ${index + 1}: ${scene.action}
+
+Emoção: ${scene.emotion || "emoção forte"}
+Câmera: ${scene.camera || "cinematográfica"}
 
 Usar somente personagens aprovados deste projeto. Manter a roupa base definida no model sheet. Não trocar figurino. A roupa pode mudar apenas de estado conforme continuidade: limpa, suja, molhada, rasgada ou danificada. Sem sangue e sem gore. Estilo animação 3D cinematográfica, composição clara, emoção forte, visual de curta viral.`;
     }
@@ -695,7 +871,7 @@ Estados da roupa: ${c.outfitStates.join(", ")}
 `).join("\n")}
 
 STORYBOARD:
-${storyboard.map((s, i) => `Cena ${i + 1}: ${s}`).join("\n")}
+${storyboard.map((s, i) => `Cena ${i + 1}: ${s.title} — ${s.action}`).join("\n")}
 
 REGRA FINAL:
 Antes de gerar cenas finais, criar ou aprovar o model sheet de cada personagem.
@@ -722,7 +898,7 @@ Sem sangue e sem gore.`;
       const toast = document.getElementById("toast");
       toast.textContent = message;
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 1300);
+      setTimeout(() => toast.classList.remove("show"), 1400);
     }
 
     function getProjectObject() {
@@ -731,21 +907,22 @@ Sem sangue e sem gore.`;
         mode: state.mode,
         sourceText: document.getElementById("sourceText").value,
         analysis: state.analysis,
+        usedAPI: state.lastUsedAPI,
         savedAt: new Date().toISOString()
       };
     }
 
     function saveProject() {
       const project = getProjectObject();
-      const saved = JSON.parse(localStorage.getItem("fas_projects") || "[]");
+      const saved = JSON.parse(localStorage.getItem("fas_projects_api") || "[]");
       saved.unshift(project);
-      localStorage.setItem("fas_projects", JSON.stringify(saved.slice(0, 20)));
+      localStorage.setItem("fas_projects_api", JSON.stringify(saved.slice(0, 30)));
       renderSavedProjects();
       showToast("Projeto salvo");
     }
 
     function renderSavedProjects() {
-      const saved = JSON.parse(localStorage.getItem("fas_projects") || "[]");
+      const saved = JSON.parse(localStorage.getItem("fas_projects_api") || "[]");
       const list = document.getElementById("projectList");
       if (!saved.length) {
         list.innerHTML = `<div class="small-text">Nenhum projeto salvo ainda.</div>`;
@@ -754,13 +931,13 @@ Sem sangue e sem gore.`;
       list.innerHTML = saved.map((p, index) => `
         <div class="project-item" onclick="loadProject(${index})">
           <strong>${escapeHtml(p.title)}</strong>
-          <div class="small-text">${escapeHtml(modes.find(m => m.id === p.mode)?.label || p.mode)} · ${new Date(p.savedAt).toLocaleString("pt-BR")}</div>
+          <div class="small-text">${escapeHtml(modes.find(m => m.id === p.mode)?.label || p.mode)} · ${new Date(p.savedAt).toLocaleString("pt-BR")} · ${p.usedAPI ? "IA" : "Demo"}</div>
         </div>
       `).join("");
     }
 
     function loadProject(index) {
-      const saved = JSON.parse(localStorage.getItem("fas_projects") || "[]");
+      const saved = JSON.parse(localStorage.getItem("fas_projects_api") || "[]");
       const project = saved[index];
       if (!project) return;
       document.getElementById("projectTitle").value = project.title;
@@ -768,6 +945,7 @@ Sem sangue e sem gore.`;
       state.mode = project.mode;
       state.analysis = project.analysis;
       state.selectedCharacter = 0;
+      state.lastUsedAPI = !!project.usedAPI;
       renderModes();
       renderAll();
       showToast("Projeto carregado");
@@ -786,7 +964,7 @@ Sem sangue e sem gore.`;
     }
 
     function escapeHtml(str) {
-      return String(str)
+      return String(str || "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -795,11 +973,11 @@ Sem sangue e sem gore.`;
     }
 
     function escapeBacktick(str) {
-      return String(str).replaceAll("`", "\\`").replaceAll("${", "\\${");
+      return String(str || "").replaceAll("`", "\\`").replaceAll("${", "\\${");
     }
 
     renderModes();
-    generatePackage();
+    generateDemoPackage();
   </script>
 </body>
 </html>
