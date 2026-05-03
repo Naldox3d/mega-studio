@@ -578,6 +578,35 @@ body.locked{overflow:hidden}
 @media(max-width:980px){.api-topbar,.api-compact-grid{grid-template-columns:1fr}.api-actions-box{grid-template-columns:1fr 1fr;min-width:0}.api-compact-right{position:relative;top:auto}.api-provider-tabs{position:relative}}
 @media(max-width:560px){.api-actions-box{grid-template-columns:1fr}.api-provider-tab{flex:1;min-width:125px}}
 
+
+
+/* V11 - MODO PRODUCAO SIMPLES: roteiro -> cenas -> storyboard -> imagens -> video -> audio -> montagem */
+#smartOutputPanel{max-width:1180px;margin:22px auto;border-color:rgba(0,212,200,.45)!important;background:linear-gradient(135deg,rgba(0,212,200,.045),rgba(212,160,23,.025))!important}
+.prod-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2.8px;color:var(--cyan);line-height:1;display:flex;align-items:center;gap:10px}
+.prod-sub{font-size:12.5px;color:#9fb5cc;margin:8px 0 16px;line-height:1.45;max-width:980px}
+.prod-steps{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px;padding:8px;background:#050910;border:1px solid rgba(0,212,200,.16);border-radius:14px}
+.prod-step{border:1px solid rgba(0,212,200,.28);background:rgba(0,212,200,.04);color:var(--cyan);border-radius:999px;padding:9px 12px;font-size:11px;font-weight:900;letter-spacing:.9px;text-transform:uppercase;cursor:pointer}
+.prod-step:hover,.prod-step.act{border-color:var(--gold);color:var(--gold2);background:rgba(212,160,23,.10)}
+.prod-work{display:grid;grid-template-columns:260px 1fr;gap:14px;align-items:start}
+.prod-sidebar{border:1px solid var(--border);border-radius:14px;background:#050910;padding:12px;position:sticky;top:12px}
+.prod-side-title{color:var(--gold2);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:9px}
+.prod-scene-btn{width:100%;text-align:left;margin:5px 0;border:1px solid var(--border2);background:#020509;color:#b8cfe8;border-radius:10px;padding:10px;font-size:12px;font-weight:800;cursor:pointer;line-height:1.25}
+.prod-scene-btn:hover,.prod-scene-btn.act{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,200,.06)}
+.prod-main{min-width:0}
+.prod-card{border:1px solid var(--border);background:#050910;border-radius:15px;margin-bottom:12px;overflow:hidden}
+.prod-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.025)}
+.prod-card-title{color:var(--gold2);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.prod-card-note{font-size:11px;color:var(--muted);margin-top:2px}
+.prod-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.prod-btn{border:1px solid var(--border2);background:#020509;color:#9fb5cc;border-radius:9px;padding:7px 9px;font-size:10px;font-weight:900;letter-spacing:.4px;cursor:pointer}
+.prod-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.prod-btn.gold{border-color:rgba(212,160,23,.45);color:var(--gold2);background:rgba(212,160,23,.06)}
+.prod-body{white-space:pre-wrap;font-family:'DM Mono',monospace;font-size:12.2px;line-height:1.68;color:#c4d8eb;max-height:380px;overflow:auto;padding:14px;background:#020509}
+.prod-empty{border:1px dashed rgba(0,212,200,.25);border-radius:14px;padding:18px;color:#9fb5cc;font-size:13px;background:rgba(0,0,0,.20)}
+.prod-help{border:1px solid rgba(212,160,23,.25);background:rgba(212,160,23,.06);border-radius:12px;padding:12px;color:#c9a846;font-size:12px;line-height:1.45;margin-bottom:12px}
+.prod-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:900px){.prod-work{grid-template-columns:1fr}.prod-sidebar{position:relative;top:auto}.prod-mini-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body class="locked">
@@ -5610,6 +5639,108 @@ document.addEventListener('DOMContentLoaded', function(){
       if(typeof window.multiAPIExplain==='function') window.multiAPIExplain();
     }, 300);
   });
+})();
+</script>
+
+
+
+<script>
+/* V11 - MODO PRODUCAO SIMPLES */
+(function(){
+  const PROD_STATE={mode:'roteiro',scene:0,scenes:[]};
+  function q(id){return document.getElementById(id)}
+  function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  function raw(){
+    const arr=[window.state&&state.roteiro,q('turboResultOut')?.innerText,q('roteiroOut')?.innerText,q('exportOut')?.innerText].filter(Boolean).map(String);
+    return arr.sort((a,b)=>b.length-a.length)[0]||'';
+  }
+  function cleanMd(s){return String(s||'').replace(/\*\*/g,'').replace(/^#+\s*/gm,'').trim()}
+  function firstLine(s){return cleanMd(String(s||'').split('\n').find(x=>x.trim())||'Cena')}
+  function sliceBetween(text,startTerms,endTerms){
+    const lower=text.toLowerCase(); let start=-1, used='';
+    startTerms.forEach(t=>{const i=lower.indexOf(t.toLowerCase()); if(i>=0&&(start<0||i<start)){start=i;used=t}});
+    if(start<0) return '';
+    let end=text.length; const from=start+used.length;
+    endTerms.forEach(t=>{const i=lower.indexOf(t.toLowerCase(),from); if(i>=0&&i<end) end=i});
+    return text.slice(start,end).trim();
+  }
+  function extractStoryboards(text){
+    text=String(text||'').replace(/\r/g,'');
+    let matches=[...text.matchAll(/(?:^|\n)(?:#{1,4}\s*)?(?:\*\*)?STORYBOARD\s*(\d+|FINAL)(?:\*\*)?\s*:?([\s\S]*?)(?=(?:\n(?:#{1,4}\s*)?(?:\*\*)?STORYBOARD\s*(?:\d+|FINAL)|\n(?:#{1,4}\s*)?(?:7\.|8\.|9\.|10\.|11\.|12\.|FALAS|PROMPTS?\s+DE\s+IMAGEM|PROMPTS?\s+FLOW|SRT|ELEVENLABS|CSV|PÓS|POS|CAPCUT)|$))/gi)];
+    let scenes=matches.map((m,i)=>{
+      const num=(m[1]||String(i+1)).trim(); const body=cleanMd(m[2]||'');
+      const fn=(body.match(/Fun[çc][aã]o:\s*([^\n]+)/i)||[])[1]||'';
+      const acao=(body.match(/A[çc][aã]o:\s*([^\n]+)/i)||[])[1]||'';
+      const tempo=(body.match(/Tempo:\s*([^\n]+)/i)||[])[1]||'';
+      const img=(body.match(/Prompt\s+de\s+Imagem:\s*"?([^"\n]+)"?/i)||[])[1]||'';
+      const flow=(body.match(/Prompt\s+de\s+V[ií]deo\s+Flow\s+Labs:\s*"?([^"\n]+)"?/i)||body.match(/Prompt\s+Flow\s+Labs:\s*"?([^"\n]+)"?/i)||[])[1]||'';
+      return {num,title:`Cena ${num}${fn?' — '+fn:''}`,tempo,body:`STORYBOARD ${num}\n${body}`,acao,img,flow};
+    }).filter(s=>s.body.length>25);
+    if(!scenes.length){
+      const roteiro=sliceBetween(text,['ROTEIRO com 5 cenas','Roteiro com Tempo por Cena','ROTEIRO COM TEMPO','ROTEIRO:'],['STORYBOARD VISUAL','FALAS','PROMPTS DE IMAGEM','SRT']);
+      const lines=roteiro.split('\n').filter(l=>/cena\s*\d+|estabelecimento|ação|acao|conflito|perseguição|perseguicao|gancho/i.test(l));
+      scenes=lines.slice(0,8).map((l,i)=>({num:String(i+1),title:`Cena ${i+1}`,tempo:'',body:cleanMd(l),acao:cleanMd(l),img:'',flow:''}));
+    }
+    return scenes.slice(0,12);
+  }
+  function roteiroBlock(text){
+    return cleanMd(sliceBetween(text,['DNA DA REFERÊNCIA','DNA da referência','TÍTULO','Titulo','Título'],['STORYBOARD VISUAL','STORYBOARD 1','FALAS CURTAS','PROMPTS DE IMAGEM']) || text.slice(0,3500));
+  }
+  function audioBlock(text){
+    const n=sliceBetween(text,['NARRAÇÃO FINAL','Narrador IA','NARRADOR / RÁDIO','NARRADOR TITAN'],['STORYBOARD','PROMPTS DE IMAGEM','CAPCUT','SRT']);
+    const srt=sliceBetween(text,['SRT CAPCUT','SRT COMPLETO','LEGENDAS SRT'],['ELEVENLABS','CSV','PÓS','POS','CAPCUT']);
+    const eleven=sliceBetween(text,['ELEVENLABS','FALAS POR PERSONAGEM','ROTEIRO DE VOZ'],['CSV','PÓS','POS','CAPCUT','LUT']);
+    return cleanMd([n&&('NARRAÇÃO LIMPA\n'+n),srt&&('SRT\n'+srt),eleven&&('VOZES / ELEVENLABS\n'+eleven)].filter(Boolean).join('\n\n---\n\n'));
+  }
+  function finalBlock(text){
+    const post=sliceBetween(text,['PÓS-PRODUÇÃO SMART','POS-PRODUCAO SMART','CAPCUT','MÚSICA DE FUNDO','MUSICA DE FUNDO'],['FINAL com cliffhanger','Quer gerar']);
+    return cleanMd(post || text);
+  }
+  function promptImagem(scene){
+    const base=scene.img||scene.acao||scene.body;
+    return `PROMPT IMAGEM — ${scene.title}\n\nCrie uma imagem cinematográfica ultra-realista baseada nesta cena.\n\nCENA BASE:\n${base}\n\nDIREÇÃO VISUAL:\n- composição clara e premium\n- iluminação cinematográfica\n- DOF raso\n- continuidade de personagens, cenário, figurino, clima e cor\n- visual pronto para pré-produção audiovisual\n- sem texto grande na imagem, apenas leitura visual forte`;
+  }
+  function prompt3x3(scene){
+    return `PROMPT STORYBOARD 3x3 — ${scene.title}\n\nCrie UMA imagem única em formato storyboard cinematográfico 3x3, mostrando a MESMA cena evoluindo visualmente em 9 quadros.\n\nOBJETIVO:\nA imagem deve funcionar como uma prancha de pré-produção visual para entender a cena inteira de uma vez.\n\nQUADROS OBRIGATÓRIOS:\n1. T-5 — antes da ação principal\n2. T-1 — tensão antes do movimento\n3. T — momento principal da cena\n4. T+1 — reação imediata\n5. T+5 — consequência visual\n6. T+30 — resultado da cena\n7. Ângulo alternativo\n8. Transição espontânea\n9. Quadro final impactante\n\nREGRAS VISUAIS:\n- visual ultra-realista\n- iluminação cinematográfica\n- DOF raso\n- tom coeso em todos os quadros\n- manter continuidade de personagens, cenário, figurino, luz, clima e direção de arte\n- adicionar pequenas legendas em cada quadro indicando tempo/evento\n- parecer storyboard premium para apresentação ao cliente\n\nCENA BASE:\n${scene.body}\n\nINSTRUÇÃO FINAL:\nOrganize os 9 quadros como uma linha do tempo visual clara, com bloquinhos bem definidos, leitura rápida e final impactante.`;
+  }
+  function promptVideo(scene){
+    return `PROMPT VÍDEO / FLOW LABS — ${scene.title}\n\n${scene.flow||scene.acao||scene.body}\n\nDIREÇÃO:\n- duração curta e objetiva\n- movimento de câmera coerente com a ação\n- manter continuidade visual com o storyboard\n- luz cinematográfica\n- ritmo viral, leitura rápida e gancho visual no final`;
+  }
+  function copy(txt,msg){ if(typeof copyText==='function') copyText(txt,msg||'Copiado'); else navigator.clipboard?.writeText(txt||''); }
+  window.prodCopy=function(kind,idx){
+    const text=raw(); const scenes=PROD_STATE.scenes.length?PROD_STATE.scenes:extractStoryboards(text); const s=scenes[idx||0]||{};
+    const map={scene:s.body,image:promptImagem(s),story:prompt3x3(s),video:promptVideo(s),roteiro:roteiroBlock(text),audio:audioBlock(text),final:finalBlock(text),all:text};
+    copy(map[kind]||'', 'Copiado: '+kind);
+  }
+  window.prodSetScene=function(i){PROD_STATE.scene=i; renderProductionFlow();}
+  window.prodShow=function(mode){PROD_STATE.mode=mode; renderProductionFlow();}
+  function card(title,note,body,buttons){
+    return `<div class="prod-card"><div class="prod-card-head"><div><div class="prod-card-title">${esc(title)}</div><div class="prod-card-note">${esc(note||'')}</div></div><div class="prod-actions">${buttons||''}</div></div><div class="prod-body">${esc(body||'')}</div></div>`;
+  }
+  function btn(label,kind,idx,gold){return `<button class="prod-btn ${gold?'gold':''}" onclick="prodCopy('${kind}',${idx||0})">${esc(label)}</button>`}
+  function renderProductionFlow(){
+    const panel=q('smartOutputPanel'); if(!panel) return;
+    const text=raw(); const scenes=extractStoryboards(text); PROD_STATE.scenes=scenes;
+    const modes=[['roteiro','1. Roteiro'],['cenas','2. Cenas'],['storyboard','3. Storyboard'],['imagens','4. Imagens'],['video','5. Vídeo'],['audio','6. Áudio/CapCut'],['final','7. Montagem Final']];
+    const active=modes.map(m=>`<button class="prod-step ${PROD_STATE.mode===m[0]?'act':''}" onclick="prodShow('${m[0]}')">${m[1]}</button>`).join('');
+    const side=scenes.length?`<div class="prod-side-title">Cenas detectadas</div>`+scenes.map((s,i)=>`<button class="prod-scene-btn ${PROD_STATE.scene===i?'act':''}" onclick="prodSetScene(${i})">${esc(s.title)}${s.tempo?' · '+esc(s.tempo):''}</button>`).join(''):`<div class="prod-empty">Gere o pacote completo para aparecerem as cenas.</div>`;
+    let main=''; const i=Math.min(PROD_STATE.scene, Math.max(0,scenes.length-1)); const s=scenes[i]||{title:'Cena 1',body:'Nenhuma cena detectada ainda.',acao:'',img:'',flow:''};
+    if(!text.trim()) main='<div class="prod-empty">Gere o pacote completo no Turbo. Depois esta área mostra o trabalho limpo por etapas.</div>';
+    else if(PROD_STATE.mode==='roteiro') main=card('Roteiro completo','Começo do trabalho: ideia, DNA, roteiro e lista de cenas.', roteiroBlock(text), btn('Copiar roteiro','roteiro',0,true));
+    else if(PROD_STATE.mode==='cenas') main=scenes.map((x,idx)=>card(x.title,'Texto base da cena. Sem prompts misturados.',x.body,btn('Copiar cena','scene',idx,true)+btn('Abrir storyboard','story',idx))).join('')||'<div class="prod-empty">Nenhuma cena detectada.</div>';
+    else if(PROD_STATE.mode==='storyboard') main=card('Storyboard da cena','Este é o prompt para gerar várias imagens em UMA imagem só, tipo prancha 3x3.',prompt3x3(s),btn('Copiar storyboard 3x3','story',i,true))+card('Texto base usado','Só a cena escolhida, para revisão.',s.body,btn('Copiar texto da cena','scene',i));
+    else if(PROD_STATE.mode==='imagens') main=card('Prompt imagem principal','Prompt limpo para gerar uma imagem individual da cena escolhida.',promptImagem(s),btn('Copiar prompt imagem','image',i,true));
+    else if(PROD_STATE.mode==='video') main=card('Prompt de vídeo / Flow Labs','Vídeo fica separado do roteiro e do storyboard.',promptVideo(s),btn('Copiar prompt vídeo','video',i,true));
+    else if(PROD_STATE.mode==='audio') main=card('Áudio / CapCut / Voz','Narração limpa, SRT, ElevenLabs e falas ficam só aqui.',audioBlock(text)||'Este bloco não apareceu com clareza. Gere novamente pedindo narração limpa, SRT e ElevenLabs.',btn('Copiar áudio/capcut','audio',0,true));
+    else if(PROD_STATE.mode==='final') main=card('Montagem final','Pacote técnico final para revisar/exportar sem misturar com o início do trabalho.',finalBlock(text),btn('Copiar montagem','final',0,true)+btn('Copiar tudo','all',0));
+    panel.innerHTML=`<div class="prod-title">🧭 Modo Produção Simples</div><div class="prod-sub">Fluxo limpo: primeiro roteiro e cenas; depois storyboard por cena; só depois imagem, vídeo, áudio/CapCut e montagem final. Nada misturado no mesmo terminal.</div><div class="prod-help">Use assim: gere o pacote completo → abra <b>Cenas</b> → escolha Cena 1, 2, 3... → em <b>Storyboard</b> copie o prompt 3x3 para gerar várias imagens em uma imagem só.</div><div class="prod-steps">${active}</div><div class="prod-work"><div class="prod-sidebar">${side}</div><div class="prod-main">${main}</div></div>`;
+  }
+  window.renderProductionFlow=renderProductionFlow;
+  function init(){
+    renderProductionFlow();
+    ['turboResultOut','roteiroOut','exportOut'].forEach(id=>{const el=q(id); if(el){new MutationObserver(()=>setTimeout(renderProductionFlow,250)).observe(el,{childList:true,subtree:true,characterData:true});}});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else setTimeout(init,100);
 })();
 </script>
 
