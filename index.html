@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Fruits Adventures Titan | Modelador Viral</title>
+<title>Fruits Adventures Titan | Prompt Mestre Final</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
 :root{
@@ -229,6 +229,39 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 .ref-item img,.ref-item video{width:100%;max-height:150px;object-fit:cover;border-radius:9px}
 .ref-name{font-size:10px;color:#9fb5cc;margin-top:6px;word-break:break-word}
 
+
+/* MASTER PROMPT FINAL */
+.master-box{
+  border:1px solid rgba(212,160,23,.38);
+  background:linear-gradient(135deg,rgba(212,160,23,.08),rgba(0,212,200,.035));
+  border-radius:16px;
+  padding:16px;
+  margin-top:14px;
+}
+.master-title{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:8px;
+}
+.master-text{
+  background:#020509;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  max-height:280px;
+  overflow:auto;
+  white-space:pre-wrap;
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  color:#b8cfe8;
+  line-height:1.6;
+}
+.master-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.master-badge{font-size:10px;color:var(--cyan);border:1px solid rgba(0,212,200,.24);background:rgba(0,212,200,.05);border-radius:999px;padding:5px 9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+
 </style>
 </head>
 <body>
@@ -413,6 +446,18 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
         <div class="modeler-step"><b>3. Produzir</b><span>storyboards, prompts, SRT, voz e CapCut.</span></div>
         <div class="modeler-step"><b>4. Continuar</b><span>deixar cliffhanger e base para Parte 2.</span></div>
       </div>
+    </div>
+
+    <div class="master-box">
+      <div class="master-title">🧠 Prompt Mestre Final do Modelador Viral</div>
+      <div class="mini-note">Use este botão quando quiser que o Titan aplique o método completo automaticamente. Ele preenche o Pedido Extra com o padrão profissional.</div>
+      <div class="master-actions">
+        <button class="btn gold" onclick="usarPromptMestreFinal()">Usar Prompt Mestre completo</button>
+        <button class="btn cyan" onclick="usarPromptMestreCurto()">Usar versão curta</button>
+        <button class="btn outline" onclick="copyText(MASTER_PROMPT_FINAL,'Prompt mestre copiado')">Copiar prompt mestre</button>
+        <span class="master-badge">100 anos de fluxo</span>
+      </div>
+      <div class="master-text" id="masterPromptPreview"></div>
     </div>
 
     <div class="btns">
@@ -1859,7 +1904,7 @@ HUMOR / TEMPERO VIRAL:
 ${humorMap[humor]||humorMap.politico}
 
 PEDIDO EXTRA DO USUÁRIO:
-${extra||'Nenhum. A IA deve escolher o caminho mais viral, simples e fácil de produzir.'}
+${extra|| (tipo==='modelar' ? MASTER_PROMPT_CURTO : 'Nenhum. A IA deve escolher o caminho mais viral, simples e fácil de produzir.')}
 
 CONTINUIDADE:
 ${parte>1 ? 'Continuar diretamente do final do episódio anterior, sem reiniciar a história.\nEPISÓDIO ANTERIOR:\n'+prev : 'Criar Parte 1 com final aberto para Parte 2.'}
@@ -2174,6 +2219,47 @@ function setTitanMode(tipo,objetivo){
   if($('modelarMelhorar')) $('modelarMelhorar').value=extras[objetivo]||extras.refazer;
   toast('Modo Titan aplicado.');
 }
+
+
+/* ─── PROMPT MESTRE FINAL DO MODELADOR VIRAL ─── */
+const MASTER_PROMPT_FINAL = 'Modele esta referência viral em uma versão original do universo Fruits Adventures.\n\nPrimeiro, reconheça o DNA da referência:\n- cenário\n- iluminação\n- cores\n- câmera\n- ritmo\n- emoção\n- conflito\n- personagens percebidos\n- ponto forte\n- ponto fraco\n- o que pode ficar mais viral\n\nDepois, recrie tudo como uma história original com os personagens Fruits Adventures.\n\nPersonagens obrigatórios:\n- Tomate Elinaldo como protagonista vulnerável, corajoso e perseguido\n- Sabrina Pitaya como aliada protetora e estratégica\n- Soldado Cenoura como bloqueio físico e guarda disciplinado\n- Soldado Banana como guarda de elite e ameaça de cerco\n- Abacatudo como vilão principal, mafioso, dono da rua e ameaça maior\n\nRegras:\n- não copiar literalmente a referência\n- não copiar rosto real, marca, logo, fala exata ou cena idêntica\n- usar apenas o DNA visual, emocional e narrativo como inspiração\n- deixar a história mais clara, mais viral e mais fácil de produzir\n- manter consistência visual dos personagens\n- criar gancho forte nos 3 primeiros segundos\n- criar perseguição clara\n- usar falas curtas e marcantes\n- terminar com plot twist e gancho para continuação\n\nCenário principal:\nbeco chuvoso da Favela do Tomate, noite, chão molhado, luz amarela de poste, paredes gastas, fios aparentes, sensação de perseguição, suspense urbano e ameaça mafiosa.\n\nFinal obrigatório:\nTomate e Sabrina acham que escaparam pelo beco vazio, mas Soldado Cenoura e Soldado Banana fecham as duas saídas. Então Abacatudo aparece na chuva e diz:\n“Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.”\n\nEntregar pacote completo:\n1. DNA da referência reconhecido\n2. título forte\n3. logline\n4. gancho dos 3 primeiros segundos\n5. roteiro com tempo por cena\n6. storyboard visual numerado em quantidade smart\n7. prompt de imagem por storyboard\n8. prompt Flow Labs por storyboard\n9. falas por personagem\n10. SRT CapCut completo\n11. ElevenLabs com personagem, emoção, voz sugerida e fala\n12. CSV de dublagem\n13. música de fundo sugerida\n14. efeitos sonoros por storyboard\n15. transições\n16. estilo de legenda CapCut\n17. correção de cor por cena\n18. LUT sugerido\n19. capa YouTube 16:9\n20. capa TikTok 9:16\n21. capa Reels 9:16\n22. post Instagram 4:5\n23. final pronto para Parte 2';
+const MASTER_PROMPT_CURTO = 'Modele esta referência viral em uma versão original do Fruits Adventures. Reconheça o DNA visual e narrativo da referência, mas não copie literalmente. Recrie com Tomate Elinaldo, Sabrina Pitaya, Soldado Cenoura, Soldado Banana e Abacatudo. Melhorar gancho, tensão, clareza, perseguição, falas curtas, plot twist e final pronto para continuação. Entregar roteiro, tempo por cena, storyboards numerados, prompts de imagem, Flow Labs, SRT, ElevenLabs, CSV de voz, música, SFX, LUT, CapCut e artes para YouTube, TikTok, Reels e Instagram.';
+
+function initMasterPromptPreview(){
+  const el=document.getElementById('masterPromptPreview');
+  if(el) el.textContent=MASTER_PROMPT_FINAL;
+}
+
+function usarPromptMestreFinal(){
+  const extra=$('turboExtra');
+  if(extra) {
+    extra.value=MASTER_PROMPT_FINAL;
+    extra.focus();
+  }
+  if($('turboTipo')) $('turboTipo').value='modelar';
+  if($('turboHumor')) $('turboHumor').value='sem';
+  if($('modelarObjetivo')) $('modelarObjetivo').value='refazer';
+  if($('modelarCopiar') && !$('modelarCopiar').value.trim()) {
+    $('modelarCopiar').value='Copiar o DNA visual e narrativo da referência: cenário, luz, cor, câmera, ritmo, tensão, emoção, composição, personagens percebidos, conflito e energia viral.';
+  }
+  if($('modelarMelhorar') && !$('modelarMelhorar').value.trim()) {
+    $('modelarMelhorar').value='Melhorar gancho, clareza, perseguição, falas curtas, plot twist, continuidade, storyboards e potencial viral.';
+  }
+  toast('Prompt Mestre completo aplicado.');
+}
+
+function usarPromptMestreCurto(){
+  const extra=$('turboExtra');
+  if(extra) {
+    extra.value=MASTER_PROMPT_CURTO;
+    extra.focus();
+  }
+  if($('turboTipo')) $('turboTipo').value='modelar';
+  if($('turboHumor')) $('turboHumor').value='sem';
+  toast('Prompt Mestre curto aplicado.');
+}
+
+document.addEventListener('DOMContentLoaded', initMasterPromptPreview);
 
 </script>
 </body>
