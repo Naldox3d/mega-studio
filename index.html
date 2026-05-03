@@ -2500,7 +2500,7 @@ document.addEventListener('DOMContentLoaded', initMasterPromptPreview);
 
 
 /* ─── PORTAL DE ACESSO COM SENHA EM TODO RELOAD ─── */
-const PORTAL_PASSWORD = "fruits2026";
+window.PORTAL_PASSWORD = window.PORTAL_PASSWORD || "fruits2026";
 
 function forceLockPortal(){
   const gate=document.getElementById('accessGate');
@@ -2809,7 +2809,7 @@ document.addEventListener('DOMContentLoaded', smartAutoInit);
 
 /* ─── GARANTIR SENHA EM TODO RELOAD NA VERSÃO OTIMIZADA ─── */
 if(typeof PORTAL_PASSWORD === 'undefined'){
-  var PORTAL_PASSWORD = "fruits2026";
+  window.PORTAL_PASSWORD = window.PORTAL_PASSWORD || "fruits2026";
 }
 function forceLockPortalSmart(){
   const gate=document.getElementById('accessGate');
@@ -2844,5 +2844,69 @@ if(typeof unlockPortal !== 'function'){
 window.addEventListener('pageshow', ()=>{ if(document.getElementById('accessGate')) forceLockPortalSmart(); });
 
 </script>
+
+<script>
+/* HOTFIX FINAL: botão Entrar no portal */
+(function () {
+  window.PORTAL_PASSWORD = "fruits2026";
+
+  function showAccessGate() {
+    var gate = document.getElementById("accessGate");
+    var input = document.getElementById("accessPassword");
+    var err = document.getElementById("accessError");
+
+    document.body.classList.add("locked");
+    if (gate) gate.style.display = "flex";
+    if (err) err.style.display = "none";
+    if (input) {
+      input.value = "";
+      setTimeout(function(){ input.focus(); }, 150);
+    }
+  }
+
+  window.unlockPortal = function () {
+    var input = document.getElementById("accessPassword");
+    var err = document.getElementById("accessError");
+    var gate = document.getElementById("accessGate");
+    var pass = (input && input.value ? input.value : "").trim();
+
+    if (pass === window.PORTAL_PASSWORD) {
+      if (gate) gate.style.display = "none";
+      document.body.classList.remove("locked");
+      return true;
+    }
+
+    if (err) {
+      err.style.display = "block";
+      err.textContent = "Senha incorreta. Tente novamente.";
+    }
+    if (input) input.select();
+    return false;
+  };
+
+  function bindAccessGate() {
+    var btns = Array.prototype.slice.call(document.querySelectorAll("button"));
+    btns.forEach(function(btn){
+      if ((btn.textContent || "").trim().toLowerCase().includes("entrar no portal")) {
+        btn.onclick = window.unlockPortal;
+      }
+    });
+
+    var input = document.getElementById("accessPassword");
+    if (input) {
+      input.addEventListener("keydown", function(e){
+        if (e.key === "Enter") window.unlockPortal();
+      });
+    }
+
+    showAccessGate();
+  }
+
+  window.addEventListener("load", bindAccessGate);
+  window.addEventListener("pageshow", showAccessGate);
+  document.addEventListener("DOMContentLoaded", bindAccessGate);
+})();
+</script>
+
 </body>
 </html>
