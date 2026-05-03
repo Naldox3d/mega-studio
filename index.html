@@ -257,7 +257,7 @@ body.locked{overflow:hidden}
 </head>
 <body class="locked">
 
-<div id="accessGate">
+<div id="accessGate" style="display:flex">
   <div class="access-card">
     <div class="access-mark">
       <div class="access-logo">🍅</div>
@@ -2180,6 +2180,38 @@ function setTitanMode(tipo,objetivo){
 }
 
 
+
+/* ─── FORÇAR SENHA EM TODO RELOAD ─── */
+function forceLockPortal(){
+  const gate=document.getElementById('accessGate');
+  const input=document.getElementById('accessPassword');
+  const err=document.getElementById('accessError');
+
+  // Nunca reutilizar desbloqueio antigo
+  try{
+    sessionStorage.removeItem('fruits_titan_unlocked');
+    localStorage.removeItem('fruits_titan_unlocked');
+  }catch(e){}
+
+  document.body.classList.add('locked');
+  if(gate){
+    gate.style.display='flex';
+    gate.removeAttribute('data-unlocked');
+  }
+  if(input){
+    input.value='';
+    setTimeout(()=>input.focus(),150);
+  }
+  if(err) err.style.display='none';
+}
+
+// Executa no carregamento normal, reload e quando o navegador restaura a página do cache
+window.addEventListener('load', forceLockPortal);
+window.addEventListener('pageshow', forceLockPortal);
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState==='visible') forceLockPortal();
+});
+
 /* ─── PORTAL DE ACESSO ─── */
 const PORTAL_PASSWORD = "fruits2026";
 function unlockPortal(){
@@ -2188,8 +2220,10 @@ function unlockPortal(){
   const gate=document.getElementById('accessGate');
   const pass=(input?.value||'').trim();
   if(pass===PORTAL_PASSWORD){
-    sessionStorage.setItem('fruits_titan_unlocked','yes');
-    if(gate) gate.style.display='none';
+    if(gate){
+      gate.style.display='none';
+      gate.setAttribute('data-unlocked','yes');
+    }
     document.body.classList.remove('locked');
     toast('Bem-vindo ao Fruits Adventures Titan!');
   }else{
@@ -2198,15 +2232,10 @@ function unlockPortal(){
   }
 }
 function initAccessGate(){
-  const gate=document.getElementById('accessGate');
-  if(sessionStorage.getItem('fruits_titan_unlocked')==='yes'){
-    if(gate) gate.style.display='none';
-    document.body.classList.remove('locked');
-  }
+  forceLockPortal();
   const input=document.getElementById('accessPassword');
   if(input){
     input.addEventListener('keydown',e=>{ if(e.key==='Enter') unlockPortal(); });
-    setTimeout(()=>input.focus(),250);
   }
 }
 document.addEventListener('DOMContentLoaded', initAccessGate);
