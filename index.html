@@ -5404,5 +5404,214 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
+
+
+<!-- PATCH V10: API guia atualizado + teste curto + modo sincronizado -->
+<style>
+.api-link-box{margin-top:12px;padding:12px;border:1px solid rgba(0,245,255,.22);border-radius:12px;background:rgba(0,0,0,.22);font-size:13px;line-height:1.55;color:#bcd4ea}
+.api-link-box a{color:#00f5ff;text-decoration:underline}
+.api-pill-note{display:inline-block;margin:3px 4px 3px 0;padding:4px 8px;border:1px solid rgba(255,209,0,.35);border-radius:999px;color:#ffd43b;background:rgba(255,209,0,.06);font-size:12px}
+.api-status-compact{white-space:pre-wrap}
+</style>
+<script>
+(function(){
+  const STORE = 'fruits_titan_multi_api_keys_v1';
+  const COUNT = 'fruits_titan_api_counts_v1';
+  function $(id){ return document.getElementById(id); }
+  function val(id){ return ($(id)?.value || '').trim(); }
+  function setVal(id,v){ const el=$(id); if(el) el.value=v||''; }
+  function status(msg){ const el=$('apiStatus'); if(el) el.textContent=String(msg||''); }
+  function today(){ return new Date().toISOString().slice(0,10); }
+  function counts(){
+    try{ const o=JSON.parse(localStorage.getItem(COUNT)||'{}'); if(o.date!==today()) return {date:today(),gemini:0,openrouter:0,groq:0,mistral:0}; return Object.assign({date:today(),gemini:0,openrouter:0,groq:0,mistral:0},o); }
+    catch(e){ return {date:today(),gemini:0,openrouter:0,groq:0,mistral:0}; }
+  }
+  function inc(k){ const c=counts(); c[k]=(c[k]||0)+1; localStorage.setItem(COUNT, JSON.stringify(c)); }
+  function line(){ const c=counts(); return `Chamadas hoje — Gemini: ${c.gemini||0} | OpenRouter: ${c.openrouter||0} | Groq: ${c.groq||0} | Mistral: ${c.mistral||0}`; }
+  function providerLabel(mode){ return ({auto:'Econômico automático',gemini:'Gemini',openrouter:'OpenRouter',groq:'Groq',mistral:'Mistral',local:'Sem API / local'})[mode]||mode; }
+  function providerFromTab(name){ return ({gemini:'gemini',openrouter:'openrouter',groq:'groq',mistral:'mistral'})[name] || null; }
+
+  window.apiShowProvider = function(name){
+    document.querySelectorAll('.api-provider-card').forEach(card=>card.classList.toggle('show', card.getAttribute('data-api-provider')===name));
+    document.querySelectorAll('.api-provider-tab').forEach(btn=>btn.classList.toggle('act', btn.getAttribute('data-api-tab')===name));
+    const prov = providerFromTab(name);
+    if(prov && $('apiMode')){
+      $('apiMode').value = prov;
+      if(typeof window.multiAPIExplain==='function') window.multiAPIExplain();
+    }
+  };
+
+  window.apiCompactSync = function(){
+    const mode = val('apiMode') || 'auto';
+    if(['gemini','openrouter','groq','mistral'].includes(mode)) window.apiShowProvider(mode);
+  };
+
+  window.multiAPIExplain = function(){
+    const mode = val('apiMode') || 'auto';
+    const hint = $('apiModeHint');
+    const map = {
+      auto:'Econômico automático: tenta Gemini primeiro. Se bater limite, tenta OpenRouter, Groq e Mistral. Melhor para não parar o fluxo.',
+      gemini:'Gemini: melhor para visão, prints, análise de referência e pacote completo. Pode bater limite gratuito.',
+      openrouter:'OpenRouter: melhor fallback gratuito para texto, roteiro, narrador, prompts, SRT, CapCut e storyboards textuais.',
+      groq:'Groq: texto rápido. Ideal para resumo, narrador curto, SRT, limpeza de texto e prompts curtos. O teste agora usa poucos tokens.',
+      mistral:'Mistral: revisão e acabamento. Bom para organizar, limpar texto, melhorar prompts e gerar narração.',
+      local:'Sem API: usa montagem local e botões Smart sem gastar chamadas.'
+    };
+    if(hint) hint.textContent = map[mode] || map.auto;
+    status(`${map[mode] || map.auto}\n\nModo selecionado: ${providerLabel(mode)}\n${line()}`);
+  };
+
+  window.multiAPISaveKeys = function(){
+    const data = {
+      apiKey: val('apiKey'), apiModel: val('apiModel'), apiMode: val('apiMode'),
+      openRouterKey: val('openRouterKey'), openRouterModel: val('openRouterModel'),
+      groqKey: val('groqKey'), groqModel: val('groqModel'),
+      mistralKey: val('mistralKey'), mistralModel: val('mistralModel')
+    };
+    localStorage.setItem(STORE, JSON.stringify(data));
+    if(typeof toast==='function') toast('Chaves salvas neste navegador.');
+    window.multiAPIExplain();
+  };
+
+  window.multiAPILoadKeys = function(){
+    try{ const data=JSON.parse(localStorage.getItem(STORE)||'{}'); Object.keys(data).forEach(k=>setVal(k,data[k])); if(typeof toast==='function') toast('Chaves carregadas.'); }
+    catch(e){ if(typeof toast==='function') toast('Não consegui carregar chaves.'); }
+  };
+
+  window.multiAPIClearKeys = function(){
+    localStorage.removeItem(STORE);
+    ['apiKey','openRouterKey','groqKey','mistralKey'].forEach(id=>setVal(id,''));
+    if(typeof toast==='function') toast('Chaves apagadas deste navegador.');
+    window.multiAPIExplain();
+  };
+
+  async function compat(provider, endpoint, key, model, prompt, opts={}){
+    const maxTokens = opts.max_tokens || opts.maxTokens || (provider==='Groq' ? 1200 : 3500);
+    const res = await fetch(endpoint, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + key,
+        'HTTP-Referer': location.origin || 'file://fruits-adventures-titan',
+        'X-Title':'Fruits Adventures Titan'
+      },
+      body: JSON.stringify({
+        model,
+        messages:[
+          {role:'system', content:'Você é o assistente de pré-produção audiovisual do Fruits Adventures Titan. Responda em português do Brasil, com estrutura limpa e pronta para produção.'},
+          {role:'user', content:String(prompt||'')}
+        ],
+        temperature:0.75,
+        max_tokens:maxTokens
+      })
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || data.error){
+      const msg = data.error?.message || data.message || `Erro HTTP ${res.status}`;
+      throw new Error(`${provider}: ${msg}`);
+    }
+    const txt = data.choices?.[0]?.message?.content || data.choices?.[0]?.text || '';
+    if(!txt.trim()) throw new Error(`${provider}: resposta vazia.`);
+    return txt.trim();
+  }
+
+  window.callOpenRouter = async function(prompt, opts={}){
+    const key = val('openRouterKey'); if(!key) throw new Error('OpenRouter: API Key não configurada.');
+    inc('openrouter');
+    return compat('OpenRouter','https://openrouter.ai/api/v1/chat/completions',key,val('openRouterModel')||'openrouter/free',prompt,opts);
+  };
+  window.callGroq = async function(prompt, opts={}){
+    const key = val('groqKey'); if(!key) throw new Error('Groq: API Key não configurada.');
+    inc('groq');
+    return compat('Groq','https://api.groq.com/openai/v1/chat/completions',key,val('groqModel')||'llama-3.1-8b-instant',prompt,opts);
+  };
+  window.callMistral = async function(prompt, opts={}){
+    const key = val('mistralKey'); if(!key) throw new Error('Mistral: API Key não configurada.');
+    inc('mistral');
+    return compat('Mistral','https://api.mistral.ai/v1/chat/completions',key,val('mistralModel')||'mistral-small-latest',prompt,opts);
+  };
+  window.callGeminiWithCount = async function(prompt, opts={}){
+    const key = val('apiKey'); if(!key) throw new Error('Gemini: API Key não configurada.');
+    inc('gemini');
+    return window.callGemini(prompt, key);
+  };
+  window.callAI = async function(prompt, opts={}){
+    const mode = val('apiMode') || 'auto';
+    if(mode==='local') throw new Error('Modo sem API selecionado. Use Montar local ou os botões Smart.');
+    const order = mode==='auto' ? ['gemini','openrouter','groq','mistral'] : [mode];
+    const errors=[];
+    for(const name of order){
+      try{
+        status(`Tentando ${providerLabel(name)}...\n${line()}`);
+        if(name==='gemini') return await window.callGeminiWithCount(prompt, opts);
+        if(name==='openrouter') return await window.callOpenRouter(prompt, opts);
+        if(name==='groq') return await window.callGroq(prompt, opts);
+        if(name==='mistral') return await window.callMistral(prompt, opts);
+      }catch(e){
+        errors.push(e.message || String(e));
+        status(`Falhou em ${providerLabel(name)}: ${e.message || e}\n\n${line()}`);
+        if(mode!=='auto') break;
+      }
+    }
+    throw new Error('Todas as APIs falharam. Detalhes: ' + errors.join(' | '));
+  };
+
+  window.testarAPI = async function(){
+    const mode = val('apiMode') || 'auto';
+    status(`Teste curto em ${providerLabel(mode)}...`);
+    try{
+      const txt = await window.callAI('Responda somente OK.', {max_tokens:40});
+      status(`Fruits Adventures Multi-API conectado com sucesso!\nResposta: ${txt}\n\n${line()}`);
+      if(typeof toast==='function') toast('API conectada!');
+    }catch(e){
+      status('Erro no teste: ' + (e.message || e) + '\n\nDica: confira chave, modelo, modo selecionado e se o provedor exige crédito.\n\n' + line());
+    }
+  };
+
+  function updateApiHelp(){
+    const help = document.querySelector('[data-api-provider="help"]');
+    if(help){
+      help.innerHTML = `
+        <div class="api-title">📌 Guia rápido das APIs</div>
+        <div class="api-help-list">
+          <div><b>1. Gemini</b> — visão, prints, análise de referência e pacote completo.</div>
+          <div><span class="api-pill-note">modelo sugerido</span> <code>gemini-2.5-flash</code></div>
+          <div><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Criar chave Gemini / Google AI Studio</a></div>
+          <br>
+          <div><b>2. OpenRouter</b> — melhor fallback gratuito para texto: roteiro, narrador, prompts, storyboard textual, SRT e CapCut.</div>
+          <div><span class="api-pill-note">modelo sugerido</span> <code>openrouter/free</code> ou algum modelo com <code>:free</code></div>
+          <div><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">Criar chave OpenRouter</a> · <a href="https://openrouter.ai/models?max_price=0" target="_blank" rel="noopener">Ver modelos grátis</a></div>
+          <br>
+          <div><b>3. Groq</b> — texto rápido: narrador curto, resumo, legenda, SRT, limpeza de texto e prompts rápidos.</div>
+          <div><span class="api-pill-note">modelo sugerido</span> <code>llama-3.1-8b-instant</code></div>
+          <div><a href="https://console.groq.com/keys" target="_blank" rel="noopener">Criar chave Groq</a></div>
+          <br>
+          <div><b>4. Mistral</b> — revisão, acabamento, limpeza de texto, prompts e narrador.</div>
+          <div><span class="api-pill-note">modelo sugerido</span> <code>mistral-small-latest</code></div>
+          <div><a href="https://console.mistral.ai/" target="_blank" rel="noopener">Abrir console Mistral</a></div>
+        </div>
+        <div class="api-link-box">
+          <b>Regra prática:</b> deixe em <b>Econômico automático</b> para trabalhar. Use <b>Só Gemini/OpenRouter/Groq/Mistral</b> apenas para testar cada chave separadamente.<br>
+          <b>Observação:</b> agora clicar numa aba de API também muda o modo de teste para essa API, para evitar confusão.
+        </div>
+        <div class="hint">Para uso local/pessoal, salvar no navegador ajuda. Para publicar online, coloque as chaves em backend/proxy, não no HTML público.</div>
+      `;
+    }
+    const groqAdv = document.querySelector('[data-api-provider="groq"] .api-advantage');
+    if(groqAdv) groqAdv.textContent = 'Use para narrador curto, resumo, legendas, SRT, limpeza de texto e prompts rápidos. O teste foi reduzido para não estourar TPM.';
+    const orAdv = document.querySelector('[data-api-provider="openrouter"] .api-advantage');
+    if(orAdv) orAdv.textContent = 'Use quando o Gemini travar. Bom para roteiro textual, Narrador IA, prompts, SRT, CapCut e storyboards textuais. Modelo openrouter/free escolhe um gratuito automaticamente.';
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(function(){
+      updateApiHelp();
+      if(typeof window.multiAPILoadKeys==='function') window.multiAPILoadKeys();
+      if(typeof window.multiAPIExplain==='function') window.multiAPIExplain();
+    }, 300);
+  });
+})();
+</script>
+
 </body>
 </html>
