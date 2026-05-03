@@ -4460,5 +4460,481 @@ function smartRenderNarrator(){
 })();
 </script>
 
+
+
+<!-- PATCH V4: storyboard 1 para gerar imagens com bloquinhos e legendas -->
+<style>
+.story-img-mini-btn{border-color:#16f2ff !important}
+.story-img-mini-btn:hover{transform:translateY(-1px)}
+</style>
+<script>
+(function(){
+  function miniClean(s){
+    return String(s||'')
+      .replace(/```[\s\S]*?```/g,' ')
+      .replace(/\*\*/g,'')
+      .replace(/`/g,'')
+      .replace(/#+\s*/g,'')
+      .replace(/\b(?:STORYBOARD|QUADRO|BOARD)\s*(?:VISUAL\s*)?\d+\s*[:\-]?/gi,' ')
+      .replace(/\b(?:PROMPT DE IMAGEM|PROMPT IMAGEM|IMAGE PROMPT|FLOW LABS|PROMPT FLOW|SRT)\b[\s\S]*$/i,' ')
+      .replace(/(?:^|\n)\s*(?:tempo|time|dura\u00e7\u00e3o|duration)\s*:[^\n]*/gi,' ')
+      .replace(/\((?:SFX|M\u00daSICA|MUSICA|SOM|PAUSA)[^)]*\)/gi,' ')
+      .replace(/\[[^\]]*\]/g,' ')
+      .replace(/[ \t]+/g,' ')
+      .replace(/\s*\n\s*/g,'\n')
+      .replace(/\n{2,}/g,'\n\n')
+      .trim();
+  }
+
+  function pickBestLine(text){
+    const cleaned = miniClean(text);
+    const parts = cleaned.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    for(const p of parts){
+      if(p.length >= 24 && !/^(tempo|t\u00edtulo|titulo|cena|quadro|storyboard)\b/i.test(p)) return p;
+    }
+    const sents = cleaned.split(/(?<=[\.!?])\s+/).map(s=>s.trim()).filter(Boolean);
+    for(const s of sents){
+      if(s.length >= 24) return s;
+    }
+    return cleaned;
+  }
+
+  function shortText(s, n){
+    s = String(s||'').trim();
+    if(s.length <= n) return s;
+    return s.slice(0, n).replace(/[,:;\-\s]+$/,'') + '...';
+  }
+
+  function makeLegendaCurta(title, storyboard){
+    const best = pickBestLine(storyboard || title || '');
+    return shortText(best, 90) || shortText(miniClean(title||''), 90) || 'Cena principal do storyboard';
+  }
+
+  function makeLegendaLonga(title, storyboard){
+    const best = pickBestLine(storyboard || title || '');
+    const more = miniClean(storyboard||'');
+    let combined = best;
+    if(more && !more.startsWith(best)) combined += ' ' + more;
+    combined = combined.replace(/\s+/g,' ').trim();
+    return shortText(combined, 180) || makeLegendaCurta(title, storyboard);
+  }
+
+  function imageBlockFromPackage(p, idx){
+    const titulo = miniClean(p && p.title || ('Storyboard ' + (idx+1)));
+    const tempo = miniClean(p && p.note || '');
+    const storyboard = miniClean(p && p.storyboard || '');
+    const image = miniClean(p && p.image || '');
+    const flow = miniClean(p && p.flow || '');
+    const legendaCurta = makeLegendaCurta(titulo, storyboard);
+    const legendaLonga = makeLegendaLonga(titulo, storyboard);
+    const visualBase = storyboard || image || titulo;
+    const promptBase = image || storyboard || titulo;
+    return [
+      'FRUITS ADVENTURES — BLOQUINHO PARA GERAR IMAGEM',
+      '',
+      'BLOQUINHO ' + (idx+1),
+      'TITULO: ' + titulo,
+      tempo ? 'TEMPO: ' + tempo : '',
+      '',
+      'LEGENDA CURTA:',
+      legendaCurta,
+      '',
+      'LEGENDA EXPANDIDA:',
+      legendaLonga,
+      '',
+      'DESCRICAO VISUAL DO BLOCO:',
+      visualBase,
+      '',
+      'PROMPT DE IMAGEM:',
+      promptBase,
+      flow ? ('\nCONTINUIDADE / MOVIMENTO (opcional):\n' + flow) : '',
+      '',
+      'OBS:',
+      '- gerar 1 imagem principal para este bloquinho',
+      '- manter continuidade visual com os outros storyboards',
+      '- usar a legenda curta como texto de apoio se quiser',
+      '- usar a legenda expandida como contexto da cena'
+    ].filter(Boolean).join('\n');
+  }
+
+  window.smartCopyStoryboardImageBlock = function(i){
+    const arr = (typeof smartPackagesData === 'function') ? smartPackagesData() : [];
+    const p = arr[i];
+    if(!p) return (typeof smartToast === 'function' ? smartToast('Storyboard não encontrado.') : alert('Storyboard não encontrado.'));
+    const txt = imageBlockFromPackage(p, i);
+    if(typeof smartCopyText === 'function') smartCopyText(txt, 'Bloquinho copiado!');
+    else navigator.clipboard.writeText(txt);
+  };
+
+  window.smartCopyStoryboard1ImageBlock = function(){
+    return window.smartCopyStoryboardImageBlock(0);
+  };
+
+  window.smartCopyAllStoryboardImageBlocks = function(){
+    const arr = (typeof smartPackagesData === 'function') ? smartPackagesData() : [];
+    if(!arr.length) return (typeof smartToast === 'function' ? smartToast('Nenhum storyboard encontrado.') : alert('Nenhum storyboard encontrado.'));
+    const txt = arr.map((p,i)=>imageBlockFromPackage(p,i)).join('\n\n' + '='.repeat(30) + '\n\n');
+    if(typeof smartCopyText === 'function') smartCopyText(txt, 'Bloquinhos copiados!');
+    else navigator.clipboard.writeText(txt);
+  };
+
+  window.smartDecorateStoryboardCopyButtons = function(){
+    const bar = document.querySelector('.quick-jump-bar');
+    if(bar && !document.getElementById('btnStory1ImageBlock')){
+      const btn1 = document.createElement('button');
+      btn1.className = 'smart-btn story-img-mini-btn';
+      btn1.id = 'btnStory1ImageBlock';
+      btn1.textContent = 'Storyboard 1 p/ Imagens';
+      btn1.onclick = window.smartCopyStoryboard1ImageBlock;
+      bar.insertBefore(btn1, bar.lastElementChild || null);
+
+      const btn2 = document.createElement('button');
+      btn2.className = 'smart-btn story-img-mini-btn';
+      btn2.id = 'btnAllStoryImageBlocks';
+      btn2.textContent = 'Todos em bloquinhos';
+      btn2.onclick = window.smartCopyAllStoryboardImageBlocks;
+      bar.insertBefore(btn2, bar.lastElementChild || null);
+    }
+
+    const cards = Array.from(document.querySelectorAll('.package-card'));
+    cards.forEach((card, idx) => {
+      const actions = card.querySelector('.package-actions');
+      if(!actions || actions.querySelector('.pkg-img-block-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'package-btn pkg-img-block-btn';
+      btn.textContent = 'Bloquinho + legenda';
+      btn.onclick = function(){ window.smartCopyStoryboardImageBlock(idx); };
+      actions.insertBefore(btn, actions.querySelector('.package-btn:last-child'));
+    });
+  };
+
+  const prevRefresh = window.smartRefresh;
+  if(typeof prevRefresh === 'function'){
+    window.smartRefresh = function(){
+      prevRefresh();
+      setTimeout(window.smartDecorateStoryboardCopyButtons, 80);
+      setTimeout(window.smartDecorateStoryboardCopyButtons, 300);
+    };
+  }
+  const prevShow = window.smartShow;
+  if(typeof prevShow === 'function'){
+    window.smartShow = function(key){
+      prevShow(key);
+      setTimeout(window.smartDecorateStoryboardCopyButtons, 80);
+      setTimeout(window.smartDecorateStoryboardCopyButtons, 300);
+    };
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(window.smartDecorateStoryboardCopyButtons, 150);
+    setTimeout(window.smartDecorateStoryboardCopyButtons, 600);
+  });
+})();
+</script>
+
+
+
+<!-- PATCH V5: STORYBOARD CINEMATOGRAFICO 3x3 POR TIMELINE -->
+<style>
+.story-timeline-btn{border-color:#ffce45 !important;color:#ffce45 !important}
+.story-timeline-btn:hover{transform:translateY(-1px)}
+</style>
+<script>
+(function(){
+  function tlClean(s){
+    return String(s||'')
+      .replace(/```[\s\S]*?```/g,' ')
+      .replace(/\*\*/g,'')
+      .replace(/`/g,'')
+      .replace(/#+\s*/g,'')
+      .replace(/[ \t]+/g,' ')
+      .replace(/\s*\n\s*/g,'\n')
+      .replace(/\n{2,}/g,'\n\n')
+      .trim();
+  }
+  function tlShort(s,n){ s=String(s||'').trim(); return s.length<=n?s:s.slice(0,n).replace(/[,:;\-\s]+$/,'')+'...'; }
+  function tlBestLine(txt){
+    const c = tlClean(txt);
+    const lines = c.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+    for(const line of lines){
+      if(line.length > 24 && !/^(tempo|t[ií]tulo|titulo|storyboard|quadro|cena|prompt)\b/i.test(line)) return line;
+    }
+    const sents = c.split(/(?<=[\.!?])\s+/).map(x=>x.trim()).filter(Boolean);
+    for(const s of sents){ if(s.length > 24) return s; }
+    return c;
+  }
+  function build3x3TimelinePrompt(p, idx){
+    const title = tlClean((p && p.title) || ('Storyboard ' + (idx+1)));
+    const note = tlClean((p && p.note) || '');
+    const storyboard = tlClean((p && p.storyboard) || '');
+    const image = tlClean((p && p.image) || '');
+    const flow = tlClean((p && p.flow) || '');
+    const core = tlShort(tlBestLine(storyboard || image || title), 220);
+    const visual = tlShort((storyboard || image || title).replace(/\n+/g, ' '), 650);
+    const continuity = tlShort(flow.replace(/\n+/g, ' '), 300);
+    return [
+      'PROMPT MASTER — STORYBOARD CINEMATOGRAFICO 3x3',
+      '',
+      'Use o Storyboard abaixo como base e crie UM storyboard cinematografico 3x3 em formato de linha do tempo, mostrando a MESMA cena evoluindo no tempo.',
+      '',
+      'REQUISITOS OBRIGATORIOS:',
+      '- Grade 3x3 com 9 quadros.',
+      '- Mostrar progressao temporal da mesma cena.',
+      '- Incluir os pontos de tempo: T-5, T-1, T, T+1, T+5, T+30.',
+      '- Completar os outros 3 quadros com: angulo alternativo, transicao espontanea e quadro final impactante.',
+      '- Visual ultra-realista.',
+      '- Iluminacao cinematografica.',
+      '- DOF raso.',
+      '- Tom coeso em todos os quadros.',
+      '- Todos os quadros devem manter continuidade de personagens, cenario, luz e direcao de arte.',
+      '- Adicionar pequenas legendas em cada quadro indicando o tempo/evento.',
+      '- A composicao deve parecer um storyboard premium para gerar imagens.',
+      '',
+      'ORDEM SUGERIDA DOS 9 QUADROS:',
+      '1. T-5',
+      '2. T-1',
+      '3. T',
+      '4. T+1',
+      '5. T+5',
+      '6. T+30',
+      '7. Angulo alternativo',
+      '8. Transicao espontanea',
+      '9. Quadro final impactante',
+      '',
+      'TITULO DO STORYBOARD:',
+      title,
+      note ? '\nTEMPO / NOTA:\n' + note : '',
+      '\nCENA BASE:',
+      core,
+      '\nDESCRICAO VISUAL BASE:',
+      visual,
+      image ? '\nPROMPT DE IMAGEM BASE:\n' + image : '',
+      continuity ? '\nCONTINUIDADE / MOVIMENTO:\n' + continuity : '',
+      '',
+      'INSTRUCAO FINAL:',
+      'Crie o storyboard 3x3 com bloquinhos visuais bem definidos, cada quadro com sua legenda curta. Mantenha o mesmo universo visual da cena base, com progressao dramatica clara e final impactante.'
+    ].filter(Boolean).join('\n');
+  }
+
+  window.smartCopyTimeline3x3 = function(i){
+    const arr = (typeof smartPackagesData === 'function') ? smartPackagesData() : [];
+    const p = arr[i];
+    if(!p) return (typeof smartToast === 'function' ? smartToast('Storyboard não encontrado.') : alert('Storyboard não encontrado.'));
+    const txt = build3x3TimelinePrompt(p, i);
+    if(typeof smartCopyText === 'function') smartCopyText(txt, 'Prompt 3x3 copiado!');
+    else navigator.clipboard.writeText(txt);
+  };
+  window.smartCopyTimeline3x3First = function(){ return window.smartCopyTimeline3x3(0); };
+  window.smartCopyTimeline3x3All = function(){
+    const arr = (typeof smartPackagesData === 'function') ? smartPackagesData() : [];
+    if(!arr.length) return (typeof smartToast === 'function' ? smartToast('Nenhum storyboard encontrado.') : alert('Nenhum storyboard encontrado.'));
+    const txt = arr.map((p,i)=>build3x3TimelinePrompt(p,i)).join('\n\n' + '='.repeat(34) + '\n\n');
+    if(typeof smartCopyText === 'function') smartCopyText(txt, 'Prompts 3x3 copiados!');
+    else navigator.clipboard.writeText(txt);
+  };
+
+  window.smartDecorateTimelineButtons = function(){
+    const bar = document.querySelector('.quick-jump-bar');
+    if(bar && !document.getElementById('btnTimeline3x3First')){
+      const b1 = document.createElement('button');
+      b1.className = 'smart-btn story-timeline-btn';
+      b1.id = 'btnTimeline3x3First';
+      b1.textContent = 'Storyboard 1 3x3';
+      b1.onclick = window.smartCopyTimeline3x3First;
+      bar.insertBefore(b1, bar.lastElementChild || null);
+
+      const b2 = document.createElement('button');
+      b2.className = 'smart-btn story-timeline-btn';
+      b2.id = 'btnTimeline3x3All';
+      b2.textContent = 'Todos 3x3';
+      b2.onclick = window.smartCopyTimeline3x3All;
+      bar.insertBefore(b2, bar.lastElementChild || null);
+    }
+
+    const cards = Array.from(document.querySelectorAll('.package-card'));
+    cards.forEach((card, idx) => {
+      const actions = card.querySelector('.package-actions');
+      if(!actions || actions.querySelector('.pkg-3x3-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'package-btn pkg-3x3-btn';
+      btn.textContent = 'Prompt 3x3';
+      btn.onclick = function(){ window.smartCopyTimeline3x3(idx); };
+      actions.insertBefore(btn, actions.querySelector('.package-btn:last-child'));
+    });
+  };
+
+  const prevRefresh2 = window.smartRefresh;
+  if(typeof prevRefresh2 === 'function'){
+    window.smartRefresh = function(){
+      prevRefresh2();
+      setTimeout(window.smartDecorateTimelineButtons, 90);
+      setTimeout(window.smartDecorateTimelineButtons, 320);
+    };
+  }
+  const prevShow2 = window.smartShow;
+  if(typeof prevShow2 === 'function'){
+    window.smartShow = function(key){
+      prevShow2(key);
+      setTimeout(window.smartDecorateTimelineButtons, 90);
+      setTimeout(window.smartDecorateTimelineButtons, 320);
+    };
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(window.smartDecorateTimelineButtons, 180);
+    setTimeout(window.smartDecorateTimelineButtons, 700);
+  });
+})();
+</script>
+
+
+
+<!-- PATCH V6: STORYBOARD GERAL EM UMA IMAGEM SO -->
+<style>
+.story-overview-btn{border-color:#8fff98 !important;color:#8fff98 !important}
+.story-overview-btn:hover{transform:translateY(-1px)}
+</style>
+<script>
+(function(){
+  function ovClean(s){
+    return String(s||'')
+      .replace(/```[\s\S]*?```/g,' ')
+      .replace(/\*\*/g,'')
+      .replace(/`/g,'')
+      .replace(/#+\s*/g,'')
+      .replace(/[ \t]+/g,' ')
+      .replace(/\s*\n\s*/g,'\n')
+      .replace(/\n{2,}/g,'\n\n')
+      .trim();
+  }
+  function ovShort(s,n){ s=String(s||'').trim(); return s.length<=n?s:s.slice(0,n).replace(/[,:;\-\s]+$/,'')+'...'; }
+  function ovBestLine(txt){
+    const c = ovClean(txt);
+    const lines = c.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+    for(const line of lines){
+      if(line.length > 18 && !/^(tempo|t[ií]tulo|titulo|storyboard|quadro|cena|prompt|flow)\b/i.test(line)) return line;
+    }
+    const sents = c.split(/(?<=[\.!?])\s+/).map(x=>x.trim()).filter(Boolean);
+    for(const s of sents){ if(s.length > 18) return s; }
+    return c;
+  }
+  function ovGrid(count){
+    if(count <= 4) return '2x2';
+    if(count <= 6) return '3x2';
+    if(count <= 9) return '3x3';
+    if(count <= 12) return '4x3';
+    return '5x3';
+  }
+  function ovPick(arr, limit){
+    if(arr.length <= limit) return arr;
+    return arr.slice(0, limit);
+  }
+  function buildOverviewPrompt(limit){
+    const arr0 = (typeof smartPackagesData === 'function') ? smartPackagesData() : [];
+    if(!arr0.length) return '';
+    const arr = ovPick(arr0, limit || 9);
+    const grid = ovGrid(arr.length);
+    const scenes = arr.map((p,i)=>{
+      const title = ovClean(p.title || ('Storyboard ' + (i+1)));
+      const note = ovClean(p.note || '');
+      const story = ovBestLine(p.storyboard || p.image || p.flow || title);
+      const visual = ovShort(ovClean((p.storyboard || p.image || title).replace(/\n+/g,' ')), 260);
+      return [
+        'QUADRO ' + (i+1) + ':',
+        'Titulo: ' + title,
+        note ? ('Tempo: ' + note) : '',
+        'Resumo visual: ' + story,
+        'Direcao visual: ' + visual,
+        'Legenda curta: ' + ovShort(story, 70)
+      ].filter(Boolean).join('\n');
+    }).join('\n\n');
+
+    return [
+      'PROMPT MASTER — STORYBOARD GERAL EM UMA IMAGEM',
+      '',
+      'Crie um storyboard cinematografico funcional em UMA IMAGEM SO, reunindo varios quadros do roteiro em uma unica prancha visual.',
+      '',
+      'OBJETIVO:',
+      '- dar uma nocao ampla do roteiro e da evolucao das cenas;',
+      '- facilitar visualizacao, imaginacao e ajustes criativos;',
+      '- parecer uma prancha/storyboard profissional de pre-visualizacao.',
+      '',
+      'REQUISITOS OBRIGATORIOS:',
+      '- gerar uma unica imagem com varios quadros organizados em grade ' + grid + ';',
+      '- cada quadro representa uma cena/storyboard na ordem narrativa;',
+      '- usar pequenas legendas em cada quadro: "Cena 1", "Cena 2"... e, se couber, o tempo;',
+      '- manter continuidade visual de personagens, figurino, luz, paleta e cenario;',
+      '- composicao limpa, leitura facil, layout de storyboard premium;',
+      '- ultra-realista, iluminacao cinematografica, DOF raso, tom coeso;',
+      '- cada quadro deve ser diferente, mas claramente conectado aos demais;',
+      '- incluir um quadro final mais impactante para fechar a prancha.',
+      '',
+      'IMPORTANTE:',
+      '- nao gerar imagens separadas;',
+      '- nao gerar apenas uma cena isolada;',
+      '- a saida final deve ser um storyboard-mosaico unico;',
+      '- se faltar espaco, simplificar o texto e priorizar leitura visual.',
+      '',
+      'QUADROS / CENAS BASE:',
+      scenes,
+      '',
+      'INSTRUCAO FINAL:',
+      'Monte a prancha geral com foco em clareza narrativa e visao ampla do roteiro. O resultado deve parecer uma folha de storyboard pronta para apresentar, revisar e depois transformar em imagens ou video.'
+    ].join('\n');
+  }
+
+  window.smartCopyStoryboardOverview = function(){
+    const txt = buildOverviewPrompt(9);
+    if(!txt) return (typeof smartToast === 'function' ? smartToast('Nenhum storyboard encontrado.') : alert('Nenhum storyboard encontrado.'));
+    if(typeof smartCopyText === 'function') smartCopyText(txt, 'Prompt de storyboard geral copiado!');
+    else navigator.clipboard.writeText(txt);
+  };
+  window.smartCopyStoryboardOverview12 = function(){
+    const txt = buildOverviewPrompt(12);
+    if(!txt) return (typeof smartToast === 'function' ? smartToast('Nenhum storyboard encontrado.') : alert('Nenhum storyboard encontrado.'));
+    if(typeof smartCopyText === 'function') smartCopyText(txt, 'Prompt de storyboard geral 12 quadros copiado!');
+    else navigator.clipboard.writeText(txt);
+  };
+
+  window.smartDecorateOverviewButtons = function(){
+    const bar = document.querySelector('.quick-jump-bar');
+    if(bar && !document.getElementById('btnStoryboardOverview')){
+      const b1 = document.createElement('button');
+      b1.className = 'smart-btn story-overview-btn';
+      b1.id = 'btnStoryboardOverview';
+      b1.textContent = 'Storyboard geral 1 imagem';
+      b1.onclick = window.smartCopyStoryboardOverview;
+      bar.insertBefore(b1, bar.lastElementChild || null);
+
+      const b2 = document.createElement('button');
+      b2.className = 'smart-btn story-overview-btn';
+      b2.id = 'btnStoryboardOverview12';
+      b2.textContent = 'Storyboard geral 12q';
+      b2.onclick = window.smartCopyStoryboardOverview12;
+      bar.insertBefore(b2, bar.lastElementChild || null);
+    }
+  };
+
+  const prevRefresh3 = window.smartRefresh;
+  if(typeof prevRefresh3 === 'function'){
+    window.smartRefresh = function(){
+      prevRefresh3();
+      setTimeout(window.smartDecorateOverviewButtons, 100);
+      setTimeout(window.smartDecorateOverviewButtons, 340);
+    };
+  }
+  const prevShow3 = window.smartShow;
+  if(typeof prevShow3 === 'function'){
+    window.smartShow = function(key){
+      prevShow3(key);
+      setTimeout(window.smartDecorateOverviewButtons, 100);
+      setTimeout(window.smartDecorateOverviewButtons, 340);
+    };
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(window.smartDecorateOverviewButtons, 220);
+    setTimeout(window.smartDecorateOverviewButtons, 750);
+  });
+})();
+</script>
+
 </body>
 </html>
