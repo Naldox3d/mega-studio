@@ -5318,5 +5318,91 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
+
+
+<!-- PATCH V9: conectar Gerar pacote completo ao Multi-API, removendo trava antiga do Gemini -->
+<script>
+(function(){
+  function v9$(id){ return document.getElementById(id); }
+  function v9Toast(msg){ if(typeof toast === 'function') toast(msg); else console.log(msg); }
+  function v9Loading(msg){ return (typeof loadingHTML === 'function') ? loadingHTML(msg) : msg; }
+  function v9Set(el, txt){ if(el) el.textContent = txt; }
+
+  window.gerarTurbo = async function(parte){
+    parte = parte || 1;
+    try{
+      if(typeof turboApplyState === 'function') turboApplyState();
+      const prompt = (typeof turboBuildPrompt === 'function') ? turboBuildPrompt(parte) : (v9$('ideaLivre')?.value || '');
+
+      if(v9$('ideaLivre')) v9$('ideaLivre').value = prompt;
+      if(v9$('turboPromptOut')) v9$('turboPromptOut').textContent = prompt;
+      if(v9$('turboResultOut')) v9$('turboResultOut').innerHTML = v9Loading('Gerando pacote completo com Multi-API...');
+      if(v9$('roteiroOut')) v9$('roteiroOut').innerHTML = v9Loading('Gerando pacote completo com Multi-API...');
+
+      if(typeof callAI !== 'function'){
+        const msg = 'Prompt Turbo pronto. A função Multi-API não carregou. Copie o prompt ou recarregue a página.';
+        v9Set(v9$('turboResultOut'), msg);
+        v9Set(v9$('roteiroOut'), msg + '\n\n' + prompt);
+        state.roteiro = prompt;
+        v9Toast('Multi-API não carregou.');
+        return;
+      }
+
+      const mode = v9$('apiMode')?.value || 'auto';
+      if(mode === 'local'){
+        const msg = 'Modo sem API selecionado. Prompt Turbo preparado. Use os botões Smart, Montar local ou mude para OpenRouter/Gemini/Groq.';
+        v9Set(v9$('turboResultOut'), msg);
+        v9Set(v9$('roteiroOut'), prompt);
+        state.roteiro = prompt;
+        if(typeof smartRefresh === 'function') setTimeout(smartRefresh, 250);
+        v9Toast('Prompt preparado em modo local.');
+        return;
+      }
+
+      const providerLabel = {
+        auto: 'Multi-API automático',
+        gemini: 'Gemini',
+        openrouter: 'OpenRouter',
+        groq: 'Groq',
+        mistral: 'Mistral'
+      }[mode] || 'Multi-API';
+
+      if(typeof apiStatus === 'function') apiStatus('Gerando pacote Turbo com ' + providerLabel + '...');
+
+      // Usa exatamente o prompt Turbo montado, para respeitar os prints, o DNA visual e as escolhas do usuário.
+      const txt = await callAI(prompt, {useVision:true, source:'turbo'});
+
+      state.roteiro = txt;
+      if(v9$('turboResultOut')) v9$('turboResultOut').textContent = txt;
+      if(v9$('roteiroOut')) v9$('roteiroOut').textContent = txt;
+      if(v9$('exportOut') && typeof buildExport === 'function') v9$('exportOut').textContent = buildExport();
+      if(typeof smartRefresh === 'function') setTimeout(smartRefresh, 300);
+      if(typeof titanAfterGeneration === 'function') titanAfterGeneration(txt);
+      state.seriesHistory = state.seriesHistory || [];
+      state.seriesHistory.push({parte: parte, text: txt});
+      v9Toast('Pacote Turbo gerado com Multi-API!');
+    }catch(e){
+      const err = 'Erro Multi-API no Turbo: ' + (e && e.message ? e.message : e) + '\n\nDica: se estiver usando OpenRouter, teste um modelo :free específico ou use Econômico automático. O prompt ficou preparado à esquerda para copiar se precisar.';
+      if(v9$('turboResultOut')) v9$('turboResultOut').textContent = err;
+      if(v9$('roteiroOut')) v9$('roteiroOut').textContent = err;
+      if(typeof apiStatus === 'function') apiStatus(err, true);
+      v9Toast('Falha no Turbo Multi-API.');
+    }
+  };
+
+  // Corrige mensagens antigas visíveis que citavam só Gemini.
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(function(){
+      const out = v9$('turboResultOut');
+      if(out && /Configure a API Key.*Gemini/i.test(out.textContent || '')){
+        out.textContent = 'Prompt Turbo pronto. Clique em “Gerar pacote completo” para usar o modo Multi-API configurado na aba API Config.';
+      }
+      const brand = document.querySelector('.brand-sub');
+      if(brand) brand.textContent = 'Modelador Viral — paródias, encenações, storyboards, voz, CapCut + Multi-API';
+    }, 300);
+  });
+})();
+</script>
+
 </body>
 </html>
