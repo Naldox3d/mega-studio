@@ -362,6 +362,54 @@ select option{background:#0c1018}
 }
 .thumb:hover{transform:scale(1.08)}
 
+
+/* EDIT MODAL */
+.edit-backdrop{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,.72);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(10px);
+}
+.edit-backdrop.show{display:flex}
+.edit-modal{
+  width:min(880px,96vw);
+  max-height:92vh;
+  overflow:auto;
+  background:linear-gradient(145deg,rgba(12,16,24,.98),rgba(17,24,34,.98));
+  border:1px solid var(--border2);
+  border-radius:24px;
+  box-shadow:0 30px 90px rgba(0,0,0,.65);
+}
+.edit-modal-head{
+  padding:18px 22px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:rgba(12,16,24,.98);z-index:1;
+}
+.edit-modal-head h3{
+  font-family:var(--display);
+  font-size:20px;
+  letter-spacing:.06em;
+  color:var(--amber2);
+}
+.edit-modal-body{padding:20px}
+.edit-actions{
+  display:flex;gap:8px;flex-wrap:wrap;
+  padding:16px 20px;
+  border-top:1px solid var(--border);
+  background:rgba(6,8,16,.55);
+  position:sticky;bottom:0;
+}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.edit-grid .full{grid-column:1 / -1}
+.char-card-actions{
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+@media(max-width:720px){.edit-grid{grid-template-columns:1fr}.edit-grid .full{grid-column:auto}}
+
 /* TOAST */
 .toast{
   position:fixed;right:24px;bottom:24px;z-index:1000;
@@ -1011,6 +1059,74 @@ Quanto mais detalhes, melhor o resultado da IA."></textarea>
 
 </div><!-- /wrap -->
 
+
+<!-- EDIT CHARACTER MODAL -->
+<div id="editCharacterModal" class="edit-backdrop">
+  <div class="edit-modal">
+    <div class="edit-modal-head">
+      <h3>EDITAR PERSONAGEM</h3>
+      <button class="btn btn-ghost btn-sm" onclick="closeCharacterEditor()">✕ Fechar</button>
+    </div>
+    <div class="edit-modal-body">
+      <input id="editCharIndex" type="hidden">
+      <div class="edit-grid">
+        <div class="field">
+          <label>Emoji</label>
+          <input id="editCharEmoji" placeholder="🍌">
+        </div>
+        <div class="field">
+          <label>Nome</label>
+          <input id="editCharName" placeholder="Nome do personagem">
+        </div>
+        <div class="field">
+          <label>Função</label>
+          <input id="editCharRole" placeholder="Protagonista, antagonista...">
+        </div>
+        <div class="field">
+          <label>Idade / tipo</label>
+          <input id="editCharAge" placeholder="Adulto, criança...">
+        </div>
+        <div class="field full">
+          <label>Personalidade</label>
+          <textarea id="editCharPersonality" class="tiny" placeholder="Humilde, determinada..."></textarea>
+        </div>
+        <div class="field full">
+          <label>Identidade visual</label>
+          <textarea id="editCharIdentity" class="tiny" placeholder="Descrição visual do personagem"></textarea>
+        </div>
+        <div class="field full">
+          <label>Roupa base fixa</label>
+          <textarea id="editCharOutfit" class="tiny" placeholder="Roupa base que não deve mudar"></textarea>
+        </div>
+        <div class="field full">
+          <label>Detalhe marcante</label>
+          <input id="editCharSignature" placeholder="Relógio caro, colar simples...">
+        </div>
+        <div class="field full">
+          <label>Expressões — separadas por vírgula</label>
+          <textarea id="editCharExpressions" class="tiny" placeholder="tristeza, determinação, esperança..."></textarea>
+        </div>
+        <div class="field full">
+          <label>Estados da roupa — separados por vírgula</label>
+          <textarea id="editCharStates" class="tiny" placeholder="limpa, suja, molhada, rasgada..."></textarea>
+        </div>
+        <div class="field full">
+          <label>Voz</label>
+          <input id="editCharVoice" placeholder="Voz suave e determinada">
+        </div>
+      </div>
+      <div class="alert alert-amber" style="margin-top:12px">
+        Ao salvar, o Model Sheet e o Pacote Final são atualizados automaticamente.
+      </div>
+    </div>
+    <div class="edit-actions">
+      <button class="btn btn-primary" onclick="saveCharacterEdit()">💾 Salvar personagem</button>
+      <button class="btn btn-cyan" onclick="fillCharacterImprovement()">✨ Melhorar descrição</button>
+      <button class="btn" onclick="closeCharacterEditor()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><span class="t-icon">✓</span><span id="toastMsg">Copiado</span></div>
 
 <script>
@@ -1455,6 +1571,10 @@ ${p.visual_bible.negative_rules||''}`;
           ${(c.outfit_states||[]).map(x=>`<span class="char-tag" style="background:rgba(0,207,192,.08);border-color:rgba(0,207,192,.25);color:var(--cyan)">${esc(x)}</span>`).join('')}
         </div>
         ${c.voice_reference?`<div class="char-detail" style="margin-top:6px"><b>🎙️ Voz:</b> ${esc(c.voice_reference)}</div>`:''}
+        <div class="char-card-actions">
+          <button class="btn btn-primary btn-sm" onclick="openCharacterEditor(${i})">✏️ Editar</button>
+          <button class="btn btn-cyan btn-sm" onclick="goToCharacterModelSheet(${i})">🧩 Model sheet</button>
+        </div>
       </div>
     </div>`).join(''):'<div class="alert alert-amber">Nenhum personagem gerado.</div>';
 
@@ -1855,6 +1975,8 @@ function downloadHtml(){
 function esc(s){
   return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
 }
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('editCharacterModal')?.classList.contains('show'))closeCharacterEditor();});
 
 // INIT
 updateStatus();
