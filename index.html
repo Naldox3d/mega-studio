@@ -1,125 +1,657 @@
-<!DOCTYPE html>
+. <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fruits Adventures Studio — Multi API</title>
-  <style>
-    :root {
-      --bg:#05080d; --panel:#0b111a; --card:#0f1722; --text:#f4f7fb; --muted:#9aa8ba;
-      --line:#203149; --gold:#ffcc33; --cyan:#00e5ff; --green:#00d084; --soft:#172233;
-      --radius:22px; --shadow:0 18px 45px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,rgba(0,229,255,.12),transparent 34%),radial-gradient(circle at top right,rgba(255,204,51,.10),transparent 35%),var(--bg);color:var(--text)}
-    .app{max-width:1320px;margin:0 auto;padding:28px}
-    header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:28px}
-    .badge-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-    .badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:13px;font-weight:800;color:var(--muted)}
-    .badge.ok{color:var(--green);border-color:rgba(0,208,132,.35);background:rgba(0,208,132,.08)}
-    h1{margin:0;font-size:clamp(34px,6vw,64px);letter-spacing:-2px;line-height:.95}
-    .subtitle{max-width:760px;color:var(--muted);font-size:17px;line-height:1.55;margin-top:16px}
-    .main-grid{display:grid;grid-template-columns:420px 1fr;gap:22px;align-items:start}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
-    .section-title{font-size:20px;font-weight:900;margin:0 0 14px;display:flex;align-items:center;gap:8px}
-    label{display:block;font-size:14px;font-weight:900;margin-bottom:8px;color:#dce6f4}
-    input,textarea,select{width:100%;border:1px solid var(--line);border-radius:16px;padding:13px 14px;font:inherit;background:rgba(2,4,10,.7);color:var(--text);outline:none}
-    textarea{min-height:170px;resize:vertical;line-height:1.45}
-    .field{margin-bottom:18px}
-    .mode-list{display:grid;gap:10px}
-    .mode-card{border:1px solid var(--line);background:rgba(255,255,255,.03);padding:14px;border-radius:18px;cursor:pointer;transition:.2s}
-    .mode-card:hover{border-color:rgba(0,229,255,.45)}
-    .mode-card.active{background:rgba(0,229,255,.08);border-color:var(--cyan);box-shadow:0 0 0 1px rgba(0,229,255,.12),0 10px 25px rgba(0,0,0,.25)}
-    .mode-card strong{display:block;margin-bottom:4px}.mode-card span{color:var(--muted);font-size:14px;line-height:1.35}
-    .button{border:0;border-radius:17px;padding:14px 18px;background:var(--gold);color:#121212;font-weight:900;cursor:pointer;transition:.2s;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-    .button:hover{transform:translateY(-1px);filter:brightness(1.05)}.button.secondary{background:var(--soft);color:var(--text);border:1px solid var(--line)}.button.full{width:100%}.button.green{background:var(--green);color:#001b10}.button:disabled{opacity:.55;cursor:wait;transform:none}
-    .rule-box{background:rgba(255,204,51,.1);border:1px solid rgba(255,204,51,.35);border-radius:18px;padding:16px;line-height:1.5;color:#ffeaa3;font-weight:800}
-    .api-status{margin-top:12px;padding:13px;border-radius:16px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.24);color:#c7f8ff;font-size:14px;line-height:1.45}
-    .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;background:rgba(255,255,255,.04);padding:6px;border-radius:18px;margin-bottom:16px;border:1px solid var(--line)}
-    .tab{padding:12px 10px;border:0;background:transparent;border-radius:14px;cursor:pointer;font-weight:900;color:var(--muted)}
-    .tab.active{background:rgba(255,255,255,.08);color:var(--text);box-shadow:0 5px 12px rgba(0,0,0,.2)}
-    .content-panel{display:none}.content-panel.active{display:block}
-    .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-    .info-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.04);border-radius:18px;padding:16px;min-height:110px}
-    .info-box small{display:block;font-weight:900;color:var(--muted);margin-bottom:8px}.info-box p{margin:0;line-height:1.45}
-    .character-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .character-card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:20px;padding:17px}
-    .character-card h3{margin:10px 0 8px;font-size:20px}.character-card p{color:var(--muted);line-height:1.4;font-size:14px}
-    .outfit{background:rgba(0,0,0,.22);border-radius:16px;padding:12px;font-size:14px;line-height:1.4;margin:12px 0}
-    pre{white-space:pre-wrap;word-break:break-word;background:#02040a;color:#eaf3ff;padding:18px;border-radius:18px;max-height:540px;overflow:auto;line-height:1.45;font-size:14px;border:1px solid var(--line)}
-    .storyboard-list{display:grid;gap:12px}.scene-card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:16px}
-    .scene-card strong{display:block;margin-bottom:7px}.scene-card p{margin:0 0 12px;color:var(--muted);line-height:1.45}
-    .top-actions{display:flex;gap:10px;flex-wrap:wrap}.project-list{display:grid;gap:10px;margin-top:10px}
-    .project-item{padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);cursor:pointer}.project-item:hover{border-color:rgba(0,229,255,.45)}
-    .small-text{color:var(--muted);font-size:13px;line-height:1.4}.toast{position:fixed;right:20px;bottom:20px;background:#f3f7ff;color:#05080d;border-radius:16px;padding:13px 16px;opacity:0;pointer-events:none;transform:translateY(10px);transition:.25s;font-weight:900;z-index:99}.toast.show{opacity:1;transform:translateY(0)}
-    @media(max-width:1080px){header{flex-direction:column;align-items:flex-start}.main-grid{grid-template-columns:1fr}.character-grid,.info-grid{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(2,1fr)}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fruits Adventures Studio — Standalone API</title>
+<style>
+:root{
+  --bg:#05070b;--panel:#0b111a;--panel2:#101a27;--line:#1f3246;--txt:#e8f6ff;--muted:#91a7ba;
+  --cyan:#00e0d2;--gold:#f7bd35;--green:#31d07c;--red:#ff5d68;--purple:#b38cff;
+  --shadow:0 20px 60px rgba(0,0,0,.35);--r:18px
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:radial-gradient(circle at 20% 0%,rgba(0,224,210,.12),transparent 30%),
+  radial-gradient(circle at 90% 15%,rgba(247,189,53,.10),transparent 28%),
+  linear-gradient(180deg,#030509,#07101a 70%,#030509);
+  color:var(--txt);
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+}
+.wrap{max-width:1240px;margin:auto;padding:18px}
+header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}
+.brand h1{margin:0;font-size:34px;letter-spacing:.02em}.brand b{color:var(--gold)}
+.sub{color:var(--muted);font-size:13px;line-height:1.45}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,224,210,.35);background:rgba(0,224,210,.08);color:var(--cyan);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.tab{border:1px solid var(--line);background:rgba(11,17,26,.8);color:var(--muted);border-radius:999px;padding:10px 14px;font-weight:900;font-size:12px;cursor:pointer}
+.tab.active,.tab:hover{color:var(--cyan);border-color:var(--cyan);background:rgba(0,224,210,.08)}
+.grid{display:grid;grid-template-columns:390px 1fr;gap:16px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:rgba(11,17,26,.92);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.card h2,.card h3{margin:0 0 10px}
+.field{display:grid;gap:6px;margin:10px 0}
+label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);font-weight:900}
+input,textarea,select{width:100%;border:1px solid var(--line);border-radius:13px;background:#050a10;color:var(--txt);padding:11px;font:inherit;font-size:13px}
+textarea{min-height:90px;resize:vertical}.big{min-height:170px}.tiny{min-height:64px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button{border:1px solid var(--line);border-radius:13px;background:#08101a;color:var(--txt);padding:10px 12px;font-weight:900;cursor:pointer}
+button:hover{border-color:var(--cyan);color:var(--cyan)}button:disabled{opacity:.5;cursor:wait}
+.primary{background:linear-gradient(135deg,rgba(0,224,210,.22),rgba(247,189,53,.13));border-color:rgba(0,224,210,.55);color:#eaffff}
+.gold{border-color:rgba(247,189,53,.55);color:var(--gold);background:rgba(247,189,53,.08)}
+.green{border-color:rgba(49,208,124,.45);color:var(--green);background:rgba(49,208,124,.08)}
+.danger{border-color:rgba(255,93,104,.45);color:var(--red);background:rgba(255,93,104,.08)}
+.out{white-space:pre-wrap;background:#03070c;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:190px;max-height:560px;overflow:auto;color:#d5e9fa;font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.hint{border:1px solid rgba(247,189,53,.25);background:rgba(247,189,53,.06);border-radius:14px;padding:11px;color:#d6b966;font-size:12px;line-height:1.45}
+.api-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.api-box{border:1px solid var(--line);background:#07101a;border-radius:16px;padding:14px}
+.mini{font-size:11px;color:var(--muted);line-height:1.4}.hide{display:none!important}
+.file-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.thumb{width:70px;height:70px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.item-list{display:grid;gap:10px}.item{border:1px solid var(--line);border-radius:15px;background:#07101a;padding:12px}
+.item h4{margin:0 0 6px;color:var(--cyan)}
+.scene-btn{padding:9px 12px}.scene-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(247,189,53,.08)}
+.toast{position:fixed;right:20px;bottom:20px;background:#e8f6ff;color:#05070b;border-radius:14px;padding:12px 14px;font-weight:900;opacity:0;transform:translateY(8px);transition:.2s;z-index:99}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:900px){header{display:block}.grid,.grid2,.api-grid{grid-template-columns:1fr}.wrap{padding:14px}}
+</style>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <div>
-        <div class="badge-row"><span class="badge">Studio V1</span><span class="badge">Modo escuro</span><span class="badge">Gemini</span><span class="badge">Groq</span><span class="badge">OpenRouter</span><span class="badge ok">Pronto para trabalhar</span></div>
-        <h1>Fruits Adventures Studio</h1>
-        <p class="subtitle">Motor de criação com provedores de IA: Gemini, Groq e OpenRouter. Ele transforma vídeo, imagem, ideia ou universo em história, personagens, model sheets, storyboard e prompts finais.</p>
-      </div>
-      <div class="top-actions"><button id="generateBtn" class="button green" onclick="generateWithAPI()">Gerar com IA</button><button class="button secondary" onclick="saveProject()">Salvar projeto</button><button class="button secondary" onclick="exportProject()">Exportar JSON</button></div>
-    </header>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <h1>🍓 Fruits Adventures <b>Studio Standalone</b></h1>
+    <div class="sub">HTML único com API Config temporária. Cole Gemini, Groq ou OpenRouter, gere história, personagens, model sheets, storyboard e pacote final.</div>
+  </div>
+  <div><span class="pill" id="apiPill">IA: configure a API</span></div>
+</header>
 
-    <div class="main-grid">
-      <aside class="card">
-        <h2 class="section-title">🎬 Entrada do projeto</h2>
-        <div class="field"><label for="provider">Provedor de IA</label><select id="provider"><option value="openrouter">OpenRouter</option><option value="gemini">Gemini</option><option value="groq">Groq</option><option value="rascunho">Rascunho sem API</option></select><p class="small-text">Para GitHub Pages, use Rascunho ou conecte um backend externo. Nunca coloque chave de API direto no HTML público.</p></div>
-        <div class="field"><label for="projectTitle">Nome do projeto</label><input id="projectTitle" value="Projeto 001 — Referência Viral" /></div>
-        <div class="field"><label>Tipo de criação</label><div class="mode-list" id="modeList"></div></div>
-        <div class="field"><label for="sourceText">História, resumo, link ou orientação</label><textarea id="sourceText">Uma banana adulta humilde é humilhada por um personagem rico. Ela tenta cuidar de uma criança, passa por chuva, rejeição e dificuldade, mas encontra uma pequena esperança no final.</textarea></div>
-        <div class="field"><label for="mediaFile">Imagem ou vídeo de referência</label><input id="mediaFile" type="file" accept="image/*,video/*" /><p class="small-text">Imagem funciona melhor. Para vídeo, o backend envia o arquivo quando o provedor aceitar; se não aceitar, use frames/imagens.</p></div>
-        <button id="analyzeBtn" class="button full" onclick="generateWithAPI()">Analisar com IA</button>
-        <div class="api-status" id="apiStatus">Status: se estiver no GitHub Pages, está em frontend. Para usar chave API, rode o backend local ou em Render/Railway/VPS.</div>
-        <hr style="border:0;border-top:1px solid var(--line);margin:22px 0;">
-        <h2 class="section-title">📁 Projetos salvos</h2><p class="small-text">Salva no navegador deste computador.</p><div id="projectList" class="project-list"></div>
-      </aside>
-      <main>
-        <section class="card" style="margin-bottom:18px"><h2 class="section-title">✅ Regra anti-bagunça</h2><div class="rule-box" id="ruleBox"></div></section>
-        <div class="tabs"><button class="tab active" onclick="openTab('historia')">História</button><button class="tab" onclick="openTab('personagens')">Personagens</button><button class="tab" onclick="openTab('modelsheet')">Model sheet</button><button class="tab" onclick="openTab('storyboard')">Storyboard</button><button class="tab" onclick="openTab('pacote')">Pacote final</button></div>
-        <section id="historia" class="content-panel active card"></section><section id="personagens" class="content-panel card"></section><section id="modelsheet" class="content-panel card"></section><section id="storyboard" class="content-panel card"></section><section id="pacote" class="content-panel card"></section>
-      </main>
+<div class="tabs">
+  <button class="tab active" onclick="showTab('entrada',this)">1. Entrada</button>
+  <button class="tab" onclick="showTab('api',this)">API Config</button>
+  <button class="tab" onclick="showTab('historia',this)">História</button>
+  <button class="tab" onclick="showTab('personagens',this)">Personagens</button>
+  <button class="tab" onclick="showTab('modelsheets',this)">Model Sheets</button>
+  <button class="tab" onclick="showTab('storyboard',this)">Storyboard</button>
+  <button class="tab" onclick="showTab('pacote',this)">Pacote</button>
+</div>
+
+<section id="entrada" class="page">
+  <div class="grid">
+    <div class="card">
+      <h2>Entrada do projeto</h2>
+      <div class="hint">Use isso como ferramenta de trabalho pessoal. As chaves da API ficam temporárias na memória da página e somem ao atualizar.</div>
+
+      <div class="field"><label>Nome do projeto</label><input id="projectTitle" value="Projeto 001 — Referência Viral"></div>
+
+      <div class="field"><label>Tipo de criação</label>
+        <select id="projectMode">
+          <option value="viral">Vídeo viral / referência externa</option>
+          <option value="original">História original</option>
+          <option value="universe">Universo próprio</option>
+          <option value="adapt">Adaptação para universo próprio</option>
+        </select>
+      </div>
+
+      <div class="field"><label>História, link, resumo ou ideia</label>
+        <textarea id="sourceText" class="big">Uma banana adulta humilde é humilhada por um personagem rico. Ela tenta cuidar de uma criança, passa por chuva, rejeição e dificuldade, mas encontra uma pequena esperança no final.</textarea>
+      </div>
+
+      <div class="field"><label>Imagens / prints / frames</label>
+        <input id="imgFiles" type="file" accept="image/*" multiple onchange="loadImages(event)">
+        <div class="file-row" id="thumbs"></div>
+        <div class="mini">Para vídeo, envie prints/frames principais. Gemini aceita imagem melhor; OpenRouter depende do modelo; Groq aqui é recomendado para texto.</div>
+      </div>
+
+      <div class="btns">
+        <button class="primary" onclick="generateProject()">Gerar com IA</button>
+        <button onclick="fillExample()">Carregar exemplo</button>
+        <button class="danger" onclick="clearProject()">Limpar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Resultado rápido</h2>
+      <div class="out" id="mainOut">Configure a API, cole a ideia e clique em Gerar com IA.</div>
     </div>
   </div>
-  <div id="toast" class="toast">Copiado</div>
+</section>
+
+<section id="api" class="page hide">
+  <div class="api-grid">
+    <div class="api-box">
+      <h3>Gemini</h3>
+      <p class="mini">Melhor para imagem/prints e análise visual. Chave temporária: some se atualizar a página.</p>
+      <div class="field"><label>Gemini API Key</label><input id="geminiKey" type="password" placeholder="AIza..."></div>
+      <div class="field"><label>Modelo Gemini</label><input id="geminiModel" value="gemini-2.5-flash"></div>
+    </div>
+
+    <div class="api-box">
+      <h3>OpenRouter</h3>
+      <p class="mini">Bom para modelos gratuitos/alternativos e pacote grande. Alguns modelos aceitam imagem.</p>
+      <div class="field"><label>OpenRouter API Key</label><input id="openrouterKey" type="password" placeholder="sk-or-..."></div>
+      <div class="field"><label>Modelo OpenRouter</label><input id="openrouterModel" value="google/gemini-2.5-flash"></div>
+    </div>
+
+    <div class="api-box">
+      <h3>Groq</h3>
+      <p class="mini">Rápido para texto, storyboard, narração e limpeza. Use sem imagem nesta versão.</p>
+      <div class="field"><label>Groq API Key</label><input id="groqKey" type="password" placeholder="gsk_..."></div>
+      <div class="field"><label>Modelo Groq</label><input id="groqModel" value="llama-3.3-70b-versatile"></div>
+    </div>
+
+    <div class="api-box">
+      <h3>Modo de IA</h3>
+      <div class="field"><label>Provedor</label>
+        <select id="apiMode" onchange="updatePill()">
+          <option value="auto">Econômico automático</option>
+          <option value="gemini">Só Gemini</option>
+          <option value="openrouter">Só OpenRouter</option>
+          <option value="groq">Só Groq</option>
+          <option value="local">Local sem API</option>
+        </select>
+      </div>
+      <div class="btns">
+        <button class="primary" onclick="applyKeys()">Usar nesta sessão</button>
+        <button onclick="testAPI()">Testar API</button>
+        <button class="danger" onclick="clearKeys()">Apagar chaves</button>
+      </div>
+      <p class="mini">Nada é salvo no navegador. Se atualizar a página, precisa colar a chave de novo.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>Status da API</h3>
+    <div class="out" id="apiStatus">Configure as chaves e clique em testar.</div>
+  </div>
+</section>
+
+<section id="historia" class="page hide">
+  <div class="grid2">
+    <div class="card"><h2>História detectada</h2><div class="out" id="storyOut">Nada gerado ainda.</div></div>
+    <div class="card"><h2>Bíblia visual / regras</h2><div class="out" id="bibleOut">Nada gerado ainda.</div></div>
+  </div>
+</section>
+
+<section id="personagens" class="page hide">
+  <div class="card"><h2>Personagens</h2><div class="item-list" id="charactersOut">Nada gerado ainda.</div></div>
+</section>
+
+<section id="modelsheets" class="page hide">
+  <div class="grid">
+    <div class="card">
+      <h2>Model Sheets</h2>
+      <div class="field"><label>Personagem</label><select id="charSelect" onchange="renderModelSheet()"></select></div>
+      <div class="btns"><button class="primary" onclick="copyCurrentModelSheet()">Copiar prompt</button></div>
+    </div>
+    <div class="card"><h2>Prompt</h2><div class="out" id="modelSheetOut">Nada gerado ainda.</div></div>
+  </div>
+</section>
+
+<section id="storyboard" class="page hide">
+  <div class="card"><h2>Storyboard</h2><div class="btns" id="sceneButtons"></div></div>
+  <div class="grid" style="margin-top:14px">
+    <div class="card">
+      <h2 id="sceneTitle">Cena</h2>
+      <div class="btns">
+        <button class="gold" onclick="copyScene('image')">Prompt imagem</button>
+        <button onclick="copyScene('video')">Prompt vídeo</button>
+        <button onclick="copyScene('all')">Pacote da cena</button>
+      </div>
+    </div>
+    <div class="card"><div class="out" id="sceneOut">Nada gerado ainda.</div></div>
+  </div>
+</section>
+
+<section id="pacote" class="page hide">
+  <div class="card">
+    <h2>Pacote final</h2>
+    <div class="btns">
+      <button class="primary" onclick="copyText(buildFinalPackage(),'Pacote copiado')">Copiar pacote</button>
+      <button onclick="downloadTxt('fruits_adventures_studio_pacote.txt',buildFinalPackage())">Baixar TXT</button>
+      <button onclick="downloadTxt('fruits_adventures_studio_standalone.html',document.documentElement.outerHTML)">Baixar HTML atual</button>
+    </div>
+    <div class="out" id="finalOut">Nada gerado ainda.</div>
+  </div>
+</section>
+</div>
+
+<div class="toast" id="toast">Copiado</div>
+
 <script>
-const modes=[{id:"viral",label:"Vídeo viral",desc:"Extrair história e personagens sem misturar universos."},{id:"original",label:"História original",desc:"Criar projeto novo do zero."},{id:"universe",label:"Universo próprio",desc:"Usar personagens oficiais aprovados."},{id:"adapt",label:"Adaptação",desc:"Transformar referência viral no seu universo."}];
-let state={mode:"viral",selectedCharacter:0,analysis:null,lastUsedAPI:false};
-function renderModes(){document.getElementById("modeList").innerHTML=modes.map(m=>`<div class="mode-card ${state.mode===m.id?'active':''}" onclick="setMode('${m.id}')"><strong>${m.label}</strong><span>${m.desc}</span></div>`).join("")}
-function setMode(mode){state.mode=mode;renderModes();generateRascunhoPackage()}
-async function generateWithAPI(){const provider=document.getElementById("provider").value;if(provider==="rascunho"){generateRascunhoPackage();setApiStatus("Modo rascunho ativo, sem API.");return}setButtons(true);setApiStatus("Analisando com "+provider+"...");try{const form=new FormData();form.append("provider",provider);form.append("title",document.getElementById("projectTitle").value);form.append("mode",state.mode);form.append("sourceText",document.getElementById("sourceText").value);const file=document.getElementById("mediaFile").files[0];if(file)form.append("media",file);const response=await fetch("/api/analyze",{method:"POST",body:form});const data=await response.json();if(!response.ok)throw new Error(data.detail||data.error||"Backend não respondeu");state.analysis=normalizeAnalysis(data);state.lastUsedAPI=true;setApiStatus("IA ativa: análise feita por "+provider+".");renderAll();showToast("Análise pronta")}catch(e){console.warn(e);generateRascunhoPackage();state.lastUsedAPI=false;setApiStatus("Falhou API/backend. Motivo: "+e.message+" | Usando modo rascunho agora.");showToast("Usando rascunho")}finally{setButtons(false)}}
-function setButtons(v){document.getElementById("generateBtn").disabled=v;document.getElementById("analyzeBtn").disabled=v}
-function setApiStatus(t){document.getElementById("apiStatus").textContent=t}
-function generateRascunhoPackage(){state.analysis=normalizeAnalysis(rascunhoAnalysis());renderAll()}
-function rascunhoAnalysis(){const rules={viral:"Este projeto é uma referência externa. Não usar Tomate Elinaldo, Sabrina Pitaya ou OZ automaticamente.",original:"Este projeto é original. Criar personagens próprios desta história e salvar tudo separado.",universe:"Este projeto usa um universo autoral. Somente personagens oficiais aprovados podem entrar.",adapt:"Este projeto é adaptação. Primeiro extrair a estrutura viral; depois escolher personagens do universo."};return{anti_mix_rule:rules[state.mode],story:{logline:"Um personagem humilde enfrenta um conflito forte, passa por tensão emocional, encontra outros personagens importantes e chega a uma virada final com impacto visual.",theme:"desigualdade, humilhação, cuidado, sobrevivência, esperança",tone:"dramático, sentimental, simples, viral e visualmente claro",conflict:"pobreza e vulnerabilidade contra poder, riqueza e indiferença",beginning:"Apresentar o protagonista e a situação de dificuldade.",middle:"Aumentar o contraste social e o sofrimento emocional.",ending:"Fechar com uma pequena esperança ou alívio."},characters:[{name:"Protagonista humilde",role:"protagonista",identity:"Personagem fruta adulto, aparência cansada, sensível e pobre.",base_outfit:"regata branca velha, bermuda jeans azul curta, chinelo simples",expressions:["neutro","triste","preocupado","assustado","esperançoso","aliviado"],outfit_states:["limpa","suja","molhada","rasgada","muito danificada"],model_sheet_prompt:""},{name:"Personagem rico",role:"contraste social / antagonista",identity:"Personagem fruta ou vegetal elegante, confiante, arrogante e superior.",base_outfit:"terno elegante, camisa branca, gravata escura, sapato social",expressions:["neutro","confiante","debochado","bravo","desconfiado","surpreso"],outfit_states:["limpa","levemente suja","molhada","rasgada","danificada"],model_sheet_prompt:""},{name:"Criança emocional",role:"carga emocional",identity:"Criança pequena, inocente, vulnerável, olhos grandes e expressivos.",base_outfit:"roupa infantil simples, confortável e humilde",expressions:["neutra","triste","curiosa","assustada","esperançosa","feliz simples"],outfit_states:["limpa","suja","molhada","rasgada"],model_sheet_prompt:""}],storyboard:[{title:"Abertura",action:"Mostrar o protagonista e o mundo onde ele vive, deixando claro o problema principal.",emotion:"solidão e necessidade",camera:"plano aberto cinematográfico",image_prompt:"",video_prompt:""},{title:"Contraste",action:"Mostrar o personagem com poder, dinheiro ou vantagem em oposição ao protagonista.",emotion:"inferioridade e tensão",camera:"plano médio com contraste visual",image_prompt:"",video_prompt:""},{title:"Conflito",action:"O protagonista é rejeitado, humilhado ou impedido de conseguir o que precisa.",emotion:"vergonha e tristeza",camera:"close emocional",image_prompt:"",video_prompt:""},{title:"Coração da história",action:"Revelar quem depende do protagonista ou por que o problema importa.",emotion:"afeto e responsabilidade",camera:"plano íntimo",image_prompt:"",video_prompt:""},{title:"Pior momento",action:"Chuva, perda, cansaço, solidão ou fracasso aumentam o drama.",emotion:"desespero",camera:"plano fechado com chuva e movimento",image_prompt:"",video_prompt:""},{title:"Virada",action:"Uma pequena ajuda, descoberta ou decisão muda o rumo.",emotion:"surpresa e esperança",camera:"travelling lento",image_prompt:"",video_prompt:""},{title:"Final",action:"O protagonista encontra esperança, alívio ou uma solução simples e emocional.",emotion:"alívio",camera:"plano final emotivo",image_prompt:"",video_prompt:""}],final_package:""}}
-function normalizeAnalysis(data){const a={rule:data.anti_mix_rule||data.rule||"Cada projeto deve ter sua própria bíblia visual.",story:{logline:data.story?.logline||"História organizada pela IA.",theme:data.story?.theme||"tema emocional",tone:data.story?.tone||"cinematográfico",conflict:data.story?.conflict||"conflito principal",beginning:data.story?.beginning||"",middle:data.story?.middle||"",ending:data.story?.ending||""},characters:(data.characters||[]).map(c=>({name:c.name||"Personagem",role:c.role||"função narrativa",identity:c.identity||"identidade visual",baseOutfit:c.base_outfit||c.baseOutfit||"roupa base",expressions:c.expressions||["neutro","triste","feliz"],outfitStates:c.outfit_states||c.outfitStates||["limpa","suja","molhada","rasgada"],modelSheetPrompt:c.model_sheet_prompt||""})),storyboard:(data.storyboard||[]).map(s=>({title:s.title||"Cena",action:s.action||String(s),emotion:s.emotion||"",camera:s.camera||"",imagePrompt:s.image_prompt||"",videoPrompt:s.video_prompt||""})),finalPackage:data.final_package||""};if(!a.characters.length)a.characters=normalizeAnalysis(rascunhoAnalysis()).characters;if(!a.storyboard.length)a.storyboard=normalizeAnalysis(rascunhoAnalysis()).storyboard;return a}
-function renderAll(){document.getElementById("ruleBox").textContent=state.analysis.rule;renderStory();renderCharacters();renderModelSheet();renderStoryboard();renderFinalPackage();renderSavedProjects()}
-function renderStory(){const s=state.analysis.story;document.getElementById("historia").innerHTML=`<h2 class="section-title">📄 História detectada</h2><div class="info-grid">${infoBox("Logline",s.logline)}${infoBox("Conflito",s.conflict)}${infoBox("Tema",s.theme)}${infoBox("Tom",s.tone)}${infoBox("Início",s.beginning)}${infoBox("Final",s.ending)}</div>`}
-function renderCharacters(){document.getElementById("personagens").innerHTML=`<h2 class="section-title">👤 Personagens detectados</h2><div class="character-grid">${state.analysis.characters.map((c,i)=>`<div class="character-card"><span class="badge">${escapeHtml(c.role)}</span><h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.identity)}</p><div class="outfit"><strong>Roupa base:</strong><br>${escapeHtml(c.baseOutfit)}</div><button class="button secondary full" onclick="selectCharacter(${i})">Abrir model sheet</button></div>`).join("")}</div>`}
-function renderModelSheet(){const c=state.analysis.characters[state.selectedCharacter];const prompt=c.modelSheetPrompt||buildModelSheetPrompt(c);document.getElementById("modelsheet").innerHTML=`<h2 class="section-title">🧩 Prompt de model sheet</h2><div class="field"><label>Personagem</label><select onchange="selectCharacter(Number(this.value))">${state.analysis.characters.map((ch,i)=>`<option value="${i}" ${i===state.selectedCharacter?'selected':''}>${escapeHtml(ch.name)}</option>`).join("")}</select></div><pre>${escapeHtml(prompt)}</pre><button class="button" onclick="copyText(\`${escapeBacktick(prompt)}\`)">Copiar prompt</button>`}
-function renderStoryboard(){document.getElementById("storyboard").innerHTML=`<h2 class="section-title">🎞️ Storyboard base</h2><div class="storyboard-list">${state.analysis.storyboard.map((s,i)=>{const prompt=s.imagePrompt||buildScenePrompt(s,i);return `<div class="scene-card"><strong>Cena ${i+1} — ${escapeHtml(s.title)}</strong><p>${escapeHtml(s.action)}</p><p><b>Emoção:</b> ${escapeHtml(s.emotion||"não definida")} · <b>Câmera:</b> ${escapeHtml(s.camera||"não definida")}</p><button class="button secondary" onclick="copyText(\`${escapeBacktick(prompt)}\`)">Copiar prompt de imagem</button> <button class="button secondary" onclick="copyText(\`${escapeBacktick(s.videoPrompt||prompt)}\`)">Copiar prompt de vídeo</button></div>`}).join("")}</div>`}
-function renderFinalPackage(){const text=state.analysis.finalPackage||buildFullPackage();document.getElementById("pacote").innerHTML=`<h2 class="section-title">📦 Pacote final</h2><pre>${escapeHtml(text)}</pre><button class="button" onclick="copyText(\`${escapeBacktick(text)}\`)">Copiar pacote completo</button>`}
-function selectCharacter(i){state.selectedCharacter=i;openTab("modelsheet");renderModelSheet()}
-function infoBox(t,x){return `<div class="info-box"><small>${escapeHtml(t)}</small><p>${escapeHtml(x)}</p></div>`}
-function buildModelSheetPrompt(c){return `Crie um model sheet profissional de ${c.name} em uma única imagem.\n\nIdentidade do personagem:\n${c.identity}\n\nRoupa base oficial:\n${c.baseOutfit}.\n\nExpressões:\n${c.expressions.map((x,i)=>`${i+1}. ${x}`).join("\n")}\n\nEstados da roupa:\n${c.outfitStates.map((x,i)=>`${i+1}. roupa ${x}`).join("\n")}\n\nImportante:\nManter sempre o mesmo personagem.\nManter sempre a mesma roupa base.\nNão trocar figurino.\nSem sangue.\nSem gore.\nFundo cinza neutro.\nEstilo animação 3D cinematográfica.\nOrganizado como folha de referência visual.`}
-function buildScenePrompt(s,i){return `Cena ${i+1}: ${s.action}\n\nEmoção: ${s.emotion||"emoção forte"}\nCâmera: ${s.camera||"cinematográfica"}\n\nUsar somente personagens aprovados deste projeto. Manter a roupa base definida no model sheet. Não trocar figurino. Sem sangue e sem gore.`}
-function buildFullPackage(){const title=document.getElementById("projectTitle").value;const mode=modes.find(m=>m.id===state.mode)?.label||state.mode;const st=state.analysis.story;return `PROJETO: ${title}\nTIPO: ${mode}\n\nREGRA:\n${state.analysis.rule}\n\nHISTÓRIA:\n${st.logline}\n\nPERSONAGENS:\n${state.analysis.characters.map((c,i)=>`${i+1}. ${c.name}\nFunção: ${c.role}\nIdentidade: ${c.identity}\nRoupa base: ${c.baseOutfit}\nExpressões: ${c.expressions.join(", ")}\nEstados: ${c.outfitStates.join(", ")}`).join("\n\n")}\n\nSTORYBOARD:\n${state.analysis.storyboard.map((s,i)=>`Cena ${i+1}: ${s.title} — ${s.action}`).join("\n")}` }
-function openTab(id){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".content-panel").forEach(p=>p.classList.remove("active"));document.querySelector(`.tab[onclick="openTab('${id}')"]`).classList.add("active");document.getElementById(id).classList.add("active")}
-async function copyText(t){await navigator.clipboard.writeText(t);showToast("Copiado")}
-function showToast(m){const toast=document.getElementById("toast");toast.textContent=m;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1400)}
-function getProjectObject(){return{title:document.getElementById("projectTitle").value,provider:document.getElementById("provider").value,mode:state.mode,sourceText:document.getElementById("sourceText").value,analysis:state.analysis,usedAPI:state.lastUsedAPI,savedAt:new Date().toISOString()}}
-function saveProject(){const p=getProjectObject();const saved=JSON.parse(localStorage.getItem("fas_projects_multiapi")||"[]");saved.unshift(p);localStorage.setItem("fas_projects_multiapi",JSON.stringify(saved.slice(0,30)));renderSavedProjects();showToast("Projeto salvo")}
-function renderSavedProjects(){const saved=JSON.parse(localStorage.getItem("fas_projects_multiapi")||"[]");const list=document.getElementById("projectList");if(!saved.length){list.innerHTML=`<div class="small-text">Nenhum projeto salvo ainda.</div>`;return}list.innerHTML=saved.map((p,i)=>`<div class="project-item" onclick="loadProject(${i})"><strong>${escapeHtml(p.title)}</strong><div class="small-text">${escapeHtml(p.provider||"rascunho")} · ${new Date(p.savedAt).toLocaleString("pt-BR")} · ${p.usedAPI?"IA":"Rascunho"}</div></div>`).join("")}
-function loadProject(i){const saved=JSON.parse(localStorage.getItem("fas_projects_multiapi")||"[]");const p=saved[i];if(!p)return;document.getElementById("projectTitle").value=p.title;document.getElementById("sourceText").value=p.sourceText;document.getElementById("provider").value=p.provider||"rascunho";state.mode=p.mode;state.analysis=p.analysis;state.selectedCharacter=0;state.lastUsedAPI=!!p.usedAPI;renderModes();renderAll();showToast("Projeto carregado")}
-function exportProject(){const p=getProjectObject();const blob=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="fruits-adventures-studio-projeto.json";a.click();URL.revokeObjectURL(url);showToast("JSON exportado")}
-function escapeHtml(str){return String(str||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function escapeBacktick(str){return String(str||"").replaceAll("`","\\`").replaceAll("${","\\${")}
-renderModes();generateRascunhoPackage();
+const $=id=>document.getElementById(id);
+const state={images:[],project:null,scene:0,apiApplied:false};
+
+function showTab(id,btn){
+  document.querySelectorAll('.page').forEach(x=>x.classList.add('hide'));
+  $(id).classList.remove('hide');
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='pacote')$('finalOut').textContent=buildFinalPackage();
+}
+
+function toast(msg){
+  const t=$('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1400);
+  if($('apiStatus')) $('apiStatus').textContent=msg;
+}
+
+function loadImages(ev){
+  state.images=[]; $('thumbs').innerHTML='';
+  [...ev.target.files].slice(0,12).forEach(file=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      const data=e.target.result.split(',')[1];
+      state.images.push({name:file.name,type:file.type,data,url:e.target.result});
+      const im=document.createElement('img'); im.src=e.target.result; im.className='thumb'; $('thumbs').appendChild(im);
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+function updatePill(){
+  const txt=$('apiMode').selectedOptions[0].textContent;
+  $('apiPill').textContent='IA: '+txt;
+}
+
+function applyKeys(){
+  state.apiApplied=true;
+  updatePill();
+  toast('APIs temporárias aplicadas. Se atualizar a página, elas somem.');
+}
+
+function clearKeys(){
+  ['geminiKey','openrouterKey','groqKey'].forEach(id=>$(id).value='');
+  state.apiApplied=false;
+  toast('Chaves apagadas desta sessão.');
+}
+
+function getModeInstruction(){
+  const mode=$('projectMode').value;
+  const map={
+    viral:'Trate como referência viral externa. Não misture com personagens oficiais do Fruits Adventures Titan automaticamente.',
+    original:'Crie uma história original com personagens próprios deste projeto.',
+    universe:'Use apenas personagens oficiais citados pelo usuário. Não invente adaptação de vídeo viral sem pedido.',
+    adapt:'Extraia a estrutura da referência e depois adapte para o universo escolhido, sem trocar personagens automaticamente.'
+  };
+  return map[mode]||map.viral;
+}
+
+function buildPrompt(){
+  return `Você é um diretor de pré-produção audiovisual com IA para criadores brasileiros.
+
+PROJETO: ${$('projectTitle').value}
+MODO: ${$('projectMode').value}
+REGRA: ${getModeInstruction()}
+
+ENTRADA DO USUÁRIO:
+${$('sourceText').value}
+
+TAREFA:
+Transforme a entrada em um pacote profissional de criação:
+- história clara com início, meio e final/gancho
+- personagens detectados
+- identidade visual de cada personagem
+- roupa base fixa de cada personagem
+- expressões úteis para model sheet
+- estados da roupa: limpa, suja, molhada, rasgada, danificada
+- prompts de model sheet de cada personagem
+- storyboard com cenas
+- prompt de imagem por cena
+- prompt de vídeo/Flow por cena
+- pacote final para cliente/produção
+
+REGRAS IMPORTANTES:
+- Vídeo viral é referência, não universo oficial.
+- Não misturar Tomate Elinaldo, Sabrina Pitaya ou OZ automaticamente.
+- Primeiro model sheet, depois storyboard.
+- A roupa base não troca no meio da mesma história; só muda de estado.
+- Sem sangue, sem gore.
+- Responder APENAS JSON válido, sem markdown.
+
+FORMATO JSON OBRIGATÓRIO:
+{
+ "story": {
+   "title": "",
+   "logline": "",
+   "beginning": "",
+   "middle": "",
+   "ending": "",
+   "theme": "",
+   "tone": "",
+   "anti_mix_rule": ""
+ },
+ "visual_bible": {
+   "style_master": "",
+   "continuity_rule": "",
+   "negative_rules": ""
+ },
+ "characters": [
+   {
+     "name": "",
+     "role": "",
+     "identity": "",
+     "base_outfit": "",
+     "expressions": [],
+     "outfit_states": [],
+     "model_sheet_prompt": ""
+   }
+ ],
+ "storyboard": [
+   {
+     "title": "",
+     "action": "",
+     "emotion": "",
+     "camera": "",
+     "outfit_continuity": "",
+     "image_prompt": "",
+     "video_prompt": ""
+   }
+ ],
+ "final_package": ""
+}`;
+}
+
+async function callAI(prompt){
+  const mode=$('apiMode').value;
+  const order=mode==='auto'?['gemini','openrouter','groq','local']:[mode];
+  let last='';
+  for(const p of order){
+    try{
+      if(p==='gemini' && $('geminiKey').value.trim()) return await callGemini(prompt);
+      if(p==='openrouter' && $('openrouterKey').value.trim()) return await callOpenRouter(prompt);
+      if(p==='groq' && $('groqKey').value.trim()) return await callGroq(prompt);
+      if(p==='local') return localFallback();
+    }catch(e){ last=p+': '+e.message; toast(last); }
+  }
+  throw new Error(last||'Nenhuma API configurada. Vá em API Config e cole uma chave.');
+}
+
+async function callGemini(prompt){
+  const key=$('geminiKey').value.trim(), model=$('geminiModel').value.trim()||'gemini-2.5-flash';
+  const parts=[{text:prompt}];
+  state.images.forEach(im=>parts.push({inline_data:{mime_type:im.type||'image/png',data:im.data}}));
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:{temperature:.45,maxOutputTokens:8192,responseMimeType:'application/json'}})
+  });
+  const j=await r.json();
+  if(!r.ok) throw new Error(j.error?.message||'Erro Gemini');
+  return j.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('\n').trim()||'';
+}
+
+async function callOpenRouter(prompt){
+  const content=[{type:'text',text:prompt}];
+  state.images.forEach(im=>content.push({type:'image_url',image_url:{url:`data:${im.type};base64,${im.data}`}}));
+  const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer '+$('openrouterKey').value.trim(),
+      'HTTP-Referer':location.href,
+      'X-Title':'Fruits Adventures Studio'
+    },
+    body:JSON.stringify({
+      model:$('openrouterModel').value.trim()||'google/gemini-2.5-flash',
+      messages:[{role:'system',content:'Responda somente JSON válido em português do Brasil.'},{role:'user',content}],
+      temperature:.45,
+      max_tokens:8000
+    })
+  });
+  const j=await r.json();
+  if(!r.ok) throw new Error(j.error?.message||'Erro OpenRouter');
+  return j.choices?.[0]?.message?.content?.trim()||'';
+}
+
+async function callGroq(prompt){
+  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+$('groqKey').value.trim()},
+    body:JSON.stringify({
+      model:$('groqModel').value.trim()||'llama-3.3-70b-versatile',
+      messages:[{role:'system',content:'Responda somente JSON válido em português do Brasil.'},{role:'user',content:prompt}],
+      temperature:.45,
+      max_tokens:6000,
+      response_format:{type:'json_object'}
+    })
+  });
+  const j=await r.json();
+  if(!r.ok) throw new Error(j.error?.message||'Erro Groq');
+  return j.choices?.[0]?.message?.content?.trim()||'';
+}
+
+function safeJson(txt){
+  const cleaned=(txt||'').trim().replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/```$/,'').trim();
+  try{return JSON.parse(cleaned)}catch(e){}
+  const m=cleaned.match(/\{[\s\S]*\}/);
+  if(!m) throw new Error('A IA não devolveu JSON válido.');
+  return JSON.parse(m[0]);
+}
+
+async function generateProject(){
+  try{
+    $('mainOut').textContent='Gerando com IA...';
+    const txt=await callAI(buildPrompt());
+    const data=safeJson(txt);
+    state.project=normalizeProject(data);
+    renderProject();
+    $('mainOut').textContent='Projeto gerado com sucesso. Veja as abas História, Personagens, Model Sheets, Storyboard e Pacote.';
+    toast('Projeto pronto');
+  }catch(e){
+    $('mainOut').textContent='Erro: '+e.message+'\n\nDica: confira a chave na aba API Config ou use modo Local sem API.';
+  }
+}
+
+async function testAPI(){
+  try{
+    $('apiStatus').textContent='Testando...';
+    const txt=await callAI('Responda apenas JSON válido: {"ok":true,"mensagem":"conectado"}');
+    $('apiStatus').textContent='Conectado: '+txt.slice(0,300);
+  }catch(e){$('apiStatus').textContent='Erro: '+e.message;}
+}
+
+function normalizeProject(p){
+  return {
+    story:p.story||{},
+    visual_bible:p.visual_bible||{},
+    characters:Array.isArray(p.characters)?p.characters:[],
+    storyboard:Array.isArray(p.storyboard)?p.storyboard:[],
+    final_package:p.final_package||''
+  };
+}
+
+function renderProject(){
+  const p=state.project; if(!p)return;
+  $('storyOut').textContent=
+`TÍTULO: ${p.story.title||''}
+
+LOGLINE:
+${p.story.logline||''}
+
+INÍCIO:
+${p.story.beginning||''}
+
+MEIO:
+${p.story.middle||''}
+
+FINAL / GANCHO:
+${p.story.ending||''}
+
+TEMA:
+${p.story.theme||''}
+
+TOM:
+${p.story.tone||''}
+
+REGRA ANTI-MISTURA:
+${p.story.anti_mix_rule||''}`;
+
+  $('bibleOut').textContent=
+`ESTILO MASTER:
+${p.visual_bible.style_master||''}
+
+REGRA DE CONTINUIDADE:
+${p.visual_bible.continuity_rule||''}
+
+REGRAS NEGATIVAS:
+${p.visual_bible.negative_rules||''}`;
+
+  $('charactersOut').innerHTML=p.characters.map((c,i)=>`
+    <div class="item">
+      <h4>${i+1}. ${esc(c.name)}</h4>
+      <div><b>Função:</b> ${esc(c.role)}</div>
+      <div><b>Identidade:</b> ${esc(c.identity)}</div>
+      <div><b>Roupa base:</b> ${esc(c.base_outfit)}</div>
+      <div><b>Expressões:</b> ${esc((c.expressions||[]).join(', '))}</div>
+      <div><b>Estados:</b> ${esc((c.outfit_states||[]).join(', '))}</div>
+    </div>`).join('')||'Nenhum personagem gerado.';
+
+  $('charSelect').innerHTML=p.characters.map((c,i)=>`<option value="${i}">${esc(c.name||('Personagem '+(i+1)))}</option>`).join('');
+  renderModelSheet();
+  renderStoryboard();
+  $('finalOut').textContent=buildFinalPackage();
+}
+
+function renderModelSheet(){
+  const p=state.project; if(!p||!p.characters.length){$('modelSheetOut').textContent='Nada gerado ainda.';return}
+  const c=p.characters[Number($('charSelect').value)||0];
+  $('modelSheetOut').textContent=c.model_sheet_prompt||buildModelSheet(c);
+}
+
+function buildModelSheet(c){
+  return `Crie um model sheet profissional de ${c.name} em uma única imagem.
+
+Identidade:
+${c.identity}
+
+Roupa base:
+${c.base_outfit}
+
+Expressões:
+${(c.expressions||[]).map((x,i)=>(i+1)+'. '+x).join('\n')}
+
+Estados da roupa:
+${(c.outfit_states||[]).map((x,i)=>(i+1)+'. '+x).join('\n')}
+
+Manter sempre o mesmo personagem e a mesma roupa base. Sem sangue, sem gore. Fundo cinza neutro. Estilo cinematográfico.`;
+}
+
+function renderStoryboard(){
+  const p=state.project;if(!p){return}
+  $('sceneButtons').innerHTML=p.storyboard.map((s,i)=>`<button class="scene-btn ${i===state.scene?'active':''}" onclick="state.scene=${i};renderStoryboard()">Cena ${i+1}</button>`).join('');
+  const s=p.storyboard[state.scene];
+  if(!s){$('sceneTitle').textContent='Cena';$('sceneOut').textContent='Nada gerado ainda.';return}
+  $('sceneTitle').textContent='Cena '+(state.scene+1)+' — '+(s.title||'');
+  $('sceneOut').textContent=scenePackage(s,state.scene);
+}
+
+function scenePackage(s,i){
+  return `CENA ${i+1} — ${s.title||''}
+
+AÇÃO:
+${s.action||''}
+
+EMOÇÃO:
+${s.emotion||''}
+
+CÂMERA:
+${s.camera||''}
+
+ROUPA / CONTINUIDADE:
+${s.outfit_continuity||''}
+
+PROMPT IMAGEM:
+${s.image_prompt||''}
+
+PROMPT VÍDEO / FLOW:
+${s.video_prompt||''}`;
+}
+
+function copyScene(kind){
+  const s=state.project?.storyboard?.[state.scene]; if(!s)return;
+  let txt=scenePackage(s,state.scene);
+  if(kind==='image') txt=s.image_prompt||txt;
+  if(kind==='video') txt=s.video_prompt||txt;
+  copyText(txt,'Copiado');
+}
+
+function copyCurrentModelSheet(){
+  copyText($('modelSheetOut').textContent,'Prompt de model sheet copiado');
+}
+
+function buildFinalPackage(){
+  const p=state.project;if(!p)return 'Nada gerado ainda.';
+  return `FRUITS ADVENTURES STUDIO — PACOTE FINAL
+
+PROJETO:
+${$('projectTitle').value}
+
+HISTÓRIA:
+${$('storyOut').textContent}
+
+BÍBLIA VISUAL:
+${$('bibleOut').textContent}
+
+PERSONAGENS:
+${p.characters.map((c,i)=>`${i+1}. ${c.name}
+Função: ${c.role}
+Identidade: ${c.identity}
+Roupa base: ${c.base_outfit}
+Expressões: ${(c.expressions||[]).join(', ')}
+Estados: ${(c.outfit_states||[]).join(', ')}
+Model sheet:
+${c.model_sheet_prompt||buildModelSheet(c)}`).join('\n\n')}
+
+STORYBOARD:
+${p.storyboard.map((s,i)=>scenePackage(s,i)).join('\n\n---\n\n')}
+
+PACOTE DA IA:
+${p.final_package||''}`;
+}
+
+function fillExample(){
+  $('sourceText').value='Uma banana adulta humilde é humilhada por um personagem rico. Ela tenta cuidar de uma criança, passa por chuva, rejeição e dificuldade, mas encontra uma pequena esperança no final.';
+  $('projectMode').value='viral';
+}
+
+function localFallback(){
+  return JSON.stringify({
+    story:{
+      title:'Referência Viral — Personagem humilde e personagem rico',
+      logline:'Um personagem humilde sofre humilhação de um personagem rico, tenta cuidar de uma criança e encontra uma pequena esperança depois de passar por chuva e rejeição.',
+      beginning:'O protagonista aparece em situação simples, com roupa humilde e expressão cansada.',
+      middle:'O contraste social aumenta quando o personagem rico rejeita ou humilha o protagonista.',
+      ending:'Depois de sofrimento e chuva, o protagonista encontra um pequeno sinal de esperança.',
+      theme:'desigualdade, humilhação, cuidado, sobrevivência, esperança',
+      tone:'dramático, sentimental, viral e cinematográfico',
+      anti_mix_rule:'Esta referência viral não pertence automaticamente ao universo Fruits Adventures Titan.'
+    },
+    visual_bible:{
+      style_master:'Animação 3D cinematográfica com emoção forte, chuva, rua, contraste social e expressões grandes.',
+      continuity_rule:'Cada personagem mantém roupa base. A roupa só muda de estado: limpa, suja, molhada, rasgada ou danificada.',
+      negative_rules:'Sem sangue, sem gore, sem trocar roupa no meio da mesma história, sem misturar personagens oficiais sem pedido.'
+    },
+    characters:[
+      {name:'Protagonista humilde',role:'protagonista',identity:'Personagem fruta adulto, alto, magro, cansado e sensível.',base_outfit:'regata branca velha, bermuda jeans azul curta, chinelo simples',expressions:['neutro','triste','preocupado','assustado','esperançoso','aliviado'],outfit_states:['limpa','suja','molhada','rasgada','danificada'],model_sheet_prompt:''},
+      {name:'Personagem rico',role:'antagonista social',identity:'Personagem fruta ou vegetal rico, elegante, arrogante e superior.',base_outfit:'terno elegante, camisa branca, gravata escura, sapato social',expressions:['neutro','confiante','debochado','bravo','surpreso','irritado'],outfit_states:['limpa','levemente suja','molhada','rasgada','danificada'],model_sheet_prompt:''},
+      {name:'Criança emocional',role:'carga emocional',identity:'Criança pequena, inocente, vulnerável, olhos grandes e expressivos.',base_outfit:'roupa infantil simples e humilde',expressions:['neutra','triste','curiosa','assustada','feliz','esperançosa'],outfit_states:['limpa','suja','molhada','rasgada'],model_sheet_prompt:''}
+    ],
+    storyboard:[
+      {title:'Contraste social',action:'O protagonista observa o personagem rico em um ambiente elegante.',emotion:'tristeza e inferioridade',camera:'plano aberto com contraste visual',outfit_continuity:'roupa base limpa, simples e humilde',image_prompt:'Imagem cinematográfica do protagonista humilde observando personagem rico em ambiente elegante, contraste social forte, sem sangue.',video_prompt:'Vídeo curto com câmera lenta mostrando contraste entre pobreza e riqueza.'},
+      {title:'Humilhação',action:'O personagem rico rejeita o protagonista.',emotion:'vergonha e dor emocional',camera:'close no rosto do protagonista',outfit_continuity:'mesma roupa, levemente suja',image_prompt:'Close emocional do protagonista sendo rejeitado, roupa simples levemente suja, estilo cinematográfico.',video_prompt:'Câmera aproxima do rosto triste do protagonista enquanto o rico vira as costas.'},
+      {title:'Chuva e esperança',action:'O protagonista passa pela chuva e encontra uma pequena esperança.',emotion:'sofrimento e alívio',camera:'travelling baixo na chuva',outfit_continuity:'mesma roupa molhada e danificada',image_prompt:'Personagem humilde na chuva segurando pequeno sinal de esperança, roupa molhada e danificada, cena emocional.',video_prompt:'Vídeo dramático na chuva, câmera acompanha o personagem até ele sorrir levemente.'}
+    ],
+    final_package:'Pacote local gerado. Configure uma API para resultado mais completo.'
+  });
+}
+
+function clearProject(){
+  state.project=null;state.scene=0;state.images=[];$('thumbs').innerHTML='';$('mainOut').textContent='Limpo.';
+  $('storyOut').textContent='Nada gerado ainda.';$('bibleOut').textContent='Nada gerado ainda.';$('charactersOut').innerHTML='Nada gerado ainda.';
+  $('modelSheetOut').textContent='Nada gerado ainda.';$('sceneButtons').innerHTML='';$('sceneOut').textContent='Nada gerado ainda.';$('finalOut').textContent='Nada gerado ainda.';
+}
+
+function copyText(txt,msg){navigator.clipboard?.writeText(txt||'');toast(msg||'Copiado')}
+function downloadTxt(name,txt){const b=new Blob([txt||''],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+updatePill();
 </script>
 </body>
 </html>
