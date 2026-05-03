@@ -321,6 +321,117 @@ FINAL: ..."></textarea>
     <div class="stat"><div class="stat-val" id="stDuracao">—</div><div class="stat-lbl">Duração</div></div>
   </div>
   
+
+
+  <div class="panel" style="border-color:rgba(155,109,255,.45); background:rgba(155,109,255,.045);">
+    <div class="panel-title" style="color:var(--purple); border-bottom-color:rgba(155,109,255,.25);">📺 Série Viral Smart — história pronta, crossover, piadas e continuação</div>
+    <div class="g2">
+      <div>
+        <label>Modo de criação</label>
+        <select id="serieModo">
+          <option value="pronta">Usar história pronta do tema</option>
+          <option value="customizar">Customizar história pronta</option>
+          <option value="misturar">Misturar 2 temas</option>
+          <option value="continuar">Continuar episódio anterior</option>
+          <option value="zero">Criar do zero com minha ideia</option>
+        </select>
+        <div class="small-row">
+          <div>
+            <label>Tema principal</label>
+            <select id="serieTema1"></select>
+          </div>
+          <div>
+            <label>Tema 2 / crossover de tema</label>
+            <select id="serieTema2"><option value="">Nenhum</option></select>
+          </div>
+        </div>
+        <div class="small-row">
+          <div>
+            <label>Herói</label>
+            <select id="serieHeroi"></select>
+          </div>
+          <div>
+            <label>Aliado / parceira</label>
+            <select id="serieAliado"></select>
+          </div>
+        </div>
+        <div class="small-row">
+          <div>
+            <label>Vilão</label>
+            <select id="serieVilao"></select>
+          </div>
+          <div>
+            <label>Participação especial</label>
+            <select id="serieEspecial"></select>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="small-row">
+          <div>
+            <label>Crossover</label>
+            <select id="serieCrossover">
+              <option value="nenhum">Nenhum</option>
+              <option value="superherois">Super-heróis genéricos</option>
+              <option value="vila">Vila cômica / Chaves das Frutas</option>
+              <option value="politica">Zoeira política</option>
+              <option value="novela">Novela dramática</option>
+              <option value="reality">Reality show</option>
+              <option value="clip">Clipe musical</option>
+              <option value="cristao">Cristão / redenção</option>
+            </select>
+          </div>
+          <div>
+            <label>Humor / piadas prontas</label>
+            <select id="serieHumor">
+              <option value="leve">Humor leve</option>
+              <option value="politico">Zoeira política</option>
+              <option value="meme">Meme viral genérico</option>
+              <option value="vila">Humor de vila</option>
+              <option value="superheroi">Piada de super-herói</option>
+              <option value="caotico">Caótico, mas seguro</option>
+              <option value="sem">Sem humor</option>
+            </select>
+          </div>
+        </div>
+        <div class="small-row">
+          <div>
+            <label>Liberdade da IA</label>
+            <select id="serieLiberdade">
+              <option value="baixo">Baixa — seguir molde</option>
+              <option value="medio" selected>Média — variar sem perder o tema</option>
+              <option value="alto">Alta — inventar viradas e memes</option>
+              <option value="caotico">Caótica — crossover e zoeira forte</option>
+            </select>
+          </div>
+          <div>
+            <label>Tipo de continuação</label>
+            <select id="serieContinuacao">
+              <option value="plot">Continuar do plot twist</option>
+              <option value="pov_vilao">Parte 2 pelo ponto de vista do vilão</option>
+              <option value="pov_aliado">Parte 2 pelo ponto de vista do aliado</option>
+              <option value="aumentar_risco">Aumentar risco e perseguição</option>
+              <option value="comedia">Continuar com mais comédia</option>
+              <option value="emocional">Continuar mais emocional</option>
+            </select>
+          </div>
+        </div>
+        <label>Piada/meme manual opcional</label>
+        <input id="serieMemeManual" placeholder="Ex: ninguém solta a mão de ninguém, hoje não Faro, recebeu foi discurso...">
+        <label>O que deu certo no episódio anterior? (para Parte 2/3)</label>
+        <textarea id="serieDeuCerto" placeholder="Ex: o público gostou da traição da Sabrina, da zoeira política e da perseguição no beco..."></textarea>
+        <div class="btns">
+          <button class="btn purple" onclick="prepararHistoriaSmart()">Preparar história pronta</button>
+          <button class="btn gold" onclick="gerarSerieSmart(1)">Gerar Parte 1</button>
+          <button class="btn cyan" onclick="gerarSerieSmart(2)">Gerar Parte 2</button>
+          <button class="btn green" onclick="gerarSerieSmart(3)">Gerar Parte 3</button>
+        </div>
+      </div>
+    </div>
+    <div class="out" id="seriePreview" style="min-height:160px;margin-top:14px">Escolha tema, personagens, crossover e clique em “Preparar história pronta”.</div>
+    <div class="hint">Dica: use personagens nos menus para manter o DNA. O campo “Ideia livre” vira só um complemento, não precisa escrever tudo do zero.</div>
+  </div>
+
   <div class="panel" style="border-color:var(--cyan); background:rgba(0,212,200,0.03);">
       <div class="panel-title" style="color:var(--cyan); border-bottom-color:rgba(0,212,200,0.3);">📸 Olho da IA (Visão Computacional)</div>
       <label style="color:var(--cyan);">Anexe um print da cena anterior. A API Gemini lerá a imagem para manter o figurino, cenário e luz no próximo roteiro e prompts.</label>
@@ -741,7 +852,7 @@ const TEMPLATES=[
 
 let state={elenco:[],tplId:null,roteiro:'',cenas:[],tpl:null,grafica:''};
 
-window.onload=()=>{buildChars();buildThemeFilters();buildTemplates();buildGfxLibrary();updateStatus();};
+window.onload=()=>{buildChars();buildThemeFilters();buildTemplates();buildGfxLibrary();buildSeriesStudio();updateStatus();};
 
 function buildChars(){
  const g=document.getElementById('charGrid');
@@ -1113,6 +1224,133 @@ function tab(ev,id){
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function loadingHTML(msg){return `<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:4px">${msg}</span></div>`}
+
+/* ─── SÉRIE VIRAL SMART: HISTÓRIA PRONTA, CROSSOVER, PIADAS E CONTINUAÇÃO ─── */
+const SERIES_JOKES={
+  leve:[
+    'Piada leve: o personagem tenta fazer drama, mas escorrega no próprio exagero e volta sério como se nada tivesse acontecido.',
+    'Piada leve: alguém entende uma frase literalmente e cria uma confusão rápida de 3 segundos.',
+    'Piada leve: um personagem fala uma frase épica e outro corta com uma observação seca e engraçada.'
+  ],
+  politico:[
+    'Zoeira política: o vilão promete resolver tudo, mas entrega só discurso, faixa e foto sorrindo.',
+    'Zoeira política: o povo pediu solução e recebeu reunião, placa nova e promessa repetida.',
+    'Zoeira política: o político diz que a culpa é da chuva, do beco e até do tomate, menos dele.'
+  ],
+  meme:[
+    'Meme genérico: inserir uma virada estilo “ninguém esperava isso” com zoom rápido, silêncio e texto grande na tela.',
+    'Meme genérico: usar reação exagerada, corte seco e legenda curta de impacto para virar recorte compartilhável.',
+    'Meme genérico: personagem olha para a câmera como se soubesse que virou meme.'
+  ],
+  vila:[
+    'Humor de vila: um mal-entendido pequeno vira guerra de fofoca em segundos.',
+    'Humor de vila: alguém aparece na porta no pior momento e piora tudo com uma frase inocente.',
+    'Humor de vila: a solução era simples, mas todo mundo preferiu fazer escândalo.'
+  ],
+  superheroi:[
+    'Piada super-herói: o herói entra com pose épica, mas erra a aterrissagem e finge que era parte do plano.',
+    'Piada super-herói: o convidado heroico tem nome grandioso, mas poder absurdamente específico.',
+    'Piada super-herói: a capa prende em alguma coisa no momento mais dramático.'
+  ],
+  caotico:[
+    'Caos seguro: misturar perseguição, fofoca, falsa transmissão ao vivo e uma frase absurda que vira bordão.',
+    'Caos seguro: a cena começa como drama, vira denúncia, vira clipe e termina com plot twist.',
+    'Caos seguro: todo personagem acha que é o protagonista por 5 segundos.'
+  ],
+  sem:['Sem piada: manter tensão, emoção e drama direto.']
+};
+
+const SERIES_CROSSOVER={
+  nenhum:'Sem crossover extra: manter o foco no tema principal.',
+  superherois:'Participação de super-heróis genéricos e originais: guardião mascarado, herói do trovão tropical ou vigilante da favela. Não copiar personagens famosos; usar arquétipos de heróis.',
+  vila:'Crossover com vila cômica: portas, fofoca, pátio, vizinhos exagerados, mal-entendido e humor inocente.',
+  politica:'Crossover com sátira política: discurso público, promessa vazia, assessor atrapalhado, povo desconfiado e telão de denúncia.',
+  novela:'Crossover com novela: close no rosto, silêncio dramático, segredo de família, frase forte e revelação pública.',
+  reality:'Crossover com reality: votação, prova ridícula, confessionário, treta e eliminação dramática.',
+  clip:'Crossover com clipe musical: refrão, pose, beat, dança, luz neon e cortes no ritmo.',
+  cristao:'Crossover cristão leve: perdão, redenção, escolha correta, esperança e final com mensagem positiva.'
+};
+
+function buildSeriesStudio(){
+  const themeOptions=(TEMPLATES||[]).map(t=>`<option value="${t.id}">${t.icon||''} ${t.name}</option>`).join('');
+  ['serieTema1','serieTema2'].forEach(id=>{const el=$(id); if(!el) return; const first=id==='serieTema2'?'<option value="">Nenhum</option>':''; el.innerHTML=first+themeOptions;});
+  const charOptions=(CHARS||[]).map((c,i)=>`<option value="${i}">${c.e} ${c.n} — ${c.t}</option>`).join('');
+  ['serieHeroi','serieAliado','serieVilao','serieEspecial'].forEach(id=>{const el=$(id); if(!el) return; const first=id==='serieEspecial'?'<option value="">Nenhum</option>':''; el.innerHTML=first+charOptions;});
+  if($('serieHeroi')) $('serieHeroi').value='0';
+  if($('serieAliado')) $('serieAliado').value='1';
+  if($('serieVilao')) $('serieVilao').value='4';
+  if($('serieEspecial')) $('serieEspecial').value='3';
+  if(state.tpl && $('serieTema1')) $('serieTema1').value=state.tpl.id;
+  if(state.elenco?.length){
+    if($('serieHeroi')) $('serieHeroi').value=String(state.elenco[0]??0);
+    if($('serieAliado')) $('serieAliado').value=String(state.elenco[1]??1);
+    if($('serieVilao')) $('serieVilao').value=String(state.elenco[2]??4);
+  }
+}
+function charBySelect(id){const v=$(id)?.value; return v===''||v==null?null:CHARS[Number(v)];}
+function tplById(id){return TEMPLATES.find(t=>t.id===id)||null;}
+function pickJoke(){
+  const h=$('serieHumor')?.value||'leve';
+  const arr=SERIES_JOKES[h]||SERIES_JOKES.leve;
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+function historiaMoldeDoTema(t){
+  if(!t) return 'Um herói descobre um segredo, enfrenta um vilão, recebe ajuda improvável e termina com um plot twist.';
+  const estrutura=(t.estrutura||[]).join('\n');
+  return `Tema escolhido: ${t.name}\nDescrição: ${t.desc||''}\nEstrutura base do tema:\n${estrutura}`;
+}
+function buildSerieSmartPrompt(parte=1){
+  const t1=tplById($('serieTema1')?.value)||state.tpl||TEMPLATES[0];
+  const t2=tplById($('serieTema2')?.value);
+  const heroi=charBySelect('serieHeroi')||CHARS[state.elenco?.[0]]||CHARS[0];
+  const aliado=charBySelect('serieAliado')||CHARS[state.elenco?.[1]]||CHARS[1];
+  const vilao=charBySelect('serieVilao')||CHARS[state.elenco?.[2]]||CHARS[4];
+  const especial=charBySelect('serieEspecial');
+  const modo=$('serieModo')?.value||'pronta';
+  const cross=$('serieCrossover')?.value||'nenhum';
+  const liberdade=$('serieLiberdade')?.value||'medio';
+  const cont=$('serieContinuacao')?.value||'plot';
+  const memeManual=$('serieMemeManual')?.value?.trim();
+  const deuCerto=$('serieDeuCerto')?.value?.trim();
+  const ideaLivre=$('ideaLivre')?.value?.trim();
+  const piada=memeManual?`Piada/meme manual que pode ser usado: ${memeManual}`:pickJoke();
+  const temaMix=t2?`Misturar com o segundo tema: ${t2.name}. ${t2.desc||''}\nEstrutura do tema 2:\n${(t2.estrutura||[]).join('\n')}`:'Sem segundo tema, mas pode usar pequenas variações para evitar repetição.';
+  const previous=(state.seriesHistory&&state.seriesHistory.length)?state.seriesHistory.slice(-2).map((x,i)=>`Episódio anterior ${i+1}:\n${x.text.slice(0,2500)}`).join('\n\n'):'Ainda não existe episódio anterior salvo nesta sessão.';
+  return `MODO SÉRIE VIRAL SMART — FRUITS ADVENTURES\n\nPARTE/EPISÓDIO: ${parte}\nModo de criação: ${modo}\nLiberdade da IA: ${liberdade}\nTipo de continuação: ${cont}\n\nELENCO ESCOLHIDO POR MENU:\nHerói: ${heroi.n} — DNA visual: ${heroi.v} — voz: ${heroi.voz} — bordão/frase: ${heroi.frase}\nAliado/parceira: ${aliado.n} — DNA visual: ${aliado.v} — voz: ${aliado.voz} — bordão/frase: ${aliado.frase}\nVilão: ${vilao.n} — DNA visual: ${vilao.v} — voz: ${vilao.voz} — bordão/frase: ${vilao.frase}\nParticipação especial: ${especial?`${especial.n} — ${especial.t} — ${especial.v}`:'nenhuma'}\n\nTEMA PRINCIPAL COM HISTÓRIA PRONTA:\n${historiaMoldeDoTema(t1)}\n\nSEGUNDO TEMA / CROSSOVER DE TEMA:\n${temaMix}\n\nCROSSOVER EXTRA:\n${SERIES_CROSSOVER[cross]||SERIES_CROSSOVER.nenhum}\n\nHUMOR / PIADA / MEME:\n${piada}\n\nLOCAL / UNIVERSO:\n${$('universo')?.value||'Universo Fruits Adventures'}${locationContext?locationContext():''}\n\nO QUE DEU CERTO OU DEVE CONTINUAR:\n${deuCerto||'Manter gancho forte, personagem claro, conflito simples, visual marcante e final que peça continuação.'}\n\nIDEIA LIVRE DO USUÁRIO, SE HOUVER:\n${ideaLivre||'Use a história pronta do tema como base principal.'}\n\nEPISÓDIOS ANTERIORES PARA CONTINUIDADE:\n${parte>1?previous:'Este é o primeiro episódio; criar um final aberto para a Parte 2.'}\n\nREGRAS IMPORTANTES:\n1. Não copiar rostos reais, marcas, personagens protegidos ou falas exatas de séries famosas. Usar paródia segura, arquétipos e humor original.\n2. Se usar super-herói, criar herói genérico/original, não personagem famoso.\n3. Se usar humor político, fazer sátira genérica com frutas, sem atacar pessoa real específica.\n4. Evitar repetição: variar local, ângulo, piada, conflito e plot twist.\n5. Manter o DNA visual dos personagens escolhidos.\n\nENTREGAR PACOTE COMPLETO:\n- Título forte\n- Logline\n- Gancho dos 3 primeiros segundos\n- Roteiro de ${$('numCenas')?.value||'5 cenas'} com tempo exato, totalizando a duração escolhida\n- Storyboard por cena: enquadramento, câmera, luz, ação e emoção\n- Falas curtas e bordões\n- Piada/meme integrado sem quebrar a história\n- Prompts de imagem por cena\n- Prompts Flow Labs em inglês por cena\n- Capa YouTube 16:9, TikTok 9:16, Reels 9:16, Instagram 4:5\n- Áudio, SFX, Suno AI e CapCut\n- Final com cliffhanger\n- No final, escrever: “Quer gerar a Parte ${parte+1}?”`;
+}
+function prepararHistoriaSmart(){
+  const prompt=buildSerieSmartPrompt(1);
+  $('ideaLivre').value=prompt;
+  $('seriePreview').textContent=prompt;
+  const t=tplById($('serieTema1')?.value);
+  if(t){ state.tpl=t; state.tplId=t.id; try{selectTpl(t.id)}catch(e){} }
+  const selected=['serieHeroi','serieAliado','serieVilao'].map(id=>Number($(id)?.value)).filter(n=>!Number.isNaN(n));
+  state.elenco=[...new Set(selected)].slice(0,3);
+  document.querySelectorAll('.char-card').forEach((c,j)=>{c.classList.toggle('sel',state.elenco.includes(j));});
+  renderDNA(); updateStatus();
+  toast('História pronta preparada no campo Ideia livre.');
+}
+async function gerarSerieSmart(parte){
+  const prompt=buildSerieSmartPrompt(parte);
+  $('ideaLivre').value=prompt;
+  $('seriePreview').textContent=prompt;
+  const t=tplById($('serieTema1')?.value);
+  if(t){ state.tpl=t; state.tplId=t.id; try{selectTpl(t.id)}catch(e){} }
+  const selected=['serieHeroi','serieAliado','serieVilao'].map(id=>Number($(id)?.value)).filter(n=>!Number.isNaN(n));
+  state.elenco=[...new Set(selected)].slice(0,3);
+  document.querySelectorAll('.char-card').forEach((c,j)=>{c.classList.toggle('sel',state.elenco.includes(j));});
+  renderDNA(); updateStatus();
+  const key=$('apiKey')?.value?.trim();
+  if(key){
+    await gerarAPI();
+    state.seriesHistory=state.seriesHistory||[];
+    state.seriesHistory.push({parte, text: state.roteiro||$('roteiroOut')?.textContent||prompt});
+    $('serieDeuCerto').value = $('serieDeuCerto').value || `Continuar do final da Parte ${parte}. Manter o que funcionou: conflito, plot twist, humor e visual.`;
+  }else{
+    toast('Prompt pronto. Coloque API Key para gerar com Gemini.');
+  }
+}
+
 </script>
 </body>
 </html>
