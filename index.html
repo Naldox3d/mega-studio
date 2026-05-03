@@ -546,6 +546,14 @@ body.locked{overflow:hidden}
 }
 @media(max-width:760px){.narrator-controls{grid-template-columns:1fr}}
 
+
+
+/* MULTI API ECONOMICO */
+.api-panel input[type="password"], .api-panel input { font-family:'DM Mono',monospace; }
+.api-route-badge{display:inline-block;margin:4px 6px 4px 0;padding:4px 8px;border-radius:999px;border:1px solid rgba(0,212,200,.28);color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;background:rgba(0,212,200,.05)}
+.api-route-badge.gold{border-color:rgba(212,160,23,.45);color:var(--gold2);background:rgba(212,160,23,.08)}
+.api-route-badge.red{border-color:rgba(232,51,74,.45);color:var(--red);background:rgba(232,51,74,.08)}
+
 </style>
 </head>
 <body class="locked">
@@ -1305,31 +1313,75 @@ FINAL: ..."></textarea>
 <section id="api" class="tab">
   <div class="g2">
     <div class="panel">
-      <div class="panel-title">⚡ API — Configuração Google Gemini</div>
+      <div class="panel-title">⚡ API — Multi-API Econômico</div>
       <div class="api-panel">
-        <label>Provedor</label>
-        <select id="apiProvider" disabled>
-          <option value="gemini">Google Gemini (Suporta Visão)</option>
+        <div class="api-title">🚦 Modo de uso</div>
+        <label>Modo API</label>
+        <select id="apiMode" onchange="multiAPIExplain()">
+          <option value="auto">Econômico automático — Gemini → OpenRouter → Groq → Mistral</option>
+          <option value="gemini">Só Gemini — melhor para visão / prints</option>
+          <option value="openrouter">Só OpenRouter — fallback gratuito para texto</option>
+          <option value="groq">Só Groq — texto rápido</option>
+          <option value="mistral">Só Mistral — revisão e texto limpo</option>
+          <option value="local">Sem API — montar local/manual</option>
         </select>
-        <label>Endpoint URL (Gemini)</label>
-        <input id="apiEndpoint" value="https://generativelanguage.googleapis.com/v1beta/models/" readonly style="color:var(--muted); background:var(--s2)">
-        <label>Modelo</label>
+        <div class="hint" id="apiModeHint">
+          Recomendado: Econômico automático. O site tenta Gemini primeiro; se bater limite, tenta OpenRouter, Groq e Mistral. Se tudo falhar, você ainda usa os botões locais e os pacotes Smart.
+        </div>
+      </div>
+
+      <div class="api-panel">
+        <div class="api-title">👁️ Google Gemini — principal para visão</div>
+        <label>Modelo Gemini</label>
         <select id="apiModel">
-          <option value="gemini-2.5-flash">gemini-2.5-flash (Rápido e Suporta Visão)</option>
-          <option value="gemini-2.5-pro">gemini-2.5-pro (Avançado e Suporta Visão)</option>
-          <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+          <option value="gemini-2.5-flash">gemini-2.5-flash — rápido, bom para visão e pacote geral</option>
+          <option value="gemini-2.5-pro">gemini-2.5-pro — mais forte, use só quando precisar</option>
+          <option value="gemini-1.5-flash">gemini-1.5-flash — alternativa leve</option>
         </select>
-        <label>API Key (Google AI Studio)</label>
+        <label>API Key Gemini / Google AI Studio</label>
         <input id="apiKey" type="password" placeholder="AIzaSy...">
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">Obtenha sua chave gratuita no <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--cyan)">Google AI Studio</a>. A chave não é salva.</div>
+        <div class="mini-note">Vantagem: lê prints/imagens e mantém continuidade visual. Use para referência viral, análise visual, pacote completo e cenas com imagem. Pode bater limite gratuito.</div>
       </div>
+
+      <div class="api-panel">
+        <div class="api-title">🔁 OpenRouter — fallback gratuito para texto</div>
+        <label>Modelo OpenRouter</label>
+        <input id="openRouterModel" value="openrouter/free" placeholder="openrouter/free ou modelo :free">
+        <label>API Key OpenRouter</label>
+        <input id="openRouterKey" type="password" placeholder="sk-or-...">
+        <div class="mini-note">Vantagem: bom fallback quando Gemini bate quota. Use para roteiro textual, Narrador IA, prompts, SRT, CapCut e storyboards textuais. Modelos gratuitos podem mudar.</div>
+      </div>
+
+      <div class="api-panel">
+        <div class="api-title">⚡ Groq — texto rápido</div>
+        <label>Modelo Groq</label>
+        <input id="groqModel" value="llama-3.1-8b-instant" placeholder="llama-3.1-8b-instant ou outro disponível">
+        <label>API Key Groq</label>
+        <input id="groqKey" type="password" placeholder="gsk_...">
+        <div class="mini-note">Vantagem: muito rápido para texto. Use para narrador, resumo, legendas, SRT, limpeza de texto e prompts rápidos. Não é o foco para visão.</div>
+      </div>
+
+      <div class="api-panel">
+        <div class="api-title">🧠 Mistral — revisão e acabamento</div>
+        <label>Modelo Mistral</label>
+        <input id="mistralModel" value="mistral-small-latest" placeholder="mistral-small-latest, mistral-medium-latest...">
+        <label>API Key Mistral</label>
+        <input id="mistralKey" type="password" placeholder="Cole sua chave Mistral">
+        <div class="mini-note">Vantagem: bom para revisar, organizar, limpar texto, melhorar prompts e gerar narração. Use como fallback extra.</div>
+      </div>
+
       <div class="btns">
-        <button class="btn cyan" onclick="testarAPI()">Testar Conexão</button>
+        <button class="btn cyan" onclick="testarAPI()">Testar modo selecionado</button>
+        <button class="btn gold" onclick="multiAPISaveKeys()">Salvar chaves neste navegador</button>
+        <button class="btn outline" onclick="multiAPILoadKeys(); multiAPIExplain();">Carregar chaves salvas</button>
+        <button class="btn red" onclick="multiAPIClearKeys()">Apagar chaves salvas</button>
       </div>
+      <div class="hint">Segurança: para uso local/pessoal, salvar no navegador ajuda. Para publicar online, o certo é colocar as chaves num backend/proxy, não no HTML público.</div>
     </div>
+
     <div class="panel">
       <div class="panel-title">📋 Status da API</div>
-      <div class="out" id="apiStatus" style="min-height:120px">Configure sua chave do Google Gemini.</div>
+      <div class="out" id="apiStatus" style="min-height:240px">Configure suas chaves. Use Econômico automático para alternar entre APIs quando uma bater limite.</div>
     </div>
   </div>
 </section>
@@ -4933,6 +4985,260 @@ function smartRenderNarrator(){
     setTimeout(window.smartDecorateOverviewButtons, 220);
     setTimeout(window.smartDecorateOverviewButtons, 750);
   });
+})();
+</script>
+
+
+
+<!-- PATCH V7: MULTI-API ECONOMICO COM FALLBACK AUTOMATICO -->
+<script>
+(function(){
+  const API_STORE_KEY = 'fruits_titan_multi_api_keys_v1';
+  const API_COUNT_KEY = 'fruits_titan_api_counts_v1';
+
+  function api$(id){ return document.getElementById(id); }
+  function apiVal(id){ return (api$(id)?.value || '').trim(); }
+  function apiSet(id,v){ const el=api$(id); if(el) el.value = v || ''; }
+  function apiStatus(msg, append){
+    const el = api$('apiStatus');
+    if(!el) return;
+    const text = String(msg || '');
+    el.textContent = append ? ((el.textContent || '') + '\n' + text) : text;
+  }
+  function apiIsLimitError(err){
+    const s = String(err?.message || err || '').toLowerCase();
+    return /quota|rate|429|too many|exceeded|limit|retry|resource_exhausted/.test(s);
+  }
+  function apiToday(){ return new Date().toISOString().slice(0,10); }
+  function apiCounts(){
+    try{
+      const obj = JSON.parse(localStorage.getItem(API_COUNT_KEY) || '{}');
+      if(obj.date !== apiToday()) return {date:apiToday(), gemini:0, openrouter:0, groq:0, mistral:0};
+      return Object.assign({date:apiToday(), gemini:0, openrouter:0, groq:0, mistral:0}, obj);
+    }catch(e){ return {date:apiToday(), gemini:0, openrouter:0, groq:0, mistral:0}; }
+  }
+  function apiInc(name){
+    const c = apiCounts();
+    c[name] = (c[name] || 0) + 1;
+    localStorage.setItem(API_COUNT_KEY, JSON.stringify(c));
+  }
+  function apiCountsLine(){
+    const c = apiCounts();
+    return `Chamadas hoje — Gemini: ${c.gemini||0} | OpenRouter: ${c.openrouter||0} | Groq: ${c.groq||0} | Mistral: ${c.mistral||0}`;
+  }
+
+  window.multiAPIExplain = function(){
+    const mode = apiVal('apiMode') || 'auto';
+    const hint = api$('apiModeHint');
+    const map = {
+      auto:'Econômico automático: tenta Gemini primeiro. Se der quota/rate limit, tenta OpenRouter, Groq e Mistral. Melhor para não parar o fluxo.',
+      gemini:'Só Gemini: melhor quando você usa prints, visão e referência visual. Se bater limite, você precisa trocar manualmente ou usar automático.',
+      openrouter:'Só OpenRouter: bom fallback gratuito para texto, roteiro, narrador, prompts, SRT e CapCut. Não usa visão do seu print.',
+      groq:'Só Groq: rápido para texto, resumo, narrador, legendas e prompts curtos. Não é o foco para visão.',
+      mistral:'Só Mistral: bom para revisão, texto limpo, narrador e acabamento. Não é o foco para visão.',
+      local:'Sem API: usa apenas montagem local, copiar blocos, storyboards, 3x3 e prancha geral sem gastar chamadas.'
+    };
+    if(hint) hint.textContent = map[mode] || map.auto;
+    apiStatus(`${map[mode] || map.auto}\n\n${apiCountsLine()}`);
+  };
+
+  window.multiAPISaveKeys = function(){
+    const data = {
+      apiKey: apiVal('apiKey'), apiModel: apiVal('apiModel'), apiMode: apiVal('apiMode'),
+      openRouterKey: apiVal('openRouterKey'), openRouterModel: apiVal('openRouterModel'),
+      groqKey: apiVal('groqKey'), groqModel: apiVal('groqModel'),
+      mistralKey: apiVal('mistralKey'), mistralModel: apiVal('mistralModel')
+    };
+    localStorage.setItem(API_STORE_KEY, JSON.stringify(data));
+    if(typeof toast === 'function') toast('Chaves salvas neste navegador.');
+    multiAPIExplain();
+  };
+
+  window.multiAPILoadKeys = function(){
+    try{
+      const data = JSON.parse(localStorage.getItem(API_STORE_KEY) || '{}');
+      Object.keys(data).forEach(k => apiSet(k, data[k]));
+      if(typeof toast === 'function') toast('Chaves carregadas.');
+    }catch(e){ if(typeof toast === 'function') toast('Não consegui carregar chaves.'); }
+  };
+
+  window.multiAPIClearKeys = function(){
+    localStorage.removeItem(API_STORE_KEY);
+    ['apiKey','openRouterKey','groqKey','mistralKey'].forEach(id=>apiSet(id,''));
+    if(typeof toast === 'function') toast('Chaves apagadas deste navegador.');
+    multiAPIExplain();
+  };
+
+  async function callOpenAICompatible(providerName, endpoint, key, model, prompt){
+    const res = await fetch(endpoint, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + key,
+        'HTTP-Referer': location.origin || 'file://fruits-adventures-titan',
+        'X-Title':'Fruits Adventures Titan'
+      },
+      body: JSON.stringify({
+        model,
+        messages:[
+          {role:'system', content:'Você é o assistente de pré-produção audiovisual do Fruits Adventures Titan. Responda em português do Brasil, com estrutura limpa e pronta para produção.'},
+          {role:'user', content: prompt}
+        ],
+        temperature:0.8,
+        max_tokens:6000
+      })
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || data.error){
+      const msg = data.error?.message || data.message || `Erro HTTP ${res.status}`;
+      throw new Error(`${providerName}: ${msg}`);
+    }
+    const txt = data.choices?.[0]?.message?.content || data.choices?.[0]?.text || '';
+    if(!txt.trim()) throw new Error(`${providerName}: resposta vazia.`);
+    return txt.trim();
+  }
+
+  window.callOpenRouter = async function(prompt){
+    const key = apiVal('openRouterKey');
+    if(!key) throw new Error('OpenRouter: API Key não configurada.');
+    const model = apiVal('openRouterModel') || 'openrouter/free';
+    apiInc('openrouter');
+    return callOpenAICompatible('OpenRouter', 'https://openrouter.ai/api/v1/chat/completions', key, model, prompt);
+  };
+
+  window.callGroq = async function(prompt){
+    const key = apiVal('groqKey');
+    if(!key) throw new Error('Groq: API Key não configurada.');
+    const model = apiVal('groqModel') || 'llama-3.1-8b-instant';
+    apiInc('groq');
+    return callOpenAICompatible('Groq', 'https://api.groq.com/openai/v1/chat/completions', key, model, prompt);
+  };
+
+  window.callMistral = async function(prompt){
+    const key = apiVal('mistralKey');
+    if(!key) throw new Error('Mistral: API Key não configurada.');
+    const model = apiVal('mistralModel') || 'mistral-small-latest';
+    apiInc('mistral');
+    return callOpenAICompatible('Mistral', 'https://api.mistral.ai/v1/chat/completions', key, model, prompt);
+  };
+
+  window.callGeminiWithCount = async function(prompt){
+    const key = apiVal('apiKey');
+    if(!key) throw new Error('Gemini: API Key não configurada.');
+    apiInc('gemini');
+    return callGemini(prompt, key);
+  };
+
+  window.callAI = async function(prompt, opts={}){
+    const mode = apiVal('apiMode') || 'auto';
+    if(mode === 'local') throw new Error('Modo sem API selecionado. Use Montar local ou os botões Smart.');
+    const order = mode === 'auto' ? ['gemini','openrouter','groq','mistral'] : [mode];
+    const errors = [];
+    for(const name of order){
+      try{
+        if(name === 'gemini'){
+          apiStatus('Tentando Gemini...\n' + apiCountsLine());
+          return await callGeminiWithCount(prompt);
+        }
+        if(name === 'openrouter'){
+          apiStatus('Tentando OpenRouter...\n' + apiCountsLine());
+          return await callOpenRouter(prompt);
+        }
+        if(name === 'groq'){
+          apiStatus('Tentando Groq...\n' + apiCountsLine());
+          return await callGroq(prompt);
+        }
+        if(name === 'mistral'){
+          apiStatus('Tentando Mistral...\n' + apiCountsLine());
+          return await callMistral(prompt);
+        }
+      }catch(e){
+        errors.push(e.message || String(e));
+        apiStatus(`Falhou em ${name}: ${e.message || e}\n\n${apiCountsLine()}`, true);
+        if(mode !== 'auto') break;
+        // Continua no automático. Mesmo quando não é rate limit, pode ser falta de crédito/modelo; tentar o próximo evita travar.
+      }
+    }
+    throw new Error('Todas as APIs falharam. Detalhes: ' + errors.join(' | '));
+  };
+
+  window.testarAPI = async function(){
+    apiStatus('Testando modo selecionado...');
+    try{
+      const txt = await callAI('Responda apenas: Fruits Adventures Multi-API conectada com sucesso! 🍅');
+      apiStatus(txt + '\n\n' + apiCountsLine());
+      if(typeof toast === 'function') toast('API conectada!');
+    }catch(e){
+      apiStatus('Erro no teste: ' + (e.message || e) + '\n\nDica: confira chave, modelo e se o provedor exige crédito.\n\n' + apiCountsLine());
+    }
+  };
+
+  function titanBuildFullPrompt(){
+    const imgContext = (typeof base64Imagem !== 'undefined' && base64Imagem) ? '\n\nAtenção: o usuário anexou uma ou mais referências visuais. Se o provedor tiver visão, analise cores, iluminação, enquadramento, sequência, cenário e figurino. Se não tiver visão, use o texto e descrições disponíveis.' : '';
+    return `DNA DO ELENCO:\n${typeof dnaStr === 'function' ? dnaStr() : ''}\n\nUNIVERSO: ${typeof getUniversoContext === 'function' ? getUniversoContext() : ''}${typeof locationContext === 'function' ? locationContext() : ''}\nFORMATO: ${state?.tpl?.name || 'Fruits Adventures'}\nIDEIA BASE: ${api$('ideaLivre')?.value || ''}\nNÚMERO DE CENAS: ${api$('numCenas')?.value || '5'}\nDURAÇÃO ALVO: ${api$('duracao')?.value || ''}\nMOTOR VIRAL: ${api$('motor')?.value || ''}\nTOM EMOCIONAL: ${api$('tom')?.value || ''}\n${imgContext}\n\nCrie um pacote COMPLETO para produção viral, não apenas roteiro simples.\n\nA resposta deve vir em português e incluir obrigatoriamente:\n1. TÍTULO forte.\n2. LOGLINE.\n3. GANCHO DOS 3 PRIMEIROS SEGUNDOS.\n4. ROTEIRO COM TEMPO, dividido por cena, com marcação tipo 00:00-00:05.\n5. STORYBOARD VISUAL NUMERADO: STORYBOARD 1, STORYBOARD 2 ... STORYBOARD FINAL. Cada storyboard deve ter função, tempo, cena ligada, enquadramento, câmera, luz, ação, emoção, prompt de imagem em inglês, prompt Flow Labs em inglês e continuidade.\n6. PROMPTS DE FOTO/IMAGEM para YouTube 16:9, TikTok 9:16, Reels 9:16 e Instagram 4:5.\n7. PROMPTS DE VÍDEO para Flow Labs em inglês.\n8. FALAS/VOZES, SFX e música Suno AI.\n9. FALAS POR PERSONAGEM, SRT CAPCUT completo, ELEVENLABS com voz/emoção/fala e CSV DE DUBLAGEM.\n10. PÓS-PRODUÇÃO SMART com música de fundo, termos de busca no CapCut, efeitos sonoros por storyboard, transições, legenda, correção de cor, LUT e continuidade para Parte 2.\n11. NARRADOR / RÁDIO com narração limpa para ouvir.\n12. CTA final.\n\nUse linguagem direta, pronta para copiar e produzir.`;
+  }
+
+  window.gerarAPI = async function(){
+    if(!state.elenco.length || !state.tpl){ if(typeof toast === 'function') toast('Configure elenco e formato.'); return; }
+    const out = api$('roteiroOut');
+    if(out) out.innerHTML = typeof loadingHTML === 'function' ? loadingHTML('Gerando com Multi-API econômico...') : 'Gerando com Multi-API econômico...';
+    try{
+      const txt = await callAI(titanBuildFullPrompt(), {useVision:true});
+      state.roteiro = txt;
+      if(out) out.textContent = txt;
+      if(api$('turboResultOut')) api$('turboResultOut').textContent = txt;
+      if(typeof smartRefresh === 'function') setTimeout(smartRefresh,300);
+      if(api$('exportOut') && typeof buildExport === 'function') api$('exportOut').textContent = buildExport();
+      if(typeof titanAfterGeneration === 'function') titanAfterGeneration(txt);
+      if(typeof toast === 'function') toast('Pacote gerado com Multi-API!');
+    }catch(e){
+      if(out) out.textContent = 'Erro Multi-API: ' + (e.message || e) + '\n\nUse Gerar Local, Montar local ou copie o prompt para outro chat.';
+      if(typeof toast === 'function') toast('Falha na Multi-API.');
+    }
+  };
+
+  window.gerarCenasAPI = async function(){
+    if(!state.roteiro && typeof gerarLocal === 'function') gerarLocal();
+    const cont = api$('cenaContainer');
+    if(cont) cont.innerHTML = `<div style="padding:24px;text-align:center">${typeof loadingHTML === 'function' ? loadingHTML('Gerando cenas com Multi-API...') : 'Gerando cenas com Multi-API...'}</div>`;
+    const prompt = `Crie ${api$('numCenas')?.value || 5} cenas em JSON array para Fruits Adventures.\nDNA: ${typeof dnaStr === 'function' ? dnaStr() : ''}\nUniverso: ${typeof getUniversoContext === 'function' ? getUniversoContext() : ''}${typeof locationContext === 'function' ? locationContext() : ''}\n\nRoteiro base:\n${state.roteiro || api$('roteiroOut')?.textContent || ''}\n\nCada item deve ter exatamente estas chaves: title, tempo, storyboard, img, vid, youtube, tiktok, reels, instagram, aud, suno, cap.\ntempo deve ser no formato 00:00-00:05.\nstoryboard, aud, suno e cap em PORTUGUÊS.\nimg, vid, youtube, tiktok, reels e instagram devem ser prompts em INGLÊS, prontos para IA de imagem/vídeo.\nRetorne SOMENTE o array JSON, começando com [ e terminando com ].`;
+    try{
+      const txt = await callAI(prompt);
+      let limpo = txt.replace(/```json/gi,'').replace(/```/g,'').trim();
+      const match = limpo.match(/\[[\s\S]*\]/);
+      state.cenas = JSON.parse(match?.[0] || limpo);
+      if(typeof renderCenas === 'function') renderCenas();
+      if(api$('exportOut') && typeof buildExport === 'function') api$('exportOut').textContent = buildExport();
+      if(typeof toast === 'function') toast('Cenas Multi-API geradas!');
+    }catch(e){
+      if(cont) cont.innerHTML = `<div style="padding:24px;color:var(--red)">Erro Multi-API ao gerar cenas: ${String(e.message || e).replace(/</g,'&lt;')}</div>`;
+    }
+  };
+
+  if(typeof window.narratorGenerateAI === 'function'){
+    window.narratorGenerateAI = async function(){
+      const out = api$('narratorText');
+      const raw = typeof narratorAIContext === 'function' ? narratorAIContext() : (typeof smartRawText === 'function' ? smartRawText() : '');
+      if(!out) return;
+      if(!raw || raw.length < 80){ out.textContent = 'Gere o pacote completo primeiro. Depois o Narrador IA lê o roteiro, storyboards, sons e falas.'; return; }
+      out.textContent = '🎙️ Narrador IA está usando Multi-API econômico...';
+      try{
+        const prompt = typeof narratorAIPrompt === 'function' ? narratorAIPrompt() : raw;
+        const txt = await callAI(prompt);
+        out.textContent = txt;
+        if(typeof toast === 'function') toast('Narrador IA gerado com Multi-API!');
+      }catch(e){
+        out.textContent = 'Erro no Narrador Multi-API: ' + (e.message || e) + '\n\nUse Montar local para continuar sem API.';
+      }
+    };
+  }
+
+  const oldOnload = window.onload;
+  window.onload = function(){
+    if(typeof oldOnload === 'function') oldOnload();
+    multiAPILoadKeys();
+    multiAPIExplain();
+  };
 })();
 </script>
 
