@@ -418,6 +418,134 @@ body.locked{overflow:hidden}
   overflow:auto;
 }
 
+
+/* SMART PACKAGES V3 - COPIAR POR STORYBOARD */
+.smart-package-tools{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:10px 0 14px;
+}
+.package-card{
+  border:1px solid rgba(212,160,23,.32);
+  background:linear-gradient(135deg,rgba(212,160,23,.055),rgba(0,212,200,.03));
+  border-radius:16px;
+  margin:12px 0;
+  overflow:hidden;
+}
+.package-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  border-bottom:1px solid rgba(212,160,23,.18);
+  background:rgba(0,0,0,.18);
+}
+.package-title{
+  color:var(--gold2);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  font-size:12px;
+}
+.package-sub{
+  color:#8fa7bc;
+  font-size:11px;
+  margin-top:3px;
+}
+.package-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.package-btn{
+  border:1px solid rgba(0,212,200,.28);
+  background:#020509;
+  color:var(--cyan);
+  border-radius:9px;
+  padding:7px 9px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.5px;
+  cursor:pointer;
+}
+.package-btn:hover{
+  border-color:var(--gold);
+  color:var(--gold2);
+}
+.package-body{
+  padding:13px 14px;
+  white-space:pre-wrap;
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  line-height:1.65;
+  color:#c3d7ea;
+  max-height:330px;
+  overflow:auto;
+}
+.package-section-title{
+  color:var(--cyan);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin:10px 0 5px;
+}
+.package-mini-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+.smart-tab[data-smart-tab="packages"]{
+  border-color:rgba(212,160,23,.50);
+  color:var(--gold2);
+}
+
+
+/* NARRADOR RADIO - HISTORIA PARA ESCUTAR */
+.narrator-box{
+  border:1px solid rgba(155,109,255,.40);
+  background:linear-gradient(135deg,rgba(155,109,255,.07),rgba(0,212,200,.035));
+  border-radius:16px;
+  padding:14px;
+  margin:10px 0;
+}
+.narrator-title{
+  font-family:'Bebas Neue',sans-serif;
+  color:var(--purple);
+  letter-spacing:2px;
+  font-size:24px;
+  line-height:1;
+}
+.narrator-sub{font-size:12px;color:#9fb5cc;margin:8px 0 12px;line-height:1.45}
+.narrator-controls{
+  display:grid;
+  grid-template-columns:1fr 120px 120px;
+  gap:10px;
+  margin:10px 0;
+}
+.narrator-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.narrator-reader{
+  border:1px solid var(--border);
+  background:#020509;
+  border-radius:14px;
+  padding:14px;
+  white-space:pre-wrap;
+  font-family:'DM Mono',monospace;
+  font-size:13px;
+  color:#d5e7f6;
+  line-height:1.72;
+  max-height:460px;
+  overflow:auto;
+}
+.narrator-highlight{
+  background:rgba(212,160,23,.14);
+  border-left:3px solid var(--gold);
+  padding-left:8px;
+}
+@media(max-width:760px){.narrator-controls{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body class="locked">
@@ -722,6 +850,8 @@ body.locked{overflow:hidden}
       <button class="smart-tab" onclick="smartShow('post')">CapCut / Pós</button>
       <button class="smart-tab" onclick="smartShow('lut')">Cor / LUT</button>
       <button class="smart-tab" onclick="smartShow('artes')">Artes</button>
+      <button class="smart-tab" data-smart-tab="packages" onclick="smartShow('packages')">Pacotes</button>
+      <button class="smart-tab" onclick="smartShow('narrador')">Narrador</button>
       <button class="smart-tab" onclick="smartShow('all')">Tudo</button>
     </div>
     <div class="smart-grid" id="smartOutputCards">
@@ -735,6 +865,7 @@ body.locked{overflow:hidden}
       <button class="smart-btn" onclick="smartCopy('srt')">Copiar SRT</button>
       <button class="smart-btn" onclick="smartCopy('eleven')">Copiar ElevenLabs</button>
       <button class="smart-btn" onclick="smartCopy('post')">Copiar CapCut/Pós</button>
+      <button class="smart-btn" onclick="smartCopyPackages()">Copiar Pacotes</button>
       <button class="smart-btn" onclick="smartGoRaw()">Ir ao texto bruto</button>
     </div>
   </div>
@@ -2459,7 +2590,8 @@ function setTitanMode(tipo,objetivo){
 
 
 /* ─── PROMPT MESTRE FINAL DO MODELADOR VIRAL ─── */
-const MASTER_PROMPT_FINAL = 'Modele esta referência viral em uma versão original do universo Fruits Adventures.\n\nPrimeiro, reconheça o DNA da referência:\n- cenário\n- iluminação\n- cores\n- câmera\n- ritmo\n- emoção\n- conflito\n- personagens percebidos\n- ponto forte\n- ponto fraco\n- o que pode ficar mais viral\n\nDepois, recrie tudo como uma história original com os personagens Fruits Adventures.\n\nPersonagens obrigatórios:\n- Tomate Elinaldo como protagonista vulnerável, corajoso e perseguido\n- Sabrina Pitaya como aliada protetora e estratégica\n- Soldado Cenoura como bloqueio físico e guarda disciplinado\n- Soldado Banana como guarda de elite e ameaça de cerco\n- Abacatudo como vilão principal, mafioso, dono da rua e ameaça maior\n\nRegras:\n- não copiar literalmente a referência\n- não copiar rosto real, marca, logo, fala exata ou cena idêntica\n- usar apenas o DNA visual, emocional e narrativo como inspiração\n- deixar a história mais clara, mais viral e mais fácil de produzir\n- manter consistência visual dos personagens\n- criar gancho forte nos 3 primeiros segundos\n- criar perseguição clara\n- usar falas curtas e marcantes\n- terminar com plot twist e gancho para continuação\n\nCenário principal:\nbeco chuvoso da Favela do Tomate, noite, chão molhado, luz amarela de poste, paredes gastas, fios aparentes, sensação de perseguição, suspense urbano e ameaça mafiosa.\n\nFinal obrigatório:\nTomate e Sabrina acham que escaparam pelo beco vazio, mas Soldado Cenoura e Soldado Banana fecham as duas saídas. Então Abacatudo aparece na chuva e diz:\n“Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.”\n\nEntregar pacote completo:\n1. DNA da referência reconhecido\n2. título forte\n3. logline\n4. gancho dos 3 primeiros segundos\n5. roteiro com tempo por cena\n6. storyboard visual numerado em quantidade smart\n7. prompt de imagem por storyboard\n8. prompt Flow Labs por storyboard\n9. falas por personagem\n10. SRT CapCut completo\n11. ElevenLabs com personagem, emoção, voz sugerida e fala\n12. CSV de dublagem\n13. música de fundo sugerida\n14. efeitos sonoros por storyboard\n15. transições\n16. estilo de legenda CapCut\n17. correção de cor por cena\n18. LUT sugerido\n19. capa YouTube 16:9\n20. capa TikTok 9:16\n21. capa Reels 9:16\n22. post Instagram 4:5\n23. final pronto para Parte 2';
+const MASTER_PROMPT_FINAL = 'Modele esta referência viral em uma versão original do universo Fruits Adventures.\n\nPrimeiro, reconheça o DNA da referência:\n- cenário\n- iluminação\n- cores\n- câmera\n- ritmo\n- emoção\n- conflito\n- personagens percebidos\n- ponto forte\n- ponto fraco\n- o que pode ficar mais viral\n\nDepois, recrie tudo como uma história original com os personagens Fruits Adventures.\n\nPersonagens obrigatórios:\n- Tomate Elinaldo como protagonista vulnerável, corajoso e perseguido\n- Sabrina Pitaya como aliada protetora e estratégica\n- Soldado Cenoura como bloqueio físico e guarda disciplinado\n- Soldado Banana como guarda de elite e ameaça de cerco\n- Abacatudo como vilão principal, mafioso, dono da rua e ameaça maior\n\nRegras:\n- não copiar literalmente a referência\n- não copiar rosto real, marca, logo, fala exata ou cena idêntica\n- usar apenas o DNA visual, emocional e narrativo como inspiração\n- deixar a história mais clara, mais viral e mais fácil de produzir\n- manter consistência visual dos personagens\n- criar gancho forte nos 3 primeiros segundos\n- criar perseguição clara\n- usar falas curtas e marcantes\n- terminar com plot twist e gancho para continuação\n\nCenário principal:\nbeco chuvoso da Favela do Tomate, noite, chão molhado, luz amarela de poste, paredes gastas, fios aparentes, sensação de perseguição, suspense urbano e ameaça mafiosa.\n\nFinal obrigatório:\nTomate e Sabrina acham que escaparam pelo beco vazio, mas Soldado Cenoura e Soldado Banana fecham as duas saídas. Então Abacatudo aparece na chuva e diz:\n“Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.”\n\nEntregar pacote completo:\n1. DNA da referência reconhecido\n2. título forte\n3. logline\n4. gancho dos 3 primeiros segundos\n5. roteiro com tempo por cena\n6. storyboard visual numerado em quantidade smart\n7. prompt de imagem por storyboard\n8. prompt Flow Labs por storyboard\n9. falas por personagem\n10. SRT CapCut completo\n11. ElevenLabs com personagem, emoção, voz sugerida e fala\n12. CSV de dublagem\n13. música de fundo sugerida\n14. efeitos sonoros por storyboard\n15. transições\n16. estilo de legenda CapCut\n17. correção de cor por cena\n18. LUT sugerido\n19. capa YouTube 16:9\n20. capa TikTok 9:16\n21. capa Reels 9:16\n22. post Instagram 4:5\n23. final pronto para Parte 2
+24. NARRADOR / RÁDIO: uma versão narrada em estilo história de livro/rádio, com título, abertura, narração envolvente, pausas dramáticas e final com gancho.';
 const MASTER_PROMPT_CURTO = 'Modele esta referência viral em uma versão original do Fruits Adventures. Reconheça o DNA visual e narrativo da referência, mas não copie literalmente. Recrie com Tomate Elinaldo, Sabrina Pitaya, Soldado Cenoura, Soldado Banana e Abacatudo. Melhorar gancho, tensão, clareza, perseguição, falas curtas, plot twist e final pronto para continuação. Entregar roteiro, tempo por cena, storyboards numerados, prompts de imagem, Flow Labs, SRT, ElevenLabs, CSV de voz, música, SFX, LUT, CapCut e artes para YouTube, TikTok, Reels e Instagram.';
 
 function initMasterPromptPreview(){
@@ -2559,7 +2691,8 @@ document.addEventListener('DOMContentLoaded', initAccessGate);
 
 
 /* ─── PRESET PRONTO: MODELAGEM DO VÍDEO DO BECO ─── */
-const TESTE_BECO_TITAN_PROMPT = 'Modele os prints/vídeo de referência em uma nova Parte 1 original do universo Fruits Adventures.\n\nOBJETIVO:\nRefazer a ideia do vídeo anterior porque ele não ficou viral o suficiente. A nova versão precisa ser mais clara, mais tensa, mais cinematográfica e mais fácil de produzir.\n\nDNA visual a copiar:\nBeco chuvoso da Favela do Tomate, noite, chão molhado, luz amarela de poste, sombras azuladas, paredes gastas, fios aparentes, clima de perseguição, suspense urbano, close sombrio do vilão, Sabrina e Tomate assustados e sensação de perigo.\n\nPersonagens obrigatórios:\n- Tomate Elinaldo como herói vulnerável, corajoso e perseguido.\n- Sabrina Pitaya como protetora estratégica, mas com segredo.\n- Soldado Cenoura como guarda disciplinado bloqueando uma saída.\n- Soldado Banana como guarda de elite bloqueando a outra saída.\n- Abacatudo como vilão principal, mafioso, dono da rua e ameaça maior.\n\nHistória base remodelada:\nTomate Elinaldo e Sabrina Pitaya tentam fugir por um beco chuvoso. Tomate carrega um cartão de memória molhado com uma prova contra Abacatudo. Sabrina tenta tirar Tomate do beco, mas a primeira saída está trancada. Soldado Cenoura aparece com uma lanterna forte e bloqueia o caminho. Eles tentam correr para o outro lado, mas Soldado Banana surge na outra ponta. Quando Tomate acha que Sabrina está tentando pegar a prova dele, Abacatudo aparece na chuva e revela que deixou os dois correrem apenas para descobrir quem estava ajudando Tomate.\n\nFinal obrigatório:\nTomate e Sabrina acham que escaparam pelo beco vazio, mas Soldado Cenoura e Soldado Banana fecham as duas saídas. Então Abacatudo aparece na chuva e diz:\n“Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.”\n\nEntregar pacote completo:\n1. DNA da referência reconhecido\n2. título forte\n3. logline\n4. gancho dos 3 primeiros segundos\n5. roteiro com tempo por cena\n6. storyboard visual numerado em quantidade smart\n7. prompt de imagem por storyboard\n8. prompt Flow Labs por storyboard\n9. falas por personagem\n10. SRT CapCut completo\n11. ElevenLabs com personagem, emoção, voz sugerida e fala\n12. CSV de dublagem\n13. música de fundo sugerida\n14. efeitos sonoros por storyboard\n15. transições\n16. estilo de legenda CapCut\n17. correção de cor por cena\n18. LUT sugerido\n19. capa YouTube 16:9\n20. capa TikTok 9:16\n21. capa Reels 9:16\n22. post Instagram 4:5\n23. final pronto para Parte 2';
+const TESTE_BECO_TITAN_PROMPT = 'Modele os prints/vídeo de referência em uma nova Parte 1 original do universo Fruits Adventures.\n\nOBJETIVO:\nRefazer a ideia do vídeo anterior porque ele não ficou viral o suficiente. A nova versão precisa ser mais clara, mais tensa, mais cinematográfica e mais fácil de produzir.\n\nDNA visual a copiar:\nBeco chuvoso da Favela do Tomate, noite, chão molhado, luz amarela de poste, sombras azuladas, paredes gastas, fios aparentes, clima de perseguição, suspense urbano, close sombrio do vilão, Sabrina e Tomate assustados e sensação de perigo.\n\nPersonagens obrigatórios:\n- Tomate Elinaldo como herói vulnerável, corajoso e perseguido.\n- Sabrina Pitaya como protetora estratégica, mas com segredo.\n- Soldado Cenoura como guarda disciplinado bloqueando uma saída.\n- Soldado Banana como guarda de elite bloqueando a outra saída.\n- Abacatudo como vilão principal, mafioso, dono da rua e ameaça maior.\n\nHistória base remodelada:\nTomate Elinaldo e Sabrina Pitaya tentam fugir por um beco chuvoso. Tomate carrega um cartão de memória molhado com uma prova contra Abacatudo. Sabrina tenta tirar Tomate do beco, mas a primeira saída está trancada. Soldado Cenoura aparece com uma lanterna forte e bloqueia o caminho. Eles tentam correr para o outro lado, mas Soldado Banana surge na outra ponta. Quando Tomate acha que Sabrina está tentando pegar a prova dele, Abacatudo aparece na chuva e revela que deixou os dois correrem apenas para descobrir quem estava ajudando Tomate.\n\nFinal obrigatório:\nTomate e Sabrina acham que escaparam pelo beco vazio, mas Soldado Cenoura e Soldado Banana fecham as duas saídas. Então Abacatudo aparece na chuva e diz:\n“Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.”\n\nEntregar pacote completo:\n1. DNA da referência reconhecido\n2. título forte\n3. logline\n4. gancho dos 3 primeiros segundos\n5. roteiro com tempo por cena\n6. storyboard visual numerado em quantidade smart\n7. prompt de imagem por storyboard\n8. prompt Flow Labs por storyboard\n9. falas por personagem\n10. SRT CapCut completo\n11. ElevenLabs com personagem, emoção, voz sugerida e fala\n12. CSV de dublagem\n13. música de fundo sugerida\n14. efeitos sonoros por storyboard\n15. transições\n16. estilo de legenda CapCut\n17. correção de cor por cena\n18. LUT sugerido\n19. capa YouTube 16:9\n20. capa TikTok 9:16\n21. capa Reels 9:16\n22. post Instagram 4:5\n23. final pronto para Parte 2
+24. NARRADOR / RÁDIO: uma versão narrada em estilo história de livro/rádio, com título, abertura, narração envolvente, pausas dramáticas e final com gancho.';
 
 function setSelectByText(selectId, textNeedle){
   const el=$(selectId);
@@ -2725,6 +2858,8 @@ function smartTitle(key){
     post:'CapCut / Pós-Produção',
     lut:'Correção de Cor / LUT',
     artes:'Artes YouTube / TikTok / Reels / Instagram',
+    packages:'Pacotes por Storyboard',
+    narrador:'Narrador / Rádio',
     all:'Resultado Completo'
   })[key] || key;
 }
@@ -2740,6 +2875,8 @@ function smartNote(key){
     post:'Guia de música, SFX, transição e edição.',
     lut:'Guia de cor para manter visual consistente.',
     artes:'Prompts para capa e posts.',
+    packages:'Copie cada pacote de produção por storyboard.',
+    narrador:'Escute a história narrada como rádio/livro.',
     all:'Texto bruto completo.'
   })[key] || '';
 }
@@ -2747,7 +2884,7 @@ function smartRefresh(){
   const cards=document.getElementById('smartOutputCards');
   if(!cards) return;
   window.smartSections = smartBuildSections();
-  const keys=['resumo','story','image','flow','srt','eleven','csv','post','lut','artes','all'];
+  const keys=['resumo','story','image','flow','srt','eleven','csv','post','lut','artes','packages','narrador','all'];
   const hasAny=keys.some(k=>window.smartSections[k]);
   if(!hasAny){
     cards.innerHTML='<div class="smart-empty">Ainda não encontrei resultado gerado. Clique em “Gerar pacote completo” primeiro.</div>';
@@ -2843,6 +2980,404 @@ if(typeof unlockPortal !== 'function'){
 }
 window.addEventListener('pageshow', ()=>{ if(document.getElementById('accessGate')) forceLockPortalSmart(); });
 
+
+/* ─── SMART PACKAGES V3: pacotes por Storyboard/Cena ─── */
+function smartSplitBlocksByHeading(text, terms){
+  const src=String(text||'').replace(/\r/g,'');
+  const joined=terms.join('|');
+  const re=new RegExp(`(?:^|\\n)(?:#{1,5}\\s*)?((?:${joined})\\s*(?:VISUAL\\s*)?(?:\\d+|FINAL)?[^\\n]*)\\n`, 'gi');
+  const matches=[];
+  let m;
+  while((m=re.exec(src))!==null){
+    matches.push({index:m.index, title:(m[1]||'Bloco').trim()});
+  }
+  return matches.map((item,i)=>{
+    const start=item.index;
+    const end=i+1<matches.length?matches[i+1].index:src.length;
+    return {title:item.title, body:src.slice(start,end).trim()};
+  }).filter(b=>b.body.length>30);
+}
+function smartNumberFromTitle(title, fallback){
+  const t=String(title||'');
+  if(/final/i.test(t)) return 999;
+  const m=t.match(/(\d+)/);
+  return m ? Number(m[1]) : fallback;
+}
+function smartExtractByNumber(text, startTerms, n){
+  const src=String(text||'');
+  const num = n===999 ? '(?:FINAL|final)' : String(n);
+  const startPattern = startTerms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');
+  const re = new RegExp(`(?:^|\\n)(?:#{1,5}\\s*)?(?:${startPattern})\\s*(?:VISUAL\\s*)?${num}[^\\n]*\\n[\\s\\S]*?(?=\\n(?:#{1,5}\\s*)?(?:${startPattern})\\s*(?:VISUAL\\s*)?(?:\\d+|FINAL)|\\n(?:#{1,5}\\s*)?(?:SRT|ELEVENLABS|CSV|PÓS|POS|CAPCUT|COR|LUT|YOUTUBE|TIKTOK|REELS|INSTAGRAM)|$)`, 'i');
+  const m=src.match(re);
+  return m ? m[0].trim() : '';
+}
+function smartExtractTimeRange(block){
+  const s=String(block||'');
+  const m=s.match(/(?:tempo|time|duração|duration)[^\n:]*:\s*([0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?\s*(?:-|–|—|a|até|-->)+\s*[0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?)/i)
+      || s.match(/([0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?\s*(?:-|–|—|-->)+\s*[0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?)/);
+  return m ? m[1] : '';
+}
+function smartExtractSrtForTime(srtText, timeRange){
+  if(!srtText || !timeRange) return '';
+  const times=timeRange.match(/([0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?)/g);
+  if(!times || times.length<2) return '';
+  // Lightweight: return lines containing exact seconds around start/end if possible.
+  const start=times[0].split(':').slice(-2).join(':');
+  const end=times[1].split(':').slice(-2).join(':');
+  const blocks=String(srtText).split(/\n\s*\n/).filter(Boolean);
+  const found=blocks.filter(b=>b.includes(start) || b.includes(end));
+  return found.join('\n\n');
+}
+function smartMakePackageCards(){
+  const text=smartRawText();
+  const sections = window.smartSections && Object.keys(window.smartSections).length ? window.smartSections : smartBuildSections();
+  const storyText=sections.story || smartSlice(text, ['STORYBOARD VISUAL','STORYBOARD 1','STORYBOARDS'], ['SRT','ELEVENLABS','CSV','PÓS','POS','CAPCUT']) || '';
+  let stories=smartSplitBlocksByHeading(storyText, ['STORYBOARD','QUADRO','BOARD']);
+  if(!stories.length){
+    stories=smartSplitBlocksByHeading(text, ['STORYBOARD','QUADRO','BOARD']).slice(0,20);
+  }
+  const imageText=sections.image || '';
+  const flowText=sections.flow || '';
+  const srtText=sections.srt || '';
+  const elevenText=sections.eleven || '';
+  const postText=sections.post || '';
+  const lutText=sections.lut || '';
+
+  return stories.map((st, idx)=>{
+    const n=smartNumberFromTitle(st.title, idx+1);
+    const time=smartExtractTimeRange(st.body);
+    const image=smartExtractByNumber(imageText, ['PROMPT DE IMAGEM','PROMPT IMAGEM','IMAGE PROMPT','PROMPT'], n);
+    const flow=smartExtractByNumber(flowText, ['FLOW LABS','PROMPT FLOW','VIDEO PROMPT','PROMPT DE VÍDEO'], n);
+    const srt=smartExtractSrtForTime(srtText, time);
+    const bodyParts=[
+      `### ${st.title}`,
+      time ? `TEMPO: ${time}` : '',
+      '',
+      '--- STORYBOARD ---',
+      st.body,
+      image ? '\n--- PROMPT DE IMAGEM ---\n'+image : '',
+      flow ? '\n--- FLOW LABS ---\n'+flow : '',
+      srt ? '\n--- SRT DO TRECHO ---\n'+srt : '',
+      idx===0 && elevenText ? '\n--- VOZ / ELEVENLABS GERAL ---\n'+elevenText.slice(0,1800) : '',
+      idx===0 && postText ? '\n--- CAPCUT / PÓS GERAL ---\n'+postText.slice(0,1800) : '',
+      idx===0 && lutText ? '\n--- COR / LUT GERAL ---\n'+lutText.slice(0,1600) : ''
+    ].filter(Boolean).join('\n');
+    return {
+      id: 'pkg_'+idx,
+      title: st.title,
+      note: time ? `Tempo: ${time}` : `Pacote ${idx+1}`,
+      storyboard: st.body,
+      image,
+      flow,
+      srt,
+      package: bodyParts
+    };
+  });
+}
+function smartRenderPackages(){
+  const packages=smartMakePackageCards();
+  if(!packages.length){
+    return '<div class="smart-empty">Não encontrei Storyboards numerados para montar pacotes. Clique em “Tudo” ou gere novamente pedindo “STORYBOARD 1, STORYBOARD 2...”</div>';
+  }
+  return `<div class="smart-package-tools">
+    <button class="package-btn" onclick="smartCopyPackages()">Copiar todos os pacotes</button>
+    <button class="package-btn" onclick="smartCopyAllStoryPrompts()">Copiar só prompts de imagem</button>
+    <button class="package-btn" onclick="smartCopyAllFlowPrompts()">Copiar só Flow Labs</button>
+  </div>` + packages.map((p,i)=>`
+    <div class="package-card" id="${p.id}">
+      <div class="package-head">
+        <div>
+          <div class="package-title">${smartEsc(p.title || 'Pacote '+(i+1))}</div>
+          <div class="package-sub">${smartEsc(p.note || '')}</div>
+        </div>
+        <div class="package-actions">
+          <button class="package-btn" onclick="smartCopyPackage(${i})">Copiar pacote</button>
+          <button class="package-btn" onclick="smartCopyPackagePart(${i},'storyboard')">Storyboard</button>
+          <button class="package-btn" onclick="smartCopyPackagePart(${i},'image')">Imagem</button>
+          <button class="package-btn" onclick="smartCopyPackagePart(${i},'flow')">Flow</button>
+          <button class="package-btn" onclick="smartTogglePkg('${p.id}')">Expandir</button>
+        </div>
+      </div>
+      <div class="package-body" data-package-index="${i}">${smartEsc(p.package)}</div>
+    </div>`).join('');
+}
+function smartTogglePkg(id){
+  const el=document.querySelector(`#${id} .package-body`);
+  if(!el) return;
+  el.style.maxHeight = el.style.maxHeight==='none' ? '330px' : 'none';
+}
+function smartPackagesData(){
+  return smartMakePackageCards();
+}
+function smartCopyPackage(i){
+  const p=smartPackagesData()[i];
+  if(!p) return smartToast('Pacote não encontrado.');
+  smartCopyText(p.package, 'Pacote copiado!');
+}
+function smartCopyPackagePart(i,part){
+  const p=smartPackagesData()[i];
+  if(!p) return smartToast('Pacote não encontrado.');
+  const txt=p[part] || '';
+  if(!txt.trim()) return smartToast('Esse trecho não apareceu neste pacote.');
+  smartCopyText(txt, 'Trecho copiado!');
+}
+function smartCopyPackages(){
+  const arr=smartPackagesData();
+  if(!arr.length) return smartToast('Nenhum pacote encontrado.');
+  smartCopyText(arr.map(p=>p.package).join('\n\n====================\n\n'), 'Todos os pacotes copiados!');
+}
+function smartCopyAllStoryPrompts(){
+  const arr=smartPackagesData().map((p,i)=>p.image || '').filter(Boolean);
+  if(!arr.length) return smartToast('Prompts de imagem não encontrados.');
+  smartCopyText(arr.join('\n\n---\n\n'), 'Prompts de imagem copiados!');
+}
+function smartCopyAllFlowPrompts(){
+  const arr=smartPackagesData().map((p,i)=>p.flow || '').filter(Boolean);
+  if(!arr.length) return smartToast('Prompts Flow não encontrados.');
+  smartCopyText(arr.join('\n\n---\n\n'), 'Prompts Flow copiados!');
+}
+
+/* Patch da Central Smart para incluir aba Pacotes renderizada */
+(function(){
+  const oldRefresh = window.smartRefresh;
+  window.smartRefresh = function(){
+    if(typeof oldRefresh === 'function') oldRefresh();
+    const cards=document.getElementById('smartOutputCards');
+    if(!cards) return;
+    if(document.querySelector('.smart-card[data-smart="packages"]')) return;
+    const packageHtml=smartRenderPackages();
+    cards.insertAdjacentHTML('beforeend', `<div class="smart-card" data-smart="packages">
+      <div class="smart-head">
+        <div>
+          <div class="smart-card-title">Pacotes por Storyboard</div>
+          <div class="smart-card-note">Cada pacote reúne storyboard, prompt de imagem, Flow, voz/SRT e pós quando encontrado.</div>
+        </div>
+        <div class="smart-actions">
+          <button class="smart-btn" onclick="smartCopyPackages()">Copiar todos</button>
+          <button class="smart-btn" onclick="smartExpand('packages')">Expandir</button>
+        </div>
+      </div>
+      <div class="smart-body" id="smartBody_packages" style="max-height:none">${packageHtml}</div>
+    </div>`);
+  };
+  const oldShow = window.smartShow;
+  window.smartShow = function(key){
+    if(key==='packages' && (!document.querySelector('.smart-card[data-smart="packages"]'))) smartRefresh();
+    if(typeof oldShow === 'function') oldShow(key);
+  };
+})();
+
+
+/* ─── NARRADOR / RÁDIO: história para ouvir enquanto trabalha ─── */
+window.narratorState = window.narratorState || { utterance:null, paused:false };
+
+function narratorCleanText(txt){
+  return String(txt||'')
+    .replace(/```[\s\S]*?```/g,'')
+    .replace(/#+\s*/g,'')
+    .replace(/\*\*/g,'')
+    .replace(/\[[^\]]*\]\([^)]+\)/g,'')
+    .replace(/PROMPT[^:]*:[\s\S]*?(?=\n[A-ZÁÉÍÓÚÂÊÔÃÕÇ ]{3,}:|\n\d+\.|\n\n|$)/gi,'')
+    .replace(/(?:Flow Labs|ElevenLabs|CSV|SRT|CapCut|LUT|YouTube|TikTok|Reels|Instagram)[\s\S]*?(?=\n(?:Cena|CENA|Ato|ATO|Final|GANCHO|Título|TITULO)|$)/gi,'')
+    .replace(/\n{3,}/g,'\n\n')
+    .trim();
+}
+function narratorBuildStory(){
+  const text=smartRawText ? smartRawText() : (document.getElementById('turboResultOut')?.innerText || '');
+  if(!text.trim()) return '';
+
+  // Preferir bloco NARRADOR/RÁDIO se a IA entregou.
+  const radio = smartSlice ? smartSlice(text,
+    ['NARRADOR / RÁDIO','NARRADOR/RÁDIO','VERSÃO RÁDIO','RADIO STORY','NARRAÇÃO EM RÁDIO','NARRAÇÃO'],
+    ['STORYBOARD','PROMPTS','FLOW LABS','SRT','ELEVENLABS','CSV','CAPCUT','LUT','YOUTUBE','TIKTOK','REELS','INSTAGRAM']
+  ) : '';
+  if(radio && radio.length > 120) return narratorCleanText(radio);
+
+  const resumo = (window.smartSections && smartSections.resumo) ? smartSections.resumo : '';
+  const story = (window.smartSections && smartSections.story) ? smartSections.story : '';
+  const all = resumo + '\n\n' + story;
+  const base = narratorCleanText(all || text);
+
+  // Monta uma versão mais de "livro/rádio" sem depender de nova API.
+  let titulo = (text.match(/(?:TÍTULO|TITULO|Título|Titulo)[:\s*#-]+([^\n]+)/i)||[])[1] || "A Armadilha do Beco Molhado";
+  titulo = titulo.replace(/\*/g,'').trim();
+
+  const cenas = [];
+  const re = /(?:^|\n)(?:#{1,4}\s*)?(?:CENA|Cena)\s*\d+[^\n]*\n([\s\S]*?)(?=\n(?:#{1,4}\s*)?(?:CENA|Cena)\s*\d+|\n(?:#{1,4}\s*)?STORYBOARD|\nSRT|\nELEVENLABS|$)/g;
+  let m;
+  while((m=re.exec(text))!==null){
+    const clean=narratorCleanText(m[0]);
+    if(clean.length>40) cenas.push(clean);
+  }
+
+  if(cenas.length){
+    return `TÍTULO: ${titulo}
+
+NARRADOR:
+A chuva cai sobre a Favela do Tomate.
+
+O beco está escuro. O chão brilha com água, luz amarela e medo.
+
+${cenas.slice(0,8).join('\n\n')}
+
+NARRADOR:
+E quando parecia que a fuga tinha acabado...
+
+Abacatudo aparece na chuva.
+
+Ele não grita. Ele não corre. Ele apenas sorri.
+
+ABACATUDO:
+Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.
+
+NARRADOR:
+E naquele silêncio, Tomate entende uma coisa.
+
+A armadilha nunca foi o beco.
+
+A armadilha era confiar em quem estava ao lado dele.
+
+Continua na Parte 2.`;
+  }
+
+  return `TÍTULO: ${titulo}
+
+NARRADOR:
+Esta é uma história do universo Fruits Adventures.
+
+${base.slice(0,4500)}
+
+NARRADOR:
+Fim da Parte 1. Continua na Parte 2.`;
+}
+function narratorRender(){
+  const body=document.getElementById('narratorText');
+  if(!body) return;
+  const txt=narratorBuildStory();
+  body.textContent = txt || 'Gere o pacote primeiro. Depois esta aba cria a versão narrada para escutar.';
+}
+function narratorPopulateVoices(){
+  const sel=document.getElementById('narratorVoice');
+  if(!sel || !('speechSynthesis' in window)) return;
+  const voices=window.speechSynthesis.getVoices();
+  const current=sel.value;
+  sel.innerHTML='';
+  voices.forEach((v,i)=>{
+    const opt=document.createElement('option');
+    opt.value=String(i);
+    opt.textContent=`${v.name} — ${v.lang}`;
+    sel.appendChild(opt);
+  });
+  if(current) sel.value=current;
+}
+function narratorSpeak(){
+  const txt=document.getElementById('narratorText')?.innerText || narratorBuildStory();
+  if(!txt.trim()) return smartToast('Gere o pacote primeiro.');
+  if(!('speechSynthesis' in window)) return smartToast('Este navegador não liberou voz automática.');
+
+  window.speechSynthesis.cancel();
+
+  const utter=new SpeechSynthesisUtterance(txt);
+  const voices=window.speechSynthesis.getVoices();
+  const voiceIndex=Number(document.getElementById('narratorVoice')?.value || -1);
+  if(voices[voiceIndex]) utter.voice=voices[voiceIndex];
+  utter.rate=Number(document.getElementById('narratorRate')?.value || 0.95);
+  utter.pitch=Number(document.getElementById('narratorPitch')?.value || 1);
+  utter.lang=(utter.voice && utter.voice.lang) || 'pt-BR';
+
+  window.narratorState.utterance=utter;
+  window.narratorState.paused=false;
+  window.speechSynthesis.speak(utter);
+}
+function narratorPause(){
+  if(!('speechSynthesis' in window)) return;
+  if(window.speechSynthesis.speaking && !window.speechSynthesis.paused){
+    window.speechSynthesis.pause();
+    window.narratorState.paused=true;
+  }else if(window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    window.narratorState.paused=false;
+  }
+}
+function narratorStop(){
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  window.narratorState.paused=false;
+}
+function narratorCopy(){
+  const txt=document.getElementById('narratorText')?.innerText || narratorBuildStory();
+  smartCopyText(txt,'Narração copiada!');
+}
+function narratorDownload(){
+  const txt=document.getElementById('narratorText')?.innerText || narratorBuildStory();
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='fruits_adventures_narrador_radio.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function smartRenderNarrator(){
+  return `<div class="narrator-box">
+    <div class="narrator-title">🎙️ Narrador / Rádio</div>
+    <div class="narrator-sub">
+      Versão para escutar enquanto trabalha. O navegador lê a história em voz alta. Para voz profissional, copie este texto e leve para ElevenLabs.
+    </div>
+    <div class="narrator-controls">
+      <select id="narratorVoice" onchange="narratorPopulateVoices()"></select>
+      <input id="narratorRate" type="number" min="0.6" max="1.4" step="0.05" value="0.95" title="Velocidade">
+      <input id="narratorPitch" type="number" min="0.6" max="1.4" step="0.05" value="1" title="Tom">
+    </div>
+    <div class="narrator-buttons">
+      <button class="package-btn" onclick="narratorRender()">Montar narração</button>
+      <button class="package-btn" onclick="narratorSpeak()">▶ Ouvir</button>
+      <button class="package-btn" onclick="narratorPause()">⏸ Pausar/Continuar</button>
+      <button class="package-btn" onclick="narratorStop()">■ Parar</button>
+      <button class="package-btn" onclick="narratorCopy()">Copiar texto</button>
+      <button class="package-btn" onclick="narratorDownload()">Baixar TXT</button>
+    </div>
+    <div class="narrator-reader" id="narratorText">Gere o pacote primeiro. Depois clique em “Montar narração”.</div>
+  </div>`;
+}
+
+/* Patch da Central Smart para incluir aba Narrador */
+(function(){
+  const oldRefreshNarrator = window.smartRefresh;
+  window.smartRefresh = function(){
+    if(typeof oldRefreshNarrator === 'function') oldRefreshNarrator();
+    const cards=document.getElementById('smartOutputCards');
+    if(!cards) return;
+    if(!document.querySelector('.smart-card[data-smart="narrador"]')){
+      cards.insertAdjacentHTML('beforeend', `<div class="smart-card" data-smart="narrador">
+        <div class="smart-head">
+          <div>
+            <div class="smart-card-title">Narrador / Rádio</div>
+            <div class="smart-card-note">Texto narrado para escutar a história sem precisar ler.</div>
+          </div>
+          <div class="smart-actions">
+            <button class="smart-btn" onclick="narratorCopy()">Copiar</button>
+            <button class="smart-btn" onclick="narratorSpeak()">Ouvir</button>
+          </div>
+        </div>
+        <div class="smart-body" id="smartBody_narrador" style="max-height:none">${smartRenderNarrator()}</div>
+      </div>`);
+      narratorPopulateVoices();
+      setTimeout(narratorRender,300);
+    }
+  };
+  const oldShowNarrator = window.smartShow;
+  window.smartShow = function(key){
+    if(key==='narrador' && (!document.querySelector('.smart-card[data-smart="narrador"]'))) smartRefresh();
+    if(typeof oldShowNarrator === 'function') oldShowNarrator(key);
+    if(key==='narrador'){
+      narratorPopulateVoices();
+      narratorRender();
+    }
+  };
+  if('speechSynthesis' in window){
+    window.speechSynthesis.onvoiceschanged = narratorPopulateVoices;
+  }
+})();
+
 </script>
 
 <script>
@@ -2906,6 +3441,404 @@ window.addEventListener('pageshow', ()=>{ if(document.getElementById('accessGate
   window.addEventListener("pageshow", showAccessGate);
   document.addEventListener("DOMContentLoaded", bindAccessGate);
 })();
+
+/* ─── SMART PACKAGES V3: pacotes por Storyboard/Cena ─── */
+function smartSplitBlocksByHeading(text, terms){
+  const src=String(text||'').replace(/\r/g,'');
+  const joined=terms.join('|');
+  const re=new RegExp(`(?:^|\\n)(?:#{1,5}\\s*)?((?:${joined})\\s*(?:VISUAL\\s*)?(?:\\d+|FINAL)?[^\\n]*)\\n`, 'gi');
+  const matches=[];
+  let m;
+  while((m=re.exec(src))!==null){
+    matches.push({index:m.index, title:(m[1]||'Bloco').trim()});
+  }
+  return matches.map((item,i)=>{
+    const start=item.index;
+    const end=i+1<matches.length?matches[i+1].index:src.length;
+    return {title:item.title, body:src.slice(start,end).trim()};
+  }).filter(b=>b.body.length>30);
+}
+function smartNumberFromTitle(title, fallback){
+  const t=String(title||'');
+  if(/final/i.test(t)) return 999;
+  const m=t.match(/(\d+)/);
+  return m ? Number(m[1]) : fallback;
+}
+function smartExtractByNumber(text, startTerms, n){
+  const src=String(text||'');
+  const num = n===999 ? '(?:FINAL|final)' : String(n);
+  const startPattern = startTerms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');
+  const re = new RegExp(`(?:^|\\n)(?:#{1,5}\\s*)?(?:${startPattern})\\s*(?:VISUAL\\s*)?${num}[^\\n]*\\n[\\s\\S]*?(?=\\n(?:#{1,5}\\s*)?(?:${startPattern})\\s*(?:VISUAL\\s*)?(?:\\d+|FINAL)|\\n(?:#{1,5}\\s*)?(?:SRT|ELEVENLABS|CSV|PÓS|POS|CAPCUT|COR|LUT|YOUTUBE|TIKTOK|REELS|INSTAGRAM)|$)`, 'i');
+  const m=src.match(re);
+  return m ? m[0].trim() : '';
+}
+function smartExtractTimeRange(block){
+  const s=String(block||'');
+  const m=s.match(/(?:tempo|time|duração|duration)[^\n:]*:\s*([0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?\s*(?:-|–|—|a|até|-->)+\s*[0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?)/i)
+      || s.match(/([0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?\s*(?:-|–|—|-->)+\s*[0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?)/);
+  return m ? m[1] : '';
+}
+function smartExtractSrtForTime(srtText, timeRange){
+  if(!srtText || !timeRange) return '';
+  const times=timeRange.match(/([0-9]{1,2}:[0-9]{2}(?::[0-9]{2})?)/g);
+  if(!times || times.length<2) return '';
+  // Lightweight: return lines containing exact seconds around start/end if possible.
+  const start=times[0].split(':').slice(-2).join(':');
+  const end=times[1].split(':').slice(-2).join(':');
+  const blocks=String(srtText).split(/\n\s*\n/).filter(Boolean);
+  const found=blocks.filter(b=>b.includes(start) || b.includes(end));
+  return found.join('\n\n');
+}
+function smartMakePackageCards(){
+  const text=smartRawText();
+  const sections = window.smartSections && Object.keys(window.smartSections).length ? window.smartSections : smartBuildSections();
+  const storyText=sections.story || smartSlice(text, ['STORYBOARD VISUAL','STORYBOARD 1','STORYBOARDS'], ['SRT','ELEVENLABS','CSV','PÓS','POS','CAPCUT']) || '';
+  let stories=smartSplitBlocksByHeading(storyText, ['STORYBOARD','QUADRO','BOARD']);
+  if(!stories.length){
+    stories=smartSplitBlocksByHeading(text, ['STORYBOARD','QUADRO','BOARD']).slice(0,20);
+  }
+  const imageText=sections.image || '';
+  const flowText=sections.flow || '';
+  const srtText=sections.srt || '';
+  const elevenText=sections.eleven || '';
+  const postText=sections.post || '';
+  const lutText=sections.lut || '';
+
+  return stories.map((st, idx)=>{
+    const n=smartNumberFromTitle(st.title, idx+1);
+    const time=smartExtractTimeRange(st.body);
+    const image=smartExtractByNumber(imageText, ['PROMPT DE IMAGEM','PROMPT IMAGEM','IMAGE PROMPT','PROMPT'], n);
+    const flow=smartExtractByNumber(flowText, ['FLOW LABS','PROMPT FLOW','VIDEO PROMPT','PROMPT DE VÍDEO'], n);
+    const srt=smartExtractSrtForTime(srtText, time);
+    const bodyParts=[
+      `### ${st.title}`,
+      time ? `TEMPO: ${time}` : '',
+      '',
+      '--- STORYBOARD ---',
+      st.body,
+      image ? '\n--- PROMPT DE IMAGEM ---\n'+image : '',
+      flow ? '\n--- FLOW LABS ---\n'+flow : '',
+      srt ? '\n--- SRT DO TRECHO ---\n'+srt : '',
+      idx===0 && elevenText ? '\n--- VOZ / ELEVENLABS GERAL ---\n'+elevenText.slice(0,1800) : '',
+      idx===0 && postText ? '\n--- CAPCUT / PÓS GERAL ---\n'+postText.slice(0,1800) : '',
+      idx===0 && lutText ? '\n--- COR / LUT GERAL ---\n'+lutText.slice(0,1600) : ''
+    ].filter(Boolean).join('\n');
+    return {
+      id: 'pkg_'+idx,
+      title: st.title,
+      note: time ? `Tempo: ${time}` : `Pacote ${idx+1}`,
+      storyboard: st.body,
+      image,
+      flow,
+      srt,
+      package: bodyParts
+    };
+  });
+}
+function smartRenderPackages(){
+  const packages=smartMakePackageCards();
+  if(!packages.length){
+    return '<div class="smart-empty">Não encontrei Storyboards numerados para montar pacotes. Clique em “Tudo” ou gere novamente pedindo “STORYBOARD 1, STORYBOARD 2...”</div>';
+  }
+  return `<div class="smart-package-tools">
+    <button class="package-btn" onclick="smartCopyPackages()">Copiar todos os pacotes</button>
+    <button class="package-btn" onclick="smartCopyAllStoryPrompts()">Copiar só prompts de imagem</button>
+    <button class="package-btn" onclick="smartCopyAllFlowPrompts()">Copiar só Flow Labs</button>
+  </div>` + packages.map((p,i)=>`
+    <div class="package-card" id="${p.id}">
+      <div class="package-head">
+        <div>
+          <div class="package-title">${smartEsc(p.title || 'Pacote '+(i+1))}</div>
+          <div class="package-sub">${smartEsc(p.note || '')}</div>
+        </div>
+        <div class="package-actions">
+          <button class="package-btn" onclick="smartCopyPackage(${i})">Copiar pacote</button>
+          <button class="package-btn" onclick="smartCopyPackagePart(${i},'storyboard')">Storyboard</button>
+          <button class="package-btn" onclick="smartCopyPackagePart(${i},'image')">Imagem</button>
+          <button class="package-btn" onclick="smartCopyPackagePart(${i},'flow')">Flow</button>
+          <button class="package-btn" onclick="smartTogglePkg('${p.id}')">Expandir</button>
+        </div>
+      </div>
+      <div class="package-body" data-package-index="${i}">${smartEsc(p.package)}</div>
+    </div>`).join('');
+}
+function smartTogglePkg(id){
+  const el=document.querySelector(`#${id} .package-body`);
+  if(!el) return;
+  el.style.maxHeight = el.style.maxHeight==='none' ? '330px' : 'none';
+}
+function smartPackagesData(){
+  return smartMakePackageCards();
+}
+function smartCopyPackage(i){
+  const p=smartPackagesData()[i];
+  if(!p) return smartToast('Pacote não encontrado.');
+  smartCopyText(p.package, 'Pacote copiado!');
+}
+function smartCopyPackagePart(i,part){
+  const p=smartPackagesData()[i];
+  if(!p) return smartToast('Pacote não encontrado.');
+  const txt=p[part] || '';
+  if(!txt.trim()) return smartToast('Esse trecho não apareceu neste pacote.');
+  smartCopyText(txt, 'Trecho copiado!');
+}
+function smartCopyPackages(){
+  const arr=smartPackagesData();
+  if(!arr.length) return smartToast('Nenhum pacote encontrado.');
+  smartCopyText(arr.map(p=>p.package).join('\n\n====================\n\n'), 'Todos os pacotes copiados!');
+}
+function smartCopyAllStoryPrompts(){
+  const arr=smartPackagesData().map((p,i)=>p.image || '').filter(Boolean);
+  if(!arr.length) return smartToast('Prompts de imagem não encontrados.');
+  smartCopyText(arr.join('\n\n---\n\n'), 'Prompts de imagem copiados!');
+}
+function smartCopyAllFlowPrompts(){
+  const arr=smartPackagesData().map((p,i)=>p.flow || '').filter(Boolean);
+  if(!arr.length) return smartToast('Prompts Flow não encontrados.');
+  smartCopyText(arr.join('\n\n---\n\n'), 'Prompts Flow copiados!');
+}
+
+/* Patch da Central Smart para incluir aba Pacotes renderizada */
+(function(){
+  const oldRefresh = window.smartRefresh;
+  window.smartRefresh = function(){
+    if(typeof oldRefresh === 'function') oldRefresh();
+    const cards=document.getElementById('smartOutputCards');
+    if(!cards) return;
+    if(document.querySelector('.smart-card[data-smart="packages"]')) return;
+    const packageHtml=smartRenderPackages();
+    cards.insertAdjacentHTML('beforeend', `<div class="smart-card" data-smart="packages">
+      <div class="smart-head">
+        <div>
+          <div class="smart-card-title">Pacotes por Storyboard</div>
+          <div class="smart-card-note">Cada pacote reúne storyboard, prompt de imagem, Flow, voz/SRT e pós quando encontrado.</div>
+        </div>
+        <div class="smart-actions">
+          <button class="smart-btn" onclick="smartCopyPackages()">Copiar todos</button>
+          <button class="smart-btn" onclick="smartExpand('packages')">Expandir</button>
+        </div>
+      </div>
+      <div class="smart-body" id="smartBody_packages" style="max-height:none">${packageHtml}</div>
+    </div>`);
+  };
+  const oldShow = window.smartShow;
+  window.smartShow = function(key){
+    if(key==='packages' && (!document.querySelector('.smart-card[data-smart="packages"]'))) smartRefresh();
+    if(typeof oldShow === 'function') oldShow(key);
+  };
+})();
+
+
+/* ─── NARRADOR / RÁDIO: história para ouvir enquanto trabalha ─── */
+window.narratorState = window.narratorState || { utterance:null, paused:false };
+
+function narratorCleanText(txt){
+  return String(txt||'')
+    .replace(/```[\s\S]*?```/g,'')
+    .replace(/#+\s*/g,'')
+    .replace(/\*\*/g,'')
+    .replace(/\[[^\]]*\]\([^)]+\)/g,'')
+    .replace(/PROMPT[^:]*:[\s\S]*?(?=\n[A-ZÁÉÍÓÚÂÊÔÃÕÇ ]{3,}:|\n\d+\.|\n\n|$)/gi,'')
+    .replace(/(?:Flow Labs|ElevenLabs|CSV|SRT|CapCut|LUT|YouTube|TikTok|Reels|Instagram)[\s\S]*?(?=\n(?:Cena|CENA|Ato|ATO|Final|GANCHO|Título|TITULO)|$)/gi,'')
+    .replace(/\n{3,}/g,'\n\n')
+    .trim();
+}
+function narratorBuildStory(){
+  const text=smartRawText ? smartRawText() : (document.getElementById('turboResultOut')?.innerText || '');
+  if(!text.trim()) return '';
+
+  // Preferir bloco NARRADOR/RÁDIO se a IA entregou.
+  const radio = smartSlice ? smartSlice(text,
+    ['NARRADOR / RÁDIO','NARRADOR/RÁDIO','VERSÃO RÁDIO','RADIO STORY','NARRAÇÃO EM RÁDIO','NARRAÇÃO'],
+    ['STORYBOARD','PROMPTS','FLOW LABS','SRT','ELEVENLABS','CSV','CAPCUT','LUT','YOUTUBE','TIKTOK','REELS','INSTAGRAM']
+  ) : '';
+  if(radio && radio.length > 120) return narratorCleanText(radio);
+
+  const resumo = (window.smartSections && smartSections.resumo) ? smartSections.resumo : '';
+  const story = (window.smartSections && smartSections.story) ? smartSections.story : '';
+  const all = resumo + '\n\n' + story;
+  const base = narratorCleanText(all || text);
+
+  // Monta uma versão mais de "livro/rádio" sem depender de nova API.
+  let titulo = (text.match(/(?:TÍTULO|TITULO|Título|Titulo)[:\s*#-]+([^\n]+)/i)||[])[1] || "A Armadilha do Beco Molhado";
+  titulo = titulo.replace(/\*/g,'').trim();
+
+  const cenas = [];
+  const re = /(?:^|\n)(?:#{1,4}\s*)?(?:CENA|Cena)\s*\d+[^\n]*\n([\s\S]*?)(?=\n(?:#{1,4}\s*)?(?:CENA|Cena)\s*\d+|\n(?:#{1,4}\s*)?STORYBOARD|\nSRT|\nELEVENLABS|$)/g;
+  let m;
+  while((m=re.exec(text))!==null){
+    const clean=narratorCleanText(m[0]);
+    if(clean.length>40) cenas.push(clean);
+  }
+
+  if(cenas.length){
+    return `TÍTULO: ${titulo}
+
+NARRADOR:
+A chuva cai sobre a Favela do Tomate.
+
+O beco está escuro. O chão brilha com água, luz amarela e medo.
+
+${cenas.slice(0,8).join('\n\n')}
+
+NARRADOR:
+E quando parecia que a fuga tinha acabado...
+
+Abacatudo aparece na chuva.
+
+Ele não grita. Ele não corre. Ele apenas sorri.
+
+ABACATUDO:
+Eu deixei vocês correrem... só pra descobrir quem estava ajudando o Tomate.
+
+NARRADOR:
+E naquele silêncio, Tomate entende uma coisa.
+
+A armadilha nunca foi o beco.
+
+A armadilha era confiar em quem estava ao lado dele.
+
+Continua na Parte 2.`;
+  }
+
+  return `TÍTULO: ${titulo}
+
+NARRADOR:
+Esta é uma história do universo Fruits Adventures.
+
+${base.slice(0,4500)}
+
+NARRADOR:
+Fim da Parte 1. Continua na Parte 2.`;
+}
+function narratorRender(){
+  const body=document.getElementById('narratorText');
+  if(!body) return;
+  const txt=narratorBuildStory();
+  body.textContent = txt || 'Gere o pacote primeiro. Depois esta aba cria a versão narrada para escutar.';
+}
+function narratorPopulateVoices(){
+  const sel=document.getElementById('narratorVoice');
+  if(!sel || !('speechSynthesis' in window)) return;
+  const voices=window.speechSynthesis.getVoices();
+  const current=sel.value;
+  sel.innerHTML='';
+  voices.forEach((v,i)=>{
+    const opt=document.createElement('option');
+    opt.value=String(i);
+    opt.textContent=`${v.name} — ${v.lang}`;
+    sel.appendChild(opt);
+  });
+  if(current) sel.value=current;
+}
+function narratorSpeak(){
+  const txt=document.getElementById('narratorText')?.innerText || narratorBuildStory();
+  if(!txt.trim()) return smartToast('Gere o pacote primeiro.');
+  if(!('speechSynthesis' in window)) return smartToast('Este navegador não liberou voz automática.');
+
+  window.speechSynthesis.cancel();
+
+  const utter=new SpeechSynthesisUtterance(txt);
+  const voices=window.speechSynthesis.getVoices();
+  const voiceIndex=Number(document.getElementById('narratorVoice')?.value || -1);
+  if(voices[voiceIndex]) utter.voice=voices[voiceIndex];
+  utter.rate=Number(document.getElementById('narratorRate')?.value || 0.95);
+  utter.pitch=Number(document.getElementById('narratorPitch')?.value || 1);
+  utter.lang=(utter.voice && utter.voice.lang) || 'pt-BR';
+
+  window.narratorState.utterance=utter;
+  window.narratorState.paused=false;
+  window.speechSynthesis.speak(utter);
+}
+function narratorPause(){
+  if(!('speechSynthesis' in window)) return;
+  if(window.speechSynthesis.speaking && !window.speechSynthesis.paused){
+    window.speechSynthesis.pause();
+    window.narratorState.paused=true;
+  }else if(window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    window.narratorState.paused=false;
+  }
+}
+function narratorStop(){
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  window.narratorState.paused=false;
+}
+function narratorCopy(){
+  const txt=document.getElementById('narratorText')?.innerText || narratorBuildStory();
+  smartCopyText(txt,'Narração copiada!');
+}
+function narratorDownload(){
+  const txt=document.getElementById('narratorText')?.innerText || narratorBuildStory();
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='fruits_adventures_narrador_radio.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function smartRenderNarrator(){
+  return `<div class="narrator-box">
+    <div class="narrator-title">🎙️ Narrador / Rádio</div>
+    <div class="narrator-sub">
+      Versão para escutar enquanto trabalha. O navegador lê a história em voz alta. Para voz profissional, copie este texto e leve para ElevenLabs.
+    </div>
+    <div class="narrator-controls">
+      <select id="narratorVoice" onchange="narratorPopulateVoices()"></select>
+      <input id="narratorRate" type="number" min="0.6" max="1.4" step="0.05" value="0.95" title="Velocidade">
+      <input id="narratorPitch" type="number" min="0.6" max="1.4" step="0.05" value="1" title="Tom">
+    </div>
+    <div class="narrator-buttons">
+      <button class="package-btn" onclick="narratorRender()">Montar narração</button>
+      <button class="package-btn" onclick="narratorSpeak()">▶ Ouvir</button>
+      <button class="package-btn" onclick="narratorPause()">⏸ Pausar/Continuar</button>
+      <button class="package-btn" onclick="narratorStop()">■ Parar</button>
+      <button class="package-btn" onclick="narratorCopy()">Copiar texto</button>
+      <button class="package-btn" onclick="narratorDownload()">Baixar TXT</button>
+    </div>
+    <div class="narrator-reader" id="narratorText">Gere o pacote primeiro. Depois clique em “Montar narração”.</div>
+  </div>`;
+}
+
+/* Patch da Central Smart para incluir aba Narrador */
+(function(){
+  const oldRefreshNarrator = window.smartRefresh;
+  window.smartRefresh = function(){
+    if(typeof oldRefreshNarrator === 'function') oldRefreshNarrator();
+    const cards=document.getElementById('smartOutputCards');
+    if(!cards) return;
+    if(!document.querySelector('.smart-card[data-smart="narrador"]')){
+      cards.insertAdjacentHTML('beforeend', `<div class="smart-card" data-smart="narrador">
+        <div class="smart-head">
+          <div>
+            <div class="smart-card-title">Narrador / Rádio</div>
+            <div class="smart-card-note">Texto narrado para escutar a história sem precisar ler.</div>
+          </div>
+          <div class="smart-actions">
+            <button class="smart-btn" onclick="narratorCopy()">Copiar</button>
+            <button class="smart-btn" onclick="narratorSpeak()">Ouvir</button>
+          </div>
+        </div>
+        <div class="smart-body" id="smartBody_narrador" style="max-height:none">${smartRenderNarrator()}</div>
+      </div>`);
+      narratorPopulateVoices();
+      setTimeout(narratorRender,300);
+    }
+  };
+  const oldShowNarrator = window.smartShow;
+  window.smartShow = function(key){
+    if(key==='narrador' && (!document.querySelector('.smart-card[data-smart="narrador"]'))) smartRefresh();
+    if(typeof oldShowNarrator === 'function') oldShowNarrator(key);
+    if(key==='narrador'){
+      narratorPopulateVoices();
+      narratorRender();
+    }
+  };
+  if('speechSynthesis' in window){
+    window.speechSynthesis.onvoiceschanged = narratorPopulateVoices;
+  }
+})();
+
 </script>
 
 </body>
