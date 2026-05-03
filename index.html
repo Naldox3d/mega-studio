@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Fruits Adventures | Studio Pro Viral Modelado</title>
+<title>Fruits Adventures | Titan Turbo Smart</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
 :root{
@@ -169,6 +169,29 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 .turbo-output{min-height:260px}
 @media(max-width:900px){.turbo-grid,.turbo-grid-2{grid-template-columns:1fr}}
 
+
+/* TITAN UPDATE: STORYBOARD + SRT + CAPCUT POST */
+.titan-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
+.titan-tab{border:1px solid var(--border2);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:8px 12px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+.titan-tab:hover,.titan-tab.act{border-color:var(--gold);color:var(--gold2);background:rgba(212,160,23,.10)}
+.titan-card{background:var(--s2);border:1px solid var(--border);border-radius:14px;margin:10px 0;overflow:hidden}
+.titan-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;border-bottom:1px solid transparent}
+.titan-head:hover{background:rgba(255,255,255,.03)}
+.titan-title{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--gold2)}
+.titan-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.titan-body{display:none;padding:14px;border-top:1px solid var(--border);white-space:pre-wrap;font-family:'DM Mono',monospace;font-size:12px;color:#b8cfe8;line-height:1.65}
+.titan-card.open .titan-body{display:block}
+.titan-arrow{color:var(--cyan);font-size:13px;font-weight:900}
+.titan-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.titan-mini{border:1px solid var(--border2);background:#04080d;color:var(--muted);border-radius:8px;padding:6px 9px;font-size:10px;font-weight:800;cursor:pointer}
+.titan-mini:hover{border-color:var(--cyan);color:var(--cyan)}
+.post-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.post-chip{background:rgba(0,212,200,.05);border:1px solid rgba(0,212,200,.20);border-radius:12px;padding:10px}
+.post-k{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--cyan);font-weight:900}
+.post-v{font-size:12px;color:#b8cfe8;margin-top:4px}
+@media(max-width:900px){.post-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.post-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -182,7 +205,7 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
     <div class="brand-icon">🍅</div>
     <div>
       <div class="brand-name">Fruits Adventures</div>
-      <div class="brand-sub">Studio Pro Viral — Visão Computacional + Google Gemini API</div>
+      <div class="brand-sub">Titan Turbo — Storyboards, SRT, Voz, CapCut + Gemini API</div>
     </div>
   </div>
   <div class="masthead-right">
@@ -299,6 +322,13 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
       <span class="turbo-pill">Instagram</span>
       <span class="turbo-pill">Suno</span>
       <span class="turbo-pill">CapCut</span>
+      <span class="turbo-pill">Storyboards</span>
+      <span class="turbo-pill">SRT</span>
+      <span class="turbo-pill">ElevenLabs</span>
+      <span class="turbo-pill">CSV Voz</span>
+      <span class="turbo-pill">Música</span>
+      <span class="turbo-pill">SFX</span>
+      <span class="turbo-pill">Cor/LUT</span>
     </div>
   </div>
 
@@ -1212,7 +1242,7 @@ function gerarLocal(){
 
  const atos=t.estrutura.slice(0,nCenas).map((s,i)=>`CENA ${i+1} | TEMPO 00:${String(i*6).padStart(2,'0')}-00:${String((i+1)*6).padStart(2,'0')}\nROTEIRO: ${s} ${prot.n} enfrenta ${anta.n}. Cenário: ${uni}.\nSTORYBOARD: plano cinematográfico, câmera em movimento, luz dramática, expressão forte, ação clara e gancho visual para corte.`).join('\n\n');
  state.roteiro=`TÍTULO: ${t.name.toUpperCase()} DAS FRUTAS\nLOGLINE: ${idea}${refImgTxt}\nGANCHO 0-3s: Algo impossível aparece na tela e prende a atenção imediatamente.\n\n${atos}\n\nFORMATOS DE FOTO: YouTube 16:9, TikTok/Reels 9:16 e Instagram 4:5 serão gerados na aba Cenas.\nMÚSICA SUNO: ${t.suno}`;
- $('roteiroOut').textContent=state.roteiro; $('exportOut').textContent=buildExport(); toast('Roteiro local gerado!');
+ $('roteiroOut').textContent=state.roteiro; $('exportOut').textContent=buildExport(); titanAfterGeneration(state.roteiro); toast('Roteiro local gerado!');
 }
 
 /* ─── API MULTIMODAL CALL (GOOGLE GEMINI) ─── */
@@ -1294,7 +1324,7 @@ A resposta deve vir em português e incluir obrigatoriamente:
 2. LOGLINE.
 3. GANCHO DOS 3 PRIMEIROS SEGUNDOS.
 4. ROTEIRO COM TEMPO, dividido por cena, com marcação tipo 00:00-00:05.
-5. STORYBOARD por cena, descrevendo enquadramento, ação, cenário, luz, emoção e movimento de câmera.
+5. STORYBOARD VISUAL NUMERADO em quantidade smart: STORYBOARD 1, STORYBOARD 2 ... STORYBOARD FINAL. Cada storyboard deve ter função, tempo, cena ligada, enquadramento, câmera, luz, ação, emoção, prompt de imagem em inglês, prompt Flow Labs em inglês e continuidade.
 6. PROMPTS DE FOTO/IMAGEM para cada plataforma:
    - YouTube thumbnail 16:9
    - TikTok capa 9:16
@@ -1302,14 +1332,16 @@ A resposta deve vir em português e incluir obrigatoriamente:
    - Instagram feed 4:5
 7. PROMPTS DE VÍDEO para Flow Labs em inglês, mantendo DNA visual.
 8. FALAS/VOZES, SFX e música Suno AI (${state.tpl.suno}).
-9. Legendas curtas estilo CapCut.
-10. CTA final para comentar/seguir.
+9. FALAS POR PERSONAGEM, SRT CAPCUT completo, ELEVENLABS com voz/emoção/fala e CSV DE DUBLAGEM.
+10. PÓS-PRODUÇÃO SMART com música de fundo, termos de busca no CapCut, efeitos sonoros por storyboard, transições, estilo de legenda, correção de cor, LUT sugerido e continuidade para Parte 2.
+11. Legendas curtas estilo CapCut.
+12. CTA final para comentar/seguir.
 
 Use linguagem direta, pronta para copiar e produzir.`;
  
  try{
   const txt=await callGemini(prompt,key);
-  state.roteiro=txt; $('roteiroOut').textContent=txt; $('exportOut').textContent=buildExport(); toast('Roteiro Gemini gerado!');
+  state.roteiro=txt; $('roteiroOut').textContent=txt; $('exportOut').textContent=buildExport(); titanAfterGeneration(txt); toast('Roteiro Gemini gerado!');
  }catch(e){ $('roteiroOut').textContent='Erro: '+e.message; }
 }
 
@@ -1719,17 +1751,32 @@ ENTREGAR EM PORTUGUÊS, COM:
 2. LOGLINE.
 3. GANCHO dos 3 primeiros segundos.
 4. ROTEIRO com 5 cenas e tempo exato, total 45 a 60 segundos.
-5. STORYBOARD por cena: enquadramento, câmera, luz, ação e emoção.
+5. STORYBOARD VISUAL NUMERADO, em quantidade smart:
+   - para vídeo curto: 6 a 10 storyboards;
+   - numerar como STORYBOARD 1, STORYBOARD 2, STORYBOARD 3 ... STORYBOARD FINAL;
+   - cada storyboard deve ter: função do quadro, tempo, cena ligada, enquadramento, câmera, luz, ação, emoção, prompt de imagem em inglês, prompt de vídeo Flow Labs em inglês e continuidade para o próximo quadro.
 6. FALAS curtas dos personagens.
 7. PIADA ou meme integrado, se o humor pedir.
-8. PROMPT DE IMAGEM por cena.
-9. PROMPT FLOW LABS em inglês por cena.
+8. PROMPTS DE IMAGEM por cena e por storyboard.
+9. PROMPT FLOW LABS em inglês por cena e por storyboard.
 10. CAPA YOUTUBE 16:9.
 11. CAPA TIKTOK 9:16.
 12. CAPA REELS 9:16.
 13. POST INSTAGRAM 4:5.
-14. ÁUDIO, SFX, VOZ, SUNO AI e LEGENDA CAPCUT.
-15. FINAL com cliffhanger e pergunta: “Quer gerar a Parte ${parte+1}?”`;
+14. FALAS POR PERSONAGEM separadas.
+15. SRT CAPCUT completo com timecodes.
+16. ELEVENLABS: personagem, voz sugerida, emoção e fala.
+17. CSV DE DUBLAGEM com colunas: tempo_inicio,tempo_fim,personagem,emocao,fala,voz_sugerida.
+18. PÓS-PRODUÇÃO SMART:
+   - música de fundo sugerida por cena/storyboard;
+   - termos de busca para CapCut em música/trending;
+   - efeitos sonoros por storyboard;
+   - transições entre cenas;
+   - estilo de legenda CapCut;
+   - correção de cor por cena;
+   - LUT sugerido com nome interno, intensidade e quando usar;
+   - continuidade visual/sonora para Parte 2.
+19. FINAL com cliffhanger e pergunta: “Quer gerar a Parte ${parte+1}?”`;
 }
 function turboApplyState(){
   const t=turboPickTemplate();
@@ -1766,6 +1813,7 @@ async function gerarTurbo(parte=1){
     await gerarAPI();
     const txt=state.roteiro||$('roteiroOut')?.textContent||'';
     if($('turboResultOut')) $('turboResultOut').textContent=txt;
+    titanAfterGeneration(txt);
     state.seriesHistory=state.seriesHistory||[];
     state.seriesHistory.push({parte,text:txt});
     toast('Pacote Turbo gerado!');
@@ -1784,6 +1832,87 @@ function turboGerarArtes(){
   try{selectGfx(gfxSelectedId);gerarGrafica();}catch(e){}
   const btn=[...document.querySelectorAll('nav button')].find(b=>b.getAttribute('onclick')?.includes('grafica'));
   if(btn) tab({currentTarget:btn},'grafica');
+}
+
+
+/* ─── TITAN: RESULTADO EM CARDS + STORYBOARD VISUAL + VOZ + CAPCUT ─── */
+function titanToggle(el){
+  const card=el.closest('.titan-card');
+  if(card) card.classList.toggle('open');
+}
+function titanShowGroup(group,btn){
+  document.querySelectorAll('.titan-tab').forEach(b=>b.classList.remove('act'));
+  if(btn) btn.classList.add('act');
+  document.querySelectorAll('#titanStructuredOut .titan-card').forEach(c=>{
+    c.style.display=(group==='all'||c.dataset.group===group)?'block':'none';
+  });
+}
+function titanExtractBlocks(text){
+  const blocks=[];
+  const src=String(text||'').replace(/\r/g,'');
+  const patterns=[
+    {group:'story', re:/(?:^|\n)(?:#+\s*)?(STORYBOARD(?:\s+VISUAL)?\s*\d+|STORYBOARD\s+FINAL|QUADRO\s*\d+|BOARD\s*\d+)[^\n]*\n([\s\S]*?)(?=\n(?:#+\s*)?(?:STORYBOARD|QUADRO|BOARD|CENA\s+\d+|SRT|ELEVENLABS|CSV|PÓS|POS|MÚSICA|MUSICA|SFX|LUT|CAPCUT|YOUTUBE|TIKTOK|REELS|INSTAGRAM|$))/gi},
+    {group:'voice', re:/(?:^|\n)(?:#+\s*)?(SRT(?:\s+CAPCUT)?|LEGENDAS?\s+SRT)[^\n]*\n([\s\S]*?)(?=\n(?:#+\s*)?(?:ELEVENLABS|CSV|PÓS|POS|MÚSICA|MUSICA|SFX|LUT|CAPCUT|STORYBOARD|CENA\s+\d+|$))/gi},
+    {group:'voice', re:/(?:^|\n)(?:#+\s*)?(ELEVENLABS|ROTEIRO\s+DE\s+VOZ|FALAS\s+POR\s+PERSONAGEM)[^\n]*\n([\s\S]*?)(?=\n(?:#+\s*)?(?:CSV|PÓS|POS|MÚSICA|MUSICA|SFX|LUT|CAPCUT|STORYBOARD|CENA\s+\d+|$))/gi},
+    {group:'voice', re:/(?:^|\n)(?:#+\s*)?(CSV(?:\s+DE\s+DUBLAGEM)?|CSV\s+VOZ)[^\n]*\n([\s\S]*?)(?=\n(?:#+\s*)?(?:PÓS|POS|MÚSICA|MUSICA|SFX|LUT|CAPCUT|STORYBOARD|CENA\s+\d+|$))/gi},
+    {group:'post', re:/(?:^|\n)(?:#+\s*)?(PÓS[-\s]?PRODUÇÃO\s+SMART|POS[-\s]?PRODUCAO\s+SMART|CAPCUT\s+ASSISTANT|MÚSICA\s+DE\s+FUNDO|MUSICA\s+DE\s+FUNDO|SFX|EFEITOS\s+SONOROS|COLOR\s+GRADE|CORREÇÃO\s+DE\s+COR|LUT)[^\n]*\n([\s\S]*?)(?=\n(?:#+\s*)?(?:STORYBOARD|CENA\s+\d+|YOUTUBE|TIKTOK|REELS|INSTAGRAM|EXPORT|$))/gi},
+    {group:'art', re:/(?:^|\n)(?:#+\s*)?(CAPA\s+YOUTUBE|YOUTUBE\s+16:9|TIKTOK\s+9:16|REELS\s+9:16|INSTAGRAM\s+4:5|PROMPTS?\s+DE\s+IMAGEM|PROMPTS?\s+DE\s+FOTO)[^\n]*\n([\s\S]*?)(?=\n(?:#+\s*)?(?:STORYBOARD|SRT|ELEVENLABS|CSV|PÓS|POS|MÚSICA|MUSICA|SFX|LUT|CAPCUT|CENA\s+\d+|$))/gi}
+  ];
+  patterns.forEach(p=>{
+    let m; 
+    while((m=p.re.exec(src))!==null){
+      const title=(m[1]||'Bloco').trim();
+      const body=(m[2]||'').trim();
+      if(body.length>20 && !blocks.some(b=>b.title===title && b.body===body)) blocks.push({group:p.group,title,body});
+    }
+  });
+  return blocks.slice(0,80);
+}
+function titanFallbackBlocks(text){
+  const src=String(text||'').trim();
+  const chunks=[];
+  const parts=src.split(/\n(?=(?:#{1,3}\s*)?(?:CENA\s+\d+|STORYBOARD|SRT|ELEVENLABS|CSV|PÓS|POS|MÚSICA|MUSICA|SFX|LUT|CAPCUT|YOUTUBE|TIKTOK|REELS|INSTAGRAM))/i).filter(x=>x.trim().length>40);
+  parts.forEach((p,i)=>{
+    const first=(p.trim().split('\n')[0]||`Bloco ${i+1}`).replace(/^#+\s*/,'').slice(0,80);
+    let group='all';
+    if(/storyboard|quadro|board/i.test(first)) group='story';
+    else if(/srt|eleven|csv|fala|voz/i.test(first)) group='voice';
+    else if(/pós|pos|música|musica|sfx|lut|capcut|cor/i.test(first)) group='post';
+    else if(/youtube|tiktok|reels|instagram|imagem|foto/i.test(first)) group='art';
+    chunks.push({group,title:first,body:p.trim()});
+  });
+  return chunks.slice(0,80);
+}
+function titanRenderStructured(text){
+  const panel=$('titanStructuredPanel'), out=$('titanStructuredOut');
+  if(!panel||!out) return;
+  let blocks=titanExtractBlocks(text);
+  if(blocks.length<3) blocks=titanFallbackBlocks(text);
+  if(!blocks.length){ panel.style.display='none'; return; }
+  panel.style.display='block';
+  out.innerHTML=blocks.map((b,i)=>`
+    <div class="titan-card ${i<2?'open':''}" data-group="${b.group}">
+      <div class="titan-head" onclick="titanToggle(this)">
+        <div>
+          <div class="titan-title">${esc(b.title)}</div>
+          <div class="titan-sub">${b.group==='story'?'Storyboard visual numerado':b.group==='voice'?'Voz, SRT ou dublagem':b.group==='post'?'Pós-produção CapCut':b.group==='art'?'Artes por plataforma':'Bloco do pacote'}</div>
+        </div>
+        <div class="titan-arrow">abrir/fechar</div>
+      </div>
+      <div class="titan-body">${esc(b.body)}
+        <div class="titan-actions">
+          <button class="titan-mini" onclick="copyText(this.closest('.titan-body').innerText,'Bloco copiado')">copiar bloco</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function titanCopyGroup(group){
+  const cards=[...document.querySelectorAll(`#titanStructuredOut .titan-card[data-group="${group}"] .titan-body`)];
+  if(!cards.length){toast('Nada neste grupo ainda.');return;}
+  copyText(cards.map(c=>c.innerText).join('\n\n---\n\n'), 'Grupo copiado!');
+}
+function titanAfterGeneration(txt){
+  titanRenderStructured(txt||state.roteiro||$('roteiroOut')?.textContent||'');
 }
 
 </script>
