@@ -851,7 +851,7 @@ body.locked{overflow:hidden}
       <button class="smart-tab" onclick="smartShow('lut')">Cor / LUT</button>
       <button class="smart-tab" onclick="smartShow('artes')">Artes</button>
       <button class="smart-tab" data-smart-tab="packages" onclick="smartShow('packages')">Pacotes</button>
-      <button class="smart-tab" onclick="smartShow('narrador')">Narrador</button>
+      <button class="smart-tab" onclick="smartShow('narrador')">Narrador IA</button>
       <button class="smart-tab" onclick="smartShow('all')">Tudo</button>
     </div>
     <div class="smart-grid" id="smartOutputCards">
@@ -3837,6 +3837,252 @@ function smartRenderNarrator(){
   }
 })();
 
+</script>
+
+
+
+<script>
+/* =========================================================
+   NARRADOR IA V2 — história pronta para escutar
+   Lê roteiro + storyboards + sons + falas e gera uma versão limpa.
+   Usa a mesma API Gemini configurada na aba API Config.
+   ========================================================= */
+window.narratorAIState = window.narratorAIState || {
+  text: '',
+  loading: false
+};
+
+function narratorAIStyleLabel(value){
+  const map = {
+    radio_livro: 'rádio/livro narrado',
+    trailer_epico: 'trailer épico cinematográfico',
+    infantil_aventura: 'aventura infantil emocionante',
+    misterio: 'mistério e suspense',
+    comedia: 'comédia de vila/meme',
+    audiobook: 'audiobook dramático'
+  };
+  return map[value] || 'rádio/livro narrado';
+}
+
+function narratorAIGetConfig(){
+  return {
+    estilo: document.getElementById('narratorAIStyle')?.value || 'radio_livro',
+    tamanho: document.getElementById('narratorAISize')?.value || 'medio',
+    sfx: document.getElementById('narratorAISfx')?.value || 'sim'
+  };
+}
+
+function narratorAIContext(){
+  const raw = typeof smartRawText === 'function' ? smartRawText() : '';
+  const sections = (window.smartSections && Object.keys(window.smartSections).length)
+    ? window.smartSections
+    : (typeof smartBuildSections === 'function' ? smartBuildSections() : {});
+
+  const parts = [
+    'ROTEIRO / RESULTADO BRUTO:', raw,
+    '\n\nRESUMO EXTRAÍDO:', sections.resumo || '',
+    '\n\nSTORYBOARDS:', sections.story || '',
+    '\n\nSRT / LEGENDAS:', sections.srt || '',
+    '\n\nELEVENLABS / VOZES:', sections.eleven || '',
+    '\n\nSFX / CAPCUT / PÓS:', sections.post || '',
+    '\n\nMÚSICA / LUT / COR:', sections.lut || ''
+  ];
+
+  return parts.join('\n').replace(/\n{4,}/g, '\n\n\n').trim();
+}
+
+function narratorAIPrompt(){
+  const cfg = narratorAIGetConfig();
+  const ctx = narratorAIContext();
+  const tamanhoInstr = {
+    curto: 'curta, entre 45 e 75 segundos de narração',
+    medio: 'média, entre 1 e 3 minutos de narração',
+    completo: 'completa, com narrativa rica, pronta para audiobook/radio story'
+  }[cfg.tamanho] || 'média, entre 1 e 3 minutos de narração';
+
+  return `Você é o NARRADOR TITAN do universo Fruits Adventures.
+
+Leia o roteiro, storyboards, falas, sons, SRT, CapCut e pós-produção abaixo.
+Transforme tudo em uma HISTÓRIA NARRADA limpa, contínua e pronta para ser escutada.
+
+ESTILO: ${narratorAIStyleLabel(cfg.estilo)}
+TAMANHO: ${tamanhoInstr}
+INCLUIR SFX: ${cfg.sfx === 'sim' ? 'sim, mas separado da narração' : 'não, gere apenas a voz narrada'}
+
+REGRAS IMPORTANTES:
+- Não gere prompt de imagem.
+- Não gere storyboard.
+- Não gere instruções técnicas de edição.
+- Não misture prompts Flow Labs, SRT bruto, CSV ou LUT dentro da narração.
+- Transforme a história em texto natural, com ritmo, emoção, suspense e clareza.
+- Preserve os personagens e acontecimentos do roteiro.
+- Deixe pronto para copiar em ElevenLabs, CapCut, voz IA ou gravação humana.
+- Use português do Brasil.
+
+FORMATO OBRIGATÓRIO:
+TÍTULO:
+
+NARRAÇÃO FINAL:
+
+PAUSAS E EMOÇÕES:
+
+${cfg.sfx === 'sim' ? 'SFX / SONS SUGERIDOS:\n\n' : ''}VERSÃO CURTA PARA CHAMADA:
+
+TEXTO SÓ DA VOZ:
+
+CONTEÚDO PARA ADAPTAR:
+${ctx}`;
+}
+
+async function narratorGenerateAI(){
+  const out = document.getElementById('narratorText');
+  const raw = narratorAIContext();
+  const key = document.getElementById('apiKey')?.value?.trim();
+
+  if(!out) return;
+  if(!raw || raw.length < 80){
+    out.textContent = 'Gere o pacote completo primeiro. Depois o Narrador IA lê o roteiro, storyboards, sons e falas.';
+    return;
+  }
+  if(!key){
+    out.textContent = 'Configure sua API Key do Gemini na aba API Config. Depois volte aqui e clique em “Gerar história IA”.';
+    if(typeof toast === 'function') toast('Configure a API Key na aba API Config.');
+    return;
+  }
+
+  narratorAIState.loading = true;
+  out.textContent = '🎙️ Narrador IA está lendo roteiro, storyboards, sons, falas e pós-produção...';
+
+  try{
+    if(typeof callGemini !== 'function') throw new Error('Função callGemini não encontrada.');
+    const result = await callGemini(narratorAIPrompt(), key);
+    narratorAIState.text = result;
+    out.textContent = result || 'A API respondeu, mas não retornou a narração.';
+    if(typeof toast === 'function') toast('Narrador IA gerado!');
+  }catch(err){
+    out.textContent = 'Erro ao gerar Narrador IA: ' + (err && err.message ? err.message : err);
+    if(typeof toast === 'function') toast('Erro no Narrador IA.');
+  }finally{
+    narratorAIState.loading = false;
+  }
+}
+
+function narratorCopyVoiceOnly(){
+  const txt = document.getElementById('narratorText')?.innerText || '';
+  if(!txt.trim()) return smartToast('Nada para copiar.');
+
+  let voice = '';
+  const m = txt.match(/TEXTO SÓ DA VOZ:\s*([\s\S]*)/i);
+  if(m && m[1]) voice = m[1].trim();
+  if(!voice){
+    voice = txt
+      .replace(/SFX\s*\/\s*SONS SUGERIDOS:[\s\S]*?(?=\n[A-ZÁÉÍÓÚÂÊÔÃÕÇ ]{3,}:|$)/gi, '')
+      .replace(/PAUSAS E EMOÇÕES:[\s\S]*?(?=\n[A-ZÁÉÍÓÚÂÊÔÃÕÇ ]{3,}:|$)/gi, '')
+      .replace(/VERSÃO CURTA PARA CHAMADA:[\s\S]*?(?=\n[A-ZÁÉÍÓÚÂÊÔÃÕÇ ]{3,}:|$)/gi, '')
+      .replace(/TÍTULO:/gi, '')
+      .replace(/NARRAÇÃO FINAL:/gi, '')
+      .trim();
+  }
+  smartCopyText(voice, 'Só a voz foi copiada!');
+}
+
+function narratorSendToElevenLabsBox(){
+  narratorCopyVoiceOnly();
+  smartToast('Texto de voz copiado para colar no ElevenLabs.');
+}
+
+function narratorRender(){
+  const body=document.getElementById('narratorText');
+  if(!body) return;
+  if(window.narratorAIState && narratorAIState.text){
+    body.textContent = narratorAIState.text;
+    return;
+  }
+  const txt = (typeof narratorBuildStory === 'function') ? narratorBuildStory() : '';
+  body.textContent = txt || 'Gere o pacote primeiro. Depois clique em “Gerar história IA”.';
+}
+
+function smartRenderNarrator(){
+  return `<div class="narrator-box">
+    <div class="narrator-title">🎙️ Narrador IA / Rádio</div>
+    <div class="narrator-sub">
+      A IA lê roteiro, storyboards, sons, falas e pós-produção. Depois cria uma história limpa, pronta para escutar ou colar no ElevenLabs.
+    </div>
+    <div class="narrator-controls">
+      <select id="narratorAIStyle">
+        <option value="radio_livro">Rádio / livro narrado</option>
+        <option value="trailer_epico">Trailer épico</option>
+        <option value="infantil_aventura">Infantil aventura</option>
+        <option value="misterio">Mistério e suspense</option>
+        <option value="comedia">Comédia</option>
+        <option value="audiobook">Audiobook dramático</option>
+      </select>
+      <select id="narratorAISize">
+        <option value="curto">Curto</option>
+        <option value="medio" selected>Médio</option>
+        <option value="completo">Completo</option>
+      </select>
+      <select id="narratorAISfx">
+        <option value="sim" selected>Com SFX</option>
+        <option value="nao">Só voz</option>
+      </select>
+    </div>
+    <div class="narrator-controls">
+      <select id="narratorVoice"></select>
+      <input id="narratorRate" type="number" min="0.6" max="1.4" step="0.05" value="0.95" title="Velocidade">
+      <input id="narratorPitch" type="number" min="0.6" max="1.4" step="0.05" value="1" title="Tom">
+    </div>
+    <div class="narrator-buttons">
+      <button class="package-btn" onclick="narratorGenerateAI()">✨ Gerar história IA</button>
+      <button class="package-btn" onclick="narratorRender()">Montar local</button>
+      <button class="package-btn" onclick="narratorSpeak()">▶ Ouvir</button>
+      <button class="package-btn" onclick="narratorPause()">⏸ Pausar/Continuar</button>
+      <button class="package-btn" onclick="narratorStop()">■ Parar</button>
+      <button class="package-btn" onclick="narratorCopy()">Copiar tudo</button>
+      <button class="package-btn" onclick="narratorCopyVoiceOnly()">Copiar só voz</button>
+      <button class="package-btn" onclick="narratorSendToElevenLabsBox()">Copiar p/ ElevenLabs</button>
+      <button class="package-btn" onclick="narratorDownload()">Baixar TXT</button>
+    </div>
+    <div class="hint" style="margin-bottom:10px">
+      Primeiro gere o pacote no Turbo. Depois clique em “Gerar história IA”. Se não tiver API Key, use “Montar local” para criar uma versão automática no navegador.
+    </div>
+    <div class="narrator-reader" id="narratorText">Gere o pacote primeiro. Depois clique em “Gerar história IA”.</div>
+  </div>`;
+}
+
+/* Recria a aba Narrador com o novo layout quando ela for aberta. */
+(function(){
+  const previousShow = window.smartShow;
+  window.smartShow = function(key){
+    if(key === 'narrador'){
+      const card = document.querySelector('.smart-card[data-smart="narrador"]');
+      if(card){
+        const body = card.querySelector('#smartBody_narrador');
+        if(body){
+          body.innerHTML = smartRenderNarrator();
+          if(typeof narratorPopulateVoices === 'function') narratorPopulateVoices();
+          setTimeout(narratorRender, 80);
+        }
+      }
+    }
+    if(typeof previousShow === 'function') previousShow(key);
+    if(key === 'narrador'){
+      const body = document.getElementById('smartBody_narrador');
+      if(body && !document.getElementById('narratorAIStyle')){
+        body.innerHTML = smartRenderNarrator();
+      }
+      if(typeof narratorPopulateVoices === 'function') narratorPopulateVoices();
+      setTimeout(narratorRender, 80);
+    }
+  };
+
+  const previousRefresh = window.smartRefresh;
+  window.smartRefresh = function(){
+    if(typeof previousRefresh === 'function') previousRefresh();
+    const btn = Array.from(document.querySelectorAll('.smart-tab')).find(b => (b.textContent || '').trim().toLowerCase() === 'narrador');
+    if(btn) btn.textContent = 'Narrador IA';
+  };
+})();
 </script>
 
 </body>
