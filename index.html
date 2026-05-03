@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fruits Adventures Studio — MVP</title>
+  <meta name="description" content="Motor de pré-produção para transformar vídeo, ideia ou universo em história, personagens, model sheets, storyboard e prompts finais." />
   <style>
     :root {
       --bg: #f6f6f4;
@@ -14,6 +15,8 @@
       --dark: #111111;
       --soft: #eeeeea;
       --accent: #ffcc33;
+      --ok: #0f8a45;
+      --warn: #936f00;
       --radius: 22px;
     }
 
@@ -57,6 +60,12 @@
       font-weight: 700;
     }
 
+    .badge.ok {
+      background: #e9f8ee;
+      color: var(--ok);
+      border-color: #c8ead3;
+    }
+
     h1 {
       margin: 0;
       font-size: clamp(34px, 6vw, 62px);
@@ -74,7 +83,7 @@
 
     .main-grid {
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 390px 1fr;
       gap: 22px;
       align-items: start;
     }
@@ -157,11 +166,17 @@
       cursor: pointer;
       transition: 0.2s;
       font-size: 15px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .button:hover { transform: translateY(-1px); opacity: 0.92; }
     .button.secondary { background: var(--soft); color: var(--dark); border: 1px solid var(--line); }
     .button.full { width: 100%; }
+    .button.green { background: var(--ok); }
 
     .rule-box {
       background: #fff8d7;
@@ -175,7 +190,7 @@
 
     .tabs {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 8px;
       background: var(--soft);
       padding: 6px;
@@ -283,6 +298,30 @@
       flex-wrap: wrap;
     }
 
+    .project-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .project-item {
+      padding: 12px;
+      border-radius: 16px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      cursor: pointer;
+    }
+
+    .project-item:hover {
+      background: white;
+    }
+
+    .small-text {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
     .toast {
       position: fixed;
       right: 20px;
@@ -296,6 +335,7 @@
       transform: translateY(10px);
       transition: 0.25s;
       font-weight: 800;
+      z-index: 99;
     }
 
     .toast.show {
@@ -303,7 +343,7 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1060px) {
       header { flex-direction: column; align-items: flex-start; }
       .main-grid { grid-template-columns: 1fr; }
       .character-grid, .info-grid { grid-template-columns: 1fr; }
@@ -319,12 +359,14 @@
           <span class="badge">MVP V1</span>
           <span class="badge">Pré-produção IA</span>
           <span class="badge">Model sheet primeiro</span>
+          <span class="badge ok">Pronto para testar</span>
         </div>
         <h1>Fruits Adventures Studio</h1>
         <p class="subtitle">Motor simples para transformar vídeo, ideia ou universo em história, personagens, model sheets, storyboard e prompts finais sem misturar projetos.</p>
       </div>
       <div class="top-actions">
-        <button class="button" onclick="generatePackage()">Gerar pacote</button>
+        <button class="button green" onclick="generatePackage()">Gerar pacote</button>
+        <button class="button secondary" onclick="saveProject()">Salvar projeto</button>
         <button class="button secondary" onclick="exportProject()">Exportar JSON</button>
       </div>
     </header>
@@ -349,6 +391,12 @@
         </div>
 
         <button class="button full" onclick="generatePackage()">Analisar agora</button>
+
+        <hr style="border:0;border-top:1px solid var(--line);margin:22px 0;">
+
+        <h2 class="section-title">📁 Projetos salvos</h2>
+        <p class="small-text">Salva no navegador deste computador. Para backup, use Exportar JSON.</p>
+        <div id="projectList" class="project-list"></div>
       </aside>
 
       <main>
@@ -362,12 +410,14 @@
           <button class="tab" onclick="openTab('personagens')">Personagens</button>
           <button class="tab" onclick="openTab('modelsheet')">Model sheet</button>
           <button class="tab" onclick="openTab('storyboard')">Storyboard</button>
+          <button class="tab" onclick="openTab('pacote')">Pacote final</button>
         </div>
 
         <section id="historia" class="content-panel active card"></section>
         <section id="personagens" class="content-panel card"></section>
         <section id="modelsheet" class="content-panel card"></section>
         <section id="storyboard" class="content-panel card"></section>
+        <section id="pacote" class="content-panel card"></section>
       </main>
     </div>
   </div>
@@ -418,51 +468,66 @@
         sourceText,
         rule: rules[state.mode],
         story: {
-          logline: "Um personagem humilde enfrenta rejeição social, protege uma criança vulnerável e encontra uma pequena esperança depois de passar por sofrimento.",
+          logline: createLogline(sourceText),
           theme: "desigualdade, humilhação, cuidado, sobrevivência, esperança",
           tone: "dramático, sentimental, simples, viral e visualmente claro",
           conflict: "pobreza e vulnerabilidade contra poder, riqueza e indiferença"
         },
-        characters: [
-          {
-            name: "Protagonista humilde",
-            role: "protagonista",
-            identity: "Personagem fruta adulto, aparência cansada, sensível e pobre.",
-            baseOutfit: "regata branca velha, bermuda jeans azul curta, chinelo simples",
-            expressions: ["neutro", "triste", "preocupado", "assustado", "esperançoso", "aliviado"],
-            outfitStates: ["limpa", "suja", "molhada", "rasgada", "muito danificada"]
-          },
-          {
-            name: "Personagem rico",
-            role: "contraste social / antagonista",
-            identity: "Personagem fruta ou vegetal elegante, confiante, arrogante e superior.",
-            baseOutfit: "terno elegante, camisa branca, gravata escura, sapato social",
-            expressions: ["neutro", "confiante", "debochado", "bravo", "desconfiado", "surpreso"],
-            outfitStates: ["limpa", "levemente suja", "molhada", "rasgada", "danificada"]
-          },
-          {
-            name: "Criança emocional",
-            role: "carga emocional",
-            identity: "Criança pequena, inocente, vulnerável, olhos grandes e expressivos.",
-            baseOutfit: "roupa infantil simples, confortável e humilde",
-            expressions: ["neutra", "triste", "curiosa", "assustada", "esperançosa", "feliz simples"],
-            outfitStates: ["limpa", "suja", "molhada", "rasgada"]
-          }
-        ],
-        storyboard: [
-          "Contraste social: protagonista humilde observa o personagem rico em ambiente bonito.",
-          "Humilhação: personagem rico rejeita o protagonista, que abaixa a cabeça.",
-          "Criança esperando: protagonista encontra a criança vulnerável precisando de ajuda.",
-          "Chuva e sofrimento: protagonista anda molhado, cansado e preocupado.",
-          "Queda emocional: ele perde algo importante ou percebe que não consegue resolver o problema.",
-          "Pequena esperança: recebe ajuda ou encontra solução simples, com expressão de alívio."
-        ]
+        characters: createCharacters(sourceText),
+        storyboard: createStoryboard(sourceText)
       };
+    }
+
+    function createLogline(text) {
+      if (!text) return "Uma história emocional será organizada em personagens, conflito, model sheets e storyboard.";
+      return "Um personagem principal enfrenta um conflito forte, passa por tensão emocional, encontra outros personagens importantes e chega a uma virada final com impacto visual.";
+    }
+
+    function createCharacters(text) {
+      return [
+        {
+          name: "Protagonista humilde",
+          role: "protagonista",
+          identity: "Personagem fruta adulto, aparência cansada, sensível e pobre.",
+          baseOutfit: "regata branca velha, bermuda jeans azul curta, chinelo simples",
+          expressions: ["neutro", "triste", "preocupado", "assustado", "esperançoso", "aliviado"],
+          outfitStates: ["limpa", "suja", "molhada", "rasgada", "muito danificada"]
+        },
+        {
+          name: "Personagem rico",
+          role: "contraste social / antagonista",
+          identity: "Personagem fruta ou vegetal elegante, confiante, arrogante e superior.",
+          baseOutfit: "terno elegante, camisa branca, gravata escura, sapato social",
+          expressions: ["neutro", "confiante", "debochado", "bravo", "desconfiado", "surpreso"],
+          outfitStates: ["limpa", "levemente suja", "molhada", "rasgada", "danificada"]
+        },
+        {
+          name: "Criança emocional",
+          role: "carga emocional",
+          identity: "Criança pequena, inocente, vulnerável, olhos grandes e expressivos.",
+          baseOutfit: "roupa infantil simples, confortável e humilde",
+          expressions: ["neutra", "triste", "curiosa", "assustada", "esperançosa", "feliz simples"],
+          outfitStates: ["limpa", "suja", "molhada", "rasgada"]
+        }
+      ];
+    }
+
+    function createStoryboard(text) {
+      return [
+        "Abertura: mostrar o protagonista e o mundo onde ele vive, deixando claro o problema principal.",
+        "Contraste: mostrar o personagem com poder, dinheiro ou vantagem em oposição ao protagonista.",
+        "Conflito: o protagonista é rejeitado, humilhado ou impedido de conseguir o que precisa.",
+        "Coração da história: revelar quem depende do protagonista ou por que o problema importa.",
+        "Pior momento: chuva, perda, cansaço, solidão ou fracasso aumentam o drama.",
+        "Virada: uma pequena ajuda, descoberta ou decisão muda o rumo.",
+        "Final: o protagonista encontra esperança, alívio ou uma solução simples e emocional."
+      ];
     }
 
     function generatePackage() {
       state.analysis = analyzeProject();
       renderAll();
+      showToast("Pacote gerado");
     }
 
     function renderAll() {
@@ -471,6 +536,8 @@
       renderCharacters();
       renderModelSheet();
       renderStoryboard();
+      renderFinalPackage();
+      renderSavedProjects();
     }
 
     function renderStory() {
@@ -537,6 +604,16 @@
       `;
     }
 
+    function renderFinalPackage() {
+      const text = buildFullPackage();
+      document.getElementById("pacote").innerHTML = `
+        <h2 class="section-title">📦 Pacote final do projeto</h2>
+        <p class="small-text">Copie este pacote para entregar ao cliente, colar no ChatGPT, ou usar como base no Flow, Runway, Kling, Luma, CapCut e ElevenLabs.</p>
+        <pre>${escapeHtml(text)}</pre>
+        <button class="button" onclick="copyText(\`${escapeBacktick(text)}\`)">Copiar pacote completo</button>
+      `;
+    }
+
     function selectCharacter(index) {
       state.selectedCharacter = index;
       openTab("modelsheet");
@@ -548,11 +625,85 @@
     }
 
     function buildModelSheetPrompt(character) {
-      return `Crie um model sheet profissional de ${character.name} em uma única imagem.\n\nMostrar o mesmo personagem em corpo inteiro, com variações consistentes do mesmo personagem.\n\nIdentidade do personagem:\n${character.identity}\n\nRoupa base oficial:\n${character.baseOutfit}.\n\nExpressões:\n${character.expressions.map((x, i) => `${i + 1}. ${x}`).join("\n")}\n\nEstados da roupa:\n${character.outfitStates.map((x, i) => `${i + 1}. roupa ${x}`).join("\n")}\n\nImportante:\nManter sempre o mesmo personagem.\nManter sempre a mesma roupa base.\nNão trocar figurino.\nSem sangue.\nSem gore.\nApenas sujeira, desgaste, rasgos leves, chuva e dano visual na roupa.\nFundo cinza neutro.\nEstilo animação 3D cinematográfica.\nOrganizado como folha de referência visual.`;
+      return `Crie um model sheet profissional de ${character.name} em uma única imagem.
+
+Mostrar o mesmo personagem em corpo inteiro, com variações consistentes do mesmo personagem.
+
+Identidade do personagem:
+${character.identity}
+
+Roupa base oficial:
+${character.baseOutfit}.
+
+Expressões:
+${character.expressions.map((x, i) => `${i + 1}. ${x}`).join("\n")}
+
+Estados da roupa:
+${character.outfitStates.map((x, i) => `${i + 1}. roupa ${x}`).join("\n")}
+
+Importante:
+Manter sempre o mesmo personagem.
+Manter sempre a mesma roupa base.
+Não trocar figurino.
+Sem sangue.
+Sem gore.
+Apenas sujeira, desgaste, rasgos leves, chuva e dano visual na roupa.
+Fundo cinza neutro.
+Estilo animação 3D cinematográfica.
+Organizado como folha de referência visual.`;
     }
 
     function buildScenePrompt(scene, index) {
-      return `Cena ${index + 1}: ${scene}\n\nUsar somente personagens aprovados deste projeto. Manter a roupa base definida no model sheet. Não trocar figurino. A roupa pode mudar apenas de estado conforme continuidade: limpa, suja, molhada, rasgada ou danificada. Sem sangue e sem gore. Estilo animação 3D cinematográfica, composição clara, emoção forte, visual de curta viral.`;
+      return `Cena ${index + 1}: ${scene}
+
+Usar somente personagens aprovados deste projeto. Manter a roupa base definida no model sheet. Não trocar figurino. A roupa pode mudar apenas de estado conforme continuidade: limpa, suja, molhada, rasgada ou danificada. Sem sangue e sem gore. Estilo animação 3D cinematográfica, composição clara, emoção forte, visual de curta viral.`;
+    }
+
+    function buildFullPackage() {
+      const title = document.getElementById("projectTitle").value;
+      const mode = modes.find(m => m.id === state.mode)?.label || state.mode;
+      const story = state.analysis.story;
+      const characters = state.analysis.characters;
+      const storyboard = state.analysis.storyboard;
+
+      return `PROJETO: ${title}
+TIPO: ${mode}
+
+REGRA DO PROJETO:
+${state.analysis.rule}
+
+HISTÓRIA:
+${story.logline}
+
+TEMA:
+${story.theme}
+
+TOM:
+${story.tone}
+
+CONFLITO:
+${story.conflict}
+
+PERSONAGENS:
+${characters.map((c, i) => `
+${i + 1}. ${c.name}
+Função: ${c.role}
+Identidade: ${c.identity}
+Roupa base: ${c.baseOutfit}
+Expressões: ${c.expressions.join(", ")}
+Estados da roupa: ${c.outfitStates.join(", ")}
+`).join("\n")}
+
+STORYBOARD:
+${storyboard.map((s, i) => `Cena ${i + 1}: ${s}`).join("\n")}
+
+REGRA FINAL:
+Antes de gerar cenas finais, criar ou aprovar o model sheet de cada personagem.
+Cada história deve ter sua própria bíblia visual.
+Não misturar vídeo viral com universo autoral.
+Não trocar roupa no meio da mesma história.
+A roupa só pode mudar de estado: limpa, suja, molhada, rasgada ou danificada.
+Sem sangue e sem gore.`;
     }
 
     function openTab(tabId) {
@@ -564,18 +715,66 @@
 
     async function copyText(text) {
       await navigator.clipboard.writeText(text);
+      showToast("Copiado");
+    }
+
+    function showToast(message) {
       const toast = document.getElementById("toast");
+      toast.textContent = message;
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 1300);
     }
 
-    function exportProject() {
-      const project = {
+    function getProjectObject() {
+      return {
         title: document.getElementById("projectTitle").value,
         mode: state.mode,
         sourceText: document.getElementById("sourceText").value,
-        analysis: state.analysis
+        analysis: state.analysis,
+        savedAt: new Date().toISOString()
       };
+    }
+
+    function saveProject() {
+      const project = getProjectObject();
+      const saved = JSON.parse(localStorage.getItem("fas_projects") || "[]");
+      saved.unshift(project);
+      localStorage.setItem("fas_projects", JSON.stringify(saved.slice(0, 20)));
+      renderSavedProjects();
+      showToast("Projeto salvo");
+    }
+
+    function renderSavedProjects() {
+      const saved = JSON.parse(localStorage.getItem("fas_projects") || "[]");
+      const list = document.getElementById("projectList");
+      if (!saved.length) {
+        list.innerHTML = `<div class="small-text">Nenhum projeto salvo ainda.</div>`;
+        return;
+      }
+      list.innerHTML = saved.map((p, index) => `
+        <div class="project-item" onclick="loadProject(${index})">
+          <strong>${escapeHtml(p.title)}</strong>
+          <div class="small-text">${escapeHtml(modes.find(m => m.id === p.mode)?.label || p.mode)} · ${new Date(p.savedAt).toLocaleString("pt-BR")}</div>
+        </div>
+      `).join("");
+    }
+
+    function loadProject(index) {
+      const saved = JSON.parse(localStorage.getItem("fas_projects") || "[]");
+      const project = saved[index];
+      if (!project) return;
+      document.getElementById("projectTitle").value = project.title;
+      document.getElementById("sourceText").value = project.sourceText;
+      state.mode = project.mode;
+      state.analysis = project.analysis;
+      state.selectedCharacter = 0;
+      renderModes();
+      renderAll();
+      showToast("Projeto carregado");
+    }
+
+    function exportProject() {
+      const project = getProjectObject();
       const blob = new Blob([JSON.stringify(project, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -583,6 +782,7 @@
       a.download = "fruits-adventures-studio-projeto.json";
       a.click();
       URL.revokeObjectURL(url);
+      showToast("JSON exportado");
     }
 
     function escapeHtml(str) {
