@@ -222,9 +222,75 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
 @media(max-width:900px){.focus-steps,.mode-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.focus-steps,.mode-grid{grid-template-columns:1fr}}
 
+
+/* ACCESS GATE */
+#accessGate{
+  position:fixed; inset:0; z-index:999999; display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 5%,rgba(212,160,23,.16),transparent),
+    radial-gradient(ellipse 55% 35% at 90% 90%,rgba(0,212,200,.12),transparent),
+    #05080d;
+  padding:22px;
+}
+.access-card{
+  width:min(760px,100%); border:1px solid rgba(212,160,23,.42); border-radius:24px;
+  background:linear-gradient(145deg,rgba(12,17,24,.98),rgba(8,12,18,.96));
+  box-shadow:0 20px 80px rgba(0,0,0,.55),0 0 40px rgba(212,160,23,.10);
+  padding:28px;
+}
+.access-mark{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.access-logo{width:58px;height:58px;border-radius:17px;border:1px solid var(--gold);display:grid;place-items:center;font-size:30px;background:linear-gradient(135deg,#231500,#3b2800)}
+.access-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--gold2);line-height:1}
+.access-subtitle{font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+.creator-box{border:1px solid rgba(0,212,200,.24);background:rgba(0,212,200,.045);border-radius:16px;padding:16px;margin:16px 0}
+.creator-line{font-size:14px;color:#dce8f5;margin:6px 0}
+.creator-line b{color:var(--cyan)}
+.access-note{font-size:12.5px;color:#93a9be;line-height:1.55;margin-top:10px}
+.access-grid{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:18px}
+.access-input{height:46px}
+.access-error{display:none;color:var(--red);font-size:12px;font-weight:800;margin-top:10px}
+.access-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px;font-size:11px;color:var(--dim)}
+@media(max-width:620px){.access-grid{grid-template-columns:1fr}.access-title{font-size:30px}.access-card{padding:20px}}
+body.locked{overflow:hidden}
+
 </style>
 </head>
-<body>
+<body class="locked">
+
+<div id="accessGate">
+  <div class="access-card">
+    <div class="access-mark">
+      <div class="access-logo">🍅</div>
+      <div>
+        <div class="access-title">Fruits Adventures Titan</div>
+        <div class="access-subtitle">Portal criativo de modelagem viral, paródias e animação</div>
+      </div>
+    </div>
+
+    <div class="creator-box">
+      <div class="creator-line"><b>Criador do portal:</b> Elinaldo Menezes de Medeiros</div>
+      <div class="creator-line"><b>Mundo autoral:</b> Fruits Adventures</div>
+      <div class="creator-line"><b>Formação:</b> estudante de Design de Animação — Faculdade Unicesumar</div>
+      <div class="creator-line"><b>Propósito:</b> transformar referências virais em histórias, storyboards, vozes, SRT, prompts e produção audiovisual com personagens próprios.</div>
+      <div class="access-note">
+        Este portal é um laboratório criativo autoral para desenvolvimento de narrativas, personagens, animação, paródias seguras, encenações e produção com IA.
+      </div>
+    </div>
+
+    <label>Senha de acesso</label>
+    <div class="access-grid">
+      <input id="accessPassword" class="access-input" type="password" autocomplete="off" placeholder="Digite a senha para entrar">
+      <button class="btn gold turbo-bigbtn" onclick="unlockPortal()">Entrar no portal</button>
+    </div>
+    <div id="accessError" class="access-error">Senha incorreta. Tente novamente.</div>
+
+    <div class="access-foot">
+      <span>© Fruits Adventures Titan — Portal autoral</span>
+      <span>Reconhecer → Modelar → Produzir</span>
+    </div>
+  </div>
+</div>
+
 
 <div id="vg-toast">Notificação</div>
 
@@ -244,7 +310,7 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
       <span class="badge cyan">Flow Labs</span>
       <span class="badge red">Studio Pro</span>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:var(--muted)">Suba uma referência viral e recrie com personagens próprios</div>
+    <div style="margin-top:8px;font-size:11px;color:var(--muted)">Portal autoral de Elinaldo Menezes — suba uma referência viral e recrie com personagens próprios</div>
   </div>
 </div>
 
@@ -2112,6 +2178,38 @@ function setTitanMode(tipo,objetivo){
   if($('modelarMelhorar')) $('modelarMelhorar').value=extras[objetivo]||extras.refazer;
   toast('Modo Titan aplicado.');
 }
+
+
+/* ─── PORTAL DE ACESSO ─── */
+const PORTAL_PASSWORD = "fruits2026";
+function unlockPortal(){
+  const input=document.getElementById('accessPassword');
+  const err=document.getElementById('accessError');
+  const gate=document.getElementById('accessGate');
+  const pass=(input?.value||'').trim();
+  if(pass===PORTAL_PASSWORD){
+    sessionStorage.setItem('fruits_titan_unlocked','yes');
+    if(gate) gate.style.display='none';
+    document.body.classList.remove('locked');
+    toast('Bem-vindo ao Fruits Adventures Titan!');
+  }else{
+    if(err) err.style.display='block';
+    if(input) input.select();
+  }
+}
+function initAccessGate(){
+  const gate=document.getElementById('accessGate');
+  if(sessionStorage.getItem('fruits_titan_unlocked')==='yes'){
+    if(gate) gate.style.display='none';
+    document.body.classList.remove('locked');
+  }
+  const input=document.getElementById('accessPassword');
+  if(input){
+    input.addEventListener('keydown',e=>{ if(e.key==='Enter') unlockPortal(); });
+    setTimeout(()=>input.focus(),250);
+  }
+}
+document.addEventListener('DOMContentLoaded', initAccessGate);
 
 </script>
 </body>
