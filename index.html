@@ -296,7 +296,20 @@ input[type="file"]{padding:8px 13px; cursor:pointer;}
       </div>
       <div>
         <label>Local, link ou ideia curta</label>
-        <input id="turboLocal" placeholder="Ex: Praça do Wi-Fi Grátis, Rua real, Google Maps, feira, igreja...">
+        <input 
+          id="turboLocalVisualRef"
+          name="turbo_visual_reference_field"
+          type="text"
+          value=""
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-lpignore="true"
+          data-form-type="other"
+          data-1p-ignore="true"
+          data-bwignore="true"
+          placeholder="Ex: beco chuvoso, praça, rua real, Google Maps, feira, igreja...">
       </div>
     </div>
 
@@ -1608,6 +1621,7 @@ async function gerarSerieSmart(parte){
 
 /* ─── CRIADOR TURBO: FLUXO DIRETO ─── */
 function buildTurboCreator(){
+  setTimeout(()=>{ if(typeof limparCampoLocalTurboSeAutofill==='function') limparCampoLocalTurboSeAutofill(); }, 50);
   const charOptions=(CHARS||[]).map((c,i)=>`<option value="${i}">${c.e} ${c.n} — ${c.t}</option>`).join('');
   ['turboHeroi','turboAliado','turboVilao'].forEach(id=>{const el=$(id); if(el) el.innerHTML=charOptions;});
   if($('turboHeroi')) $('turboHeroi').value='0';
@@ -1633,7 +1647,7 @@ function buildTurboCreator(){
 }
 function turboToggleLocal(){
   const modo=$('turboLocalModo')?.value||'ia';
-  const input=$('turboLocal');
+  const input=$('turboLocalVisualRef');
   if(!input) return;
   const ph={
     ia:'A IA inventa um local simples e viral',
@@ -1669,7 +1683,7 @@ function turboPickTemplate(){
 }
 function turboLocationContext(){
   const modo=$('turboLocalModo')?.value||'ia';
-  const loc=($('turboLocal')?.value||'').trim();
+  const loc=($('turboLocalVisualRef')?.value||'').trim();
   if(modo==='ia') return 'LOCAL: a IA deve criar um local simples, visual, viral e fácil de entender.';
   if(modo==='preset') return 'LOCAL: '+getUniversoContext()+(locationContext?locationContext():'');
   if(modo==='maps') return `LOCAL / REFERÊNCIA EXTERNA: ${loc||'não informado'}\nUsar como referência de endereço/link/nicho. Se houver print no Olho da IA, priorizar a imagem para fachada, luz e cenário. Não copiar rostos, marcas ou logos reais.`;
@@ -1827,7 +1841,7 @@ function turboGerarArtes(){
   if($('gfxSubtitulo')) $('gfxSubtitulo').value='Assista até o final';
   if($('gfxPersonagem')) $('gfxPersonagem').value=turboChar('turboHeroi',CHARS[0]).n;
   if($('gfxPersonagem2')) $('gfxPersonagem2').value=turboChar('turboVilao',CHARS[4]).n;
-  if($('gfxLocal')) $('gfxLocal').value=($('turboLocal')?.value||getUniversoContext()||'Fruits Adventures');
+  if($('gfxLocal')) $('gfxLocal').value=($('turboLocalVisualRef')?.value||getUniversoContext()||'Fruits Adventures');
   gfxSelectedId='yt_thumb_twist';
   try{selectGfx(gfxSelectedId);gerarGrafica();}catch(e){}
   const btn=[...document.querySelectorAll('nav button')].find(b=>b.getAttribute('onclick')?.includes('grafica'));
@@ -1914,6 +1928,35 @@ function titanCopyGroup(group){
 function titanAfterGeneration(txt){
   titanRenderStructured(txt||state.roteiro||$('roteiroOut')?.textContent||'');
 }
+
+
+/* ─── FIX: impedir endpoint Gemini/autocomplete no campo local do Turbo ─── */
+function limparCampoLocalTurboSeAutofill(){
+  const el=$('turboLocalVisualRef');
+  if(!el) return;
+  const v=(el.value||'').trim();
+  const suspeitos=[
+    'generativelanguage.googleapis.com',
+    'v1beta/models',
+    'AIza',
+    'googleapis.com/v1beta'
+  ];
+  if(suspeitos.some(s=>v.includes(s))){
+    el.value='';
+    el.placeholder='Ex: beco chuvoso, praça, rua real, Google Maps, feira, igreja...';
+  }
+}
+setTimeout(limparCampoLocalTurboSeAutofill, 100);
+setTimeout(limparCampoLocalTurboSeAutofill, 600);
+setTimeout(limparCampoLocalTurboSeAutofill, 1600);
+document.addEventListener('DOMContentLoaded', ()=>{
+  limparCampoLocalTurboSeAutofill();
+  const el=document.getElementById('turboLocalVisualRef');
+  if(el){
+    el.addEventListener('focus', limparCampoLocalTurboSeAutofill);
+    el.addEventListener('input', limparCampoLocalTurboSeAutofill);
+  }
+});
 
 </script>
 </body>
