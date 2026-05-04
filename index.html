@@ -609,7 +609,7 @@ select option{background:#0c1018}
           </div>
           <div class="thumb-row" id="thumbs"></div>
           <div class="alert alert-cyan" style="margin-top:10px;font-size:12px">
-            💡 Dica: Para vídeo viral, print 3-5 frames chave. Gemini processa imagens direto. Groq e Groq são melhores para texto puro.
+            💡 Dica: Para vídeo viral, print 3-5 frames chave. Gemini processa imagens direto. OpenRouter e Groq são melhores para texto puro.
           </div>
         </div>
       </div>
@@ -1383,15 +1383,19 @@ Transforme esta entrada em um pacote profissional de pré-produção contendo:
 3. Personagens completos com identidade, roupa base FIXA, expressões e estados da roupa
 4. Prompts de model sheet para cada personagem
 5. Storyboard com 5-8 cenas com ação, câmera, emoção e prompts de imagem e vídeo
-6. Pacote final resumido para cliente
+6. Roteiro falado por cena: narração, falas dos personagens, legenda curta, texto ElevenLabs e texto CapCut
+7. Pacote final resumido para cliente
 
 REGRAS ABSOLUTAS:
 - A ROUPA BASE de cada personagem NÃO muda no meio da mesma história. Só muda de ESTADO: limpa, suja, molhada, rasgada, queimada, danificada.
 - Sem sangue, sem gore, sem conteúdo adulto.
 - Vídeo viral = referência de estrutura, NÃO universo oficial.
 - Personagens devem ter nomes simples e identidade visual memorável.
+- Se o personagem for fruta ou legume, ele DEVE ser descrito como personagem fruta/legume antropomórfico, NÃO humano.
+- Não descreva personagem fruta como homem/mulher comum com cabelo humano. Exemplo correto: “laranja antropomórfica com corpo redondo de fruta, casca alaranjada, textura cítrica, olhos expressivos, braços e pernas”.
 - Storyboard deve ter continuidade de roupa entre cenas.
 - Prompts de imagem e vídeo em INGLÊS para compatibilidade com ferramentas.
+- Falas e narração em português do Brasil.
 - Responder SOMENTE JSON válido, sem markdown, sem texto fora do JSON.
 
 JSON OBRIGATÓRIO (mantenha EXATAMENTE esta estrutura):
@@ -1442,6 +1446,11 @@ JSON OBRIGATÓRIO (mantenha EXATAMENTE esta estrutura):
       "camera": "",
       "sound": "",
       "outfit_continuity": "",
+      "narration": "",
+      "dialogue": [],
+      "caption": "",
+      "elevenlabs_text": "",
+      "capcut_text": "",
       "image_prompt": "",
       "video_prompt": "",
       "viral_hook": ""
@@ -1625,11 +1634,18 @@ function buildModelSheetPrompt(c,style,tech){
     poses:'action poses sheet — hero pose, idle, running, jumping, emotional breakdown',
     turnaround:'360-degree turnaround — front, 3/4 front, side, 3/4 back, back views'
   };
+  const speciesRule = `IMPORTANT CHARACTER SPECIES RULE:
+If this character is named after a fruit or vegetable, create a living anthropomorphic fruit/vegetable character, NOT a human.
+The body must clearly be the fruit/vegetable itself with arms, legs, face, clothes and expressive eyes.
+Avoid normal human head, human skin, realistic human hair, or ordinary human body.`;
+
   return `CHARACTER MODEL SHEET — ${c.name?.toUpperCase()||'CHARACTER'}
 
 SYSTEM PROMPT (for image generation):
 Create a professional ${styleMap[s]} of ${c.name} on a neutral gray background.
 Art style: ${techMap[t]}.
+
+${speciesRule}
 
 CHARACTER DESCRIPTION:
 ${c.identity||''}
@@ -1648,6 +1664,11 @@ ${(c.outfit_states||[]).map((x,i)=>(i+1)+'. '+x).join('\n')}
 
 `:''}IMPORTANT RULES:
 - Always use the EXACT SAME character, same base outfit
+- If this is a fruit/vegetable character, it must stay fruit/vegetable in every view
+- No normal human character
+- No human skin
+- No human head
+- No realistic human hair
 - No blood, no gore, no adult content
 - Neutral gray background (#808080)
 - Label each expression/state clearly
@@ -1656,7 +1677,7 @@ ${(c.outfit_states||[]).map((x,i)=>(i+1)+'. '+x).join('\n')}
 - Character must be recognizable from every angle
 
 NEGATIVE PROMPT:
-different character, wrong outfit, blood, gore, adult content, colored background, inconsistent design`;
+human man, realistic human, human skin, human head, human hair, normal person, wrong species, not a fruit, not a vegetable, different character, wrong outfit, blood, gore, adult content, colored background, inconsistent design`;
 }
 
 function buildCustomModelSheet(){
@@ -1686,6 +1707,82 @@ function copyModelSheetForRunway(){
   const idx=Number($('charSelect').value)||0;const c=p.characters[idx];
   const rw=`Character: ${c.name}. ${c.identity}. Wearing: ${c.base_outfit}. ${c.personality||''}. Cinematic 3D animation style. Consistent design throughout all frames.`;
   copyText(rw,'Prompt RunwayML copiado!');
+}
+
+
+// ── EDIT PERSONAGENS ──────────────────────────────────────────
+function openCharacterEditor(i){
+  const p=ST.project;
+  if(!p || !p.characters || !p.characters[i]){ toast('Gere o projeto primeiro','⚠️'); return; }
+  const c=p.characters[i];
+  $('editCharIndex').value=i;
+  $('editCharEmoji').value=c.emoji||'';
+  $('editCharName').value=c.name||'';
+  $('editCharRole').value=c.role||'';
+  $('editCharAge').value=c.age||'';
+  $('editCharPersonality').value=c.personality||'';
+  $('editCharIdentity').value=c.identity||'';
+  $('editCharOutfit').value=c.base_outfit||'';
+  $('editCharSignature').value=c.signature_detail||'';
+  $('editCharExpressions').value=(c.expressions||[]).join(', ');
+  $('editCharStates').value=(c.outfit_states||[]).join(', ');
+  $('editCharVoice').value=c.voice_reference||'';
+  $('editCharacterModal').classList.add('show');
+}
+function closeCharacterEditor(){ $('editCharacterModal').classList.remove('show'); }
+function splitList(v){ return String(v||'').split(',').map(x=>x.trim()).filter(Boolean); }
+function saveCharacterEdit(){
+  const p=ST.project, i=Number($('editCharIndex').value);
+  if(!p || !p.characters || !p.characters[i]) return;
+  const c=p.characters[i];
+  c.emoji=$('editCharEmoji').value.trim();
+  c.name=$('editCharName').value.trim();
+  c.role=$('editCharRole').value.trim();
+  c.age=$('editCharAge').value.trim();
+  c.personality=$('editCharPersonality').value.trim();
+  c.identity=$('editCharIdentity').value.trim();
+  c.base_outfit=$('editCharOutfit').value.trim();
+  c.signature_detail=$('editCharSignature').value.trim();
+  c.expressions=splitList($('editCharExpressions').value);
+  c.outfit_states=splitList($('editCharStates').value);
+  c.voice_reference=$('editCharVoice').value.trim();
+  c.model_sheet_prompt=buildModelSheetPrompt(c);
+  closeCharacterEditor();
+  renderProject();
+  $('charSelect').value=String(i);
+  renderModelSheet();
+  buildFinalUI();
+  toast('Personagem atualizado','💾');
+}
+function fillCharacterImprovement(){
+  const name=$('editCharName').value.trim().toLowerCase();
+  const role=$('editCharRole').value.trim().toLowerCase();
+  if(name.includes('laranja')){
+    $('editCharIdentity').value='Laranja antropomórfica adulta, corpo redondo de fruta cítrica, casca alaranjada com textura e pequenos poros, olhos castanhos expressivos, sobrancelhas caídas, aparência humilde, cansada e honesta. NÃO humano.';
+    $('editCharOutfit').value='Camisa branca simples com mangas dobradas, calça jeans azul usada e tênis simples.';
+    $('editCharExpressions').value='triste, raivoso, traído, determinado, esperançoso, aliviado';
+    $('editCharStates').value='limpo, sujo, molhado, amassado, levemente rasgado';
+  }else if(name.includes('banana') || role.includes('traidor')){
+    $('editCharIdentity').value='Banana antropomórfica adulta, corpo de banana amarela com textura de casca, sorriso falso, olhos atentos, postura confiante e manipuladora. NÃO humano.';
+    $('editCharOutfit').value='Camisa preta elegante, calça social clara, sapato social e anel dourado discreto.';
+    $('editCharExpressions').value='sorridente falso, arrogante, culpado, debochado, irritado, fingindo inocência';
+    $('editCharStates').value='limpo, sujo, molhado, rasgado, amassado';
+  }else if(name.includes('maçã') || name.includes('maca')){
+    $('editCharIdentity').value='Maçã antropomórfica jovem, corpo de maçã vermelha suave, olhos verdes grandes e expressivos, aparência doce, inocente e empática. NÃO humano.';
+    $('editCharOutfit').value='Vestido simples rosa claro, sapatos brancos simples e colar de flores no pescoço.';
+    $('editCharExpressions').value='surpresa, tristeza, empatia, preocupação, medo, esperança';
+    $('editCharStates').value='limpo, sujo, molhado, amassado, levemente rasgado';
+  }else if(name.includes('cenoura')){
+    $('editCharIdentity').value='Cenoura antropomórfica adulta, corpo laranja comprido de vegetal, folhas verdes no topo como detalhe natural, olhos sérios, postura justa e confiável. NÃO humano.';
+    $('editCharOutfit').value='Terno escuro simples, camisa clara, gravata branca e sapatos sociais.';
+    $('editCharExpressions').value='sério, justo, satisfeito, desconfiado, revelador, calmo';
+    $('editCharStates').value='limpo, sujo, molhado, amassado';
+  }
+  toast('Sugestão aplicada. Confira e salve.','✨');
+}
+function goToCharacterModelSheet(i){
+  showPage('modelsheets',document.querySelectorAll('.nav-item')[5]);
+  setTimeout(()=>{ if($('charSelect')){ $('charSelect').value=String(i); renderModelSheet(); } },30);
 }
 
 // ── STORYBOARD ────────────────────────────────────────────────
@@ -1734,6 +1831,26 @@ function renderStoryboard(){
           <div class="scene-val" style="color:var(--amber2)">${esc(s.outfit_continuity||'')}</div>
         </div>
         ${s.viral_hook?`<div style="margin-bottom:12px"><div class="scene-label">🪝 Gancho viral</div><div class="scene-val" style="color:var(--cyan)">${esc(s.viral_hook)}</div></div>`:''}
+        <div class="scene-row">
+          <div>
+            <div class="scene-label">🎙️ Narração</div>
+            <div class="scene-val">${esc(s.narration||'')}</div>
+          </div>
+          <div>
+            <div class="scene-label">💬 Falas</div>
+            <div class="scene-val">${esc(formatDialogue(s.dialogue))}</div>
+          </div>
+        </div>
+        <div class="scene-row">
+          <div>
+            <div class="scene-label">📱 Legenda curta</div>
+            <div class="scene-val">${esc(s.caption||'')}</div>
+          </div>
+          <div>
+            <div class="scene-label">🎧 ElevenLabs / CapCut</div>
+            <div class="scene-val">${esc(s.elevenlabs_text||s.capcut_text||'')}</div>
+          </div>
+        </div>
         <div style="margin-bottom:12px">
           <div class="scene-label">🖼️ Prompt de imagem (EN)</div>
           <div class="prompt-wrap">
@@ -1757,6 +1874,19 @@ function renderStoryboard(){
     </div>`;
 }
 
+function formatDialogue(dialogue){
+  if(!dialogue) return '';
+  if(Array.isArray(dialogue)){
+    return dialogue.map(d=>{
+      if(typeof d==='string') return d;
+      const name=d.character||d.personagem||d.name||'Personagem';
+      const line=d.line||d.fala||d.text||d.texto||'';
+      return name+': '+line;
+    }).join('\n');
+  }
+  return String(dialogue);
+}
+
 function sceneFullText(i){
   const s=ST.project?.storyboard?.[i];if(!s)return'';
   return `CENA ${s.scene_num||i+1} — ${s.title||''}
@@ -1767,6 +1897,21 @@ Câmera: ${s.camera||''}
 Som: ${s.sound||''}
 Roupa / continuidade: ${s.outfit_continuity||''}
 Gancho viral: ${s.viral_hook||''}
+
+NARRAÇÃO:
+${s.narration||''}
+
+FALAS:
+${formatDialogue(s.dialogue)}
+
+LEGENDA CURTA:
+${s.caption||''}
+
+TEXTO ELEVENLABS:
+${s.elevenlabs_text||''}
+
+TEXTO CAPCUT:
+${s.capcut_text||''}
 
 PROMPT IMAGEM (EN):
 ${s.image_prompt||''}
