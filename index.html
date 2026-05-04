@@ -411,7 +411,7 @@
   </style>
 </head>
 <body>
-  <div class="login-gate" id="loginGate">
+  <div class="login-gate hidden" id="loginGate">
     <div class="login-card">
       <div class="badge">🔐 Portal Fruits Adventures Titan</div>
       <h1>Acesso protegido</h1>
@@ -428,7 +428,7 @@
     </div>
   </div>
 
-  <div class="app locked" id="appShell">
+  <div class="app" id="appShell">
     <header>
       <section class="hero">
         <div class="badge">🍅 Fruits Copilot Smart • API Free Ready</div>
@@ -756,16 +756,22 @@
     }
 
     function checkPortalAccess() {
-      const logged = sessionStorage.getItem(SESSION_KEY) === "true" || localStorage.getItem(SESSION_KEY) === "true";
-      document.getElementById("loginGate").classList.toggle("hidden", logged);
-      document.getElementById("appShell").classList.toggle("locked", !logged);
+      // Acesso liberado sem senha.
+      // Quando quiser ativar senha novamente, remova este retorno automático
+      // e volte a exibir o bloco loginGate.
+      localStorage.setItem(SESSION_KEY, "true");
+      sessionStorage.setItem(SESSION_KEY, "true");
+      const loginGate = document.getElementById("loginGate");
+      const appShell = document.getElementById("appShell");
+      if (loginGate) loginGate.classList.add("hidden");
+      if (appShell) appShell.classList.remove("locked");
     }
 
     function sairPortal() {
+      // Mantido apenas para uso futuro. Hoje o portal entra direto, sem senha.
       sessionStorage.removeItem(SESSION_KEY);
       localStorage.removeItem(SESSION_KEY);
-      document.getElementById("loginGate").classList.remove("hidden");
-      document.getElementById("appShell").classList.add("locked");
+      checkPortalAccess();
     }
 
     function renderCards() {
