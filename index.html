@@ -281,6 +281,7 @@
     }
 
     button:hover { transform: translateY(-1px); filter: brightness(1.04); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
 
     button.secondary {
       background: rgba(255,255,255,.08);
@@ -411,29 +412,27 @@
   </style>
 </head>
 <body>
-  <div class="login-gate hidden" id="loginGate">
+  <div class="login-gate" id="loginGate">
     <div class="login-card">
       <div class="badge">🔐 Portal Fruits Adventures Titan</div>
       <h1>Acesso protegido</h1>
-      <p>Digite a senha do portal para entrar. O projeto fica salvo no navegador mesmo quando atualizar a página.</p>
+      <p>Digite a senha do portal para entrar. O projeto fica salvo no navegador.</p>
       <label>Senha do portal
         <input id="portalPassword" type="password" placeholder="Digite a senha" onkeydown="if(event.key==='Enter') loginPortal()" />
       </label>
       <div class="actions">
         <button onclick="loginPortal()">Entrar no portal</button>
-        <button class="secondary" onclick="showPasswordHint()">Ver dica</button>
-        <button class="warning" onclick="document.getElementById('portalPassword').value='fruits2026'; loginPortal();">Entrar demo</button>
       </div>
-      <div class="mini-note" id="loginMessage">Senha demo: <strong>fruits2026</strong>. Depois troque por login real no backend.</div>
+      <div class="mini-note" id="loginMessage">Senha definitiva configurada no código.</div>
     </div>
   </div>
 
-  <div class="app" id="appShell">
+  <div class="app locked" id="appShell">
     <header>
       <section class="hero">
-        <div class="badge">🍅 Fruits Copilot Smart • API Free Ready</div>
+        <div class="badge">🍅 Fruits Copilot Smart • Conexão Direta</div>
         <h1>Fruits Viral Studio</h1>
-        <p>Monte novelas virais com tema, elenco, premissas vitais, gancho, storyboard, pacote final e providers gratuitos: Gemini, Groq e OpenRouter.</p>
+        <p>Monte novelas virais com tema, elenco, premissas vitais, gancho, storyboard e gere o pacote final direto pelo seu navegador.</p>
       </section>
 
       <aside class="status-panel">
@@ -456,7 +455,7 @@
           <button class="tab" data-tab="trend">2. Tendência</button>
           <button class="tab" data-tab="cast">3. Elenco Fruits</button>
           <button class="tab" data-tab="smart">4. Smart Mix</button>
-          <button class="tab" data-tab="api">5. API</button>
+          <button class="tab" data-tab="api">5. Conexão API</button>
         </nav>
 
         <section id="project" class="tab-content active">
@@ -544,80 +543,62 @@
           </div>
           <div class="actions">
             <button class="accent" onclick="generateSmartMix()">Gerar Smart Mix</button>
-            <button onclick="generateFinalPackage()">Gerar pacote final demo</button>
-            <button class="warning" onclick="callFreeApiDemo()">Simular chamada API</button>
+            <button onclick="generateFinalPackage()">Gerar pacote final demo (Local)</button>
           </div>
         </section>
 
         <section id="api" class="tab-content">
           <div class="section-title">
-            <h2>API gratuita / providers</h2>
-            <span>Gemini, Groq, OpenRouter e modo automático</span>
+            <h2>Conexão API (Direta no Navegador)</h2>
+            <span>Teste e gere a novela usando a chave salva no seu celular</span>
           </div>
 
           <div class="cards-grid" id="providerGrid">
             <article class="choice-card selected" id="provider-gemini" onclick="selectProvider('gemini')">
-              <h3>Gemini Free</h3>
-              <p>Boa opção grátis para roteiro completo, análise viral, JSON, pacote final e textos longos.</p>
-              <div class="tag-row"><span class="tag">free tier</span><span class="tag">Google AI Studio</span><span class="tag">criativo</span></div>
+              <h3>Gemini</h3>
+              <p>Boa opção para roteiro completo e textos longos.</p>
+              <div class="tag-row"><span class="tag">Google AI Studio</span></div>
             </article>
             <article class="choice-card" id="provider-groq" onclick="selectProvider('groq')">
-              <h3>Groq Free</h3>
-              <p>Ótima para chat rápido, quiz, variações curtas e respostas com baixa latência.</p>
-              <div class="tag-row"><span class="tag">rápido</span><span class="tag">free tier</span><span class="tag">chat</span></div>
+              <h3>Groq</h3>
+              <p>Ótima para variações curtas e respostas muito rápidas.</p>
+              <div class="tag-row"><span class="tag">ultra-rápido</span></div>
             </article>
             <article class="choice-card" id="provider-openrouter" onclick="selectProvider('openrouter')">
-              <h3>OpenRouter Free</h3>
-              <p>Permite testar vários modelos gratuitos usando IDs com final :free.</p>
-              <div class="tag-row"><span class="tag">multi-modelo</span><span class="tag">:free</span><span class="tag">fallback</span></div>
-            </article>
-            <article class="choice-card" id="provider-auto" onclick="selectProvider('auto')">
-              <h3>Modo Auto</h3>
-              <p>Escolhe Gemini para pacote final, Groq para chat rápido e OpenRouter como reserva.</p>
-              <div class="tag-row"><span class="tag">smart router</span><span class="tag">fallback</span><span class="tag">recomendado</span></div>
+              <h3>OpenRouter</h3>
+              <p>Permite testar vários modelos gratuitos na nuvem.</p>
+              <div class="tag-row"><span class="tag">multi-modelo</span></div>
             </article>
           </div>
 
           <div class="form-grid" style="margin-top: 18px;">
             <label>Provider ativo
               <select id="providerSelect" onchange="selectProvider(this.value)">
-                <option value="gemini">Gemini Free</option>
-                <option value="groq">Groq Free</option>
-                <option value="openrouter">OpenRouter Free</option>
-                <option value="auto">Modo Auto</option>
+                <option value="gemini">Gemini</option>
+                <option value="groq">Groq</option>
+                <option value="openrouter">OpenRouter</option>
               </select>
             </label>
             <label>Modelo sugerido
               <select id="modelSelect"></select>
             </label>
-            <label>Endpoint do backend
-              <input id="apiEndpoint" value="/api/fruits-generate" />
-            </label>
-            <label>Modo de uso
-              <select id="apiMode">
-                <option value="backend_secure">Backend seguro — recomendado</option>
-                <option value="frontend_demo">Front-end demo — apenas teste local</option>
-              </select>
+            <label style="grid-column: span 2;">Sua Chave de API (API Key)
+              <input id="apiKeyValue" type="password" placeholder="Ex: gsk_DPv... ou AIzaSy..." />
             </label>
           </div>
-
-          <label style="margin-top: 14px;">API Key para teste local opcional
-            <input id="apiKeyDemo" type="password" placeholder="Cole sua chave só para teste local. No site real, use backend." />
-          </label>
 
           <div class="mini-note">
-            Para o site público, não deixe Gemini/Groq/OpenRouter API Key no HTML. O correto é o navegador chamar <strong>/api/fruits-generate</strong>, e o backend usa a chave protegida.
+            Sua chave fica salva apenas no armazenamento local do seu navegador (celular/PC). Ela não é enviada para nenhum servidor nosso.
           </div>
 
-          <label style="margin-top: 14px;">Prompt/JSON enviado para API
+          <label style="margin-top: 14px;">Prompt que será enviado para a IA
             <textarea id="apiPayload" readonly></textarea>
           </label>
 
           <div class="actions">
-            <button onclick="buildApiPayload()">Montar payload</button>
-            <button class="secondary" onclick="copyPayload()">Copiar payload</button>
-            <button class="accent" onclick="testApiOnline()">Testar API online</button>
-            <button class="warning" onclick="showBackendExample()">Ver backend exemplo</button>
+            <button onclick="buildApiPayload()">Atualizar Prompt</button>
+            <button class="warning" id="btnTestarOnline" onclick="testConnectionOnline()">📡 Testar API Online</button>
+            <button class="accent" id="btnGerarReal" onclick="generateDirectAPI()">💥 Gerar Roteiro (API Direta)</button>
           </div>
         </section>
       </section>
@@ -639,7 +620,7 @@
           <div class="panel-header" style="padding: 0 0 14px; border-bottom: 0;">
             <div>
               <h2>Resultado Smart</h2>
-              <small>Resumo da novela em construção</small>
+              <small>Retorno da IA ou Resumo</small>
             </div>
           </div>
           <div class="output-box" id="outputBox">Nenhum resultado ainda.</div>
@@ -650,15 +631,18 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "fruits_viral_studio_project_v2";
-    const SESSION_KEY = "fruits_viral_studio_logged_in";
+    // ==========================================
+    // CONFIGURAÇÕES DO PORTAL
+    // ==========================================
     const PORTAL_PASSWORD = "fruits2026";
+    
+    const STORAGE_KEY = "fruits_viral_studio_project_v5";
+    const SESSION_KEY = "fruits_viral_studio_logged_in";
 
     const providerModels = {
       gemini: ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.0-flash-lite"],
       groq: ["llama-3.1-8b-instant", "llama-3.3-70b-versatile", "gemma2-9b-it"],
-      openrouter: ["google/gemini-flash-1.5:free", "meta-llama/llama-3.1-8b-instruct:free", "mistralai/mistral-7b-instruct:free"],
-      auto: ["auto-free-router"]
+      openrouter: ["google/gemini-flash-1.5:free", "meta-llama/llama-3.1-8b-instruct:free"]
     };
 
     const defaultState = {
@@ -673,44 +657,43 @@
       conflict: null,
       endingType: null,
       currentQuiz: 0,
-      provider: "gemini",
-      model: "gemini-1.5-flash"
+      provider: "groq",
+      model: "llama-3.1-8b-instant",
+      apiKey: ""
     };
 
     let state = loadState();
 
     const trends = [
-      { id: "humilhacao_virada", title: "Humilhação + Virada", desc: "Personagem é desprezado, sofre injustiça e no final prova seu valor.", tags: ["drama", "superação", "top viral"] },
-      { id: "segredo_familia", title: "Segredo de Família", desc: "Uma verdade escondida muda a origem, a família ou o destino do personagem.", tags: ["novela", "choque", "parte 2"] },
-      { id: "vilao_falso_bom", title: "Vilão Falso Bondoso", desc: "O vilão parece amigo, mas manipula tudo por trás da cena.", tags: ["Abacatudo", "traição", "suspense"] },
-      { id: "comedia_caos", title: "Comédia que Vira Caos", desc: "Uma situação simples cresce até virar confusão compartilhável.", tags: ["humor", "shorts", "memes"] },
-      { id: "terror_fruits", title: "Terror Fruits", desc: "Mistério, feira vazia, objeto amaldiçoado ou sombra da plantação.", tags: ["suspense", "noite", "viral"] },
-      { id: "luta_torneio", title: "Lutas / Torneios", desc: "Disputa pública, rival poderoso, torcida e vitória emocional.", tags: ["ação", "torcida", "duelo"] },
-      { id: "aventura_missao", title: "Aventura / Missão", desc: "Mapa perdido, templo das sementes, resgate e descoberta visual.", tags: ["fantasia", "jornada", "cinema"] },
-      { id: "games_fruits", title: "Games Fruits", desc: "Fase, chefão, ranking, missão e linguagem de jogo sem copiar marcas.", tags: ["game", "chefão", "fase"] }
+      { id: "humilhacao_virada", title: "Humilhação + Virada", desc: "Personagem é desprezado, sofre injustiça e no final prova seu valor.", tags: ["drama", "superação"] },
+      { id: "segredo_familia", title: "Segredo de Família", desc: "Uma verdade escondida muda a origem, a família ou o destino do personagem.", tags: ["novela", "choque"] },
+      { id: "vilao_falso_bom", title: "Vilão Falso Bondoso", desc: "O vilão parece amigo, mas manipula tudo por trás da cena.", tags: ["traição", "suspense"] },
+      { id: "comedia_caos", title: "Comédia que Vira Caos", desc: "Uma situação simples cresce até virar confusão compartilhável.", tags: ["humor", "shorts"] },
+      { id: "terror_fruits", title: "Terror Fruits", desc: "Mistério, feira vazia, objeto amaldiçoado ou sombra da plantação.", tags: ["suspense", "noite"] },
+      { id: "luta_torneio", title: "Lutas / Torneios", desc: "Disputa pública, rival poderoso, torcida e vitória emocional.", tags: ["ação", "torcida"] },
+      { id: "aventura_missao", title: "Aventura / Missão", desc: "Mapa perdido, templo das sementes, resgate e descoberta visual.", tags: ["fantasia", "jornada"] }
     ];
 
     const cast = [
-      { id: "tomate_elinaldo", title: "Tomate Elinaldo", desc: "Protagonista humilde, corajoso e emocional.", tags: ["núcleo", "herói", "popular"] },
-      { id: "sabrina_pitaya", title: "Sabrina Pitaya", desc: "Inteligente, forte, sensível e estratégica.", tags: ["núcleo", "apoio", "protagonista"] },
-      { id: "oz", title: "OZ / Oswaldo Rocha", desc: "Mistério familiar ligado a Limão Rocha e Abacatudo.", tags: ["núcleo", "segredo", "drama"] },
-      { id: "abacatudo", title: "Abacatudo", desc: "Vilão manipulador, falso bondoso e causador de traições.", tags: ["vilão", "traição", "novela"] },
-      { id: "limao_rocha", title: "Limão Rocha", desc: "Passado, culpa antiga e origem dramática de OZ.", tags: ["família", "passado", "mistério"] },
-      { id: "secundarios", title: "Secundários da Série", desc: "Amigo, rival, mentor, professor, parente misterioso ou personagem cômico.", tags: ["apoio", "elenco", "série"] },
-      { id: "heroes", title: "Heróis Fruits", desc: "Guardião da feira, anti-herói, equipe de protetores ou heroína de cura.", tags: ["herói", "ação", "original"] },
-      { id: "horror", title: "Terror Fruits", desc: "Fruta possuída, mercado abandonado, fantasma da plantação ou vilão sombrio.", tags: ["terror", "suspense", "noite"] },
-      { id: "adventure", title: "Aventura Fruits", desc: "Ilhas frutais, mapa perdido, templo antigo, piratas da feira e fruto lendário.", tags: ["aventura", "fantasia", "missão"] },
-      { id: "fight", title: "Lutas / Torneios", desc: "Dojo, mestre antigo, campeão arrogante, duelo e batalha de famílias Fruits.", tags: ["luta", "torneio", "torcida"] },
-      { id: "games", title: "Games Fruits", desc: "Fase da feira infinita, chefão Abacatudo, missão de resgate e ranking.", tags: ["games", "fase", "boss"] },
-      { id: "groups", title: "Torcida / Grupos", desc: "Frutas ricas, moradores, gangue das frutas verdes ou conselho antigo.", tags: ["multidão", "grupo", "social"] }
+      { id: "tomate_elinaldo", title: "Tomate Elinaldo", desc: "Protagonista humilde, corajoso e emocional.", tags: ["herói", "popular"] },
+      { id: "sabrina_pitaya", title: "Sabrina Pitaya", desc: "Inteligente, forte, sensível e estratégica.", tags: ["apoio", "protagonista"] },
+      { id: "oz", title: "OZ / Oswaldo Rocha", desc: "Mistério familiar ligado a Limão Rocha e Abacatudo.", tags: ["segredo", "drama"] },
+      { id: "abacatudo", title: "Abacatudo", desc: "Vilão manipulador, falso bondoso e causador de traições.", tags: ["vilão", "novela"] },
+      { id: "limao_rocha", title: "Limão Rocha", desc: "Passado, culpa antiga e origem dramática de OZ.", tags: ["família", "passado"] },
+      { id: "secundarios", title: "Secundários da Série", desc: "Amigo, rival, mentor, professor, parente misterioso.", tags: ["elenco", "série"] }
     ];
 
     const quiz = [
-      { key: "premise", question: "Qual é a premissa vital da história?", options: ["Um personagem é humilhado em público.", "Um segredo de família vem à tona.", "Um vilão arma uma falsa acusação.", "Alguém descobre que nasceu de uma mentira.", "Um objeto misterioso muda tudo."] },
-      { key: "hook", question: "Qual será o gancho dos primeiros 3 segundos?", options: ["Todos riram dele, até descobrirem a verdade.", "Ele não deveria ter aberto aquela carta.", "O vilão estava dentro da própria família.", "Naquela noite, a feira ficou vazia pela primeira vez.", "A última frase do pai mudou tudo."] },
-      { key: "conflict", question: "Qual é o conflito principal?", options: ["Humilhação social", "Traição familiar", "Mistério sombrio", "Disputa de poder", "Torneio perigoso", "Missão de resgate"] },
-      { key: "endingType", question: "Qual tipo de final você quer?", options: ["Justiça emocional", "Revelação chocante", "Gancho para parte 2", "Final triste", "Final engraçado", "Vitória do herói"] }
+      { key: "premise", question: "Qual é a premissa vital da história?", options: ["Um personagem é humilhado em público.", "Um segredo de família vem à tona.", "Um vilão arma uma falsa acusação.", "Alguém descobre que nasceu de uma mentira."] },
+      { key: "hook", question: "Qual será o gancho dos primeiros 3 segundos?", options: ["Todos riram dele, até descobrirem a verdade.", "Ele não deveria ter aberto aquela carta.", "O vilão estava dentro da própria família.", "Naquela noite, a feira ficou vazia."] },
+      { key: "conflict", question: "Qual é o conflito principal?", options: ["Humilhação social", "Traição familiar", "Mistério sombrio", "Disputa de poder"] },
+      { key: "endingType", question: "Qual tipo de final você quer?", options: ["Justiça emocional", "Revelação chocante", "Gancho para parte 2", "Vitória do herói"] }
     ];
+
+    const SYSTEM_PROMPT = `Você é o roteirista principal do universo Fruits Adventures Titan.
+Regra Absoluta: O roteiro deve ser autêntico, focado na emoção real da cena e respeitando a fórmula da favela. Não aplique módulos virais artificiais que descaracterizem a história.
+A narração deve ser escrita de forma crua, formatada para o chip de voz do Lira, com cadência e pausas dramáticas.
+Responda exclusivamente em formato JSON válido, respeitando as chaves solicitadas.`;
 
     function loadState() {
       try {
@@ -726,52 +709,21 @@
     }
 
     function loginPortal() {
-      const input = document.getElementById("portalPassword");
+      const password = document.getElementById("portalPassword").value;
       const message = document.getElementById("loginMessage");
-      const password = (input?.value || "").trim();
-
-      const senhasPermitidas = [
-        PORTAL_PASSWORD,
-        "fruits2026",
-        "Fruits2026",
-        "FRUITS2026",
-        "fruits",
-        "1234"
-      ];
-
-      if (senhasPermitidas.includes(password)) {
+      if (password === PORTAL_PASSWORD) {
         sessionStorage.setItem(SESSION_KEY, "true");
-        localStorage.setItem(SESSION_KEY, "true");
         document.getElementById("loginGate").classList.add("hidden");
         document.getElementById("appShell").classList.remove("locked");
-        message.textContent = "Acesso liberado.";
         return;
       }
-
-      message.innerHTML = "Senha incorreta. Tente <strong>fruits2026</strong> ou <strong>1234</strong>.";
-    }
-
-    function showPasswordHint() {
-      document.getElementById("loginMessage").innerHTML = "Senha demo: <strong>fruits2026</strong>. Em produção, use backend.";
+      message.textContent = "Senha incorreta. Tente novamente.";
     }
 
     function checkPortalAccess() {
-      // Acesso liberado sem senha.
-      // Quando quiser ativar senha novamente, remova este retorno automático
-      // e volte a exibir o bloco loginGate.
-      localStorage.setItem(SESSION_KEY, "true");
-      sessionStorage.setItem(SESSION_KEY, "true");
-      const loginGate = document.getElementById("loginGate");
-      const appShell = document.getElementById("appShell");
-      if (loginGate) loginGate.classList.add("hidden");
-      if (appShell) appShell.classList.remove("locked");
-    }
-
-    function sairPortal() {
-      // Mantido apenas para uso futuro. Hoje o portal entra direto, sem senha.
-      sessionStorage.removeItem(SESSION_KEY);
-      localStorage.removeItem(SESSION_KEY);
-      checkPortalAccess();
+      const logged = sessionStorage.getItem(SESSION_KEY) === "true";
+      document.getElementById("loginGate").classList.toggle("hidden", logged);
+      document.getElementById("appShell").classList.toggle("locked", !logged);
     }
 
     function renderCards() {
@@ -802,7 +754,7 @@
       const providerSelect = document.getElementById("providerSelect");
       const modelSelect = document.getElementById("modelSelect");
       if (!providerSelect || !modelSelect) return;
-      providerSelect.value = state.provider || "gemini";
+      providerSelect.value = state.provider || "groq";
       modelSelect.innerHTML = providerModels[providerSelect.value].map(model => `<option value="${model}">${model}</option>`).join("");
       modelSelect.value = state.model || providerModels[providerSelect.value][0];
       document.querySelectorAll("#providerGrid .choice-card").forEach(el => el.classList.remove("selected"));
@@ -815,12 +767,15 @@
       document.getElementById("projectTitle").value = state.projectTitle || "";
       document.getElementById("videoFormat").value = state.videoFormat || "vertical_9_16";
       document.getElementById("viralGoal").value = state.viralGoal || "emocionar";
+      if(state.apiKey) document.getElementById("apiKeyValue").value = state.apiKey;
+      
       if (state.trend && document.getElementById(`trend-${state.trend}`)) document.getElementById(`trend-${state.trend}`).classList.add("selected");
       state.selectedCast.forEach(id => {
         const el = document.getElementById(`cast-${id}`);
         if (el) el.classList.add("selected");
       });
       syncSmartSelects();
+      buildApiPayload();
     }
 
     function selectCard(type, id) {
@@ -842,14 +797,14 @@
       state.projectTitle = document.getElementById("projectTitle").value.trim();
       state.videoFormat = document.getElementById("videoFormat").value;
       state.viralGoal = document.getElementById("viralGoal").value;
-      addMsg("ai", "Base criada. Agora escolha a tendência viral da novela.");
+      addMsg("ai", "Base criada. Agora escolha a tendência viral.");
       updateUI();
       goTab("trend");
     }
 
     function confirmTrend() {
       if (!state.trend) return addMsg("ai", "Escolha uma tendência antes de confirmar.");
-      addMsg("ai", `Tendência confirmada: ${labelById(trends, state.trend)}. Agora selecione o elenco Fruits.`);
+      addMsg("ai", `Tendência confirmada. Selecione o elenco Fruits.`);
       updateUI();
       goTab("cast");
     }
@@ -858,12 +813,12 @@
       const goal = document.getElementById("viralGoal").value;
       const suggestionMap = { emocionar: "humilhacao_virada", chocar: "segredo_familia", rir: "comedia_caos", parte_2: "vilao_falso_bom", apresentar_personagem: "aventura_missao" };
       selectCard("trend", suggestionMap[goal] || "humilhacao_virada");
-      addMsg("ai", `Sugestão Smart: ${labelById(trends, state.trend)} combina com o objetivo ${goal}.`);
+      addMsg("ai", `Sugestão Smart aplicada baseada no objetivo: ${goal}.`);
     }
 
     function confirmCast() {
-      if (!state.selectedCast.length) return addMsg("ai", "Selecione pelo menos um personagem ou categoria.");
-      addMsg("ai", "Elenco confirmado. Agora vou abrir o quiz para moldar premissa, gancho, conflito e final.");
+      if (!state.selectedCast.length) return addMsg("ai", "Selecione pelo menos um personagem.");
+      addMsg("ai", "Elenco confirmado. Vamos ao quiz!");
       updateUI();
       goTab("smart");
       resetQuiz();
@@ -881,41 +836,23 @@
       state.conflict = document.getElementById("conflictSelect").value;
       state.endingType = document.getElementById("endingSelect").value;
       updateUI();
-      addMsg("ai", "Smart Mix gerado. Agora você pode criar o pacote final demo ou montar o payload para API.");
+      addMsg("ai", "Smart Mix gerado. Pronto para ir para a aba da API.");
+      buildApiPayload();
     }
 
     function generateFinalPackage() {
-      if (!state.trend || !state.selectedCast.length) return addMsg("ai", "Confirme tendência e elenco antes de gerar o pacote final.");
+      if (!state.trend || !state.selectedCast.length) return addMsg("ai", "Confirme tendência e elenco.");
       generateSmartMix();
       const castNames = state.selectedCast.map(id => labelById(cast, id)).join(", ");
       const trendName = labelById(trends, state.trend);
+      
       const result = {
-        title: state.projectTitle || "A Verdade que a Feira Escondeu",
-        viral_hook: state.hook,
-        logline: `Em uma novela ${trendName}, ${castNames} entram em uma trama onde ${state.premise.toLowerCase()}`,
-        emotional_engine: `${state.conflict} com final de ${state.endingType}.`,
-        format: state.videoFormat,
-        provider_sugerido: `${state.provider} / ${state.model}`,
-        scene_outline: [
-          "Cena 1: Gancho imediato com frase forte e imagem de impacto.",
-          "Cena 2: O conflito cresce e o personagem principal é pressionado.",
-          "Cena 3: Abacatudo ou o obstáculo manipula a situação.",
-          "Cena 4: Sabrina, Tomate ou OZ encontra uma pista emocional.",
-          "Cena 5: A verdade aparece com virada visual.",
-          "Cena 6: Final marcante e gancho para continuação."
-        ],
-        storyboard_frames: [
-          "Quadro 1: Close dramático no personagem principal.",
-          "Quadro 2: Grupo/torcida reagindo com choque.",
-          "Quadro 3: Objeto, carta ou sinal misterioso revelado.",
-          "Quadro 4: Vilão em sombra ou sorriso falso.",
-          "Quadro 5: Virada emocional no centro da cena.",
-          "Quadro 6: Última frase abre Parte 2."
-        ],
-        next_episode_hook: "Mas ninguém percebeu que Abacatudo ainda guardava a última prova."
+        title: state.projectTitle || "O Segredo Revelado",
+        logline: `Em uma novela ${trendName}, ${castNames} enfrentam uma trama onde ${state.premise.toLowerCase()}`,
+        scene_outline: ["Cena 1: Gancho imediato", "Cena 2: Conflito", "Cena 3: A Virada", "Cena 4: Final"]
       };
+      
       document.getElementById("outputBox").textContent = JSON.stringify(result, null, 2);
-      buildApiPayload(false);
     }
 
     function selectProvider(provider) {
@@ -933,236 +870,199 @@
       if (active) active.classList.add("selected");
       saveState();
       updateUI(false);
-      addMsg("ai", `Provider selecionado: ${provider}. Modelo sugerido: ${state.model}.`);
-    }
-
-    function buildApiPayload(showMessage = true) {
-      state.provider = document.getElementById("providerSelect")?.value || state.provider || "gemini";
-      state.model = document.getElementById("modelSelect")?.value || state.model || providerModels[state.provider][0];
-      const payload = {
-        provider: state.provider,
-        model: state.model,
-        api_mode: document.getElementById("apiMode")?.value || "backend_secure",
-        endpoint: document.getElementById("apiEndpoint")?.value || "/api/fruits-generate",
-        task: "generate_fruits_viral_novela",
-        project: { ...state },
-        smart_router: {
-          chat_quiz: "groq",
-          story_package: "gemini",
-          fallback: "openrouter",
-          rule: "Usar modelos gratuitos primeiro. Se der limite/erro 429, tentar o próximo provider."
-        },
-        prompt: buildPromptText(),
-        required_json_output: {
-          title: "string",
-          viral_hook: "string",
-          logline: "string",
-          emotional_engine: "string",
-          characters: "array",
-          scene_outline: "array",
-          dialogue_samples: "array",
-          storyboard_frames: "array",
-          image_prompts: "array",
-          video_prompt: "string",
-          narration: "string",
-          srt_draft: "string",
-          thumbnail_idea: "string",
-          next_episode_hook: "string",
-          viral_score: "object"
-        }
-      };
-      document.getElementById("apiPayload").value = JSON.stringify(payload, null, 2);
-      saveState();
-      if (showMessage) addMsg("ai", `Payload montado para ${state.provider} usando ${state.model}. No site real, a chave fica no backend.`);
+      buildApiPayload();
+      addMsg("ai", `Provider selecionado: ${provider}.`);
     }
 
     function buildPromptText() {
-      return `Você é o Fruits Copilot, roteirista do universo Fruits Adventures Titan. Crie uma novela viral original em JSON válido. Projeto: ${state.projectName}. Título: ${state.projectTitle}. Formato: ${state.videoFormat}. Objetivo: ${state.viralGoal}. Tendência: ${labelById(trends, state.trend)}. Elenco: ${state.selectedCast.map(id => labelById(cast, id)).join(", ")}. Premissa: ${state.premise}. Gancho: ${state.hook}. Conflito: ${state.conflict}. Final: ${state.endingType}. Regras: não copiar Marvel, DC, filmes, jogos ou marcas. Usar apenas inspiração de gênero. Preservar Tomate Elinaldo, Sabrina Pitaya, OZ, Abacatudo e Limão Rocha quando selecionados. Se OZ aparecer, respeitar o drama de origem ligado a Limão Rocha e Abacatudo. Priorizar vídeo curto, gancho forte, ritmo viral e storyboard visual.`;
+      const castNames = state.selectedCast.map(id => labelById(cast, id)).join(", ");
+      const trendName = labelById(trends, state.trend);
+      return `Nome do Projeto: ${state.projectName || "Sem nome"}
+Título Provisório: ${state.projectTitle || "Sem título"}
+Formato de Vídeo: ${state.videoFormat}
+Objetivo: ${state.viralGoal}
+Tendência: ${trendName}
+Elenco: ${castNames}
+Premissa: ${state.premise}
+Gancho: ${state.hook}
+Conflito: ${state.conflict}
+Final: ${state.endingType}
+
+Estrutura JSON Obrigatória:
+{
+  "title": "string",
+  "viral_hook": "string",
+  "logline": "string",
+  "scene_outline": ["cena 1...", "cena 2..."],
+  "storyboard_frames": ["quadro 1...", "quadro 2..."],
+  "lira_narration_script": "string"
+}`;
     }
 
-    async function testApiOnline() {
-      const apiKey = document.getElementById("apiKeyDemo").value.trim();
-      if (!apiKey) {
-        addMsg("ai", "Cole sua API Key no campo de teste antes de testar.");
-        goTab("api");
-        return;
-      }
-
-      state.provider = document.getElementById("providerSelect")?.value || state.provider || "gemini";
+    function buildApiPayload() {
+      state.provider = document.getElementById("providerSelect")?.value || state.provider || "groq";
       state.model = document.getElementById("modelSelect")?.value || state.model || providerModels[state.provider][0];
-      document.getElementById("outputBox").textContent = `Testando ${state.provider} com modelo ${state.model}...`;
-      addMsg("ai", `Testando API online: ${state.provider} / ${state.model}`);
-
-      try {
-        const text = await callProviderDirect(state.provider, state.model, apiKey, "Responda apenas: API Fruits online OK");
-        document.getElementById("outputBox").textContent = `✅ API funcionando!
-
-Provider: ${state.provider}
-Modelo: ${state.model}
-Resposta:
-${text}`;
-        addMsg("ai", "API online funcionando. Agora dá para conectar no fluxo do Fruits Copilot.");
-      } catch (error) {
-        document.getElementById("outputBox").textContent = `❌ Falha no teste da API.
-
-Provider: ${state.provider}
-Modelo: ${state.model}
-Erro:
-${error.message}
-
-Possíveis causas:
-- API Key incorreta ou sem permissão.
-- Modelo não disponível na sua conta/free tier.
-- Limite gratuito estourado.
-- Bloqueio CORS no navegador. Nesse caso, teste via backend seguro.`;
-        addMsg("ai", "O teste falhou. Veja o erro no Resultado Smart. Se for CORS, precisa testar via backend.");
-      }
+      
+      document.getElementById("apiPayload").value = buildPromptText();
     }
 
-    async function callProviderDirect(provider, model, apiKey, prompt) {
-      if (provider === "auto") {
-        const order = ["groq", "gemini", "openrouter"];
-        let lastError = null;
-        for (const item of order) {
-          try {
-            return await callProviderDirect(item, providerModels[item][0], apiKey, prompt);
-          } catch (error) {
-            lastError = error;
-          }
-        }
-        throw lastError || new Error("Modo auto não conseguiu testar nenhum provider.");
-      }
+    // ==========================================
+    // DETECÇÃO AUTOMÁTICA DE CHAVE API
+    // ==========================================
+    function detectProviderFromKey(apiKey) {
+      const key = (apiKey || "").trim();
+      if (key.startsWith("AIza")) return "gemini";
+      if (key.startsWith("gsk_")) return "groq";
+      if (key.startsWith("sk-or-")) return "openrouter";
+      return null;
+    }
 
-      if (provider === "gemini") {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+    function applyDetectedProvider() {
+      const keyInput = document.getElementById("apiKeyValue");
+      const key = keyInput ? keyInput.value.trim() : "";
+      const detected = detectProviderFromKey(key);
+      if (!detected) return false;
+      
+      if (state.provider !== detected) {
+        selectProvider(detected);
+        addMsg("ai", `Detectei a chave como ${detected}. Ajustei o provider automaticamente.`);
+      }
+      return true;
+    }
+
+    // ==========================================
+    // FUNÇÃO UNIVERSAL DE CHAMADA À API
+    // ==========================================
+    async function makeDirectApiCall(promptText, isTest = false) {
+      const apiKey = document.getElementById("apiKeyValue").value.trim();
+      const provider = state.provider;
+      const model = state.model;
+
+      if (!apiKey) throw new Error("Chave de API não informada.");
+
+      state.apiKey = apiKey; // Salva para não pedir de novo
+      saveState();
+
+      const userMessage = isTest ? "Responda apenas com a frase: API conectada e pronta para o Fruits Viral Studio." : promptText;
+
+      // GEMINI
+      if (provider === 'gemini') {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const payload = {
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: [{ parts: [{ text: userMessage }] }]
+        };
+        if (!isTest) payload.generationConfig = { response_mime_type: "application/json" };
+
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+          body: JSON.stringify(payload)
         });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.error?.message || `HTTP ${response.status}`);
-        return data.candidates?.[0]?.content?.parts?.map(part => part.text).join("
-") || JSON.stringify(data, null, 2);
-      }
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error?.message || "Erro Gemini");
+        
+        // Correção do bug de quebra de linha usando .join("\n")
+        return data.candidates?.[0]?.content?.parts?.map(part => part.text).join("\n") || JSON.stringify(data, null, 2);
+      } 
+      
+      // GROQ OU OPENROUTER
+      else if (provider === 'groq' || provider === 'openrouter') {
+        const endpoint = provider === 'groq' 
+          ? "https://api.groq.com/openai/v1/chat/completions" 
+          : "https://openrouter.ai/api/v1/chat/completions";
 
-      if (provider === "groq") {
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        const headers = {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        };
+
+        if (provider === 'openrouter') {
+          headers["HTTP-Referer"] = "https://naldox3d.github.io";
+          headers["X-Title"] = "Fruits Viral Studio";
+        }
+
+        const bodyPayload = {
+          model: model,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userMessage }
+          ],
+          temperature: 0.4
+        };
+
+        if (!isTest && provider === 'groq') {
+           bodyPayload.response_format = { type: "json_object" };
+        }
+
+        const response = await fetch(endpoint, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model,
-            messages: [
-              { role: "system", content: "Você é um teste rápido do Fruits Viral Studio." },
-              { role: "user", content: prompt }
-            ],
-            temperature: 0.2,
-            max_tokens: 40
-          })
+          headers: headers,
+          body: JSON.stringify(bodyPayload)
         });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.error?.message || `HTTP ${response.status}`);
-        return data.choices?.[0]?.message?.content || JSON.stringify(data, null, 2);
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error?.message || `Erro ${provider}`);
+        return data.choices?.[0]?.message?.content;
       }
+    }
 
-      if (provider === "openrouter") {
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`,
-            "HTTP-Referer": location.origin,
-            "X-Title": "Fruits Viral Studio"
-          },
-          body: JSON.stringify({
-            model,
-            messages: [
-              { role: "system", content: "Você é um teste rápido do Fruits Viral Studio." },
-              { role: "user", content: prompt }
-            ],
-            temperature: 0.2,
-            max_tokens: 40
-          })
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.error?.message || `HTTP ${response.status}`);
-        return data.choices?.[0]?.message?.content || JSON.stringify(data, null, 2);
+    async function testConnectionOnline() {
+      applyDetectedProvider();
+      const btn = document.getElementById("btnTestarOnline");
+      addMsg("ai", "Testando conexão com a API...");
+      document.getElementById("outputBox").textContent = "📡 Ping na IA... Aguarde...";
+      btn.disabled = true;
+
+      try {
+        const responseText = await makeDirectApiCall("", true);
+        document.getElementById("outputBox").textContent = `✅ SUCESSO!\n\nProvider: ${state.provider}\nModelo: ${state.model}\nResposta: ${responseText}`;
+        addMsg("ai", "API conectada com sucesso!");
+      } catch (e) {
+        document.getElementById("outputBox").textContent = `❌ Falha na Conexão:\n\n${e.message}\n\nVerifique se a sua chave (API Key) está correta e corresponde ao Provider escolhido.`;
+        addMsg("ai", "Falha no teste. Verifique a chave inserida.");
+      } finally {
+        btn.disabled = false;
       }
-
-      throw new Error("Provider não reconhecido.");
     }
 
-    function callFreeApiDemo() {
-      buildApiPayload(false);
-      const endpoint = document.getElementById("apiEndpoint").value;
-      const payload = document.getElementById("apiPayload").value;
-      document.getElementById("outputBox").textContent = `Simulação pronta.
+    async function generateDirectAPI() {
+      applyDetectedProvider();
+      const promptStr = document.getElementById("apiPayload").value.trim();
+      const btn = document.getElementById("btnGerarReal");
+      
+      if (!promptStr) return addMsg("ai", "Monte o prompt antes de enviar.");
 
-O front-end enviaria um POST para:
-${endpoint}
+      addMsg("ai", "Gerando roteiro com a API direta...");
+      document.getElementById("outputBox").textContent = "✍️ A IA está escrevendo o roteiro... Isso pode levar alguns segundos...";
+      btn.disabled = true;
+      btn.textContent = "Gerando...";
 
-Payload:
-${payload}
+      try {
+        const resultText = await makeDirectApiCall(promptStr, false);
+        
+        let formattedData;
+        try {
+          formattedData = JSON.stringify(JSON.parse(resultText), null, 2);
+        } catch(err) {
+          formattedData = resultText; // Fallback se não for JSON perfeito
+        }
 
-No GitHub Pages puro não existe backend. Para funcionar de verdade, use Vercel, Netlify Functions, Cloudflare Workers, Render ou outro servidor.`;
-      addMsg("ai", "Simulação API pronta. Falta conectar o backend real com suas chaves Gemini/Groq/OpenRouter.");
-    }
-
-    function showBackendExample() {
-      const example = `// server.js — exemplo Node/Express para manter API Key protegida
-import express from 'express';
-import cors from 'cors';
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-app.post('/api/fruits-generate', async (req, res) => {
-  const { provider, model, prompt } = req.body;
-
-  const keys = {
-    gemini: process.env.GEMINI_API_KEY,
-    groq: process.env.GROQ_API_KEY,
-    openrouter: process.env.OPENROUTER_API_KEY
-  };
-
-  try {
-    // Aqui entra a chamada real do provider escolhido.
-    // Regra recomendada:
-    // Groq = chat/quiz rápido
-    // Gemini = pacote final
-    // OpenRouter = fallback com modelos :free
-    res.json({
-      ok: true,
-      provider,
-      model,
-      message: 'Conectar chamada real aqui',
-      prompt_recebido: prompt
-    });
-  } catch (error) {
-    res.status(500).json({ ok: false, error: error.message });
-  }
-});
-
-app.listen(3000, () => console.log('Fruits API rodando na porta 3000'));`;
-      document.getElementById("outputBox").textContent = example;
-      addMsg("ai", "Exemplo de backend exibido no Resultado Smart.");
-    }
-
-    function copyPayload() {
-      const payload = document.getElementById("apiPayload");
-      payload.select();
-      document.execCommand("copy");
-      addMsg("ai", "Payload copiado.");
+        document.getElementById("outputBox").textContent = formattedData;
+        addMsg("ai", "✅ Roteiro gerado com sucesso!");
+      } catch (e) {
+        document.getElementById("outputBox").textContent = `❌ Erro de Geração: \n\n${e.message}\n\nVerifique sua chave de API e sua conexão.`;
+        addMsg("ai", "Falha ao gerar o roteiro. Veja o log no Resultado Smart.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "💥 Gerar Roteiro (API Direta)";
+      }
     }
 
     function resetQuiz() {
       state.currentQuiz = 0;
       document.getElementById("chatLog").innerHTML = "";
-      addMsg("ai", "Vamos moldar sua novela. Responda as perguntas do quiz.");
+      addMsg("ai", "Responda ao quiz para afiar a trama da sua novela.");
       showQuizQuestion();
     }
 
@@ -1170,8 +1070,8 @@ app.listen(3000, () => console.log('Fruits API rodando na porta 3000'));`;
       const item = quiz[state.currentQuiz];
       const box = document.getElementById("quizOptions");
       if (!item) {
-        box.innerHTML = `<button class="quiz-option" onclick="generateFinalPackage()">Gerar pacote final demo</button>`;
-        addMsg("ai", "Quiz concluído. Posso gerar o pacote final com roteiro, storyboard e prompts.");
+        box.innerHTML = `<button class="quiz-option" onclick="generateSmartMix()">Finalizar Smart Mix</button>`;
+        addMsg("ai", "Quiz finalizado! Clique acima para gravar suas escolhas.");
         return;
       }
       addMsg("ai", item.question);
@@ -1211,6 +1111,7 @@ app.listen(3000, () => console.log('Fruits API rodando na porta 3000'));`;
       state.viralGoal = document.getElementById("viralGoal")?.value || state.viralGoal;
       state.provider = document.getElementById("providerSelect")?.value || state.provider;
       state.model = document.getElementById("modelSelect")?.value || state.model;
+      state.apiKey = document.getElementById("apiKeyValue")?.value.trim() || state.apiKey;
 
       const completed = [state.projectName, state.trend, state.selectedCast.length, state.premise, state.hook, state.conflict, state.endingType].filter(Boolean).length;
       const score = Math.min(100, 12 + completed * 12 + state.selectedCast.length * 3);
@@ -1221,6 +1122,7 @@ app.listen(3000, () => console.log('Fruits API rodando na porta 3000'));`;
       const castText = state.selectedCast.length ? state.selectedCast.map(id => labelById(cast, id)).join(", ") : "sem elenco";
       document.getElementById("statusText").textContent = `Tendência: ${trendText}. Elenco: ${castText}. API: ${state.provider}/${state.model}.`;
       document.getElementById("pillList").innerHTML = [state.videoFormat, state.viralGoal, trendText, state.provider, state.model, ...state.selectedCast.map(id => labelById(cast, id))].filter(Boolean).map(x => `<span class="pill">${x}</span>`).join("");
+      
       if (shouldSave) saveState();
     }
 
@@ -1245,11 +1147,8 @@ app.listen(3000, () => console.log('Fruits API rodando na porta 3000'));`;
     }
 
     document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => goTab(tab.dataset.tab)));
-    ["projectName", "projectTitle", "videoFormat", "viralGoal"].forEach(id => {
+    ["projectName", "projectTitle", "videoFormat", "viralGoal", "apiKeyValue"].forEach(id => {
       document.addEventListener("input", event => {
-        if (event.target && event.target.id === id) updateUI();
-      });
-      document.addEventListener("change", event => {
         if (event.target && event.target.id === id) updateUI();
       });
     });
@@ -1258,178 +1157,6 @@ app.listen(3000, () => console.log('Fruits API rodando na porta 3000'));`;
     renderCards();
     resetQuiz();
     updateUI();
-  
-    // ==========================================================
-    // PATCH RESOLVIDO — teste API com auto-detecção e erro claro
-    // ==========================================================
-    function detectProviderFromKey(apiKey) {
-      const key = (apiKey || "").trim();
-      if (key.startsWith("AIza")) return "gemini";
-      if (key.startsWith("gsk_")) return "groq";
-      if (key.startsWith("sk-or-")) return "openrouter";
-      return null;
-    }
-
-    function applyDetectedProvider() {
-      const keyInput = document.getElementById("apiKeyValue") || document.getElementById("apiKeyDemo");
-      const key = keyInput ? keyInput.value.trim() : "";
-      const detected = detectProviderFromKey(key);
-      if (!detected) return false;
-      if (typeof selectProvider === "function") selectProvider(detected);
-      addMsg("ai", `Detectei a chave como ${detected}. Ajustei o provider automaticamente.`);
-      return true;
-    }
-
-    async function callFruitsProvider(provider, model, apiKey, prompt, forceJson) {
-      if (!apiKey) throw new Error("Cole sua API Key primeiro.");
-      if (!provider) throw new Error("Selecione um provider: Gemini, Groq ou OpenRouter.");
-      if (!model) throw new Error("Selecione um modelo.");
-
-      const cleanPrompt = prompt || "Responda apenas: API Fruits online OK";
-
-      if (provider === "gemini") {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-        const payload = {
-          contents: [{ role: "user", parts: [{ text: cleanPrompt }] }]
-        };
-        if (forceJson) {
-          payload.generationConfig = { response_mime_type: "application/json" };
-        }
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const text = await response.text();
-        let data;
-        try { data = JSON.parse(text); } catch { data = { raw: text }; }
-        if (!response.ok) throw new Error(data.error?.message || text || `HTTP ${response.status}`);
-        return data.candidates?.[0]?.content?.parts?.map(part => part.text).join("
-") || JSON.stringify(data, null, 2);
-      }
-
-      if (provider === "groq" || provider === "openrouter") {
-        const endpoint = provider === "groq"
-          ? "https://api.groq.com/openai/v1/chat/completions"
-          : "https://openrouter.ai/api/v1/chat/completions";
-
-        const headers = {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
-        };
-        if (provider === "openrouter") {
-          headers["HTTP-Referer"] = location.origin || "https://naldox3d.github.io";
-          headers["X-Title"] = "Fruits Viral Studio";
-        }
-
-        const body = {
-          model,
-          messages: [
-            { role: "system", content: "Você é o Fruits Copilot. Responda em português do Brasil." },
-            { role: "user", content: cleanPrompt }
-          ],
-          temperature: 0.4
-        };
-        if (forceJson && provider === "groq") body.response_format = { type: "json_object" };
-
-        const response = await fetch(endpoint, { method: "POST", headers, body: JSON.stringify(body) });
-        const text = await response.text();
-        let data;
-        try { data = JSON.parse(text); } catch { data = { raw: text }; }
-        if (!response.ok) throw new Error(data.error?.message || data.message || text || `HTTP ${response.status}`);
-        return data.choices?.[0]?.message?.content || JSON.stringify(data, null, 2);
-      }
-
-      throw new Error("Provider não reconhecido.");
-    }
-
-    async function testConnectionOnline() {
-      const btn = document.getElementById("btnTestarOnline") || document.querySelector("button[onclick='testConnectionOnline()']") || document.querySelector("button[onclick='testApiOnline()']");
-      const keyEl = document.getElementById("apiKeyValue") || document.getElementById("apiKeyDemo");
-      const out = document.getElementById("outputBox");
-      if (btn) btn.disabled = true;
-      if (out) out.textContent = "📡 Testando API online...";
-
-      try {
-        applyDetectedProvider();
-        const providerEl = document.getElementById("providerSelect");
-        const modelEl = document.getElementById("modelSelect");
-        const provider = providerEl?.value || state.provider || "gemini";
-        const model = modelEl?.value || state.model || providerModels[provider]?.[0];
-        const apiKey = keyEl?.value.trim();
-        const result = await callFruitsProvider(provider, model, apiKey, "Responda apenas: API Fruits online OK", false);
-        if (out) out.textContent = `✅ API FUNCIONANDO
-
-Provider: ${provider}
-Modelo: ${model}
-Resposta:
-${result}`;
-        addMsg("ai", "✅ API conectada com sucesso.");
-      } catch (error) {
-        const message = error?.message || String(error);
-        if (out) out.textContent = `❌ API NÃO CONECTOU
-
-${message}
-
-Correção rápida:
-1. Confira se a chave combina com o provider.
-   Gemini começa com AIza...
-   Groq começa com gsk_...
-   OpenRouter começa com sk-or-...
-2. Se aparecer Failed to fetch, é bloqueio de navegador/CORS. Use backend seguro.
-3. Se aparecer model not found, escolha outro modelo na lista.`;
-        addMsg("ai", "❌ Não conectou. Veja o diagnóstico no Resultado Smart.");
-      } finally {
-        if (btn) btn.disabled = false;
-      }
-    }
-
-    async function testApiOnline() {
-      return testConnectionOnline();
-    }
-
-    async function generateDirectAPI() {
-      const btn = document.getElementById("btnGerarReal");
-      const out = document.getElementById("outputBox");
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = "Gerando...";
-      }
-      if (out) out.textContent = "✍️ Gerando roteiro pela API...";
-
-      try {
-        applyDetectedProvider();
-        if (typeof buildApiPayload === "function") buildApiPayload();
-        const keyEl = document.getElementById("apiKeyValue") || document.getElementById("apiKeyDemo");
-        const promptEl = document.getElementById("apiPayload");
-        const provider = document.getElementById("providerSelect")?.value || state.provider || "gemini";
-        const model = document.getElementById("modelSelect")?.value || state.model || providerModels[provider]?.[0];
-        const apiKey = keyEl?.value.trim();
-        const prompt = promptEl?.value.trim() || "Crie uma novela Fruits Adventures Titan em JSON.";
-        const result = await callFruitsProvider(provider, model, apiKey, prompt, true);
-        let formatted = result;
-        try { formatted = JSON.stringify(JSON.parse(result), null, 2); } catch {}
-        if (out) out.textContent = formatted;
-        addMsg("ai", "✅ Roteiro gerado pela API.");
-      } catch (error) {
-        const message = error?.message || String(error);
-        if (out) out.textContent = `❌ Erro ao gerar pela API
-
-${message}
-
-Se for Failed to fetch/CORS, a solução real é usar backend seguro com /api/fruits-generate.`;
-        addMsg("ai", "❌ Falha ao gerar. Veja o erro no Resultado Smart.");
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.textContent = "💥 Gerar Roteiro (API Direta)";
-        }
-      }
-    }
-
-    async function testApiOnline() {
-      return testConnectionOnline();
-    }
   </script>
 </body>
 </html>
