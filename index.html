@@ -6,10 +6,9 @@
   <title>Fruits Viral Studio Smart</title>
   <style>
     :root {
-      --bg: #0b1020;
+      --bg: #080d1c;
       --panel: #111832;
       --panel-2: #162044;
-      --card: #1a2450;
       --text: #f6f8ff;
       --muted: #aeb8d6;
       --accent: #ff5c8a;
@@ -39,6 +38,12 @@
       padding: 28px;
     }
 
+    .locked {
+      filter: blur(10px);
+      pointer-events: none;
+      user-select: none;
+    }
+
     header {
       display: grid;
       grid-template-columns: 1.3fr .7fr;
@@ -47,8 +52,8 @@
       margin-bottom: 22px;
     }
 
-    .hero, .status-panel, .workspace, .chat-panel, .output-panel {
-      background: rgba(17, 24, 50, .88);
+    .hero, .status-panel, .workspace, .chat-panel, .output-panel, .login-card {
+      background: rgba(17, 24, 50, .90);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -68,6 +73,7 @@
       font-size: 13px;
       background: rgba(101,244,180,.08);
       margin-bottom: 14px;
+      font-weight: 800;
     }
 
     h1 {
@@ -77,7 +83,7 @@
       line-height: 1;
     }
 
-    .hero p {
+    .hero p, .login-card p {
       color: var(--muted);
       font-size: 17px;
       line-height: 1.55;
@@ -148,7 +154,7 @@
       border-radius: 14px;
       cursor: pointer;
       white-space: nowrap;
-      font-weight: 700;
+      font-weight: 800;
       transition: .2s ease;
     }
 
@@ -183,7 +189,7 @@
       gap: 8px;
       color: var(--muted);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     input, select, textarea {
@@ -198,7 +204,7 @@
     }
 
     select option { color: #111; }
-    textarea { min-height: 110px; resize: vertical; }
+    textarea { min-height: 180px; resize: vertical; }
 
     .cards-grid {
       display: grid;
@@ -229,7 +235,7 @@
     .choice-card h3 { margin: 0 0 8px; font-size: 17px; }
     .choice-card p { margin: 0; color: var(--muted); line-height: 1.45; font-size: 14px; }
 
-    .tag-row {
+    .tag-row, .pill-list {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -245,6 +251,16 @@
       border: 1px solid var(--border);
     }
 
+    .pill {
+      background: rgba(255,92,138,.13);
+      color: #ffd6e2;
+      border: 1px solid rgba(255,92,138,.28);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -258,9 +274,10 @@
       padding: 12px 16px;
       color: #09111f;
       background: var(--accent-2);
-      font-weight: 850;
+      font-weight: 900;
       cursor: pointer;
       transition: .18s ease;
+      font-size: 14px;
     }
 
     button:hover { transform: translateY(-1px); filter: brightness(1.04); }
@@ -305,7 +322,7 @@
     }
 
     .msg {
-      max-width: 90%;
+      max-width: 92%;
       padding: 12px 14px;
       border-radius: 16px;
       line-height: 1.45;
@@ -326,7 +343,7 @@
       border: 1px solid var(--border);
       color: var(--text);
       text-align: left;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .output-panel { padding: 18px; }
@@ -339,26 +356,11 @@
       color: var(--muted);
       white-space: pre-wrap;
       line-height: 1.5;
-      min-height: 160px;
+      min-height: 220px;
+      max-height: 520px;
+      overflow: auto;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 13px;
-    }
-
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .pill {
-      background: rgba(255,92,138,.13);
-      color: #ffd6e2;
-      border: 1px solid rgba(255,92,138,.28);
-      border-radius: 999px;
-      padding: 7px 10px;
-      font-size: 12px;
-      font-weight: 800;
     }
 
     .mini-note {
@@ -386,10 +388,6 @@
 
     .login-card {
       width: min(520px, 100%);
-      background: rgba(17, 24, 50, .94);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
       padding: 28px;
     }
 
@@ -398,17 +396,7 @@
       margin-bottom: 12px;
     }
 
-    .login-card p {
-      color: var(--muted);
-      line-height: 1.55;
-      margin: 0 0 18px;
-    }
-
-    #appShell.locked {
-      filter: blur(10px);
-      pointer-events: none;
-      user-select: none;
-    }
+    .login-card p { margin-bottom: 18px; }
 
     @media (max-width: 980px) {
       header, .main-grid { grid-template-columns: 1fr; }
@@ -427,7 +415,7 @@
     <div class="login-card">
       <div class="badge">🔐 Portal Fruits Adventures Titan</div>
       <h1>Acesso protegido</h1>
-      <p>Digite a senha do portal para entrar no Fruits Viral Studio. O projeto fica salvo no navegador mesmo quando atualizar a página.</p>
+      <p>Digite a senha do portal para entrar. O projeto fica salvo no navegador mesmo quando atualizar a página.</p>
       <label>Senha do portal
         <input id="portalPassword" type="password" placeholder="Digite a senha" onkeydown="if(event.key==='Enter') loginPortal()" />
       </label>
@@ -435,16 +423,16 @@
         <button onclick="loginPortal()">Entrar no portal</button>
         <button class="secondary" onclick="showPasswordHint()">Ver dica</button>
       </div>
-      <div class="mini-note" id="loginMessage">Senha padrão demo: <strong>fruits2026</strong>. Depois troque no backend.</div>
+      <div class="mini-note" id="loginMessage">Senha demo: <strong>fruits2026</strong>. Depois troque por login real no backend.</div>
     </div>
   </div>
 
-  <div class="app" id="appShell">
+  <div class="app locked" id="appShell">
     <header>
       <section class="hero">
-        <div class="badge">🍅 Fruits Copilot Smart • API Ready</div>
+        <div class="badge">🍅 Fruits Copilot Smart • API Free Ready</div>
         <h1>Fruits Viral Studio</h1>
-        <p>Monte novelas virais com tema, elenco, premissas vitais, gancho, storyboard e pacote final. A interface já está preparada para conectar Gemini, Groq, OpenRouter ou OpenAI.</p>
+        <p>Monte novelas virais com tema, elenco, premissas vitais, gancho, storyboard, pacote final e providers gratuitos: Gemini, Groq e OpenRouter.</p>
       </section>
 
       <aside class="status-panel">
@@ -505,6 +493,7 @@
           <div class="actions">
             <button onclick="saveProjectBase()">Criar base do projeto</button>
             <button class="secondary" onclick="goTab('trend')">Ir para tendências</button>
+            <button class="warning" onclick="clearSavedProject()">Limpar projeto salvo</button>
           </div>
         </section>
 
@@ -555,25 +544,79 @@
           <div class="actions">
             <button class="accent" onclick="generateSmartMix()">Gerar Smart Mix</button>
             <button onclick="generateFinalPackage()">Gerar pacote final demo</button>
+            <button class="warning" onclick="callFreeApiDemo()">Simular chamada API</button>
           </div>
         </section>
 
         <section id="api" class="tab-content">
           <div class="section-title">
-            <h2>API ready</h2>
-            <span>Modelo para conectar provedor de IA</span>
+            <h2>API gratuita / providers</h2>
+            <span>Gemini, Groq, OpenRouter e modo automático</span>
           </div>
-          <label>Endpoint do seu backend
-            <input id="apiEndpoint" value="/api/fruits-generate" />
+
+          <div class="cards-grid" id="providerGrid">
+            <article class="choice-card selected" id="provider-gemini" onclick="selectProvider('gemini')">
+              <h3>Gemini Free</h3>
+              <p>Boa opção grátis para roteiro completo, análise viral, JSON, pacote final e textos longos.</p>
+              <div class="tag-row"><span class="tag">free tier</span><span class="tag">Google AI Studio</span><span class="tag">criativo</span></div>
+            </article>
+            <article class="choice-card" id="provider-groq" onclick="selectProvider('groq')">
+              <h3>Groq Free</h3>
+              <p>Ótima para chat rápido, quiz, variações curtas e respostas com baixa latência.</p>
+              <div class="tag-row"><span class="tag">rápido</span><span class="tag">free tier</span><span class="tag">chat</span></div>
+            </article>
+            <article class="choice-card" id="provider-openrouter" onclick="selectProvider('openrouter')">
+              <h3>OpenRouter Free</h3>
+              <p>Permite testar vários modelos gratuitos usando IDs com final :free.</p>
+              <div class="tag-row"><span class="tag">multi-modelo</span><span class="tag">:free</span><span class="tag">fallback</span></div>
+            </article>
+            <article class="choice-card" id="provider-auto" onclick="selectProvider('auto')">
+              <h3>Modo Auto</h3>
+              <p>Escolhe Gemini para pacote final, Groq para chat rápido e OpenRouter como reserva.</p>
+              <div class="tag-row"><span class="tag">smart router</span><span class="tag">fallback</span><span class="tag">recomendado</span></div>
+            </article>
+          </div>
+
+          <div class="form-grid" style="margin-top: 18px;">
+            <label>Provider ativo
+              <select id="providerSelect" onchange="selectProvider(this.value)">
+                <option value="gemini">Gemini Free</option>
+                <option value="groq">Groq Free</option>
+                <option value="openrouter">OpenRouter Free</option>
+                <option value="auto">Modo Auto</option>
+              </select>
+            </label>
+            <label>Modelo sugerido
+              <select id="modelSelect"></select>
+            </label>
+            <label>Endpoint do backend
+              <input id="apiEndpoint" value="/api/fruits-generate" />
+            </label>
+            <label>Modo de uso
+              <select id="apiMode">
+                <option value="backend_secure">Backend seguro — recomendado</option>
+                <option value="frontend_demo">Front-end demo — apenas teste local</option>
+              </select>
+            </label>
+          </div>
+
+          <label style="margin-top: 14px;">API Key para teste local opcional
+            <input id="apiKeyDemo" type="password" placeholder="Cole sua chave só para teste local. No site real, use backend." />
           </label>
+
+          <div class="mini-note">
+            Para o site público, não deixe Gemini/Groq/OpenRouter API Key no HTML. O correto é o navegador chamar <strong>/api/fruits-generate</strong>, e o backend usa a chave protegida.
+          </div>
+
           <label style="margin-top: 14px;">Prompt/JSON enviado para API
             <textarea id="apiPayload" readonly></textarea>
           </label>
+
           <div class="actions">
             <button onclick="buildApiPayload()">Montar payload</button>
             <button class="secondary" onclick="copyPayload()">Copiar payload</button>
+            <button class="warning" onclick="showBackendExample()">Ver backend exemplo</button>
           </div>
-          <div class="mini-note">Importante: a chave da API deve ficar no backend, nunca direto no HTML público.</div>
         </section>
       </section>
 
@@ -605,9 +648,16 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "fruits_viral_studio_project_v1";
+    const STORAGE_KEY = "fruits_viral_studio_project_v2";
     const SESSION_KEY = "fruits_viral_studio_logged_in";
-    const PORTAL_PASSWORD = "fruits2026"; // demo front-end. Em produção, valide senha no backend.
+    const PORTAL_PASSWORD = "fruits2026";
+
+    const providerModels = {
+      gemini: ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.0-flash-lite"],
+      groq: ["llama-3.1-8b-instant", "llama-3.3-70b-versatile", "gemma2-9b-it"],
+      openrouter: ["google/gemini-flash-1.5:free", "meta-llama/llama-3.1-8b-instruct:free", "mistralai/mistral-7b-instruct:free"],
+      auto: ["auto-free-router"]
+    };
 
     const defaultState = {
       projectName: "",
@@ -620,46 +670,12 @@
       hook: null,
       conflict: null,
       endingType: null,
-      currentQuiz: 0
+      currentQuiz: 0,
+      provider: "gemini",
+      model: "gemini-1.5-flash"
     };
 
-    const state = loadState();
-
-    function loadState() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        return saved ? { ...defaultState, ...JSON.parse(saved) } : { ...defaultState };
-      } catch (error) {
-        return { ...defaultState };
-      }
-    }
-
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    function loginPortal() {
-      const password = document.getElementById("portalPassword").value;
-      const message = document.getElementById("loginMessage");
-      if (password === PORTAL_PASSWORD) {
-        sessionStorage.setItem(SESSION_KEY, "true");
-        document.getElementById("loginGate").classList.add("hidden");
-        document.getElementById("appShell").classList.remove("locked");
-        message.textContent = "Acesso liberado.";
-        return;
-      }
-      message.textContent = "Senha incorreta. Tente novamente.";
-    }
-
-    function showPasswordHint() {
-      document.getElementById("loginMessage").innerHTML = "Senha demo: <strong>fruits2026</strong>. No site real, coloque autenticação no backend.";
-    }
-
-    function checkPortalAccess() {
-      const logged = sessionStorage.getItem(SESSION_KEY) === "true";
-      document.getElementById("loginGate").classList.toggle("hidden", logged);
-      document.getElementById("appShell").classList.toggle("locked", !logged);
-    }
+    let state = loadState();
 
     const trends = [
       { id: "humilhacao_virada", title: "Humilhação + Virada", desc: "Personagem é desprezado, sofre injustiça e no final prova seu valor.", tags: ["drama", "superação", "top viral"] },
@@ -688,53 +704,47 @@
     ];
 
     const quiz = [
-      {
-        key: "premise",
-        question: "Qual é a premissa vital da história?",
-        options: [
-          "Um personagem é humilhado em público.",
-          "Um segredo de família vem à tona.",
-          "Um vilão arma uma falsa acusação.",
-          "Alguém descobre que nasceu de uma mentira.",
-          "Um objeto misterioso muda tudo."
-        ]
-      },
-      {
-        key: "hook",
-        question: "Qual será o gancho dos primeiros 3 segundos?",
-        options: [
-          "Todos riram dele, até descobrirem a verdade.",
-          "Ele não deveria ter aberto aquela carta.",
-          "O vilão estava dentro da própria família.",
-          "Naquela noite, a feira ficou vazia pela primeira vez.",
-          "A última frase do pai mudou tudo."
-        ]
-      },
-      {
-        key: "conflict",
-        question: "Qual é o conflito principal?",
-        options: [
-          "Humilhação social",
-          "Traição familiar",
-          "Mistério sombrio",
-          "Disputa de poder",
-          "Torneio perigoso",
-          "Missão de resgate"
-        ]
-      },
-      {
-        key: "endingType",
-        question: "Qual tipo de final você quer?",
-        options: [
-          "Justiça emocional",
-          "Revelação chocante",
-          "Gancho para parte 2",
-          "Final triste",
-          "Final engraçado",
-          "Vitória do herói"
-        ]
-      }
+      { key: "premise", question: "Qual é a premissa vital da história?", options: ["Um personagem é humilhado em público.", "Um segredo de família vem à tona.", "Um vilão arma uma falsa acusação.", "Alguém descobre que nasceu de uma mentira.", "Um objeto misterioso muda tudo."] },
+      { key: "hook", question: "Qual será o gancho dos primeiros 3 segundos?", options: ["Todos riram dele, até descobrirem a verdade.", "Ele não deveria ter aberto aquela carta.", "O vilão estava dentro da própria família.", "Naquela noite, a feira ficou vazia pela primeira vez.", "A última frase do pai mudou tudo."] },
+      { key: "conflict", question: "Qual é o conflito principal?", options: ["Humilhação social", "Traição familiar", "Mistério sombrio", "Disputa de poder", "Torneio perigoso", "Missão de resgate"] },
+      { key: "endingType", question: "Qual tipo de final você quer?", options: ["Justiça emocional", "Revelação chocante", "Gancho para parte 2", "Final triste", "Final engraçado", "Vitória do herói"] }
     ];
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? { ...defaultState, ...JSON.parse(saved) } : { ...defaultState };
+      } catch (error) {
+        return { ...defaultState };
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loginPortal() {
+      const password = document.getElementById("portalPassword").value;
+      const message = document.getElementById("loginMessage");
+      if (password === PORTAL_PASSWORD) {
+        sessionStorage.setItem(SESSION_KEY, "true");
+        document.getElementById("loginGate").classList.add("hidden");
+        document.getElementById("appShell").classList.remove("locked");
+        message.textContent = "Acesso liberado.";
+        return;
+      }
+      message.textContent = "Senha incorreta. Tente novamente.";
+    }
+
+    function showPasswordHint() {
+      document.getElementById("loginMessage").innerHTML = "Senha demo: <strong>fruits2026</strong>. Em produção, use backend.";
+    }
+
+    function checkPortalAccess() {
+      const logged = sessionStorage.getItem(SESSION_KEY) === "true";
+      document.getElementById("loginGate").classList.toggle("hidden", logged);
+      document.getElementById("appShell").classList.toggle("locked", !logged);
+    }
 
     function renderCards() {
       document.getElementById("trendGrid").innerHTML = trends.map(item => cardHtml(item, "trend")).join("");
@@ -743,22 +753,8 @@
       fillSelect("hookSelect", quiz[1].options);
       fillSelect("conflictSelect", quiz[2].options);
       fillSelect("endingSelect", quiz[3].options);
+      setupProviderSelect();
       restoreSavedSelections();
-    }
-
-    function restoreSavedSelections() {
-      document.getElementById("projectName").value = state.projectName || "";
-      document.getElementById("projectTitle").value = state.projectTitle || "";
-      document.getElementById("videoFormat").value = state.videoFormat || "vertical_9_16";
-      document.getElementById("viralGoal").value = state.viralGoal || "emocionar";
-      if (state.trend && document.getElementById(`trend-${state.trend}`)) {
-        document.getElementById(`trend-${state.trend}`).classList.add("selected");
-      }
-      state.selectedCast.forEach(id => {
-        const el = document.getElementById(`cast-${id}`);
-        if (el) el.classList.add("selected");
-      });
-      syncSmartSelects();
     }
 
     function cardHtml(item, type) {
@@ -772,6 +768,31 @@
 
     function fillSelect(id, options) {
       document.getElementById(id).innerHTML = options.map(option => `<option value="${option}">${option}</option>`).join("");
+    }
+
+    function setupProviderSelect() {
+      const providerSelect = document.getElementById("providerSelect");
+      const modelSelect = document.getElementById("modelSelect");
+      if (!providerSelect || !modelSelect) return;
+      providerSelect.value = state.provider || "gemini";
+      modelSelect.innerHTML = providerModels[providerSelect.value].map(model => `<option value="${model}">${model}</option>`).join("");
+      modelSelect.value = state.model || providerModels[providerSelect.value][0];
+      document.querySelectorAll("#providerGrid .choice-card").forEach(el => el.classList.remove("selected"));
+      const active = document.getElementById(`provider-${providerSelect.value}`);
+      if (active) active.classList.add("selected");
+    }
+
+    function restoreSavedSelections() {
+      document.getElementById("projectName").value = state.projectName || "";
+      document.getElementById("projectTitle").value = state.projectTitle || "";
+      document.getElementById("videoFormat").value = state.videoFormat || "vertical_9_16";
+      document.getElementById("viralGoal").value = state.viralGoal || "emocionar";
+      if (state.trend && document.getElementById(`trend-${state.trend}`)) document.getElementById(`trend-${state.trend}`).classList.add("selected");
+      state.selectedCast.forEach(id => {
+        const el = document.getElementById(`cast-${id}`);
+        if (el) el.classList.add("selected");
+      });
+      syncSmartSelects();
     }
 
     function selectCard(type, id) {
@@ -793,7 +814,7 @@
       state.projectTitle = document.getElementById("projectTitle").value.trim();
       state.videoFormat = document.getElementById("videoFormat").value;
       state.viralGoal = document.getElementById("viralGoal").value;
-      addMsg("ai", `Base criada. Agora escolha a tendência viral da novela.`);
+      addMsg("ai", "Base criada. Agora escolha a tendência viral da novela.");
       updateUI();
       goTab("trend");
     }
@@ -807,20 +828,14 @@
 
     function smartSuggestTrend() {
       const goal = document.getElementById("viralGoal").value;
-      const suggestionMap = {
-        emocionar: "humilhacao_virada",
-        chocar: "segredo_familia",
-        rir: "comedia_caos",
-        parte_2: "vilao_falso_bom",
-        apresentar_personagem: "aventura_missao"
-      };
+      const suggestionMap = { emocionar: "humilhacao_virada", chocar: "segredo_familia", rir: "comedia_caos", parte_2: "vilao_falso_bom", apresentar_personagem: "aventura_missao" };
       selectCard("trend", suggestionMap[goal] || "humilhacao_virada");
       addMsg("ai", `Sugestão Smart: ${labelById(trends, state.trend)} combina com o objetivo ${goal}.`);
     }
 
     function confirmCast() {
       if (!state.selectedCast.length) return addMsg("ai", "Selecione pelo menos um personagem ou categoria.");
-      addMsg("ai", `Elenco confirmado. Agora vou abrir o quiz para moldar premissa, gancho, conflito e final.`);
+      addMsg("ai", "Elenco confirmado. Agora vou abrir o quiz para moldar premissa, gancho, conflito e final.");
       updateUI();
       goTab("smart");
       resetQuiz();
@@ -842,19 +857,17 @@
     }
 
     function generateFinalPackage() {
-      if (!state.trend || !state.selectedCast.length) {
-        return addMsg("ai", "Confirme tendência e elenco antes de gerar o pacote final.");
-      }
+      if (!state.trend || !state.selectedCast.length) return addMsg("ai", "Confirme tendência e elenco antes de gerar o pacote final.");
       generateSmartMix();
       const castNames = state.selectedCast.map(id => labelById(cast, id)).join(", ");
       const trendName = labelById(trends, state.trend);
-
       const result = {
         title: state.projectTitle || "A Verdade que a Feira Escondeu",
         viral_hook: state.hook,
         logline: `Em uma novela ${trendName}, ${castNames} entram em uma trama onde ${state.premise.toLowerCase()}`,
         emotional_engine: `${state.conflict} com final de ${state.endingType}.`,
         format: state.videoFormat,
+        provider_sugerido: `${state.provider} / ${state.model}`,
         scene_outline: [
           "Cena 1: Gancho imediato com frase forte e imagem de impacto.",
           "Cena 2: O conflito cresce e o personagem principal é pressionado.",
@@ -873,16 +886,45 @@
         ],
         next_episode_hook: "Mas ninguém percebeu que Abacatudo ainda guardava a última prova."
       };
-
       document.getElementById("outputBox").textContent = JSON.stringify(result, null, 2);
-      buildApiPayload();
+      buildApiPayload(false);
     }
 
-    function buildApiPayload() {
+    function selectProvider(provider) {
+      state.provider = provider;
+      const providerSelect = document.getElementById("providerSelect");
+      const modelSelect = document.getElementById("modelSelect");
+      if (providerSelect) providerSelect.value = provider;
+      if (modelSelect) {
+        modelSelect.innerHTML = providerModels[provider].map(model => `<option value="${model}">${model}</option>`).join("");
+        state.model = providerModels[provider][0];
+        modelSelect.value = state.model;
+      }
+      document.querySelectorAll("#providerGrid .choice-card").forEach(el => el.classList.remove("selected"));
+      const active = document.getElementById(`provider-${provider}`);
+      if (active) active.classList.add("selected");
+      saveState();
+      updateUI(false);
+      addMsg("ai", `Provider selecionado: ${provider}. Modelo sugerido: ${state.model}.`);
+    }
+
+    function buildApiPayload(showMessage = true) {
+      state.provider = document.getElementById("providerSelect")?.value || state.provider || "gemini";
+      state.model = document.getElementById("modelSelect")?.value || state.model || providerModels[state.provider][0];
       const payload = {
-        provider: "openrouter | gemini | groq | openai",
+        provider: state.provider,
+        model: state.model,
+        api_mode: document.getElementById("apiMode")?.value || "backend_secure",
+        endpoint: document.getElementById("apiEndpoint")?.value || "/api/fruits-generate",
         task: "generate_fruits_viral_novela",
         project: { ...state },
+        smart_router: {
+          chat_quiz: "groq",
+          story_package: "gemini",
+          fallback: "openrouter",
+          rule: "Usar modelos gratuitos primeiro. Se der limite/erro 429, tentar o próximo provider."
+        },
+        prompt: buildPromptText(),
         required_json_output: {
           title: "string",
           viral_hook: "string",
@@ -899,18 +941,72 @@
           thumbnail_idea: "string",
           next_episode_hook: "string",
           viral_score: "object"
-        },
-        system_rules: [
-          "Criar história original do universo Fruits Adventures Titan.",
-          "Não copiar Marvel, DC, filmes, jogos ou marcas existentes.",
-          "Usar inspiração apenas de gênero: herói, terror, aventura, luta, games e torcida.",
-          "Preservar Tomate Elinaldo, Sabrina Pitaya, OZ, Abacatudo e Limão Rocha quando selecionados.",
-          "Se OZ aparecer, respeitar drama de origem ligado a Limão Rocha e Abacatudo.",
-          "Priorizar vídeo curto, gancho forte, ritmo viral e storyboard visual."
-        ]
+        }
       };
       document.getElementById("apiPayload").value = JSON.stringify(payload, null, 2);
-      addMsg("ai", "Payload montado para seu backend. A chave da API deve ficar protegida no servidor.");
+      saveState();
+      if (showMessage) addMsg("ai", `Payload montado para ${state.provider} usando ${state.model}. No site real, a chave fica no backend.`);
+    }
+
+    function buildPromptText() {
+      return `Você é o Fruits Copilot, roteirista do universo Fruits Adventures Titan. Crie uma novela viral original em JSON válido. Projeto: ${state.projectName}. Título: ${state.projectTitle}. Formato: ${state.videoFormat}. Objetivo: ${state.viralGoal}. Tendência: ${labelById(trends, state.trend)}. Elenco: ${state.selectedCast.map(id => labelById(cast, id)).join(", ")}. Premissa: ${state.premise}. Gancho: ${state.hook}. Conflito: ${state.conflict}. Final: ${state.endingType}. Regras: não copiar Marvel, DC, filmes, jogos ou marcas. Usar apenas inspiração de gênero. Preservar Tomate Elinaldo, Sabrina Pitaya, OZ, Abacatudo e Limão Rocha quando selecionados. Se OZ aparecer, respeitar o drama de origem ligado a Limão Rocha e Abacatudo. Priorizar vídeo curto, gancho forte, ritmo viral e storyboard visual.`;
+    }
+
+    function callFreeApiDemo() {
+      buildApiPayload(false);
+      const endpoint = document.getElementById("apiEndpoint").value;
+      const payload = document.getElementById("apiPayload").value;
+      document.getElementById("outputBox").textContent = `Simulação pronta.
+
+O front-end enviaria um POST para:
+${endpoint}
+
+Payload:
+${payload}
+
+No GitHub Pages puro não existe backend. Para funcionar de verdade, use Vercel, Netlify Functions, Cloudflare Workers, Render ou outro servidor.`;
+      addMsg("ai", "Simulação API pronta. Falta conectar o backend real com suas chaves Gemini/Groq/OpenRouter.");
+    }
+
+    function showBackendExample() {
+      const example = `// server.js — exemplo Node/Express para manter API Key protegida
+import express from 'express';
+import cors from 'cors';
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.post('/api/fruits-generate', async (req, res) => {
+  const { provider, model, prompt } = req.body;
+
+  const keys = {
+    gemini: process.env.GEMINI_API_KEY,
+    groq: process.env.GROQ_API_KEY,
+    openrouter: process.env.OPENROUTER_API_KEY
+  };
+
+  try {
+    // Aqui entra a chamada real do provider escolhido.
+    // Regra recomendada:
+    // Groq = chat/quiz rápido
+    // Gemini = pacote final
+    // OpenRouter = fallback com modelos :free
+    res.json({
+      ok: true,
+      provider,
+      model,
+      message: 'Conectar chamada real aqui',
+      prompt_recebido: prompt
+    });
+  } catch (error) {
+    res.status(500).json({ ok: false, error: error.message });
+  }
+});
+
+app.listen(3000, () => console.log('Fruits API rodando na porta 3000'));`;
+      document.getElementById("outputBox").textContent = example;
+      addMsg("ai", "Exemplo de backend exibido no Resultado Smart.");
     }
 
     function copyPayload() {
@@ -957,6 +1053,7 @@
 
     function addMsg(type, text) {
       const log = document.getElementById("chatLog");
+      if (!log) return;
       const div = document.createElement("div");
       div.className = `msg ${type}`;
       div.textContent = text;
@@ -964,30 +1061,34 @@
       log.scrollTop = log.scrollHeight;
     }
 
-    function updateUI() {
+    function updateUI(shouldSave = true) {
       state.projectName = document.getElementById("projectName")?.value.trim() || state.projectName;
       state.projectTitle = document.getElementById("projectTitle")?.value.trim() || state.projectTitle;
       state.videoFormat = document.getElementById("videoFormat")?.value || state.videoFormat;
       state.viralGoal = document.getElementById("viralGoal")?.value || state.viralGoal;
-      saveState();
-      const completed = [state.projectName || document.getElementById("projectName").value, state.trend, state.selectedCast.length, state.premise, state.hook, state.conflict, state.endingType].filter(Boolean).length;
+      state.provider = document.getElementById("providerSelect")?.value || state.provider;
+      state.model = document.getElementById("modelSelect")?.value || state.model;
+
+      const completed = [state.projectName, state.trend, state.selectedCast.length, state.premise, state.hook, state.conflict, state.endingType].filter(Boolean).length;
       const score = Math.min(100, 12 + completed * 12 + state.selectedCast.length * 3);
       document.getElementById("viralScore").textContent = score;
       document.getElementById("progressFill").style.width = `${score}%`;
 
       const trendText = state.trend ? labelById(trends, state.trend) : "sem tendência";
       const castText = state.selectedCast.length ? state.selectedCast.map(id => labelById(cast, id)).join(", ") : "sem elenco";
-      document.getElementById("statusText").textContent = `Tendência: ${trendText}. Elenco: ${castText}.`;
-      document.getElementById("pillList").innerHTML = [
-        state.videoFormat,
-        state.viralGoal,
-        trendText,
-        ...state.selectedCast.map(id => labelById(cast, id))
-      ].filter(Boolean).map(x => `<span class="pill">${x}</span>`).join("");
+      document.getElementById("statusText").textContent = `Tendência: ${trendText}. Elenco: ${castText}. API: ${state.provider}/${state.model}.`;
+      document.getElementById("pillList").innerHTML = [state.videoFormat, state.viralGoal, trendText, state.provider, state.model, ...state.selectedCast.map(id => labelById(cast, id))].filter(Boolean).map(x => `<span class="pill">${x}</span>`).join("");
+      if (shouldSave) saveState();
+    }
+
+    function clearSavedProject() {
+      localStorage.removeItem(STORAGE_KEY);
+      state = { ...defaultState };
+      location.reload();
     }
 
     function labelById(list, id) {
-      return (list.find(item => item.id === id) || {}).title || id;
+      return (list.find(item => item.id === id) || {}).title || id || "";
     }
 
     function escapeText(text) {
@@ -1000,8 +1101,14 @@
       document.getElementById(id).classList.add("active");
     }
 
-    document.querySelectorAll(".tab").forEach(tab => {
-      tab.addEventListener("click", () => goTab(tab.dataset.tab));
+    document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => goTab(tab.dataset.tab)));
+    ["projectName", "projectTitle", "videoFormat", "viralGoal"].forEach(id => {
+      document.addEventListener("input", event => {
+        if (event.target && event.target.id === id) updateUI();
+      });
+      document.addEventListener("change", event => {
+        if (event.target && event.target.id === id) updateUI();
+      });
     });
 
     checkPortalAccess();
