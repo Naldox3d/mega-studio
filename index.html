@@ -430,9 +430,9 @@
   <div class="app locked" id="appShell">
     <header>
       <section class="hero">
-        <div class="badge">🍅 Fruits Copilot Smart • Backend Integrado</div>
+        <div class="badge">🍅 Fruits Copilot Smart • Conexão Direta</div>
         <h1>Fruits Viral Studio</h1>
-        <p>Monte novelas virais com tema, elenco, premissas vitais, gancho, storyboard, pacote final e providers conectados à sua API.</p>
+        <p>Monte novelas virais com tema, elenco, premissas vitais, gancho, storyboard e gere o pacote final direto pelo seu navegador.</p>
       </section>
 
       <aside class="status-panel">
@@ -549,19 +549,19 @@
 
         <section id="api" class="tab-content">
           <div class="section-title">
-            <h2>Conexão com Backend (Vercel)</h2>
-            <span>Conecte sua Central com a API nas nuvens</span>
+            <h2>Conexão API (Direta no Navegador)</h2>
+            <span>Teste e gere a novela usando a chave salva no seu celular</span>
           </div>
 
           <div class="cards-grid" id="providerGrid">
             <article class="choice-card selected" id="provider-gemini" onclick="selectProvider('gemini')">
               <h3>Gemini</h3>
-              <p>Boa opção para roteiro completo, pacote final e textos longos.</p>
+              <p>Boa opção para roteiro completo e textos longos.</p>
               <div class="tag-row"><span class="tag">Google AI Studio</span></div>
             </article>
             <article class="choice-card" id="provider-groq" onclick="selectProvider('groq')">
               <h3>Groq</h3>
-              <p>Ótima para variações curtas e respostas com baixa latência.</p>
+              <p>Ótima para variações curtas e respostas muito rápidas.</p>
               <div class="tag-row"><span class="tag">ultra-rápido</span></div>
             </article>
             <article class="choice-card" id="provider-openrouter" onclick="selectProvider('openrouter')">
@@ -582,22 +582,23 @@
             <label>Modelo sugerido
               <select id="modelSelect"></select>
             </label>
-            <label style="grid-column: span 2;">URL do Backend Vercel (Seu Endpoint Real)
-              <input id="apiEndpoint" value="https://SEU-PROJETO-VERCEL.vercel.app/api/fruits-generate" placeholder="https://..." />
+            <label style="grid-column: span 2;">Sua Chave de API (API Key)
+              <input id="apiKeyValue" type="password" placeholder="Ex: gsk_DPv... ou AIzaSy..." />
             </label>
           </div>
 
           <div class="mini-note">
-            Certifique-se de colar a URL correta gerada pela Vercel no campo acima. É para lá que o comando será enviado com segurança.
+            Sua chave fica salva apenas no armazenamento local do seu navegador (celular/PC). Ela não é enviada para nenhum servidor nosso.
           </div>
 
-          <label style="margin-top: 14px;">Prompt de IA (editável)
-            <textarea id="apiPayload"></textarea>
+          <label style="margin-top: 14px;">Prompt que será enviado para a IA
+            <textarea id="apiPayload" readonly></textarea>
           </label>
 
           <div class="actions">
             <button onclick="buildApiPayload()">Atualizar Prompt</button>
-            <button class="accent" id="btnGerarReal" onclick="generateRealBackend()">💥 Gerar Roteiro Real (Backend)</button>
+            <button class="warning" id="btnTestarOnline" onclick="testConnectionOnline()">📡 Testar API Online</button>
+            <button class="accent" id="btnGerarReal" onclick="generateDirectAPI()">💥 Gerar Roteiro (API Direta)</button>
           </div>
         </section>
       </section>
@@ -619,7 +620,7 @@
           <div class="panel-header" style="padding: 0 0 14px; border-bottom: 0;">
             <div>
               <h2>Resultado Smart</h2>
-              <small>Retorno do Backend ou Resumo</small>
+              <small>Retorno da IA ou Resumo</small>
             </div>
           </div>
           <div class="output-box" id="outputBox">Nenhum resultado ainda.</div>
@@ -633,9 +634,9 @@
     // ==========================================
     // CONFIGURAÇÕES DO PORTAL
     // ==========================================
-    const PORTAL_PASSWORD = "fruits2026"; // Troque esta senha quando quiser
+    const PORTAL_PASSWORD = "fruits2026";
     
-    const STORAGE_KEY = "fruits_viral_studio_project_v3";
+    const STORAGE_KEY = "fruits_viral_studio_project_v4";
     const SESSION_KEY = "fruits_viral_studio_logged_in";
 
     const providerModels = {
@@ -656,38 +657,43 @@
       conflict: null,
       endingType: null,
       currentQuiz: 0,
-      provider: "gemini",
-      model: "gemini-1.5-flash",
-      backendUrl: ""
+      provider: "groq",
+      model: "llama-3.1-8b-instant",
+      apiKey: ""
     };
 
     let state = loadState();
 
     const trends = [
-      { id: "humilhacao_virada", title: "Humilhação + Virada", desc: "Personagem é desprezado, sofre injustiça e no final prova seu valor.", tags: ["drama", "superação", "top viral"] },
-      { id: "segredo_familia", title: "Segredo de Família", desc: "Uma verdade escondida muda a origem, a família ou o destino do personagem.", tags: ["novela", "choque", "parte 2"] },
-      { id: "vilao_falso_bom", title: "Vilão Falso Bondoso", desc: "O vilão parece amigo, mas manipula tudo por trás da cena.", tags: ["Abacatudo", "traição", "suspense"] },
-      { id: "comedia_caos", title: "Comédia que Vira Caos", desc: "Uma situação simples cresce até virar confusão compartilhável.", tags: ["humor", "shorts", "memes"] },
-      { id: "terror_fruits", title: "Terror Fruits", desc: "Mistério, feira vazia, objeto amaldiçoado ou sombra da plantação.", tags: ["suspense", "noite", "viral"] },
-      { id: "luta_torneio", title: "Lutas / Torneios", desc: "Disputa pública, rival poderoso, torcida e vitória emocional.", tags: ["ação", "torcida", "duelo"] },
-      { id: "aventura_missao", title: "Aventura / Missão", desc: "Mapa perdido, templo das sementes, resgate e descoberta visual.", tags: ["fantasia", "jornada", "cinema"] }
+      { id: "humilhacao_virada", title: "Humilhação + Virada", desc: "Personagem é desprezado, sofre injustiça e no final prova seu valor.", tags: ["drama", "superação"] },
+      { id: "segredo_familia", title: "Segredo de Família", desc: "Uma verdade escondida muda a origem, a família ou o destino do personagem.", tags: ["novela", "choque"] },
+      { id: "vilao_falso_bom", title: "Vilão Falso Bondoso", desc: "O vilão parece amigo, mas manipula tudo por trás da cena.", tags: ["traição", "suspense"] },
+      { id: "comedia_caos", title: "Comédia que Vira Caos", desc: "Uma situação simples cresce até virar confusão compartilhável.", tags: ["humor", "shorts"] },
+      { id: "terror_fruits", title: "Terror Fruits", desc: "Mistério, feira vazia, objeto amaldiçoado ou sombra da plantação.", tags: ["suspense", "noite"] },
+      { id: "luta_torneio", title: "Lutas / Torneios", desc: "Disputa pública, rival poderoso, torcida e vitória emocional.", tags: ["ação", "torcida"] },
+      { id: "aventura_missao", title: "Aventura / Missão", desc: "Mapa perdido, templo das sementes, resgate e descoberta visual.", tags: ["fantasia", "jornada"] }
     ];
 
     const cast = [
-      { id: "tomate_elinaldo", title: "Tomate Elinaldo", desc: "Protagonista humilde, corajoso e emocional.", tags: ["núcleo", "herói", "popular"] },
-      { id: "sabrina_pitaya", title: "Sabrina Pitaya", desc: "Inteligente, forte, sensível e estratégica.", tags: ["núcleo", "apoio", "protagonista"] },
-      { id: "oz", title: "OZ / Oswaldo Rocha", desc: "Mistério familiar ligado a Limão Rocha e Abacatudo.", tags: ["núcleo", "segredo", "drama"] },
-      { id: "abacatudo", title: "Abacatudo", desc: "Vilão manipulador, falso bondoso e causador de traições.", tags: ["vilão", "traição", "novela"] },
-      { id: "limao_rocha", title: "Limão Rocha", desc: "Passado, culpa antiga e origem dramática de OZ.", tags: ["família", "passado", "mistério"] },
-      { id: "secundarios", title: "Secundários da Série", desc: "Amigo, rival, mentor, professor, parente misterioso ou personagem cômico.", tags: ["apoio", "elenco", "série"] }
+      { id: "tomate_elinaldo", title: "Tomate Elinaldo", desc: "Protagonista humilde, corajoso e emocional.", tags: ["herói", "popular"] },
+      { id: "sabrina_pitaya", title: "Sabrina Pitaya", desc: "Inteligente, forte, sensível e estratégica.", tags: ["apoio", "protagonista"] },
+      { id: "oz", title: "OZ / Oswaldo Rocha", desc: "Mistério familiar ligado a Limão Rocha e Abacatudo.", tags: ["segredo", "drama"] },
+      { id: "abacatudo", title: "Abacatudo", desc: "Vilão manipulador, falso bondoso e causador de traições.", tags: ["vilão", "novela"] },
+      { id: "limao_rocha", title: "Limão Rocha", desc: "Passado, culpa antiga e origem dramática de OZ.", tags: ["família", "passado"] },
+      { id: "secundarios", title: "Secundários da Série", desc: "Amigo, rival, mentor, professor, parente misterioso.", tags: ["elenco", "série"] }
     ];
 
     const quiz = [
-      { key: "premise", question: "Qual é a premissa vital da história?", options: ["Um personagem é humilhado em público.", "Um segredo de família vem à tona.", "Um vilão arma uma falsa acusação.", "Alguém descobre que nasceu de uma mentira.", "Um objeto misterioso muda tudo."] },
-      { key: "hook", question: "Qual será o gancho dos primeiros 3 segundos?", options: ["Todos riram dele, até descobrirem a verdade.", "Ele não deveria ter aberto aquela carta.", "O vilão estava dentro da própria família.", "Naquela noite, a feira ficou vazia pela primeira vez.", "A última frase do pai mudou tudo."] },
-      { key: "conflict", question: "Qual é o conflito principal?", options: ["Humilhação social", "Traição familiar", "Mistério sombrio", "Disputa de poder", "Missão de resgate"] },
+      { key: "premise", question: "Qual é a premissa vital da história?", options: ["Um personagem é humilhado em público.", "Um segredo de família vem à tona.", "Um vilão arma uma falsa acusação.", "Alguém descobre que nasceu de uma mentira."] },
+      { key: "hook", question: "Qual será o gancho dos primeiros 3 segundos?", options: ["Todos riram dele, até descobrirem a verdade.", "Ele não deveria ter aberto aquela carta.", "O vilão estava dentro da própria família.", "Naquela noite, a feira ficou vazia."] },
+      { key: "conflict", question: "Qual é o conflito principal?", options: ["Humilhação social", "Traição familiar", "Mistério sombrio", "Disputa de poder"] },
       { key: "endingType", question: "Qual tipo de final você quer?", options: ["Justiça emocional", "Revelação chocante", "Gancho para parte 2", "Vitória do herói"] }
     ];
+
+    const SYSTEM_PROMPT = `Você é o roteirista principal do universo Fruits Adventures Titan.
+Regra Absoluta: O roteiro deve ser autêntico, focado na emoção real da cena e respeitando a fórmula da favela. Não aplique módulos virais artificiais que descaracterizem a história.
+A narração deve ser escrita de forma crua, formatada para o chip de voz do Lira, com cadência e pausas dramáticas.
+Responda exclusivamente em formato JSON válido, respeitando as chaves solicitadas.`;
 
     function loadState() {
       try {
@@ -748,7 +754,7 @@
       const providerSelect = document.getElementById("providerSelect");
       const modelSelect = document.getElementById("modelSelect");
       if (!providerSelect || !modelSelect) return;
-      providerSelect.value = state.provider || "gemini";
+      providerSelect.value = state.provider || "groq";
       modelSelect.innerHTML = providerModels[providerSelect.value].map(model => `<option value="${model}">${model}</option>`).join("");
       modelSelect.value = state.model || providerModels[providerSelect.value][0];
       document.querySelectorAll("#providerGrid .choice-card").forEach(el => el.classList.remove("selected"));
@@ -761,7 +767,7 @@
       document.getElementById("projectTitle").value = state.projectTitle || "";
       document.getElementById("videoFormat").value = state.videoFormat || "vertical_9_16";
       document.getElementById("viralGoal").value = state.viralGoal || "emocionar";
-      if(state.backendUrl) document.getElementById("apiEndpoint").value = state.backendUrl;
+      if(state.apiKey) document.getElementById("apiKeyValue").value = state.apiKey;
       
       if (state.trend && document.getElementById(`trend-${state.trend}`)) document.getElementById(`trend-${state.trend}`).classList.add("selected");
       state.selectedCast.forEach(id => {
@@ -769,6 +775,7 @@
         if (el) el.classList.add("selected");
       });
       syncSmartSelects();
+      buildApiPayload();
     }
 
     function selectCard(type, id) {
@@ -797,7 +804,7 @@
 
     function confirmTrend() {
       if (!state.trend) return addMsg("ai", "Escolha uma tendência antes de confirmar.");
-      addMsg("ai", `Tendência confirmada: ${labelById(trends, state.trend)}. Selecione o elenco Fruits.`);
+      addMsg("ai", `Tendência confirmada. Selecione o elenco Fruits.`);
       updateUI();
       goTab("cast");
     }
@@ -870,86 +877,157 @@
     function buildPromptText() {
       const castNames = state.selectedCast.map(id => labelById(cast, id)).join(", ");
       const trendName = labelById(trends, state.trend);
-      return `Crie um roteiro viral do universo Fruits Adventures Titan.
-Nome do Projeto: ${state.projectName || "Sem nome"}
+      return `Nome do Projeto: ${state.projectName || "Sem nome"}
 Título Provisório: ${state.projectTitle || "Sem título"}
 Formato de Vídeo: ${state.videoFormat}
 Objetivo: ${state.viralGoal}
-Tendência Emocional: ${trendName}
-Elenco Principal: ${castNames}
-Premissa Vital: ${state.premise}
-Gancho Inicial: ${state.hook}
+Tendência: ${trendName}
+Elenco: ${castNames}
+Premissa: ${state.premise}
+Gancho: ${state.hook}
 Conflito: ${state.conflict}
-Tipo de Final: ${state.endingType}
+Final: ${state.endingType}
 
-DIRETRIZES DE CRIAÇÃO (Siga Rigorosamente):
-1. Use a "fórmula da favela", garantindo uma linguagem autêntica, ritmo urbano e diálogos diretos com gírias e energia da rua.
-2. A narração deve ser redigida e formatada focando no chip de voz do Lira, respeitando pausas e impacto sonoro cadenciado.
-3. Não utilize módulos virais artificiais, clichês de engajamento forçado ou fórmulas genéricas. O engajamento deve vir da emoção genuína do conflito.
-4. Respeite as características da lore (Se OZ estiver presente, traga a carga dramática de sua relação e mistério com Limão Rocha e Abacatudo).
-5. O resultado deve ser direto e emocionalmente imersivo, sem explicações extras.`;
+Estrutura JSON Obrigatória:
+{
+  "title": "string",
+  "viral_hook": "string",
+  "logline": "string",
+  "scene_outline": ["cena 1...", "cena 2..."],
+  "storyboard_frames": ["quadro 1...", "quadro 2..."],
+  "lira_narration_script": "string"
+}`;
     }
 
     function buildApiPayload() {
-      state.provider = document.getElementById("providerSelect")?.value || state.provider || "gemini";
+      state.provider = document.getElementById("providerSelect")?.value || state.provider || "groq";
       state.model = document.getElementById("modelSelect")?.value || state.model || providerModels[state.provider][0];
       
-      const payload = {
-        provider: state.provider,
-        model: state.model,
-        prompt: buildPromptText(),
-        required_json_output: {
-          title: "string",
-          viral_hook: "string",
-          logline: "string",
-          scene_outline: "array",
-          storyboard_frames: "array",
-          lira_narration_script: "string"
-        }
-      };
-      
-      document.getElementById("apiPayload").value = JSON.stringify(payload, null, 2);
+      document.getElementById("apiPayload").value = buildPromptText();
     }
 
-    async function generateRealBackend() {
-      const endpoint = document.getElementById("apiEndpoint").value.trim();
-      const payloadStr = document.getElementById("apiPayload").value.trim();
-      const btn = document.getElementById("btnGerarReal");
-      
-      state.backendUrl = endpoint;
+    // Função universal para chamar a API direto do Front-end
+    async function makeDirectApiCall(promptText, isTest = false) {
+      const apiKey = document.getElementById("apiKeyValue").value.trim();
+      const provider = state.provider;
+      const model = state.model;
+
+      if (!apiKey) throw new Error("Chave de API não informada.");
+
+      state.apiKey = apiKey; // Salva para não pedir de novo
       saveState();
 
-      if (!endpoint || !endpoint.startsWith("http")) {
-        return addMsg("ai", "Insira uma URL de backend válida (ex: https://seu-projeto.vercel.app/api/fruits-generate).");
-      }
-      if (!payloadStr) {
-        return addMsg("ai", "Monte o payload (prompt) antes de enviar.");
-      }
+      const userMessage = isTest ? "Responda apenas: API conectada e pronta para o Fruits Viral Studio." : promptText;
 
-      addMsg("ai", "Enviando comando para o backend da Vercel...");
-      document.getElementById("outputBox").textContent = "📡 Processando com a IA nas nuvens... Aguarde...";
-      btn.disabled = true;
-      btn.textContent = "Processando...";
+      // GEMINI
+      if (provider === 'gemini') {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const payload = {
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: [{ parts: [{ text: userMessage }] }]
+        };
+        // Se não for teste, força retorno em JSON
+        if (!isTest) payload.generationConfig = { response_mime_type: "application/json" };
 
-      try {
-        const res = await fetch(endpoint, {
+        const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: payloadStr
+          body: JSON.stringify(payload)
         });
-        
-        const data = await res.json();
-        
-        if (!res.ok) throw new Error(data.error || "Erro desconhecido na API.");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error?.message || "Erro Gemini");
+        return data.candidates[0].content.parts[0].text;
+      } 
+      
+      // GROQ OU OPENROUTER
+      else if (provider === 'groq' || provider === 'openrouter') {
+        const endpoint = provider === 'groq' 
+          ? "https://api.groq.com/openai/v1/chat/completions" 
+          : "https://openrouter.ai/api/v1/chat/completions";
 
-        document.getElementById("outputBox").textContent = JSON.stringify(data.data || data, null, 2);
-        addMsg("ai", "✅ Roteiro gerado com sucesso pelo seu Backend!");
+        const headers = {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        };
+
+        if (provider === 'openrouter') {
+          headers["HTTP-Referer"] = "https://naldox3d.github.io";
+          headers["X-Title"] = "Fruits Viral Studio";
+        }
+
+        const bodyPayload = {
+          model: model,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userMessage }
+          ],
+          temperature: 0.4
+        };
+
+        // Força JSON no Groq/OpenRouter se não for teste
+        if (!isTest && provider === 'groq') {
+           bodyPayload.response_format = { type: "json_object" };
+        }
+
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(bodyPayload)
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error?.message || `Erro ${provider}`);
+        return data.choices[0].message.content;
+      }
+    }
+
+    async function testConnectionOnline() {
+      const btn = document.getElementById("btnTestarOnline");
+      addMsg("ai", "Testando conexão com a API...");
+      document.getElementById("outputBox").textContent = "📡 Ping na IA... Aguarde...";
+      btn.disabled = true;
+
+      try {
+        const responseText = await makeDirectApiCall("", true);
+        document.getElementById("outputBox").textContent = `✅ SUCESSO!\n\nProvider: ${state.provider}\nModelo: ${state.model}\nResposta: ${responseText}`;
+        addMsg("ai", "API conectada com sucesso!");
       } catch (e) {
-        document.getElementById("outputBox").textContent = `❌ Erro de Conexão: \n\n${e.message}\n\nVerifique se o backend na Vercel está online e se a URL está correta.`;
-        addMsg("ai", "Falha ao conectar com o backend. Veja o log no Resultado Smart.");
+        document.getElementById("outputBox").textContent = `❌ Falha na Conexão:\n\n${e.message}\n\nVerifique se a sua chave (API Key) está correta.`;
+        addMsg("ai", "Falha no teste. Verifique a chave inserida.");
       } finally {
         btn.disabled = false;
-        btn.textContent = "💥 Gerar Roteiro Real (Backend)";
+      }
+    }
+
+    async function generateDirectAPI() {
+      const promptStr = document.getElementById("apiPayload").value.trim();
+      const btn = document.getElementById("btnGerarReal");
+      
+      if (!promptStr) return addMsg("ai", "Monte o prompt antes de enviar.");
+
+      addMsg("ai", "Gerando roteiro com a API direta...");
+      document.getElementById("outputBox").textContent = "✍️ A IA está escrevendo o roteiro... Isso pode levar alguns segundos...";
+      btn.disabled = true;
+      btn.textContent = "Gerando...";
+
+      try {
+        const resultText = await makeDirectApiCall(promptStr, false);
+        
+        let formattedData;
+        try {
+          formattedData = JSON.stringify(JSON.parse(resultText), null, 2);
+        } catch(err) {
+          formattedData = resultText; // Fallback se não for JSON perfeito
+        }
+
+        document.getElementById("outputBox").textContent = formattedData;
+        addMsg("ai", "✅ Roteiro gerado com sucesso!");
+      } catch (e) {
+        document.getElementById("outputBox").textContent = `❌ Erro de Geração: \n\n${e.message}\n\nVerifique sua chave de API e sua conexão.`;
+        addMsg("ai", "Falha ao gerar o roteiro. Veja o log no Resultado Smart.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "💥 Gerar Roteiro (API Direta)";
       }
     }
 
@@ -1005,7 +1083,7 @@ DIRETRIZES DE CRIAÇÃO (Siga Rigorosamente):
       state.viralGoal = document.getElementById("viralGoal")?.value || state.viralGoal;
       state.provider = document.getElementById("providerSelect")?.value || state.provider;
       state.model = document.getElementById("modelSelect")?.value || state.model;
-      state.backendUrl = document.getElementById("apiEndpoint")?.value.trim() || state.backendUrl;
+      state.apiKey = document.getElementById("apiKeyValue")?.value.trim() || state.apiKey;
 
       const completed = [state.projectName, state.trend, state.selectedCast.length, state.premise, state.hook, state.conflict, state.endingType].filter(Boolean).length;
       const score = Math.min(100, 12 + completed * 12 + state.selectedCast.length * 3);
@@ -1041,7 +1119,7 @@ DIRETRIZES DE CRIAÇÃO (Siga Rigorosamente):
     }
 
     document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => goTab(tab.dataset.tab)));
-    ["projectName", "projectTitle", "videoFormat", "viralGoal", "apiEndpoint"].forEach(id => {
+    ["projectName", "projectTitle", "videoFormat", "viralGoal", "apiKeyValue"].forEach(id => {
       document.addEventListener("input", event => {
         if (event.target && event.target.id === id) updateUI();
       });
