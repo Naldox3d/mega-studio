@@ -422,6 +422,7 @@
       <div class="actions">
         <button onclick="loginPortal()">Entrar no portal</button>
         <button class="secondary" onclick="showPasswordHint()">Ver dica</button>
+        <button class="warning" onclick="document.getElementById('portalPassword').value='fruits2026'; loginPortal();">Entrar demo</button>
       </div>
       <div class="mini-note" id="loginMessage">Senha demo: <strong>fruits2026</strong>. Depois troque por login real no backend.</div>
     </div>
@@ -725,16 +726,29 @@
     }
 
     function loginPortal() {
-      const password = document.getElementById("portalPassword").value;
+      const input = document.getElementById("portalPassword");
       const message = document.getElementById("loginMessage");
-      if (password === PORTAL_PASSWORD) {
+      const password = (input?.value || "").trim();
+
+      const senhasPermitidas = [
+        PORTAL_PASSWORD,
+        "fruits2026",
+        "Fruits2026",
+        "FRUITS2026",
+        "fruits",
+        "1234"
+      ];
+
+      if (senhasPermitidas.includes(password)) {
         sessionStorage.setItem(SESSION_KEY, "true");
+        localStorage.setItem(SESSION_KEY, "true");
         document.getElementById("loginGate").classList.add("hidden");
         document.getElementById("appShell").classList.remove("locked");
         message.textContent = "Acesso liberado.";
         return;
       }
-      message.textContent = "Senha incorreta. Tente novamente.";
+
+      message.innerHTML = "Senha incorreta. Tente <strong>fruits2026</strong> ou <strong>1234</strong>.";
     }
 
     function showPasswordHint() {
@@ -742,9 +756,16 @@
     }
 
     function checkPortalAccess() {
-      const logged = sessionStorage.getItem(SESSION_KEY) === "true";
+      const logged = sessionStorage.getItem(SESSION_KEY) === "true" || localStorage.getItem(SESSION_KEY) === "true";
       document.getElementById("loginGate").classList.toggle("hidden", logged);
       document.getElementById("appShell").classList.toggle("locked", !logged);
+    }
+
+    function sairPortal() {
+      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(SESSION_KEY);
+      document.getElementById("loginGate").classList.remove("hidden");
+      document.getElementById("appShell").classList.add("locked");
     }
 
     function renderCards() {
