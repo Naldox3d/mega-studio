@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Fruits Adventures Studio — PRO</title>
+<title>Fruits Adventures Studio — Fruits Novelas PRO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -353,6 +353,24 @@ select option{background:#0c1018}
 .trend-card p{font-size:12px;color:var(--muted);line-height:1.5}
 .trend-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;margin-top:8px;display:inline-block;background:var(--amberbg);border:1px solid rgba(240,165,0,.25);color:var(--amber)}
 
+
+
+/* FRUITS NOVELAS */
+.novela-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+.novela-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;
+}
+.novela-card h4{font-size:14px;font-weight:800;color:var(--amber2);margin-bottom:8px}
+.novela-card p{font-size:12.5px;color:var(--muted);line-height:1.55}
+.novela-pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.novela-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;
+  background:var(--amberbg);border:1px solid rgba(240,165,0,.28);color:var(--amber);
+  font-size:11px;font-weight:800;letter-spacing:.04em;cursor:pointer;transition:all .18s
+}
+.novela-pill:hover{border-color:var(--amber);color:#fff}
+@media(max-width:960px){.novela-grid{grid-template-columns:1fr}}
+
 /* FILE THUMBS */
 .thumb-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .thumb{
@@ -515,7 +533,7 @@ select option{background:#0c1018}
     <div class="logo-icon">🍓</div>
     <div class="logo-text">
       <h1>FRUITS ADVENTURES STUDIO</h1>
-      <span>Pré-produção com IA · Viral Analysis · Model Sheets · Storyboard</span>
+      <span>Pré-produção com IA · Viral Analysis · Fruits Novelas · Model Sheets · Storyboard</span>
     </div>
   </div>
   <div class="header-right">
@@ -523,7 +541,7 @@ select option{background:#0c1018}
       <div class="dot"></div>
       <span id="statusText">API não configurada</span>
     </div>
-    <div class="version">PRO v2.0</div>
+    <div class="version">FRUITS NOVELAS v2.1</div>
   </div>
 </header>
 
@@ -538,20 +556,23 @@ select option{background:#0c1018}
   <div class="nav-item" onclick="showPage('tendencias',this)">
     <span class="num">2</span><span class="done-mark">✓</span> Tendências
   </div>
+  <div class="nav-item" onclick="showPage('fruitsnovelas',this)">
+    <span class="num">3</span><span class="done-mark">✓</span> Fruits Novelas
+  </div>
   <div class="nav-item" onclick="showPage('historia',this)">
-    <span class="num">3</span><span class="done-mark">✓</span> História
+    <span class="num">4</span><span class="done-mark">✓</span> História
   </div>
   <div class="nav-item" onclick="showPage('personagens',this)">
-    <span class="num">4</span><span class="done-mark">✓</span> Personagens
+    <span class="num">5</span><span class="done-mark">✓</span> Personagens
   </div>
   <div class="nav-item" onclick="showPage('modelsheets',this)">
-    <span class="num">5</span><span class="done-mark">✓</span> Model Sheets
+    <span class="num">6</span><span class="done-mark">✓</span> Model Sheets
   </div>
   <div class="nav-item" onclick="showPage('storyboard',this)">
-    <span class="num">6</span><span class="done-mark">✓</span> Storyboard
+    <span class="num">7</span><span class="done-mark">✓</span> Storyboard
   </div>
   <div class="nav-item" onclick="showPage('pacote',this)">
-    <span class="num">7</span><span class="done-mark">✓</span> Pacote Final
+    <span class="num">8</span><span class="done-mark">✓</span> Pacote Final
   </div>
 </nav>
 
@@ -581,6 +602,7 @@ select option{background:#0c1018}
               <option value="original">História original criativa</option>
               <option value="universe">Universo oficial próprio</option>
               <option value="adapt">Adaptar referência para universo próprio</option>
+              <option value="fruits_novelas">Fruits Novelas — converter história + tendência viral</option>
             </select>
           </div>
           <div class="field">
@@ -650,7 +672,7 @@ Quanto mais detalhes, melhor o resultado da IA."></textarea>
         <h3>📦 Resultado da geração</h3>
       </div>
       <div class="card-body">
-        <div class="out short" id="mainOut">Configure a API na aba ⚙️ API Config, cole sua ideia e clique em Gerar.</div>
+        <div class="out short" id="mainOut">Configure a API, cole sua ideia ou use a aba Fruits Novelas para converter tendência viral antes de gerar.</div>
       </div>
     </div>
   </div>
@@ -896,10 +918,113 @@ Quanto mais detalhes, melhor o resultado da IA."></textarea>
   </div>
 </div>
 
+
+<!-- ===================== PAGE: FRUITS NOVELAS ===================== -->
+<div id="pg-fruitsnovelas" class="page">
+  <div class="step-header">
+    <div class="step-num">03</div>
+    <div class="step-info">
+      <h2>FRUITS NOVELAS</h2>
+      <p>Converta qualquer história, resumo ou tendência viral em novela curta com frutas antropomórficas, drama, virada e continuidade visual.</p>
+    </div>
+  </div>
+
+  <div class="novela-grid">
+    <div class="card">
+      <div class="card-head"><h3>🍓 Conversor de história + tendência viral</h3></div>
+      <div class="card-body">
+        <div class="field">
+          <label>📥 História, referência ou tendência viral</label>
+          <textarea id="novelaInput" class="tall" placeholder="Cole aqui uma história, trend, referência viral ou resumo de vídeo. Ex: personagem humilde é humilhado, cuida de uma criança na chuva e tem uma virada emocionante..."></textarea>
+        </div>
+        <div class="grid grid-2">
+          <div class="field">
+            <label>🎭 Estilo de novela</label>
+            <select id="novelaStyle">
+              <option value="emocional">Novela emocional / choro / esperança</option>
+              <option value="vinganca">Novela de injustiça + vingança limpa</option>
+              <option value="familia">Novela familiar / cuidado / sacrifício</option>
+              <option value="comedia">Novela cômica viral</option>
+              <option value="misterio">Novela mistério / revelação</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>🍇 Universo Fruits</label>
+            <select id="novelaUniverse">
+              <option value="novo">Criar elenco novo de frutas</option>
+              <option value="titan">Adaptar para Fruits Adventures Titan</option>
+              <option value="oficial">Usar personagens citados na entrada</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-2">
+          <div class="field">
+            <label>⏱️ Duração desejada</label>
+            <select id="novelaDuration">
+              <option value="45">45 segundos — TikTok/Reels curto</option>
+              <option value="60">60 segundos — viral padrão</option>
+              <option value="90">90 segundos — drama completo</option>
+              <option value="180">3 minutos — mini episódio</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>🔥 Intensidade viral</label>
+            <select id="novelaIntensity">
+              <option value="alta">Alta emoção, sem exagerar</option>
+              <option value="maxima">Máxima emoção e cliffhanger</option>
+              <option value="leve">Leve e familiar</option>
+            </select>
+          </div>
+        </div>
+        <div class="btns">
+          <button class="btn btn-primary btn-lg" onclick="convertToFruitsNovela()">🍓 Converter para Fruits Novelas</button>
+          <button class="btn btn-cyan" onclick="sendMainToNovela()">↗️ Usar entrada principal</button>
+          <button class="btn" onclick="sendTrendToNovela()">📊 Usar tendência atual</button>
+          <button class="btn btn-green" onclick="applyNovelaToProject()">✅ Aplicar ao projeto</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>📌 Fórmulas rápidas de Fruits Novelas</h3></div>
+      <div class="card-body">
+        <div class="novela-card" style="margin-bottom:12px">
+          <h4>😢 Injustiça + Esperança</h4>
+          <p>Fruta humilde sofre humilhação, protege alguém mais fraco e ganha uma pequena vitória emocional.</p>
+          <div class="novela-pill-row"><span class="novela-pill" onclick="loadNovelaFormula('injustica')">Usar fórmula</span></div>
+        </div>
+        <div class="novela-card" style="margin-bottom:12px">
+          <h4>👶 Sacrifício Parental</h4>
+          <p>Fruta adulta cuida de criança com pouco recurso. A criança percebe o esforço no final.</p>
+          <div class="novela-pill-row"><span class="novela-pill" onclick="loadNovelaFormula('sacrificio')">Usar fórmula</span></div>
+        </div>
+        <div class="novela-card" style="margin-bottom:12px">
+          <h4>💎 Rico vs Humilde</h4>
+          <p>Contraste social, personagem arrogante, reviravolta moral e final satisfatório.</p>
+          <div class="novela-pill-row"><span class="novela-pill" onclick="loadNovelaFormula('rico')">Usar fórmula</span></div>
+        </div>
+        <div class="alert alert-cyan" style="font-size:12px">
+          Regra: a IA deve converter humanos em frutas/legumes antropomórficos e manter roupa base fixa. A roupa só muda de estado: limpa, suja, molhada, rasgada ou danificada.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="card-head">
+      <h3>📺 Resultado Fruits Novelas</h3>
+      <button class="btn btn-ghost btn-sm" onclick="copyText($('novelaOut').textContent,'Fruits Novelas copiado!')">📋 Copiar</button>
+    </div>
+    <div class="card-body">
+      <div class="out tall" id="novelaOut">Cole uma história ou use a entrada principal para converter em Fruits Novelas.</div>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== PAGE: HISTÓRIA ===================== -->
 <div id="pg-historia" class="page">
   <div class="step-header">
-    <div class="step-num">03</div>
+    <div class="step-num">04</div>
     <div class="step-info">
       <h2>HISTÓRIA & BÍBLIA VISUAL</h2>
       <p>Estrutura narrativa completa e regras de continuidade visual.</p>
@@ -929,7 +1054,7 @@ Quanto mais detalhes, melhor o resultado da IA."></textarea>
 <!-- ===================== PAGE: PERSONAGENS ===================== -->
 <div id="pg-personagens" class="page">
   <div class="step-header">
-    <div class="step-num">04</div>
+    <div class="step-num">05</div>
     <div class="step-info">
       <h2>PERSONAGENS</h2>
       <p>Fichas completas com identidade, roupa base, expressões e estados.</p>
@@ -943,7 +1068,7 @@ Quanto mais detalhes, melhor o resultado da IA."></textarea>
 <!-- ===================== PAGE: MODEL SHEETS ===================== -->
 <div id="pg-modelsheets" class="page">
   <div class="step-header">
-    <div class="step-num">05</div>
+    <div class="step-num">06</div>
     <div class="step-info">
       <h2>MODEL SHEETS</h2>
       <p>Prompts profissionais para geração de model sheet por personagem.</p>
@@ -1013,7 +1138,7 @@ Quanto mais detalhes, melhor o resultado da IA."></textarea>
 <!-- ===================== PAGE: STORYBOARD ===================== -->
 <div id="pg-storyboard" class="page">
   <div class="step-header">
-    <div class="step-num">06</div>
+    <div class="step-num">07</div>
     <div class="step-info">
       <h2>STORYBOARD</h2>
       <p>Cenas com prompts de imagem e vídeo prontos para geração.</p>
@@ -1030,7 +1155,7 @@ Quanto mais detalhes, melhor o resultado da IA."></textarea>
 <!-- ===================== PAGE: PACOTE FINAL ===================== -->
 <div id="pg-pacote" class="page">
   <div class="step-header">
-    <div class="step-num">07</div>
+    <div class="step-num">08</div>
     <div class="step-info">
       <h2>PACOTE FINAL</h2>
       <p>Tudo em um só lugar — pronto para cliente, equipe ou produção.</p>
@@ -1187,7 +1312,7 @@ function initPortal(){
 }
 
 const $=id=>document.getElementById(id);
-const ST={images:[],project:null,scene:0,apiOk:false};
+const ST={images:[],project:null,scene:0,apiOk:false,novela:null};
 
 // ── NAV ──────────────────────────────────────────────────────
 function showPage(id,el){
@@ -1348,7 +1473,8 @@ function getModeRule(){
     viral:'Esta é uma referência viral externa. NÃO misture com personagens do universo oficial automaticamente. Crie personagens novos adequados.',
     original:'Crie personagens originais únicos baseados na ideia fornecida.',
     universe:`Use o universo: "${$('universe').value||'Fruits Adventures Titan'}". Mantenha personagens oficiais se citados.`,
-    adapt:`Extraia estrutura da referência, depois adapte para o universo "${$('universe').value||'próprio'}". Não troque personagens sem motivo.`
+    adapt:`Extraia estrutura da referência, depois adapte para o universo "${$('universe').value||'próprio'}". Não troque personagens sem motivo.`,
+    fruits_novelas:'Converta a história e/ou tendência viral para Fruits Novelas: personagens obrigatoriamente frutas/legumes antropomórficos, drama de novela curta, gancho emocional, virada viral e continuidade visual rígida.'
   };
   return m[$('projectMode').value]||m.viral;
 }
@@ -1387,6 +1513,7 @@ Transforme esta entrada em um pacote profissional de pré-produção contendo:
 7. Pacote final resumido para cliente
 
 REGRAS ABSOLUTAS:
+- Se o modo for Fruits Novelas, converter a tendência viral em uma NOVELA CURTA de frutas, com: injustiça inicial, conflito emocional, cena visual forte, virada, final satisfatório ou gancho de próximo episódio.
 - A ROUPA BASE de cada personagem NÃO muda no meio da mesma história. Só muda de ESTADO: limpa, suja, molhada, rasgada, queimada, danificada.
 - Sem sangue, sem gore, sem conteúdo adulto.
 - Vídeo viral = referência de estrutura, NÃO universo oficial.
@@ -1781,7 +1908,7 @@ function fillCharacterImprovement(){
   toast('Sugestão aplicada. Confira e salve.','✨');
 }
 function goToCharacterModelSheet(i){
-  showPage('modelsheets',document.querySelectorAll('.nav-item')[5]);
+  showPage('modelsheets',[...document.querySelectorAll('.nav-item')].find(n=>(n.getAttribute('onclick')||'').includes("modelsheets")));
   setTimeout(()=>{ if($('charSelect')){ $('charSelect').value=String(i); renderModelSheet(); } },30);
 }
 
@@ -2020,6 +2147,152 @@ async function generateTrends(){
   await analyzeTrend().catch(()=>{});
 }
 
+
+// ── FRUITS NOVELAS ────────────────────────────────────────────
+const NOVELA_FORMULAS={
+  injustica:'Uma fruta humilde é humilhada em público por uma fruta rica. Ela tenta não reagir, protege alguém inocente e no final uma pequena atitude prova seu valor. Converter em novela curta emocional com virada satisfatória.',
+  sacrificio:'Uma fruta adulta cuida de uma criança-fruta com recursos mínimos. Chuva, fome e rejeição aumentam o drama. No fim, a criança percebe o sacrifício e faz um gesto simples que emociona.',
+  rico:'Uma fruta rica despreza uma fruta pobre, mas descobre tarde demais que riqueza não compra família, amor ou coragem. Fazer final com reviravolta moral e gancho viral.'
+};
+function loadNovelaFormula(key){
+  $('novelaInput').value=NOVELA_FORMULAS[key]||'';
+  toast('Fórmula Fruits Novelas carregada','🍓');
+}
+function sendMainToNovela(){
+  $('novelaInput').value=$('sourceText').value.trim();
+  toast('Entrada principal enviada para Fruits Novelas','↗️');
+}
+function sendTrendToNovela(){
+  $('novelaInput').value=$('trendInput').value.trim()||$('sourceText').value.trim();
+  toast('Tendência enviada para Fruits Novelas','📊');
+}
+function buildNovelaPrompt(){
+  const input=$('novelaInput').value.trim()||$('sourceText').value.trim();
+  return `Você é roteirista-chefe de FRUITS NOVELAS, um formato de animação viral com frutas e legumes antropomórficos.
+
+ENTRADA ORIGINAL / TENDÊNCIA VIRAL:
+${input}
+
+CONFIGURAÇÃO:
+- Estilo de novela: ${$('novelaStyle').value}
+- Universo Fruits: ${$('novelaUniverse').value}
+- Duração: ${$('novelaDuration').value} segundos
+- Intensidade viral: ${$('novelaIntensity').value}
+- Tom geral do projeto: ${getToneInstruction()}
+- Universo informado na entrada: ${$('universe').value||'não informado'}
+
+TAREFA:
+Converta a história/tendência viral em uma FRUITS NOVELA pronta para produção.
+A saída deve servir para alimentar o gerador de História, Personagens, Model Sheets e Storyboard do Studio.
+
+REGRAS OBRIGATÓRIAS:
+- Todo personagem deve ser fruta/legume antropomórfico quando não houver personagem oficial citado.
+- Não transformar frutas em humanos. A fruta/legume deve ser o corpo do personagem.
+- Manter roupa base fixa. Ela só muda de estado: limpa, suja, molhada, rasgada, amassada ou danificada.
+- Criar conflito de novela: injustiça, segredo, sacrifício, rejeição, revelação, virada emocional.
+- Criar cenas visualmente fortes e fáceis de transformar em prompts de imagem/vídeo.
+- Sem sangue, sem gore, sem conteúdo adulto.
+- Responder SOMENTE JSON válido.
+
+JSON OBRIGATÓRIO:
+{
+  "titulo_novela":"",
+  "premissa":"",
+  "tendencia_convertida":"",
+  "gancho_viral":"",
+  "estrutura_novela":{
+    "ato1_injustica":"",
+    "ato2_sacrificio":"",
+    "ato3_virada":"",
+    "final_ou_cliffhanger":""
+  },
+  "elenco_fruits":[
+    {"nome":"","tipo_fruta":"","funcao":"","identidade_visual":"","roupa_base_fixa":"","estado_inicial":"","estado_final":"","segredo_ou_dor":""}
+  ],
+  "beats_virais":[""],
+  "cenas_chave":[
+    {"cena":1,"titulo":"","acao":"","emocao":"","imagem_forte":"","fala_ou_narracao":"","prompt_visual_en":""}
+  ],
+  "texto_para_entrada_principal":"",
+  "hashtags":""
+}`;
+}
+async function convertToFruitsNovela(){
+  const input=$('novelaInput').value.trim()||$('sourceText').value.trim();
+  if(!input){toast('Cole uma história ou tendência primeiro','⚠️');return}
+  $('novelaOut').textContent='🍓 Convertendo para Fruits Novelas com IA...';
+  try{
+    let j;
+    if($('apiMode').value==='local' && !$('geminiKey').value.trim() && !$('openrouterKey').value.trim() && !$('groqKey').value.trim()){
+      j=localNovelaFallback(input);
+    }else{
+      const txt=await callAI(buildNovelaPrompt(),true);
+      j=safeJson(txt);
+    }
+    ST.novela=j;
+    $('novelaOut').textContent=formatNovelaResult(j);
+    toast('Fruits Novelas pronto!','🍓');
+    markDone(['fruitsnovelas']);
+  }catch(e){
+    $('novelaOut').textContent='❌ Erro: '+e.message+'\n\nDica: use Modo offline em API Config para testar sem chave.';
+  }
+}
+
+function localNovelaFallback(input){
+  return {
+    titulo_novela:'Lágrimas de Banana',
+    premissa:'Uma banana humilde tenta proteger uma criança-fruta depois de ser humilhada por uma fruta rica, transformando uma tendência viral de contraste social em uma novela curta emocional.',
+    tendencia_convertida:'Contraste social + sacrifício parental + chuva dramática + virada de esperança.',
+    gancho_viral:'Quando ninguém ajuda, uma mão pequena segura a banana de volta e muda tudo.',
+    estrutura_novela:{
+      ato1_injustica:'A Banana humilde é ridicularizada em público enquanto tenta comprar comida para a criança.',
+      ato2_sacrificio:'A chuva começa, a roupa fica molhada e rasgada, mas ela usa o próprio corpo para proteger a criança.',
+      ato3_virada:'A criança revela que guardou a única moeda para ajudar a Banana, mostrando amor verdadeiro.',
+      final_ou_cliffhanger:'A fruta rica observa de longe, arrependida, enquanto uma luz dourada aparece no céu.'
+    },
+    elenco_fruits:[
+      {nome:'Banana Bento',tipo_fruta:'banana antropomórfica',funcao:'protagonista humilde',identidade_visual:'corpo de banana amarela com olhos grandes e expressão cansada',roupa_base_fixa:'regata branca velha, bermuda jeans azul, chinelo simples',estado_inicial:'limpa e puída',estado_final:'molhada, suja e levemente rasgada',segredo_ou_dor:'tem medo de não conseguir proteger a criança'},
+      {nome:'Moranguinho Lia',tipo_fruta:'morango criança antropomórfico',funcao:'gatilho emocional',identidade_visual:'pequeno morango vermelho com olhos enormes e folhas verdes no topo',roupa_base_fixa:'vestidinho amarelo desbotado e sandália simples',estado_inicial:'limpa',estado_final:'molhada e segurando a mão da Banana',segredo_ou_dor:'sabe que a Banana passa fome para alimentá-la'},
+      {nome:'Uva Dourado',tipo_fruta:'cacho de uva antropomórfico rico',funcao:'antagonista social',identidade_visual:'uvas roxas brilhantes, postura arrogante e relógio dourado',roupa_base_fixa:'terno preto elegante, camisa branca e relógio dourado',estado_inicial:'impecável',estado_final:'molhado e envergonhado',segredo_ou_dor:'percebe que sua riqueza não compra amor'}
+    ],
+    beats_virais:['humilhação pública nos 3 primeiros segundos','close nos olhos da criança','chuva forte no momento de abandono','roupa base muda apenas de estado','mão pequena segurando a mão da Banana','luz dourada final'],
+    cenas_chave:[
+      {cena:1,titulo:'A Humilhação',acao:'Uva Dourado derruba as moedas da Banana no chão.',emocao:'vergonha e injustiça',imagem_forte:'moedas na lama, close nos olhos da Banana',fala_ou_narracao:'Ninguém viu o quanto aquela banana já tinha sofrido.',prompt_visual_en:'cinematic 3D anthropomorphic banana in worn white tank top, coins falling in mud, rich grape character laughing, emotional rain clouds, viral drama'},
+      {cena:2,titulo:'A Chuva',acao:'Banana protege Moranguinho Lia com o próprio corpo.',emocao:'sacrifício e amor',imagem_forte:'regata molhada e rasgada sob chuva azul',fala_ou_narracao:'Ele não tinha guarda-chuva, mas ainda virou abrigo.',prompt_visual_en:'emotional 3D fruit novela, anthropomorphic banana protecting small strawberry child in heavy rain, wet torn outfit, cinematic close-up, tears'},
+      {cena:3,titulo:'A Mão Pequena',acao:'A criança segura a mão da Banana e sorri.',emocao:'esperança e catarse',imagem_forte:'raio de sol nas mãos molhadas',fala_ou_narracao:'Às vezes, a esperança vem em uma mão pequena.',prompt_visual_en:'golden sunlight after rain, anthropomorphic banana and little strawberry holding hands, wet clothes, hopeful emotional ending, cinematic 3D animation'}
+    ],
+    texto_para_entrada_principal:'Fruits Novelas: Banana Bento, uma banana antropomórfica humilde de regata branca velha e bermuda jeans, é humilhada por Uva Dourado, uma uva rica de terno preto. Durante a chuva, Banana Bento protege Moranguinho Lia, uma criança morango, com o próprio corpo. A roupa base permanece a mesma e só muda de estado: limpa, suja, molhada e rasgada. A história termina com a criança segurando a mão dele sob uma luz dourada, criando um final emocional e viral.',
+    hashtags:'#FruitsNovelas #FruitsAdventures #DramaViral #Animação3D #HistóriaEmocional'
+  };
+}
+
+function formatNovelaResult(j){
+  let out=`🍓 FRUITS NOVELAS\n${'='.repeat(50)}\n\n`;
+  out+=`TÍTULO: ${j.titulo_novela||''}\n\nPREMISSA:\n${j.premissa||''}\n\nTENDÊNCIA CONVERTIDA:\n${j.tendencia_convertida||''}\n\nGANCHO VIRAL:\n${j.gancho_viral||''}\n\n`;
+  const e=j.estrutura_novela||{};
+  out+=`ESTRUTURA DE NOVELA\n${'─'.repeat(30)}\nATO 1 — INJUSTIÇA:\n${e.ato1_injustica||''}\n\nATO 2 — SACRIFÍCIO:\n${e.ato2_sacrificio||''}\n\nATO 3 — VIRADA:\n${e.ato3_virada||''}\n\nFINAL / CLIFFHANGER:\n${e.final_ou_cliffhanger||''}\n\n`;
+  out+=`ELENCO FRUITS\n${'─'.repeat(30)}\n`;
+  (j.elenco_fruits||[]).forEach((c,i)=>{out+=`${i+1}. ${c.nome||''} — ${c.tipo_fruta||''}\nFunção: ${c.funcao||''}\nVisual: ${c.identidade_visual||''}\nRoupa base fixa: ${c.roupa_base_fixa||''}\nEstado: ${c.estado_inicial||''} → ${c.estado_final||''}\nDor/segredo: ${c.segredo_ou_dor||''}\n\n`;});
+  out+=`BEATS VIRAIS\n${'─'.repeat(30)}\n${(j.beats_virais||[]).map((b,i)=>`${i+1}. ${b}`).join('\n')}\n\n`;
+  out+=`CENAS-CHAVE\n${'─'.repeat(30)}\n`;
+  (j.cenas_chave||[]).forEach(c=>{out+=`Cena ${c.cena||''} — ${c.titulo||''}\nAção: ${c.acao||''}\nEmoção: ${c.emocao||''}\nImagem forte: ${c.imagem_forte||''}\nFala/Narração: ${c.fala_ou_narracao||''}\nPrompt visual EN: ${c.prompt_visual_en||''}\n\n`;});
+  out+=`TEXTO PARA ENTRADA PRINCIPAL\n${'─'.repeat(30)}\n${j.texto_para_entrada_principal||''}\n\nHASHTAGS:\n${j.hashtags||''}`;
+  return out;
+}
+function applyNovelaToProject(){
+  if(!ST.novela){
+    const txt=$('novelaOut').textContent.trim();
+    if(!txt || txt.includes('Cole uma história')){toast('Converta primeiro em Fruits Novelas','⚠️');return}
+  }
+  const j=ST.novela;
+  const texto=j?.texto_para_entrada_principal || $('novelaOut').textContent || $('novelaInput').value;
+  $('sourceText').value=texto;
+  $('projectMode').value='fruits_novelas';
+  $('tone').value='viral_emocional';
+  toast('Aplicado na Entrada. Agora clique em Gerar projeto completo.','✅');
+  showPage('entrada',document.querySelectorAll('.nav-item')[0]);
+}
+
 // ── FINAL PACKAGE ─────────────────────────────────────────────
 function buildFinalPackage(){
   const p=ST.project;if(!p)return'Nada gerado ainda. Vá em Entrada e gere o projeto.';
@@ -2072,8 +2345,8 @@ function fillExample(){
 function clearSourceText(){$('sourceText').value='';}
 
 function clearProject(){
-  ST.project=null;ST.scene=0;ST.images=[];$('thumbs').innerHTML='';
-  ['mainOut','storyOut','bibleOut','trendOut','modelSheetOut','apiStatus','finalOut'].forEach(id=>$(id).textContent='Limpo.');
+  ST.project=null;ST.scene=0;ST.images=[];ST.novela=null;$('thumbs').innerHTML='';
+  ['mainOut','storyOut','bibleOut','trendOut','novelaOut','modelSheetOut','apiStatus','finalOut'].forEach(id=>$(id).textContent='Limpo.');
   $('charactersOut').innerHTML='<div class="alert alert-amber">Nada gerado ainda.</div>';
   $('sceneButtons').innerHTML='';
   $('sceneContent').innerHTML='<div class="alert alert-amber">Nada gerado ainda.</div>';
