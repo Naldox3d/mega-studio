@@ -364,70 +364,115 @@
       font-size: 13px;
     }
 
-    .mini-note {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      margin-top: 12px;
-    }
-
-    .login-gate {
+    /* ESTILOS DO MODAL DE VÍDEO */
+    .modal-overlay {
       position: fixed;
       inset: 0;
-      z-index: 1000;
-      display: grid;
-      place-items: center;
+      background: rgba(5, 8, 18, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: min(800px, 100%);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+
+    .modal-overlay.show .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .modal-header h2 { margin: 0; font-size: 24px; }
+    .close-btn { background: transparent; color: var(--muted); font-size: 24px; padding: 0; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; }
+    .close-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    .modal-body { padding: 24px; display: grid; gap: 24px; }
+
+    .asset-card {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
       padding: 20px;
-      background:
-        radial-gradient(circle at top left, rgba(255,92,138,.28), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(101,244,180,.18), transparent 30%),
-        rgba(5, 8, 18, .96);
-      backdrop-filter: blur(18px);
     }
 
-    .login-gate.hidden { display: none; }
-
-    .login-card {
-      width: min(520px, 100%);
-      padding: 28px;
-    }
-
-    .login-card h1 {
-      font-size: clamp(28px, 7vw, 48px);
+    .asset-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 12px;
     }
 
-    .login-card p { margin-bottom: 18px; }
+    .asset-header h3 { margin: 0; font-size: 16px; color: var(--accent-2); display: flex; align-items: center; gap: 8px;}
+    
+    .copy-btn { padding: 6px 12px; font-size: 12px; border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text); }
+    .copy-btn:hover { background: var(--accent-2); color: #000; }
 
-    @media (max-width: 980px) {
-      header, .main-grid { grid-template-columns: 1fr; }
-      .side-stack { position: static; }
+    .asset-text {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      font-family: ui-monospace, monospace;
+    }
+
+    .prompt-box {
+      background: rgba(255,255,255,0.03);
+      border-left: 3px solid var(--accent);
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 0 8px 8px 0;
     }
 
     @media (max-width: 640px) {
       .app { padding: 16px; }
       .form-grid, .cards-grid { grid-template-columns: 1fr; }
       .hero { padding: 22px; }
+      .modal-overlay { padding: 20px 10px; }
     }
   </style>
 </head>
 <body>
-  <div class="login-gate" id="loginGate">
-    <div class="login-card">
-      <div class="badge">🔐 Portal Fruits Adventures Titan</div>
-      <h1>Acesso protegido</h1>
-      <p>Digite a senha do portal para entrar. O projeto fica salvo no navegador.</p>
-      <label>Senha do portal
-        <input id="portalPassword" type="password" placeholder="Digite a senha" onkeydown="if(event.key==='Enter') loginPortal()" />
-      </label>
-      <div class="actions">
-        <button onclick="loginPortal()">Entrar no portal</button>
+
+  <div class="modal-overlay" id="exportModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🎬 Estúdio de Exportação</h2>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
       </div>
-      <div class="mini-note" id="loginMessage">Senha definitiva configurada no código.</div>
+      <div class="modal-body" id="modalBody">
+        </div>
     </div>
   </div>
 
-  <div class="app locked" id="appShell">
+  <div class="app" id="appShell">
     <header>
       <section class="hero">
         <div class="badge">🍅 Fruits Copilot Smart • Conexão Direta</div>
@@ -466,10 +511,10 @@
 
           <div class="form-grid">
             <label>Nome do projeto
-              <input id="projectName" placeholder="Ex: O Segredo de OZ na Feira Sombria" />
+              <input id="projectName" placeholder="Ex: A Queda na Feira Sombria" />
             </label>
             <label>Título provisório
-              <input id="projectTitle" placeholder="Ex: Ele não sabia quem era seu pai" />
+              <input id="projectTitle" placeholder="Ex: Riram dele no chão..." />
             </label>
             <label>Formato do vídeo
               <select id="videoFormat">
@@ -549,8 +594,8 @@
 
         <section id="api" class="tab-content">
           <div class="section-title">
-            <h2>Conexão API (Direta no Navegador)</h2>
-            <span>Teste e gere a novela usando a chave salva no seu celular</span>
+            <h2>Conexão API (Estúdio de Produção)</h2>
+            <span>Gere Prompts de Vídeo, Narração e Diálogos automaticamente.</span>
           </div>
 
           <div class="cards-grid" id="providerGrid">
@@ -588,17 +633,17 @@
           </div>
 
           <div class="mini-note">
-            Sua chave fica salva apenas no armazenamento local do seu navegador (celular/PC). Ela não é enviada para nenhum servidor nosso.
+            Sua chave fica salva apenas no armazenamento local do seu navegador (celular/PC).
           </div>
 
-          <label style="margin-top: 14px;">Prompt que será enviado para a IA
+          <label style="margin-top: 14px;">Prompt de IA (Obrigatório pacote completo)
             <textarea id="apiPayload" readonly></textarea>
           </label>
 
           <div class="actions">
             <button onclick="buildApiPayload()">Atualizar Prompt</button>
             <button class="warning" id="btnTestarOnline" onclick="testConnectionOnline()">📡 Testar API Online</button>
-            <button class="accent" id="btnGerarReal" onclick="generateDirectAPI()">💥 Gerar Roteiro (API Direta)</button>
+            <button class="accent" id="btnGerarReal" onclick="generateDirectAPI()">💥 Gerar Estúdio Completo</button>
           </div>
         </section>
       </section>
@@ -619,8 +664,8 @@
         <section class="output-panel">
           <div class="panel-header" style="padding: 0 0 14px; border-bottom: 0;">
             <div>
-              <h2>Resultado Smart</h2>
-              <small>Retorno da IA ou Resumo</small>
+              <h2>JSON de Retorno</h2>
+              <small>Log cru da IA</small>
             </div>
           </div>
           <div class="output-box" id="outputBox">Nenhum resultado ainda.</div>
@@ -631,12 +676,7 @@
   </div>
 
   <script>
-    // ==========================================
-    // CONFIGURAÇÕES DO PORTAL
-    // ==========================================
-    const PORTAL_PASSWORD = "fruits2026";
-    
-    const STORAGE_KEY = "fruits_viral_studio_project_v5";
+    const STORAGE_KEY = "fruits_viral_studio_project_v6";
     const SESSION_KEY = "fruits_viral_studio_logged_in";
 
     const providerModels = {
@@ -690,10 +730,11 @@
       { key: "endingType", question: "Qual tipo de final você quer?", options: ["Justiça emocional", "Revelação chocante", "Gancho para parte 2", "Vitória do herói"] }
     ];
 
-    const SYSTEM_PROMPT = `Você é o roteirista principal do universo Fruits Adventures Titan.
-Regra Absoluta: O roteiro deve ser autêntico, focado na emoção real da cena e respeitando a fórmula da favela. Não aplique módulos virais artificiais que descaracterizem a história.
-A narração deve ser escrita de forma crua, formatada para o chip de voz do Lira, com cadência e pausas dramáticas.
-Responda exclusivamente em formato JSON válido, respeitando as chaves solicitadas.`;
+    const SYSTEM_PROMPT = `Você é o roteirista de cena do Fruits Adventures Titan.
+Regra Absoluta: Não aplique módulos virais forçados. O foco é rua, favela, emoção e drama visual intenso.
+A narração deve ser escrita especificamente para o chip de voz do Lira, com pausas táticas (ex: [pausa]).
+Os prompts de vídeo DEVEM ser em INGLÊS, começando com "Cinematic framing, professional 3D lighting, Adult Swim aesthetic, masterpiece." e descrever a fruta antropomórfica em ação.
+Entregue estritamente no formato JSON solicitado.`;
 
     function loadState() {
       try {
@@ -706,24 +747,6 @@ Responda exclusivamente em formato JSON válido, respeitando as chaves solicitad
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    function loginPortal() {
-      const password = document.getElementById("portalPassword").value;
-      const message = document.getElementById("loginMessage");
-      if (password === PORTAL_PASSWORD) {
-        sessionStorage.setItem(SESSION_KEY, "true");
-        document.getElementById("loginGate").classList.add("hidden");
-        document.getElementById("appShell").classList.remove("locked");
-        return;
-      }
-      message.textContent = "Senha incorreta. Tente novamente.";
-    }
-
-    function checkPortalAccess() {
-      const logged = sessionStorage.getItem(SESSION_KEY) === "true";
-      document.getElementById("loginGate").classList.toggle("hidden", logged);
-      document.getElementById("appShell").classList.toggle("locked", !logged);
     }
 
     function renderCards() {
@@ -797,13 +820,13 @@ Responda exclusivamente em formato JSON válido, respeitando as chaves solicitad
       state.projectTitle = document.getElementById("projectTitle").value.trim();
       state.videoFormat = document.getElementById("videoFormat").value;
       state.viralGoal = document.getElementById("viralGoal").value;
-      addMsg("ai", "Base criada. Agora escolha a tendência viral.");
+      addMsg("ai", "Base criada. Escolha a tendência.");
       updateUI();
       goTab("trend");
     }
 
     function confirmTrend() {
-      if (!state.trend) return addMsg("ai", "Escolha uma tendência antes de confirmar.");
+      if (!state.trend) return addMsg("ai", "Escolha uma tendência.");
       addMsg("ai", `Tendência confirmada. Selecione o elenco Fruits.`);
       updateUI();
       goTab("cast");
@@ -813,12 +836,12 @@ Responda exclusivamente em formato JSON válido, respeitando as chaves solicitad
       const goal = document.getElementById("viralGoal").value;
       const suggestionMap = { emocionar: "humilhacao_virada", chocar: "segredo_familia", rir: "comedia_caos", parte_2: "vilao_falso_bom", apresentar_personagem: "aventura_missao" };
       selectCard("trend", suggestionMap[goal] || "humilhacao_virada");
-      addMsg("ai", `Sugestão Smart aplicada baseada no objetivo: ${goal}.`);
+      addMsg("ai", `Sugestão Smart aplicada.`);
     }
 
     function confirmCast() {
-      if (!state.selectedCast.length) return addMsg("ai", "Selecione pelo menos um personagem.");
-      addMsg("ai", "Elenco confirmado. Vamos ao quiz!");
+      if (!state.selectedCast.length) return addMsg("ai", "Selecione o elenco.");
+      addMsg("ai", "Elenco confirmado. Responda o quiz!");
       updateUI();
       goTab("smart");
       resetQuiz();
@@ -836,7 +859,7 @@ Responda exclusivamente em formato JSON válido, respeitando as chaves solicitad
       state.conflict = document.getElementById("conflictSelect").value;
       state.endingType = document.getElementById("endingSelect").value;
       updateUI();
-      addMsg("ai", "Smart Mix gerado. Pronto para ir para a aba da API.");
+      addMsg("ai", "Smart Mix gerado. Vá para a aba da API.");
       buildApiPayload();
     }
 
@@ -845,14 +868,7 @@ Responda exclusivamente em formato JSON válido, respeitando as chaves solicitad
       generateSmartMix();
       const castNames = state.selectedCast.map(id => labelById(cast, id)).join(", ");
       const trendName = labelById(trends, state.trend);
-      
-      const result = {
-        title: state.projectTitle || "O Segredo Revelado",
-        logline: `Em uma novela ${trendName}, ${castNames} enfrentam uma trama onde ${state.premise.toLowerCase()}`,
-        scene_outline: ["Cena 1: Gancho imediato", "Cena 2: Conflito", "Cena 3: A Virada", "Cena 4: Final"]
-      };
-      
-      document.getElementById("outputBox").textContent = JSON.stringify(result, null, 2);
+      document.getElementById("outputBox").textContent = `Base montada para ${castNames}. Use a API para gerar os Prompts de Vídeo.`;
     }
 
     function selectProvider(provider) {
@@ -878,37 +894,33 @@ Responda exclusivamente em formato JSON válido, respeitando as chaves solicitad
       const castNames = state.selectedCast.map(id => labelById(cast, id)).join(", ");
       const trendName = labelById(trends, state.trend);
       return `Nome do Projeto: ${state.projectName || "Sem nome"}
-Título Provisório: ${state.projectTitle || "Sem título"}
 Formato de Vídeo: ${state.videoFormat}
-Objetivo: ${state.viralGoal}
 Tendência: ${trendName}
 Elenco: ${castNames}
 Premissa: ${state.premise}
-Gancho: ${state.hook}
 Conflito: ${state.conflict}
-Final: ${state.endingType}
 
-Estrutura JSON Obrigatória:
+Gere o pacote de produção completo respondendo EXATAMENTE nesta estrutura JSON:
 {
-  "title": "string",
-  "viral_hook": "string",
-  "logline": "string",
-  "scene_outline": ["cena 1...", "cena 2..."],
-  "storyboard_frames": ["quadro 1...", "quadro 2..."],
-  "lira_narration_script": "string"
+  "titulo": "string",
+  "lira_narration_script": "texto da narração com pausas dramáticas [pausa] para o Lira",
+  "dialogos_da_cena": [
+    "Personagem X: fala da rua..."
+  ],
+  "flow_labs_image_prompts_em_ingles": [
+    "Cinematic framing, professional 3D lighting, Adult Swim aesthetic, masterpiece. (descreva a cena de video 1)",
+    "Cinematic framing, professional 3D lighting... (cena 2)"
+  ],
+  "design_de_som_e_trilha": "instruções para o áudio e estilo de batida"
 }`;
     }
 
     function buildApiPayload() {
       state.provider = document.getElementById("providerSelect")?.value || state.provider || "groq";
       state.model = document.getElementById("modelSelect")?.value || state.model || providerModels[state.provider][0];
-      
       document.getElementById("apiPayload").value = buildPromptText();
     }
 
-    // ==========================================
-    // DETECÇÃO AUTOMÁTICA DE CHAVE API
-    // ==========================================
     function detectProviderFromKey(apiKey) {
       const key = (apiKey || "").trim();
       if (key.startsWith("AIza")) return "gemini";
@@ -930,22 +942,17 @@ Estrutura JSON Obrigatória:
       return true;
     }
 
-    // ==========================================
-    // FUNÇÃO UNIVERSAL DE CHAMADA À API
-    // ==========================================
     async function makeDirectApiCall(promptText, isTest = false) {
       const apiKey = document.getElementById("apiKeyValue").value.trim();
       const provider = state.provider;
       const model = state.model;
 
       if (!apiKey) throw new Error("Chave de API não informada.");
-
-      state.apiKey = apiKey; // Salva para não pedir de novo
+      state.apiKey = apiKey;
       saveState();
 
-      const userMessage = isTest ? "Responda apenas com a frase: API conectada e pronta para o Fruits Viral Studio." : promptText;
+      const userMessage = isTest ? "Responda apenas: API conectada." : promptText;
 
-      // GEMINI
       if (provider === 'gemini') {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
         const payload = {
@@ -961,12 +968,8 @@ Estrutura JSON Obrigatória:
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error?.message || "Erro Gemini");
-        
-        // Correção do bug de quebra de linha usando .join("\n")
         return data.candidates?.[0]?.content?.parts?.map(part => part.text).join("\n") || JSON.stringify(data, null, 2);
       } 
-      
-      // GROQ OU OPENROUTER
       else if (provider === 'groq' || provider === 'openrouter') {
         const endpoint = provider === 'groq' 
           ? "https://api.groq.com/openai/v1/chat/completions" 
@@ -1016,10 +1019,10 @@ Estrutura JSON Obrigatória:
 
       try {
         const responseText = await makeDirectApiCall("", true);
-        document.getElementById("outputBox").textContent = `✅ SUCESSO!\n\nProvider: ${state.provider}\nModelo: ${state.model}\nResposta: ${responseText}`;
+        document.getElementById("outputBox").textContent = `✅ SUCESSO!\nProvider: ${state.provider}\nResposta: ${responseText}`;
         addMsg("ai", "API conectada com sucesso!");
       } catch (e) {
-        document.getElementById("outputBox").textContent = `❌ Falha na Conexão:\n\n${e.message}\n\nVerifique se a sua chave (API Key) está correta e corresponde ao Provider escolhido.`;
+        document.getElementById("outputBox").textContent = `❌ Falha:\n${e.message}`;
         addMsg("ai", "Falha no teste. Verifique a chave inserida.");
       } finally {
         btn.disabled = false;
@@ -1034,30 +1037,119 @@ Estrutura JSON Obrigatória:
       if (!promptStr) return addMsg("ai", "Monte o prompt antes de enviar.");
 
       addMsg("ai", "Gerando roteiro com a API direta...");
-      document.getElementById("outputBox").textContent = "✍️ A IA está escrevendo o roteiro... Isso pode levar alguns segundos...";
+      document.getElementById("outputBox").textContent = "✍️ A IA está criando os Prompts Visuais e a Narração... Aguarde...";
       btn.disabled = true;
-      btn.textContent = "Gerando...";
+      btn.textContent = "Processando Estúdio...";
 
       try {
         const resultText = await makeDirectApiCall(promptStr, false);
         
-        let formattedData;
+        let jsonParsed;
         try {
-          formattedData = JSON.stringify(JSON.parse(resultText), null, 2);
+          jsonParsed = JSON.parse(resultText);
+          document.getElementById("outputBox").textContent = JSON.stringify(jsonParsed, null, 2);
+          renderExportModal(jsonParsed); // Abre o Modal Bonitão
         } catch(err) {
-          formattedData = resultText; // Fallback se não for JSON perfeito
+          document.getElementById("outputBox").textContent = resultText;
+          addMsg("ai", "O resultado veio, mas a IA não enviou em JSON perfeito. Veja o texto bruto.");
         }
-
-        document.getElementById("outputBox").textContent = formattedData;
-        addMsg("ai", "✅ Roteiro gerado com sucesso!");
       } catch (e) {
-        document.getElementById("outputBox").textContent = `❌ Erro de Geração: \n\n${e.message}\n\nVerifique sua chave de API e sua conexão.`;
-        addMsg("ai", "Falha ao gerar o roteiro. Veja o log no Resultado Smart.");
+        document.getElementById("outputBox").textContent = `❌ Erro de Geração: \n${e.message}`;
+        addMsg("ai", "Falha ao gerar o estúdio.");
       } finally {
         btn.disabled = false;
-        btn.textContent = "💥 Gerar Roteiro (API Direta)";
+        btn.textContent = "💥 Gerar Estúdio Completo";
       }
     }
+
+    // ==========================================
+    // SISTEMA DO MODAL DE EXPORTAÇÃO
+    // ==========================================
+    function renderExportModal(data) {
+      const modalBody = document.getElementById("modalBody");
+      let html = "";
+
+      // Título
+      if(data.titulo) {
+        html += `<h3 style="margin: 0; color: #fff; font-size: 20px;">${data.titulo}</h3>`;
+      }
+
+      // Narração Lira
+      if(data.lira_narration_script) {
+        html += createAssetCard("🎙️ Voz (Lira / ElevenLabs)", data.lira_narration_script);
+      }
+
+      // Diálogos
+      if(data.dialogos_da_cena && Array.isArray(data.dialogos_da_cena)) {
+        html += createAssetCard("💬 Diálogos", data.dialogos_da_cena.join("\n"));
+      }
+
+      // Prompts Flow Labs
+      if(data.flow_labs_image_prompts_em_ingles && Array.isArray(data.flow_labs_image_prompts_em_ingles)) {
+        let promptsHtml = `<div class="asset-card">
+          <div class="asset-header">
+            <h3>🎬 Prompts de Vídeo (Flow Labs / Luma / Kling)</h3>
+          </div>`;
+        data.flow_labs_image_prompts_em_ingles.forEach((prompt, index) => {
+          promptsHtml += `
+            <div class="prompt-box">
+              <div style="display: flex; justify-content: space-between; align-items: start; gap: 12px;">
+                <div class="asset-text">${prompt}</div>
+                <button class="copy-btn" onclick="copyToClipboard(this, \`${escapeTextForFunc(prompt)}\`)">Copiar</button>
+              </div>
+            </div>`;
+        });
+        promptsHtml += `</div>`;
+        html += promptsHtml;
+      }
+
+      // Som
+      if(data.design_de_som_e_trilha) {
+        html += createAssetCard("🎵 Trilha e Efeitos (Suno/Edição)", data.design_de_som_e_trilha);
+      }
+
+      modalBody.innerHTML = html;
+      document.getElementById("exportModal").classList.add("show");
+      addMsg("ai", "✅ Estúdio Finalizado! Copie os prompts no painel sobreposto.");
+    }
+
+    function createAssetCard(title, content) {
+      return `
+        <div class="asset-card">
+          <div class="asset-header">
+            <h3>${title}</h3>
+            <button class="copy-btn" onclick="copyToClipboard(this, \`${escapeTextForFunc(content)}\`)">Copiar tudo</button>
+          </div>
+          <div class="asset-text">${content}</div>
+        </div>
+      `;
+    }
+
+    function escapeTextForFunc(text) {
+      return text.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+    }
+
+    function copyToClipboard(button, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.textContent;
+        button.textContent = "Copiado!";
+        button.style.background = "var(--accent-2)";
+        button.style.color = "#000";
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = "";
+          button.style.color = "";
+        }, 2000);
+      });
+    }
+
+    function closeModal() {
+      document.getElementById("exportModal").classList.remove("show");
+    }
+
+    // ==========================================
+    // UI RESTANTE
+    // ==========================================
 
     function resetQuiz() {
       state.currentQuiz = 0;
@@ -1153,7 +1245,14 @@ Estrutura JSON Obrigatória:
       });
     });
 
-    checkPortalAccess();
+    // Pular a tela de login durante o desenvolvimento.
+    localStorage.setItem(SESSION_KEY, "true");
+    sessionStorage.setItem(SESSION_KEY, "true");
+    const loginGate = document.getElementById("loginGate");
+    const appShell = document.getElementById("appShell");
+    if (loginGate) loginGate.classList.add("hidden");
+    if (appShell) appShell.classList.remove("locked");
+
     renderCards();
     resetQuiz();
     updateUI();
