@@ -30,14 +30,11 @@
       <div class="field"><label>Nome do portal</label><input id="portalName" value="Elinaldo Menezes"></div>
       <div class="field"><label>Senha de entrada</label><input id="portalPass" type="password" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')unlockPortal()"></div>
     </div>
-    <div class="btns">
-      <button class="btn primary" onclick="unlockPortal()">Entrar no Studio</button>
-      <button class="btn green" onclick="forceEnterPortal()">Entrar direto</button>
-    </div>
+    <div class="btns"><button class="btn primary" onclick="unlockPortal()">Entrar no Studio</button><button class="btn green" onclick="forceEnterPortal()">Entrar direto</button></div>
   </div>
 </div>
 
-<div class="modal"<div class="modal" id="modal"><div class="modal-card"><div class="card-h"><h2>🎬 Exportação da Cena / Projeto</h2><button class="btn" onclick="closeModal()">Fechar</button></div><div class="modal-body" id="modalBody"></div></div></div>
+<div class="modal" id="modal"><div class="modal-card"><div class="card-h"><h2>🎬 Exportação da Cena / Projeto</h2><button class="btn" onclick="closeModal()">Fechar</button></div><div class="modal-body" id="modalBody"></div></div></div>
 <div class="app"><div class="top"><section class="hero"><div class="owner"><span class="emoji" id="stageEmoji">🟡</span><span id="ownerName">Elinaldo Menezes</span><span class="badge" id="stageLabel">Início</span></div><h1>Fruits Adventures Studio — Scene Engine Smart</h1><p>Banco de matrizes virais + upload de elenco + upload de universo + roteiro base. A IA não precisa criar tudo: ela lê a matriz, respeita o DNA e trabalha uma cena 100% por vez.</p></section><aside class="status"><div><div class="score" id="score">8</div><div style="color:var(--muted)">força de produção</div></div><div class="bar"><div class="fill" id="fill"></div></div><div id="statusText" style="color:#c1d7f5">Configure o motor.</div></aside></div>
 <div class="tabs"><button class="tab active" onclick="tab('setup',this)">1 Setup</button><button class="tab" onclick="tab('api',this)">API</button><button class="tab" onclick="tab('matrizes',this)">Banco Viral</button><button class="tab" onclick="tab('uploads',this)">Elenco + Universo</button><button class="tab" onclick="tab('mapa',this)">Mapa de Cenas</button><button class="tab" onclick="tab('cena',this)">Cena Atual 100%</button><button class="tab" onclick="tab('continuidade',this)">Continuidade</button><button class="tab" onclick="tab('exportar',this)">Exportar</button></div>
 <div class="grid"><aside class="stack"><div class="card"><div class="card-h"><h3>⚙️ Controle rápido</h3></div><div class="card-b"><div class="btns"><button class="btn primary" onclick="generateSceneMap()">Gerar mapa</button><button class="btn green" onclick="generateCurrentScene()">Gerar cena atual</button><button class="btn purple" onclick="approveScene()">Aprovar cena</button><button class="btn" onclick="nextScene()">Próxima cena</button><button class="btn danger" onclick="resetProject()">Limpar</button><button class="btn" onclick="$('portal').style.display='flex'">Sair do portal</button></div><div class="note" style="margin-top:12px" id="ruleBox">Regra: nenhuma cena avança sem aprovação 100%.</div></div></div><div class="card"><div class="card-h"><h3>🧬 DNA ativo</h3></div><div class="card-b"><div id="dnaMini" class="out" style="min-height:170px">Ainda sem DNA salvo.</div></div></div></aside>
@@ -81,7 +78,7 @@
         </div>
       </section>
 
-      <section id="uploads"<section id="uploads" class="page card"><div class="card-h"><h2>Entrada dupla: Elenco + Universo</h2></div><div class="card-b"><div class="row"><div class="item"><h4>Upload A — Elenco / Personagens</h4><input id="charFiles" type="file" multiple accept="image/*" onchange="loadFiles(event,'chars')"><div class="thumbs" id="charThumbs" style="margin-top:10px"></div><div class="field" style="margin-top:12px"><label>Descrição rápida do elenco</label><textarea id="charNotes" placeholder="Ex.: usar model sheets enviados como DNA visual oficial..."></textarea></div></div><div class="item"><h4>Upload B — Universo / Intenção visual</h4><input id="worldFiles" type="file" multiple accept="image/*" onchange="loadFiles(event,'world')"><div class="thumbs" id="worldThumbs" style="margin-top:10px"></div><div class="field" style="margin-top:12px"><label>O que a imagem diz?</label><textarea id="worldNotes" placeholder="Ex.: chuva, tensão, mundo paralelo, piratas, arena..."></textarea></div></div></div><div class="btns" style="margin-top:12px"><button class="btn primary" onclick="generateDNA()">Ler e criar DNA</button><button class="btn" onclick="renderDNA()">Ver DNA atual</button></div></div></section>
+      <section id="uploads" class="page card"><div class="card-h"><h2>Entrada dupla: Elenco + Universo</h2></div><div class="card-b"><div class="row"><div class="item"><h4>Upload A — Elenco / Personagens</h4><input id="charFiles" type="file" multiple accept="image/*" onchange="loadFiles(event,'chars')"><div class="thumbs" id="charThumbs" style="margin-top:10px"></div><div class="field" style="margin-top:12px"><label>Descrição rápida do elenco</label><textarea id="charNotes" placeholder="Ex.: usar model sheets enviados como DNA visual oficial..."></textarea></div></div><div class="item"><h4>Upload B — Universo / Intenção visual</h4><input id="worldFiles" type="file" multiple accept="image/*" onchange="loadFiles(event,'world')"><div class="thumbs" id="worldThumbs" style="margin-top:10px"></div><div class="field" style="margin-top:12px"><label>O que a imagem diz?</label><textarea id="worldNotes" placeholder="Ex.: chuva, tensão, mundo paralelo, piratas, arena..."></textarea></div></div></div><div class="btns" style="margin-top:12px"><button class="btn primary" onclick="generateDNA()">Ler e criar DNA</button><button class="btn" onclick="renderDNA()">Ver DNA atual</button></div></div></section>
 <section id="mapa" class="page card"><div class="card-h"><h2>Mapa de Cenas</h2><div class="btns"><button class="btn primary" onclick="generateSceneMap()">Gerar mapa</button><button class="btn" onclick="copyText(JSON.stringify(ST.sceneMap,null,2))">Copiar JSON</button></div></div><div class="card-b"><div id="sceneMapView" class="timeline"></div></div></section>
 <section id="cena" class="page card"><div class="card-h"><h2>Cena Atual 100%</h2><span id="currentSceneLabel" class="badge">Cena 1</span></div><div class="card-b"><div class="btns" style="margin-bottom:12px"><button class="btn primary" onclick="generateCurrentScene()">Gerar cena atual</button><button class="btn purple" onclick="approveScene()">Aprovar 100%</button><button class="btn" onclick="editCurrentScene()">Editar texto</button><button class="btn green" onclick="nextScene()">Continuar</button></div><div class="out" id="currentSceneOut">Gere o mapa e depois gere a Cena 1.</div></div></section>
 <section id="continuidade" class="page card"><div class="card-h"><h2>Continuidade Salva</h2><button class="btn" onclick="copyText(JSON.stringify(ST.continuity,null,2))">Copiar</button></div><div class="card-b"><div class="out" id="continuityOut">Nada aprovado ainda.</div></div></section>
@@ -132,20 +129,19 @@ const MATRIX_GROUPS=[
 let matrixPanelMinimized=false;
 let selectedMatrixIds=[];
 
-function getPortalPass(){return localStorage.fas_scene_portal_pass || 'titan'}
-function savePortalPass(){
-  const a=$('newPortalPass').value.trim(), b=$('confirmPortalPass').value.trim();
-  if(!a || a.length<4){toast('Use pelo menos 4 caracteres');return}
-  if(a!==b){toast('Confirmação diferente');return}
-  localStorage.fas_scene_portal_pass=a;
-  $('portalPass').value='';$('newPortalPass').value='';$('confirmPortalPass').value='';
-  toast('Nova senha salva neste navegador');
+function forceEnterPortal(){
+  ST.owner = $('portalName').value || 'Elinaldo Menezes';
+  $('ownerName').textContent = ST.owner;
+  $('portal').style.display = 'none';
+  updateProgress('setup');
 }
-function resetPortalPass(){localStorage.removeItem('fas_scene_portal_pass');toast('Senha voltou para titan')}
 function unlockPortal(){
-  if(($('portalPass').value||'').trim()===getPortalPass()){
-    ST.owner=$('portalName').value||'Elinaldo Menezes';$('ownerName').textContent=ST.owner;$('portal').style.display='none';updateProgress('setup')
-  }else toast('Senha incorreta')
+  const pass = String(($('portalPass').value || '')).trim().toLowerCase();
+  if(pass === 'titan' || pass === ''){
+    forceEnterPortal();
+  } else {
+    toast('Senha incorreta');
+  }
 }
 // Portal aparece novamente ao atualizar a página.
 function tab(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(id==='exportar')renderExport()}function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}function copyText(txt){navigator.clipboard?.writeText(txt||'');toast('Copiado')}function updateProgress(stage){const map={setup:['🟡','Setup',8],api:['🔌','API configurada',16],matrix:['🧭','Matriz escolhida',28],dna:['🧬','DNA salvo',42],map:['🗺️','Mapa pronto',55],scene:['🎬','Cena em produção',70],approved:['✅','Cena aprovada',82],final:['🚀','Exportação',100]};const v=map[stage]||map.setup;$('stageEmoji').textContent=v[0];$('stageLabel').textContent=v[1];$('score').textContent=v[2];$('fill').style.width=v[2]+'%';$('statusText').textContent=v[1]}
@@ -206,8 +202,7 @@ TAGS:
 ${(active.tags||[]).join(', ')}
 
 ESTRUTURA:
-${(active.structure||[]).map((x,i)=>`${i+1}. ${x}`).join('
-')}
+${(active.structure||[]).map((x,i)=>`${i+1}. ${x}`).join('\\n')}
 
 COMO USAR:
 ${active.use||''}
@@ -241,4 +236,13 @@ function renderCurrentScene(){$('currentSceneLabel').textContent='Cena '+(ST.cur
 function editCurrentScene(){if(!ST.currentScene){toast('Sem cena');return}const edited=prompt('Editar cena em JSON:',JSON.stringify(ST.currentScene,null,2));if(edited!==null){try{ST.currentScene=JSON.parse(edited);renderCurrentScene();toast('Cena editada')}catch(e){toast('JSON inválido')}}}function approveScene(){if(!ST.currentScene){toast('Gere a cena primeiro');return}ST.currentScene.status='approved';ST.approvedScenes[ST.currentIndex]=ST.currentScene;ST.continuity['after_scene_'+(ST.currentIndex+1)]=ST.currentScene.continuity_after_scene||{};renderSceneMap();renderContinuity();updateProgress('approved');saveLocal();toast('Cena aprovada 100%')}function nextScene(){if(!ST.approvedScenes[ST.currentIndex]){toast('Aprove a cena atual antes');return}if(ST.currentIndex>=ST.sceneMap.length-1){updateProgress('final');toast('Todas as cenas concluídas');return}ST.currentIndex++;ST.currentScene=null;renderSceneMap();renderCurrentScene();tab('cena',document.querySelectorAll('.tab')[5]);toast('Próxima cena preparada')}function renderContinuity(){$('continuityOut').textContent=JSON.stringify({approvedScenes:ST.approvedScenes,continuity:ST.continuity},null,2)}
 function renderExport(){const data={project:$('projectName').value,dna:ST.dna,sceneMap:ST.sceneMap,approvedScenes:ST.approvedScenes,continuity:ST.continuity};$('exportOut').textContent=JSON.stringify(data,null,2)}function openModal(){const s=ST.currentScene||ST.approvedScenes[ST.approvedScenes.length-1];const sections=[['🎬 Cena atual',s?sceneText(s):'Sem cena ainda.'],['🧬 DNA',ST.dna?JSON.stringify(ST.dna,null,2):'Sem DNA.'],['🗺️ Mapa',JSON.stringify(ST.sceneMap,null,2)],['✅ Cenas aprovadas',JSON.stringify(ST.approvedScenes,null,2)]];$('modalBody').innerHTML=sections.map(([t,c])=>`<div class="modal-sec"><h3>${t}</h3><div class="out" style="min-height:90px">${esc(c)}</div><button class="btn" onclick="copyText(\`${escJS(c)}\`)">Copiar</button></div>`).join('');$('modal').classList.add('show')}function closeModal(){$('modal').classList.remove('show')}function downloadProject(){const blob=new Blob([JSON.stringify({dna:ST.dna,sceneMap:ST.sceneMap,approvedScenes:ST.approvedScenes,continuity:ST.continuity},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fruits_scene_engine_project.json';a.click();URL.revokeObjectURL(a.href)}function resetProject(){localStorage.removeItem('fas_scene_engine');location.reload()}function saveLocal(){localStorage.fas_scene_engine=JSON.stringify(ST)}function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}function escJS(s){return String(s||'').replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$')}
 function localFallback(prompt){if(prompt.includes('project_dna'))return{project_dna:{title:$('projectName').value,mode:$('projectMode').value,viral_matrix:(ST.matrix||allMatrices()[0]).name,tone:'viral emocional com energia anime',format:$('format').value,anti_copy_rule:'usar somente matriz estrutural, sem copiar obras',root_rule:'respeitar DNA enviado'},cast_dna:[{id:'hero_fruit',name:'Herói Fruta',source:'new',species:'fruta antropomórfica',role:'protagonista',visual_dna:'corpo de fruta estilizada, olhar expressivo, NOT HUMAN',base_outfit:'roupa base definida pelo model sheet enviado ou briefing',voice:'emocional',must_lock:['visual','outfit']}],world_dna:{setting:'mundo urbano com energia de universo paralelo',mood:'misterioso, viral, emocional',visual_rules:'cinematic 3D, luz dramática',camera_language:'close emocional + movimento rápido',color_palette:'neon, chuva, contraste',fourth_wall_allowed:true},production_rules:{scene_engine_rule:'trabalhar uma cena por vez',continuity_rule:'ler cenas aprovadas antes de avançar',what_not_to_do:['não copiar IP','não trocar roupa base','não avançar sem aprovação']}};if(prompt.includes('mapa de cenas'))return Array.from({length:Number($('sceneCount').value)||7},(_,i)=>({scene_num:i+1,title:['Gancho impossível','O sinal estranho','A entrada no outro mundo','A revelação','A luta emocional','A escolha','Gancho final'][i]||('Cena '+(i+1)),dramatic_goal:'fazer a história avançar sem perder continuidade',conflict:'personagem enfrenta consequência da cena anterior',characters_needed:['Herói Fruta'],location:'universo visual do projeto',emotional_state_start:'incerteza',emotional_state_end:'tensão maior',hook_to_next:'algo fica aberto'}));return{scene_num:ST.currentIndex+1,title:(ST.sceneMap[ST.currentIndex]||{}).title||'Cena atual',status:'draft',objective:'entregar uma cena viral completa e focada',action:'O protagonista percebe que entrou em um conflito maior do que imaginava.',camera:'close no rosto, câmera baixa, movimento lento para revelar o ambiente',emotion:'surpresa e tensão',narration:'Às vezes, o mundo muda quando a gente olha para o lugar errado.',dialogue:[{character:'Protagonista',line:'Espera... isso não estava aqui antes.'}],caption_short:'Ele abriu a porta errada.',elevenlabs_text:'Às vezes, o mundo muda quando a gente olha para o lugar errado. [pausa] E ele abriu a porta errada.',capcut_text:'Ele abriu a porta errada.',image_prompt:'cinematic 3D anthropomorphic fruit character, NOT HUMAN, staring at a glowing portal in a rainy urban alley, dramatic lighting',video_prompt:'Cinematic framing, professional 3D lighting, Adult Swim aesthetic, masterpiece, anthropomorphic fruit character discovers a glowing portal, slow camera push-in',sound_design:'baixo grave, chuva, pulso sobrenatural',continuity_after_scene:{emotion:'assustado',outfit_state:'limpo',objects:'portal brilhante',open_hook:'o portal chama pelo nome dele',next_scene_setup:'ele precisa decidir entrar'},approve_question:'Finalizar aqui ou continuar para a próxima cena?'}}try{const saved=localStorage.fas_scene_engine;if(saved){const data=JSON.parse(saved);Object.assign(ST,data);renderMatrices();renderDNA();renderSceneMap();renderCurrentScene();renderContinuity()}}catch(e){}
-</script></body></html>
+</script>
+<script>
+window.addEventListener('DOMContentLoaded', function(){
+  window.emergencyEnter = function(){
+    var p=document.getElementById('portal');
+    if(p) p.style.display='none';
+  };
+});
+</script>
+</body></html>
