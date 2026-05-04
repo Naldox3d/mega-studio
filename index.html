@@ -368,6 +368,48 @@
       margin-top: 12px;
     }
 
+    .login-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at top left, rgba(255,92,138,.28), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(101,244,180,.18), transparent 30%),
+        rgba(5, 8, 18, .96);
+      backdrop-filter: blur(18px);
+    }
+
+    .login-gate.hidden { display: none; }
+
+    .login-card {
+      width: min(520px, 100%);
+      background: rgba(17, 24, 50, .94);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .login-card h1 {
+      font-size: clamp(28px, 7vw, 48px);
+      margin-bottom: 12px;
+    }
+
+    .login-card p {
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0 0 18px;
+    }
+
+    #appShell.locked {
+      filter: blur(10px);
+      pointer-events: none;
+      user-select: none;
+    }
+
     @media (max-width: 980px) {
       header, .main-grid { grid-template-columns: 1fr; }
       .side-stack { position: static; }
@@ -381,7 +423,23 @@
   </style>
 </head>
 <body>
-  <div class="app">
+  <div class="login-gate" id="loginGate">
+    <div class="login-card">
+      <div class="badge">🔐 Portal Fruits Adventures Titan</div>
+      <h1>Acesso protegido</h1>
+      <p>Digite a senha do portal para entrar no Fruits Viral Studio. O projeto fica salvo no navegador mesmo quando atualizar a página.</p>
+      <label>Senha do portal
+        <input id="portalPassword" type="password" placeholder="Digite a senha" onkeydown="if(event.key==='Enter') loginPortal()" />
+      </label>
+      <div class="actions">
+        <button onclick="loginPortal()">Entrar no portal</button>
+        <button class="secondary" onclick="showPasswordHint()">Ver dica</button>
+      </div>
+      <div class="mini-note" id="loginMessage">Senha padrão demo: <strong>fruits2026</strong>. Depois troque no backend.</div>
+    </div>
+  </div>
+
+  <div class="app" id="appShell">
     <header>
       <section class="hero">
         <div class="badge">🍅 Fruits Copilot Smart • API Ready</div>
@@ -547,7 +605,11 @@
   </div>
 
   <script>
-    const state = {
+    const STORAGE_KEY = "fruits_viral_studio_project_v1";
+    const SESSION_KEY = "fruits_viral_studio_logged_in";
+    const PORTAL_PASSWORD = "fruits2026"; // demo front-end. Em produção, valide senha no backend.
+
+    const defaultState = {
       projectName: "",
       projectTitle: "",
       videoFormat: "vertical_9_16",
@@ -560,6 +622,44 @@
       endingType: null,
       currentQuiz: 0
     };
+
+    const state = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? { ...defaultState, ...JSON.parse(saved) } : { ...defaultState };
+      } catch (error) {
+        return { ...defaultState };
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loginPortal() {
+      const password = document.getElementById("portalPassword").value;
+      const message = document.getElementById("loginMessage");
+      if (password === PORTAL_PASSWORD) {
+        sessionStorage.setItem(SESSION_KEY, "true");
+        document.getElementById("loginGate").classList.add("hidden");
+        document.getElementById("appShell").classList.remove("locked");
+        message.textContent = "Acesso liberado.";
+        return;
+      }
+      message.textContent = "Senha incorreta. Tente novamente.";
+    }
+
+    function showPasswordHint() {
+      document.getElementById("loginMessage").innerHTML = "Senha demo: <strong>fruits2026</strong>. No site real, coloque autenticação no backend.";
+    }
+
+    function checkPortalAccess() {
+      const logged = sessionStorage.getItem(SESSION_KEY) === "true";
+      document.getElementById("loginGate").classList.toggle("hidden", logged);
+      document.getElementById("appShell").classList.toggle("locked", !logged);
+    }
 
     const trends = [
       { id: "humilhacao_virada", title: "Humilhação + Virada", desc: "Personagem é desprezado, sofre injustiça e no final prova seu valor.", tags: ["drama", "superação", "top viral"] },
@@ -643,6 +743,22 @@
       fillSelect("hookSelect", quiz[1].options);
       fillSelect("conflictSelect", quiz[2].options);
       fillSelect("endingSelect", quiz[3].options);
+      restoreSavedSelections();
+    }
+
+    function restoreSavedSelections() {
+      document.getElementById("projectName").value = state.projectName || "";
+      document.getElementById("projectTitle").value = state.projectTitle || "";
+      document.getElementById("videoFormat").value = state.videoFormat || "vertical_9_16";
+      document.getElementById("viralGoal").value = state.viralGoal || "emocionar";
+      if (state.trend && document.getElementById(`trend-${state.trend}`)) {
+        document.getElementById(`trend-${state.trend}`).classList.add("selected");
+      }
+      state.selectedCast.forEach(id => {
+        const el = document.getElementById(`cast-${id}`);
+        if (el) el.classList.add("selected");
+      });
+      syncSmartSelects();
     }
 
     function cardHtml(item, type) {
@@ -849,6 +965,11 @@
     }
 
     function updateUI() {
+      state.projectName = document.getElementById("projectName")?.value.trim() || state.projectName;
+      state.projectTitle = document.getElementById("projectTitle")?.value.trim() || state.projectTitle;
+      state.videoFormat = document.getElementById("videoFormat")?.value || state.videoFormat;
+      state.viralGoal = document.getElementById("viralGoal")?.value || state.viralGoal;
+      saveState();
       const completed = [state.projectName || document.getElementById("projectName").value, state.trend, state.selectedCast.length, state.premise, state.hook, state.conflict, state.endingType].filter(Boolean).length;
       const score = Math.min(100, 12 + completed * 12 + state.selectedCast.length * 3);
       document.getElementById("viralScore").textContent = score;
@@ -883,6 +1004,7 @@
       tab.addEventListener("click", () => goTab(tab.dataset.tab));
     });
 
+    checkPortalAccess();
     renderCards();
     resetQuiz();
     updateUI();
