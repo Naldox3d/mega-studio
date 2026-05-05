@@ -1,3 +1,32 @@
+const PRICE_TABLE = {
+  'claude-haiku-4-5': { input: 1, output: 5 },
+  'claude-sonnet-4-6': { input: 3, output: 15 },
+  'claude-opus-4-7': { input: 5, output: 25 }
+};
+
+function estimateCostUsd(model, usage = {}) {
+  const prices = PRICE_TABLE[model] || PRICE_TABLE['claude-sonnet-4-6'];
+  const inputTokens = Number(usage.input_tokens || 0);
+  const outputTokens = Number(usage.output_tokens || 0);
+
+  const inputCost = (inputTokens / 1_000_000) * prices.input;
+  const outputCost = (outputTokens / 1_000_000) * prices.output;
+  const totalCost = inputCost + outputCost;
+
+  return {
+    model,
+    input_tokens: inputTokens,
+    output_tokens: outputTokens,
+    input_price_per_million: prices.input,
+    output_price_per_million: prices.output,
+    input_cost_usd: Number(inputCost.toFixed(6)),
+    output_cost_usd: Number(outputCost.toFixed(6)),
+    total_cost_usd: Number(totalCost.toFixed(6)),
+    created_at: new Date().toISOString(),
+    project: 'fruits'
+  };
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.statusCode = 405;
@@ -63,11 +92,16 @@ export default async function handler(req, res) {
       ? data.content.map(part => part.text || '').join('\n')
       : '';
 
+    const usage = data.usage || {};
+    const cost = estimateCostUsd(model, usage);
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({
       ok: true,
       text,
+      usage,
+      cost,
       raw: data
     }));
   } catch (error) {
