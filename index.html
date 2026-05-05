@@ -524,6 +524,24 @@ h1 {
   </style>
 </head>
 <body>
+
+  <div class="portal-lock" id="portalLock">
+    <div class="portal-box">
+      <div class="badge"><span>🍅</span><span>Portal Fruits Adventures</span></div>
+      <h2>Acesso ao Studio</h2>
+      <p class="muted">Digite a senha para abrir o Scene Engine. Depois do primeiro acesso, o navegador lembra a entrada.</p>
+      <label style="margin-top:14px;">Senha do portal
+        <input id="portalPassword" type="password" placeholder="Digite a senha" autocomplete="current-password" />
+      </label>
+      <div class="actions" style="margin-top:14px;">
+        <button class="green" onclick="unlockPortal()">Entrar</button>
+        <button onclick="showPortalHint()">Dica</button>
+      </div>
+      <div class="portal-error" id="portalError">Senha incorreta. Confira e tente novamente.</div>
+      <div class="mini" style="margin-top:14px;">Senha padrão deste arquivo: <strong>fruits2026</strong>. Você pode trocar no código em <code>PORTAL_PASSWORD</code>.</div>
+    </div>
+  </div>
+
   <div class="app">
     <div class="top">
       <header class="hero">
@@ -572,6 +590,7 @@ h1 {
 <button class="purple" onclick="approveCurrentScene()">Aprovar 100%</button>
 <button onclick="nextScene()">Próxima cena</button>
 <button class="pink" onclick="clearProjectConfirm()">Limpar</button>
+              <button onclick="lockPortalAgain()">Travar portal</button>
 </div>
 <div class="warn">Regra: nenhuma cena avança sem aprovação 100%. Salve backup antes de limpar.</div>
 </div>
@@ -864,7 +883,54 @@ h1 {
 </div>
 </div>
   <script>
-const STORAGE_KEY='fruits_scene_engine_final_v4_smart';
+
+    const PORTAL_PASSWORD = "fruits2026";
+    const PORTAL_KEY = "fruits_scene_engine_portal_ok";
+
+    function initPortal() {
+      const lock = document.getElementById("portalLock");
+      const input = document.getElementById("portalPassword");
+      if (!lock) return;
+      if (localStorage.getItem(PORTAL_KEY) === "yes") {
+        lock.classList.add("hidden");
+        return;
+      }
+      lock.classList.remove("hidden");
+      setTimeout(() => input?.focus(), 150);
+      input?.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") unlockPortal();
+      });
+    }
+
+    function unlockPortal() {
+      const input = document.getElementById("portalPassword");
+      const error = document.getElementById("portalError");
+      const lock = document.getElementById("portalLock");
+      if ((input?.value || "").trim() === PORTAL_PASSWORD) {
+        localStorage.setItem(PORTAL_KEY, "yes");
+        lock?.classList.add("hidden");
+        error?.classList.remove("show");
+        addMsg?.("Portal liberado. Bem-vindo ao Scene Engine.");
+      } else {
+        error?.classList.add("show");
+      }
+    }
+
+    function showPortalHint() {
+      const error = document.getElementById("portalError");
+      if (error) {
+        error.textContent = "Dica: a senha padrão deste arquivo é fruits2026. Você pode trocar no código.";
+        error.classList.add("show");
+      }
+    }
+
+    function lockPortalAgain() {
+      localStorage.removeItem(PORTAL_KEY);
+      document.getElementById("portalLock")?.classList.remove("hidden");
+      document.getElementById("portalPassword")?.focus();
+    }
+
+    const STORAGE_KEY='fruits_scene_engine_final_v4_smart';
     const COLLAPSED_GROUPS_KEY='fruits_v4_collapsed_groups';
     const COLLAPSED_CAST_KEY='fruits_v4_collapsed_cast';
     let collapsedGroups=loadJson(COLLAPSED_GROUPS_KEY,{}),collapsedCastGroups=loadJson(COLLAPSED_CAST_KEY,{}),referenceImageData=null,modalText='',modalFile='fruits.txt',currentEditorMode='current';
@@ -1023,8 +1089,7 @@ const STORAGE_KEY='fruits_scene_engine_final_v4_smart';
     function openReferenceAssistant(){goTab('research');addMsg('Cole uma referência textual ou carregue uma imagem/storyboard para adaptar só a cena atual.')}
 
     function loadReferenceImage(e){const f=e.target.files&&e.target.files[0];if(!f)return;
-    const r=new FileReader();r.onload=()=>{referenceImageData=r.result;referencePreview.innerHTML='<strong>Imagem carregada:</strong> '+f.name+'<br>
-<img class="preview-img" src="'+referenceImageData+'">';addMsg('Referência visual carregada.')};r.readAsDataURL(f)}
+    const r=new FileReader();r.onload=()=>{referenceImageData=r.result;referencePreview.innerHTML='<strong>Imagem carregada:</strong> '+f.name+'<br><img class="preview-img" src="'+referenceImageData+'">';addMsg('Referência visual carregada.')};r.readAsDataURL(f)}
     function generateReferenceBrief(){saveSetup();saveCastUniverse();state.researchRefs=researchRefs.value;
     const approved=state.scenes.map((s,i)=>state.approved[i]?`Cena ${i+1}:\n${s.text}`:'').filter(Boolean).join('\n\n');
     const brief=`REFERÊNCIA IA — FRUITS ADVENTURES\n\nMissão: trabalhar passo a passo. Adaptar referência apenas para a premissa, cena ou quadro atual.\n\nFruits Adventures Titan é o foco. Referências externas de filmes, séries, música, clipe, propaganda ou storyboard são auxiliares de clima, estrutura, enquadramento, ritmo, emoção e produção. Não copiar obra, fala, cena, autor, diretor ou universo protegido.\n\nDNA:\n${JSON.stringify(buildProjectDna(),null,2)}\n\nMAPA:\n${JSON.stringify(state.map,null,2)}\n\nCENAS APROVADAS:\n${approved||'Nenhuma.'}\n\nREFERÊNCIA TEXTUAL:\n${state.researchRefs||'Nenhuma.'}\n\nIMAGEM/STORYBOARD:\n${referenceImageData?'Imagem carregada para referência visual.':'Nenhuma imagem.'}\n\nSaída esperada: 1) O que aproveitar. 2) O que descartar. 3) Como adaptar à cena atual. 4) Versão melhorada ou prompt. 5) Checklist de continuidade.`;radarOutput.textContent=brief;openModal('Referência IA','Brief pronto para adaptar sem perder o DNA Fruits.',brief,'referencia-ia.txt');setStatus('Referência IA',Math.max(state.score,88),'📡');saveState()}
@@ -1129,8 +1194,7 @@ const STORAGE_KEY='fruits_scene_engine_final_v4_smart';
           throw new Error(data.error?.message || text);
         }
 
-        return data.candidates?.[0]?.content?.parts?.map(p => p.text).join("
-") || JSON.stringify(data, null, 2);
+        return data.candidates?.[0]?.content?.parts?.map(p => p.text).join("\n") || JSON.stringify(data, null, 2);
       }
 
       const endpointUrl = providerName === "groq"
@@ -1193,6 +1257,7 @@ const STORAGE_KEY='fruits_scene_engine_final_v4_smart';
 
     function saveSetupSoft(){state.setup.projectName=projectName.value.trim();state.setup.projectMode=projectMode.value;state.setup.format=format.value;state.setup.sceneCount=Number(sceneCount.value||3);state.setup.mixIntensity=mixIntensity.value;state.setup.audienceMode=audienceMode.value;state.setup.brief=brief.value.trim();state.cast.worldPlace=worldPlace.value.trim();state.cast.tone=tone.value;state.cast.continuityRules=continuityRules.value.trim();state.researchRefs=researchRefs.value;state.notes=smartEditorNotes.value;updateMatrixNotice();updateDna()}
     init();
+    initPortal();
   </script>
 </body>
 </html>
