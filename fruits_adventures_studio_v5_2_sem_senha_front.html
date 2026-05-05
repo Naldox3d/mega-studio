@@ -725,17 +725,22 @@ body {
           <!-- RIGHT: AI Editor -->
           <div class="scene-right">
             <div class="split-header">
-              <h3>Editor IA</h3>
+              <h3>Editor IA <span id="editorModeBadge" class="scene-pill">revisão</span></h3>
               <div style="display:flex;gap:6px;margin-left:auto;">
-                <button class="btn btn-sm" onclick="loadEditor('current')">Cena</button>
+                <button class="btn btn-sm" onclick="loadEditor('current')">Cena base</button>
                 <button class="btn btn-sm" onclick="loadEditor('narration')">Narração</button>
                 <button class="btn btn-sm" onclick="loadEditor('dialogues')">Falas</button>
                 <button class="btn btn-sm" onclick="loadEditor('eleven')">ElevenLabs</button>
               </div>
             </div>
-            <textarea id="smartEditor" class="smart-editor" placeholder="O conteúdo da cena aparece aqui para edição. Use o painel de IA abaixo para melhorar."></textarea>
+            <div class="notice notice-info" style="margin:10px 16px 0;">
+              Editor de revisão: ele não cria outra cena separada. Carrega a cena da esquerda, permite revisar, e só muda o roteiro quando você clicar em “Aprovar revisão e aplicar”.
+            </div>
+            <textarea id="smartEditor" class="smart-editor" placeholder="Carregue a cena base, revise manualmente ou clique em Revisar com IA. Depois aprove para aplicar no roteiro principal."></textarea>
             <div class="action-row">
-              <button class="btn btn-green" onclick="applyEditor()">✓ Aplicar no roteiro</button>
+              <button class="btn btn-cyan" onclick="reviewCurrentSceneWithAI()">🤖 Revisar com IA</button>
+              <button class="btn" onclick="enableManualEdit()">✏️ Editar manual</button>
+              <button class="btn btn-green" onclick="applyEditor()">✓ Aprovar revisão e aplicar</button>
               <button class="btn btn-sm" onclick="copyEditor()">Copiar</button>
               <button class="btn btn-sm btn-gold" onclick="genSrt('clean')">Baixar SRT</button>
               <button class="btn btn-sm btn-purple" onclick="genElevenText()">ElevenLabs</button>
@@ -1550,13 +1555,39 @@ function clearCurrentSceneAndRestart() {
 // ═══════════════════════════════════════════════
 function loadEditor(mode) {
   const editor = document.getElementById('smartEditor');
+  const badge = document.getElementById('editorModeBadge');
   const s = state.scenes[state.currentScene];
-  if (!s) return;
-  if (mode === 'current') { editor.value = s.text || ''; }
-  else if (mode === 'narration') { editor.value = extractBlock(s.text, 'NARRAÇÃO') || extractBlock(s.text, 'AÇÃO') || s.text; }
-  else if (mode === 'dialogues') { editor.value = extractBlock(s.text, 'FALAS') || extractBlock(s.text, 'ELEVENLABS') || ''; }
-  else if (mode === 'eleven') { editor.value = extractBlock(s.text, 'ELEVENLABS') || ''; }
-  else if (mode === 'capcut') { editor.value = extractBlock(s.text, 'CAPCUT') || ''; }
+  if (!s) {
+    if (editor) editor.value = 'Sem cena gerada. Primeiro clique em Gerar Cena.';
+    return;
+  }
+
+  editor.dataset.editorMode = mode;
+  editor.dataset.reviewApplied = 'false';
+  editor.readOnly = false;
+
+  if (mode === 'current') {
+    editor.value = s.text || '';
+    if (badge) badge.textContent = 'cena base';
+  }
+  else if (mode === 'narration') {
+    editor.value = extractBlock(s.text, 'NARRAÇÃO') || extractBlock(s.text, 'AÇÃO') || s.text;
+    if (badge) badge.textContent = 'narração';
+  }
+  else if (mode === 'dialogues') {
+    editor.value = extractBlock(s.text, 'FALAS') || extractBlock(s.text, 'ELEVENLABS') || '';
+    if (badge) badge.textContent = 'falas';
+  }
+  else if (mode === 'eleven') {
+    editor.value = extractBlock(s.text, 'ELEVENLABS') || '';
+    if (badge) badge.textContent = 'elevenlabs';
+  }
+  else if (mode === 'capcut') {
+    editor.value = extractBlock(s.text, 'CAPCUT') || '';
+    if (badge) badge.textContent = 'capcut';
+  }
+
+  log('Editor carregou a ' + (mode === 'current' ? 'cena base' : mode) + ' para revisão. Nada foi aplicado ainda.', 'ia');
 }
 function extractBlock(text, name) {
   const heads = 'OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|NARRAÇÃO|FALAS|CAPCUT|ELEVENLABS';
@@ -1564,12 +1595,98 @@ function extractBlock(text, name) {
   const m = text?.match(re);
   return m ? m[1].trim() : '';
 }
+async function reviewCurrentSceneWithAI() {
+  const i = state.currentScene;
+  const s = state.scenes[i];
+  const editor = document.getElementById('smartEditor');
+  const badge = document.getElementById('editorModeBadge');
+
+  if (!s || !s.text) {
+    log('Gere uma cena antes de revisar com IA.', 'warn');
+    return;
+  }
+
+  if (!(state.api.apiKey || (state.api.provider === 'claude' && state.api.callMode === 'backend'))) {
+    log('Use Backend seguro Claude ou configure uma API Key antes de revisar com IA.', 'warn');
+    goNode('api');
+    return;
+  }
+
+  editor.value = 'Revisando a cena atual com IA...';
+  editor.readOnly = true;
+  if (badge) badge.textContent = 'revisando';
+  setStatus('Revisando cena ' + (i + 1), 78, true);
+
+  const prompt = `Revise a cena abaixo SEM criar outra história separada.
+
+OBJETIVO DA REVISÃO:
+- Manter o mesmo mapa, a mesma cena e os mesmos acontecimentos principais.
+- Melhorar clareza, emoção, falas, ritmo de TikTok/Shorts e continuidade Fruits.
+- Corrigir contradições com o DNA: OZ é filho de Limão Rocha; Abacatudo manipula; Tomate protege; Sabrina percebe a mentira.
+- Não inventar novo roteiro paralelo.
+- Devolver a CENA COMPLETA revisada no mesmo formato de blocos: CENA, OBJETIVO, AÇÃO, CÂMERA, EMOÇÃO, NARRAÇÃO, FALAS, CAPCUT, ELEVENLABS.
+- Não explique a revisão. Entregue somente a versão revisada pronta para substituir, se aprovada.
+
+CENA ATUAL PARA REVISAR:
+${s.text}`;
+
+  try {
+    const revised = await callApi(prompt, buildSystemPrompt() + '\nVocê é revisor de roteiro. Preserve a cena original e apenas melhore a execução.');
+    editor.value = revised;
+    editor.readOnly = false;
+    editor.dataset.reviewApplied = 'true';
+    if (badge) badge.textContent = 'revisão pronta';
+    setStatus('Revisão pronta', 82, true);
+    log('Revisão IA pronta. Confira e clique em Aprovar revisão e aplicar para mudar o roteiro.', 'ok');
+  } catch (e) {
+    editor.readOnly = false;
+    editor.value = s.text;
+    if (badge) badge.textContent = 'erro revisão';
+    log('Erro na revisão IA: ' + e.message, 'err');
+  }
+}
+
+function enableManualEdit() {
+  const editor = document.getElementById('smartEditor');
+  if (!editor) return;
+  editor.readOnly = false;
+  const badge = document.getElementById('editorModeBadge');
+  if (badge) badge.textContent = 'edição manual';
+  log('Editor liberado para edição manual. Depois clique em Aprovar revisão e aplicar.', 'ia');
+}
+
 function applyEditor() {
   const i = state.currentScene;
-  if (!state.scenes[i]) { state.scenes[i] = { title: state.map[i]?.title || 'Cena', text: '', generatedAt: new Date().toISOString() }; }
-  state.scenes[i].text = document.getElementById('smartEditor').value;
+  const editor = document.getElementById('smartEditor');
+  const newText = editor.value.trim();
+
+  if (!newText) {
+    log('Editor vazio. Nada para aplicar.', 'warn');
+    return;
+  }
+
+  const ok = confirm(
+    'Aplicar esta revisão na Cena ' + (i + 1) + '?\n\n' +
+    'Isso vai substituir o texto da cena da esquerda pelo conteúdo aprovado no Editor IA.'
+  );
+  if (!ok) return;
+
+  if (!state.scenes[i]) {
+    state.scenes[i] = { title: state.map[i]?.title || 'Cena', text: '', generatedAt: new Date().toISOString() };
+  }
+
+  state.scenes[i].text = newText;
   state.scenes[i].editedAt = new Date().toISOString();
-  renderScene(); updateDna(); saveState(); log('Editor aplicado na cena ' + (i+1) + '.', 'ok');
+  state.scenes[i].reviewStatus = 'approved_editor_revision';
+
+  renderScene();
+  renderMap();
+  renderSceneNav();
+  renderNodes();
+  updateDna();
+  saveState();
+  setStatus('Revisão aplicada', 84, true);
+  log('Revisão aprovada e aplicada na Cena ' + (i+1) + '.', 'ok');
 }
 function copyEditor() { navigator.clipboard.writeText(document.getElementById('smartEditor').value); log('Editor copiado.', 'ok'); }
 function copyScene() { navigator.clipboard.writeText(state.scenes[state.currentScene]?.text || ''); log('Cena copiada.', 'ok'); }
@@ -2019,4 +2136,4 @@ setTimeout(renderCostPanel, 800);
 
 </script>
 </body>
-</html>
+</html> 
