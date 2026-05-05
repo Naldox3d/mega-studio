@@ -1,336 +1,1623 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Fruits Adventures Studio — Scene Engine Final</title>
-<style>
-:root{
-  --bg:#040711;--panel:#0b1326;--panel2:#121d36;--line:#263b5d;--txt:#f3f7ff;--muted:#9bb0cc;
-  --gold:#ffc247;--cyan:#00ddd0;--green:#38db88;--red:#ff6070;--pink:#ff5c9a;--purple:#a98cff;--r:18px;
-}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;background:
-radial-gradient(circle at 0 0,rgba(255,92,154,.18),transparent 30%),
-radial-gradient(circle at 100% 0,rgba(0,221,208,.15),transparent 28%),
-linear-gradient(180deg,#050711,#060914 60%,#03050b);color:var(--txt)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
-.app{max-width:1440px;margin:auto;padding:18px}
-.portal{position:fixed;inset:0;z-index:99;background:rgba(3,5,12,.97);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(15px)}
-.portal-card{width:min(620px,94vw);background:linear-gradient(145deg,#0c1429,#111d36);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 30px 100px rgba(0,0,0,.55)}
-.portal-card h1{margin:0;font-size:42px;line-height:1}.portal-card p{color:var(--muted);line-height:1.55}
-.top{display:grid;grid-template-columns:1.35fr .65fr;gap:14px;margin-bottom:14px}
-.hero,.status,.card,.modal-card{background:rgba(11,19,38,.92);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 22px 70px rgba(0,0,0,.35)}
-.hero{padding:22px}.hero h1{font-size:clamp(32px,5vw,54px);line-height:.98;margin:0}.hero p{max-width:900px;color:#c1d7f5;line-height:1.45}
-.owner{display:flex;gap:10px;align-items:center;margin-bottom:12px;color:var(--cyan);font-weight:900}.owner .emoji{font-size:28px}.badge{display:inline-flex;border:1px solid rgba(0,221,208,.35);background:rgba(0,221,208,.08);color:var(--cyan);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:900}
-.status{padding:18px;display:grid;gap:10px}.score{font-size:46px;font-weight:950;line-height:1}.bar{height:9px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}.fill{height:100%;width:8%;background:linear-gradient(90deg,var(--pink),var(--gold),var(--cyan))}
-.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.tab{border:1px solid var(--line);background:rgba(255,255,255,.035);color:var(--muted);border-radius:999px;padding:10px 13px;font-weight:900}.tab.active{border-color:var(--gold);color:var(--gold);background:rgba(255,194,71,.09)}
-.grid{display:grid;grid-template-columns:390px 1fr;gap:14px}.stack{display:grid;gap:14px}.card{overflow:hidden}.card-h{padding:14px 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}.card-h h2,.card-h h3{margin:0}.card-b{padding:17px}
-.page{display:none}.page.active{display:block}.field{display:grid;gap:7px;margin-bottom:12px}label{font-size:12px;color:var(--gold);font-weight:950;text-transform:uppercase;letter-spacing:.05em}
-input,select,textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:#050913;color:var(--txt);padding:12px;outline:none}
-textarea{min-height:120px;resize:vertical;line-height:1.5}.big{min-height:220px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.btns{display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:#121d36;color:var(--txt);border-radius:13px;padding:10px 13px;font-weight:900}.btn:hover{border-color:var(--cyan);color:var(--cyan)}.primary{background:linear-gradient(135deg,rgba(255,194,71,.24),rgba(0,221,208,.13));border-color:rgba(255,194,71,.58)}.green{color:var(--green);border-color:rgba(56,219,136,.45);background:rgba(56,219,136,.08)}.danger{color:var(--red);border-color:rgba(255,96,112,.45);background:rgba(255,96,112,.08)}.purple{color:var(--purple);border-color:rgba(169,140,255,.45);background:rgba(169,140,255,.08)}
-.note{padding:12px;border:1px solid rgba(255,194,71,.25);background:rgba(255,194,71,.07);border-radius:14px;color:#ffdd99;font-size:13px;line-height:1.45}.cyan-note{border-color:rgba(0,221,208,.25);background:rgba(0,221,208,.07);color:#a8fff8}
-.out{white-space:pre-wrap;background:#03060d;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:220px;max-height:650px;overflow:auto;color:#d9ebff;font:12.5px/1.55 ui-monospace,Consolas,monospace}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.item{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:16px;padding:14px}.item h4{margin:0 0 7px;color:var(--cyan)}.pillbox{display:flex;gap:6px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted);font-size:12px;background:rgba(255,255,255,.04)}
-.group-list{display:grid;gap:10px}.group-card{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035);overflow:hidden}.group-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 14px;cursor:pointer}.group-head h4{margin:0;color:var(--cyan)}.group-body{display:none;padding:0 14px 14px}.group-card.open .group-body{display:block}
-.matrix-row{border:1px solid var(--line);border-radius:14px;padding:11px;margin-top:8px;background:rgba(0,0,0,.16);cursor:pointer}.matrix-row.active{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,194,71,.32) inset}
-.matrix-detail{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin-top:12px}.mix-panel{border:1px solid rgba(0,221,208,.25);background:rgba(0,221,208,.06);border-radius:16px;padding:13px}.searchbar{display:flex;gap:8px;margin:12px 0}.searchbar input{margin:0}
-.thumbs{display:flex;gap:8px;flex-wrap:wrap}.thumb{width:72px;height:72px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
-.timeline{display:grid;gap:9px}.scene-dot{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:11px;background:rgba(255,255,255,.03)}.scene-dot.approved{border-color:rgba(56,219,136,.55)}.scene-dot.current{border-color:rgba(255,194,71,.65)}
-.yt-frame{width:100%;aspect-ratio:16/9;border:1px solid var(--line);border-radius:16px;background:#02050a}
-.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.75);display:none;align-items:flex-start;justify-content:center;padding:26px;overflow:auto}.modal.show{display:flex}.modal-card{width:min(980px,96vw)}.modal-body{padding:18px;display:grid;gap:12px}.modal-sec{border:1px solid var(--line);background:#050913;border-radius:16px;padding:14px}.modal-sec h3{margin:0 0 8px;color:var(--gold)}
-.toast{position:fixed;right:18px;bottom:18px;z-index:100;background:#f3f7ff;color:#050711;border-radius:14px;padding:12px 15px;font-weight:950;opacity:0;transform:translateY(8px);transition:.2s}.toast.show{opacity:1;transform:translateY(0)}
-@media(max-width:980px){.top,.grid,.row,.three,.cards,.matrix-detail{grid-template-columns:1fr}.app{padding:13px}.searchbar{display:grid}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fruits Adventures Studio — Scene Engine Final v3</title>
+  <style>
+    :root {
+      --bg: #070b18;
+      --panel: #101832;
+      --panel-2: #142044;
+      --soft: rgba(255,255,255,.06);
+      --soft-2: rgba(255,255,255,.10);
+      --text: #f6f8ff;
+      --muted: #aeb8d6;
+      --line: rgba(255,255,255,.13);
+      --cyan: #22e6c7;
+      --green: #65f4b4;
+      --gold: #ffd166;
+      --pink: #ff5c8a;
+      --purple: #a98bff;
+      --red: #ff6b8a;
+      --shadow: 0 26px 70px rgba(0,0,0,.38);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 92, 138, .20), transparent 30%),
+        radial-gradient(circle at 100% 0%, rgba(34, 230, 199, .16), transparent 34%),
+        radial-gradient(circle at 55% 100%, rgba(169, 139, 255, .13), transparent 30%),
+        var(--bg);
+    }
+
+    .app {
+      width: min(1420px, 100%);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .hero, .score, .side-card, .main-panel, .quick-card, .modal-card {
+      background: rgba(16, 24, 50, .88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero {
+      padding: 28px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(34,230,199,.28);
+      background: rgba(34,230,199,.08);
+      color: var(--green);
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: .95;
+      letter-spacing: -2.4px;
+    }
+
+    .hero p, .muted {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+
+    .score {
+      padding: 28px;
+    }
+
+    .score-number {
+      font-size: 56px;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .bar {
+      margin: 24px 0 28px;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,.08);
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 8%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--gold), var(--cyan));
+      transition: width .25s ease;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 9px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 2px;
+    }
+
+    .tab {
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(255,255,255,.045);
+      color: var(--muted);
+      font-weight: 900;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .tab.active {
+      color: var(--gold);
+      border-color: rgba(255,209,102,.70);
+      background: rgba(255,209,102,.10);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .left-stack {
+      display: grid;
+      gap: 16px;
+      position: sticky;
+      top: 14px;
+    }
+
+    .quick-card, .side-card { overflow: hidden; }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 950;
+      font-size: 20px;
+    }
+
+    .card-body { padding: 20px; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button, .btn {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,.075);
+      color: var(--text);
+      font-weight: 950;
+      cursor: pointer;
+      transition: .16s ease;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:hover, .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+    button:disabled { opacity: .48; cursor: wait; transform: none; }
+
+    .gold { color: #1a1300; background: rgba(255,209,102,.90); border-color: rgba(255,209,102,.7); }
+    .green { color: #06180f; background: rgba(101,244,180,.90); border-color: rgba(101,244,180,.7); }
+    .purple { color: #fff; background: rgba(169,139,255,.20); border-color: rgba(169,139,255,.45); }
+    .pink { color: #fff; background: rgba(255,92,138,.18); border-color: rgba(255,92,138,.45); }
+    .cyan { color: #041513; background: rgba(34,230,199,.88); border-color: rgba(34,230,199,.7); }
+
+    .warn-box {
+      margin-top: 12px;
+      padding: 13px 14px;
+      border: 1px solid rgba(255,209,102,.38);
+      border-radius: 14px;
+      color: #ffe3a0;
+      background: rgba(255,209,102,.09);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .main-panel { overflow: hidden; }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 25px;
+      letter-spacing: -.5px;
+    }
+
+    .panel-content { padding: 20px; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .35px;
+      text-transform: uppercase;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid rgba(150,170,220,.26);
+      border-radius: 16px;
+      background: rgba(4, 8, 19, .72);
+      color: var(--text);
+      padding: 14px 16px;
+      outline: none;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+      line-height: 1.5;
+    }
+
+    select option { color: #111; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .notice {
+      padding: 14px 16px;
+      border: 1px solid rgba(34,230,199,.28);
+      border-radius: 16px;
+      color: #d8fff7;
+      background: rgba(34,230,199,.08);
+      line-height: 1.45;
+      margin: 14px 0;
+      font-size: 14px;
+    }
+
+    .list-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+    }
+
+    .choice {
+      border: 1px solid rgba(150,170,220,.26);
+      border-radius: 17px;
+      padding: 16px;
+      background: rgba(255,255,255,.045);
+      cursor: pointer;
+      transition: .16s ease;
+    }
+
+    .choice:hover { background: rgba(255,255,255,.075); transform: translateY(-1px); }
+
+    .choice.selected {
+      border-color: rgba(255,209,102,.80);
+      background: rgba(255,209,102,.09);
+      box-shadow: 0 0 0 3px rgba(255,209,102,.06) inset;
+    }
+
+    .choice h3 {
+      margin: 0 0 8px;
+      color: var(--cyan);
+      font-size: 18px;
+    }
+
+    .choice p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.42;
+      font-size: 14px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,.06);
+    }
+
+    .scene-card {
+      border: 1px solid rgba(150,170,220,.24);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,.045);
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .scene-card.active {
+      border-color: rgba(255,209,102,.75);
+      background: rgba(255,209,102,.08);
+    }
+
+    .scene-card.locked { opacity: .62; }
+
+    .scene-card h3 { margin: 0 0 5px; }
+    .scene-card p { margin: 0; color: var(--muted); line-height: 1.45; }
+
+    .output {
+      min-height: 260px;
+      max-height: 650px;
+      overflow: auto;
+      white-space: pre-wrap;
+      border: 1px solid rgba(150,170,220,.22);
+      border-radius: 17px;
+      padding: 18px;
+      background: rgba(0,0,0,.30);
+      color: #eff4ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.58;
+    }
+
+    .dna-box {
+      min-height: 240px;
+      max-height: 430px;
+      overflow: auto;
+      white-space: pre-wrap;
+      border: 1px solid rgba(150,170,220,.22);
+      border-radius: 16px;
+      padding: 16px;
+      background: rgba(0,0,0,.34);
+      color: #eff4ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .chat-log {
+      height: 220px;
+      overflow: auto;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      padding-right: 4px;
+    }
+
+    .msg {
+      padding: 11px 13px;
+      border-radius: 14px;
+      line-height: 1.42;
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .msg.user { background: rgba(101,244,180,.12); border-color: rgba(101,244,180,.28); }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal.open { display: flex; }
+
+    .modal-card {
+      width: min(980px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      padding: 22px;
+    }
+
+    .modal-card h2 { margin: 0 0 8px; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(34,230,199,.26);
+      background: rgba(34,230,199,.08);
+      color: var(--cyan);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mini { font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+    @media (max-width: 1080px) {
+      .top-grid, .layout { grid-template-columns: 1fr; }
+      .left-stack { position: static; }
+    }
+
+    @media (max-width: 680px) {
+      .app { padding: 12px; }
+      .hero, .score, .panel-content, .card-body { padding: 16px; }
+      .grid-2, .list-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 39px; }
+    }
+  </style>
 </head>
 <body>
-<div class="portal" id="portal">
-  <div class="portal-card">
-    <div class="badge">🔐 Portal · Elinaldo Menezes</div>
-    <h1>Scene Engine Final</h1>
-    <p>Entrada do seu estúdio. Senha fixa do portal. O motor trabalha com banco viral, elenco, universo, roteiro base, pesquisa YouTube e cena 100%.</p>
-    <div class="row">
-      <div class="field"><label>Nome do portal</label><input id="portalName" value="Elinaldo Menezes"></div>
-      <div class="field"><label>Senha de entrada</label><input id="portalPass" type="password" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')unlockPortal()"></div>
+  <div class="app">
+    <div class="top-grid">
+      <header class="hero">
+        <div class="badge"><span id="statusIcon">🟡</span> <span>Elinaldo Menezes</span> <span class="pill" id="statusPill">Setup</span></div>
+        <h1>Fruits Adventures Studio — Scene Engine Final</h1>
+        <p>Banco de matrizes e aspectos + elenco + universo + roteiro + pesquisa viral + mapa + cena 100% + CapCut. A IA trabalha uma cena por vez, com continuidade salva.</p>
+      </header>
+
+      <aside class="score">
+        <div class="score-number" id="scoreNumber">8</div>
+        <div class="muted">força de produção</div>
+        <div class="bar"><div class="bar-fill" id="scoreBar"></div></div>
+        <div id="scoreLabel" class="muted">Setup</div>
+      </aside>
     </div>
-    <div class="btns">
-      <button class="btn primary" onclick="unlockPortal()">Entrar no Studio</button>
-      <button class="btn green" onclick="forceEnterPortal()">Entrar direto</button>
-    </div>
-  </div>
-</div>
 
-<div class="modal" id="modal">
-  <div class="modal-card">
-    <div class="card-h"><h2>🎬 Exportação da Cena / Projeto</h2><button class="btn" onclick="closeModal()">Fechar</button></div>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="setup">1 Setup</button>
+      <button class="tab" data-tab="api">API</button>
+      <button class="tab" data-tab="viral">Banco Viral</button>
+      <button class="tab" data-tab="cast">Elenco + Universo + Roteiro</button>
+      <button class="tab" data-tab="research">Pesquisa Viral</button>
+      <button class="tab" data-tab="map">Mapa</button>
+      <button class="tab" data-tab="scene">Cena 100%</button>
+      <button class="tab" data-tab="notes">Notas</button>
+      <button class="tab" data-tab="export">Exportar</button>
+    </nav>
 
-<div class="app">
-  <div class="top">
-    <section class="hero">
-      <div class="owner"><span class="emoji" id="stageEmoji">🟡</span><span id="ownerName">Elinaldo Menezes</span><span class="badge" id="stageLabel">Início</span></div>
-      <h1>Fruits Adventures Studio — Scene Engine Final</h1>
-      <p>Banco de matrizes e aspectos + upload de elenco + universo + roteiro + Drive + pesquisa YouTube. A IA lê o material e trabalha uma cena por vez, com continuidade salva.</p>
-    </section>
-    <aside class="status">
-      <div><div class="score" id="score">8</div><div style="color:var(--muted)">força de produção</div></div>
-      <div class="bar"><div class="fill" id="fill"></div></div>
-      <div id="statusText" style="color:#c1d7f5">Configure o motor.</div>
-    </aside>
-  </div>
-
-  <div class="tabs">
-    <button class="tab active" onclick="tab('setup',this)">1 Setup</button>
-    <button class="tab" onclick="tab('api',this)">API</button>
-    <button class="tab" onclick="tab('matrizes',this)">Banco Viral</button>
-    <button class="tab" onclick="tab('uploads',this)">Elenco + Universo + Roteiro</button>
-    <button class="tab" onclick="tab('pesquisa',this)">Pesquisa Viral</button>
-    <button class="tab" onclick="tab('mapa',this)">Mapa</button>
-    <button class="tab" onclick="tab('cena',this)">Cena 100%</button>
-    <button class="tab" onclick="tab('notas',this)">Notas</button>
-    <button class="tab" onclick="tab('exportar',this)">Exportar</button>
-  </div>
-
-  <div class="grid">
-    <aside class="stack">
-      <div class="card">
-        <div class="card-h"><h3>⚙️ Controle rápido</h3></div>
-        <div class="card-b">
-          <div class="btns">
-            <button class="btn primary" onclick="generateSceneMap()">Gerar mapa</button>
-            <button class="btn green" onclick="generateCurrentScene()">Gerar cena atual</button>
-            <button class="btn purple" onclick="approveScene()">Aprovar cena</button>
-            <button class="btn" onclick="nextScene()">Próxima cena</button>
-            <button class="btn" onclick="$('portal').style.display='flex'">Sair do portal</button>
-            <button class="btn danger" onclick="resetProject()">Limpar</button>
+    <div class="layout">
+      <aside class="left-stack">
+        <section class="quick-card">
+          <div class="card-title">⚙️ Controle rápido</div>
+          <div class="card-body">
+            <div class="actions">
+              <button class="gold" onclick="generateMap()">Gerar mapa</button>
+              <button class="green" onclick="generateCurrentScene()">Gerar cena atual</button>
+              <button class="purple" onclick="approveCurrentScene()">Aprovar cena</button>
+              <button onclick="nextScene()">Próxima cena</button>
+              <button class="pink" onclick="clearProjectConfirm()">Limpar</button>
+            </div>
+            <div class="warn-box">Regra: nenhuma cena avança sem aprovação 100%. Use Exportar para salvar backup.</div>
           </div>
-          <div class="note" style="margin-top:12px" id="ruleBox">Regra: nenhuma cena avança sem aprovação 100%.</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-h"><h3>🧬 DNA ativo</h3></div>
-        <div class="card-b"><div id="dnaMini" class="out" style="min-height:170px">Ainda sem DNA salvo.</div></div>
-      </div>
-    </aside>
+        </section>
 
-    <main class="stack">
-      <section id="setup" class="page active card">
-        <div class="card-h"><h2>Setup do Projeto</h2><button class="btn" onclick="goBancoViral()">Escolher Banco Viral</button></div>
-        <div class="card-b">
-          <div class="row">
-            <div class="field"><label>Nome do projeto</label><input id="projectName" value="Projeto Viral — Cena por Cena"></div>
-            <div class="field"><label>Modo</label><select id="projectMode"><option value="independente">Independente / personagens enviados</option><option value="fruits">Universo Fruits oficial</option><option value="hibrido">Híbrido: Fruits + personagens enviados</option><option value="adaptacao">Adaptação viral autoral</option></select></div>
+        <section class="side-card">
+          <div class="card-title">🧬 DNA ativo</div>
+          <div class="card-body">
+            <div class="dna-box" id="dnaBox">Ainda sem DNA salvo.</div>
           </div>
-          <div class="row">
-            <div class="field"><label>Formato final</label><select id="format"><option>1 cena forte</option><option>Trailer 1-2 cenas</option><option>Curta viral 7 cenas</option><option>Episódio 15 cenas</option><option>Série contínua / cenas infinitas</option></select></div>
-            <div class="field"><label>Quantidade alvo</label><input id="sceneCount" type="number" min="1" max="60" value="7"></div>
-          </div>
-          <div class="row">
-            <div class="field"><label>Intensidade do mix</label><select id="mixIntensity"><option>Normal</option><option>Leve</option><option>Médio</option><option>Louco / Rick and Morty</option></select></div>
-            <div class="field"><label>Interação com público</label><select id="audienceMode"><option>Nunca</option><option>Só no final da cena</option><option>Uma vez por episódio</option><option>Quando tiver gancho</option><option>Modo meta / quarta parede</option></select></div>
-          </div>
-          <div class="note cyan-note" id="setupMatrixSummary">Matriz narrativa ainda não escolhida. Use “Escolher Banco Viral”.</div>
-          <div class="field" style="margin-top:12px"><label>Brief rápido: o que quero contar?</label><textarea id="brief" class="big" placeholder="Conte a ideia, tema, público, intenção emocional..."></textarea></div>
-        </div>
-      </section>
+        </section>
 
-      <section id="api" class="page card">
-        <div class="card-h"><h2>API temporária</h2><span style="color:var(--muted)">Gemini lê imagens; Groq é ótimo para roteiro; OpenRouter é fallback.</span></div>
-        <div class="card-b">
-          <div class="cards">
-            <div class="item"><h4>Gemini</h4><div class="field"><label>Key</label><input id="geminiKey" type="password" placeholder="AIza..."></div><div class="field"><label>Modelo</label><input id="geminiModel" value="gemini-2.5-flash"></div></div>
-            <div class="item"><h4>Groq</h4><div class="field"><label>Key</label><input id="groqKey" type="password" placeholder="gsk_..."></div><div class="field"><label>Modelo</label><input id="groqModel" value="llama-3.3-70b-versatile"></div></div>
-            <div class="item"><h4>OpenRouter</h4><div class="field"><label>Key</label><input id="openrouterKey" type="password" placeholder="sk-or-..."></div><div class="field"><label>Modelo</label><input id="openrouterModel" value="google/gemini-2.5-flash"></div></div>
-            <div class="item"><h4>Uso</h4><div class="field"><label>Provedor</label><select id="provider"><option value="auto">Automático econômico</option><option value="gemini">Gemini</option><option value="groq">Groq</option><option value="openrouter">OpenRouter</option><option value="local">Local sem API</option></select></div><div class="btns"><button class="btn primary" onclick="testApi()">Testar</button><button class="btn danger" onclick="clearKeys()">Limpar</button></div></div>
+        <section class="side-card">
+          <div class="card-title">💬 Fruits Copilot</div>
+          <div class="card-body">
+            <div class="chat-log" id="chatLog"></div>
           </div>
-          <div class="out" id="apiLog" style="margin-top:12px;min-height:120px">Configure uma chave ou use Local sem API.</div>
-        </div>
-      </section>
+        </section>
+      </aside>
 
-      <section id="matrizes" class="page card">
-        <div class="card-h"><h2>Banco de Matrizes e Aspectos</h2><div class="btns"><button class="btn" onclick="toggleMatrixPanel()">Minimizar painel</button><button class="btn primary" onclick="applyMatrixMix()">Aplicar ao Setup</button></div></div>
-        <div class="card-b" id="matrixPanelBody">
-          <div class="note">Escolha uma matriz principal e marque aspectos para mix. O mix é tempero de cena: drama, ação, pirata, jogo, quarta parede, live action, etc. Não transforma tudo em bagunça.</div>
-          <div class="searchbar"><input id="matrixSearch" placeholder="Buscar: anime, terror, luta, pirata, comédia, guerra, quarta parede..." oninput="renderMatrixGroups()"><button class="btn" onclick="clearMatrixSearch()">Limpar busca</button></div>
-          <div class="matrix-detail">
-            <div><h3 style="margin-top:0">📚 Grupos</h3><div id="matrixGroupList" class="group-list"></div></div>
-            <div>
-              <h3 style="margin-top:0">🧪 Tema escolhido</h3>
-              <div class="mix-panel">
-                <div class="field"><label>Aspectos selecionados</label><div id="mixChosen" class="pillbox"><span class="pill">Nenhuma ainda</span></div></div>
-                <div class="btns"><button class="btn primary" onclick="applyMatrixMix()">Aplicar ao Setup</button><button class="btn danger" onclick="clearMatrixMix()">Limpar mix</button></div>
+      <main class="main-panel">
+        <section class="tab-panel active" id="tab-setup">
+          <div class="panel-header">
+            <h2>Setup do Projeto</h2>
+            <button onclick="goTab('viral')">Escolher Banco Viral</button>
+          </div>
+          <div class="panel-content">
+            <div class="grid-2">
+              <label>Nome do projeto
+                <input id="projectName" placeholder="universo Fruits" />
+              </label>
+              <label>Modo
+                <select id="projectMode">
+                  <option value="fruits">Universo Fruits oficial</option>
+                  <option value="freelance">Freelance / cliente</option>
+                  <option value="teste">Teste rápido</option>
+                </select>
+              </label>
+              <label>Formato final
+                <select id="format">
+                  <option value="1 cena forte">1 cena forte</option>
+                  <option value="mini novela 3 cenas">Mini novela 3 cenas</option>
+                  <option value="episódio 7 cenas">Episódio 7 cenas</option>
+                  <option value="storyboard geral">Storyboard geral</option>
+                </select>
+              </label>
+              <label>Quantidade alvo
+                <input id="sceneCount" type="number" min="1" max="20" />
+              </label>
+              <label>Intensidade do mix
+                <select id="mixIntensity">
+                  <option>Normal</option>
+                  <option>Forte</option>
+                  <option>Cinema</option>
+                  <option>Viral extremo controlado</option>
+                </select>
+              </label>
+              <label>Interação com público
+                <select id="audienceMode">
+                  <option>Nunca</option>
+                  <option>Pergunta no final</option>
+                  <option>Cliffhanger com enquete</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="notice" id="matrixNotice">Matriz narrativa ainda não escolhida. Use “Escolher Banco Viral”.</div>
+
+            <label>Brief rápido: o que quero contar?
+              <textarea id="brief" placeholder="Conte a ideia, tema, público, intenção emocional..."></textarea>
+            </label>
+
+            <div class="actions" style="margin-top: 14px;">
+              <button class="green" onclick="saveSetup()">Salvar Setup</button>
+              <button class="gold" onclick="goTab('viral')">Banco Viral</button>
+              <button onclick="goTab('cast')">Elenco + Universo</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-api">
+          <div class="panel-header">
+            <h2>API</h2>
+            <span class="pill">opcional</span>
+          </div>
+          <div class="panel-content">
+            <div class="notice">Funciona localmente sem API. Para IA real, cole sua chave só para teste. Para publicar, use backend seguro.</div>
+            <div class="list-grid" id="providerCards"></div>
+            <div class="grid-2" style="margin-top: 14px;">
+              <label>Provider
+                <select id="provider" onchange="selectProvider(this.value)">
+                  <option value="gemini">Gemini</option>
+                  <option value="groq">Groq</option>
+                  <option value="openrouter">OpenRouter</option>
+                  <option value="auto">Modo Auto</option>
+                </select>
+              </label>
+              <label>Modelo
+                <select id="model"></select>
+              </label>
+              <label>API Key para teste local
+                <input id="apiKey" type="password" placeholder="AIza... / gsk_... / sk-or-..." />
+              </label>
+              <label>Endpoint backend futuro
+                <input id="endpoint" value="/api/fruits-generate" />
+              </label>
+            </div>
+            <div class="actions" style="margin-top: 14px;">
+              <button class="gold" onclick="testApiOnline()">Testar API online</button>
+              <button class="green" onclick="generateCurrentScene(true)">Gerar cena com API</button>
+              <button onclick="showBackendExample()">Ver backend exemplo</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-viral">
+          <div class="panel-header">
+            <h2>Banco de Matrizes e Aspectos</h2>
+            <button class="gold" onclick="applyMatrixToSetup()">Aplicar ao Setup</button>
+          </div>
+          <div class="panel-content">
+            <div class="warn-box">Escolha uma matriz principal e marque aspectos para mix. O mix é tempero de cena; não transforma tudo em bagunça.</div>
+            <input id="matrixSearch" placeholder="Buscar: anime, terror, luta, pirata, comédia, guerra, quarta parede..." oninput="renderMatrixBank()" style="margin: 14px 0;" />
+            <div class="grid-2">
+              <div>
+                <h3>📚 Grupos</h3>
+                <div id="matrixBank"></div>
               </div>
-              <div class="out" id="matrixOutput" style="margin-top:12px;min-height:240px">Escolha uma matriz ou faça mix de temas.</div>
+              <div>
+                <h3>🖊️ Tema escolhido</h3>
+                <div class="notice">
+                  <strong>Aspectos selecionados</strong>
+                  <div class="tags" id="selectedAspects"></div>
+                  <div class="actions" style="margin-top: 12px;">
+                    <button class="gold" onclick="applyMatrixToSetup()">Aplicar ao Setup</button>
+                    <button class="pink" onclick="clearMatrixMix()">Limpar mix</button>
+                  </div>
+                </div>
+                <div class="output" id="matrixDetails">Escolha uma matriz ou faça mix de temas.</div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="uploads" class="page card">
-        <div class="card-h"><h2>Elenco + Universo + Roteiro</h2></div>
-        <div class="card-b">
-          <div class="three">
-            <div class="item"><h4>Upload A — Elenco / Personagens</h4><input id="charFiles" type="file" multiple accept="image/*" onchange="loadFiles(event,'chars')"><div class="thumbs" id="charThumbs" style="margin-top:10px"></div><div class="field" style="margin-top:12px"><label>Descrição rápida do elenco</label><textarea id="charNotes" placeholder="Usar estes model sheets como DNA visual oficial..."></textarea></div><div class="field"><label>Link Google Drive do elenco</label><input id="driveCharacters" placeholder="https://drive.google.com/..."></div></div>
-            <div class="item"><h4>Upload B — Universo / Intenção visual</h4><input id="worldFiles" type="file" multiple accept="image/*" onchange="loadFiles(event,'world')"><div class="thumbs" id="worldThumbs" style="margin-top:10px"></div><div class="field" style="margin-top:12px"><label>O que a imagem diz?</label><textarea id="worldNotes" placeholder="Chuva, tensão, mundo paralelo, piratas, arena..."></textarea></div><div class="field"><label>Link Google Drive do universo</label><input id="driveWorld" placeholder="https://drive.google.com/..."></div></div>
-            <div class="item"><h4>Upload C — Roteiro Base</h4><input id="scriptFile" type="file" accept=".txt,.md,.json,.srt" onchange="loadScriptFile(event)"><div class="field" style="margin-top:12px"><label>Colar roteiro / estrutura</label><textarea id="scriptText" placeholder="Cole aqui roteiro, cenas, sinopse longa, estrutura..."></textarea></div><div class="field"><label>Link Google Drive do roteiro</label><input id="driveScript" placeholder="https://drive.google.com/..."></div></div>
+        <section class="tab-panel" id="tab-cast">
+          <div class="panel-header">
+            <h2>Elenco + Universo + Roteiro</h2>
+            <button class="green" onclick="saveCastUniverse()">Salvar DNA</button>
           </div>
-          <div class="row" style="margin-top:12px">
-            <div class="field"><label>Link pasta Google Drive do projeto</label><input id="driveProject" placeholder="https://drive.google.com/drive/folders/..."></div>
-            <div class="field"><label>O que fazer com o roteiro?</label><select id="scriptMode"><option>Adaptar cena por cena</option><option>Resumir em 7 cenas</option><option>Transformar em trailer</option><option>Continuar de onde parou</option><option>Criar cena única forte</option><option>Criar paródia/autoral</option></select></div>
-          </div>
-          <div class="btns"><button class="btn primary" onclick="generateDNA()">Ler e criar DNA</button><button class="btn" onclick="renderDNA()">Ver DNA atual</button><button class="btn green" onclick="saveLocal()">Salvar projeto completo</button></div>
-        </div>
-      </section>
-
-      <section id="pesquisa" class="page card">
-        <div class="card-h"><h2>Pesquisa Viral / YouTube</h2><button class="btn" onclick="saveResearch()">Salvar referência</button></div>
-        <div class="card-b">
-          <div class="row">
-            <div>
-              <div class="field"><label>Link YouTube</label><input id="ytLink" placeholder="Cole o link do YouTube" oninput="loadYoutubeEmbed()"></div>
-              <iframe id="ytFrame" class="yt-frame" allowfullscreen></iframe>
-              <div class="btns" style="margin-top:10px"><button class="btn" onclick="openYoutube()">Abrir no YouTube</button><button class="btn primary" onclick="sendResearchToBrief()">Enviar notas para Brief</button></div>
+          <div class="panel-content">
+            <h3>Elenco Fruits</h3>
+            <div class="list-grid" id="castCards"></div>
+            <div class="grid-2" style="margin-top: 16px;">
+              <label>Local principal
+                <input id="worldPlace" placeholder="Feira Fruits, mercado, escola, praça..." />
+              </label>
+              <label>Tom emocional
+                <select id="tone">
+                  <option>Novela dramática</option>
+                  <option>Suspense familiar</option>
+                  <option>Aventura viral</option>
+                  <option>Comédia emocional</option>
+                </select>
+              </label>
             </div>
-            <div>
-              <div class="field"><label>Categoria da tendência</label><input id="researchCategory" placeholder="anime, trailer, drama, terror, luta..."></div>
-              <div class="field"><label>O que viralizou?</label><textarea id="researchHook" placeholder="Gancho, comentário, cena, ritmo..."></textarea></div>
-              <div class="field"><label>Como adaptar sem copiar?</label><textarea id="researchAdapt" placeholder="Usar estrutura, ritmo, emoção, não copiar personagem/fala/cena..."></textarea></div>
+            <label style="margin-top: 14px;">Regras de continuidade / roupas / mundo
+              <textarea id="continuityRules" placeholder="Ex: roupas base não mudam; frutas antropomórficas; Abacatudo manipula, mas parece inocente..."></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-research">
+          <div class="panel-header">
+            <h2>Pesquisa Viral / Radar IA</h2>
+            <button class="pink" onclick="generateRadarBrief()">Gerar Radar Viral IA</button>
+          </div>
+          <div class="panel-content">
+            <div class="notice">Módulo para revisar DNA + cenas aprovadas + mapa antes de gerar a próxima cena. Você pode colar referências virais ou usar o brief para API/pesquisa.</div>
+            <label>Referências ou observações virais
+              <textarea id="researchRefs" placeholder="Cole links, títulos, padrões que você observou, vídeos parecidos, tendências..."></textarea>
+            </label>
+            <div class="actions" style="margin-top: 14px;">
+              <button class="gold" onclick="generateRadarBrief()">Preparar Radar</button>
+              <button class="green" onclick="copyRadarBrief()">Copiar Radar</button>
+            </div>
+            <div class="output" id="radarOutput">Ainda sem radar.</div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-map">
+          <div class="panel-header">
+            <h2>Mapa de Cenas</h2>
+            <div class="actions">
+              <button class="gold" onclick="generateMap()">Gerar mapa</button>
+              <button onclick="copyMapJson()">Copiar JSON</button>
             </div>
           </div>
-          <div class="out" id="researchList" style="margin-top:12px;min-height:120px">Nenhuma referência salva.</div>
-        </div>
-      </section>
+          <div class="panel-content">
+            <div id="sceneMap"></div>
+          </div>
+        </section>
 
-      <section id="mapa" class="page card"><div class="card-h"><h2>Mapa de Cenas</h2><div class="btns"><button class="btn primary" onclick="generateSceneMap()">Gerar mapa</button><button class="btn" onclick="copyText(JSON.stringify(ST.sceneMap,null,2))">Copiar JSON</button></div></div><div class="card-b"><div id="sceneMapView" class="timeline"></div></div></section>
-      <section id="cena" class="page card"><div class="card-h"><h2>Cena Atual 100%</h2><span id="currentSceneLabel" class="badge">Cena 1</span></div><div class="card-b"><div class="btns" style="margin-bottom:12px"><button class="btn primary" onclick="generateCurrentScene()">Gerar cena atual</button><button class="btn purple" onclick="approveScene()">Aprovar 100%</button><button class="btn" onclick="editCurrentScene()">Editar JSON</button><button class="btn green" onclick="nextScene()">Continuar</button><button class="btn" onclick="addSceneComment()">Comentar cena</button></div><div class="out" id="currentSceneOut">Gere o mapa e depois gere a Cena 1.</div></div></section>
-      <section id="notas" class="page card"><div class="card-h"><h2>Notas / Comentários</h2><button class="btn primary" onclick="addProjectThought()">Salvar pensamento</button></div><div class="card-b"><div class="field"><label>Pensamento do projeto</label><textarea id="thoughtInput" placeholder="Ideia, ajuste, comentário de direção..."></textarea></div><div class="out" id="notesOut">Sem notas ainda.</div></div></section>
-      <section id="exportar" class="page card"><div class="card-h"><h2>Exportar</h2><div class="btns"><button class="btn primary" onclick="openModal()">Abrir modal</button><button class="btn" onclick="downloadProject()">Baixar JSON</button><button class="btn green" onclick="saveLocal()">Salvar no navegador</button></div></div><div class="card-b"><div class="out" id="exportOut">Nada para exportar ainda.</div></div></section>
-    </main>
+        <section class="tab-panel" id="tab-scene">
+          <div class="panel-header">
+            <h2>Cena Atual 100%</h2>
+            <span class="pill" id="scenePill">Cena 1</span>
+          </div>
+          <div class="panel-content">
+            <div class="actions">
+              <button class="gold" onclick="generateCurrentScene()">Gerar cena atual</button>
+              <button class="purple" onclick="approveCurrentScene()">Aprovar 100%</button>
+              <button onclick="editSceneJson()">Editar JSON</button>
+              <button class="green" onclick="continueOptions()">Continuar</button>
+              <button onclick="commentScene()">Comentar cena</button>
+            </div>
+            <div class="actions" style="margin-top: 10px;">
+              <button class="green" onclick="narrateScene()">Narrador normal</button>
+              <button onclick="stopNarrator()">Parar voz</button>
+              <button class="gold" onclick="generateSceneSrt()">SRT CapCut</button>
+              <button class="green" onclick="copyCurrentScene()">Copiar cena</button>
+              <button onclick="emailCurrentScene()">Enviar e-mail</button>
+              <button class="pink" onclick="generateRadarBrief()">Radar antes da próxima</button>
+            </div>
+            <div class="output" id="sceneOutput" style="margin-top: 14px;">Sem cena atual.</div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-notes">
+          <div class="panel-header">
+            <h2>Notas</h2>
+            <button class="green" onclick="saveNotes()">Salvar notas</button>
+          </div>
+          <div class="panel-content">
+            <textarea id="notes" placeholder="Observações do teste, melhorias, ideias, ajustes de continuidade..."></textarea>
+            <div class="actions" style="margin-top: 14px;">
+              <button class="gold" onclick="insertUpdateIdeas()">Inserir pacote de ideias v3</button>
+              <button onclick="copyNotes()">Copiar notas</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-export">
+          <div class="panel-header">
+            <h2>Exportar</h2>
+            <div class="actions">
+              <button class="gold" onclick="openExportModal()">Abrir modal</button>
+              <button onclick="downloadJson()">Baixar JSON</button>
+              <button class="green" onclick="saveToBrowser()">Salvar no navegador</button>
+            </div>
+          </div>
+          <div class="panel-content">
+            <div class="actions" style="margin-bottom: 12px;">
+              <button class="green" onclick="copyExportJson()">Copiar JSON</button>
+              <button class="green" onclick="copyCleanScript()">Copiar roteiro completo</button>
+              <button class="gold" onclick="generateProjectSrt()">Baixar SRT CapCut</button>
+              <button onclick="backupProject()">Backup seguro</button>
+              <button class="pink" onclick="generateRadarBrief()">Radar final</button>
+            </div>
+            <div class="output" id="exportOutput"></div>
+          </div>
+        </section>
+      </main>
+    </div>
   </div>
-</div>
 
-<div class="toast" id="toast">Ok</div>
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="panel-header" style="padding:0 0 14px; border-bottom:0;">
+        <div>
+          <h2 id="modalTitle">Modal</h2>
+          <div class="muted" id="modalDesc">Resultado</div>
+        </div>
+        <button class="pink" onclick="closeModal()">Fechar</button>
+      </div>
+      <div class="actions" style="margin-bottom: 12px;">
+        <button class="green" onclick="copyModal()">Copiar</button>
+        <button class="gold" onclick="downloadModal()">Baixar</button>
+      </div>
+      <div class="output" id="modalOutput"></div>
+    </div>
+  </div>
 
-<script>
-const $=id=>document.getElementById(id);
-const ST={owner:"Elinaldo Menezes",matrix:null,images:{chars:[],world:[]},scriptFileText:"",dna:null,sceneMap:[],currentIndex:0,currentScene:null,approvedScenes:[],continuity:{},research:[],notes:{project:[],scenes:{}}};
+  <script>
+    const STORAGE_KEY = "fruits_scene_engine_final_v3_full";
 
-const MATRIX_GROUPS=[
- {group:"Anime / Shonen / Live Action",emoji:"🍥",items:[
-  {id:"dandadan",emoji:"👻💘",name:"Caos sobrenatural + romance estranho",trend:"anime viral",tags:["anime","sobrenatural","romance","comédia"],structure:["gancho bizarro","ameaça sobrenatural","dupla improvável","energia caótica","clímax emocional"],use:"humor estranho, monstros, emoção e cenas rápidas"},
-  {id:"sakamoto",emoji:"🔫🍜",name:"Ex-assassino / família / ação urbana",trend:"ação urbana",tags:["anime","ação","família","luta"],structure:["rotina comum","passado perigoso volta","luta criativa","proteger alguém","piada física"],use:"luta criativa com personagem comum poderoso"},
-  {id:"opm",emoji:"👊😐",name:"Herói absurdo / sátira de poder",trend:"shonen/paródia",tags:["anime","paródia","herói","quarta parede"],structure:["ameaça gigante","herói entediado","subversão da luta","piada seca","reação do público"],use:"quebra de expectativa, poder absurdo e humor seco"},
-  {id:"solo",emoji:"⚔️⬆️",name:"Progressão de poder / portal / dungeon",trend:"ranking/jogo",tags:["anime","jogo","ranking","evolução"],structure:["fracasso inicial","sistema secreto","missão perigosa","evolução visual","boss final"],use:"evolução, portal, arena, monstro e ranking"}
- ]},
- {group:"Aventura / Piratas / Mundo Aberto",emoji:"🏴‍☠️",items:[
-  {id:"onepiece",emoji:"🏴‍☠️🌊",name:"Tripulação / ilha / aventura",trend:"aventura live-action",tags:["piratas","amizade","aventura","mundo aberto"],structure:["novo território","aliado improvável","vilão local","missão impossível","gancho de jornada"],use:"equipe, viagens, ilha, mundo paralelo e aventura autoral"},
-  {id:"parallel",emoji:"🌀🚪",name:"Universo paralelo / portal viral",trend:"fantasia sci-fi",tags:["multiverso","mistério","drama"],structure:["objeto estranho","porta abre","versão alternativa","decisão moral","gancho dimensional"],use:"mundos alternativos e drama existencial"},
-  {id:"time",emoji:"⏱️🚗",name:"Volta no tempo / consequência temporal",trend:"tempo e causalidade",tags:["tempo","aventura","consequência"],structure:["erro no presente","salto temporal","mudança inesperada","corrigir sem piorar","gancho temporal"],use:"efeito borboleta e retorno com humor/emoção"}
- ]},
- {group:"Interação / Quarta Parede / Meta",emoji:"🎭",items:[
-  {id:"dora",emoji:"🗣️👀",name:"Participação do público",trend:"retenção direta",tags:["quarta parede","público","pergunta"],structure:["personagem pergunta","pausa para resposta","ação muda","CTA natural"],use:"pergunta para o público dentro da cena"},
-  {id:"youtube_comment",emoji:"💬📺",name:"Comentário do YouTube muda a cena",trend:"meta viral",tags:["comentário","youtube","votação"],structure:["comentário aparece","personagem lê","roteiro muda","gancho para próxima"],use:"usar comentário como virada de cena"},
-  {id:"deadpool",emoji:"🎬🗯️",name:"Crítica ao diretor / roteiro",trend:"meta humor",tags:["quarta parede","crítica","diretor"],structure:["personagem percebe câmera","critica roteiro","outros estranham","piada vira ação"],use:"humor meta sem perder continuidade"},
-  {id:"monty",emoji:"🦶🎪",name:"Absurdo teatral",trend:"nonsense",tags:["absurdo","paródia","teatro"],structure:["cena normal","interrupção absurda","mudança de gênero","volta seca"],use:"piada absurda controlada"},
-  {id:"macgyver",emoji:"🧰⚡",name:"Improviso impossível",trend:"solução criativa",tags:["improviso","engenhoca","ação"],structure:["problema impossível","objetos aleatórios","plano improvisado","resolve por acidente"],use:"resolver cena com inteligência cômica"}
- ]},
- {group:"Terror / Suspense / Mistério",emoji:"👁️",items:[
-  {id:"terror",emoji:"📹👁️",name:"Terror curto / algo no fundo",trend:"shorts",tags:["terror","suspense"],structure:["normalidade","detalhe estranho","negação","aproximação","corte seco"],use:"susto visual e retenção"},
-  {id:"detective",emoji:"🕵️🍍",name:"Investigação / autoridade corrupta",trend:"mistério social",tags:["crime","corrupção","mistério"],structure:["caso simples","pista contraditória","autoridade mente","prova aparece","revelação"],use:"delegado, político, advogado vilão"}
- ]},
- {group:"Drama Viral / Família / Traição",emoji:"💔",items:[
-  {id:"betrayal",emoji:"💔📄",name:"Traição pública / documento revelado",trend:"drama viral",tags:["traição","humilhação","superação"],structure:["confiança","sinal estranho","roubo/mentira","revelação pública","queda","recomeço"],use:"choro, vergonha e volta por cima"},
-  {id:"family",emoji:"👨‍👧🌧️",name:"Família quebrada / segredo de origem",trend:"novela curta",tags:["família","segredo","drama"],structure:["dor escondida","humilhação","foto antiga","pergunta forte","verdade parcial","gancho familiar"],use:"revelação familiar e gancho"}
- ]},
- {group:"Jogos / Lutas / Guerras",emoji:"🎮",items:[
-  {id:"tournament",emoji:"🥊🏟️",name:"Torneio / luta em arena",trend:"games/anime",tags:["luta","arena","ranking"],structure:["convocação","oponente maior","técnica secreta","quase derrota","virada"],use:"lutas cena por cena"},
-  {id:"war",emoji:"⚔️🔥",name:"Guerra de facções / território",trend:"ação serializada",tags:["guerra","facção"],structure:["território ameaçado","aliança difícil","traição interna","ataque","custo emocional"],use:"facções e conflito maior"},
-  {id:"bossrush",emoji:"👾💥",name:"Boss rush / fases de jogo",trend:"game viral",tags:["jogos","monstros","fases"],structure:["fase 1","recompensa","fase 2","perda","boss secreto"],use:"série contínua com cenas infinitas"}
- ]},
- {group:"Trailer / YouTube / TikTok",emoji:"📱",items:[
-  {id:"trailer",emoji:"🎞️🚀",name:"Trailer épico em 90 segundos",trend:"teaser",tags:["trailer","épico"],structure:["frase forte","montagem rápida","vilão","promessa","logo/gancho"],use:"1-2 cenas fortes"},
-  {id:"storytime",emoji:"🗣️📌",name:"Storytime viral / relato chocante",trend:"narração",tags:["storytelling","reviravolta"],structure:["promessa inicial","contexto","prova","virada","moral"],use:"roteiro narrado com retenção"},
-  {id:"shortloop",emoji:"🔁⚡",name:"Loop infinito / final volta ao começo",trend:"Shorts",tags:["loop","viral"],structure:["ação intrigante","contexto rápido","revelação","volta ao primeiro frame"],use:"vídeos que repetem bem"}
- ]}
-];
-let selectedMatrixIds=[],matrixPanelMinimized=false;
+    const providerModels = {
+      gemini: ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.0-flash-lite"],
+      groq: ["llama-3.1-8b-instant", "llama-3.3-70b-versatile", "gemma2-9b-it"],
+      openrouter: ["google/gemini-flash-1.5:free", "meta-llama/llama-3.1-8b-instruct:free", "mistralai/mistral-7b-instruct:free"],
+      auto: ["auto-free-router"]
+    };
 
-function forceEnterPortal(){ST.owner=$('portalName').value||"Elinaldo Menezes";$('ownerName').textContent=ST.owner;$('portal').style.display='none';updateProgress("setup")}
-function unlockPortal(){const pass=String(($('portalPass').value||'')).trim().toLowerCase();if(pass==="titan"||pass==="")forceEnterPortal();else toast("Senha incorreta")}
-function tab(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(id==="exportar")renderExport();if(id==="notas")renderNotes()}
-function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
-function copyText(txt){navigator.clipboard?.writeText(txt||"");toast("Copiado")}
-function updateProgress(stage){const map={setup:["🟡","Setup",8],api:["🔌","API configurada",16],matrix:["🧭","Matriz escolhida",28],dna:["🧬","DNA salvo",42],map:["🗺️","Mapa pronto",55],scene:["🎬","Cena em produção",70],approved:["✅","Cena aprovada",82],final:["🚀","Exportação",100]};const v=map[stage]||map.setup;$('stageEmoji').textContent=v[0];$('stageLabel').textContent=v[1];$('score').textContent=v[2];$('fill').style.width=v[2]+"%";$('statusText').textContent=v[1]}
-function goBancoViral(){tab('matrizes',document.querySelectorAll('.tab')[2])}
+    const matrices = [
+      {
+        group: "🎯 Anime / Shonen / Live Action",
+        options: [
+          { id: "rival_growth", name: "Rivalidade e evolução", desc: "protagonista humilhado → treino → virada → reconhecimento", tags: ["superação", "rival", "crescimento"], structure: ["humilhação", "decisão", "prova", "virada", "respeito"] },
+          { id: "team_bond", name: "Equipe improvável", desc: "grupo quebrado se une por missão maior", tags: ["equipe", "amizade", "aventura"], structure: ["conflito", "desconfiança", "missão", "sacrifício", "união"] }
+        ]
+      },
+      {
+        group: "🏴‍☠️ Aventura / Piratas / Mundo Aberto",
+        options: [
+          { id: "lost_map", name: "Mapa perdido / tesouro emocional", desc: "pista antiga → jornada → armadilha → revelação", tags: ["aventura", "mistério", "mapa"], structure: ["pista", "jornada", "perigo", "descoberta", "gancho"] },
+          { id: "forbidden_place", name: "Lugar proibido", desc: "entrada em local misterioso e descoberta que muda tudo", tags: ["mundo", "perigo", "segredo"], structure: ["proibição", "entrada", "ameaça", "achado", "escape"] }
+        ]
+      },
+      {
+        group: "🎭 Interação / Quarta Parede / Meta",
+        options: [
+          { id: "audience_choice", name: "Escolha do público", desc: "final com pergunta para parte 2", tags: ["engajamento", "parte 2", "público"], structure: ["dilema", "duas opções", "corte", "pergunta"] },
+          { id: "comment_bait", name: "Comentário que decide", desc: "gancho feito para comentário sem quebrar a história", tags: ["TikTok", "Reels", "comentários"], structure: ["choque", "silêncio", "pergunta", "continuação"] }
+        ]
+      },
+      {
+        group: "👁️ Terror / Suspense / Mistério",
+        options: [
+          { id: "shadow_truth", name: "Verdade na sombra", desc: "algo aparece no fundo e muda a leitura da cena", tags: ["suspense", "mistério", "visual"], structure: ["calma", "sinal", "suspeita", "revelação parcial", "medo"] },
+          { id: "haunted_object", name: "Objeto amaldiçoado / prova viva", desc: "objeto antigo parece carregar uma verdade", tags: ["objeto", "noite", "segredo"], structure: ["objeto", "toque", "memória", "ameaça", "gancho"] }
+        ]
+      },
+      {
+        group: "💔 Drama Viral / Família / Traição",
+        options: [
+          { id: "public_betrayal_doc", name: "Traição pública / documento revelado", desc: "choro, vergonha e volta por cima com documento revelado", tags: ["família", "traição", "documento"], structure: ["confiança", "sinal estranho", "roubo/mentira", "revelação pública", "queda", "recomeço"] },
+          { id: "broken_family_origin", name: "Família quebrada / segredo de origem", desc: "revelação familiar e gancho forte sobre origem", tags: ["família", "segredo", "drama"], structure: ["dor escondida", "humilhação", "foto antiga", "pergunta forte", "verdade parcial", "gancho familiar"] }
+        ]
+      },
+      {
+        group: "🎮 Jogos / Lutas / Guerras",
+        options: [
+          { id: "tournament_reveal", name: "Torneio com revelação", desc: "luta pública vira revelação emocional", tags: ["luta", "torneio", "público"], structure: ["desafio", "plateia", "queda", "virada", "respeito"] },
+          { id: "boss_fight", name: "Chefão manipulador", desc: "vilão controla as regras e o herói vence pela verdade", tags: ["boss", "jogo", "ação"], structure: ["regra injusta", "armadilha", "perda", "padrão revelado", "vitória"] }
+        ]
+      },
+      {
+        group: "📱 Trailer / YouTube / TikTok",
+        options: [
+          { id: "three_second_hook", name: "Gancho 3 segundos", desc: "abre com frase ou imagem de impacto", tags: ["retenção", "shorts", "gancho"], structure: ["frase forte", "imagem chocante", "contexto", "virada", "continua"] },
+          { id: "cliffhanger_pt2", name: "Parte 2 inevitável", desc: "fecha com pergunta impossível de ignorar", tags: ["parte 2", "comentário", "viral"], structure: ["quase resposta", "interrupção", "nova prova", "corte"] }
+        ]
+      }
+    ];
 
-function allMatrices(){return MATRIX_GROUPS.flatMap(g=>g.items.map(m=>({...m,group:g.group,groupEmoji:g.emoji})))}
-function renderMatrixGroups(){
-  const q=($('matrixSearch')?.value||'').toLowerCase().trim(), chosen=new Set(selectedMatrixIds);
-  const groups=MATRIX_GROUPS.map(g=>({...g,items:g.items.filter(m=>!q||[m.name,m.trend,m.use,m.tags.join(' '),m.structure.join(' '),g.group].join(' ').toLowerCase().includes(q))})).filter(g=>g.items.length);
-  $('matrixGroupList').innerHTML=groups.map((g,idx)=>`<div class="group-card ${idx===0||q?'open':''}"><div class="group-head" onclick="this.parentElement.classList.toggle('open')"><h4>${g.emoji} ${g.group}</h4><span class="pill">${g.items.length} opções</span></div><div class="group-body">${g.items.map(m=>`<div class="matrix-row ${ST.matrix&&ST.matrix.id===m.id?'active':''}"><div onclick="selectMatrixById('${m.id}')"><b>${m.emoji} ${m.name}</b><br><span style="color:var(--muted)">${m.trend} — ${m.use}</span><br><small style="color:#ffdd99">${m.structure.join(' → ')}</small></div><label style="display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--cyan);text-transform:none;font-size:12px"><input type="checkbox" ${chosen.has(m.id)?'checked':''} onchange="toggleMatrixMix('${m.id}',this.checked)" style="width:auto">Adicionar ao mix/aspecto</label></div>`).join('')}</div></div>`).join('')||'<div class="note">Nenhuma matriz encontrada.</div>';renderMixChosen()
-}
-function selectMatrixById(id){ST.matrix=allMatrices().find(m=>m.id===id);if(!selectedMatrixIds.includes(id))selectedMatrixIds=[id];renderMatrixGroups();renderMatrixOutput();updateSetupMatrixSummary();updateProgress("matrix");toast("Matriz selecionada")}
-function toggleMatrixMix(id,on){if(on&&!selectedMatrixIds.includes(id))selectedMatrixIds.push(id);if(!on)selectedMatrixIds=selectedMatrixIds.filter(x=>x!==id);if(selectedMatrixIds.length&&!ST.matrix)ST.matrix=allMatrices().find(m=>m.id===selectedMatrixIds[0]);renderMixChosen();renderMatrixOutput();updateSetupMatrixSummary()}
-function renderMixChosen(){const list=selectedMatrixIds.map(id=>allMatrices().find(m=>m.id===id)).filter(Boolean);$('mixChosen').innerHTML=list.length?list.map(m=>`<span class="pill">${m.emoji} ${m.name}</span>`).join(''):'<span class="pill">Nenhuma ainda</span>'}
-function applyMatrixMix(){const list=selectedMatrixIds.map(id=>allMatrices().find(m=>m.id===id)).filter(Boolean);if(!list.length){toast("Escolha pelo menos uma matriz");return}ST.matrix={id:"mix_"+list.map(x=>x.id).join("_"),emoji:"🧪",name:"Mix: "+list.map(x=>x.name).join(" + "),trend:"mix autoral",tags:[...new Set(list.flatMap(x=>x.tags))],structure:list.flatMap(x=>x.structure).slice(0,14),use:"Mistura autoral de: "+list.map(x=>x.use).join(" | ")};renderMatrixGroups();renderMatrixOutput();updateSetupMatrixSummary();updateProgress("matrix");toast("Aplicado ao Setup")}
-function renderMatrixOutput(){const list=selectedMatrixIds.map(id=>allMatrices().find(m=>m.id===id)).filter(Boolean),active=ST.matrix||list[0];$('matrixOutput').textContent=active?`TEMA ESCOLHIDO\n\n${active.emoji||''} ${active.name}\n\nTAGS:\n${(active.tags||[]).join(', ')}\n\nESTRUTURA:\n${(active.structure||[]).map((x,i)=>`${i+1}. ${x}`).join('\n')}\n\nCOMO USAR:\n${active.use||''}\n\nMIX ATIVO:\n${list.map(x=>x.name).join(' + ')||'Sem mix'}\n\nINTENSIDADE:\n${$('mixIntensity')?.value||'Normal'}\n\nREGRA:\nA matriz é estrutura autoral. Não copiar personagem, fala, cena ou universo protegido.`:'Escolha uma matriz ou faça mix de temas.'}
-function updateSetupMatrixSummary(){const list=selectedMatrixIds.map(id=>allMatrices().find(m=>m.id===id)).filter(Boolean);$('setupMatrixSummary').textContent=ST.matrix?`Matriz ativa: ${ST.matrix.name}\nAspectos: ${list.map(x=>x.name).join(' + ')}\nIntensidade: ${$('mixIntensity').value}\nInteração: ${$('audienceMode').value}`:"Matriz narrativa ainda não escolhida."}
-function clearMatrixMix(){selectedMatrixIds=[];ST.matrix=null;renderMatrixGroups();renderMatrixOutput();updateSetupMatrixSummary()}
-function clearMatrixSearch(){$('matrixSearch').value='';renderMatrixGroups()}
-function toggleMatrixPanel(){matrixPanelMinimized=!matrixPanelMinimized;$('matrixPanelBody').style.display=matrixPanelMinimized?'none':'block'}
-renderMatrixGroups();
+    const castBank = [
+      { id: "tomate_elinaldo", name: "Tomate Elinaldo", desc: "herói humilde, corajoso, emocional e protetor", tags: ["protagonista", "proteção", "popular"] },
+      { id: "sabrina_pitaya", name: "Sabrina Pitaya", desc: "inteligente, observadora, forte e sensível", tags: ["intuição", "verdade", "apoio"] },
+      { id: "oz", name: "OZ / Oswaldo Rocha", desc: "mistério familiar, origem dramática e conflito interno", tags: ["segredo", "origem", "dor"] },
+      { id: "abacatudo", name: "Abacatudo", desc: "vilão manipulador, falso bondoso e estratégico", tags: ["vilão", "manipulação", "traição"] },
+      { id: "limao_rocha", name: "Limão Rocha", desc: "passado, culpa antiga e conexão com a origem de OZ", tags: ["passado", "família", "mistério"] },
+      { id: "frutas_ricas", name: "Frutas ricas / multidão", desc: "grupo social que reage, julga e amplifica humilhação", tags: ["grupo", "público", "pressão"] },
+      { id: "secundarios", name: "Secundários da série", desc: "mentor, rival, criança inocente, professor, vizinho fofoqueiro", tags: ["apoio", "expansão", "série"] },
+      { id: "terror_fruits", name: "Terror Fruits", desc: "figuras sombrias, mercado abandonado, objeto antigo", tags: ["suspense", "noite", "mistério"] },
+      { id: "herois_fruits", name: "Heróis Fruits", desc: "guardiões originais inspirados em arquétipos de heroísmo", tags: ["ação", "original", "protetores"] },
+      { id: "games_lutas", name: "Games / Lutas", desc: "torneios, fase, chefão e desafio visual", tags: ["ação", "boss", "torneio"] }
+    ];
 
-function loadFiles(ev,type){ST.images[type]=[];const holder=$(type==="chars"?"charThumbs":"worldThumbs");holder.innerHTML="";[...ev.target.files].slice(0,8).forEach(file=>{const r=new FileReader();r.onload=e=>{const data=e.target.result.split(",")[1];ST.images[type].push({name:file.name,type:file.type,data,url:e.target.result});const img=document.createElement("img");img.src=e.target.result;img.className="thumb";holder.appendChild(img)};r.readAsDataURL(file)});toast("Upload carregado")}
-function loadScriptFile(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{ST.scriptFileText=e.target.result;$('scriptText').value=(e.target.result||'').slice(0,60000);toast("Roteiro carregado")};r.readAsText(f)}
-function youtubeId(url){const s=String(url||'');let m=s.match(/[?&]v=([^&]+)/)||s.match(/youtu\.be\/([^?&]+)/)||s.match(/embed\/([^?&]+)/);return m?m[1]:''}
-function loadYoutubeEmbed(){const id=youtubeId($('ytLink').value);$('ytFrame').src=id?`https://www.youtube.com/embed/${id}`:''}
-function openYoutube(){const u=$('ytLink').value;if(u)window.open(u,'_blank')}
-function saveResearch(){const r={link:$('ytLink').value,category:$('researchCategory').value,hook:$('researchHook').value,adapt:$('researchAdapt').value,created:new Date().toISOString()};ST.research.push(r);renderResearch();saveLocal();toast("Referência salva")}
-function renderResearch(){$('researchList').textContent=ST.research.length?JSON.stringify(ST.research,null,2):"Nenhuma referência salva."}
-function sendResearchToBrief(){const text=`\n\nREFERÊNCIA VIRAL:\nCategoria: ${$('researchCategory').value}\nO que viralizou: ${$('researchHook').value}\nComo adaptar sem copiar: ${$('researchAdapt').value}\nLink: ${$('ytLink').value}\n`; $('brief').value += text; toast("Enviado para Brief")}
-function getDriveLinks(){return {project:$('driveProject').value,characters:$('driveCharacters').value,world:$('driveWorld').value,script:$('driveScript').value}}
+    const defaultState = {
+      setup: {
+        projectName: "universo Fruits",
+        projectMode: "fruits",
+        format: "1 cena forte",
+        sceneCount: 3,
+        mixIntensity: "Normal",
+        audienceMode: "Nunca",
+        brief: "O Segredo de OZ na Feira Fruits. OZ encontra uma foto antiga e um documento escondido sobre sua origem ligada a Limão Rocha. Abacatudo aparece fingindo ajudar, mas usa o documento para expor OZ em público e transformar a dor dele em humilhação. Tomate Elinaldo entra para proteger OZ, enquanto Sabrina Pitaya percebe que existe uma mentira no documento. A cena precisa ter drama familiar, traição pública, verdade parcial, emoção forte e gancho para parte 2."
+      },
+      api: { provider: "gemini", model: "gemini-1.5-flash", apiKey: "", endpoint: "/api/fruits-generate" },
+      matrix: { primary: "broken_family_origin", mix: ["broken_family_origin", "public_betrayal_doc"] },
+      cast: { selected: ["tomate_elinaldo", "sabrina_pitaya", "oz", "abacatudo", "limao_rocha", "frutas_ricas"], worldPlace: "Feira Fruits", tone: "Novela dramática", continuityRules: "Fruta/legume deve ser antropomórfico, NÃO HUMANO. Roupa base fixa para cada personagem. Cores vibrantes e ambiente de feira. A iluminação deve mudar para refletir o drama crescente da cena. Diálogo conciso e impactante." },
+      researchRefs: "",
+      map: [],
+      currentSceneIndex: 0,
+      scenes: [],
+      approved: [],
+      notes: "Adicionar Narrador Normal. Adicionar SRT CapCut. Adicionar Copiar Cena. Adicionar Enviar por e-mail. Adicionar Backup Seguro. Adicionar Radar Viral IA antes de gerar próxima cena. Melhorar botão Continuar com opções.",
+      status: "Setup",
+      score: 8
+    };
 
-function buildDNAInstruction(){return `Crie o DNA do projeto para produção audiovisual cena por cena.\n\nPROJETO: ${$('projectName').value}\nMODO: ${$('projectMode').value}\nFORMATO: ${$('format').value}\nBRIEF: ${$('brief').value}\nMATRIZ/ASPECTOS: ${JSON.stringify(ST.matrix||allMatrices()[0])}\nINTENSIDADE: ${$('mixIntensity').value}\nINTERAÇÃO COM PÚBLICO: ${$('audienceMode').value}\nUPLOAD A ELENCO: ${ST.images.chars.length} imagens. Notas: ${$('charNotes').value}\nUPLOAD B UNIVERSO: ${ST.images.world.length} imagens. Notas: ${$('worldNotes').value}\nROTEIRO BASE: modo ${$('scriptMode').value}. Texto: ${$('scriptText').value.slice(0,30000)}\nLINKS DRIVE: ${JSON.stringify(getDriveLinks())}\nREFERÊNCIAS PESQUISA: ${JSON.stringify(ST.research)}\nREGRAS: não copiar obras; usar matriz estrutural; uploads viram DNA visual; fruta/legume deve ser antropomórfico NOT HUMAN; roupa base fixa. Responda JSON com project_dna, cast_dna, world_dna, script_dna, production_rules.`}
-function buildSceneMapInstruction(){return `Com base no DNA e no roteiro base, crie APENAS o mapa de cenas. DNA: ${JSON.stringify(ST.dna)} Brief: ${$('brief').value} Matriz: ${JSON.stringify(ST.matrix)} Quantidade alvo: ${$('sceneCount').value}. Roteiro: ${$('scriptText').value.slice(0,30000)}. Responder JSON array com scene_num,title,dramatic_goal,conflict,characters_needed,location,emotional_state_start,emotional_state_end,hook_to_next,aspect_used.`}
-function buildCurrentSceneInstruction(){const currentMap=ST.sceneMap[ST.currentIndex]||{scene_num:ST.currentIndex+1,title:"Cena atual"};return `Trabalhe SOMENTE a cena atual, com 100% de foco. DNA: ${JSON.stringify(ST.dna)} MAPA: ${JSON.stringify(ST.sceneMap)} CENA ATUAL: ${JSON.stringify(currentMap)} CENAS APROVADAS: ${JSON.stringify(ST.approvedScenes)} CONTINUIDADE: ${JSON.stringify(ST.continuity)} NOTAS: ${JSON.stringify(ST.notes)} ROTEIRO BASE: ${$('scriptText').value.slice(0,30000)}. Regras: manter DNA visual/roupa; não copiar obras conhecidas; falas PT-BR; prompts inglês; se fruta/legume: anthropomorphic NOT HUMAN. Responder JSON com scene_num,title,status,objective,action,camera,emotion,narration,dialogue,caption_short,elevenlabs_text,capcut_text,image_prompt,video_prompt,sound_design,continuity_after_scene,approve_question.`}
+    let state = loadState();
+    let modalText = "";
+    let modalFile = "fruits.txt";
 
-async function callAI(prompt,includeImages=false){const p=$('provider').value,order=p==="auto"?["gemini","groq","openrouter","local"]:[p];let last="";for(const prov of order){try{if(prov==="gemini"&&$('geminiKey').value.trim())return await callGemini(prompt,includeImages);if(prov==="groq"&&$('groqKey').value.trim())return await callGroq(prompt);if(prov==="openrouter"&&$('openrouterKey').value.trim())return await callOpenRouter(prompt,includeImages);if(prov==="local")return JSON.stringify(localFallback(prompt))}catch(e){last=prov+": "+e.message}}throw new Error(last||"Nenhuma API configurada")}
-async function callGemini(prompt,includeImages){const parts=[{text:prompt}];if(includeImages){[...ST.images.chars,...ST.images.world].slice(0,8).forEach(im=>parts.push({inline_data:{mime_type:im.type||"image/png",data:im.data}}))}const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent($('geminiModel').value)}:generateContent?key=${$('geminiKey').value.trim()}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{role:"user",parts}],generationConfig:{temperature:.42,maxOutputTokens:8192,responseMimeType:"application/json"}})});const j=await r.json();if(!r.ok)throw new Error(j.error?.message||"Erro Gemini");return j.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||""}
-async function callGroq(prompt){const r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+$('groqKey').value.trim()},body:JSON.stringify({model:$('groqModel').value,temperature:.42,response_format:{type:"json_object"},messages:[{role:"system",content:"Responda somente JSON válido em português do Brasil."},{role:"user",content:prompt}]})});const j=await r.json();if(!r.ok)throw new Error(j.error?.message||"Erro Groq");return j.choices?.[0]?.message?.content||""}
-async function callOpenRouter(prompt,includeImages){const content=[{type:"text",text:prompt}];if(includeImages){[...ST.images.chars,...ST.images.world].slice(0,6).forEach(im=>content.push({type:"image_url",image_url:{url:`data:${im.type};base64,${im.data}`}}))}const r=await fetch("https://openrouter.ai/api/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+$('openrouterKey').value.trim(),"HTTP-Referer":location.href,"X-Title":"Fruits Scene Engine"},body:JSON.stringify({model:$('openrouterModel').value,temperature:.42,messages:[{role:"system",content:"Responda somente JSON válido."},{role:"user",content}]})});const j=await r.json();if(!r.ok)throw new Error(j.error?.message||"Erro OpenRouter");return j.choices?.[0]?.message?.content||""}
-function safeJson(txt){txt=(txt||"").trim().replace(/^```json\s*/i,"").replace(/^```\s*/,"").replace(/```$/,"").trim();try{return JSON.parse(txt)}catch(e){}const m=txt.match(/\{[\s\S]*\}|\[[\s\S]*\]/);if(!m)throw new Error("JSON inválido");return JSON.parse(m[0])}
-async function testApi(){try{$('apiLog').textContent="Testando...";$('apiLog').textContent=await callAI('Responda JSON: {"ok":true,"msg":"conectado"}');updateProgress("api");toast("API conectada")}catch(e){$('apiLog').textContent="Erro: "+e.message}}
-function clearKeys(){["geminiKey","groqKey","openrouterKey"].forEach(id=>$(id).value="");toast("Chaves limpas")}
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? deepMerge(defaultState, JSON.parse(saved)) : structuredClone(defaultState);
+      } catch {
+        return structuredClone(defaultState);
+      }
+    }
 
-async function generateDNA(){try{$('dnaMini').textContent="Lendo DNA...";const raw=await callAI(buildDNAInstruction(),true);ST.dna=safeJson(raw);renderDNA();updateProgress("dna");saveLocal();toast("DNA salvo")}catch(e){$('dnaMini').textContent="Erro: "+e.message}}
-function renderDNA(){$('dnaMini').textContent=ST.dna?JSON.stringify(ST.dna,null,2):"Ainda sem DNA salvo."}
-async function generateSceneMap(){try{if(!ST.dna)await generateDNA();$('sceneMapView').innerHTML='<div class="note">Gerando mapa...</div>';const raw=await callAI(buildSceneMapInstruction(),false);ST.sceneMap=safeJson(raw);if(!Array.isArray(ST.sceneMap))ST.sceneMap=ST.sceneMap.scenes||ST.sceneMap.scene_map||[];ST.currentIndex=0;ST.currentScene=null;renderSceneMap();updateProgress("map");tab("mapa",document.querySelectorAll(".tab")[5]);saveLocal();toast("Mapa criado")}catch(e){$('sceneMapView').innerHTML='<div class="note">Erro: '+esc(e.message)+'</div>'}}
-function renderSceneMap(){$('sceneMapView').innerHTML=(ST.sceneMap||[]).map((s,i)=>`<div class="scene-dot ${i===ST.currentIndex?'current':''} ${ST.approvedScenes[i]?'approved':''}"><b>${ST.approvedScenes[i]?'✅':i===ST.currentIndex?'🎬':'🔒'} Cena ${i+1}</b><div><b>${esc(s.title||'')}</b><br><span style="color:var(--muted)">${esc(s.dramatic_goal||s.conflict||'')}</span><br><small>${esc(s.hook_to_next||'')}</small></div></div>`).join("")||'<div class="note">Sem mapa.</div>';$('currentSceneLabel').textContent="Cena "+(ST.currentIndex+1)}
-async function generateCurrentScene(){try{if(!ST.sceneMap.length)await generateSceneMap();$('currentSceneOut').textContent="Gerando cena "+(ST.currentIndex+1)+"...";const raw=await callAI(buildCurrentSceneInstruction(),false);ST.currentScene=safeJson(raw);renderCurrentScene();updateProgress("scene");tab("cena",document.querySelectorAll(".tab")[6]);saveLocal();toast("Cena gerada")}catch(e){$('currentSceneOut').textContent="Erro: "+e.message}}
-function renderCurrentScene(){$('currentSceneLabel').textContent="Cena "+(ST.currentIndex+1);$('currentSceneOut').textContent=ST.currentScene?sceneText(ST.currentScene):"Sem cena atual."}
-function sceneText(s){return `CENA ${s.scene_num||ST.currentIndex+1} — ${s.title||""}\n\nOBJETIVO:\n${s.objective||""}\n\nAÇÃO:\n${s.action||""}\n\nCÂMERA:\n${s.camera||""}\n\nEMOÇÃO:\n${s.emotion||""}\n\nNARRAÇÃO:\n${s.narration||""}\n\nFALAS:\n${formatDialogue(s.dialogue)}\n\nLEGENDA CURTA:\n${s.caption_short||""}\n\nELEVENLABS:\n${s.elevenlabs_text||""}\n\nCAPCUT:\n${s.capcut_text||""}\n\nPROMPT IMAGEM:\n${s.image_prompt||""}\n\nPROMPT VÍDEO:\n${s.video_prompt||""}\n\nSOM:\n${s.sound_design||""}\n\nCONTINUIDADE APÓS A CENA:\n${JSON.stringify(s.continuity_after_scene||{},null,2)}\n\nPERGUNTA:\n${s.approve_question||"Finalizar esta cena ou continuar?"}`}
-function formatDialogue(d){if(!d)return"";if(Array.isArray(d))return d.map(x=>typeof x==="string"?x:`${x.character||x.personagem||"Personagem"}: ${x.line||x.fala||x.text||""}`).join("\n");return String(d)}
-function editCurrentScene(){if(!ST.currentScene){toast("Sem cena");return}const edited=prompt("Editar cena em JSON:",JSON.stringify(ST.currentScene,null,2));if(edited!==null){try{ST.currentScene=JSON.parse(edited);renderCurrentScene();saveLocal();toast("Cena editada")}catch(e){toast("JSON inválido")}}}
-function approveScene(){if(!ST.currentScene){toast("Gere a cena primeiro");return}ST.currentScene.status="approved";ST.approvedScenes[ST.currentIndex]=ST.currentScene;ST.continuity["after_scene_"+(ST.currentIndex+1)]=ST.currentScene.continuity_after_scene||{};renderSceneMap();renderContinuity();updateProgress("approved");saveLocal();toast("Cena aprovada 100%")}
-function nextScene(){if(!ST.approvedScenes[ST.currentIndex]){toast("Aprove a cena atual antes");return}if(ST.currentIndex>=ST.sceneMap.length-1){updateProgress("final");toast("Todas as cenas concluídas");return}ST.currentIndex++;ST.currentScene=null;renderSceneMap();renderCurrentScene();tab("cena",document.querySelectorAll(".tab")[6]);toast("Próxima cena preparada")}
-function renderContinuity(){$('continuityOut')&&($('continuityOut').textContent=JSON.stringify({approvedScenes:ST.approvedScenes,continuity:ST.continuity},null,2))}
-function addSceneComment(){const n=prompt("Comentário da cena "+(ST.currentIndex+1)+":");if(!n)return;const key="scene_"+(ST.currentIndex+1);ST.notes.scenes[key]=ST.notes.scenes[key]||[];ST.notes.scenes[key].push({text:n,created:new Date().toISOString()});renderNotes();saveLocal();toast("Comentário salvo")}
-function addProjectThought(){const t=$('thoughtInput').value.trim();if(!t)return;ST.notes.project.push({text:t,created:new Date().toISOString()});$('thoughtInput').value="";renderNotes();saveLocal();toast("Pensamento salvo")}
-function renderNotes(){$('notesOut').textContent=JSON.stringify(ST.notes,null,2)}
-function renderExport(){const data=getFullProject();$('exportOut').textContent=JSON.stringify(data,null,2)}
-function getFullProject(){return {setup:{projectName:$('projectName').value,projectMode:$('projectMode').value,format:$('format').value,sceneCount:$('sceneCount').value,mixIntensity:$('mixIntensity').value,audienceMode:$('audienceMode').value,brief:$('brief').value},drive:getDriveLinks(),matrix:ST.matrix,selectedMatrixIds,script:{mode:$('scriptMode').value,text:$('scriptText').value,uploadedText:ST.scriptFileText},research:ST.research,dna:ST.dna,sceneMap:ST.sceneMap,currentIndex:ST.currentIndex,currentScene:ST.currentScene,approvedScenes:ST.approvedScenes,continuity:ST.continuity,notes:ST.notes}}
-function openModal(){const s=ST.currentScene||ST.approvedScenes[ST.approvedScenes.length-1];const sections=[["🎬 Cena atual",s?sceneText(s):"Sem cena ainda."],["🧬 DNA",ST.dna?JSON.stringify(ST.dna,null,2):"Sem DNA."],["🗺️ Mapa",JSON.stringify(ST.sceneMap,null,2)],["✅ Cenas aprovadas",JSON.stringify(ST.approvedScenes,null,2)],["📝 Notas",JSON.stringify(ST.notes,null,2)]];$('modalBody').innerHTML=sections.map(([t,c])=>`<div class="modal-sec"><h3>${t}</h3><div class="out" style="min-height:90px">${esc(c)}</div><button class="btn" onclick="copyText(\`${escJS(c)}\`)">Copiar</button></div>`).join("");$('modal').classList.add("show")}
-function closeModal(){$('modal').classList.remove("show")}
-function downloadProject(){const blob=new Blob([JSON.stringify(getFullProject(),null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="fruits_scene_engine_project.json";a.click();URL.revokeObjectURL(a.href)}
-function saveLocal(){localStorage.fas_scene_engine_final=JSON.stringify(getFullProject());toast("Projeto salvo")}
-function resetProject(){localStorage.removeItem("fas_scene_engine_final");location.reload()}
-function restoreLocal(){try{const saved=localStorage.fas_scene_engine_final;if(!saved)return;const data=JSON.parse(saved);if(data.setup){$('projectName').value=data.setup.projectName||$('projectName').value;$('projectMode').value=data.setup.projectMode||$('projectMode').value;$('format').value=data.setup.format||$('format').value;$('sceneCount').value=data.setup.sceneCount||$('sceneCount').value;$('mixIntensity').value=data.setup.mixIntensity||$('mixIntensity').value;$('audienceMode').value=data.setup.audienceMode||$('audienceMode').value;$('brief').value=data.setup.brief||""}if(data.drive){$('driveProject').value=data.drive.project||"";$('driveCharacters').value=data.drive.characters||"";$('driveWorld').value=data.drive.world||"";$('driveScript').value=data.drive.script||""}if(data.script){$('scriptMode').value=data.script.mode||$('scriptMode').value;$('scriptText').value=data.script.text||"";ST.scriptFileText=data.script.uploadedText||""}ST.matrix=data.matrix||null;selectedMatrixIds=data.selectedMatrixIds||[];ST.research=data.research||[];ST.dna=data.dna||null;ST.sceneMap=data.sceneMap||[];ST.currentIndex=data.currentIndex||0;ST.currentScene=data.currentScene||null;ST.approvedScenes=data.approvedScenes||[];ST.continuity=data.continuity||{};ST.notes=data.notes||{project:[],scenes:{}};renderMatrixGroups();renderMatrixOutput();updateSetupMatrixSummary();renderResearch();renderDNA();renderSceneMap();renderCurrentScene();renderNotes()}catch(e){}}
-function esc(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
-function escJS(s){return String(s||"").replace(/\\/g,"\\\\").replace(/`/g,"\\`").replace(/\$/g,"\\$")}
-function localFallback(prompt){if(prompt.includes("project_dna"))return{project_dna:{title:$('projectName').value,mode:$('projectMode').value,viral_matrix:(ST.matrix||allMatrices()[0]).name,tone:"viral autoral",format:$('format').value},cast_dna:[{name:"Herói Fruta",source:"new/upload",species:"fruta antropomórfica NOT HUMAN",role:"protagonista",visual_dna:"usar uploads/briefing como DNA",base_outfit:"roupa base travada"}],world_dna:{setting:"universo visual enviado ou descrito",mood:"emocional e viral",fourth_wall_allowed:$('audienceMode').value.includes("quarta")},script_dna:{mode:$('scriptMode').value,rule:"usar roteiro base como guia, cena por cena"},production_rules:{scene_engine_rule:"trabalhar uma cena por vez"}};if(prompt.includes("mapa de cenas"))return Array.from({length:Number($('sceneCount').value)||7},(_,i)=>({scene_num:i+1,title:["Gancho inicial","Sinal estranho","Virada visual","Conflito","Cena especial/mix","Escolha","Gancho final"][i]||("Cena "+(i+1)),dramatic_goal:"avançar a história com foco",conflict:"consequência da cena anterior",characters_needed:["Elenco/DNA"],location:"universo visual",emotional_state_start:"incerteza",emotional_state_end:"tensão maior",hook_to_next:"gancho para próxima",aspect_used:(ST.matrix&&ST.matrix.name)||"matriz viral"}));return{scene_num:ST.currentIndex+1,title:(ST.sceneMap[ST.currentIndex]||{}).title||"Cena atual",status:"draft",objective:"entregar uma cena viral focada",action:"O protagonista percebe que a realidade da cena mudou e precisa decidir se continua.",camera:"close emocional, câmera baixa, revelação lenta do ambiente",emotion:"surpresa e tensão",narration:"Às vezes, o mundo muda quando a gente olha para o lugar errado.",dialogue:[{character:"Protagonista",line:"Espera... isso não estava aqui antes."}],caption_short:"Ele abriu a porta errada.",elevenlabs_text:"Às vezes, o mundo muda quando a gente olha para o lugar errado. [pausa] E ele abriu a porta errada.",capcut_text:"Ele abriu a porta errada.",image_prompt:"cinematic 3D anthropomorphic fruit character, NOT HUMAN, staring at a glowing portal in a rainy urban alley, dramatic lighting",video_prompt:"Cinematic framing, professional 3D lighting, Adult Swim aesthetic, masterpiece, anthropomorphic fruit character discovers a glowing portal, slow camera push-in",sound_design:"baixo grave, chuva, pulso sobrenatural",continuity_after_scene:{emotion:"assustado",outfit_state:"limpo",objects:"portal brilhante",open_hook:"o portal chama pelo nome dele",next_scene_setup:"ele precisa decidir entrar"},approve_question:"Finalizar aqui ou continuar para a próxima cena?"}}
-restoreLocal();
-</script>
+    function deepMerge(base, extra) {
+      const out = structuredClone(base);
+      for (const key in extra || {}) {
+        if (extra[key] && typeof extra[key] === "object" && !Array.isArray(extra[key])) out[key] = deepMerge(out[key] || {}, extra[key]);
+        else out[key] = extra[key];
+      }
+      return out;
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function setStatus(label, score, icon = "🟡") {
+      state.status = label;
+      state.score = score;
+      document.getElementById("statusPill").textContent = label;
+      document.getElementById("statusIcon").textContent = icon;
+      document.getElementById("scoreLabel").textContent = label;
+      document.getElementById("scoreNumber").textContent = score;
+      document.getElementById("scoreBar").style.width = `${Math.min(100, score)}%`;
+      saveState();
+    }
+
+    function addMsg(text, type = "ai") {
+      const log = document.getElementById("chatLog");
+      const div = document.createElement("div");
+      div.className = `msg ${type}`;
+      div.textContent = text;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function goTab(id) {
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === id));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("active", p.id === `tab-${id}`));
+      if (id === "export") updateExport();
+      if (id === "map") renderMap();
+      if (id === "scene") renderScene();
+    }
+
+    document.getElementById("tabs").addEventListener("click", e => {
+      const btn = e.target.closest(".tab");
+      if (btn) goTab(btn.dataset.tab);
+    });
+
+    function init() {
+      renderProviderCards();
+      renderMatrixBank();
+      renderCastCards();
+      fillForm();
+      renderMap();
+      renderScene();
+      updateDna();
+      updateExport();
+      setStatus(state.status || "Setup", state.score || 8, state.score >= 100 ? "🚀" : state.score >= 82 ? "✅" : state.score >= 55 ? "🗺️" : "🟡");
+      addMsg("Scene Engine Final v3 carregado. Sem senha. Projeto salvo no navegador.");
+    }
+
+    function fillForm() {
+      const s = state.setup;
+      projectName.value = s.projectName;
+      projectMode.value = s.projectMode;
+      format.value = s.format;
+      sceneCount.value = s.sceneCount;
+      mixIntensity.value = s.mixIntensity;
+      audienceMode.value = s.audienceMode;
+      brief.value = s.brief;
+      provider.value = state.api.provider;
+      renderModels();
+      model.value = state.api.model;
+      apiKey.value = state.api.apiKey || "";
+      endpoint.value = state.api.endpoint;
+      worldPlace.value = state.cast.worldPlace;
+      tone.value = state.cast.tone;
+      continuityRules.value = state.cast.continuityRules;
+      researchRefs.value = state.researchRefs || "";
+      notes.value = state.notes || "";
+      updateMatrixNotice();
+    }
+
+    function saveSetup() {
+      state.setup = {
+        projectName: projectName.value.trim(),
+        projectMode: projectMode.value,
+        format: format.value,
+        sceneCount: Number(sceneCount.value || 3),
+        mixIntensity: mixIntensity.value,
+        audienceMode: audienceMode.value,
+        brief: brief.value.trim()
+      };
+      updateDna();
+      setStatus("Setup salvo", 18, "🟡");
+      addMsg("Setup salvo. Próximo: Banco Viral ou Gerar mapa.");
+    }
+
+    function renderProviderCards() {
+      const data = [
+        { id: "gemini", title: "Gemini", desc: "Bom para pacote final, texto longo e JSON estruturado.", tags: ["roteiro", "JSON", "criativo"] },
+        { id: "groq", title: "Groq", desc: "Rápido para chat, variações e revisão curta.", tags: ["rápido", "quiz", "variações"] },
+        { id: "openrouter", title: "OpenRouter", desc: "Fallback com modelos multi-provider e opções free.", tags: ["fallback", ":free", "multi"] },
+        { id: "auto", title: "Modo Auto", desc: "Escolhe rota recomendada por tarefa.", tags: ["smart", "fallback", "router"] }
+      ];
+      providerCards.innerHTML = data.map(p => `<article class="choice ${state.api.provider === p.id ? "selected" : ""}" onclick="selectProvider('${p.id}')"><h3>${p.title}</h3><p>${p.desc}</p><div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div></article>`).join("");
+    }
+
+    function renderModels() {
+      model.innerHTML = providerModels[state.api.provider].map(m => `<option value="${m}">${m}</option>`).join("");
+      if (!providerModels[state.api.provider].includes(state.api.model)) state.api.model = providerModels[state.api.provider][0];
+    }
+
+    function selectProvider(id) {
+      state.api.provider = id;
+      provider.value = id;
+      renderModels();
+      model.value = state.api.model;
+      renderProviderCards();
+      saveState();
+      addMsg(`Provider selecionado: ${id}.`);
+    }
+
+    provider.addEventListener("change", () => selectProvider(provider.value));
+    model.addEventListener("change", () => { state.api.model = model.value; saveState(); });
+    apiKey.addEventListener("input", () => { state.api.apiKey = apiKey.value.trim(); saveState(); });
+    endpoint.addEventListener("input", () => { state.api.endpoint = endpoint.value.trim(); saveState(); });
+
+    function renderMatrixBank() {
+      const term = (matrixSearch?.value || "").toLowerCase();
+      const html = matrices.map(group => {
+        const options = group.options.filter(o => !term || `${group.group} ${o.name} ${o.desc} ${o.tags.join(" ")}`.toLowerCase().includes(term));
+        if (!options.length) return "";
+        return `<div style="margin-bottom:14px;"><h3>${group.group} <span class="pill">${options.length} opções</span></h3>${options.map(o => matrixOptionHtml(o)).join("")}</div>`;
+      }).join("");
+      matrixBank.innerHTML = html || `<div class="notice">Nenhuma matriz encontrada.</div>`;
+      updateMatrixDetails();
+    }
+
+    function matrixOptionHtml(o) {
+      const selected = state.matrix.primary === o.id;
+      const checked = state.matrix.mix.includes(o.id);
+      return `<article class="choice ${selected ? "selected" : ""}" onclick="selectPrimaryMatrix('${o.id}')">
+        <h3>${o.name}</h3><p>${o.desc}</p>
+        <div class="tags">${o.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+        <label style="margin-top:10px; display:flex; align-items:center; gap:8px; color:var(--cyan); text-transform:none; letter-spacing:0;">
+          <input type="checkbox" ${checked ? "checked" : ""} onclick="event.stopPropagation(); toggleAspect('${o.id}')" style="width:auto;" /> Adicionar ao mix/aspecto
+        </label>
+      </article>`;
+    }
+
+    function findMatrix(id) {
+      for (const g of matrices) for (const o of g.options) if (o.id === id) return o;
+      return null;
+    }
+
+    function selectPrimaryMatrix(id) {
+      state.matrix.primary = id;
+      if (!state.matrix.mix.includes(id)) state.matrix.mix.push(id);
+      renderMatrixBank();
+      saveState();
+    }
+
+    function toggleAspect(id) {
+      if (state.matrix.mix.includes(id)) state.matrix.mix = state.matrix.mix.filter(x => x !== id);
+      else state.matrix.mix.push(id);
+      if (!state.matrix.primary) state.matrix.primary = id;
+      renderMatrixBank();
+      saveState();
+    }
+
+    function clearMatrixMix() {
+      state.matrix.mix = [];
+      state.matrix.primary = null;
+      renderMatrixBank();
+      updateMatrixNotice();
+      saveState();
+    }
+
+    function updateMatrixDetails() {
+      const primary = findMatrix(state.matrix.primary);
+      selectedAspects.innerHTML = state.matrix.mix.length ? state.matrix.mix.map(id => `<span class="tag">${findMatrix(id)?.name || id}</span>`).join("") : `<span class="tag">Nenhum ainda</span>`;
+      if (!primary) {
+        matrixDetails.textContent = "Escolha uma matriz ou faça mix de temas.";
+        return;
+      }
+      const mixNames = state.matrix.mix.map(id => findMatrix(id)?.name || id).join(" + ");
+      matrixDetails.textContent = `TEMA ESCOLHIDO\n\n${primary.name}\n\nTAGS:\n${primary.tags.join(", ")}\n\nESTRUTURA:\n${primary.structure.map((s,i) => `${i+1}. ${s}`).join("\n")}\n\nMIX ATIVO:\n${mixNames}\n\nREGRA:\nA matriz é estrutura autoral. Não copiar personagem, fala, cena ou universo protegido.`;
+    }
+
+    function applyMatrixToSetup() {
+      if (!state.matrix.primary) return alert("Escolha uma matriz primeiro.");
+      updateMatrixNotice();
+      updateDna();
+      setStatus("Matriz escolhida", 28, "🧭");
+      goTab("setup");
+      addMsg("Matriz aplicada ao Setup.");
+    }
+
+    function updateMatrixNotice() {
+      const primary = findMatrix(state.matrix.primary);
+      if (!primary) matrixNotice.textContent = "Matriz narrativa ainda não escolhida. Use “Escolher Banco Viral”.";
+      else matrixNotice.textContent = `Matriz ativa: Mix: ${state.matrix.mix.map(id => findMatrix(id)?.name || id).join(" + ")} Aspectos: ${state.matrix.mix.map(id => findMatrix(id)?.tags.join(", ")).join(" | ")} Intensidade: ${state.setup.mixIntensity} Interação: ${state.setup.audienceMode}`;
+    }
+
+    function renderCastCards() {
+      castCards.innerHTML = castBank.map(c => `<article class="choice ${state.cast.selected.includes(c.id) ? "selected" : ""}" onclick="toggleCast('${c.id}')"><h3>${c.name}</h3><p>${c.desc}</p><div class="tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div></article>`).join("");
+    }
+
+    function toggleCast(id) {
+      if (state.cast.selected.includes(id)) state.cast.selected = state.cast.selected.filter(x => x !== id);
+      else state.cast.selected.push(id);
+      renderCastCards();
+      saveCastUniverse();
+    }
+
+    function castName(id) { return castBank.find(c => c.id === id)?.name || id; }
+
+    function saveCastUniverse() {
+      state.cast.worldPlace = worldPlace.value.trim();
+      state.cast.tone = tone.value;
+      state.cast.continuityRules = continuityRules.value.trim();
+      updateDna();
+      setStatus("DNA salvo", Math.max(state.score, 35), "🧬");
+      addMsg("Elenco, universo e regras salvos no DNA.");
+    }
+
+    function buildProjectDna() {
+      const primary = findMatrix(state.matrix.primary);
+      return {
+        project_dna: {
+          project_name: state.setup.projectName,
+          mode: state.setup.projectMode,
+          format: state.setup.format,
+          brief: state.setup.brief,
+          matrix: primary ? {
+            id: primary.id,
+            name: primary.name,
+            tags: primary.tags,
+            structure: primary.structure,
+            mix: state.matrix.mix.map(id => findMatrix(id)?.name || id)
+          } : null,
+          cast: state.cast.selected.map(id => ({ id, name: castName(id) })),
+          world: {
+            place: state.cast.worldPlace,
+            tone: state.cast.tone,
+            rules: state.cast.continuityRules
+          },
+          script_rules: [
+            "Revisar cenas aprovadas antes de gerar a próxima.",
+            "Manter continuidade do mapa, personagens e emoção.",
+            "Não copiar obras, falas, autores, diretores ou universos protegidos.",
+            "Estudar padrões narrativos: desejo, conflito, virada, emoção, imagem e gancho.",
+            "Falas curtas, visual forte e gancho para retenção."
+          ],
+          research_references: state.researchRefs || ""
+        }
+      };
+    }
+
+    function updateDna() {
+      dnaBox.textContent = JSON.stringify(buildProjectDna(), null, 2);
+      saveState();
+    }
+
+    function generateMap() {
+      saveSetup();
+      saveCastUniverse();
+      const count = Number(state.setup.sceneCount || 3);
+      const primary = findMatrix(state.matrix.primary);
+      const isOrigin = state.matrix.mix.includes("broken_family_origin") || /origem|OZ|Limão/i.test(state.setup.brief);
+      const isBetrayal = state.matrix.mix.includes("public_betrayal_doc") || /documento|traição/i.test(state.setup.brief);
+
+      let map;
+      if (count <= 3 || state.setup.format.includes("1 cena") || isOrigin || isBetrayal) {
+        map = [
+          {
+            title: "A Descoberta e a Falsa Ajuda",
+            objective: "Estabelecer o segredo de OZ e a entrada manipuladora de Abacatudo, preparando o terreno para a revelação pública.",
+            beat: "Abacatudo se afasta com os documentos, preparando a revelação pública, enquanto Sabrina Pitaya percebe um movimento estranho."
+          },
+          {
+            title: "A Revelação e a Queda de OZ",
+            objective: "Expor OZ publicamente e mostrar o impacto devastador da traição e da humilhação.",
+            beat: "OZ é emocionalmente destruído, Abacatudo parece vitorioso, mas a cena clama por uma intervenção ou reviravolta."
+          },
+          {
+            title: "A Proteção e a Verdade Parcial",
+            objective: "Interromper a humilhação, plantar a semente da dúvida sobre a verdade de Abacatudo e criar um gancho para a continuação da história.",
+            beat: "A busca pela verdade completa sobre Limão Rocha e a origem de OZ vira promessa para a parte 2."
+          }
+        ];
+      } else {
+        map = Array.from({ length: count }).map((_, i) => ({
+          title: `Cena ${i+1} — ${primary?.structure?.[i % primary.structure.length] || "Virada"}`,
+          objective: `Desenvolver ${primary?.name || "a matriz"} com progressão emocional.`,
+          beat: `Batida ${i+1}: ${primary?.structure?.[i % primary.structure.length] || "gancho"}.`
+        }));
+      }
+
+      state.map = map;
+      state.currentSceneIndex = 0;
+      state.scenes = [];
+      state.approved = [];
+      updateDna();
+      renderMap();
+      setStatus("Mapa pronto", 55, "🗺️");
+      goTab("map");
+      addMsg("Mapa gerado com continuidade inicial.");
+    }
+
+    function renderMap() {
+      if (!state.map.length) {
+        sceneMap.innerHTML = `<div class="notice">Sem mapa ainda. Clique em Gerar mapa.</div>`;
+        return;
+      }
+      sceneMap.innerHTML = state.map.map((s, i) => `<article class="scene-card ${i === state.currentSceneIndex ? "active" : ""} ${i > state.approved.length ? "locked" : ""}" onclick="selectScene(${i})"><h3>${state.approved[i] ? "✅" : i === state.currentSceneIndex ? "🎬" : "🔒"} Cena ${i+1} — ${s.title}</h3><p><strong>${s.objective}</strong></p><p>${s.beat}</p></article>`).join("");
+    }
+
+    function selectScene(index) {
+      if (index > state.approved.length) return alert("A regra é avançar uma cena por vez após aprovação.");
+      state.currentSceneIndex = index;
+      renderMap();
+      renderScene();
+      goTab("scene");
+      saveState();
+    }
+
+    function buildScenePrompt(index) {
+      const mapScene = state.map[index];
+      const approvedText = state.scenes.map((s, i) => state.approved[i] ? `CENA ${i+1} APROVADA:\n${s.text}` : "").filter(Boolean).join("\n\n");
+      const dna = JSON.stringify(buildProjectDna(), null, 2);
+      return `Você é o Fruits Copilot, roteirista e diretor de cena do universo Fruits Adventures Titan.\n\nANTES DE GERAR, revise o DNA completo, cenas aprovadas, mapa, personagens e continuidade.\n\nDNA:\n${dna}\n\nCENAS APROVADAS:\n${approvedText || "Nenhuma ainda."}\n\nCENA ATUAL ${index+1}: ${mapScene.title}\nOBJETIVO: ${mapScene.objective}\nBATIDA: ${mapScene.beat}\n\nGere a cena em português com estes blocos:\nCENA ${index+1} — Título\nOBJETIVO\nAÇÃO\nCÂMERA\nEMOÇÃO\nNARRAÇÃO\nFALAS\nLEGENDA CURTA\nELEVENLABS\nCAPCUT\n\nRegras: não copiar obras ou falas protegidas; preservar DNA Fruits; falas curtas; emoção forte; visual claro; gancho para próxima cena quando houver.`;
+    }
+
+    function generateSceneLocal(index) {
+      const s = state.map[index];
+      const n = index + 1;
+      const cast = state.cast.selected.map(castName).join(", ");
+      if (n === 1) {
+        return `CENA 1 — ${s.title}\n\nOBJETIVO:\n${s.objective}\n\nAÇÃO:\nOZ, com um semblante pensativo, encontra-se num canto mais reservado da Feira Fruits, perto de uma barraca de sucos. Ele retira de um bolso secreto uma foto antiga em sépia e um documento amarelado. Seus olhos demonstram curiosidade e apreensão enquanto tenta decifrar a caligrafia. Abacatudo se aproxima sorrateiramente, com um sorriso falso, colocando a mão no ombro de OZ e oferecendo “ajuda”. OZ, ingenuamente, entrega o documento e a foto. Enquanto analisa, Abacatudo sorri de canto de boca. Ele rapidamente guarda a prova de forma disfarçada. Sabrina Pitaya, afastada, percebe o movimento estranho. Abacatudo sobe em uma caixa de frutas vazia e chama a atenção da feira com um megafone improvisado.\n\nCÂMERA:\nClose nas mãos trêmulas de OZ. Plano médio de Abacatudo se aproximando. Close na troca dos documentos. Corte para Sabrina percebendo. Plano geral da feira silenciando.\n\nEMOÇÃO:\nCuriosidade, apreensão, falsa solicitude, malícia disfarçada e desconfiança.\n\nNARRAÇÃO:\nOZ achava que tinha encontrado uma resposta. Mas na Feira Fruits, algumas respostas chegam pelas mãos erradas. E quando Abacatudo sorriu, Sabrina Pitaya entendeu: a verdade estava prestes a ser usada como arma.\n\nFALAS:\nOZ: “Esse nome... Limão Rocha... por que está aqui?”\nAbacatudo: “Calma, garoto. Deixa eu ver isso. Talvez eu possa te ajudar.”\nSabrina Pitaya: “Não... esse sorriso não é de quem quer ajudar.”\n\nLEGENDA CURTA:\nOZ entrega a única pista da sua origem nas mãos erradas.\n\nELEVENLABS:\nOZ: Esse nome... Limão Rocha... por que está aqui? | Abacatudo: Calma, garoto. Deixa eu ver isso. Talvez eu possa te ajudar. | Sabrina: Não... esse sorriso não é de quem quer ajudar.\n\nCAPCUT:\nOZ encontra a foto antiga. Abacatudo finge ajudar. Sabrina percebe a mentira antes de todos.`;
+      }
+      if (n === 2) {
+        return `CENA 2 — ${s.title}\n\nOBJETIVO:\n${s.objective}\n\nAÇÃO:\nAbacatudo, no centro da Feira Fruits, sobre uma caixa vazia, usa o megafone para chamar o público. Com tom dramático e traiçoeiro, ele revela o documento e a foto, distorcendo a verdade sobre a origem de OZ. Ele insinua que OZ é um fruto abandonado, ligado a Limão Rocha de forma pejorativa. A multidão reage com cochichos, risadas nervosas e julgamento. OZ fica paralisado, invadido por vergonha e dor. Tomate Elinaldo avança, mas ainda hesita para não piorar a exposição. Sabrina Pitaya observa o documento e percebe uma rasura.\n\nCÂMERA:\nPlano geral de Abacatudo no alto. Close no sorriso dele. Corte para OZ em primeiro plano com olhos arregalados. Plano da feira reagindo. Close no dedo de Sabrina apontando a rasura no documento.\n\nEMOÇÃO:\nHumilhação pública, choque, maldade disfarçada, vergonha e começo da dúvida.\n\nNARRAÇÃO:\nA multidão ouviu a mentira antes de ouvir a verdade. E quando todos olharam para OZ como se ele fosse uma culpa ambulante, Abacatudo quase venceu. Quase. Porque Sabrina viu o detalhe que ninguém viu.\n\nFALAS:\nAbacatudo: “Todos precisam saber quem esse garoto realmente é!”\nOZ: “Para... isso não pode ser verdade...”\nTomate Elinaldo: “Abacatudo, chega!”\nSabrina Pitaya: “Espera... esse documento foi mexido.”\n\nLEGENDA CURTA:\nAbacatudo transforma a origem de OZ em humilhação pública, mas Sabrina descobre uma falha.\n\nELEVENLABS:\nAbacatudo: Todos precisam saber quem esse garoto realmente é! | OZ: Para... isso não pode ser verdade... | Sabrina: Espera... esse documento foi mexido.\n\nCAPCUT:\nHumilhação pública. Documento revelado. Sabrina percebe a rasura. A verdade começa a mudar de lado.`;
+      }
+      return `CENA ${n} — ${s.title}\n\nOBJETIVO:\n${s.objective}\n\nAÇÃO:\nTomate Elinaldo avança furioso em direção a Abacatudo, interpondo-se entre ele e OZ, que ainda está abalado. Ele protege OZ enquanto Sabrina Pitaya, com o documento ainda em exibição, percebe um detalhe crucial: uma rasura ou palavra mal interpretada sugere que a “verdade” de Abacatudo é apenas parcial. Sabrina aponta para o documento com olhar de descoberta. A revelação de Abacatudo é questionada, e a semente da dúvida é plantada no público. OZ, ainda confuso, olha para Tomate e Sabrina com um vislumbre de esperança. A dúvida sobre a verdadeira história de Limão Rocha e a manipulação de Abacatudo cria um forte gancho para parte 2.\n\nCÂMERA:\nPlano médio de Tomate protegendo OZ. Close no rosto de Sabrina descobrindo a rasura. Plano geral da tensão entre Tomate e Abacatudo. Close nos olhos de OZ alternando entre dor e esperança.\n\nEMOÇÃO:\nProteção, raiva justa, descoberta, esperança e dúvida pública.\n\nNARRAÇÃO:\nNo abismo da humilhação, a lealdade se ergue como escudo. Tomate não deixou OZ cair sozinho. Sabrina não deixou a mentira passar inteira. E naquele silêncio da feira, uma nova pergunta nasceu: quem realmente estava escondendo a verdade sobre Limão Rocha?\n\nFALAS:\nTomate Elinaldo: “Chega, Abacatudo! Isso não é verdade!”\nSabrina Pitaya: “Há algo mais aqui... uma mentira!”\nOZ: “Limão Rocha... quem ele realmente era?”\nAbacatudo: “Vocês não sabem com o que estão mexendo.”\n\nLEGENDA CURTA:\nTomate protege OZ, enquanto Sabrina planta a dúvida que pode derrubar Abacatudo.\n\nELEVENLABS:\nTomate: Chega, Abacatudo! Isso não é verdade! | Sabrina: Há algo mais aqui... uma mentira! | OZ: Limão Rocha... quem ele realmente era?\n\nCAPCUT:\nTomate protege OZ. Sabrina descobre a falha. A verdade sobre Limão Rocha fica para a parte 2.`;
+    }
+
+    async function generateCurrentScene(useApi = false) {
+      if (!state.map.length) generateMap();
+      const index = state.currentSceneIndex;
+      const sceneTitle = state.map[index]?.title || `Cena ${index+1}`;
+      sceneOutput.textContent = `Gerando cena ${index+1}...`;
+      setStatus("Cena em produção", 70, "🎬");
+      goTab("scene");
+
+      try {
+        let text;
+        if (useApi && state.api.apiKey) text = await callProvider(buildScenePrompt(index), false);
+        else text = generateSceneLocal(index);
+        state.scenes[index] = { title: sceneTitle, text, generatedAt: new Date().toISOString() };
+        renderScene();
+        updateDna();
+        addMsg(`Cena ${index+1} gerada. Revise e aprove 100%.`);
+      } catch (err) {
+        sceneOutput.textContent = `Erro ao gerar cena:\n${err.message}\n\nGerando versão local de segurança...\n\n${generateSceneLocal(index)}`;
+        state.scenes[index] = { title: sceneTitle, text: sceneOutput.textContent, generatedAt: new Date().toISOString() };
+        saveState();
+      }
+    }
+
+    function renderScene() {
+      scenePill.textContent = `Cena ${state.currentSceneIndex + 1}`;
+      const s = state.scenes[state.currentSceneIndex];
+      sceneOutput.textContent = s?.text || "Sem cena atual.";
+    }
+
+    function approveCurrentScene() {
+      const index = state.currentSceneIndex;
+      if (!state.scenes[index]) return alert("Gere a cena atual primeiro.");
+      state.approved[index] = true;
+      setStatus("Cena aprovada", 82, "✅");
+      renderMap();
+      updateDna();
+      addMsg(`Cena ${index+1} aprovada 100%.`);
+      if (state.approved.filter(Boolean).length >= state.map.length) {
+        setStatus("Exportação", 100, "🚀");
+        updateExport();
+      }
+    }
+
+    function nextScene() {
+      const index = state.currentSceneIndex;
+      if (!state.approved[index]) return alert("Aprove a cena atual antes de continuar.");
+      if (index + 1 >= state.map.length) {
+        setStatus("Exportação", 100, "🚀");
+        updateExport();
+        goTab("export");
+        return;
+      }
+      state.currentSceneIndex = index + 1;
+      renderMap();
+      renderScene();
+      setStatus("Cena em produção", 70, "🎬");
+      goTab("scene");
+      addMsg(`Agora gere a Cena ${state.currentSceneIndex + 1}.`);
+      saveState();
+    }
+
+    function continueOptions() {
+      const txt = `CONTINUAR — OPÇÕES\n\n1. Gerar próxima cena mantendo continuidade\n2. Melhorar diálogo\n3. Gerar SRT CapCut\n4. Narrador normal\n5. Gerar prompts visuais\n6. Radar Viral IA antes da próxima\n\nSugestão: se a cena está boa, clique em Aprovar 100% e depois Próxima cena.`;
+      openModal("Continuar com opções", "Escolha o melhor próximo movimento.", txt, "continuar-opcoes.txt");
+    }
+
+    function commentScene() {
+      const comment = prompt("Comente o que precisa melhorar nesta cena:");
+      if (!comment) return;
+      state.notes = `${state.notes || ""}\n\nComentário Cena ${state.currentSceneIndex + 1}: ${comment}`;
+      notes.value = state.notes;
+      saveState();
+      addMsg("Comentário salvo em Notas.");
+    }
+
+    function editSceneJson() {
+      const current = state.scenes[state.currentSceneIndex]?.text || "";
+      const edited = prompt("Edite a cena atual:", current);
+      if (edited !== null) {
+        state.scenes[state.currentSceneIndex] = { title: state.map[state.currentSceneIndex]?.title || "Cena", text: edited, editedAt: new Date().toISOString() };
+        renderScene();
+        saveState();
+      }
+    }
+
+    function getCurrentSceneText() {
+      return state.scenes[state.currentSceneIndex]?.text || sceneOutput.textContent || "";
+    }
+
+    async function copyCurrentScene() {
+      await navigator.clipboard.writeText(getCurrentSceneText());
+      openModal("Cena copiada", "A cena atual foi copiada.", getCurrentSceneText(), `cena-${state.currentSceneIndex+1}.txt`);
+    }
+
+    function emailCurrentScene() {
+      const subject = encodeURIComponent(`Cena ${state.currentSceneIndex + 1} — Fruits Adventures`);
+      const body = encodeURIComponent(getCurrentSceneText().slice(0, 6000));
+      location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
+    function narrateScene() {
+      const text = extractNarration(getCurrentSceneText());
+      if (!("speechSynthesis" in window)) return openModal("Narrador normal", "Seu navegador não liberou voz. Copie o texto.", text, "narrador.txt");
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "pt-BR";
+      u.rate = .92;
+      u.pitch = 1;
+      speechSynthesis.speak(u);
+      openModal("Narrador normal", "Leitura grátis pelo navegador/aparelho. Não gasta IA.", text, "narrador.txt");
+    }
+
+    function stopNarrator() {
+      if ("speechSynthesis" in window) speechSynthesis.cancel();
+    }
+
+    function extractNarration(text) {
+      const m = text.match(/NARRAÇÃO:\s*([\s\S]*?)(\n\n[A-ZÁÉÍÓÚÂÊÔÃÕÇ ]+:|$)/i);
+      if (m) return m[1].trim();
+      const a = text.match(/AÇÃO:\s*([\s\S]*?)(\n\n[A-ZÁÉÍÓÚÂÊÔÃÕÇ ]+:|$)/i);
+      return a ? a[1].trim() : text;
+    }
+
+    function srtTime(seconds) {
+      const msTotal = Math.max(0, Math.round(seconds * 1000));
+      const h = Math.floor(msTotal / 3600000);
+      const m = Math.floor((msTotal % 3600000) / 60000);
+      const s = Math.floor((msTotal % 60000) / 1000);
+      const ms = msTotal % 1000;
+      return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")},${String(ms).padStart(3,"0")}`;
+    }
+
+    function buildSrt(text) {
+      const lines = text
+        .replace(/\r/g, "")
+        .split(/(?<=[.!?…])\s+|\n+/)
+        .map(x => x.trim())
+        .filter(Boolean)
+        .filter(x => !/^(CENA|OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|FALAS|NARRAÇÃO|CAPCUT|ELEVENLABS|LEGENDA)/i.test(x))
+        .slice(0, 120);
+      let cursor = 0;
+      return lines.map((line, i) => {
+        const words = line.split(/\s+/).length;
+        const duration = Math.min(7.5, Math.max(2.2, words * .42 + .8));
+        const start = cursor;
+        const end = cursor + duration;
+        cursor = end + .18;
+        return `${i+1}\n${srtTime(start)} --> ${srtTime(end)}\n${line}`;
+      }).join("\n\n");
+    }
+
+    function generateSceneSrt() {
+      const srt = buildSrt(getCurrentSceneText());
+      openModal("SRT CapCut", "Legenda .srt aproximada, pronta para copiar ou baixar.", srt, `cena-${state.currentSceneIndex+1}-capcut.srt`);
+    }
+
+    function generateProjectSrt() {
+      const srt = buildSrt(buildCleanScript());
+      openModal("SRT CapCut — Projeto", "Legenda aproximada para todo o projeto.", srt, `fruits-projeto-capcut.srt`);
+    }
+
+    function saveNotes() {
+      state.notes = notes.value;
+      saveState();
+      addMsg("Notas salvas.");
+    }
+
+    function insertUpdateIdeas() {
+      const pack = `\n\nPACOTE DE IDEIAS V3:\n- Narrador Normal com voz grátis do navegador/aparelho.\n- SRT CapCut com tempos aproximados, emoção, pausas e personagens.\n- Copiar cena, copiar roteiro completo, copiar JSON.\n- Enviar cena por e-mail.\n- Backup seguro e restaurar projeto.\n- Continuar com opções.\n- Radar Viral IA antes de gerar próxima cena.\n- Revisar DNA completo antes de cada geração.\n- Exportar pacote final pronto para produção.\n- Curso PDF do Fruits Adventures Studio depois da atualização.`;
+      notes.value += pack;
+      saveNotes();
+    }
+
+    async function copyNotes() {
+      await navigator.clipboard.writeText(notes.value);
+      addMsg("Notas copiadas.");
+    }
+
+    function generateRadarBrief() {
+      saveSetup(); saveCastUniverse();
+      state.researchRefs = researchRefs.value;
+      const approved = state.scenes.map((s,i) => state.approved[i] ? `Cena ${i+1}:\n${s.text}` : "").filter(Boolean).join("\n\n");
+      const brief = `RADAR VIRAL IA — FRUITS ADVENTURES STUDIO\n\nMISSÃO:\nAntes de gerar a próxima cena, revisar DNA, cenas aprovadas, mapa, personagens, matriz viral e continuidade. Comparar com padrões fortes de roteiros, direção e produção: desejo claro, conflito, obstáculo, virada, imagem forte, ritmo, emoção e gancho.\n\nREGRAS DE SEGURANÇA AUTORAL:\n- Não copiar personagem, fala, cena, diretor, autor, franquia ou universo protegido.\n- Estudar apenas estrutura narrativa e técnica de produção.\n- Adaptar tudo ao DNA Fruits Adventures Titan.\n\nDNA:\n${JSON.stringify(buildProjectDna(), null, 2)}\n\nMAPA:\n${JSON.stringify(state.map, null, 2)}\n\nCENAS APROVADAS:\n${approved || "Nenhuma aprovada ainda."}\n\nREFERÊNCIAS DO USUÁRIO:\n${state.researchRefs || "Nenhuma."}\n\nSAÍDA ESPERADA:\n1. 3 opções de direção narrativa.\n2. Pontuação de viralidade.\n3. Riscos de confusão ou repetição.\n4. Melhor fórmula para próxima cena.\n5. Prompt final para gerar cena 100%.`;
+      radarOutput.textContent = brief;
+      openModal("Radar Viral IA", "Brief pronto para API/pesquisa e revisão de DNA.", brief, "radar-viral-ia.txt");
+      setStatus("Radar Viral IA", Math.max(state.score, 88), "📡");
+      saveState();
+    }
+
+    async function copyRadarBrief() {
+      await navigator.clipboard.writeText(radarOutput.textContent);
+      addMsg("Radar copiado.");
+    }
+
+    function buildExport() {
+      return {
+        app: "Fruits Adventures Studio — Scene Engine Final",
+        version: "v3 completo",
+        exportedAt: new Date().toISOString(),
+        setup: state.setup,
+        api: { provider: state.api.provider, model: state.api.model, endpoint: state.api.endpoint },
+        dna: buildProjectDna(),
+        map: state.map,
+        scenes: state.scenes,
+        approved: state.approved,
+        notes: state.notes,
+        radar: radarOutput?.textContent || ""
+      };
+    }
+
+    function updateExport() {
+      exportOutput.textContent = JSON.stringify(buildExport(), null, 2);
+    }
+
+    function openExportModal() {
+      updateExport();
+      openModal("Exportar pacote final", "Projeto completo em JSON.", exportOutput.textContent, "fruits-scene-engine-final.json");
+    }
+
+    async function copyExportJson() {
+      updateExport();
+      await navigator.clipboard.writeText(exportOutput.textContent);
+      openModal("JSON copiado", "Pacote completo copiado.", exportOutput.textContent, "fruits-scene-engine-final.json");
+    }
+
+    function buildCleanScript() {
+      return state.scenes.map((s,i) => `CENA ${i+1} — ${s.title || state.map[i]?.title || ""}\n\n${s.text || ""}`).join("\n\n------------------------------\n\n");
+    }
+
+    async function copyCleanScript() {
+      const script = buildCleanScript();
+      await navigator.clipboard.writeText(script);
+      openModal("Roteiro completo copiado", "Versão limpa das cenas para revisar, enviar ou produzir.", script, "roteiro-fruits.txt");
+    }
+
+    function downloadJson() {
+      updateExport();
+      downloadText(exportOutput.textContent, "fruits-scene-engine-final.json", "application/json");
+    }
+
+    function backupProject() {
+      const backup = JSON.stringify({ backupAt: new Date().toISOString(), localStorage: localStorage.getItem(STORAGE_KEY), export: buildExport() }, null, 2);
+      openModal("Backup seguro", "Baixe este arquivo antes de atualizar o site.", backup, "backup-fruits-scene-engine.json");
+    }
+
+    function saveToBrowser() {
+      saveState();
+      alert("Projeto salvo no navegador.");
+    }
+
+    function copyMapJson() {
+      navigator.clipboard.writeText(JSON.stringify(state.map, null, 2));
+      addMsg("Mapa copiado.");
+    }
+
+    function openModal(title, desc, text, fileName = "fruits.txt") {
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc;
+      modalOutput.textContent = text || "";
+      modalText = text || "";
+      modalFile = fileName;
+      modal.classList.add("open");
+    }
+
+    function closeModal() { modal.classList.remove("open"); }
+    async function copyModal() { await navigator.clipboard.writeText(modalText); alert("Copiado."); }
+    function downloadModal() { downloadText(modalText, modalFile); }
+
+    function downloadText(text, filename, type = "text/plain;charset=utf-8") {
+      const blob = new Blob([text], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function clearProjectConfirm() {
+      if (!confirm("Tem certeza? Faça backup antes de limpar.")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      state = structuredClone(defaultState);
+      fillForm(); renderMap(); renderScene(); updateDna(); updateExport();
+      setStatus("Setup", 8, "🟡");
+      addMsg("Projeto limpo.");
+    }
+
+    function detectProviderFromKey(key) {
+      if ((key || "").startsWith("AIza")) return "gemini";
+      if ((key || "").startsWith("gsk_")) return "groq";
+      if ((key || "").startsWith("sk-or-")) return "openrouter";
+      return null;
+    }
+
+    function applyDetectedProvider() {
+      const detected = detectProviderFromKey(state.api.apiKey || apiKey.value.trim());
+      if (detected) selectProvider(detected);
+    }
+
+    async function testApiOnline() {
+      state.api.apiKey = apiKey.value.trim();
+      state.api.model = model.value;
+      applyDetectedProvider();
+      openModal("Testando API", "Aguarde o retorno do provider.", "Testando...", "teste-api.txt");
+      try {
+        const result = await callProvider("Responda apenas: API Fruits online OK", false);
+        openModal("API funcionando", `${state.api.provider} / ${state.api.model}`, result, "teste-api.txt");
+      } catch (e) {
+        openModal("API não conectou", "Se aparecer Failed to fetch, use backend seguro. Confira provider, chave e modelo.", e.message, "erro-api.txt");
+      }
+    }
+
+    async function callProvider(promptText, forceJson) {
+      const key = state.api.apiKey || apiKey.value.trim();
+      const providerName = state.api.provider;
+      const modelName = state.api.model;
+      if (!key) throw new Error("Cole sua API Key primeiro.");
+      if (providerName === "auto") throw new Error("Modo Auto precisa de backend para rotear várias chaves.");
+
+      if (providerName === "gemini") {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(key)}`;
+        const payload = { contents: [{ role: "user", parts: [{ text: promptText }] }] };
+        if (forceJson) payload.generationConfig = { response_mime_type: "application/json" };
+        const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const text = await res.text();
+        let data; try { data = JSON.parse(text); } catch { data = { raw: text }; }
+        if (!res.ok) throw new Error(data.error?.message || text);
+        return data.candidates?.[0]?.content?.parts?.map(p => p.text).join("\n") || JSON.stringify(data, null, 2);
+      }
+
+      const endpointUrl = providerName === "groq" ? "https://api.groq.com/openai/v1/chat/completions" : "https://openrouter.ai/api/v1/chat/completions";
+      const headers = { "Content-Type": "application/json", "Authorization": `Bearer ${key}` };
+      if (providerName === "openrouter") {
+        headers["HTTP-Referer"] = location.origin || "https://naldox3d.github.io";
+        headers["X-Title"] = "Fruits Adventures Studio";
+      }
+      const body = {
+        model: modelName,
+        messages: [
+          { role: "system", content: "Você é o Fruits Copilot. Responda em português do Brasil. Preserve o DNA Fruits e não copie obras protegidas." },
+          { role: "user", content: promptText }
+        ],
+        temperature: .45
+      };
+      if (forceJson && providerName === "groq") body.response_format = { type: "json_object" };
+      const res = await fetch(endpointUrl, { method: "POST", headers, body: JSON.stringify(body) });
+      const text = await res.text();
+      let data; try { data = JSON.parse(text); } catch { data = { raw: text }; }
+      if (!res.ok) throw new Error(data.error?.message || data.message || text);
+      return data.choices?.[0]?.message?.content || JSON.stringify(data, null, 2);
+    }
+
+    function showBackendExample() {
+      const code = `// server.js — backend seguro para proteger chaves\nimport express from 'express';\nimport cors from 'cors';\n\nconst app = express();\napp.use(cors());\napp.use(express.json({ limit: '2mb' }));\n\napp.post('/api/fruits-generate', async (req, res) => {\n  const { provider, model, prompt } = req.body;\n  const keys = {\n    gemini: process.env.GEMINI_API_KEY,\n    groq: process.env.GROQ_API_KEY,\n    openrouter: process.env.OPENROUTER_API_KEY\n  };\n  // Aqui chamar provider escolhido com chave protegida.\n  res.json({ ok: true, provider, model, message: 'Conectar chamada real aqui', prompt });\n});\n\napp.listen(3000, () => console.log('Fruits API rodando'));`;
+      openModal("Backend exemplo", "Use no servidor/Vercel/Render/Netlify Functions, não no GitHub Pages puro.", code, "server-example.js");
+    }
+
+    window.addEventListener("beforeunload", saveState);
+    [projectName, projectMode, format, sceneCount, mixIntensity, audienceMode, brief, worldPlace, tone, continuityRules, researchRefs, notes].forEach(el => {
+      el.addEventListener("input", () => { saveSetupSoft(); });
+      el.addEventListener("change", () => { saveSetupSoft(); });
+    });
+
+    function saveSetupSoft() {
+      state.setup.projectName = projectName.value.trim();
+      state.setup.projectMode = projectMode.value;
+      state.setup.format = format.value;
+      state.setup.sceneCount = Number(sceneCount.value || 3);
+      state.setup.mixIntensity = mixIntensity.value;
+      state.setup.audienceMode = audienceMode.value;
+      state.setup.brief = brief.value.trim();
+      state.cast.worldPlace = worldPlace.value.trim();
+      state.cast.tone = tone.value;
+      state.cast.continuityRules = continuityRules.value.trim();
+      state.researchRefs = researchRefs.value;
+      state.notes = notes.value;
+      updateMatrixNotice();
+      updateDna();
+    }
+
+    init();
+  </script>
 </body>
 </html>
