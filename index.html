@@ -501,7 +501,7 @@ body {
     <input id="portalInput" class="portal-input" type="password" placeholder="••••••••••" autocomplete="current-password"/>
     <div id="portalErr" class="portal-err">Senha incorreta. Tente novamente.</div>
     <button class="btn btn-gold" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Studio</button>
-    <div class="portal-hint">Senha padrão: <strong>fruits2026</strong></div>
+    <div class="portal-hint">Acesso protegido pelo Portal Principal seguro.</div>
   </div>
 </div>
 
@@ -847,30 +847,26 @@ body {
 // PORTAL
 // ═══════════════════════════════════════════════
 const PORTAL_KEY = 'fa_v5_portal';
-const PORTAL_PASS = 'fruits2026';
+// Segurança: a senha não fica mais neste HTML. O login real é feito pelo backend do Portal Principal.
+const PORTAL_PASS = ''; // legado desativado
 const STORAGE_KEY = 'fa_v5_state';
 
 function initPortal() {
+  // Segurança v5.2: este arquivo deve ficar atrás do Portal Principal seguro.
+  // Não existe senha fixa neste HTML; o backend/middleware protege a rota antes de carregar o app.
   const el = document.getElementById('portal');
-  if (localStorage.getItem(PORTAL_KEY) === 'ok') { el.classList.add('hidden'); return; }
-  el.classList.remove('hidden');
-  setTimeout(() => document.getElementById('portalInput').focus(), 100);
-  document.getElementById('portalInput').addEventListener('keydown', e => { if (e.key === 'Enter') unlockPortal(); });
+  if (el) el.classList.add('hidden');
 }
 function unlockPortal() {
-  if (document.getElementById('portalInput').value.trim() === PORTAL_PASS) {
-    localStorage.setItem(PORTAL_KEY, 'ok');
-    document.getElementById('portal').classList.add('hidden');
-    log('Portal liberado. Bem-vindo ao Scene Engine v5.', 'ok');
-  } else {
-    document.getElementById('portalErr').classList.add('show');
-  }
+  // Legado desativado: autenticação real no backend /api/auth-login.
+  const el = document.getElementById('portal');
+  if (el) el.classList.add('hidden');
+  log('Acesso liberado pelo Portal Principal seguro.', 'ok');
 }
 function lockPortal() {
-  localStorage.removeItem(PORTAL_KEY);
-  document.getElementById('portal').classList.remove('hidden');
-  document.getElementById('portalInput').value = '';
-  document.getElementById('portalInput').focus();
+  // Em produção, o botão Travar deve chamar logout do portal principal.
+  try { window.parent.postMessage({ type: 'studio-logout' }, '*'); } catch(e) {}
+  log('Solicitando logout ao Portal Principal.', 'warn');
 }
 
 // ═══════════════════════════════════════════════
