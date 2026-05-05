@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Gráfica IA Studio — Claude API</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#060812;--surface:#0d1122;--surface2:#151b31;--surface3:#1d2542;--border:rgba(255,255,255,.09);
+  --text:#edf1ff;--muted:#8a92b8;--gold:#ffbf3d;--cyan:#00e5d4;--pink:#ff4d7e;--green:#56ff9b;--purple:#9b6dff;
+  --gold-dim:rgba(255,191,61,.12);--cyan-dim:rgba(0,229,212,.1);--pink-dim:rgba(255,77,126,.11);--green-dim:rgba(86,255,155,.11);--purple-dim:rgba(155,109,255,.11);
+  --radius:16px;--radius-sm:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(circle at 20% 0,#16234b 0,#060812 35%,#04050b 100%);color:var(--text);font-family:Inter,sans-serif;min-height:100vh}
+button,input,select,textarea{font-family:inherit}
+.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;padding:14px 20px;background:rgba(6,8,18,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.brand{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);letter-spacing:.5px}.brand span{display:block;color:var(--muted);font-family:Inter,sans-serif;font-size:11px;font-weight:500}
+.status{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--muted)}.dot.ok{background:var(--green);box-shadow:0 0 10px var(--green)}
+.layout{display:grid;grid-template-columns:270px 1fr;min-height:calc(100vh - 61px)}
+.sidebar{background:rgba(13,17,34,.86);border-right:1px solid var(--border);padding:14px;overflow-y:auto}
+.node{display:flex;gap:10px;align-items:center;padding:11px 12px;margin-bottom:7px;border:1px solid var(--border);background:var(--surface2);border-radius:var(--radius-sm);cursor:pointer;transition:.15s}
+.node:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.2)}.node.active{border-color:var(--gold);background:var(--gold-dim)}.node.done{border-color:rgba(86,255,155,.32)}
+.node b{font-size:13px}.node small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.node i{font-style:normal;font-size:18px}
+.main{height:calc(100vh - 61px);overflow:hidden;display:flex;flex-direction:column}
+.terminal{min-height:34px;padding:8px 18px;border-bottom:1px solid var(--border);font-family:Space Mono,monospace;color:var(--cyan);font-size:11px;background:rgba(0,0,0,.24)}
+.panel{display:none;flex:1;overflow-y:auto;padding:22px}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.full{grid-column:1/-1}
+.card{background:rgba(21,27,49,.85);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.card h2,.card h3{font-family:Syne,sans-serif;letter-spacing:.2px}.card h2{font-size:22px;margin-bottom:7px}.card h3{font-size:15px;margin-bottom:10px;color:var(--gold)}
+.muted{color:var(--muted);font-size:13px;line-height:1.55}.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);background:rgba(255,255,255,.05);font-size:11px;color:var(--muted);margin:2px}
+label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:var(--gold);font-weight:700;margin-bottom:6px}
+input,select,textarea{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:11px 12px;outline:none;font-size:14px}
+textarea{min-height:120px;resize:vertical;line-height:1.5}.mono{font-family:Space Mono,monospace}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:var(--radius-sm);padding:9px 13px;cursor:pointer;font-weight:700;font-size:12px;transition:.15s}.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}.btn:disabled{opacity:.55;cursor:wait;transform:none}
+.gold{background:rgba(255,191,61,.9);border-color:var(--gold);color:#1b1000}.cyan{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan)}.green{background:var(--green-dim);border-color:var(--green);color:var(--green)}.pink{background:var(--pink-dim);border-color:var(--pink);color:var(--pink)}.purple{background:var(--purple-dim);border-color:var(--purple);color:var(--purple)}
+.output{background:rgba(0,0,0,.28);border:1px solid var(--border);border-radius:var(--radius);padding:15px;white-space:pre-wrap;line-height:1.65;font-size:12px;font-family:Space Mono,monospace;color:#d8e0ff;min-height:130px}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.product{padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);cursor:pointer}.product.selected{border-color:var(--cyan);background:var(--cyan-dim)}.product b{font-size:13px}.product small{display:block;color:var(--muted);font-size:11px;margin-top:4px;line-height:1.35}
+.preview-img{max-width:180px;border-radius:10px;border:1px solid var(--border);margin:8px 8px 0 0}
+.notice{padding:11px 13px;border-radius:var(--radius-sm);font-size:12px;line-height:1.55;margin:10px 0}.info{background:var(--cyan-dim);border:1px solid rgba(0,229,212,.25)}.warn{background:var(--gold-dim);border:1px solid rgba(255,191,61,.25)}.ok{background:var(--green-dim);border:1px solid rgba(86,255,155,.25)}
+table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:9px;border-bottom:1px solid var(--border);text-align:left}th{color:var(--gold)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border)}.node{min-width:170px}.grid,.products{grid-template-columns:1fr}.main{height:auto}.panel{padding:14px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">🖨️ Gráfica IA Studio <span>Claude API • Briefing • Orçamento • Pré-impressão • Roteiro comercial</span></div>
+  <div class="status"><span class="dot" id="apiDot"></span><span id="statusText">Setup</span><span class="pill" id="costPill">Custo estimado: US$0.00</span></div>
+</div>
+<div class="layout">
+  <aside class="sidebar" id="nav"></aside>
+  <main class="main">
+    <div class="terminal" id="terminal">Studio iniciado. Configure API, briefing e produto gráfico.</div>
+
+    <section id="panel-brief" class="panel active">
+      <div class="card">
+        <h2>📋 Briefing da Peça Gráfica</h2>
+        <p class="muted">Preencha como se fosse atendimento de gráfica. A IA transforma em proposta, copy, layout, checklist técnico e roteiro para arte.</p>
+      </div>
+      <div class="grid">
+        <div><label>Cliente / Marca</label><input id="clientName" value="Cliente Gráfica"/></div>
+        <div><label>Segmento</label><input id="businessType" value="Lanchonete, loja local, evento ou campanha"/></div>
+        <div><label>Objetivo</label><select id="goal"><option>Vender mais</option><option>Divulgar inauguração</option><option>Promoção relâmpago</option><option>Identidade visual</option><option>Cardápio / catálogo</option><option>Evento</option></select></div>
+        <div><label>Tom da comunicação</label><select id="tone"><option>Profissional e moderno</option><option>Popular e vendedor</option><option>Luxo e premium</option><option>Infantil e colorido</option><option>Urgente e promocional</option></select></div>
+        <div class="full"><label>Descrição do pedido</label><textarea id="brief">Criar uma peça gráfica para divulgar uma promoção de fim de semana, com visual chamativo, leitura rápida e chamada para WhatsApp.</textarea></div>
+        <div class="full"><label>Texto obrigatório / informações do cliente</label><textarea id="requiredText">Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.</textarea></div>
+      </div>
+      <div class="btns"><button class="btn gold" onclick="saveBrief()">Salvar briefing</button><button class="btn cyan" onclick="go('product')">Escolher produto →</button><button class="btn purple" onclick="buildCommercialPrompt()">Gerar engenharia do prompt</button></div>
+    </section>
+
+    <section id="panel-product" class="panel">
+      <div class="card"><h2>📦 Produto Gráfico</h2><p class="muted">Escolha o tipo de entrega. O sistema ajusta medidas, sangria, DPI, acabamento e checklist.</p></div>
+      <div class="products" id="products"></div>
+      <div class="card">
+        <h3>Medidas e produção</h3>
+        <div class="grid">
+          <div><label>Largura</label><input id="width" value="1080"/></div>
+          <div><label>Altura</label><input id="height" value="1350"/></div>
+          <div><label>Unidade</label><select id="unit"><option>px</option><option>mm</option><option>cm</option></select></div>
+          <div><label>Quantidade</label><input id="qty" type="number" value="100"/></div>
+          <div><label>Material</label><select id="material"><option>Digital / Social Media</option><option>Couchê 90g</option><option>Couchê 150g</option><option>Couchê 250g</option><option>Adesivo vinil</option><option>Lona 440g</option><option>Papel cartão</option></select></div>
+          <div><label>Acabamento</label><select id="finish"><option>Sem acabamento</option><option>Refile</option><option>Laminação fosca</option><option>Laminação brilho</option><option>Verniz localizado</option><option>Ilhós</option><option>Corte especial</option></select></div>
+        </div>
+        <div class="btns"><button class="btn green" onclick="calcQuote()">Calcular orçamento local</button><button class="btn gold" onclick="go('ai')">Gerar com IA →</button></div>
+      </div>
+      <div class="output" id="quoteOutput">Escolha um produto e calcule o orçamento.</div>
+    </section>
+
+    <section id="panel-api" class="panel">
+      <div class="card">
+        <h2>🔌 Claude API</h2>
+        <p class="muted">Para uso profissional, use backend seguro. Para teste pessoal, o modo navegador pode funcionar, mas não publique sua chave no HTML.</p>
+        <div class="notice warn">Recomendado: Site → /api/grafica-generate → Claude API. Assim a chave fica protegida e você controla custo por cliente.</div>
+      </div>
+      <div class="grid">
+        <div><label>Provider</label><select id="provider"><option value="claude">Claude / Anthropic</option></select></div>
+        <div><label>Modelo</label><select id="model"><option value="claude-haiku-4-5">Claude Haiku 4.5 — econômico</option><option value="claude-sonnet-4-6" selected>Claude Sonnet 4.6 — recomendado</option><option value="claude-opus-4-7">Claude Opus 4.7 — premium</option></select></div>
+        <div><label>Modo</label><select id="callMode"><option value="backend" selected>Backend seguro</option><option value="browser">Teste rápido no navegador</option></select></div>
+        <div><label>Endpoint backend</label><input id="endpoint" value="/api/grafica-generate"/></div>
+        <div class="full"><label>API Key</label><input id="apiKey" type="password" placeholder="Cole sua chave só para teste local"/></div>
+        <div><label>Máx. tokens</label><input id="maxTokens" type="number" value="2500"/></div>
+        <div><label>Temperatura criativa</label><input id="temperature" type="number" value="0.45" step="0.05" min="0" max="1"/></div>
+      </div>
+      <div class="btns"><button class="btn cyan" onclick="testApi()">Testar conexão</button><button class="btn green" onclick="saveApi()">Salvar API</button></div>
+    </section>
+
+    <section id="panel-ref" class="panel">
+      <div class="card">
+        <h2>🖼️ Referências, PDF e Arte do Cliente</h2>
+        <p class="muted">Claude pode analisar imagens e PDFs. Use para entender logo, folder antigo, cardápio, panfleto, print de Instagram ou arte enviada pelo cliente.</p>
+      </div>
+      <div class="grid">
+        <div class="full"><label>Arquivos de referência</label><input id="files" type="file" accept="image/*,.pdf" multiple onchange="previewFiles(event)"/></div>
+        <div class="full"><label>Observação sobre referência</label><textarea id="refNotes">Usar como referência de estilo, hierarquia e informações. Não copiar arte de terceiros.</textarea></div>
+      </div>
+      <div id="filePreview"></div>
+      <div class="btns"><button class="btn purple" onclick="analyzeReferences()">Analisar referência com Claude Vision/PDF</button><button class="btn cyan" onclick="buildRefPrompt()">Montar prompt de referência</button></div>
+      <div class="output" id="refOutput">Nenhuma referência analisada.</div>
+    </section>
+
+    <section id="panel-ai" class="panel">
+      <div class="card">
+        <h2>🤖 Motor IA para Gráfica</h2>
+        <p class="muted">Gera proposta, copy, layout textual, checklist técnico, prompt de imagem e roteiro para designer/Canva/Photoshop/Illustrator.</p>
+      </div>
+      <div class="btns">
+        <button class="btn gold" onclick="generateAI('complete')">Gerar pacote completo</button>
+        <button class="btn cyan" onclick="generateAI('copy')">Copy da peça</button>
+        <button class="btn purple" onclick="generateAI('layout')">Direção de layout</button>
+        <button class="btn green" onclick="generateAI('prepress')">Checklist pré-impressão</button>
+        <button class="btn" onclick="generateAI('imageprompt')">Prompt para imagem/arte</button>
+      </div>
+      <div class="output" id="aiOutput">Resultado da IA aparecerá aqui.</div>
+      <div class="btns"><button class="btn green" onclick="copyOut('aiOutput')">Copiar resultado</button><button class="btn pink" onclick="downloadOut('aiOutput','pacote-grafica.txt')">Baixar .txt</button></div>
+    </section>
+
+    <section id="panel-prepress" class="panel">
+      <div class="card"><h2>✅ Pré-impressão e Qualidade</h2><p class="muted">Checklist técnico para reduzir erro antes de mandar para produção.</p></div>
+      <div class="card">
+        <table>
+          <tr><th>Item</th><th>Regra profissional</th><th>Status</th></tr>
+          <tr><td>Sangria</td><td>3 mm para impressos com corte</td><td><input type="checkbox"/></td></tr>
+          <tr><td>Margem segura</td><td>3 a 5 mm dentro da borda</td><td><input type="checkbox"/></td></tr>
+          <tr><td>Resolução</td><td>300 DPI para impressão; 72/144 DPI para digital</td><td><input type="checkbox"/></td></tr>
+          <tr><td>Cor</td><td>CMYK para gráfica; RGB para digital</td><td><input type="checkbox"/></td></tr>
+          <tr><td>Fontes</td><td>Converter em curvas ou incorporar no PDF</td><td><input type="checkbox"/></td></tr>
+          <tr><td>Arquivo final</td><td>PDF/X, PDF alta qualidade ou PNG/JPG conforme entrega</td><td><input type="checkbox"/></td></tr>
+          <tr><td>Revisão textual</td><td>Telefone, preço, endereço, data, redes e ortografia</td><td><input type="checkbox"/></td></tr>
+        </table>
+      </div>
+      <div class="btns"><button class="btn gold" onclick="generateAI('prepress')">Gerar checklist personalizado</button></div>
+      <div class="output" id="prepressOutput">Checklist personalizado aparecerá aqui.</div>
+    </section>
+
+    <section id="panel-export" class="panel">
+      <div class="card"><h2>📤 Exportação do Projeto</h2><p class="muted">Salve o briefing, orçamento e pacote gerado para mandar ao cliente ou designer.</p></div>
+      <div class="btns"><button class="btn green" onclick="exportJSON()">Baixar JSON</button><button class="btn cyan" onclick="exportClientProposal()">Proposta para cliente</button><button class="btn purple" onclick="copyProject()">Copiar projeto</button></div>
+      <div class="output" id="exportOutput">Preview da exportação.</div>
+    </section>
+  </main>
+</div>
+<script>
+const STORAGE='grafica_ia_studio_v1';
+const PRODUCTS=[
+  {id:'social',icon:'📱',name:'Social Media',desc:'Post/feed/story/anúncio digital',w:'1080',h:'1350',unit:'px',mat:'Digital / Social Media',base:0.15},
+  {id:'flyer',icon:'📄',name:'Panfleto/Flyer',desc:'A5/A6 promocional para impressão',w:'148',h:'210',unit:'mm',mat:'Couchê 90g',base:0.35},
+  {id:'card',icon:'💳',name:'Cartão de visita',desc:'90x50mm com sangria',w:'90',h:'50',unit:'mm',mat:'Couchê 250g',base:0.18},
+  {id:'banner',icon:'🪧',name:'Banner/Lona',desc:'Faixa, lona, evento e vitrine',w:'90',h:'120',unit:'cm',mat:'Lona 440g',base:55},
+  {id:'menu',icon:'🍽️',name:'Cardápio',desc:'Menu impresso ou digital',w:'210',h:'297',unit:'mm',mat:'Couchê 150g',base:2.2},
+  {id:'sticker',icon:'🏷️',name:'Adesivo',desc:'Etiqueta, rótulo e embalagem',w:'50',h:'50',unit:'mm',mat:'Adesivo vinil',base:0.28},
+  {id:'catalog',icon:'📚',name:'Catálogo',desc:'Lista de produtos/serviços',w:'210',h:'297',unit:'mm',mat:'Couchê 150g',base:3.5},
+  {id:'logo',icon:'✨',name:'Logo/Identidade',desc:'Direção criativa e guia de marca',w:'1080',h:'1080',unit:'px',mat:'Digital / Social Media',base:80},
+  {id:'package',icon:'📦',name:'Embalagem',desc:'Rótulo, caixa, etiqueta premium',w:'100',h:'150',unit:'mm',mat:'Papel cartão',base:1.8}
+];
+let state=load();let selectedFiles=[];
+function load(){try{return JSON.parse(localStorage.getItem(STORAGE))||{product:'social',api:{model:'claude-sonnet-4-6',callMode:'backend',endpoint:'/api/grafica-generate',maxTokens:2500,temperature:.45},last:''}}catch{return {product:'social',api:{model:'claude-sonnet-4-6',callMode:'backend',endpoint:'/api/grafica-generate',maxTokens:2500,temperature:.45},last:''}}}
+function save(){localStorage.setItem(STORAGE,JSON.stringify(state))}
+const $=id=>document.getElementById(id);
+function log(t,type=''){ $('terminal').textContent=t; $('statusText').textContent=t.slice(0,50); if(type==='ok')$('apiDot').classList.add('ok') }
+function nav(){const items=[['brief','📋','Briefing','dados do cliente'],['product','📦','Produto','peça e orçamento'],['api','🔌','API Claude','modelo e custo'],['ref','🖼️','Referências','imagem/PDF'],['ai','🤖','Motor IA','copy/layout'],['prepress','✅','Pré-impressão','checklist'],['export','📤','Exportar','cliente/designer']];$('nav').innerHTML=items.map(i=>`<div class="node ${document.querySelector('#panel-'+i[0])?.classList.contains('active')?'active':''}" onclick="go('${i[0]}')"><i>${i[1]}</i><div><b>${i[2]}</b><small>${i[3]}</small></div></div>`).join('')}
+function go(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));$('panel-'+id).classList.add('active');nav();if(id==='export')previewExport()}
+function renderProducts(){ $('products').innerHTML=PRODUCTS.map(p=>`<div class="product ${state.product===p.id?'selected':''}" onclick="selectProduct('${p.id}')"><b>${p.icon} ${p.name}</b><small>${p.desc}</small></div>`).join('')}
+function selectProduct(id){state.product=id;const p=PRODUCTS.find(x=>x.id===id);$('width').value=p.w;$('height').value=p.h;$('unit').value=p.unit;$('material').value=p.mat;renderProducts();save();log('Produto selecionado: '+p.name,'ok')}
+function saveBrief(){state.brief=collect();save();log('Briefing salvo.','ok');}
+function saveApi(){state.api={model:$('model').value,callMode:$('callMode').value,endpoint:$('endpoint').value,maxTokens:Number($('maxTokens').value||2500),temperature:Number($('temperature').value||.45),apiKey:$('apiKey').value};save();log('API salva.','ok')}
+function collect(){return {clientName:$('clientName').value,businessType:$('businessType').value,goal:$('goal').value,tone:$('tone').value,brief:$('brief').value,requiredText:$('requiredText').value,product:PRODUCTS.find(p=>p.id===state.product),width:$('width').value,height:$('height').value,unit:$('unit').value,qty:Number($('qty').value||1),material:$('material').value,finish:$('finish').value,refNotes:$('refNotes').value}}
+function systemPrompt(){return `Você é um diretor de arte e consultor de gráfica no Brasil. Ajude com briefing, copy, direção visual, pré-impressão, orçamento lógico e entrega para designer. Regras: não inventar preço final como absoluto; sempre indicar que orçamento depende da gráfica/local/material. Para impressão, lembrar CMYK, 300 DPI, sangria 3mm, margem segura e revisão. Se houver referência de terceiros, usar apenas estrutura/estilo geral, sem copiar arte, marca, personagem ou texto protegido. Responda em português do Brasil.`}
+function promptFor(kind){const b=collect();const base=`BRIEFING GRÁFICA:\n${JSON.stringify(b,null,2)}\n\nTAREFA: `;const tasks={complete:'Gere pacote completo com proposta para cliente, conceito visual, copy principal, textos alternativos, direção de layout, paleta sugerida, tipografia sugerida, checklist técnico e prompt para criar imagem/arte em IA.',copy:'Gere copy curta, persuasiva e pronta para a peça, com 5 variações de título, subtítulo, CTA e observações de hierarquia.',layout:'Crie direção de layout detalhada: composição, hierarquia, cores, tipografia, posição de logo, imagem, CTA e variações para designer.',prepress:'Gere checklist técnico personalizado de pré-impressão para este produto, incluindo sangria, margem, DPI, CMYK/RGB, PDF, revisão e riscos.',imageprompt:'Gere prompts para criar imagem/arte de apoio em IA, em português e inglês, sem texto embutido na imagem e sem copiar marcas/estilos protegidos.'};return base+(tasks[kind]||tasks.complete)}
+function localFallback(kind){const b=collect();return `PACOTE GRÁFICA IA — ${b.product.name}\n\nCLIENTE: ${b.clientName}\nOBJETIVO: ${b.goal}\nFORMATO: ${b.width}x${b.height}${b.unit} | ${b.material} | ${b.finish} | qtd. ${b.qty}\n\nCONCEITO:\nPeça com leitura rápida, visual limpo e chamada forte para ação. Priorizar uma mensagem principal, contraste alto e WhatsApp/CTA visível.\n\nCOPY SUGERIDA:\nTítulo: Oferta especial de fim de semana!\nSubtítulo: Aproveite condições exclusivas até domingo.\nCTA: Chame no WhatsApp e garanta o seu.\n\nDIREÇÃO DE LAYOUT:\nTopo com título grande. Centro com imagem/produto. Rodapé com WhatsApp, endereço e redes. Use no máximo 2 famílias de fontes e contraste forte.\n\nPRÉ-IMPRESSÃO:\n${b.unit==='px'?'Digital: exportar RGB em PNG/JPG.':'Impressão: usar CMYK, 300 DPI, sangria de 3mm, margem segura, fontes em curvas e PDF em alta qualidade.'}\n\nPROMPT DE ARTE:\nCrie uma composição publicitária moderna para ${b.businessType}, visual chamativo, iluminação comercial, espaço limpo para texto, sem texto na imagem, alta qualidade.`}
+function estimateTokens(kind){const b=JSON.stringify(collect()).length/4;const out={complete:2200,copy:700,layout:1200,prepress:900,imageprompt:600}[kind]||1500;return {input:Math.round(900+b),output:out}}
+function estimateCost(kind){const model=$('model').value;const t=estimateTokens(kind);let i=3,o=15;if(model.includes('haiku')){i=1;o=5}else if(model.includes('opus')){i=5;o=25}const cost=t.input*i/1e6+t.output*o/1e6;$('costPill').textContent='Custo estimado: US$'+cost.toFixed(4);return cost}
+async function callClaude(prompt){saveApi();const api=state.api;const body={model:api.model,max_tokens:api.maxTokens||2500,temperature:api.temperature||.45,system:systemPrompt(),messages:[{role:'user',content:prompt}]};if(api.callMode==='backend'){const r=await fetch(api.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw new Error(d.error||d.message||JSON.stringify(d));return d.text||d.content||d.output||JSON.stringify(d,null,2)}else{if(!api.apiKey)throw new Error('Sem API Key. Use backend ou cole a chave para teste local.');const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':api.apiKey,'anthropic-version':'2023-06-01'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw new Error(d.error?.message||JSON.stringify(d));return (d.content||[]).map(c=>c.text||'').join('\n')}}
+async function generateAI(kind){estimateCost(kind);const out=kind==='prepress'?'prepressOutput':'aiOutput';$(out).textContent='Gerando com IA...';try{const text=await callClaude(promptFor(kind));$(out).textContent=text;state.last=text;save();log('Resultado gerado com Claude.','ok')}catch(e){$(out).textContent=localFallback(kind)+`\n\n[Fallback local porque a API não respondeu: ${e.message}]`;log('API falhou; usando fallback local.','')}}
+async function testApi(){try{const text=await callClaude('Responda apenas: Gráfica IA Studio online.');log('API conectada: '+text.slice(0,80),'ok')}catch(e){log('Erro API: '+e.message)}}
+function calcQuote(){const b=collect();const p=b.product;let cost=p.base*b.qty;if(p.id==='banner')cost=p.base*Math.max(1,(Number(b.width)*Number(b.height))/10000);if(['logo'].includes(p.id))cost=p.base;const design=p.id==='social'?35:p.id==='logo'?180:50;const total=cost+design;$('quoteOutput').textContent=`ORÇAMENTO LOCAL ESTIMADO\n\nProduto: ${p.name}\nFormato: ${b.width}x${b.height}${b.unit}\nMaterial: ${b.material}\nAcabamento: ${b.finish}\nQuantidade: ${b.qty}\n\nProdução estimada: R$ ${cost.toFixed(2)}\nCriação/arte estimada: R$ ${design.toFixed(2)}\nTotal sugerido inicial: R$ ${total.toFixed(2)}\n\nObservação: use como base de atendimento. Confirme preço final com fornecedor, papel, máquina, cidade e prazo.`;log('Orçamento local calculado.','ok')}
+function previewFiles(e){selectedFiles=[...e.target.files];$('filePreview').innerHTML=selectedFiles.map(f=>f.type.startsWith('image/')?`<img class="preview-img" src="${URL.createObjectURL(f)}"/>`:`<span class="pill">📄 ${f.name}</span>`).join('');log(selectedFiles.length+' referência(s) carregada(s).','ok')}
+function buildRefPrompt(){const p=`Analise as referências enviadas para uma peça gráfica, considerando: hierarquia visual, cores, estilo, mensagem, riscos de cópia e como adaptar para um material original.\n\nBriefing:\n${JSON.stringify(collect(),null,2)}`;$('refOutput').textContent=p;return p}
+async function analyzeReferences(){if(!selectedFiles.length){$('refOutput').textContent='Carregue imagem ou PDF primeiro.';return} $('refOutput').textContent='Preparando análise. Para análise real de imagem/PDF, use o backend para converter arquivos em base64/file_id e enviar para Claude.';try{const text=await callClaude(buildRefPrompt()+`\n\nArquivos carregados: ${selectedFiles.map(f=>f.name).join(', ')}\nExplique como analisar esses arquivos no fluxo do designer.`);$('refOutput').textContent=text}catch(e){$('refOutput').textContent='Fallback: use as referências apenas para direção geral. Não copie marcas, textos ou layout protegido.\n\n'+buildRefPrompt()}}
+function buildCommercialPrompt(){$('aiOutput').textContent=promptFor('complete');go('ai')}
+function copyOut(id){navigator.clipboard.writeText($(id).textContent);log('Copiado.','ok')}
+function downloadOut(id,file){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$(id).textContent],{type:'text/plain;charset=utf-8'}));a.download=file;a.click();URL.revokeObjectURL(a.href)}
+function exportJSON(){const data=JSON.stringify({app:'Grafica IA Studio',exportedAt:new Date().toISOString(),brief:collect(),api:{model:$('model').value,callMode:$('callMode').value},last:state.last},null,2);$('exportOutput').textContent=data;downloadOut('exportOutput','grafica-ia-projeto.json')}
+function exportClientProposal(){const b=collect();$('exportOutput').textContent=`PROPOSTA — ${b.clientName}\n\nProduto: ${b.product.name}\nObjetivo: ${b.goal}\nFormato: ${b.width}x${b.height}${b.unit}\nMaterial: ${b.material}\nAcabamento: ${b.finish}\nQuantidade: ${b.qty}\n\nEscopo:\n- Criação/adequação da arte\n- Revisão básica de texto\n- Preparação para impressão/digital\n- Entrega em arquivo final combinado\n\nObservação: valores finais dependem da aprovação do orçamento e especificações técnicas.`}
+function copyProject(){navigator.clipboard.writeText(JSON.stringify({brief:collect(),last:state.last},null,2));log('Projeto copiado.','ok')}
+function previewExport(){ $('exportOutput').textContent=JSON.stringify({brief:collect(),last:state.last},null,2)}
+function init(){nav();renderProducts();const p=PRODUCTS.find(x=>x.id===state.product)||PRODUCTS[0];selectProduct(p.id);if(state.api){$('model').value=state.api.model||'claude-sonnet-4-6';$('callMode').value=state.api.callMode||'backend';$('endpoint').value=state.api.endpoint||'/api/grafica-generate';$('maxTokens').value=state.api.maxTokens||2500;$('temperature').value=state.api.temperature||.45}log('Pronto para criar peças gráficas com IA.')}
+init();
+</script>
+</body>
+</html>
