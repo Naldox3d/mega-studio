@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Fruits Adventures Studio v5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #05070f;
+  --surface: #0c0f1e;
+  --surface2: #111628;
+  --surface3: #171d35;
+  --border: rgba(255,255,255,0.07);
+  --border-active: rgba(255,180,50,0.5);
+  --text: #e8ecff;
+  --muted: #6b7399;
+  --gold: #ffb932;
+  --gold-dim: rgba(255,185,50,0.12);
+  --cyan: #00e5c8;
+  --cyan-dim: rgba(0,229,200,0.1);
+  --pink: #ff4d7e;
+  --pink-dim: rgba(255,77,126,0.1);
+  --green: #4dff9a;
+  --green-dim: rgba(77,255,154,0.1);
+  --purple: #9b6dff;
+  --purple-dim: rgba(155,109,255,0.1);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* PORTAL */
+#portal {
+  position: fixed; inset: 0; z-index: 9999;
+  background: radial-gradient(ellipse at center, #0d1130 0%, #05070f 70%);
+  display: flex; align-items: center; justify-content: center;
+}
+#portal.hidden { display: none; }
+.portal-box {
+  width: min(420px, 90vw);
+  background: var(--surface);
+  border: 1px solid var(--border-active);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 80px rgba(255,185,50,0.08), 0 40px 80px rgba(0,0,0,0.5);
+}
+.portal-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 800;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 28px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.portal-logo::before, .portal-logo::after {
+  content: ''; flex: 1; height: 1px; background: var(--border-active); opacity: 0.5;
+}
+.portal-box h2 {
+  font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 900;
+  margin-bottom: 8px;
+}
+.portal-box p { color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
+.portal-input {
+  width: 100%; background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font-size: 16px; padding: 14px 18px;
+  font-family: 'Space Mono', monospace; letter-spacing: 3px;
+  text-align: center; outline: none; transition: border-color 0.2s;
+  margin-bottom: 14px;
+}
+.portal-input:focus { border-color: var(--gold); }
+.portal-err {
+  color: var(--pink); font-size: 13px; margin-bottom: 14px; display: none;
+}
+.portal-err.show { display: block; }
+.portal-hint { color: var(--muted); font-size: 12px; margin-top: 14px; }
+.portal-hint strong { color: var(--gold); font-family: 'Space Mono', monospace; }
+
+/* LAYOUT */
+#app { display: grid; grid-template-rows: auto auto auto 1fr; min-height: 100vh; }
+
+/* TOPBAR */
+.topbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 24px; border-bottom: 1px solid var(--border);
+  background: rgba(5,7,15,0.9); backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-brand {
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 900;
+  letter-spacing: 1px; color: var(--gold);
+  display: flex; align-items: center; gap: 8px;
+}
+.topbar-brand span { color: var(--muted); font-weight: 400; font-size: 12px; }
+.topbar-status {
+  display: flex; align-items: center; gap: 8px;
+  margin-left: auto;
+  font-size: 12px; color: var(--muted);
+}
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--muted); transition: background 0.3s;
+}
+.status-dot.active { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.score-badge {
+  background: var(--gold-dim); border: 1px solid rgba(255,185,50,0.3);
+  color: var(--gold); font-family: 'Space Mono', monospace;
+  font-size: 12px; padding: 4px 12px; border-radius: 999px;
+}
+.topbar-lock { background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; color: var(--muted); cursor: pointer; font-size: 12px; transition: all 0.2s; }
+.topbar-lock:hover { border-color: var(--pink); color: var(--pink); }
+
+/* NODES FLOW */
+.nodes-bar {
+  display: flex; gap: 6px; align-items: center;
+  padding: 12px 24px; border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+  background: var(--surface);
+}
+.nodes-bar::-webkit-scrollbar { display: none; }
+.node-btn {
+  flex: 0 0 auto; display: flex; flex-direction: column; align-items: center;
+  gap: 3px; padding: 8px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--surface2);
+  cursor: pointer; transition: all 0.15s; min-width: 90px;
+}
+.node-btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.15); }
+.node-btn.active { border-color: var(--gold); background: var(--gold-dim); }
+.node-btn.done { border-color: rgba(77,255,154,0.35); background: var(--green-dim); }
+.node-btn.processing { border-color: rgba(0,229,200,0.35); background: var(--cyan-dim); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.6 } }
+.node-btn strong { font-size: 11px; font-weight: 600; white-space: nowrap; }
+.node-btn small { font-size: 10px; color: var(--muted); white-space: nowrap; }
+.node-btn.active strong { color: var(--gold); }
+.node-btn.done strong { color: var(--green); }
+
+/* TERMINAL STRIP */
+.terminal-strip {
+  padding: 6px 24px; background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Space Mono', monospace; font-size: 11px;
+  color: var(--cyan); display: flex; align-items: center; gap: 8px; min-height: 30px;
+  overflow: hidden;
+}
+.terminal-strip::before { content: '▶'; color: var(--gold); flex-shrink: 0; }
+
+/* MAIN LAYOUT */
+.main {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.sidebar-section { border-bottom: 1px solid var(--border); padding: 16px; }
+.sidebar-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+.sidebar-dna {
+  font-family: 'Space Mono', monospace; font-size: 10px;
+  color: var(--cyan); line-height: 1.6; max-height: 120px;
+  overflow-y: auto;
+}
+.sidebar-log {
+  display: flex; flex-direction: column; gap: 6px;
+  max-height: 180px; overflow-y: auto;
+}
+.log-entry {
+  font-size: 11px; line-height: 1.5; padding: 6px 8px;
+  background: var(--surface2); border-radius: var(--radius-sm);
+  border-left: 2px solid var(--border);
+}
+.log-entry.ia { border-left-color: var(--cyan); }
+.log-entry.ok { border-left-color: var(--green); }
+.log-entry.warn { border-left-color: var(--gold); }
+.log-entry.err { border-left-color: var(--pink); }
+.scene-nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: background 0.15s; font-size: 13px;
+}
+.scene-nav-item:hover { background: var(--surface2); }
+.scene-nav-item.active { background: var(--gold-dim); color: var(--gold); }
+.scene-nav-item.done .sni-icon { color: var(--green); }
+.scene-nav-item.locked { opacity: 0.4; cursor: not-allowed; }
+.sni-icon { font-size: 14px; flex-shrink: 0; }
+.sni-info strong { font-size: 12px; display: block; }
+.sni-info small { font-size: 10px; color: var(--muted); }
+
+/* CONTENT AREA */
+.content {
+  display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* TAB PANELS */
+.tab-panel { display: none; flex: 1; overflow: hidden; }
+.tab-panel.active { display: flex; flex-direction: column; }
+
+/* SETUP PANEL */
+.panel-scroll { flex: 1; overflow-y: auto; padding: 24px; }
+.panel-scroll::-webkit-scrollbar { width: 4px; }
+.panel-scroll::-webkit-scrollbar-track { background: transparent; }
+.panel-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
+.field input, .field select, .field textarea {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text);
+  padding: 10px 12px; font-size: 14px; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+.field textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+.field select option { background: #111; color: #fff; }
+.field-full { grid-column: 1/-1; }
+
+.section-title {
+  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800;
+  letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
+}
+.section-title .badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 999px;
+  background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(255,185,50,0.3);
+}
+
+/* API PANEL */
+.api-provider-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 20px; }
+.provider-card {
+  padding: 14px 10px; border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--surface2); cursor: pointer; text-align: center;
+  transition: all 0.15s;
+}
+.provider-card:hover { transform: translateY(-2px); }
+.provider-card.selected { border-color: var(--gold); background: var(--gold-dim); }
+.provider-card .pc-icon { font-size: 24px; margin-bottom: 6px; }
+.provider-card .pc-name { font-size: 12px; font-weight: 700; }
+.provider-card .pc-desc { font-size: 10px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.api-status-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: var(--surface2);
+  border-radius: var(--radius-sm); border: 1px solid var(--border);
+  font-size: 12px; margin-bottom: 14px;
+}
+.api-status-row .dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.dot-ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.dot-err { background: var(--pink); }
+.dot-idle { background: var(--muted); }
+
+/* VIRAL BANK */
+.bank-search {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text);
+  padding: 10px 14px; font-size: 14px; font-family: inherit;
+  outline: none; width: 100%; margin-bottom: 16px;
+}
+.bank-search:focus { border-color: var(--gold); }
+.matrix-group { margin-bottom: 12px; }
+.matrix-group-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; background: var(--surface2);
+  border-radius: var(--radius-sm); cursor: pointer;
+  border: 1px solid var(--border); transition: border-color 0.15s;
+}
+.matrix-group-header:hover { border-color: rgba(255,255,255,0.15); }
+.matrix-group-header strong { font-size: 13px; }
+.matrix-group-body { padding-top: 8px; display: grid; gap: 6px; }
+.matrix-option {
+  padding: 12px 14px; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 0.15s;
+}
+.matrix-option:hover { background: var(--surface3); }
+.matrix-option.primary { border-color: var(--gold); background: var(--gold-dim); }
+.matrix-option.mixed { border-color: rgba(155,109,255,0.4); background: var(--purple-dim); }
+.matrix-option strong { font-size: 13px; display: block; margin-bottom: 2px; }
+.matrix-option small { font-size: 11px; color: var(--muted); }
+.matrix-option .mo-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.tag-pill {
+  font-size: 10px; padding: 2px 6px; border-radius: 999px;
+  border: 1px solid var(--border); color: var(--muted);
+  background: rgba(255,255,255,0.04);
+}
+
+/* CAST PANEL */
+.cast-group { margin-bottom: 12px; }
+.cast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 8px; }
+.cast-card {
+  padding: 12px; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 0.15s;
+}
+.cast-card:hover { background: var(--surface3); }
+.cast-card.selected { border-color: var(--cyan); background: var(--cyan-dim); }
+.cast-card strong { font-size: 12px; display: block; margin-bottom: 3px; }
+.cast-card small { font-size: 11px; color: var(--muted); line-height: 1.4; display: block; }
+
+/* SCENE EDITOR — SPLIT VIEW */
+.scene-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+  overflow: hidden;
+}
+.scene-left, .scene-right {
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.scene-left { border-right: 1px solid var(--border); }
+.split-header {
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface); flex-shrink: 0;
+}
+.split-header h3 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; }
+.split-header .scene-pill {
+  font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  background: var(--gold-dim); color: var(--gold);
+  border: 1px solid rgba(255,185,50,0.3);
+}
+.split-content { flex: 1; overflow-y: auto; padding: 16px; }
+.split-content::-webkit-scrollbar { width: 4px; }
+.split-content::-webkit-scrollbar-thumb { background: var(--border); }
+
+.scene-output {
+  font-family: 'Space Mono', monospace; font-size: 12px;
+  line-height: 1.8; color: #d0d8ff; white-space: pre-wrap;
+}
+
+.action-row {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 10px 16px; border-top: 1px solid var(--border);
+  background: var(--surface); flex-shrink: 0;
+}
+
+/* EDITOR TEXTAREA */
+.smart-editor {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: var(--text); font-family: 'Space Mono', monospace;
+  font-size: 12px; line-height: 1.8; padding: 16px;
+  resize: none; width: 100%; height: 100%;
+}
+
+/* AI CHAT PANEL */
+.ai-panel {
+  display: flex; flex-direction: column; height: 100%; overflow: hidden;
+}
+.ai-messages {
+  flex: 1; overflow-y: auto; padding: 16px; display: flex;
+  flex-direction: column; gap: 10px;
+}
+.ai-msg {
+  padding: 12px 14px; border-radius: var(--radius);
+  font-size: 13px; line-height: 1.6; max-width: 85%;
+}
+.ai-msg.system { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); align-self: flex-start; }
+.ai-msg.user { background: var(--gold-dim); border: 1px solid rgba(255,185,50,0.25); color: var(--text); align-self: flex-end; }
+.ai-msg.ai { background: var(--cyan-dim); border: 1px solid rgba(0,229,200,0.25); color: var(--text); align-self: flex-start; }
+.ai-msg.err { background: var(--pink-dim); border: 1px solid rgba(255,77,126,0.25); color: var(--text); align-self: flex-start; }
+.ai-msg.loading { opacity: 0.7; }
+.ai-msg.loading::after { content: '▋'; animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+.ai-input-row {
+  display: flex; gap: 8px; padding: 12px 16px;
+  border-top: 1px solid var(--border); background: var(--surface);
+  flex-shrink: 0;
+}
+.ai-input {
+  flex: 1; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text);
+  padding: 10px 14px; font-size: 13px; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.ai-input:focus { border-color: var(--cyan); }
+.quick-prompts {
+  display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 16px;
+  border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.qp { font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
+.qp:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* BUTTONS */
+.btn {
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+}
+.btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.btn:disabled { opacity: 0.4; cursor: wait; transform: none; filter: none; }
+.btn-gold { background: rgba(255,185,50,0.9); border-color: var(--gold); color: #1a0e00; font-weight: 700; }
+.btn-green { background: rgba(77,255,154,0.85); border-color: var(--green); color: #001a0e; font-weight: 700; }
+.btn-cyan { background: var(--cyan-dim); border-color: var(--cyan); color: var(--cyan); }
+.btn-pink { background: var(--pink-dim); border-color: var(--pink); color: var(--pink); }
+.btn-purple { background: var(--purple-dim); border-color: var(--purple); color: var(--purple); }
+.btn-sm { padding: 5px 10px; font-size: 11px; }
+
+/* NOTICES */
+.notice {
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  font-size: 12px; line-height: 1.5; margin: 8px 0;
+}
+.notice-info { background: var(--cyan-dim); border: 1px solid rgba(0,229,200,0.25); color: #a0fff3; }
+.notice-warn { background: var(--gold-dim); border: 1px solid rgba(255,185,50,0.25); color: #ffe3a0; }
+.notice-ok { background: var(--green-dim); border: 1px solid rgba(77,255,154,0.25); color: #a0ffcf; }
+.notice-err { background: var(--pink-dim); border: 1px solid rgba(255,77,126,0.25); color: #ffa0bf; }
+
+/* EXPORT PANEL */
+.export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.export-card {
+  padding: 16px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); transition: all 0.15s;
+}
+.export-card:hover { border-color: rgba(255,255,255,0.15); }
+.export-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--gold); }
+.export-card p { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+
+/* PROGRESS BAR */
+.progress-bar {
+  height: 3px; background: var(--surface3);
+  border-radius: 999px; overflow: hidden; margin: 4px 0;
+}
+.progress-fill {
+  height: 100%; border-radius: inherit;
+  background: linear-gradient(90deg, var(--pink), var(--gold), var(--cyan));
+  transition: width 0.5s ease;
+}
+
+/* MODAL */
+#modal {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+#modal.open { display: flex; }
+.modal-box {
+  width: min(700px,100%); max-height: 85vh;
+  background: var(--surface); border: 1px solid var(--border-active);
+  border-radius: 18px; display: flex; flex-direction: column; overflow: hidden;
+}
+.modal-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-header h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; }
+.modal-body { flex: 1; overflow-y: auto; padding: 20px; }
+.modal-output {
+  font-family: 'Space Mono', monospace; font-size: 12px;
+  line-height: 1.7; white-space: pre-wrap; color: #d0d8ff;
+}
+.modal-footer {
+  padding: 12px 20px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+  .main { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .scene-split { grid-template-columns: 1fr; }
+  .api-provider-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- PORTAL -->
+<div id="portal">
+  <div class="portal-box">
+    <div class="portal-logo">🍅 Fruits Adventures Studio</div>
+    <h2>Acesso ao Studio</h2>
+    <p>Digite a senha para entrar no Scene Engine. O navegador lembrará o acesso.</p>
+    <input id="portalInput" class="portal-input" type="password" placeholder="••••••••••" autocomplete="current-password"/>
+    <div id="portalErr" class="portal-err">Senha incorreta. Tente novamente.</div>
+    <button class="btn btn-gold" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Studio</button>
+    <div class="portal-hint">Acesso protegido pelo Portal Principal seguro.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-brand">🍅 Fruits Adventures <span>Scene Engine v5</span></div>
+    <div class="topbar-status">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusLabel">Setup</span>
+      <div class="score-badge" id="scoreBadge">Score: 8</div>
+      <div class="progress-bar" style="width:120px;">
+        <div class="progress-fill" id="progressFill" style="width:8%"></div>
+      </div>
+    </div>
+    <button class="topbar-lock" onclick="lockPortal()">🔒 Travar</button>
+  </div>
+
+  <!-- NODES FLOW -->
+  <div class="nodes-bar" id="nodesBar"></div>
+
+  <!-- TERMINAL STRIP -->
+  <div class="terminal-strip" id="terminalStrip">Scene Engine v5 iniciado. Configure o Setup e salve para começar.</div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">🎬 Cenas do Projeto</div>
+        <div id="sceneNavList"></div>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn btn-sm btn-gold" onclick="generateMap()">Gerar Mapa</button>
+          <button class="btn btn-sm btn-green" onclick="generateCurrentScene()">Gerar Cena</button>
+          <button class="btn btn-sm" onclick="approveCurrentScene()">Aprovar ✓</button>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">🧬 DNA Ativo</div>
+        <div class="sidebar-dna" id="sideDna">—</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">📋 Log</div>
+        <div class="sidebar-log" id="sideLog"></div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- SETUP TAB -->
+      <div class="tab-panel active" id="tab-setup">
+        <div class="panel-scroll">
+          <div class="section-title">⚙️ Setup do Projeto <span class="badge">Passo 1</span></div>
+          <div class="field-grid">
+            <div class="field"><label>Nome do Projeto</label><input id="projectName" placeholder="Universo Fruits Adventures"/></div>
+            <div class="field"><label>Modo</label>
+              <select id="projectMode">
+                <option value="fruits">Universo Fruits oficial</option>
+                <option value="freelance">Freelance / cliente</option>
+                <option value="teste">Teste rápido</option>
+              </select>
+            </div>
+            <div class="field"><label>Formato Final</label>
+              <select id="format">
+                <option>1 cena forte</option>
+                <option>Mini novela 3 cenas</option>
+                <option>Episódio 7 cenas</option>
+                <option>Storyboard geral</option>
+              </select>
+            </div>
+            <div class="field"><label>Qtd. de Cenas</label><input id="sceneCount" type="number" min="1" max="10" value="3"/></div>
+            <div class="field"><label>Intensidade do Mix</label>
+              <select id="mixIntensity">
+                <option>Normal</option><option>Forte</option>
+                <option>Cinema</option><option>Viral extremo</option>
+              </select>
+            </div>
+            <div class="field"><label>Interação com Público</label>
+              <select id="audienceMode">
+                <option>Nunca</option><option>Pergunta no final</option>
+                <option>Cliffhanger com enquete</option>
+              </select>
+            </div>
+            <div class="field field-full">
+              <label>Brief / Premissa Principal</label>
+              <textarea id="brief" rows="5" placeholder="Descreva a premissa, personagens, conflito central e o que você quer gerar...">O Segredo de OZ na Feira Fruits. OZ encontra uma foto antiga e um documento escondido sobre sua origem ligada a Limão Rocha. Abacatudo aparece fingindo ajudar, mas usa o documento para expor OZ em público. Tomate Elinaldo entra para proteger OZ, enquanto Sabrina Pitaya percebe que existe uma mentira no documento.</textarea>
+            </div>
+          </div>
+          <div class="section-title" style="margin-top:20px;">🌍 Universo e Continuidade</div>
+          <div class="field-grid">
+            <div class="field"><label>Local Principal</label><input id="worldPlace" value="Feira Fruits"/></div>
+            <div class="field"><label>Tom Emocional</label>
+              <select id="tone">
+                <option>Novela dramática</option><option>Suspense familiar</option>
+                <option>Aventura viral</option><option>Comédia emocional</option>
+              </select>
+            </div>
+            <div class="field field-full">
+              <label>Regras de Continuidade</label>
+              <textarea id="continuityRules" rows="3">Frutas/legumes antropomórficos. Roupas base fixas conforme model sheets. Cores vibrantes. Ambiente de feira. Diálogo conciso e impactante.</textarea>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+            <button class="btn btn-green" onclick="saveSetup()">💾 Salvar Setup</button>
+            <button class="btn btn-gold" onclick="goNode('viral')">Banco Viral →</button>
+            <button class="btn" onclick="goNode('cast')">Elenco →</button>
+            <button class="btn" onclick="generateMap()">Gerar Mapa →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- API TAB -->
+      <div class="tab-panel" id="tab-api">
+        <div class="panel-scroll">
+          <div class="section-title">🔌 Configuração de API <span class="badge">Obrigatório para IA</span></div>
+          <div class="notice notice-info" style="margin-bottom:16px;">Configure sua API para geração real de cenas com IA. Sem API, o sistema usa geração local de qualidade.</div>
+          <div class="api-provider-grid" id="providerGrid"></div>
+          <div class="api-status-row">
+            <div class="dot" id="apiDot" style="background:var(--muted)"></div>
+            <span id="apiStatusText">API não testada</span>
+            <button class="btn btn-sm btn-cyan" style="margin-left:auto;" onclick="testApi()">Testar Conexão</button>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label>Provider</label>
+              <select id="provider" onchange="onProviderChange()">
+                <option value="claude">Claude (Anthropic)</option>
+                <option value="gemini">Gemini</option>
+                <option value="groq">Groq</option>
+                <option value="openrouter">OpenRouter</option>
+              </select>
+            </div>
+            <div class="field"><label>Modelo</label><select id="model"></select></div>
+            <div class="field field-full"><label>API Key</label><input id="apiKey" type="password" placeholder="Cole sua chave aqui (fica só no seu navegador)"/></div>
+            <div class="field field-full"><label>Endpoint (backend próprio, opcional)</label><input id="endpoint" value="/api/fruits-generate"/></div>
+            <div class="field"><label>Modo de chamada</label>
+              <select id="callMode">
+                <option value="browser">Teste rápido no navegador</option>
+                <option value="backend">Backend seguro /api/fruits-generate</option>
+              </select>
+            </div>
+            <div class="field"><label>Máx. tokens de saída</label><input id="maxTokens" type="number" min="512" max="64000" value="3000"/></div>
+            <div class="field"><label>Temperatura criativa</label><input id="temperature" type="number" min="0" max="1" step="0.05" value="0.55"/></div>
+          </div>
+          <div class="notice notice-warn" style="margin-top:16px;">
+            ⚠️ Para produção real, use Backend seguro. O modo navegador é apenas para teste pessoal e pode ser bloqueado por CORS. Nunca publique uma API Key no front-end.
+          </div>
+        </div>
+      </div>
+
+      <!-- VIRAL BANK TAB -->
+      <div class="tab-panel" id="tab-viral">
+        <div class="panel-scroll">
+          <div class="section-title">🎭 Banco de Matrizes Narrativas <span class="badge">Mix de aspectos</span></div>
+          <input id="bankSearch" class="bank-search" placeholder="Buscar matriz ou aspecto..." oninput="renderBank()"/>
+          <div style="display:flex;gap:6px;margin-bottom:16px;">
+            <button class="btn btn-sm" onclick="collapseAllBank()">Minimizar todos</button>
+            <button class="btn btn-sm" onclick="expandAllBank()">Expandir todos</button>
+            <button class="btn btn-sm btn-gold" onclick="applyMatrix()">Aplicar ao Setup →</button>
+            <button class="btn btn-sm btn-pink" onclick="clearMix()">Limpar mix</button>
+          </div>
+          <div id="bankContainer"></div>
+        </div>
+      </div>
+
+      <!-- CAST TAB -->
+      <div class="tab-panel" id="tab-cast">
+        <div class="panel-scroll">
+          <div class="section-title">🎭 Elenco + Universo <span class="badge">Smart Bank</span></div>
+          <input id="castSearch" class="bank-search" placeholder="Buscar personagem..." oninput="renderCast()"/>
+          <div style="display:flex;gap:6px;margin-bottom:16px;">
+            <button class="btn btn-sm" onclick="collapseAllCast()">Minimizar</button>
+            <button class="btn btn-sm" onclick="expandAllCast()">Expandir</button>
+            <button class="btn btn-sm btn-green" onclick="saveCast()">Salvar DNA</button>
+          </div>
+          <div id="castContainer"></div>
+        </div>
+      </div>
+
+      <!-- MAP TAB -->
+      <div class="tab-panel" id="tab-map">
+        <div class="panel-scroll">
+          <div class="section-title">🗺️ Mapa de Cenas <span class="badge">Estrutura narrativa</span></div>
+          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+            <button class="btn btn-gold" onclick="generateMap()">Gerar Mapa</button>
+            <button class="btn btn-sm" onclick="copyJson(state.map)">Copiar JSON</button>
+          </div>
+          <div id="mapContainer"><div class="notice notice-warn">Configure o Setup e clique em Gerar Mapa.</div></div>
+        </div>
+      </div>
+
+      <!-- SCENE EDITOR TAB (SPLIT VIEW) -->
+      <div class="tab-panel" id="tab-scene">
+        <div class="scene-split">
+          <!-- LEFT: Scene Output -->
+          <div class="scene-left">
+            <div class="split-header">
+              <h3>Cena Atual</h3>
+              <span class="scene-pill" id="scenePill">Cena 1</span>
+              <span id="sceneApproved" style="font-size:11px;color:var(--muted);margin-left:auto;"></span>
+            </div>
+            <div class="split-content">
+              <div class="scene-output" id="sceneOutput">Sem cena gerada. Configure o Setup → Mapa → Gerar Cena.</div>
+            </div>
+            <div class="action-row">
+              <button class="btn btn-gold" onclick="generateCurrentScene()">⚡ Gerar</button>
+              <button class="btn btn-green" onclick="approveCurrentScene()">✓ Aprovar</button>
+              <button class="btn" onclick="nextScene()">→ Próxima</button>
+              <button class="btn btn-sm" onclick="narrateScene('full')">🔊 Narrar</button>
+              <button class="btn btn-sm" onclick="stopNarrator()">⏹</button>
+              <button class="btn btn-sm btn-cyan" onclick="genSrt('clean')">SRT</button>
+              <button class="btn btn-sm btn-purple" onclick="genSrt('emotion')">SRT+</button>
+              <button class="btn btn-sm" onclick="copyScene()">Copiar</button>
+            </div>
+          </div>
+          <!-- RIGHT: AI Editor -->
+          <div class="scene-right">
+            <div class="split-header">
+              <h3>Editor IA</h3>
+              <div style="display:flex;gap:6px;margin-left:auto;">
+                <button class="btn btn-sm" onclick="loadEditor('current')">Cena</button>
+                <button class="btn btn-sm" onclick="loadEditor('narration')">Narração</button>
+                <button class="btn btn-sm" onclick="loadEditor('dialogues')">Falas</button>
+                <button class="btn btn-sm" onclick="loadEditor('eleven')">ElevenLabs</button>
+              </div>
+            </div>
+            <textarea id="smartEditor" class="smart-editor" placeholder="O conteúdo da cena aparece aqui para edição. Use o painel de IA abaixo para melhorar."></textarea>
+            <div class="action-row">
+              <button class="btn btn-green" onclick="applyEditor()">✓ Aplicar no roteiro</button>
+              <button class="btn btn-sm" onclick="copyEditor()">Copiar</button>
+              <button class="btn btn-sm btn-gold" onclick="genSrt('clean')">Baixar SRT</button>
+              <button class="btn btn-sm btn-purple" onclick="genElevenText()">ElevenLabs</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI CHAT TAB -->
+      <div class="tab-panel" id="tab-ai">
+        <div class="ai-panel">
+          <div class="quick-prompts" id="quickPrompts"></div>
+          <div class="ai-messages" id="aiMessages">
+            <div class="ai-msg system">Fruits Copilot pronto. Configure a API e faça perguntas sobre o projeto, peça para melhorar cenas ou gerar variações.</div>
+          </div>
+          <div class="ai-input-row">
+            <input id="aiInput" class="ai-input" placeholder="Peça para melhorar a cena, criar alternativas, analisar continuidade..." />
+            <button class="btn btn-cyan" onclick="sendAiMessage()">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFERENCE TAB -->
+      <div class="tab-panel" id="tab-ref">
+        <div class="panel-scroll">
+          <div class="section-title">📡 Referência IA <span class="badge">Auxiliar — Fruits é o foco</span></div>
+          <div class="notice notice-warn" style="margin-bottom:16px;">Referências externas são auxiliares de clima, estrutura e emoção. Nunca copiar obra, fala ou universo protegido.</div>
+          <div class="field">
+            <label>Referência Textual (descreva a cena, clima ou estrutura)</label>
+            <textarea id="refText" rows="5" placeholder="Ex: referência de enquadramento, emoção, ritmo de corte, clima de cena específica..."></textarea>
+          </div>
+          <div class="field" style="margin-top:14px;">
+            <label>Referência Visual (imagem / storyboard)</label>
+            <input type="file" id="refImage" accept="image/*" onchange="loadRefImage(event)"/>
+            <div id="refPreview" style="margin-top:8px;"></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+            <button class="btn btn-gold" onclick="buildRefBrief()">Preparar análise</button>
+            <button class="btn btn-cyan" onclick="copyRefBrief()">Copiar brief</button>
+            <button class="btn btn-purple" onclick="analyzeRefWithClaude()">Analisar com Claude Vision</button>
+            <button class="btn btn-pink" onclick="applyRefToScene()">Aplicar na cena</button>
+          </div>
+          <div id="refOutput" class="notice notice-info" style="margin-top:16px;">Nenhuma referência ainda.</div>
+        </div>
+      </div>
+
+      <!-- EXPORT TAB -->
+      <div class="tab-panel" id="tab-export">
+        <div class="panel-scroll">
+          <div class="section-title">📦 Exportação Final <span class="badge">Quando todas as cenas estiverem aprovadas</span></div>
+          <div class="export-grid">
+            <div class="export-card">
+              <h4>📄 Roteiro Completo</h4>
+              <p>Todas as cenas aprovadas em texto limpo, pronto para produção.</p>
+              <button class="btn btn-green btn-sm" onclick="copyCleanScript()">Copiar Roteiro</button>
+            </div>
+            <div class="export-card">
+              <h4>📋 JSON Completo</h4>
+              <p>Projeto inteiro em JSON com DNA, mapa, cenas e metadados.</p>
+              <button class="btn btn-gold btn-sm" onclick="downloadJson()">Baixar JSON</button>
+            </div>
+            <div class="export-card">
+              <h4>🎞️ SRT CapCut</h4>
+              <p>Legenda com timecode para importar diretamente no CapCut.</p>
+              <button class="btn btn-cyan btn-sm" onclick="genProjectSrt()">Baixar SRT</button>
+            </div>
+            <div class="export-card">
+              <h4>🎙️ ElevenLabs</h4>
+              <p>Texto com intenção emocional por personagem para geração de voz.</p>
+              <button class="btn btn-purple btn-sm" onclick="exportEleven()">Exportar Vozes</button>
+            </div>
+            <div class="export-card">
+              <h4>🔒 Backup Seguro</h4>
+              <p>Snapshot completo do projeto para restaurar se necessário.</p>
+              <button class="btn btn-sm" onclick="backupProject()">Fazer Backup</button>
+            </div>
+            <div class="export-card">
+              <h4>⚠️ Limpar Projeto</h4>
+              <p>Remove todos os dados e reinicia do zero. Faça backup antes.</p>
+              <button class="btn btn-pink btn-sm" onclick="clearProject()">Limpar Tudo</button>
+            </div>
+          </div>
+          <div class="section-title" style="margin-top:8px;">Preview do Export</div>
+          <div id="exportPreview" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);background:var(--surface2);padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);max-height:300px;overflow-y:auto;white-space:pre-wrap;"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modalTitle">Resultado</h3>
+      <button class="btn btn-pink btn-sm" onclick="closeModal()">✕ Fechar</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-output" id="modalOutput"></div>
+    </div>
+    <div class="modal-footer" id="modalFooter">
+      <button class="btn btn-green btn-sm" onclick="copyModal()">Copiar</button>
+      <button class="btn btn-gold btn-sm" onclick="downloadModal()">Baixar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// PORTAL
+// ═══════════════════════════════════════════════
+const PORTAL_KEY = 'fa_v5_portal';
+// Segurança: a senha não fica mais neste HTML. O login real é feito pelo backend do Portal Principal.
+const PORTAL_PASS = ''; // legado desativado
+const STORAGE_KEY = 'fa_v5_state';
+
+function initPortal() {
+  // Segurança v5.2: este arquivo deve ficar atrás do Portal Principal seguro.
+  // Não existe senha fixa neste HTML; o backend/middleware protege a rota antes de carregar o app.
+  const el = document.getElementById('portal');
+  if (el) el.classList.add('hidden');
+}
+function unlockPortal() {
+  // Legado desativado: autenticação real no backend /api/auth-login.
+  const el = document.getElementById('portal');
+  if (el) el.classList.add('hidden');
+  log('Acesso liberado pelo Portal Principal seguro.', 'ok');
+}
+function lockPortal() {
+  // Em produção, o botão Travar deve chamar logout do portal principal.
+  try { window.parent.postMessage({ type: 'studio-logout' }, '*'); } catch(e) {}
+  log('Solicitando logout ao Portal Principal.', 'warn');
+}
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const DEFAULT = {
+  setup: {
+    projectName: 'Universo Fruits Adventures',
+    projectMode: 'fruits', format: '1 cena forte',
+    sceneCount: 3, mixIntensity: 'Normal', audienceMode: 'Nunca',
+    brief: 'O Segredo de OZ na Feira Fruits. OZ encontra uma foto antiga e um documento escondido sobre sua origem ligada a Limão Rocha. Abacatudo aparece fingindo ajudar, mas usa o documento para expor OZ em público. Tomate Elinaldo entra para proteger OZ, enquanto Sabrina Pitaya percebe que existe uma mentira no documento.',
+    worldPlace: 'Feira Fruits', tone: 'Novela dramática',
+    continuityRules: 'Frutas/legumes antropomórficos. Roupas base fixas. Cores vibrantes. Diálogo conciso e impactante.'
+  },
+  api: { provider: 'claude', model: 'claude-sonnet-4-6', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'browser', maxTokens: 3000, temperature: 0.55 },
+  matrix: { primary: 'broken_family', mix: ['broken_family', 'public_betrayal'] },
+  cast: { selected: ['tomate','sabrina','oz','abacatudo','limao','multidao'], worldPlace: 'Feira Fruits', tone: 'Novela dramática', continuityRules: '' },
+  refText: '', map: [], currentScene: 0, scenes: [], approved: [],
+  status: 'Setup', score: 8
+};
+
+let state = loadState();
+let refImageData = null;
+let modalText = '', modalFile = 'fruits.txt';
+let bankCollapsed = {}, castCollapsed = {};
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || clone(DEFAULT); } catch { return clone(DEFAULT); }
+}
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function clone(x) { return JSON.parse(JSON.stringify(x)); }
+function copyJson(obj) { navigator.clipboard.writeText(JSON.stringify(obj, null, 2)); log('JSON copiado.', 'ok'); }
+
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+const PROVIDERS = {
+  claude: { name: 'Claude', icon: '🤖', desc: 'Anthropic — roteiro, drama, visão e contexto longo', models: ['claude-sonnet-4-6', 'claude-haiku-4-5', 'claude-opus-4-7'] },
+  gemini: { name: 'Gemini', icon: '✨', desc: 'Google — bom para roteiro longo e JSON', models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash-lite'] },
+  groq:   { name: 'Groq',   icon: '⚡', desc: 'Ultra-rápido — chat e variações', models: ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'gemma2-9b-it'] },
+  openrouter: { name: 'OpenRouter', icon: '🔀', desc: 'Múltiplos modelos — fallback', models: ['google/gemini-flash-1.5:free', 'meta-llama/llama-3.1-8b-instruct:free'] }
+};
+
+const MATRICES = [
+  { group: '💔 Drama Viral / Família / Traição', collapsed: false, options: [
+    { id: 'public_betrayal', name: 'Traição pública / documento revelado', desc: 'Vergonha pública e volta por cima com documento revelado.', tags: ['família','traição','documento'], structure: ['confiança','sinal estranho','mentira','revelação pública','queda','recomeço'] },
+    { id: 'broken_family', name: 'Família quebrada / segredo de origem', desc: 'Revelação familiar e gancho forte sobre origem secreta.', tags: ['família','segredo','drama'], structure: ['dor escondida','humilhação','foto antiga','pergunta forte','verdade parcial','gancho'] }
+  ]},
+  { group: '👁️ Terror / Suspense / Mistério', collapsed: false, options: [
+    { id: 'shadow_truth', name: 'Verdade na sombra', desc: 'Algo no fundo muda a cena — o suspense cresce devagar.', tags: ['suspense','mistério','visual'], structure: ['calma','sinal','suspeita','revelação parcial','medo'] }
+  ]},
+  { group: '🎮 Jogos / Lutas / Guerras', collapsed: false, options: [
+    { id: 'tournament', name: 'Torneio com revelação', desc: 'Luta pública vira revelação emocional inesperada.', tags: ['luta','torneio','público'], structure: ['desafio','plateia','queda','virada','respeito'] }
+  ]},
+  { group: '📱 Viral / YouTube / TikTok', collapsed: false, options: [
+    { id: 'hook3sec', name: 'Gancho 3 segundos', desc: 'Abre com frase ou imagem de impacto máximo.', tags: ['retenção','shorts','gancho'], structure: ['frase forte','imagem chocante','contexto','virada','continua'] }
+  ]}
+];
+
+const CAST_BANK = [
+  { id: 'tomate', name: 'Tomate Elinaldo', desc: 'Herói humilde, corajoso, emocional e protetor.', tags: ['protagonista','proteção'] },
+  { id: 'sabrina', name: 'Sabrina Pitaya', desc: 'Inteligente, observadora, forte e sensível.', tags: ['intuição','verdade'] },
+  { id: 'oz', name: 'OZ / Oswaldo Rocha', desc: 'Filho de Limão Rocha. Origem dramática, conflito interno e mistério.', tags: ['segredo','origem','dor'] },
+  { id: 'abacatudo', name: 'Abacatudo', desc: 'Vilão manipulador, falso bondoso e estratégico.', tags: ['vilão','manipulação'] },
+  { id: 'limao', name: 'Limão Rocha', desc: 'Pai de OZ. Passado ligado ao mistério da origem.', tags: ['passado','família'] },
+  { id: 'multidao', name: 'Frutas ricas / multidão', desc: 'Grupo social que julga e amplifica a humilhação pública.', tags: ['grupo','pressão'] },
+  { id: 'secundarios', name: 'Secundários da série', desc: 'Mentor, rival, criança inocente, professor, vizinho.', tags: ['apoio','expansão'] },
+  { id: 'terror', name: 'Terror Fruits', desc: 'Figuras sombrias, mercado abandonado, objeto antigo.', tags: ['suspense','noite'] },
+  { id: 'herois', name: 'Heróis Fruits', desc: 'Guardiões originais e heroísmo puro.', tags: ['ação','protetores'] },
+  { id: 'games', name: 'Games / Lutas', desc: 'Torneios, fases, chefão e desafio visual.', tags: ['ação','torneio'] }
+];
+
+const CAST_GROUPS = [
+  { name: '🍅 Núcleo principal', ids: ['tomate','sabrina','oz'] },
+  { name: '🥑 Vilões', ids: ['abacatudo'] },
+  { name: '🍋 Família / origem', ids: ['limao'] },
+  { name: '👥 Grupos sociais', ids: ['multidao','secundarios'] },
+  { name: '🦸 Heróis / ação', ids: ['herois','games'] },
+  { name: '👁️ Terror / mistério', ids: ['terror'] }
+];
+
+const QUICK_PROMPTS = [
+  'Melhore os diálogos desta cena',
+  'Torne o conflito mais intenso',
+  'Crie uma variação com mais suspense',
+  'Sugira 3 ganchos para o final',
+  'Revise a continuidade do DNA Fruits',
+  'Gere o texto ElevenLabs emocional',
+  'Analise o ritmo narrativo',
+  'Sugestão de câmera para esta cena'
+];
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+function goNode(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('tab-' + id);
+  if (panel) panel.classList.add('active');
+  if (id === 'export') updateExport();
+  if (id === 'map') renderMap();
+  if (id === 'scene') { renderScene(); loadEditor('current'); }
+  if (id === 'viral') renderBank();
+  if (id === 'cast') renderCast();
+  renderNodes();
+}
+
+// ═══════════════════════════════════════════════
+// NODES
+// ═══════════════════════════════════════════════
+function renderNodes() {
+  const nodes = [
+    { id: 'setup', label: 'Setup', status: state.setup.brief ? 'pronto' : 'vazio' },
+    { id: 'api', label: 'API', status: state.api.apiKey ? 'configurada' : 'sem chave' },
+    { id: 'viral', label: 'Matrizes', status: state.matrix.primary ? 'mix ativo' : 'vazio' },
+    { id: 'cast', label: 'Elenco', status: state.cast.selected.length + ' sel.' },
+    { id: 'map', label: 'Mapa', status: state.map.length ? state.map.length + ' cenas' : 'vazio' },
+    ...state.map.map((m, i) => ({ id: 'scene', label: 'Cena ' + (i+1), sceneIdx: i, status: state.approved[i] ? '100%' : state.scenes[i] ? 'gerada' : i === state.currentScene ? 'ativa' : 'aguardando' })),
+    { id: 'ai', label: 'Copilot IA', status: state.api.apiKey ? 'pronto' : 'sem API' },
+    { id: 'ref', label: 'Referência', status: 'auxiliar' },
+    { id: 'export', label: 'Exportar', status: state.approved.filter(Boolean).length >= state.map.length && state.map.length ? 'pronto' : 'aguardando' }
+  ];
+  const activePanel = document.querySelector('.tab-panel.active')?.id?.replace('tab-','');
+  document.getElementById('nodesBar').innerHTML = nodes.map(n => {
+    const done = /pronto|100%|ativo|mix|configurada|gerada/.test(n.status);
+    const active = n.id === activePanel || (n.id === 'scene' && activePanel === 'scene' && n.sceneIdx === state.currentScene);
+    const click = n.sceneIdx !== undefined ? `selectScene(${n.sceneIdx})` : `goNode('${n.id}')`;
+    return `<div class="node-btn ${active?'active':''} ${done?'done':''}" onclick="${click}">
+      <strong>${n.label}</strong><small>${n.status}</small>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// LOG & STATUS
+// ═══════════════════════════════════════════════
+function log(msg, type = 'ia') {
+  const el = document.createElement('div');
+  el.className = 'log-entry ' + type;
+  el.textContent = msg;
+  const container = document.getElementById('sideLog');
+  container.appendChild(el);
+  container.scrollTop = container.scrollHeight;
+  const term = document.getElementById('terminalStrip');
+  term.textContent = msg;
+}
+
+function setStatus(label, score, active = false) {
+  state.status = label; state.score = score;
+  document.getElementById('statusLabel').textContent = label;
+  document.getElementById('scoreBadge').textContent = 'Score: ' + score;
+  document.getElementById('progressFill').style.width = Math.min(100, score) + '%';
+  const dot = document.getElementById('statusDot');
+  dot.className = 'status-dot' + (active ? ' active' : '');
+  saveState();
+  renderNodes();
+}
+
+// ═══════════════════════════════════════════════
+// SETUP
+// ═══════════════════════════════════════════════
+function saveSetup() {
+  state.setup = {
+    projectName: v('projectName'), projectMode: v('projectMode'),
+    format: v('format'), sceneCount: Number(v('sceneCount') || 3),
+    mixIntensity: v('mixIntensity'), audienceMode: v('audienceMode'),
+    brief: v('brief'), worldPlace: v('worldPlace'),
+    tone: v('tone'), continuityRules: v('continuityRules')
+  };
+  updateDna(); setStatus('Setup salvo', 20, true);
+  log('Setup salvo. Projeto: ' + state.setup.projectName, 'ok');
+}
+function v(id) { return document.getElementById(id)?.value || ''; }
+
+function fillForm() {
+  const s = state.setup, a = state.api;
+  set('projectName', s.projectName); set('projectMode', s.projectMode);
+  set('format', s.format); set('sceneCount', s.sceneCount);
+  set('mixIntensity', s.mixIntensity); set('audienceMode', s.audienceMode);
+  set('brief', s.brief); set('worldPlace', s.worldPlace);
+  set('tone', s.tone); set('continuityRules', s.continuityRules);
+  set('provider', a.provider); set('apiKey', a.apiKey); set('endpoint', a.endpoint); set('callMode', a.callMode || 'browser'); set('maxTokens', a.maxTokens || 3000); set('temperature', a.temperature ?? 0.55);
+  set('refText', state.refText || '');
+  renderProviderGrid(); renderModels(); renderBank(); renderCast();
+}
+function set(id, val) { const el = document.getElementById(id); if (el) el.value = val || ''; }
+
+// ═══════════════════════════════════════════════
+// API
+// ═══════════════════════════════════════════════
+function renderProviderGrid() {
+  document.getElementById('providerGrid').innerHTML = Object.entries(PROVIDERS).map(([k, p]) => `
+    <div class="provider-card ${state.api.provider===k?'selected':''}" onclick="selectProvider('${k}')">
+      <div class="pc-icon">${p.icon}</div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-desc">${p.desc}</div>
+    </div>`).join('');
+}
+function selectProvider(id) {
+  state.api.provider = id; set('provider', id);
+  renderProviderGrid(); renderModels(); saveState();
+  log('Provider: ' + PROVIDERS[id].name, 'ia');
+}
+function onProviderChange() { selectProvider(v('provider')); }
+function renderModels() {
+  const p = PROVIDERS[state.api.provider];
+  if (!p) return;
+  document.getElementById('model').innerHTML = p.models.map(m => `<option value="${m}">${m}</option>`).join('');
+  if (!p.models.includes(state.api.model)) state.api.model = p.models[0];
+  document.getElementById('model').value = state.api.model;
+}
+async function testApi() {
+  state.api.apiKey = v('apiKey'); state.api.model = v('model');
+  saveState();
+  const dot = document.getElementById('apiDot');
+  const txt = document.getElementById('apiStatusText');
+  dot.className = 'dot dot-idle'; txt.textContent = 'Testando...';
+  try {
+    const res = await callApi('Responda apenas: API Fruits online OK. Nada mais.');
+    dot.className = 'dot dot-ok'; txt.textContent = 'Conectada: ' + res.slice(0, 50);
+    log('API conectada: ' + state.api.provider, 'ok');
+  } catch(e) {
+    dot.className = 'dot dot-err'; txt.textContent = 'Erro: ' + e.message;
+    log('Erro API: ' + e.message, 'err');
+  }
+}
+async function callApi(prompt, systemMsg) {
+  // Sincroniza os campos da aba API antes de cada chamada
+  state.api.apiKey = v('apiKey') || state.api.apiKey;
+  state.api.model = v('model') || state.api.model;
+  state.api.endpoint = v('endpoint') || state.api.endpoint || '/api/fruits-generate';
+  state.api.callMode = v('callMode') || state.api.callMode || 'browser';
+  state.api.maxTokens = Math.max(512, Number(v('maxTokens') || state.api.maxTokens || 3000));
+  state.api.temperature = Math.min(1, Math.max(0, Number(v('temperature') ?? state.api.temperature ?? 0.55)));
+  saveState();
+
+  const key = state.api.apiKey;
+  const provider = state.api.provider;
+  const model = state.api.model || PROVIDERS[provider]?.models[0];
+  const sys = systemMsg || buildSystemPrompt();
+  const userContent = Array.isArray(prompt) ? prompt : prompt;
+
+  if (!key && !(provider === 'claude' && state.api.callMode === 'backend')) {
+    throw new Error('Sem API Key. Configure na aba API.');
+  }
+
+  if (provider === 'claude') {
+    // Modo recomendado para produção: seu backend guarda a ANTHROPIC_API_KEY em variável secreta
+    // e chama a API Claude por trás. O front envia apenas prompt/configuração.
+    if (state.api.callMode === 'backend') {
+      const res = await fetch(state.api.endpoint || '/api/fruits-generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'claude',
+          model,
+          system: sys,
+          prompt: userContent,
+          max_tokens: state.api.maxTokens,
+          temperature: state.api.temperature
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || data.message || 'Backend Claude falhou.');
+      return data.text || data.output || data.content || '';
+    }
+
+    // Modo teste pessoal: pode falhar por CORS dependendo do ambiente.
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({
+        model,
+        max_tokens: state.api.maxTokens,
+        temperature: state.api.temperature,
+        system: sys,
+        messages: [{ role: 'user', content: userContent }]
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || JSON.stringify(data));
+    return data.content?.map(c => c.text || '').join('\n') || '';
+  }
+  if (provider === 'gemini') {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
+    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: sys + '\n\n' + prompt }] }] }) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || JSON.stringify(data));
+    return data.candidates?.[0]?.content?.parts?.map(p => p.text).join('\n') || '';
+  }
+  const url = provider === 'groq' ? 'https://api.groq.com/openai/v1/chat/completions' : 'https://openrouter.ai/api/v1/chat/completions';
+  const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` };
+  if (provider === 'openrouter') { headers['HTTP-Referer'] = location.origin; headers['X-Title'] = 'Fruits Adventures Studio'; }
+  const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify({ model, messages: [{ role: 'system', content: sys }, { role: 'user', content: String(prompt) }], temperature: state.api.temperature }) });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || JSON.stringify(data));
+  return data.choices?.[0]?.message?.content || '';
+}
+function buildSystemPrompt() {
+  return `Você é o Fruits Copilot — assistente de direção do Fruits Adventures Studio.
+Universo: Fruits Adventures Titan. Personagens são frutas/legumes antropomórficos.
+Foco: Fruits Adventures é o projeto principal. Referências externas são apenas auxiliares de clima, estrutura e emoção.
+Regra absoluta: não copiar obra, fala, cena, autor, diretor ou universo protegido.
+DNA: ${JSON.stringify(buildDna(), null, 2)}
+Responda sempre em português do Brasil. Seja criativo, emocional e viral dentro do DNA Fruits.`;
+}
+
+// ═══════════════════════════════════════════════
+// VIRAL BANK
+// ═══════════════════════════════════════════════
+function renderBank() {
+  const term = (v('bankSearch') || '').toLowerCase();
+  document.getElementById('bankContainer').innerHTML = MATRICES.map(g => {
+    const opts = g.options.filter(o => !term || (g.group + o.name + o.desc + o.tags.join(' ')).toLowerCase().includes(term));
+    if (!opts.length) return '';
+    const col = bankCollapsed[g.group] && !term;
+    return `<div class="matrix-group">
+      <div class="matrix-group-header" onclick="toggleBank('${esc(g.group)}')">
+        <strong>${col?'▶':'▼'} ${g.group}</strong>
+        <span class="tag-pill">${opts.length} opções</span>
+      </div>
+      ${col ? '' : `<div class="matrix-group-body">${opts.map(o => {
+        const isPrimary = state.matrix.primary === o.id;
+        const isMix = state.matrix.mix.includes(o.id);
+        return `<div class="matrix-option ${isPrimary?'primary':isMix?'mixed':''}" onclick="selectMatrix('${o.id}')">
+          <strong>${o.name}</strong>
+          <small>${o.desc}</small>
+          <div class="mo-tags">${o.tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')}</div>
+          <label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--purple);cursor:pointer;" onclick="event.stopPropagation();toggleMix('${o.id}')">
+            <input type="checkbox" ${isMix?'checked':''} style="width:auto;accent-color:var(--purple)"> Adicionar ao mix
+          </label>
+        </div>`;
+      }).join('')}</div>`}
+    </div>`;
+  }).join('') || '<div class="notice notice-warn">Nenhuma matriz encontrada.</div>';
+}
+function toggleBank(g) { g = unesc(g); bankCollapsed[g] = !bankCollapsed[g]; renderBank(); }
+function collapseAllBank() { MATRICES.forEach(g => bankCollapsed[g.group] = true); renderBank(); }
+function expandAllBank() { bankCollapsed = {}; renderBank(); }
+function selectMatrix(id) { state.matrix.primary = id; if (!state.matrix.mix.includes(id)) state.matrix.mix.push(id); renderBank(); saveState(); log('Matriz selecionada: ' + id, 'ok'); }
+function toggleMix(id) { state.matrix.mix = state.matrix.mix.includes(id) ? state.matrix.mix.filter(x=>x!==id) : [...state.matrix.mix, id]; renderBank(); saveState(); }
+function applyMatrix() { if (!state.matrix.primary) { log('Escolha uma matriz primeiro.', 'warn'); return; } updateDna(); setStatus('Matriz aplicada', 30); goNode('setup'); log('Matriz aplicada ao projeto.', 'ok'); }
+function clearMix() { state.matrix = { primary: null, mix: [] }; renderBank(); saveState(); log('Mix limpo.', 'warn'); }
+function findMatrix(id) { for (const g of MATRICES) for (const o of g.options) if (o.id === id) return o; return null; }
+
+// ═══════════════════════════════════════════════
+// CAST
+// ═══════════════════════════════════════════════
+function renderCast() {
+  const term = (v('castSearch') || '').toLowerCase();
+  document.getElementById('castContainer').innerHTML = CAST_GROUPS.map(g => {
+    const chars = g.ids.map(id => CAST_BANK.find(c => c.id === id)).filter(Boolean).filter(c => !term || (g.name + c.name + c.desc + c.tags.join(' ')).toLowerCase().includes(term));
+    if (!chars.length) return '';
+    const col = castCollapsed[g.name] && !term;
+    return `<div class="cast-group">
+      <div class="matrix-group-header" onclick="toggleCastGroup('${esc(g.name)}')">
+        <strong>${col?'▶':'▼'} ${g.name}</strong>
+        <span class="tag-pill">${chars.length} personagens</span>
+      </div>
+      ${col ? '' : `<div class="cast-grid">${chars.map(c => `
+        <div class="cast-card ${state.cast.selected.includes(c.id)?'selected':''}" onclick="toggleCast('${c.id}')">
+          <strong>${c.name}</strong>
+          <small>${c.desc}</small>
+          <div class="mo-tags" style="margin-top:5px;">${c.tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')}</div>
+        </div>`).join('')}</div>`}
+    </div>`;
+  }).join('');
+}
+function toggleCastGroup(g) { g = unesc(g); castCollapsed[g] = !castCollapsed[g]; renderCast(); }
+function collapseAllCast() { CAST_GROUPS.forEach(g => castCollapsed[g.name] = true); renderCast(); }
+function expandAllCast() { castCollapsed = {}; renderCast(); }
+function toggleCast(id) { state.cast.selected = state.cast.selected.includes(id) ? state.cast.selected.filter(x=>x!==id) : [...state.cast.selected, id]; renderCast(); saveCast(); }
+function saveCast() { state.cast.worldPlace = v('worldPlace'); state.cast.tone = v('tone'); state.cast.continuityRules = v('continuityRules'); updateDna(); setStatus('DNA salvo', Math.max(state.score, 40)); log('DNA e elenco salvos.', 'ok'); }
+function castName(id) { return CAST_BANK.find(c => c.id === id)?.name || id; }
+
+// ═══════════════════════════════════════════════
+// DNA
+// ═══════════════════════════════════════════════
+function buildDna() {
+  const pm = findMatrix(state.matrix.primary);
+  return {
+    project: state.setup.projectName, mode: state.setup.projectMode,
+    brief: state.setup.brief.slice(0, 200),
+    matrix: pm ? { name: pm.name, tags: pm.tags, mix: state.matrix.mix.map(id => findMatrix(id)?.name || id) } : null,
+    cast: state.cast.selected.map(id => castName(id)),
+    world: { place: state.cast.worldPlace || state.setup.worldPlace, tone: state.cast.tone || state.setup.tone },
+    rules: ['Fruits Adventures é o foco.', 'Referência externa é auxiliar.', 'Não copiar obras protegidas.']
+  };
+}
+function updateDna() {
+  document.getElementById('sideDna').textContent = JSON.stringify(buildDna(), null, 2);
+  saveState();
+}
+
+// ═══════════════════════════════════════════════
+// MAP
+// ═══════════════════════════════════════════════
+function generateMap() {
+  saveSetup();
+  const count = Number(state.setup.sceneCount || 3);
+  const base = [
+    { title: 'A Descoberta e a Falsa Ajuda', objective: 'Estabelecer o segredo de OZ e a entrada manipuladora de Abacatudo.', beat: 'Sabrina percebe o movimento estranho.' },
+    { title: 'A Revelação e a Queda de OZ', objective: 'Expor OZ publicamente e mostrar o impacto da traição.', beat: 'Sabrina percebe a rasura no documento.' },
+    { title: 'A Proteção e a Verdade Parcial', objective: 'Tomate protege OZ e Sabrina planta a dúvida.', beat: 'A verdade completa sobre Limão Rocha fica para parte 2.' },
+    { title: 'O Plano de Abacatudo', objective: 'Revelar a estratégia maior por trás da manipulação.', beat: 'Algo no passado de Limão Rocha explica tudo.' },
+    { title: 'A Aliança Improvávelb', objective: 'OZ e Tomate se unem contra Abacatudo.', beat: 'Sabrina descobre a prova definitiva.' }
+  ];
+  state.map = base.slice(0, Math.max(1, Math.min(count, base.length)));
+  state.currentScene = 0; state.scenes = []; state.approved = [];
+  renderMap(); renderSceneNav(); updateDna();
+  setStatus('Mapa pronto', 55, true);
+  goNode('map'); log('Mapa gerado: ' + state.map.length + ' cenas.', 'ok');
+}
+function renderMap() {
+  document.getElementById('mapContainer').innerHTML = state.map.length
+    ? state.map.map((s, i) => `
+      <div style="margin-bottom:10px;padding:14px;background:var(--surface2);border:1px solid ${state.approved[i]?'rgba(77,255,154,0.3)':i===state.currentScene?'var(--border-active)':'var(--border)'};border-radius:var(--radius);cursor:pointer;transition:all 0.15s;" onclick="selectScene(${i})">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <span>${state.approved[i]?'✅':i===state.currentScene?'🎬':i>state.approved.filter(Boolean).length?'🔒':'⏳'}</span>
+          <strong style="font-family:'Syne',sans-serif;font-size:14px;">Cena ${i+1} — ${s.title}</strong>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">${s.objective}</div>
+        <div style="font-size:11px;color:var(--purple);">Beat: ${s.beat}</div>
+      </div>`) .join('')
+    : '<div class="notice notice-warn">Nenhum mapa gerado. Configure o Setup e clique em Gerar Mapa.</div>';
+}
+function renderSceneNav() {
+  document.getElementById('sceneNavList').innerHTML = state.map.map((s, i) => `
+    <div class="scene-nav-item ${i===state.currentScene?'active':''} ${state.approved[i]?'done':''}" onclick="selectScene(${i})">
+      <span class="sni-icon">${state.approved[i]?'✅':i===state.currentScene?'🎬':'○'}</span>
+      <div class="sni-info">
+        <strong>Cena ${i+1}</strong>
+        <small>${s.title.slice(0,28)}</small>
+      </div>
+    </div>`).join('');
+}
+function selectScene(i) {
+  if (i > state.approved.filter(Boolean).length && !state.approved[i]) {
+    log('Aprove as cenas em ordem antes de avançar.', 'warn'); return;
+  }
+  state.currentScene = i;
+  renderMap(); renderScene(); renderSceneNav();
+  goNode('scene'); saveState();
+}
+
+// ═══════════════════════════════════════════════
+// SCENE GENERATION
+// ═══════════════════════════════════════════════
+function sceneLocalFallback(i) {
+  const s = state.map[i], n = i + 1;
+  const cast = state.cast.selected.map(castName).join(', ');
+  if (n === 1) return `CENA 1 — ${s.title}
+
+OBJETIVO:
+${s.objective}
+
+AÇÃO:
+OZ encontra uma foto antiga e um documento amarelado perto de uma barraca de sucos na Feira Fruits. Abacatudo se aproxima com um sorriso falso, oferece ajuda e toma o documento. Sabrina Pitaya observa de longe e percebe que o gesto dele é calculado.
+
+CÂMERA:
+Close nas mãos trêmulas de OZ. Plano médio de Abacatudo aproximando. Corte para Sabrina desconfiada.
+
+EMOÇÃO:
+Curiosidade, tensão, falsa ajuda, malícia, desconfiança.
+
+NARRAÇÃO:
+OZ achava que tinha encontrado uma resposta. Mas na Feira Fruits, algumas respostas chegam pelas mãos erradas. Quando Abacatudo sorriu, Sabrina Pitaya entendeu: a verdade estava prestes a virar arma.
+
+FALAS:
+OZ: "Esse nome... Limão Rocha... por que está aqui?"
+Abacatudo: "Calma, garoto. Deixa eu ver isso. Talvez eu possa te ajudar."
+Sabrina Pitaya: "Não... esse sorriso não é de quem quer ajudar."
+
+CAPCUT:
+OZ encontra a foto antiga. Abacatudo finge ajudar. Sabrina percebe a mentira.
+
+ELEVENLABS:
+OZ [voz baixa, confuso, tremendo]: Esse nome... Limão Rocha... por que está aqui?
+Abacatudo [falso calmo, sorriso escondido]: Calma, garoto. Deixa eu ver isso.
+Sabrina [sussurrando, desconfiada, intuição forte]: Não... esse sorriso não é de quem quer ajudar.`;
+
+  if (n === 2) return `CENA 2 — ${s.title}
+
+OBJETIVO:
+${s.objective}
+
+AÇÃO:
+Abacatudo sobe em uma caixa no centro da Feira e exibe o documento diante da multidão. Distorce a origem de OZ, transformando dor em humilhação pública. Tomate Elinaldo avança, mas Sabrina segura seu braço ao notar uma rasura no papel.
+
+CÂMERA:
+Plano geral da multidão. Close em OZ paralisado. Close no sorriso de Abacatudo. Close na rasura que Sabrina percebe.
+
+EMOÇÃO:
+Humilhação pública, choque, vergonha, raiva contida, descoberta.
+
+NARRAÇÃO:
+A multidão ouviu a mentira antes de ouvir a verdade. Abacatudo quase venceu. Quase. Porque Sabrina viu o detalhe que ninguém viu.
+
+FALAS:
+Abacatudo: "Todos precisam saber quem esse garoto realmente é!"
+OZ: "Para... isso não pode ser verdade..."
+Tomate Elinaldo: "Abacatudo, chega!"
+Sabrina Pitaya: "Espera... esse documento foi mexido."
+
+CAPCUT:
+Humilhação pública. Documento revelado. Sabrina percebe a rasura.
+
+ELEVENLABS:
+Abacatudo [alto, teatral, cruel]: Todos precisam saber quem esse garoto realmente é!
+OZ [quase chorando, voz partida]: Para... isso não pode ser verdade...
+Sabrina [tensa, descobrindo algo]: Espera... esse documento foi mexido.`;
+
+  return `CENA ${n} — ${s.title}
+
+OBJETIVO:
+${s.objective}
+
+AÇÃO:
+Tomate Elinaldo entra na frente de OZ, bloqueando a humilhação. Sabrina aponta a rasura e a multidão se cala. Abacatudo perde o controle por um instante. OZ, ainda ferido, pergunta quem Limão Rocha realmente era.
+
+CÂMERA:
+Plano médio de Tomate protegendo OZ. Close em Sabrina. Plano geral da feira em silêncio. Close nos olhos de OZ.
+
+EMOÇÃO:
+Proteção, raiva justa, esperança, dúvida pública, gancho emocional.
+
+NARRAÇÃO:
+No abismo da humilhação, a lealdade se ergueu como escudo. Tomate não deixou OZ cair sozinho. Sabrina não deixou a mentira passar inteira.
+
+FALAS:
+Tomate Elinaldo: "Chega, Abacatudo! Isso não é verdade!"
+Sabrina Pitaya: "Há algo mais aqui... uma mentira!"
+OZ: "Limão Rocha... quem ele realmente era?"
+Abacatudo: "Vocês não sabem com o que estão mexendo."
+
+CAPCUT:
+Tomate protege OZ. Sabrina descobre a falha. A verdade fica para parte 2.
+
+ELEVENLABS:
+Tomate [protetor, firme, determinado]: Chega, Abacatudo!
+Sabrina [determinada, revelando]: Há algo mais aqui... uma mentira!
+OZ [ferido, esperançoso]: Quem ele realmente era?`;
+}
+
+async function generateCurrentScene() {
+  if (!state.map.length) generateMap();
+  const i = state.currentScene;
+  document.getElementById('sceneOutput').textContent = 'Gerando cena ' + (i+1) + '...';
+  setStatus('Gerando cena ' + (i+1), 70, true);
+  goNode('scene');
+  let text = '';
+  if (state.api.apiKey) {
+    try {
+      const s = state.map[i];
+      const approved = state.scenes.map((sc, idx) => state.approved[idx] ? `Cena ${idx+1} (aprovada):\n${sc.text}` : '').filter(Boolean).join('\n\n');
+      const prompt = `Crie a CENA ${i+1} completa para o projeto Fruits Adventures.
+
+MAPA DA CENA:
+Título: ${s.title}
+Objetivo: ${s.objective}
+Beat final: ${s.beat}
+
+CENAS APROVADAS ANTERIORES:
+${approved || 'Nenhuma ainda.'}
+
+FORMATO OBRIGATÓRIO (use exatamente estes blocos):
+CENA ${i+1} — [título]
+
+OBJETIVO:
+[objetivo narrativo]
+
+AÇÃO:
+[descrição da cena, acontecimentos]
+
+CÂMERA:
+[planos, close, movimentos]
+
+EMOÇÃO:
+[emoções em jogo]
+
+NARRAÇÃO:
+[narração para voz-over]
+
+FALAS:
+[diálogos por personagem]
+
+CAPCUT:
+[legenda curta para CapCut]
+
+ELEVENLABS:
+[texto emocional por personagem para geração de voz]
+
+Regras: personagens são frutas/legumes. DNA Fruits preservado. Sem copiar obras externas. Cena com impacto emocional forte e viral.`;
+      text = await callApi(prompt);
+      log('Cena ' + (i+1) + ' gerada com IA (' + PROVIDERS[state.api.provider]?.name + ').', 'ok');
+    } catch(e) {
+      text = sceneLocalFallback(i);
+      log('API falhou — usando geração local. ' + e.message, 'warn');
+    }
+  } else {
+    text = sceneLocalFallback(i);
+    log('Cena ' + (i+1) + ' gerada localmente (sem API).', 'ia');
+  }
+  state.scenes[i] = { title: state.map[i].title, text, generatedAt: new Date().toISOString() };
+  renderScene(); renderSceneNav(); updateDna();
+  setStatus('Cena ' + (i+1) + ' gerada', 75);
+}
+
+function renderScene() {
+  const i = state.currentScene;
+  document.getElementById('scenePill').textContent = 'Cena ' + (i+1);
+  document.getElementById('sceneOutput').textContent = state.scenes[i]?.text || 'Sem cena. Clique em Gerar.';
+  document.getElementById('sceneApproved').textContent = state.approved[i] ? '✅ Aprovada 100%' : '';
+  loadEditor('current');
+}
+
+function approveCurrentScene() {
+  const i = state.currentScene;
+  if (!state.scenes[i]) { log('Gere a cena antes de aprovar.', 'warn'); return; }
+  state.approved[i] = true;
+  renderScene(); renderMap(); renderSceneNav(); updateDna();
+  setStatus('Cena ' + (i+1) + ' aprovada!', 85);
+  log('Cena ' + (i+1) + ' aprovada 100%.', 'ok');
+  if (state.approved.filter(Boolean).length >= state.map.length) {
+    setStatus('Pronto para exportar!', 100, true);
+    log('Todas as cenas aprovadas! Vá para Exportar.', 'ok');
+    updateExport();
+  }
+}
+
+function nextScene() {
+  const i = state.currentScene;
+  if (!state.approved[i]) { log('Aprove a cena atual antes de avançar.', 'warn'); return; }
+  if (i + 1 >= state.map.length) { setStatus('Exportação', 100, true); goNode('export'); return; }
+  state.currentScene = i + 1;
+  renderMap(); renderScene(); renderSceneNav();
+  setStatus('Cena ' + (state.currentScene+1) + ' — produção', 70, true);
+  log('Avançando para Cena ' + (state.currentScene+1) + '. Gere a cena.', 'ia');
+  saveState();
+}
+
+// ═══════════════════════════════════════════════
+// EDITOR
+// ═══════════════════════════════════════════════
+function loadEditor(mode) {
+  const editor = document.getElementById('smartEditor');
+  const s = state.scenes[state.currentScene];
+  if (!s) return;
+  if (mode === 'current') { editor.value = s.text || ''; }
+  else if (mode === 'narration') { editor.value = extractBlock(s.text, 'NARRAÇÃO') || extractBlock(s.text, 'AÇÃO') || s.text; }
+  else if (mode === 'dialogues') { editor.value = extractBlock(s.text, 'FALAS') || extractBlock(s.text, 'ELEVENLABS') || ''; }
+  else if (mode === 'eleven') { editor.value = extractBlock(s.text, 'ELEVENLABS') || ''; }
+  else if (mode === 'capcut') { editor.value = extractBlock(s.text, 'CAPCUT') || ''; }
+}
+function extractBlock(text, name) {
+  const heads = 'OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|NARRAÇÃO|FALAS|CAPCUT|ELEVENLABS';
+  const re = new RegExp(name + ':\\s*([\\s\\S]*?)(\\n\\n(' + heads + ')\\s*:|$)', 'i');
+  const m = text?.match(re);
+  return m ? m[1].trim() : '';
+}
+function applyEditor() {
+  const i = state.currentScene;
+  if (!state.scenes[i]) { state.scenes[i] = { title: state.map[i]?.title || 'Cena', text: '', generatedAt: new Date().toISOString() }; }
+  state.scenes[i].text = document.getElementById('smartEditor').value;
+  state.scenes[i].editedAt = new Date().toISOString();
+  renderScene(); updateDna(); saveState(); log('Editor aplicado na cena ' + (i+1) + '.', 'ok');
+}
+function copyEditor() { navigator.clipboard.writeText(document.getElementById('smartEditor').value); log('Editor copiado.', 'ok'); }
+function copyScene() { navigator.clipboard.writeText(state.scenes[state.currentScene]?.text || ''); log('Cena copiada.', 'ok'); }
+
+// ═══════════════════════════════════════════════
+// NARRATOR
+// ═══════════════════════════════════════════════
+function narrateScene(mode) {
+  const s = state.scenes[state.currentScene];
+  if (!s) return;
+  let text = '';
+  if (mode === 'narration') text = extractBlock(s.text, 'NARRAÇÃO') || extractBlock(s.text, 'AÇÃO');
+  else if (mode === 'dialogues') text = extractBlock(s.text, 'FALAS');
+  else text = [extractBlock(s.text, 'NARRAÇÃO'), extractBlock(s.text, 'FALAS')].filter(Boolean).join('\n\n');
+  if (!text) { log('Nenhum texto para narrar.', 'warn'); return; }
+  if (!('speechSynthesis' in window)) { openModal('Narrador', 'Voz não disponível.', text, 'narrador.txt'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'pt-BR'; u.rate = 0.9;
+  speechSynthesis.speak(u);
+  log('Narrando cena ' + (state.currentScene+1) + '...', 'ia');
+}
+function stopNarrator() { if ('speechSynthesis' in window) speechSynthesis.cancel(); log('Narrador parado.', 'warn'); }
+
+// ═══════════════════════════════════════════════
+// SRT
+// ═══════════════════════════════════════════════
+function srtTime(s) {
+  const ms = Math.round(s * 1000), h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), sec = Math.floor(ms%60000/1000), x = ms%1000;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')},${String(x).padStart(3,'0')}`;
+}
+function buildSrt(text) {
+  const lines = text.replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(x=>x.trim()).filter(Boolean).filter(x=>!/^(CENA|OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|FALAS|NARRAÇÃO|CAPCUT|ELEVENLABS)/i.test(x)).slice(0, 120);
+  let cur = 0;
+  return lines.map((l, i) => {
+    const dur = Math.min(7, Math.max(2, l.split(/\s+/).length * 0.4 + 0.7));
+    const st = cur, en = cur + dur; cur = en + 0.15;
+    return `${i+1}\n${srtTime(st)} --> ${srtTime(en)}\n${l}`;
+  }).join('\n\n');
+}
+function genSrt(mode) {
+  const s = state.scenes[state.currentScene];
+  if (!s) return;
+  const text = mode === 'emotion' ? buildEmotionText(s.text) : s.text;
+  openModal('SRT CapCut ' + (mode==='emotion'?'+ Emoção':'Limpo'), 'Timecode aproximado.', buildSrt(text), `cena-${state.currentScene+1}-${mode}.srt`);
+}
+function buildEmotionText(t) {
+  const em = extractBlock(t, 'EMOÇÃO'), dia = extractBlock(t, 'FALAS'), nar = extractBlock(t, 'NARRAÇÃO');
+  return [em?'[' + em + ']':'', nar, dia].filter(Boolean).join('\n');
+}
+function genProjectSrt() {
+  const text = state.scenes.map((s,i) => s.text || '').join('\n\n');
+  openModal('SRT Projeto Completo', 'Todas as cenas.', buildSrt(text), 'fruits-projeto.srt');
+}
+function genElevenText() {
+  const s = state.scenes[state.currentScene];
+  if (!s) return;
+  openModal('ElevenLabs', 'Texto emocional por personagem.', extractBlock(s.text, 'ELEVENLABS') || extractBlock(s.text, 'FALAS') || '', 'elevenlabs.txt');
+}
+function exportEleven() {
+  const text = state.scenes.map((s,i) => `=== CENA ${i+1} ===\n${extractBlock(s.text||'','ELEVENLABS')||extractBlock(s.text||'','FALAS')||''}`).join('\n\n');
+  openModal('ElevenLabs — Projeto Completo', 'Todas as cenas.', text, 'fruits-elevenlabs.txt');
+}
+
+// ═══════════════════════════════════════════════
+// AI CHAT
+// ═══════════════════════════════════════════════
+function renderQuickPrompts() {
+  document.getElementById('quickPrompts').innerHTML = QUICK_PROMPTS.map(p => `<span class="qp" onclick="sendPrompt(${JSON.stringify(p)})">${p}</span>`).join('');
+}
+function sendPrompt(text) {
+  document.getElementById('aiInput').value = text;
+  sendAiMessage();
+}
+async function sendAiMessage() {
+  const input = document.getElementById('aiInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  addAiMsg(msg, 'user');
+  if (!state.api.apiKey) { addAiMsg('Configure a API Key na aba API para usar o Copilot IA.', 'err'); return; }
+  const loading = addAiMsg('Pensando...', 'ai loading');
+  try {
+    const scene = state.scenes[state.currentScene];
+    const context = scene ? `\n\nCENA ATUAL:\n${scene.text.slice(0,1000)}` : '';
+    const res = await callApi(msg + context);
+    loading.className = 'ai-msg ai';
+    loading.textContent = res;
+  } catch(e) {
+    loading.className = 'ai-msg err';
+    loading.textContent = 'Erro: ' + e.message;
+  }
+}
+function addAiMsg(text, type) {
+  const el = document.createElement('div');
+  el.className = 'ai-msg ' + type;
+  el.textContent = text;
+  const msgs = document.getElementById('aiMessages');
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+// ═══════════════════════════════════════════════
+// REFERENCE
+// ═══════════════════════════════════════════════
+function loadRefImage(e) {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    refImageData = r.result;
+    document.getElementById('refPreview').innerHTML = `<div class="notice notice-info" style="margin-top:8px;">Imagem carregada: ${f.name}<br><img src="${refImageData}" style="max-width:100%;border-radius:8px;margin-top:8px;"/></div>`;
+    log('Referência visual carregada.', 'ok');
+  };
+  r.readAsDataURL(f);
+}
+function buildRefBrief() {
+  state.refText = v('refText');
+  const dna = buildDna();
+  const brief = `REFERÊNCIA IA — FRUITS ADVENTURES\n\nFruits Adventures é o foco. Referência é auxiliar de clima, estrutura e emoção.\nNão copiar obra, fala, cena ou universo protegido.\n\nDNA:\n${JSON.stringify(dna, null, 2)}\n\nREFERÊNCIA TEXTUAL:\n${state.refText || 'Nenhuma.'}\n\nIMAGEM:\n${refImageData ? 'Imagem carregada.' : 'Nenhuma.'}\n\nSaída esperada:\n1. O que aproveitar desta referência\n2. O que descartar\n3. Como adaptar à cena atual\n4. Versão melhorada\n5. Checklist de continuidade`;
+  document.getElementById('refOutput').innerHTML = `<div class="modal-output">${brief}</div>`;
+  saveState();
+  log('Brief de referência preparado.', 'ok');
+  return brief;
+}
+function copyRefBrief() { navigator.clipboard.writeText(buildRefBrief()); log('Brief de referência copiado.', 'ok'); }
+function applyRefToScene() { buildRefBrief(); log('Referência pronta. Use o Copilot IA para aplicar na cena atual.', 'ia'); goNode('ai'); }
+
+function dataUrlToClaudeImage(dataUrl) {
+  const m = String(dataUrl || '').match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+  if (!m) return null;
+  return {
+    type: 'image',
+    source: { type: 'base64', media_type: m[1], data: m[2] }
+  };
+}
+
+async function analyzeRefWithClaude() {
+  state.api.provider = 'claude';
+  set('provider', 'claude');
+  renderProviderGrid();
+  renderModels();
+  state.api.apiKey = v('apiKey') || state.api.apiKey;
+  saveState();
+
+  if (!state.api.apiKey && (v('callMode') || state.api.callMode) !== 'backend') {
+    log('Cole sua API Key Claude ou use o modo Backend seguro.', 'warn');
+    goNode('api');
+    return;
+  }
+
+  const baseBrief = buildRefBrief();
+  const scene = state.scenes[state.currentScene]?.text || 'Nenhuma cena gerada ainda.';
+  const prompt = `Analise esta referência para o Fruits Adventures Studio.
+
+TAREFA:
+1. Diga o que aproveitar visualmente/narrativamente.
+2. Diga o que descartar para não copiar obra externa.
+3. Adapte apenas para a cena atual do universo Fruits.
+4. Sugira câmera, emoção, falas e CapCut.
+5. Entregue uma versão curta pronta para aplicar.
+
+CENA ATUAL:
+${scene}
+
+BRIEF:
+${baseBrief}`;
+
+  const content = [];
+  const img = dataUrlToClaudeImage(refImageData);
+  if (img) content.push(img);
+  content.push({ type: 'text', text: prompt });
+
+  document.getElementById('refOutput').textContent = 'Claude Vision analisando referência...';
+  log('Claude Vision analisando referência...', 'ia');
+
+  try {
+    const res = await callApi(content, buildSystemPrompt() + '\nVocê também atua como diretor visual. Use imagem apenas como referência de composição, emoção e ritmo. Não copie identidade visual protegida.');
+    document.getElementById('refOutput').innerHTML = `<div class="modal-output">${res}</div>`;
+    openModal('Análise Claude Vision', 'Referência adaptada ao DNA Fruits.', res, 'analise-claude-vision.txt');
+    log('Análise Claude Vision concluída.', 'ok');
+  } catch (e) {
+    document.getElementById('refOutput').textContent = 'Erro Claude Vision: ' + e.message;
+    log('Erro Claude Vision: ' + e.message, 'err');
+  }
+}
+
+// ═══════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════
+function buildCleanScript() {
+  return state.scenes.map((s, i) => `CENA ${i+1} — ${s.title || state.map[i]?.title || ''}\n\n${s.text || ''}`).join('\n\n' + '─'.repeat(50) + '\n\n');
+}
+function buildExportJson() {
+  return { app: 'Fruits Adventures Studio v5', exportedAt: new Date().toISOString(), setup: state.setup, api: { provider: state.api.provider, model: state.api.model, endpoint: state.api.endpoint, callMode: state.api.callMode, maxTokens: state.api.maxTokens, temperature: state.api.temperature }, dna: buildDna(), map: state.map, scenes: state.scenes, approved: state.approved };
+}
+function updateExport() {
+  document.getElementById('exportPreview').textContent = JSON.stringify(buildExportJson(), null, 2);
+}
+function copyCleanScript() { navigator.clipboard.writeText(buildCleanScript()); log('Roteiro copiado.', 'ok'); }
+function downloadJson() {
+  updateExport();
+  downloadText(JSON.stringify(buildExportJson(), null, 2), 'fruits-adventures-v5.json', 'application/json');
+  log('JSON baixado.', 'ok');
+}
+function backupProject() {
+  downloadText(JSON.stringify({ backupAt: new Date().toISOString(), state }, null, 2), 'backup-fruits.json', 'application/json');
+  log('Backup salvo.', 'ok');
+}
+function downloadText(text, filename, type = 'text/plain;charset=utf-8') {
+  const blob = new Blob([text], { type }), url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+function clearProject() {
+  if (!confirm('Limpar tudo? Faça backup antes.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = clone(DEFAULT);
+  fillForm(); renderMap(); renderScene(); renderSceneNav(); renderNodes(); updateDna();
+  setStatus('Setup', 8); log('Projeto limpo.', 'warn'); goNode('setup');
+}
+
+// ═══════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════
+function openModal(title, desc, text, file = 'fruits.txt') {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalOutput').textContent = text;
+  modalText = text; modalFile = file;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function copyModal() { navigator.clipboard.writeText(modalText); log('Copiado.', 'ok'); }
+function downloadModal() { downloadText(modalText, modalFile); log('Baixado: ' + modalFile, 'ok'); }
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function esc(s) { return String(s).replace(/'/g, '&#39;').replace(/"/g, '&quot;'); }
+function unesc(s) { return String(s).replace(/&#39;/g, "'").replace(/&quot;/g, '"'); }
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function init() {
+  fillForm();
+  renderNodes();
+  renderMap();
+  renderScene();
+  renderSceneNav();
+  renderQuickPrompts();
+  updateDna();
+  setStatus(state.status, state.score, state.score > 50);
+  log('Scene Engine v5 carregado. Bem-vindo!', 'ok');
+
+  // API key / model sync
+  document.getElementById('apiKey').addEventListener('input', () => { state.api.apiKey = v('apiKey'); saveState(); });
+  document.getElementById('model').addEventListener('change', () => { state.api.model = v('model'); saveState(); });
+  document.getElementById('callMode').addEventListener('change', () => { state.api.callMode = v('callMode'); saveState(); });
+  document.getElementById('maxTokens').addEventListener('input', () => { state.api.maxTokens = Number(v('maxTokens') || 3000); saveState(); });
+  document.getElementById('temperature').addEventListener('input', () => { state.api.temperature = Number(v('temperature') || 0.55); saveState(); });
+  document.getElementById('provider').addEventListener('change', onProviderChange);
+
+  // Enter no portal
+  document.getElementById('portalInput').addEventListener('keydown', e => { if (e.key === 'Enter') unlockPortal(); });
+
+  // Enter no chat
+  document.getElementById('aiInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendAiMessage(); });
+
+  // Auto-save
+  window.addEventListener('beforeunload', saveState);
+}
+
+initPortal();
+init();
+</script>
+</body>
+</html>
