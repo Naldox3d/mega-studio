@@ -1,252 +1,604 @@
 <!DOCTYPE html>
 <!--
-Fruits Adventures Studio — Scene Engine Pro v5 (SaaS Edition)
-Inclui: UI/UX Global, Toasts, Drag & Drop, API Inteligente, Radar Viral, 
-Auto-Save e Loading States. Foco 100% no Universo Fruits Adventures.
+Fruits Adventures Studio — Scene Engine Final v5 Restaurado
+Base: versão v3 completa + atualizações de nodes smart, elenco minimizável,
+referência IA, narrador completo, SRT limpo/emoção, editor smart e API direta.
+Regra: Fruits Adventures é o foco; referências externas são auxiliares.
 -->
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fruits Adventures Studio — Scene Engine Pro</title>
+  <title>Fruits Adventures Studio — Scene Engine Final v4 Smart</title>
   <style>
-    :root {
+:root {
+  
       --bg:#070b18;
-      --panel:#101832;
-      --text:#f6f8ff;
-      --muted:#aeb8d6;
-      --line:rgba(255,255,255,.13);
+  --panel:#101832;
+  --panel2:#142044;
+  --text:#f6f8ff;
+  --muted:#aeb8d6;
+  --line:rgba(255,255,255,.13);
+  
       --cyan:#22e6c7;
-      --green:#65f4b4;
-      --gold:#ffd166;
-      --pink:#ff5c8a;
-      --purple:#a98bff;
-      --shadow:0 26px 70px rgba(0,0,0,.38);
-      --radius:22px
+  --green:#65f4b4;
+  --gold:#ffd166;
+  --pink:#ff5c8a;
+  --purple:#a98bff;
+  --shadow:0 26px 70px rgba(0,0,0,.38);
+  --radius:22px
     }
 
-    * { box-sizing: border-box; }
 
-    body {
-      margin: 0; min-height: 100vh; color: var(--text);
-      font-family: Inter, system-ui, -apple-system, sans-serif;
-      background: radial-gradient(circle at 0 0, rgba(255,92,138,.18), transparent 32%),
-                  radial-gradient(circle at 100% 0, rgba(34,230,199,.14), transparent 34%),
-                  radial-gradient(circle at 60% 100%, rgba(169,139,255,.12), transparent 34%), var(--bg);
-    }
+    * {
+  box-sizing:border-box}
 
-    .app { width: min(1440px, 100%); margin: 0 auto; padding: 18px; position: relative; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:radial-gradient(circle at 0 0,rgba(255,92,138,.18),transparent 32%),radial-gradient(circle at 100% 0,rgba(34,230,199,.14),transparent 34%),radial-gradient(circle at 60% 100%,rgba(169,139,255,.12),transparent 34%),var(--bg)}
 
-    /* Auto Save Indicator */
-    #autoSaveIndicator {
-      position: absolute; right: 26px; top: 26px;
-      font-size: 13px; font-weight: 600; color: var(--muted);
-      opacity: 0; transition: opacity 0.3s; z-index: 10;
-      background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 99px;
-    }
 
-    .top { display: grid; grid-template-columns: 1fr 370px; gap: 16px; margin-bottom: 14px; }
+    .app {
+  width:min(1440px,100%);
+  margin:0 auto;
+  padding:18px}
 
-    .hero, .score, .panel, .side, .modal-card, .smart-flow {
-      background: rgba(16, 24, 50, .88); border: 1px solid var(--line);
-      border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(14px);
-    }
+.top {
+  display:grid;
+  grid-template-columns:1fr 370px;
+  gap:16px;
+  margin-bottom:14px}
 
-    .hero, .score { padding: 26px; }
 
-    .badge {
-      display: inline-flex; gap: 9px; align-items: center; padding: 8px 12px;
-      border-radius: 999px; border: 1px solid rgba(34, 230, 199, .28);
-      background: rgba(34, 230, 199, .08); color: var(--green);
-      font-weight: 900; font-size: 13px; margin-bottom: 12px;
-    }
+    .hero,.score,.panel,.side,.modal-card,.smart-flow {
+  background:rgba(16,24,50,.88);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(14px)}
 
-    h1 { margin: 0 0 12px; font-size: clamp(34px, 6vw, 66px); line-height: .95; letter-spacing: -2px; }
-    .muted, .hero p { color: var(--muted); line-height: 1.55; }
-    .score-number { font-size: 54px; font-weight: 950; line-height: 1; }
 
-    .bar { margin: 22px 0 24px; width: 100%; height: 10px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,.08); }
-    .bar-fill { height: 100%; width: 8%; border-radius: inherit; background: linear-gradient(90deg, var(--pink), var(--gold), var(--cyan)); transition: .25s; }
+    .hero,.score {
+  padding:26px}
 
-    .tabs, .actions, .tags { display: flex; gap: 9px; flex-wrap: wrap; }
-    .tabs { overflow-x: auto; padding-bottom: 12px; }
+.badge {
+  display:inline-flex;
+  gap:9px;
+  align-items:center;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(34,230,199,.28);
+  background:rgba(34,230,199,.08);
+  color:var(--green);
+  font-weight:900;
+  font-size:13px;
+  margin-bottom:12px}
 
-    .tab, button, .btn {
-      border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px;
-      background: rgba(255, 255, 255, .075); color: var(--text);
-      font-weight: 950; cursor: pointer; transition: .16s; font-size: 14px; text-decoration: none;
-    }
 
-    .tab { border-radius: 999px; color: var(--muted); flex: 0 0 auto; }
-    .tab.active { color: var(--gold); border-color: rgba(255, 209, 102, .7); background: rgba(255, 209, 102, .1); }
-    button:hover, .tab:hover { transform: translateY(-1px); filter: brightness(1.08); }
-    button:disabled { opacity: .5; cursor: wait; transform: none; }
+    h1 {
+  margin:0 0 12px;
+  font-size:clamp(34px,6vw,66px);
+  line-height:.95;
+  letter-spacing:-2px}
 
-    .gold { color: #1a1300; background: rgba(255, 209, 102, .9); border-color: rgba(255, 209, 102, .7); }
-    .green { color: #06180f; background: rgba(101, 244, 180, .9); border-color: rgba(101, 244, 180, .7); }
-    .purple { color: #fff; background: rgba(169, 139, 255, .22); border-color: rgba(169, 139, 255, .45); }
-    .pink { color: #fff; background: rgba(255, 92, 138, .18); border-color: rgba(255, 92, 138, .45); }
-    .cyan { color: #041a16; background: rgba(34, 230, 199, .9); border-color: rgba(34, 230, 199, .7); }
+.muted,.hero p {
+  color:var(--muted);
+  line-height:1.55}
 
-    /* LOADING STATE DO BOTÃO */
-    .btn-loading { position: relative; color: transparent !important; pointer-events: none; }
-    .btn-loading::after {
-      content: ""; position: absolute; width: 16px; height: 16px;
-      top: 0; left: 0; right: 0; bottom: 0; margin: auto;
-      border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff;
-      border-radius: 50%; animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
+.score-number {
+  font-size:54px;
+  font-weight:950;
+  line-height:1}
 
-    .smart-flow { padding: 14px; margin-bottom: 16px; }
-    .node-row { display: flex; gap: 10px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
-    .smart-node {
-      flex: 0 0 auto; min-width: 132px; border: 1px solid rgba(150, 170, 220, .24);
-      border-radius: 16px; padding: 12px 14px; background: rgba(255, 255, 255, .055); cursor: pointer;
-    }
-    .smart-node:hover { transform: translateY(-1px); filter: brightness(1.08); }
-    .smart-node.active { border-color: rgba(255, 209, 102, .76); background: rgba(255, 209, 102, .1); }
-    .smart-node.done { border-color: rgba(101, 244, 180, .42); background: rgba(101, 244, 180, .08); }
-    .smart-node strong { display: block; font-size: 14px; }
-    .smart-node span { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .bar {
+  margin:22px 0 24px;
+  width:100%;
+  height:10px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.08)}
+
+.bar-fill {
+  height:100%;
+  width:8%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,var(--pink),var(--gold),var(--cyan));
+  transition:.25s}
+
+
+    .tabs,.actions,.tags {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap}
+
+.tabs {
+  overflow-x:auto;
+  padding-bottom:12px}
+
+.tab,button,.btn {
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 16px;
+  background:rgba(255,255,255,.075);
+  color:var(--text);
+  font-weight:950;
+  cursor:pointer;
+  transition:.16s;
+  font-size:14px;
+  text-decoration:none}
+
+
+    .tab {
+  border-radius:999px;
+  color:var(--muted);
+  flex:0 0 auto}
+
+.tab.active {
+  color:var(--gold);
+  border-color:rgba(255,209,102,.7);
+  background:rgba(255,209,102,.1)}
+
+button:hover,.tab:hover {
+  transform:translateY(-1px);
+  filter:brightness(1.08)}
+
+button:disabled {
+  opacity:.5;
+  cursor:wait;
+  transform:none}
+
+
+    .gold {
+  color:#1a1300;
+  background:rgba(255,209,102,.9);
+  border-color:rgba(255,209,102,.7)}
+
+.green {
+  color:#06180f;
+  background:rgba(101,244,180,.9);
+  border-color:rgba(101,244,180,.7)}
+
+.purple {
+  color:#fff;
+  background:rgba(169,139,255,.22);
+  border-color:rgba(169,139,255,.45)}
+
+.pink {
+  color:#fff;
+  background:rgba(255,92,138,.18);
+  border-color:rgba(255,92,138,.45)}
+
+
+    .smart-flow {
+  padding:14px;
+  margin-bottom:16px}
+
+.node-row {
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  flex-wrap:nowrap;
+  padding-bottom:4px}
+
+.smart-node {
+  flex:0 0 auto;
+  min-width:132px;
+  border:1px solid rgba(150,170,220,.24);
+  border-radius:16px;
+  padding:12px 14px;
+  background:rgba(255,255,255,.055);
+  cursor:pointer}
+
+.smart-node:hover {
+  transform:translateY(-1px);
+  filter:brightness(1.08)}
+
+.smart-node.active {
+  border-color:rgba(255,209,102,.76);
+  background:rgba(255,209,102,.1)}
+
+.smart-node.done {
+  border-color:rgba(101,244,180,.42);
+  background:rgba(101,244,180,.08)}
+
+.smart-node strong {
+  display:block;
+  font-size:14px}
+
+.smart-node span {
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px}
+
 
     .terminal {
-      margin-top: 10px; min-height: 76px; max-height: 180px; overflow: auto;
-      border: 1px solid rgba(150, 170, 220, .22); border-radius: 16px; padding: 12px 14px;
-      background: rgba(0, 0, 0, .32); color: #dff7ff; white-space: pre-wrap;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.45;
-    }
+  margin-top:10px;
+  min-height:76px;
+  max-height:180px;
+  overflow:auto;
+  border:1px solid rgba(150,170,220,.22);
+  border-radius:16px;
+  padding:12px 14px;
+  background:rgba(0,0,0,.32);
+  color:#dff7ff;
+  white-space:pre-wrap;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px;
+  line-height:1.45}
 
-    .layout { display: grid; grid-template-columns: 420px 1fr; gap: 16px; align-items: start; }
-    .left { display: grid; gap: 16px; position: sticky; top: 14px; }
-    .side, .panel { overflow: hidden; }
 
-    .card-title, .panel-header {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      padding: 16px 20px; border-bottom: 1px solid var(--line); font-weight: 950; font-size: 20px;
-    }
-    .panel-header h2 { margin: 0; font-size: 25px; letter-spacing: -.5px; }
-    .card-body, .panel-content { padding: 20px; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
+    .layout {
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:16px;
+  align-items:start}
 
-    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.left {
+  display:grid;
+  gap:16px;
+  position:sticky;
+  top:14px}
 
-    label { display: grid; gap: 8px; color: var(--gold); font-size: 12px; font-weight: 950; letter-spacing: .35px; text-transform: uppercase; }
-    input, select, textarea {
-      width: 100%; border: 1px solid rgba(150, 170, 220, .26); border-radius: 16px;
-      background: rgba(4, 8, 19, .72); color: var(--text); padding: 14px 16px; outline: none; font-size: 16px; font-family: inherit;
-    }
-    select option { color: #111; }
-    textarea { resize: vertical; min-height: 150px; line-height: 1.5; }
+.side,.panel {
+  overflow:hidden}
 
-    /* DRAG AND DROP ZONE */
-    .drop-zone {
-      border: 2px dashed rgba(150, 170, 220, 0.3); border-radius: 16px; padding: 30px;
-      text-align: center; background: rgba(4, 8, 19, 0.4); color: var(--muted);
-      transition: all 0.2s ease; cursor: pointer; margin-top: 14px; font-weight: 500;
-    }
-    .drop-zone:hover, .drop-zone.dragover { border-color: var(--cyan); background: rgba(34, 230, 199, 0.05); color: var(--cyan); }
-    .drop-zone input[type="file"] { display: none; }
+.card-title,.panel-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px 20px;
+  border-bottom:1px solid var(--line);
+  font-weight:950;
+  font-size:20px}
 
-    .notice, .warn { padding: 14px 16px; border-radius: 16px; line-height: 1.45; margin: 14px 0; font-size: 14px; }
-    .notice { border: 1px solid rgba(34, 230, 199, .28); color: #d8fff7; background: rgba(34, 230, 199, .08); }
-    .warn { border: 1px solid rgba(255, 209, 102, .38); color: #ffe3a0; background: rgba(255, 209, 102, .09); }
+.panel-header h2 {
+  margin:0;
+  font-size:25px;
+  letter-spacing:-.5px}
 
-    .list-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .choice {
-      border: 1px solid rgba(150, 170, 220, .26); border-radius: 17px; padding: 16px;
-      background: rgba(255, 255, 255, .045); cursor: pointer; transition: .16s;
-    }
-    .choice:hover { background: rgba(255, 255, 255, .075); transform: translateY(-1px); }
-    .choice.selected { border-color: rgba(255, 209, 102, .8); background: rgba(255, 209, 102, .09); box-shadow: 0 0 0 3px rgba(255, 209, 102, .06) inset; }
-    .choice h3 { margin: 0 0 8px; color: var(--cyan); font-size: 18px; }
-    .choice p { color: var(--muted); margin: 0; line-height: 1.42; font-size: 14px; }
+.card-body,.panel-content {
+  padding:20px}
 
-    .tag, .pill {
-      display: inline-flex; align-items: center; border: 1px solid var(--line);
-      border-radius: 999px; padding: 5px 8px; font-size: 12px; color: var(--muted); background: rgba(255, 255, 255, .06);
-    }
-    .pill { border-color: rgba(34, 230, 199, .26); background: rgba(34, 230, 199, .08); color: var(--cyan); font-weight: 900; }
+.tab-panel {
+  display:none}
 
-    .scene-card {
-      border: 1px solid rgba(150, 170, 220, .24); border-radius: 18px; padding: 16px;
-      background: rgba(255, 255, 255, .045); margin-bottom: 12px; cursor: pointer;
-    }
-    .scene-card.active { border-color: rgba(255, 209, 102, .75); background: rgba(255, 209, 102, .08); }
-    .scene-card.locked { opacity: .62; }
-    .scene-card h3 { margin: 0 0 5px; }
-    .scene-card p { margin: 0; color: var(--muted); line-height: 1.45; }
+.tab-panel.active {
+  display:block}
 
-    .output, .dna-box {
-      overflow: auto; white-space: pre-wrap; border: 1px solid rgba(150, 170, 220, .22);
-      border-radius: 17px; padding: 18px; background: rgba(0, 0, 0, .3); color: #eff4ff;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.58;
-    }
-    .output { min-height: 260px; max-height: 650px; }
-    .dna-box { min-height: 240px; max-height: 430px; font-size: 13px; }
 
-    .chat-log { height: 220px; overflow: auto; display: grid; gap: 10px; align-content: start; }
-    .msg { padding: 11px 13px; border-radius: 14px; line-height: 1.42; background: rgba(255, 255, 255, .07); border: 1px solid var(--line); font-size: 14px; }
-    .msg.user { background: rgba(101, 244, 180, .12); border-color: rgba(101, 244, 180, .28); }
+    .grid-2 {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px}
 
-    .editor-split { display: grid; grid-template-columns: 270px 1fr; gap: 14px; }
-    .node-panel { border: 1px solid rgba(150, 170, 220, .22); border-radius: 18px; padding: 12px; background: rgba(0, 0, 0, .18); }
-    .node-panel .smart-node { width: 100%; margin-bottom: 8px; }
-    .full-editor { min-height: 430px; width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.55; }
+label {
+  display:grid;
+  gap:8px;
+  color:var(--gold);
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.35px;
+  text-transform:uppercase}
 
-    /* TOASTS PROFISSIONAIS */
-    #toast-container {
-      position: fixed; bottom: 24px; right: 24px; z-index: 10000;
-      display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-    }
-    .toast {
-      background: rgba(16, 24, 50, 0.95); border-left: 4px solid var(--cyan);
-      color: var(--text); padding: 14px 20px; border-radius: 12px; box-shadow: var(--shadow);
-      backdrop-filter: blur(10px); font-size: 14px; font-weight: 500;
-      transform: translateX(120%);
-      animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, fadeOut 0.4s 3.5s forwards;
-    }
-    .toast.success { border-color: var(--green); }
-    .toast.error { border-color: var(--pink); }
-    .toast.warning { border-color: var(--gold); }
-    @keyframes slideIn { to { transform: translateX(0); } }
-    @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+input,select,textarea {
+  width:100%;
+  border:1px solid rgba(150,170,220,.26);
+  border-radius:16px;
+  background:rgba(4,8,19,.72);
+  color:var(--text);
+  padding:14px 16px;
+  outline:none;
+  font-size:16px;
+  font-family:inherit}
 
-    /* MODAL */
+select option {
+  color:#111}
+
+textarea {
+  resize:vertical;
+  min-height:150px;
+  line-height:1.5}
+
+
+    .notice,.warn {
+  padding:14px 16px;
+  border-radius:16px;
+  line-height:1.45;
+  margin:14px 0;
+  font-size:14px}
+
+.notice {
+  border:1px solid rgba(34,230,199,.28);
+  color:#d8fff7;
+  background:rgba(34,230,199,.08)}
+
+.warn {
+  border:1px solid rgba(255,209,102,.38);
+  color:#ffe3a0;
+  background:rgba(255,209,102,.09)}
+
+
+    .list-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px}
+
+.choice {
+  border:1px solid rgba(150,170,220,.26);
+  border-radius:17px;
+  padding:16px;
+  background:rgba(255,255,255,.045);
+  cursor:pointer;
+  transition:.16s}
+
+.choice:hover {
+  background:rgba(255,255,255,.075);
+  transform:translateY(-1px)}
+
+.choice.selected {
+  border-color:rgba(255,209,102,.8);
+  background:rgba(255,209,102,.09);
+  box-shadow:0 0 0 3px rgba(255,209,102,.06) inset}
+
+.choice h3 {
+  margin:0 0 8px;
+  color:var(--cyan);
+  font-size:18px}
+
+.choice p {
+  color:var(--muted);
+  margin:0;
+  line-height:1.42;
+  font-size:14px}
+
+
+    .tag,.pill {
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.06)}
+
+.pill {
+  border-color:rgba(34,230,199,.26);
+  background:rgba(34,230,199,.08);
+  color:var(--cyan);
+  font-weight:900}
+
+.scene-card {
+  border:1px solid rgba(150,170,220,.24);
+  border-radius:18px;
+  padding:16px;
+  background:rgba(255,255,255,.045);
+  margin-bottom:12px;
+  cursor:pointer}
+
+.scene-card.active {
+  border-color:rgba(255,209,102,.75);
+  background:rgba(255,209,102,.08)}
+
+.scene-card.locked {
+  opacity:.62}
+
+.scene-card h3 {
+  margin:0 0 5px}
+
+.scene-card p {
+  margin:0;
+  color:var(--muted);
+  line-height:1.45}
+
+
+    .output,.dna-box {
+  overflow:auto;
+  white-space:pre-wrap;
+  border:1px solid rgba(150,170,220,.22);
+  border-radius:17px;
+  padding:18px;
+  background:rgba(0,0,0,.3);
+  color:#eff4ff;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:14px;
+  line-height:1.58}
+
+.output {
+  min-height:260px;
+  max-height:650px}
+
+.dna-box {
+  min-height:240px;
+  max-height:430px;
+  font-size:13px}
+
+.chat-log {
+  height:220px;
+  overflow:auto;
+  display:grid;
+  gap:10px;
+  align-content:start}
+
+.msg {
+  padding:11px 13px;
+  border-radius:14px;
+  line-height:1.42;
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--line);
+  font-size:14px}
+
+.msg.user {
+  background:rgba(101,244,180,.12);
+  border-color:rgba(101,244,180,.28)}
+
+
+    .editor-split {
+  display:grid;
+  grid-template-columns:270px 1fr;
+  gap:14px}
+
+.node-panel {
+  border:1px solid rgba(150,170,220,.22);
+  border-radius:18px;
+  padding:12px;
+  background:rgba(0,0,0,.18)}
+
+.node-panel .smart-node {
+  width:100%;
+  margin-bottom:8px}
+
+.full-editor {
+  min-height:430px;
+  width:100%;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:14px;
+  line-height:1.55}
+
+
     .modal {
-      position: fixed; inset: 0; z-index: 9999; display: none; align-items: center; justify-content: center;
-      padding: 18px; background: rgba(0, 0, 0, .78); backdrop-filter: blur(12px);
-    }
-    .modal.open { display: flex; }
-    .modal-card { width: min(1040px, 100%); max-height: 92vh; overflow: auto; padding: 22px; }
-    .modal-card h2 { margin: 0 0 8px; }
-    .preview-img { max-width: 100%; border-radius: 14px; border: 1px solid var(--line); margin-top: 10px; }
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(12px)}
 
-    /* PORTAL */
+.modal.open {
+  display:flex}
+
+.modal-card {
+  width:min(1040px,100%);
+  max-height:92vh;
+  overflow:auto;
+  padding:22px}
+
+.modal-card h2 {
+  margin:0 0 8px}
+
+.preview-img {
+  max-width:100%;
+  border-radius:14px;
+  border:1px solid var(--line);
+  margin-top:10px}
+
+
+
+    /* =========================
+       PORTAL DE ACESSO
+       Corrige tela ficando "tudo junto"
+       ========================= */
+
     .portal-lock {
-      position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center;
-      padding: 18px; background: radial-gradient(circle at 0 0, rgba(255, 92, 138, .22), transparent 32%),
-                  radial-gradient(circle at 100% 0, rgba(34, 230, 199, .18), transparent 34%), rgba(7, 11, 24, .96);
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 92, 138, .22), transparent 32%),
+        radial-gradient(circle at 100% 0, rgba(34, 230, 199, .18), transparent 34%),
+        rgba(7, 11, 24, .96);
       backdrop-filter: blur(16px);
     }
-    .portal-lock.hidden { display: none; }
-    .portal-box { width: min(540px, 100%); border: 1px solid var(--line); border-radius: var(--radius); background: rgba(16, 24, 50, .96); box-shadow: var(--shadow); padding: 28px; }
-    .portal-box h2 { margin: 0 0 8px; font-size: 30px; letter-spacing: -.8px; }
-    .portal-error { display: none; margin-top: 12px; color: #ffd1dc; border: 1px solid rgba(255, 92, 138, .45); background: rgba(255, 92, 138, .10); padding: 10px 12px; border-radius: 14px; font-size: 13px; }
-    .portal-error.show { display: block; }
 
-    @media(max-width:1080px) { .top, .layout { grid-template-columns: 1fr; } .left { position: static; } }
-    @media(max-width:860px) { .editor-split { grid-template-columns: 1fr; } }
-    @media(max-width:680px) {
-      .app { padding: 12px; } .hero, .score, .panel-content, .card-body { padding: 16px; }
-      .grid-2, .list-grid { grid-template-columns: 1fr; } h1 { font-size: 39px; }
+    .portal-lock.hidden {
+      display: none;
     }
+
+    .portal-box {
+      width: min(540px, 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(16, 24, 50, .96);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .portal-box h2 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: -.8px;
+    }
+
+    .portal-error {
+      display: none;
+      margin-top: 12px;
+      color: #ffd1dc;
+      border: 1px solid rgba(255, 92, 138, .45);
+      background: rgba(255, 92, 138, .10);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+    }
+
+    .portal-error.show {
+      display: block;
+    }
+
+    .portal-box code {
+      color: var(--gold);
+      background: rgba(0,0,0,.24);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 2px 6px;
+    }
+
+    @media(max-width:1080px) {
+  .top,.layout {
+  grid-template-columns:1fr}
+
+.left {
+  position:static}
+
+}
+
+@media(max-width:860px) {
+  .editor-split {
+  grid-template-columns:1fr}
+
+}
+
+@media(max-width:680px) {
+  .app {
+  padding:12px}
+
+.hero,.score,.panel-content,.card-body {
+  padding:16px}
+
+.grid-2,.list-grid {
+  grid-template-columns:1fr}
+
+h1 {
+  font-size:39px}
+
+}
+  
+    /* Ajustes visuais de organização */
+    .card-body .actions,
+    .panel-content .actions {
+      align-items: center;
+    }
+
+    .panel-content > .actions + .output,
+    .panel-content > .actions + .notice {
+      margin-top: 14px;
+    }
+
   </style>
 </head>
 <body>
-  
-  <div id="toast-container"></div>
 
   <div class="portal-lock" id="portalLock">
     <div class="portal-box">
@@ -261,1073 +613,726 @@ Auto-Save e Loading States. Foco 100% no Universo Fruits Adventures.
         <button onclick="showPortalHint()">Dica</button>
       </div>
       <div class="portal-error" id="portalError">Senha incorreta. Confira e tente novamente.</div>
+      <div class="mini" style="margin-top:14px;">Senha padrão deste arquivo: <strong>fruits2026</strong>. Você pode trocar no código em <code>PORTAL_PASSWORD</code>.</div>
     </div>
   </div>
 
   <div class="app">
-    <div id="autoSaveIndicator">☁️ Salvando...</div>
-    
     <div class="top">
       <header class="hero">
-        <div class="badge">
-          <span id="statusIcon">🟡</span>
-          <span>Elinaldo Menezes</span>
-          <span class="pill" id="statusPill">Setup</span>
-        </div>
-        <h1>Fruits Adventures Studio — Scene Engine Pro</h1>
-        <p>Fluxo smart por nodes: Workflow Profissional. O foco é Fruits; referências externas são apenas auxiliares.</p>
-      </header>
+<div class="badge">
+<span id="statusIcon">🟡</span>
+<span>Elinaldo Menezes</span>
+<span class="pill" id="statusPill">Setup</span>
+</div>
+<h1>Fruits Adventures Studio — Scene Engine Final</h1>
+<p>Fluxo smart por nodes: premissa, banco viral, elenco, referência IA, mapa, cenas 100%, narrador, SRT CapCut, ElevenLabs e exportação final. O foco é Fruits; referências externas são apenas auxiliares.</p>
+</header>
       <aside class="score">
-        <div class="score-number" id="scoreNumber">8</div>
-        <div class="muted">força de produção</div>
-        <div class="bar"><div class="bar-fill" id="scoreBar"></div></div>
-        <div id="scoreLabel" class="muted">Setup</div>
-      </aside>
+<div class="score-number" id="scoreNumber">8</div>
+<div class="muted">força de produção</div>
+<div class="bar">
+<div class="bar-fill" id="scoreBar">
+</div>
+</div>
+<div id="scoreLabel" class="muted">Setup</div>
+</aside>
     </div>
-
     <nav class="tabs" id="tabs">
-      <button class="tab active" data-tab="setup">1 Setup</button>
-      <button class="tab" data-tab="api">API</button>
-      <button class="tab" data-tab="viral">Banco Viral</button>
-      <button class="tab" data-tab="cast">Elenco + Universo</button>
-      <button class="tab" data-tab="research">Referência IA</button>
-      <button class="tab" data-tab="map">Mapa</button>
-      <button class="tab" data-tab="scene">Cena 100%</button>
-      <button class="tab" data-tab="editor">Editor Smart</button>
-      <button class="tab" data-tab="export">Exportar</button>
-    </nav>
-
+<button class="tab active" data-tab="setup">1 Setup</button>
+<button class="tab" data-tab="api">API</button>
+<button class="tab" data-tab="viral">Banco Viral</button>
+<button class="tab" data-tab="cast">Elenco + Universo</button>
+<button class="tab" data-tab="research">Referência IA</button>
+<button class="tab" data-tab="map">Mapa</button>
+<button class="tab" data-tab="scene">Cena 100%</button>
+<button class="tab" data-tab="editor">Editor Smart</button>
+<button class="tab" data-tab="export">Exportar</button>
+</nav>
     <section class="smart-flow">
-      <div class="node-row" id="smartNodes"></div>
-      <div class="terminal" id="smartTerminal">[Sistema] Scene Engine Pro iniciado.</div>
-    </section>
-
+<div class="node-row" id="smartNodes">
+</div>
+<div class="terminal" id="smartTerminal">[Sistema] Scene Engine v4 smart iniciado.</div>
+</section>
     <div class="layout">
       <aside class="left">
         <section class="side">
-          <div class="card-title">⚙️ Controle rápido</div>
-          <div class="card-body">
-            <div class="actions">
-              <button class="gold" onclick="generateMap()">Gerar mapa</button>
-              <button class="green" onclick="generateCurrentScene(true, event)">Gerar cena com IA</button>
-              <button class="purple" onclick="approveCurrentScene()">Aprovar 100%</button>
-              <button onclick="nextScene()">Próxima cena</button>
-              <button class="pink" onclick="clearProjectConfirm()">Limpar Projeto</button>
+<div class="card-title">⚙️ Controle rápido</div>
+<div class="card-body">
+<div class="actions">
+<button class="gold" onclick="generateMap()">Gerar mapa</button>
+<button class="green" onclick="generateCurrentScene()">Gerar cena</button>
+<button class="purple" onclick="approveCurrentScene()">Aprovar 100%</button>
+<button onclick="nextScene()">Próxima cena</button>
+<button class="pink" onclick="clearProjectConfirm()">Limpar</button>
               <button onclick="lockPortalAgain()">Travar portal</button>
-            </div>
-          </div>
-        </section>
+</div>
+<div class="warn">Regra: nenhuma cena avança sem aprovação 100%. Salve backup antes de limpar.</div>
+</div>
+</section>
         <section class="side">
-          <div class="card-title">🧬 DNA ativo</div>
-          <div class="card-body">
-            <div class="dna-box" id="dnaBox">Ainda sem DNA salvo.</div>
-          </div>
-        </section>
+<div class="card-title">🧬 DNA ativo</div>
+<div class="card-body">
+<div class="dna-box" id="dnaBox">Ainda sem DNA salvo.</div>
+</div>
+</section>
         <section class="side">
-          <div class="card-title">💬 Fruits Copilot Logs</div>
-          <div class="card-body">
-            <div class="chat-log" id="chatLog"></div>
-          </div>
-        </section>
+<div class="card-title">💬 Terminal / Fruits Copilot</div>
+<div class="card-body">
+<div class="chat-log" id="chatLog">
+</div>
+</div>
+</section>
       </aside>
-
       <main class="panel">
-        <!-- SETUP -->
         <section class="tab-panel active" id="tab-setup">
-          <div class="panel-header">
-            <h2>Setup do Projeto</h2>
-            <button onclick="goTab('viral')">Escolher Banco Viral</button>
-          </div>
-          <div class="panel-content">
-            <div class="grid-2">
-              <label>Nome do projeto<input id="projectName"></label>
-              <label>Modo<select id="projectMode">
-                <option value="fruits">Universo Fruits oficial</option>
-                <option value="freelance">Freelance / cliente</option>
-                <option value="teste">Teste rápido</option>
-              </select></label>
-              <label>Formato final<select id="format">
-                <option>1 cena forte</option>
-                <option>Mini novela 3 cenas</option>
-                <option>Episódio 7 cenas</option>
-                <option>Storyboard geral</option>
-              </select></label>
-              <label>Quantidade alvo<input id="sceneCount" type="number" min="1" max="20"></label>
-              <label>Intensidade do mix<select id="mixIntensity">
-                <option>Normal</option>
-                <option>Forte</option>
-                <option>Cinema</option>
-                <option>Viral extremo controlado</option>
-              </select></label>
-              <label>Interação com público<select id="audienceMode">
-                <option>Nunca</option>
-                <option>Pergunta no final</option>
-                <option>Cliffhanger com enquete</option>
-              </select></label>
-            </div>
-            <div class="notice" id="matrixNotice">Matriz narrativa ainda não escolhida.</div>
-            <label>Brief rápido<textarea id="brief"></textarea></label>
-            <div class="actions" style="margin-top:14px">
-              <button class="green" onclick="saveSetup()">Salvar Setup</button>
-            </div>
-          </div>
-        </section>
-
-        <!-- API -->
+<div class="panel-header">
+<h2>Setup do Projeto</h2>
+<button onclick="goTab('viral')">Escolher Banco Viral</button>
+</div>
+<div class="panel-content">
+<div class="grid-2">
+<label>Nome do projeto<input id="projectName">
+</label>
+<label>Modo<select id="projectMode">
+<option value="fruits">Universo Fruits oficial</option>
+<option value="freelance">Freelance / cliente</option>
+<option value="teste">Teste rápido</option>
+</select>
+</label>
+<label>Formato final<select id="format">
+<option>1 cena forte</option>
+<option>Mini novela 3 cenas</option>
+<option>Episódio 7 cenas</option>
+<option>Storyboard geral</option>
+</select>
+</label>
+<label>Quantidade alvo<input id="sceneCount" type="number" min="1" max="20">
+</label>
+<label>Intensidade do mix<select id="mixIntensity">
+<option>Normal</option>
+<option>Forte</option>
+<option>Cinema</option>
+<option>Viral extremo controlado</option>
+</select>
+</label>
+<label>Interação com público<select id="audienceMode">
+<option>Nunca</option>
+<option>Pergunta no final</option>
+<option>Cliffhanger com enquete</option>
+</select>
+</label>
+</div>
+<div class="notice" id="matrixNotice">Matriz narrativa ainda não escolhida.</div>
+<label>Brief rápido<textarea id="brief">
+</textarea>
+</label>
+<div class="actions" style="margin-top:14px">
+<button class="green" onclick="saveSetup()">Salvar Setup</button>
+<button class="gold" onclick="goTab('viral')">Banco Viral</button>
+<button onclick="goTab('cast')">Elenco + Universo</button>
+</div>
+</div>
+</section>
         <section class="tab-panel" id="tab-api">
-          <div class="panel-header">
-            <h2>Configuração de IA (API)</h2>
-            <span class="pill">Segurança via LocalStorage</span>
-          </div>
-          <div class="panel-content">
-            <div class="notice">Cole sua chave para gerar roteiros reais. A chave não sai do seu navegador.</div>
-            <div class="list-grid" id="providerCards"></div>
-            <div class="grid-2" style="margin-top:14px">
-              <label>Provider<select id="provider" onchange="selectProvider(this.value)">
-                <option value="gemini">Gemini</option>
-                <option value="groq">Groq</option>
-                <option value="openrouter">OpenRouter</option>
-              </select></label>
-              <label>Modelo<select id="model"></select></label>
-              <label>Sua API Key<input id="apiKey" type="password" placeholder="sk-..." autocomplete="off"></label>
-              <label>Endpoint (Opcional Backend)<input id="endpoint" value="/api/fruits-generate"></label>
-            </div>
-            <div class="actions" style="margin-top:14px">
-              <button class="gold" onclick="testApiOnline(event)">Testar Conexão</button>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIRAL -->
+<div class="panel-header">
+<h2>API</h2>
+<span class="pill">opcional</span>
+</div>
+<div class="panel-content">
+<div class="notice">Modo simples: escolha uma API. Modo múltiplas APIs/Auto precisa de backend para proteger as chaves. O site funciona localmente sem API.</div>
+<div class="list-grid" id="providerCards">
+</div>
+<div class="grid-2" style="margin-top:14px">
+<label>Provider<select id="provider" onchange="selectProvider(this.value)">
+<option value="gemini">Gemini</option>
+<option value="groq">Groq</option>
+<option value="openrouter">OpenRouter</option>
+<option value="auto">Modo Auto</option>
+</select>
+</label>
+<label>Modelo<select id="model">
+</select>
+</label>
+<label>API Key teste local<input id="apiKey" type="password">
+</label>
+<label>Endpoint backend<input id="endpoint" value="/api/fruits-generate">
+</label>
+</div>
+<div class="actions" style="margin-top:14px">
+<button class="gold" onclick="testApiOnline()">Testar API online</button>
+<button class="green" onclick="generateCurrentScene(true)">Gerar cena com API</button>
+<button onclick="showBackendExample()">Ver backend exemplo</button>
+</div>
+</div>
+</section>
         <section class="tab-panel" id="tab-viral">
-          <div class="panel-header">
-            <h2>Banco de Matrizes e Aspectos</h2>
-            <button class="gold" onclick="applyMatrixToSetup()">Aplicar ao Setup</button>
-          </div>
-          <div class="panel-content">
-            <input id="matrixSearch" placeholder="Buscar matriz..." oninput="renderMatrixBank()" style="margin-bottom:14px">
-            <div class="grid-2">
-              <div>
-                <h3>📚 Grupos</h3>
-                <div id="matrixBank"></div>
-              </div>
-              <div>
-                <h3>🖊️ Tema escolhido</h3>
-                <div class="notice">
-                  <strong>Aspectos selecionados</strong>
-                  <div class="tags" id="selectedAspects"></div>
-                  <div class="actions" style="margin-top:12px">
-                    <button class="pink" onclick="clearMatrixMix()">Limpar mix</button>
-                  </div>
-                </div>
-                <div class="output" id="matrixDetails">Escolha uma matriz.</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ELENCO -->
+<div class="panel-header">
+<h2>Banco de Matrizes e Aspectos</h2>
+<button class="gold" onclick="applyMatrixToSetup()">Aplicar ao Setup</button>
+</div>
+<div class="panel-content">
+<div class="warn">Escolha uma matriz principal e marque aspectos para mix.</div>
+<div class="actions" style="margin:14px 0">
+<button onclick="collapseAllGroups()">Minimizar grupos</button>
+<button onclick="expandAllGroups()">Expandir grupos</button>
+</div>
+<input id="matrixSearch" placeholder="Buscar matriz..." oninput="renderMatrixBank()" style="margin-bottom:14px">
+<div class="grid-2">
+<div>
+<h3>📚 Grupos</h3>
+<div id="matrixBank">
+</div>
+</div>
+<div>
+<h3>🖊️ Tema escolhido</h3>
+<div class="notice">
+<strong>Aspectos selecionados</strong>
+<div class="tags" id="selectedAspects">
+</div>
+<div class="actions" style="margin-top:12px">
+<button class="gold" onclick="applyMatrixToSetup()">Aplicar</button>
+<button class="pink" onclick="clearMatrixMix()">Limpar mix</button>
+</div>
+</div>
+<div class="output" id="matrixDetails">Escolha uma matriz.</div>
+</div>
+</div>
+</div>
+</section>
         <section class="tab-panel" id="tab-cast">
-          <div class="panel-header">
-            <h2>Elenco + Universo Smart Bank</h2>
-            <button class="green" onclick="saveCastUniverse()">Salvar DNA</button>
-          </div>
-          <div class="panel-content">
-            <input id="castSearch" placeholder="Buscar elenco..." oninput="renderCastCards()" style="margin-bottom:14px">
-            <div id="castCards"></div>
-            <div class="grid-2" style="margin-top:16px">
-              <label>Local principal<input id="worldPlace"></label>
-              <label>Tom emocional<select id="tone">
-                <option>Novela dramática</option>
-                <option>Suspense familiar</option>
-                <option>Aventura viral</option>
-                <option>Comédia emocional</option>
-              </select></label>
-            </div>
-            <label style="margin-top:14px">Regras de continuidade<textarea id="continuityRules"></textarea></label>
-          </div>
-        </section>
-
-        <!-- REFERÊNCIA IA (COM DRAG & DROP) -->
+<div class="panel-header">
+<h2>Elenco + Universo Smart Bank</h2>
+<button class="green" onclick="saveCastUniverse()">Salvar DNA</button>
+</div>
+<div class="panel-content">
+<div class="actions" style="margin-bottom:12px">
+<button onclick="collapseAllCastGroups()">Minimizar elenco</button>
+<button onclick="expandAllCastGroups()">Expandir elenco</button>
+</div>
+<input id="castSearch" placeholder="Buscar elenco..." oninput="renderCastCards()" style="margin-bottom:14px">
+<div id="castCards">
+</div>
+<div class="grid-2" style="margin-top:16px">
+<label>Local principal<input id="worldPlace">
+</label>
+<label>Tom emocional<select id="tone">
+<option>Novela dramática</option>
+<option>Suspense familiar</option>
+<option>Aventura viral</option>
+<option>Comédia emocional</option>
+</select>
+</label>
+</div>
+<label style="margin-top:14px">Regras de continuidade<textarea id="continuityRules">
+</textarea>
+</label>
+</div>
+</section>
         <section class="tab-panel" id="tab-research">
-          <div class="panel-header">
-            <h2>Referência IA / Radar Multimodal</h2>
-            <button class="pink" onclick="generateReferenceBrief()">Preparar prompt</button>
-          </div>
-          <div class="panel-content">
-            <div class="notice">Envie textos, premissas ou storyboards. A IA vai adaptar para o Universo Fruits preservando o DNA.</div>
-            <label>Referência textual (Copie e cole a ideia ou link do vídeo)<textarea id="researchRefs"></textarea></label>
-            
-            <label style="margin-top:12px">Referência por Imagem / Storyboard</label>
-            <div id="dropZone" class="drop-zone" 
-                 ondragover="event.preventDefault(); this.classList.add('dragover')" 
-                 ondragleave="this.classList.remove('dragover')" 
-                 ondrop="handleDrop(event)"
-                 onclick="document.getElementById('referenceImage').click()">
-              📁 Arraste uma imagem aqui ou clique para selecionar
-              <input id="referenceImage" type="file" accept="image/*" onchange="loadReferenceImage(event)">
-            </div>
-            <div id="referencePreview" class="notice" style="margin-top:10px">Nenhuma imagem carregada.</div>
-            
-            <div class="output" id="radarOutput" style="margin-top:14px">Ainda sem análise.</div>
-          </div>
-        </section>
-
-        <!-- MAPA -->
+<div class="panel-header">
+<h2>Referência IA / Continuação Smart</h2>
+<button class="pink" onclick="generateReferenceBrief()">Preparar análise</button>
+</div>
+<div class="panel-content">
+<div class="notice">Use passo a passo: premissa, Cena 1, Cena 2 ou quadro específico. Referência externa é auxiliar. O foco sempre é Fruits Adventures.</div>
+<label>Referência textual<textarea id="researchRefs">
+</textarea>
+</label>
+<label style="margin-top:12px">Referência por imagem/storyboard opcional<input id="referenceImage" type="file" accept="image/*" onchange="loadReferenceImage(event)">
+</label>
+<div id="referencePreview" class="notice">Nenhuma imagem carregada.</div>
+<div class="actions" style="margin-top:14px">
+<button class="gold" onclick="generateReferenceBrief()">Preparar análise</button>
+<button class="green" onclick="copyReferenceBrief()">Copiar análise</button>
+<button class="pink" onclick="applyReferenceToCurrentScene()">Aplicar referência na cena</button>
+</div>
+<div class="output" id="radarOutput">Ainda sem referência.</div>
+</div>
+</section>
         <section class="tab-panel" id="tab-map">
-          <div class="panel-header">
-            <h2>Mapa de Cenas</h2>
-            <div class="actions">
-              <button class="gold" onclick="generateMap()">Gerar mapa base</button>
-            </div>
-          </div>
-          <div class="panel-content">
-            <div id="sceneMap"></div>
-          </div>
-        </section>
-
-        <!-- CENA ATUAL -->
+<div class="panel-header">
+<h2>Mapa de Cenas</h2>
+<div class="actions">
+<button class="gold" onclick="generateMap()">Gerar mapa</button>
+<button onclick="copyMapJson()">Copiar JSON</button>
+</div>
+</div>
+<div class="panel-content">
+<div id="sceneMap">
+</div>
+</div>
+</section>
         <section class="tab-panel" id="tab-scene">
-          <div class="panel-header">
-            <h2>Cena Atual 100%</h2>
-            <span class="pill" id="scenePill">Cena 1</span>
-          </div>
-          <div class="panel-content">
-            
-            <!-- RÉGUA 1: DIREÇÃO E FLUXO -->
-            <label>🎬 Direção (Workflow)</label>
-            <div class="actions" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
-              <button class="gold" onclick="generateCurrentScene(false, event)">Gerar Rascunho (Local)</button>
-              <button class="cyan" onclick="generateCurrentScene(true, event)">✨ Gerar com IA</button>
-              <button class="purple" onclick="approveCurrentScene()">Aprovar 100%</button>
-              <button onclick="nextScene()">Próxima cena</button>
-              <button class="pink" onclick="runRadarViral(event)">Radar Viral (Análise IA)</button>
-            </div>
-
-            <!-- RÉGUA 2: ESTÚDIO (ÁUDIO E REVISÃO) -->
-            <label>🎛️ Estúdio (Áudio, Edição e Legenda)</label>
-            <div class="actions" style="margin-bottom: 10px">
-              <button class="green" onclick="openSmartEditor('current')">Abrir Editor Smart</button>
-              <button onclick="narrateScene('full')">▶️ Narrador Completo</button>
-              <button onclick="narrateScene('dialogues')">▶️ Só Falas</button>
-              <button onclick="stopNarrator()">⏸️ Parar Voz</button>
-              <button class="gold" onclick="generateSceneSrt('emotion')">SRT CapCut</button>
-              <button onclick="generateElevenText()">ElevenLabs</button>
-            </div>
-
-            <div class="output" id="sceneOutput" style="margin-top:14px">Sem cena atual.</div>
-          </div>
-        </section>
-
-        <!-- EDITOR SMART -->
+<div class="panel-header">
+<h2>Cena Atual 100%</h2>
+<span class="pill" id="scenePill">Cena 1</span>
+</div>
+<div class="panel-content">
+<div class="actions">
+<button class="gold" onclick="generateCurrentScene()">Gerar cena</button>
+<button class="purple" onclick="approveCurrentScene()">Aprovar 100%</button>
+<button onclick="openSmartEditor('current')">Editar smart</button>
+<button class="green" onclick="continueOptions()">Continuar smart</button>
+<button onclick="commentScene()">Comentar</button>
+</div>
+<div class="actions" style="margin-top:10px">
+<button class="green" onclick="narrateScene('full')">Narrador completo</button>
+<button onclick="narrateScene('narration')">Só narração</button>
+<button onclick="narrateScene('dialogues')">Só falas</button>
+<button onclick="stopNarrator()">Parar voz</button>
+<button class="gold" onclick="generateSceneSrt('clean')">SRT limpo</button>
+<button class="gold" onclick="generateSceneSrt('emotion')">SRT emoção</button>
+<button onclick="generateElevenText()">ElevenLabs</button>
+<button class="green" onclick="copyCurrentScene()">Copiar cena</button>
+<button class="pink" onclick="openReferenceAssistant()">Adaptar referência</button>
+</div>
+<div class="output" id="sceneOutput" style="margin-top:14px">Sem cena atual.</div>
+</div>
+</section>
         <section class="tab-panel" id="tab-editor">
-          <div class="panel-header">
-            <h2>Editor Smart</h2>
-            <div class="actions">
-              <button class="green" onclick="applyEditorText()">Aplicar no roteiro</button>
-            </div>
-          </div>
-          <div class="panel-content">
-            <div class="editor-split">
-              <aside class="node-panel" id="editorNodes"></aside>
-              <div>
-                <textarea id="smartEditorText" class="full-editor"></textarea>
-                <label style="margin-top:12px">Notas da cena / revisão<textarea id="smartEditorNotes"></textarea></label>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- EXPORTAR -->
+<div class="panel-header">
+<h2>Editor Smart</h2>
+<div class="actions">
+<button class="green" onclick="applyEditorText()">Aplicar no roteiro</button>
+<button onclick="copyEditorText()">Copiar editor</button>
+</div>
+</div>
+<div class="panel-content">
+<div class="editor-split">
+<aside class="node-panel" id="editorNodes">
+</aside>
+<div>
+<textarea id="smartEditorText" class="full-editor">
+</textarea>
+<label style="margin-top:12px">Notas da cena / roteiro<textarea id="smartEditorNotes">
+</textarea>
+</label>
+<div class="actions" style="margin-top:10px">
+<button class="gold" onclick="buildNotesPrompt()">Gerar prompt com notas</button>
+<button class="pink" onclick="applyNotesLocal()">Aplicar notas local</button>
+</div>
+</div>
+</div>
+</div>
+</section>
         <section class="tab-panel" id="tab-export">
-          <div class="panel-header">
-            <h2>Exportar Projeto</h2>
-            <button class="green" onclick="saveToBrowser()">Salvar Progresso</button>
-          </div>
-          <div class="panel-content">
-            <div class="actions" style="margin-bottom:12px">
-              <button class="gold" onclick="copyCleanScript()">Copiar Roteiro Final</button>
-              <button onclick="downloadJson()">Fazer Backup Completo (.json)</button>
-              <button onclick="generateProjectSrt()">Baixar Legendas (SRT)</button>
-            </div>
-            <div class="output" id="exportOutput"></div>
-          </div>
-        </section>
-
+<div class="panel-header">
+<h2>Exportar</h2>
+<div class="actions">
+<button class="gold" onclick="openExportModal()">Abrir modal</button>
+<button onclick="downloadJson()">Baixar JSON</button>
+<button class="green" onclick="saveToBrowser()">Salvar no navegador</button>
+</div>
+</div>
+<div class="panel-content">
+<div class="actions" style="margin-bottom:12px">
+<button class="green" onclick="copyExportJson()">Copiar JSON</button>
+<button class="green" onclick="copyCleanScript()">Copiar roteiro completo</button>
+<button class="gold" onclick="generateProjectSrt()">Baixar SRT CapCut</button>
+<button onclick="backupProject()">Backup seguro</button>
+<button class="pink" onclick="generateReferenceBrief()">Radar final</button>
+</div>
+<div class="output" id="exportOutput">
+</div>
+</div>
+</section>
       </main>
     </div>
   </div>
-
   <div class="modal" id="modal">
-    <div class="modal-card">
-      <div class="panel-header" style="padding:0 0 14px;border-bottom:0">
-        <div>
-          <h2 id="modalTitle">Modal</h2>
-          <div class="muted" id="modalDesc">Resultado</div>
-        </div>
-        <button class="pink" onclick="closeModal()">Fechar</button>
-      </div>
-      <div class="actions" id="modalActions" style="margin-bottom:12px">
-        <button class="green" onclick="copyModal()">Copiar Conteúdo</button>
-        <button class="gold" onclick="downloadModal()">Baixar Arquivo</button>
-      </div>
-      <div class="output" id="modalOutput"></div>
-    </div>
-  </div>
-
+<div class="modal-card">
+<div class="panel-header" style="padding:0 0 14px;border-bottom:0">
+<div>
+<h2 id="modalTitle">Modal</h2>
+<div class="muted" id="modalDesc">Resultado</div>
+</div>
+<button class="pink" onclick="closeModal()">Fechar</button>
+</div>
+<div class="actions" id="modalActions" style="margin-bottom:12px">
+<button class="green" onclick="copyModal()">Copiar</button>
+<button class="gold" onclick="downloadModal()">Baixar</button>
+</div>
+<div class="output" id="modalOutput">
+</div>
+</div>
+</div>
   <script>
-  // ==========================================
-  // PORTAL DE ACESSO
-  // ==========================================
-  const PORTAL_PASSWORD = "fruits2026";
-  const PORTAL_KEY = "fruits_scene_engine_portal_ok";
 
-  function initPortal() {
-    const lock = document.getElementById("portalLock");
-    const input = document.getElementById("portalPassword");
-    if (!lock) return;
-    if (localStorage.getItem(PORTAL_KEY) === "yes") {
-      lock.classList.add("hidden");
-      return;
-    }
-    lock.classList.remove("hidden");
-    setTimeout(() => input?.focus(), 150);
-    input?.addEventListener("keydown", (e) => { if (e.key === "Enter") unlockPortal(); });
-  }
+    const PORTAL_PASSWORD = "fruits2026";
+    const PORTAL_KEY = "fruits_scene_engine_v5_restaurado_portal_ok";
 
-  function unlockPortal() {
-    const input = document.getElementById("portalPassword");
-    const error = document.getElementById("portalError");
-    if ((input?.value || "").trim() === PORTAL_PASSWORD) {
-      localStorage.setItem(PORTAL_KEY, "yes");
-      document.getElementById("portalLock")?.classList.add("hidden");
-      error?.classList.remove("show");
-      showToast("Portal liberado. Bem-vindo ao Studio.");
-    } else { 
-      error?.classList.add("show"); 
-    }
-  }
-
-  function showPortalHint() { 
-    const error = document.getElementById("portalError");
-    if (error) {
-      error.textContent = "Dica: a senha padrão deste arquivo é fruits2026."; 
-      error.classList.add("show");
-    } 
-  }
-
-  function lockPortalAgain() { 
-    localStorage.removeItem(PORTAL_KEY); 
-    document.getElementById("portalLock")?.classList.remove("hidden"); 
-    document.getElementById("portalPassword")?.focus();
-  }
-
-  // ==========================================
-  // TOAST SYSTEM (Notificações)
-  // ==========================================
-  function showToast(msg, type = 'success') {
-    let container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = msg;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
-  }
-
-  // ==========================================
-  // STATE MANAGEMENT E AUTO-SAVE
-  // ==========================================
-  const STORAGE_KEY = 'fruits_scene_engine_final_v5_pro';
-  const COLLAPSED_GROUPS_KEY = 'fruits_v5_collapsed_groups';
-  const COLLAPSED_CAST_KEY = 'fruits_v5_collapsed_cast';
-  
-  let collapsedGroups = loadJson(COLLAPSED_GROUPS_KEY, {});
-  let collapsedCastGroups = loadJson(COLLAPSED_CAST_KEY, {});
-  let referenceImageData = null, modalText = '', modalFile = 'fruits.txt', currentEditorMode = 'current';
-  
-  const providerModels = { 
-    gemini: ['gemini-1.5-flash', 'gemini-1.5-flash-8b', 'gemini-2.0-flash-lite'], 
-    groq: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'], 
-    openrouter: ['google/gemini-flash-1.5:free', 'meta-llama/llama-3.1-8b-instruct:free'] 
-  };
-  
-  const matrices = [
-    {group:'💔 Drama Viral / Família / Traição', options:[{id:'public_betrayal_doc',name:'Traição pública / documento',desc:'vergonha pública e volta por cima',tags:['família','traição'],structure:['confiança','sinal estranho','mentira','revelação pública','queda','recomeço']}, {id:'broken_family_origin',name:'Família quebrada / origem',desc:'revelação familiar e gancho forte',tags:['família','segredo'],structure:['dor escondida','humilhação','foto antiga','pergunta forte','verdade parcial','gancho familiar']}]},
-    {group:'👁️ Terror / Suspense / Mistério', options:[{id:'shadow_truth',name:'Verdade na sombra',desc:'algo no fundo muda a cena',tags:['suspense','mistério'],structure:['calma','sinal','suspeita','revelação parcial','medo']}]}
-  ];
-  
-  const castBank = [
-    {id:'tomate_elinaldo',name:'Tomate Elinaldo',desc:'herói humilde e protetor',tags:['protagonista']},
-    {id:'sabrina_pitaya',name:'Sabrina Pitaya',desc:'inteligente, forte e sensível',tags:['intuição']},
-    {id:'oz',name:'OZ / Oswaldo Rocha',desc:'mistério familiar',tags:['segredo']},
-    {id:'abacatudo',name:'Abacatudo',desc:'vilão manipulador',tags:['vilão']},
-    {id:'limao_rocha',name:'Limão Rocha',desc:'passado e conexão com OZ',tags:['passado']},
-    {id:'frutas_ricas',name:'Frutas ricas',desc:'grupo social que julga',tags:['grupo']}
-  ];
-  
-  const castGroups = [
-    {name:'🍅 Núcleo principal',ids:['tomate_elinaldo','sabrina_pitaya','oz']},
-    {name:'🥑 Vilões / manipulação',ids:['abacatudo']},
-    {name:'🍋 Família / origem',ids:['limao_rocha']},
-    {name:'👥 Grupos sociais',ids:['frutas_ricas']}
-  ];
-  
-  const defaultState = {
-    setup: {projectName:'Universo Fruits', projectMode:'fruits', format:'1 cena forte', sceneCount:3, mixIntensity:'Normal', audienceMode:'Nunca', brief:'O Segredo de OZ na Feira Fruits. OZ encontra foto antiga sobre Limão Rocha. Abacatudo finge ajudar mas expõe OZ. Tomate protege e Sabrina percebe rasura.'},
-    api: {provider:'gemini', model:'gemini-1.5-flash', apiKey:'', endpoint:''},
-    matrix: {primary:'broken_family_origin', mix:['broken_family_origin','public_betrayal_doc']},
-    cast: {selected:['tomate_elinaldo','sabrina_pitaya','oz','abacatudo','limao_rocha','frutas_ricas'], worldPlace:'Feira Fruits', tone:'Novela dramática', continuityRules:'Fruta/legume antropomórfico, NÃO HUMANO. Roupas fixas. Ambiente de feira vibrante.'},
-    researchRefs:'', map:[], currentSceneIndex:0, scenes:[], approved:[], notes:'', status:'Setup', score:8
-  };
-  
-  let state = loadJson(STORAGE_KEY, clone(defaultState));
-
-  function clone(x) { return JSON.parse(JSON.stringify(x)); }
-  function loadJson(k, f) { try { return JSON.parse(localStorage.getItem(k)||'')||f; } catch { return f; } }
-  function saveJson(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-  
-  function saveState() { 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
-    const ind = document.getElementById('autoSaveIndicator');
-    if(ind) { 
-      ind.style.opacity = '1'; 
-      setTimeout(() => { 
-        ind.textContent = '✅ Salvo localmente'; 
-        setTimeout(() => { ind.style.opacity = '0'; ind.textContent = '☁️ Salvando...'; }, 2000); 
-      }, 500); 
-    }
-  }
-
-  function setStatus(label, score, icon='🟡') { 
-    state.status = label; 
-    state.score = score; 
-    statusPill.textContent = label; 
-    statusIcon.textContent = icon; 
-    scoreLabel.textContent = label; 
-    scoreNumber.textContent = score; 
-    scoreBar.style.width = Math.min(100, score) + '%'; 
-    saveState(); 
-    renderSmartNodes(); 
-  }
-  
-  function addMsg(text, type='ai') { 
-    const d = document.createElement('div'); 
-    d.className = 'msg ' + type; 
-    d.textContent = text; 
-    chatLog.appendChild(d); 
-    chatLog.scrollTop = chatLog.scrollHeight; 
-    smartTerminal.textContent += '\n' + (type === 'user' ? '[Você] ' : '[IA] ') + text; 
-    smartTerminal.scrollTop = smartTerminal.scrollHeight; 
-    
-    if (text.toLowerCase().includes('sucesso') || text.toLowerCase().includes('salvo') || text.toLowerCase().includes('aprovada')) { 
-      showToast(text, 'success'); 
-    } else if (text.toLowerCase().includes('erro') || text.toLowerCase().includes('falha')) {
-      showToast(text, 'error');
-    }
-  }
-
-  function goTab(id) { 
-    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id)); 
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + id)); 
-    if(id === 'export') updateExport(); 
-    if(id === 'map') renderMap(); 
-    if(id === 'scene') renderScene(); 
-    if(id === 'editor') openSmartEditor(currentEditorMode || 'current', false); 
-    renderSmartNodes(); 
-  }
-
-  tabs.addEventListener('click', e => { 
-    const b = e.target.closest('.tab'); 
-    if(b) goTab(b.dataset.tab);
-  });
-  
-  function init() { 
-    renderProviderCards(); 
-    renderMatrixBank(); 
-    renderCastCards(); 
-    fillForm(); 
-    renderMap(); 
-    renderScene(); 
-    renderSmartNodes(); 
-    updateDna(); 
-    updateExport(); 
-    setStatus(state.status || 'Setup', state.score || 8, state.score >= 100 ? '🚀' : state.score >= 82 ? '✅' : state.score >= 55 ? '🗺️' : '🟡'); 
-    addMsg('Scene Engine Pro v5 carregado com sucesso.');
-  }
-  
-  function fillForm() { 
-    projectName.value = state.setup.projectName; 
-    projectMode.value = state.setup.projectMode; 
-    format.value = state.setup.format; 
-    sceneCount.value = state.setup.sceneCount; 
-    mixIntensity.value = state.setup.mixIntensity; 
-    audienceMode.value = state.setup.audienceMode; 
-    brief.value = state.setup.brief; 
-    provider.value = state.api.provider; 
-    renderModels(); 
-    model.value = state.api.model; 
-    apiKey.value = state.api.apiKey || ''; 
-    endpoint.value = state.api.endpoint || ''; 
-    worldPlace.value = state.cast.worldPlace; 
-    tone.value = state.cast.tone; 
-    continuityRules.value = state.cast.continuityRules; 
-    researchRefs.value = state.researchRefs || ''; 
-    smartEditorNotes.value = state.notes || ''; 
-    updateMatrixNotice(); 
-  }
-  
-  function saveSetup() { 
-    state.setup = {
-      projectName: projectName.value.trim(),
-      projectMode: projectMode.value,
-      format: format.value,
-      sceneCount: Number(sceneCount.value || 3),
-      mixIntensity: mixIntensity.value,
-      audienceMode: audienceMode.value,
-      brief: brief.value.trim()
-    }; 
-    updateDna(); 
-    setStatus('Setup salvo', 18, '🟡'); 
-    addMsg('Setup do projeto atualizado.'); 
-  }
-
-  // ==========================================
-  // API & PROVIDERS
-  // ==========================================
-  function renderProviderCards() { 
-    const data = [
-      ['gemini', 'Gemini', 'Roteiro longo, JSON e contexto extenso.'],
-      ['groq', 'Groq', 'Chat extremamente rápido, bom para variações.'],
-      ['openrouter', 'OpenRouter', 'Modelos variados e opções free.']
-    ]; 
-    providerCards.innerHTML = data.map(p => `
-      <article class="choice ${state.api.provider === p[0] ? 'selected' : ''}" onclick="selectProvider('${p[0]}')">
-        <h3>${p[1]}</h3><p>${p[2]}</p>
-      </article>`).join(''); 
-  }
-
-  function renderModels() { 
-    model.innerHTML = providerModels[state.api.provider].map(m => `<option value="${m}">${m}</option>`).join(''); 
-    if(!providerModels[state.api.provider].includes(state.api.model)) {
-      state.api.model = providerModels[state.api.provider][0]; 
-    }
-  }
-
-  function selectProvider(id) { 
-    state.api.provider = id; 
-    provider.value = id; 
-    renderModels(); 
-    model.value = state.api.model; 
-    renderProviderCards(); 
-    saveState(); 
-  }
-
-  provider.addEventListener('change', () => selectProvider(provider.value)); 
-  model.addEventListener('change', () => { state.api.model = model.value; saveState(); }); 
-  apiKey.addEventListener('input', () => { state.api.apiKey = apiKey.value.trim(); saveState(); });
-
-  // ==========================================
-  // DRAG AND DROP (Referência Imagem)
-  // ==========================================
-  function handleDrop(e) {
-    e.preventDefault(); 
-    e.currentTarget.classList.remove('dragover');
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      loadReferenceImage({ target: { files: [file] } });
-      showToast('Imagem carregada com sucesso!', 'success');
-    } else { 
-      showToast('Por favor, solte apenas arquivos de imagem.', 'error'); 
-    }
-  }
-
-  function loadReferenceImage(e) {
-    const f = e.target.files && e.target.files[0]; 
-    if(!f) return;
-    const r = new FileReader(); 
-    r.onload = () => { 
-      referenceImageData = r.result; 
-      referencePreview.innerHTML = `<strong>Carregado:</strong> ${f.name}<br><img class="preview-img" src="${referenceImageData}">`; 
-      addMsg('Referência visual anexada ao projeto.'); 
-    }; 
-    r.readAsDataURL(f);
-  }
-
-  // ==========================================
-  // MATRIX / DNA / CAST (Funções auxiliares)
-  // ==========================================
-  function esc(s){return String(s).replace(/'/g,'&#39;').replace(/"/g,'&quot;')}
-  function unesc(s){return String(s).replace(/&#39;/g,"'").replace(/&quot;/g,'"')}
-  
-  function renderMatrixBank(){
-    const term=(matrixSearch?.value||'').toLowerCase(); 
-    matrixBank.innerHTML=matrices.map(g=>{
-      const opts=g.options.filter(o=>!term||`${g.group} ${o.name} ${o.tags.join(' ')}`.toLowerCase().includes(term)); 
-      if(!opts.length)return''; 
-      const col=collapsedGroups[g.group]&&!term; 
-      return`<div style="margin-bottom:14px"><div class="choice" onclick="toggleMatrixGroup('${esc(g.group)}')"><h3 style="margin:0;display:flex;justify-content:space-between"><span>${col?'▶':'▼'} ${g.group}</span><span class="pill">${opts.length}</span></h3></div><div style="display:${col?'none':'block'};margin-top:8px">${opts.map(o=>`<article class="choice ${state.matrix.primary===o.id?'selected':''}" onclick="selectPrimaryMatrix('${o.id}')"><h3>${o.name}</h3><p>${o.desc}</p><label style="margin-top:10px;display:flex;gap:8px;text-transform:none"><input type="checkbox" ${state.matrix.mix.includes(o.id)?'checked':''} onclick="event.stopPropagation();toggleAspect('${o.id}')"> No mix</label></article>`).join('')}</div></div>`
-    }).join(''); 
-    updateMatrixDetails(); 
-  }
-  
-  function findMatrix(id){for(const g of matrices)for(const o of g.options)if(o.id===id)return o;return null}
-  function selectPrimaryMatrix(id){state.matrix.primary=id; if(!state.matrix.mix.includes(id))state.matrix.mix.push(id); renderMatrixBank(); saveState()}
-  function toggleAspect(id){state.matrix.mix=state.matrix.mix.includes(id)?state.matrix.mix.filter(x=>x!==id):[...state.matrix.mix,id]; if(!state.matrix.primary)state.matrix.primary=id; renderMatrixBank(); saveState()}
-  function toggleMatrixGroup(g){g=unesc(g);collapsedGroups[g]=!collapsedGroups[g]; saveJson(COLLAPSED_GROUPS_KEY,collapsedGroups); renderMatrixBank()}
-  function clearMatrixMix(){state.matrix={primary:null,mix:[]}; renderMatrixBank(); updateMatrixNotice(); updateDna(); saveState();}
-  function updateMatrixDetails(){const p=findMatrix(state.matrix.primary); selectedAspects.innerHTML=state.matrix.mix.length?state.matrix.mix.map(id=>`<span class="tag">${findMatrix(id)?.name||id}</span>`).join(''):'<span class="tag">Nenhum</span>'; matrixDetails.textContent=p?`TEMA: ${p.name}\n\nESTRUTURA:\n${p.structure.join(' > ')}`:'Escolha.'; }
-  function applyMatrixToSetup(){updateMatrixNotice(); updateDna(); setStatus('Matriz escolhida',28,'🧭'); goTab('setup'); showToast('Matriz narrativa aplicada.'); }
-  function updateMatrixNotice(){const p=findMatrix(state.matrix.primary); matrixNotice.textContent=p?`Matriz: ${state.matrix.mix.map(id=>findMatrix(id)?.name||id).join(' + ')}`:'Matriz pendente.'; }
-  
-  function renderCastCards(){
-    const term=(castSearch?.value||'').toLowerCase(); 
-    castCards.innerHTML=castGroups.map(g=>{
-      const chars=g.ids.map(id=>castBank.find(c=>c.id===id)).filter(Boolean).filter(c=>!term||`${g.name} ${c.name} ${c.tags.join(' ')}`.toLowerCase().includes(term)); 
-      if(!chars.length)return''; 
-      const col=collapsedCastGroups[g.name]&&!term; 
-      return`<div style="margin-bottom:14px"><div class="choice" onclick="toggleCastGroup('${esc(g.name)}')"><h3 style="margin:0;display:flex;justify-content:space-between"><span>${col?'▶':'▼'} ${g.name}</span></h3></div><div class="list-grid" style="display:${col?'none':'grid'};margin-top:8px">${chars.map(c=>`<article class="choice ${state.cast.selected.includes(c.id)?'selected':''}" onclick="toggleCast('${c.id}')"><h3>${c.name}</h3><p>${c.desc}</p></article>`).join('')}</div></div>`
-    }).join(''); 
-  }
-  
-  function toggleCastGroup(g){g=unesc(g);collapsedCastGroups[g]=!collapsedCastGroups[g]; saveJson(COLLAPSED_CAST_KEY,collapsedCastGroups); renderCastCards()}
-  function toggleCast(id){state.cast.selected=state.cast.selected.includes(id)?state.cast.selected.filter(x=>x!==id):[...state.cast.selected,id]; renderCastCards(); saveCastUniverse()}
-  function castName(id){return castBank.find(c=>c.id===id)?.name||id}
-  function saveCastUniverse(){state.cast.worldPlace=worldPlace.value.trim(); state.cast.tone=tone.value; state.cast.continuityRules=continuityRules.value.trim(); updateDna(); setStatus('DNA salvo',35,'🧬'); }
-
-
-  function generateReferenceBrief() {
-    state.researchRefs = researchRefs.value || "";
-    const approved = state.scenes
-      .map((s, i) => state.approved[i] ? `Cena ${i+1} APROVADA:\n${s.text}` : "")
-      .filter(Boolean)
-      .join("\n\n");
-
-    const brief = `REFERÊNCIA IA / RADAR MULTIMODAL — FRUITS ADVENTURES\n\nMISSÃO:\nTrabalhar passo a passo. Adaptar a referência apenas para a premissa, cena ou quadro atual.\n\nREGRA PRINCIPAL:\nFruits Adventures é o foco. Referências externas de filmes, séries, música, clipe, propaganda ou storyboard são auxiliares de clima, estrutura, enquadramento, ritmo, emoção e produção. Não copiar obra, fala, cena, autor, diretor, franquia ou universo protegido.\n\nDNA DO PROJETO:\n${JSON.stringify(buildProjectDna(), null, 2)}\n\nMAPA:\n${JSON.stringify(state.map, null, 2)}\n\nCENAS APROVADAS:\n${approved || "Nenhuma cena aprovada ainda."}\n\nREFERÊNCIA TEXTUAL DO USUÁRIO:\n${state.researchRefs || "Nenhuma referência textual."}\n\nIMAGEM/STORYBOARD:\n${referenceImageData ? "Imagem carregada para referência visual. Analisar enquadramento, ação, emoção e tempo específico da cena." : "Nenhuma imagem carregada."}\n\nSAÍDA ESPERADA:\n1. O que aproveitar da referência.\n2. O que descartar para não fugir do DNA Fruits.\n3. Como adaptar para a cena/quadro atual.\n4. Versão melhorada ou prompt de cena.\n5. Checklist de continuidade.`;
-
-    radarOutput.textContent = brief;
-    openModal("Referência IA", "Prompt preparado para adaptar referência sem perder o DNA Fruits.", brief, "referencia-ia-fruits.txt");
-    showToast("Referência IA preparada.");
-    saveState();
-  }
-
-
-  // ==========================================
-  // MAPA & GERAÇÃO DE CENA INTELIGENTE (IA)
-  // ==========================================
-  function generateMap() { 
-    saveSetup(); 
-    saveCastUniverse(); 
-    const count = Number(state.setup.sceneCount || 3); 
-    const map = [
-      {title: 'Descoberta', objective: 'Estabelecer o segredo', beat: 'Tensão inicial'},
-      {title: 'Revelação Pública', objective: 'Expor o segredo publicamente', beat: 'Humilhação e surpresa'},
-      {title: 'A Proteção', objective: 'Apoio de Tomate Elinaldo', beat: 'Gancho para continuação'}
-    ]; 
-    state.map = map.slice(0, Math.max(1, Math.min(count, 3))); 
-    state.currentSceneIndex = 0; 
-    state.scenes = []; 
-    state.approved = []; 
-    renderMap(); 
-    updateDna(); 
-    setStatus('Mapa pronto', 55, '🗺️'); 
-    goTab('map'); 
-    showToast('Mapa de cenas gerado.'); 
-  }
-
-  function renderMap() {
-    sceneMap.innerHTML = state.map.length ? state.map.map((s, i) => `
-      <article class="scene-card ${i === state.currentSceneIndex ? 'active' : ''} ${i > state.approved.length ? 'locked' : ''}" onclick="selectScene(${i})">
-        <h3>${state.approved[i] ? '✅' : i === state.currentSceneIndex ? '🎬' : '🔒'} Cena ${i+1} — ${s.title}</h3>
-        <p><strong>${s.objective}</strong></p>
-      </article>`).join('') : '<div class="notice">Sem mapa ainda.</div>'; 
-    renderSmartNodes();
-  }
-
-  function selectScene(i) {
-    if(i > state.approved.length) return showToast('Aprove as cenas em ordem.', 'warning'); 
-    state.currentSceneIndex = i; 
-    renderMap(); 
-    renderScene(); 
-    goTab('scene'); 
-    saveState();
-  }
-
-  async function callProvider(promptText, forceJson) {
-    const key = state.api.apiKey || apiKey.value.trim();
-    const providerName = state.api.provider;
-    const modelName = state.api.model;
-
-    if (!key) throw new Error("API Key não configurada. Cole sua chave na aba API.");
-
-    if (providerName === "gemini") {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(key)}`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: promptText }] }] })
+    function initPortal() {
+      const lock = document.getElementById("portalLock");
+      const input = document.getElementById("portalPassword");
+      if (!lock) return;
+      if (localStorage.getItem(PORTAL_KEY) === "yes") {
+        lock.classList.add("hidden");
+        return;
+      }
+      lock.classList.remove("hidden");
+      setTimeout(() => input?.focus(), 150);
+      input?.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") unlockPortal();
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error?.message || "Erro desconhecido no Gemini");
-      return data.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(data);
     }
 
-    const endpointUrl = providerName === "groq" ? "https://api.groq.com/openai/v1/chat/completions" : "https://openrouter.ai/api/v1/chat/completions";
-    const res = await fetch(endpointUrl, {
-      method: "POST", headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
-      body: JSON.stringify({ model: modelName, messages: [{ role: "system", content: "Você é o assistente de direção do universo Fruits Adventures. Responda em português do Brasil e siga o formato solicitado rigorosamente." }, { role: "user", content: promptText }] })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Erro na API do Provider");
-    return data.choices?.[0]?.message?.content || JSON.stringify(data);
-  }
-
-  async function generateCurrentScene(useApi = false, event) {
-    if(!state.map.length) generateMap();
-    const i = state.currentSceneIndex;
-    const btn = event?.currentTarget;
-    
-    sceneOutput.textContent = 'Gerando cena ' + (i+1) + (useApi ? ' conectando com IA...' : ' (Gerando Rascunho Rápido)...');
-    setStatus('Cena em produção', 70, '🎬');
-    goTab('scene');
-    
-    let text = "";
-
-    if (useApi && (state.api.apiKey || apiKey.value.trim())) {
-      if(btn) btn.classList.add('btn-loading');
-      try {
-        addMsg('Conectando IA para gerar a Cena ' + (i+1) + '...');
-        const prompt = `CRIE A CENA ${i+1}\n\nDNA DO PROJETO:\n${JSON.stringify(buildProjectDna())}\n\nMAPA DA CENA:\n${JSON.stringify(state.map[i])}\n\nCenas anteriores aprovadas: ${state.approved.filter(Boolean).length}\n\nEscreva a cena seguindo EXATAMENTE os blocos abaixo (sem marcações markdown extras, apenas o texto limpo):\nOBJETIVO:\nAÇÃO:\nCÂMERA:\nEMOÇÃO:\nNARRAÇÃO:\nFALAS:\nLEGENDA CURTA:\nELEVENLABS:\nCAPCUT:\n\nRegras de Ouro: Preserve as personalidades e as regras de continuidade do universo Fruits.`;
-        
-        text = await callProvider(prompt, false);
-        addMsg('A IA gerou o roteiro da cena com sucesso.');
-      } catch(e) {
-        showToast("Erro API: " + e.message, 'error');
-        text = generateSceneLocal(i); // Fallback local em caso de erro
-      } finally {
-        if(btn) btn.classList.remove('btn-loading');
+    function unlockPortal() {
+      const input = document.getElementById("portalPassword");
+      const error = document.getElementById("portalError");
+      const lock = document.getElementById("portalLock");
+      if ((input?.value || "").trim() === PORTAL_PASSWORD) {
+        localStorage.setItem(PORTAL_KEY, "yes");
+        lock?.classList.add("hidden");
+        error?.classList.remove("show");
+        addMsg?.("Portal liberado. Bem-vindo ao Scene Engine.");
+      } else {
+        error?.classList.add("show");
       }
-    } else {
-      text = generateSceneLocal(i);
-      if(useApi) showToast('Chave de API ausente. Gerado rascunho offline.', 'warning');
     }
 
-    state.scenes[i] = { title: state.map[i]?.title || 'Cena', text, generatedAt: new Date().toISOString() };
-    renderScene(); 
-    updateDna();
-  }
-
-  // Fallback Local de Roteiro
-  function generateSceneLocal(i) {
-    const s = state.map[i] || {};
-    const n = i + 1;
-    return `CENA ${n} — ${s.title || 'Ação Contínua'}\n\nOBJETIVO:\n${s.objective || 'Avançar trama'}\n\nAÇÃO:\nPersonagens interagem na feira. A tensão aumenta conforme o segredo é discutido. Sabrina observa atentamente.\n\nCÂMERA:\nPlano médio. Close-up nos momentos de tensão.\n\nEMOÇÃO:\nTensão, falsidade e descoberta.\n\nNARRAÇÃO:\nNa feira Fruits, segredos não duram muito tempo escondidos na sombra.\n\nFALAS:\nOZ: "O que significa isso?"\nAbacatudo: "Calma, deixa eu te ajudar..."\nSabrina Pitaya: "Esse sorriso não me engana."\n\nLEGENDA CURTA:\nA verdade começa a aparecer na feira.\n\nELEVENLABS:\nOZ [voz confusa e baixa]: O que significa isso?\nAbacatudo [sorriso falso e tom amigável]: Calma, deixa eu te ajudar...\nSabrina Pitaya [sussurrando desconfiada]: Esse sorriso não me engana.\n\nCAPCUT:\nOZ encontra o papel. Abacatudo se aproxima.`;
-  }
-
-  // ==========================================
-  // FUNÇÕES DA ABA DE CENA (RADAR, APROVAÇÃO, SRT)
-  // ==========================================
-  function renderScene() { 
-    scenePill.textContent = 'Cena ' + (state.currentSceneIndex + 1); 
-    sceneOutput.textContent = state.scenes[state.currentSceneIndex]?.text || 'Sem cena atual.'; 
-    renderSmartNodes(); 
-  }
-
-  function approveCurrentScene() {
-    const i = state.currentSceneIndex; 
-    if(!state.scenes[i]) return showToast('Gere a cena atual primeiro antes de aprovar.', 'warning'); 
-    state.approved[i] = true; 
-    setStatus('Cena aprovada', 82, '✅'); 
-    renderMap(); 
-    updateDna(); 
-    addMsg('Cena ' + (i+1) + ' aprovada 100%.'); 
-    if(state.approved.filter(Boolean).length >= state.map.length) {
-      setStatus('Pronto para Exportar', 100, '🚀');
-      updateExport();
-    } 
-  }
-
-  function nextScene() {
-    const i = state.currentSceneIndex; 
-    if(!state.approved[i]) return showToast('Você precisa aprovar a cena atual (botão roxo) antes de avançar.', 'warning'); 
-    if(i + 1 >= state.map.length) {
-      setStatus('Fluxo Concluído', 100, '🚀'); 
-      goTab('export'); 
-      return;
-    } 
-    state.currentSceneIndex = i + 1; 
-    renderMap(); 
-    renderScene(); 
-    setStatus('Em produção', 70, '🎬'); 
-    goTab('scene'); 
-    saveState();
-  }
-
-  function getCurrentSceneText() { return state.scenes[state.currentSceneIndex]?.text || sceneOutput.textContent || ''; }
-
-  async function runRadarViral(event) {
-    const cenaTexto = getCurrentSceneText();
-    if(!cenaTexto || cenaTexto === 'Sem cena atual.') return showToast('Gere a cena antes de passar no Radar Viral.', 'warning');
-    
-    const key = state.api.apiKey || apiKey.value.trim();
-    if(!key) return showToast('Você precisa colocar sua API Key na aba API para usar o Radar Viral IA.', 'warning');
-
-    const btn = event?.currentTarget;
-    if(btn) btn.classList.add('btn-loading');
-    openModal('📡 Radar Viral Ativado', 'Analisando DNA, Continuidade e Potencial de Retenção...', 'Aguarde o retorno da Inteligência Artificial...', 'radar-viral.txt');
-    
-    try {
-      const prompt = `ATUE COMO DIRETOR DE CONTEÚDO VIRAL (Especialista em Retenção).\n\nAnalise a cena atual do projeto Fruits Adventures:\n${cenaTexto}\n\nRetorne ESTRITAMENTE o seguinte relatório estruturado:\n1. PONTUAÇÃO DE VIRALIDADE (0 a 100 com justificativa curta).\n2. RISCOS (algo parece fora do DNA original ou entediante?).\n3. MELHORIA NO GANCHO (sugira uma fala final ou ação mais forte para prender a atenção).\n4. PRÓXIMOS PASSOS (3 opções rápidas de direção para a cena seguinte).`;
-      
-      const analise = await callProvider(prompt, false);
-      openModal('📡 Resultado: Radar Viral IA', 'Análise baseada em métricas de retenção.', analise, 'radar-viral.txt');
-      addMsg('Radar Viral concluído com sucesso.');
-    } catch(e) {
-      showToast('Erro no Radar: ' + e.message, 'error');
-      openModal('Erro no Radar', 'A IA não pôde responder.', e.message, 'erro.txt');
-    } finally {
-      if(btn) btn.classList.remove('btn-loading');
-    }
-  }
-
-  // ==========================================
-  // EDITOR SMART EXPANDIDO
-  // ==========================================
-  function openSmartEditor(mode = 'current', switchTab = true) {
-    currentEditorMode = mode;
-    
-    // Constrói os botões do painel lateral do editor
-    const nodes = [
-      ['current', 'Cena Atual (Isolada)'],
-      ['all', 'Roteiro Completo (Todas as Cenas)']
-    ];
-    
-    editorNodes.innerHTML = nodes.map(n => `
-      <div class="smart-node ${mode === n[0] ? 'active' : ''}" onclick="openSmartEditor('${n[0]}')">
-        <strong>${n[1]}</strong>
-      </div>`).join('');
-    
-    // Preenche o textarea corretamente baseado na escolha
-    if (mode === 'all') {
-      smartEditorText.value = state.scenes.map((s, i) => `CENA ${i+1}\n\n${s.text}`).join('\n\n------------------------------\n\n');
-    } else {
-      smartEditorText.value = getCurrentSceneText();
-    }
-    
-    if(switchTab) goTab('editor');
-  }
-
-  function applyEditorText() {
-    const txt = smartEditorText.value;
-    
-    if (currentEditorMode === 'current') {
-      // Salva apenas a cena atual
-      if(state.scenes[state.currentSceneIndex]) {
-        state.scenes[state.currentSceneIndex].text = txt;
+    function showPortalHint() {
+      const error = document.getElementById("portalError");
+      if (error) {
+        error.textContent = "Dica: a senha padrão deste arquivo é fruits2026. Você pode trocar no código.";
+        error.classList.add("show");
       }
-    } else if (currentEditorMode === 'all') {
-      // Lógica de fatiar o roteiro completo de volta para as cenas individuais (Restaurada)
-      const partes = txt.split(/\n\n------------------------------\n\n/);
-      partes.forEach((part, i) => {
-        if (state.scenes[i]) {
-          // Remove o cabeçalho "CENA X" que foi injetado pelo editor para manter limpo
-          state.scenes[i].text = part.replace(/^CENA\s+\d+[^\n]*\n\n/i, '');
+    }
+
+    function lockPortalAgain() {
+      localStorage.removeItem(PORTAL_KEY);
+      document.getElementById("portalLock")?.classList.remove("hidden");
+      document.getElementById("portalPassword")?.focus();
+    }
+
+    const STORAGE_KEY='fruits_scene_engine_final_v4_smart';
+    const COLLAPSED_GROUPS_KEY='fruits_v4_collapsed_groups';
+    const COLLAPSED_CAST_KEY='fruits_v4_collapsed_cast';
+    let collapsedGroups=loadJson(COLLAPSED_GROUPS_KEY,{}),collapsedCastGroups=loadJson(COLLAPSED_CAST_KEY,{}),referenceImageData=null,modalText='',modalFile='fruits.txt',currentEditorMode='current';
+    const providerModels={gemini:['gemini-1.5-flash','gemini-1.5-flash-8b','gemini-2.0-flash-lite'],groq:['llama-3.1-8b-instant','llama-3.3-70b-versatile','gemma2-9b-it'],openrouter:['google/gemini-flash-1.5:free','meta-llama/llama-3.1-8b-instruct:free','mistralai/mistral-7b-instruct:free'],auto:['auto-free-router']};
+    const matrices=[{group:'💔 Drama Viral / Família / Traição',options:[{id:'public_betrayal_doc',name:'Traição pública / documento revelado',desc:'vergonha pública e volta por cima com documento',tags:['família','traição','documento'],structure:['confiança','sinal estranho','mentira','revelação pública','queda','recomeço']},{id:'broken_family_origin',name:'Família quebrada / segredo de origem',desc:'revelação familiar e gancho forte sobre origem',tags:['família','segredo','drama'],structure:['dor escondida','humilhação','foto antiga','pergunta forte','verdade parcial','gancho familiar']}]},{group:'👁️ Terror / Suspense / Mistério',options:[{id:'shadow_truth',name:'Verdade na sombra',desc:'algo no fundo muda a cena',tags:['suspense','mistério','visual'],structure:['calma','sinal','suspeita','revelação parcial','medo']}]},{group:'🎮 Jogos / Lutas / Guerras',options:[{id:'tournament_reveal',name:'Torneio com revelação',desc:'luta pública vira revelação emocional',tags:['luta','torneio','público'],structure:['desafio','plateia','queda','virada','respeito']}]},{group:'📱 Trailer / YouTube / TikTok',options:[{id:'three_second_hook',name:'Gancho 3 segundos',desc:'abre com frase ou imagem de impacto',tags:['retenção','shorts','gancho'],structure:['frase forte','imagem chocante','contexto','virada','continua']}]}];
+    const castBank=[{id:'tomate_elinaldo',name:'Tomate Elinaldo',desc:'herói humilde, corajoso, emocional e protetor',tags:['protagonista','proteção','popular']},{id:'sabrina_pitaya',name:'Sabrina Pitaya',desc:'inteligente, observadora, forte e sensível',tags:['intuição','verdade','apoio']},{id:'oz',name:'OZ / Oswaldo Rocha',desc:'mistério familiar, origem dramática e conflito interno',tags:['segredo','origem','dor']},{id:'abacatudo',name:'Abacatudo',desc:'vilão manipulador, falso bondoso e estratégico',tags:['vilão','manipulação','traição']},{id:'limao_rocha',name:'Limão Rocha',desc:'passado e conexão com OZ',tags:['passado','família','mistério']},{id:'frutas_ricas',name:'Frutas ricas / multidão',desc:'grupo social que julga e amplifica humilhação',tags:['grupo','público','pressão']},{id:'secundarios',name:'Secundários da série',desc:'mentor, rival, criança inocente, professor, vizinho',tags:['apoio','expansão','série']},{id:'terror_fruits',name:'Terror Fruits',desc:'figuras sombrias, mercado abandonado, objeto antigo',tags:['suspense','noite','mistério']},{id:'herois_fruits',name:'Heróis Fruits',desc:'guardiões originais e heroísmo',tags:['ação','original','protetores']},{id:'games_lutas',name:'Games / Lutas',desc:'torneios, fase, chefão e desafio visual',tags:['ação','boss','torneio']}];
+    const castGroups=[{name:'🍅 Núcleo principal',ids:['tomate_elinaldo','sabrina_pitaya','oz']},{name:'🥑 Vilões / manipulação',ids:['abacatudo']},{name:'🍋 Família / origem',ids:['limao_rocha']},{name:'👥 Grupos sociais',ids:['frutas_ricas','secundarios']},{name:'🦸 Heróis / ação',ids:['herois_fruits','games_lutas']},{name:'👁️ Terror / mistério',ids:['terror_fruits']}];
+    const defaultState={setup:{projectName:'universo Fruits',projectMode:'fruits',format:'1 cena forte',sceneCount:3,mixIntensity:'Normal',audienceMode:'Nunca',brief:'O Segredo de OZ na Feira Fruits. OZ encontra uma foto antiga e um documento escondido sobre sua origem ligada a Limão Rocha. Abacatudo aparece fingindo ajudar, mas usa o documento para expor OZ em público e transformar a dor dele em humilhação. Tomate Elinaldo entra para proteger OZ, enquanto Sabrina Pitaya percebe que existe uma mentira no documento. A cena precisa ter drama familiar, traição pública, verdade parcial, emoção forte e gancho para parte 2.'},api:{provider:'gemini',model:'gemini-1.5-flash',apiKey:'',endpoint:'/api/fruits-generate'},matrix:{primary:'broken_family_origin',mix:['broken_family_origin','public_betrayal_doc']},cast:{selected:['tomate_elinaldo','sabrina_pitaya','oz','abacatudo','limao_rocha','frutas_ricas'],worldPlace:'Feira Fruits',tone:'Novela dramática',continuityRules:'Fruta/legume deve ser antropomórfico, NÃO HUMANO. Roupa base fixa. Cores vibrantes. Ambiente de feira. Iluminação reflete drama crescente. Diálogo conciso e impactante.'},researchRefs:'',map:[],currentSceneIndex:0,scenes:[],approved:[],notes:'',status:'Setup',score:8};
+    let state=loadJson(STORAGE_KEY,clone(defaultState));
+    function clone(x){return JSON.parse(JSON.stringify(x))}
+
+    function loadJson(k,f){try{return JSON.parse(localStorage.getItem(k)||'')||f}catch{return f}}
+
+    function saveJson(k,v){localStorage.setItem(k,JSON.stringify(v))}
+
+    function saveState(){saveJson(STORAGE_KEY,state)}
+    function setStatus(label,score,icon='🟡'){state.status=label;state.score=score;statusPill.textContent=label;statusIcon.textContent=icon;scoreLabel.textContent=label;scoreNumber.textContent=score;scoreBar.style.width=Math.min(100,score)+'%';saveState();renderSmartNodes()}
+    function addMsg(text,type='ai'){const d=document.createElement('div');d.className='msg '+type;d.textContent=text;chatLog.appendChild(d);chatLog.scrollTop=chatLog.scrollHeight;smartTerminal.textContent+='\n'+(type==='user'?'[Você] ':'[IA] ')+text;smartTerminal.scrollTop=smartTerminal.scrollHeight}
+    function goTab(id){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+id));if(id==='export')updateExport();if(id==='map')renderMap();if(id==='scene')renderScene();if(id==='editor')openSmartEditor(currentEditorMode||'current',false);renderSmartNodes()}tabs.addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)goTab(b.dataset.tab)});
+    function init(){renderProviderCards();renderMatrixBank();renderCastCards();fillForm();renderMap();renderScene();renderSmartNodes();updateDna();updateExport();setStatus(state.status||'Setup',state.score||8,state.score>=100?'🚀':state.score>=82?'✅':state.score>=55?'🗺️':'🟡');addMsg('Scene Engine Final v5 restaurado carregado. Portal, Banco Viral completo e organização v3 preservados.')}
+    function fillForm(){projectName.value=state.setup.projectName;projectMode.value=state.setup.projectMode;format.value=state.setup.format;sceneCount.value=state.setup.sceneCount;mixIntensity.value=state.setup.mixIntensity;audienceMode.value=state.setup.audienceMode;brief.value=state.setup.brief;provider.value=state.api.provider;renderModels();model.value=state.api.model;apiKey.value=state.api.apiKey||'';endpoint.value=state.api.endpoint;worldPlace.value=state.cast.worldPlace;tone.value=state.cast.tone;continuityRules.value=state.cast.continuityRules;researchRefs.value=state.researchRefs||'';smartEditorNotes.value=state.notes||'';updateMatrixNotice()}
+    function saveSetup(){state.setup={projectName:projectName.value.trim(),projectMode:projectMode.value,format:format.value,sceneCount:Number(sceneCount.value||3),mixIntensity:mixIntensity.value,audienceMode:audienceMode.value,brief:brief.value.trim()};updateDna();setStatus('Setup salvo',18,'🟡');addMsg('Setup salvo.')}
+    function renderProviderCards(){const data=[['gemini','Gemini','Roteiro longo, JSON e pacote final.'],['groq','Groq','Chat rápido, variações e revisão curta.'],['openrouter','OpenRouter','Fallback e modelos :free.'],['auto','Modo Auto','Roteamento por backend.']];providerCards.innerHTML=data.map(p=>`<article class="choice ${state.api.provider===p[0]?'selected':''}" onclick="selectProvider('${p[0]}')">
+<h3>${p[1]}</h3>
+<p>${p[2]}</p>
+</article>`).join('')}
+    function renderModels(){model.innerHTML=providerModels[state.api.provider].map(m=>`<option value="${m}">${m}</option>`).join('');if(!providerModels[state.api.provider].includes(state.api.model))state.api.model=providerModels[state.api.provider][0]}
+    function selectProvider(id){state.api.provider=id;provider.value=id;renderModels();model.value=state.api.model;renderProviderCards();saveState();addMsg('Provider selecionado: '+id)}provider.addEventListener('change',()=>selectProvider(provider.value));model.addEventListener('change',()=>{state.api.model=model.value;saveState()});apiKey.addEventListener('input',()=>{state.api.apiKey=apiKey.value.trim();saveState()});endpoint.addEventListener('input',()=>{state.api.endpoint=endpoint.value.trim();saveState()});
+    function esc(s){return String(s).replace(/'/g,'&#39;').replace(/"/g,'&quot;')}
+
+    function unesc(s){return String(s).replace(/&#39;/g,"'").replace(/&quot;/g,'"')}
+    function renderMatrixBank(){const term=(matrixSearch?.value||'').toLowerCase();matrixBank.innerHTML=matrices.map(g=>{const opts=g.options.filter(o=>!term||`${g.group} ${o.name} ${o.desc} ${o.tags.join(' ')}`.toLowerCase().includes(term));if(!opts.length)return'';
+    const col=collapsedGroups[g.group]&&!term;return`<div style="margin-bottom:14px">
+<div class="choice" onclick="toggleMatrixGroup('${esc(g.group)}')">
+<h3 style="margin:0;display:flex;justify-content:space-between">
+<span>${col?'▶':'▼'} ${g.group}</span>
+<span class="pill">${opts.length} opções</span>
+</h3>
+</div>
+<div style="display:${col?'none':'block'};margin-top:8px">${opts.map(matrixOptionHtml).join('')}</div>
+</div>`}).join('')||'<div class="notice">Nenhuma matriz.</div>';updateMatrixDetails()}
+    function matrixOptionHtml(o){return`<article class="choice ${state.matrix.primary===o.id?'selected':''}" onclick="selectPrimaryMatrix('${o.id}')">
+<h3>${o.name}</h3>
+<p>${o.desc}</p>
+<div class="tags">${o.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+<label style="margin-top:10px;display:flex;align-items:center;gap:8px;color:var(--cyan);text-transform:none;letter-spacing:0">
+<input type="checkbox" ${state.matrix.mix.includes(o.id)?'checked':''} onclick="event.stopPropagation();toggleAspect('${o.id}')" style="width:auto"> Adicionar ao mix/aspecto</label>
+</article>`}
+    function findMatrix(id){for(const g of matrices)for(const o of g.options)if(o.id===id)return o;return null}
+
+    function selectPrimaryMatrix(id){state.matrix.primary=id;if(!state.matrix.mix.includes(id))state.matrix.mix.push(id);renderMatrixBank();saveState()}
+
+    function toggleAspect(id){state.matrix.mix=state.matrix.mix.includes(id)?state.matrix.mix.filter(x=>x!==id):[...state.matrix.mix,id];if(!state.matrix.primary)state.matrix.primary=id;renderMatrixBank();saveState()}
+
+    function toggleMatrixGroup(g){g=unesc(g);collapsedGroups[g]=!collapsedGroups[g];saveJson(COLLAPSED_GROUPS_KEY,collapsedGroups);renderMatrixBank()}
+
+    function collapseAllGroups(){matrices.forEach(g=>collapsedGroups[g.group]=true);saveJson(COLLAPSED_GROUPS_KEY,collapsedGroups);renderMatrixBank();addMsg('Banco Viral minimizado.')}
+
+    function expandAllGroups(){collapsedGroups={};saveJson(COLLAPSED_GROUPS_KEY,collapsedGroups);renderMatrixBank();addMsg('Banco Viral expandido.')}
+
+    function clearMatrixMix(){state.matrix={primary:null,mix:[]};renderMatrixBank();updateMatrixNotice();updateDna();saveState();addMsg('Mix limpo.')}
+    function updateMatrixDetails(){const p=findMatrix(state.matrix.primary);selectedAspects.innerHTML=state.matrix.mix.length?state.matrix.mix.map(id=>`<span class="tag">${findMatrix(id)?.name||id}</span>`).join(''):'<span class="tag">Nenhum</span>';matrixDetails.textContent=p?`TEMA ESCOLHIDO\n\n${p.name}\n\nTAGS:\n${p.tags.join(', ')}\n\nESTRUTURA:\n${p.structure.map((s,i)=>(i+1)+'. '+s).join('\n')}\n\nMIX:\n${state.matrix.mix.map(id=>findMatrix(id)?.name||id).join(' + ')}\n\nRegra: estrutura autoral, sem copiar.`:'Escolha uma matriz.'}
+    function applyMatrixToSetup(){if(!state.matrix.primary)return alert('Escolha uma matriz.');updateMatrixNotice();updateDna();setStatus('Matriz escolhida',28,'🧭');goTab('setup');addMsg('Matriz aplicada.')}
+
+    function updateMatrixNotice(){const p=findMatrix(state.matrix.primary);matrixNotice.textContent=p?`Matriz ativa: ${state.matrix.mix.map(id=>findMatrix(id)?.name||id).join(' + ')} | Intensidade: ${state.setup.mixIntensity}`:'Matriz narrativa ainda não escolhida.'}
+    function renderCastCards(){const term=(castSearch?.value||'').toLowerCase();castCards.innerHTML=castGroups.map(g=>{const chars=g.ids.map(id=>castBank.find(c=>c.id===id)).filter(Boolean).filter(c=>!term||`${g.name} ${c.name} ${c.desc} ${c.tags.join(' ')}`.toLowerCase().includes(term));if(!chars.length)return'';
+    const col=collapsedCastGroups[g.name]&&!term;return`<div style="margin-bottom:14px">
+<div class="choice" onclick="toggleCastGroup('${esc(g.name)}')">
+<h3 style="margin:0;display:flex;justify-content:space-between">
+<span>${col?'▶':'▼'} ${g.name}</span>
+<span class="pill">${chars.length} opções</span>
+</h3>
+</div>
+<div class="list-grid" style="display:${col?'none':'grid'};margin-top:8px">${chars.map(c=>`<article class="choice ${state.cast.selected.includes(c.id)?'selected':''}" onclick="toggleCast('${c.id}')">
+<h3>${c.name}</h3>
+<p>${c.desc}</p>
+<div class="tags">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+</article>`).join('')}</div>
+</div>`}).join('')||'<div class="notice">Nenhum personagem.</div>'}
+    function toggleCastGroup(g){g=unesc(g);collapsedCastGroups[g]=!collapsedCastGroups[g];saveJson(COLLAPSED_CAST_KEY,collapsedCastGroups);renderCastCards()}
+
+    function collapseAllCastGroups(){castGroups.forEach(g=>collapsedCastGroups[g.name]=true);saveJson(COLLAPSED_CAST_KEY,collapsedCastGroups);renderCastCards();addMsg('Elenco minimizado.')}
+
+    function expandAllCastGroups(){collapsedCastGroups={};saveJson(COLLAPSED_CAST_KEY,collapsedCastGroups);renderCastCards();addMsg('Elenco expandido.')}
+
+    function toggleCast(id){state.cast.selected=state.cast.selected.includes(id)?state.cast.selected.filter(x=>x!==id):[...state.cast.selected,id];renderCastCards();saveCastUniverse()}
+
+    function castName(id){return castBank.find(c=>c.id===id)?.name||id}
+    function saveCastUniverse(){state.cast.worldPlace=worldPlace.value.trim();state.cast.tone=tone.value;state.cast.continuityRules=continuityRules.value.trim();updateDna();setStatus('DNA salvo',Math.max(state.score,35),'🧬');addMsg('DNA salvo.')}
+    function buildProjectDna(){const p=findMatrix(state.matrix.primary);return{project_dna:{project_name:state.setup.projectName,mode:state.setup.projectMode,format:state.setup.format,brief:state.setup.brief,matrix:p?{id:p.id,name:p.name,tags:p.tags,structure:p.structure,mix:state.matrix.mix.map(id=>findMatrix(id)?.name||id)}:null,cast:state.cast.selected.map(id=>({id,name:castName(id)})),world:{place:state.cast.worldPlace,tone:state.cast.tone,rules:state.cast.continuityRules},rules:['Fruits é o foco principal.','Referência externa é auxiliar.','Trabalhar passo a passo por premissa/cena/quadro.','Não copiar obra, autor, fala, cena ou universo protegido.','Revisar cenas aprovadas antes da próxima.'],reference:state.researchRefs||''}}}
+
+    function updateDna(){dnaBox.textContent=JSON.stringify(buildProjectDna(),null,2);saveState()}
+    function generateMap(){saveSetup();saveCastUniverse();
+    const count=Number(state.setup.sceneCount||3);
+    const map=[{title:'A Descoberta e a Falsa Ajuda',objective:'Estabelecer o segredo de OZ e a entrada manipuladora de Abacatudo.',beat:'Sabrina percebe o movimento estranho.'},{title:'A Revelação e a Queda de OZ',objective:'Expor OZ publicamente e mostrar o impacto da traição.',beat:'Sabrina percebe a rasura no documento.'},{title:'A Proteção e a Verdade Parcial',objective:'Tomate protege OZ e Sabrina planta a dúvida.',beat:'A verdade completa sobre Limão Rocha fica para parte 2.'}];state.map=map.slice(0,Math.max(1,Math.min(count,3)));state.currentSceneIndex=0;state.scenes=[];state.approved=[];renderMap();updateDna();setStatus('Mapa pronto',55,'🗺️');goTab('map');addMsg('Mapa gerado.')}
+    function renderMap(){sceneMap.innerHTML=state.map.length?state.map.map((s,i)=>`<article class="scene-card ${i===state.currentSceneIndex?'active':''} ${i>state.approved.length?'locked':''}" onclick="selectScene(${i})">
+<h3>${state.approved[i]?'✅':i===state.currentSceneIndex?'🎬':'🔒'} Cena ${i+1} — ${s.title}</h3>
+<p>
+<strong>${s.objective}</strong>
+</p>
+<p>${s.beat}</p>
+</article>`).join(''):'<div class="notice">Sem mapa ainda.</div>';renderSmartNodes()}
+    function renderSmartNodes(){const base=[{t:'Setup',s:state.setup.brief?'pronto':'vazio',tab:'setup'},{t:'Banco Viral',s:state.matrix.primary?'mix ativo':'vazio',tab:'viral'},{t:'DNA / Elenco',s:state.cast.selected.length+' sel.',tab:'cast'},{t:'Mapa',s:state.map.length?state.map.length+' cenas':'vazio',tab:'map'}];
+    const scenes=state.map.map((m,i)=>({t:'Cena '+(i+1),s:state.approved[i]?'100%':state.scenes[i]?'gerada':i===state.currentSceneIndex?'ativa':'aguardando',scene:i}));
+    const end=[{t:'Cenas completas',s:state.scenes.filter(Boolean).length+' geradas',action:'all'},{t:'SRT / Voz',s:'CapCut + Eleven',action:'srt'},{t:'Referência IA',s:'auxiliar',tab:'research'},{t:'Exportar',s:state.approved.filter(Boolean).length>=state.map.length&&state.map.length?'pronto':'aguardando',tab:'export'}];smartNodes.innerHTML=[...base,...scenes,...end].map(n=>{const active=(n.tab&&document.getElementById('tab-'+n.tab)?.classList.contains('active'))||(n.scene===state.currentSceneIndex&&document.getElementById('tab-scene')?.classList.contains('active'));
+    const done=/pronto|100%|ativo|gerada|mix/.test(n.s);
+    const click=n.scene!==undefined?`selectScene(${n.scene})`:n.action==='all'?`openSmartEditor('all')`:n.action==='srt'?`openSmartEditor('srt')`:`goTab('${n.tab}')`;return`<div class="smart-node ${active?'active':''} ${done?'done':''}" onclick="${click}">
+<strong>${n.t}</strong>
+<span>${n.s}</span>
+</div>`}).join('')}
+    function selectScene(i){if(i>state.approved.length)return alert('Aprove as cenas em ordem.');state.currentSceneIndex=i;renderMap();renderScene();goTab('scene');saveState()}
+    function generateSceneLocal(i){const s=state.map[i],n=i+1;if(n===1)return`CENA 1 — ${s.title}\n\nOBJETIVO:\n${s.objective}\n\nAÇÃO:\nOZ encontra uma foto antiga e um documento amarelado perto de uma barraca de sucos na Feira Fruits. Abacatudo se aproxima com um sorriso falso, oferece ajuda e pega o documento. Sabrina Pitaya observa de longe e percebe que o gesto dele é calculado.\n\nCÂMERA:\nClose nas mãos trêmulas de OZ. Plano médio de Abacatudo. Corte para Sabrina desconfiada.\n\nEMOÇÃO:\nCuriosidade, tensão, falsa ajuda, malícia e desconfiança.\n\nNARRAÇÃO:\nOZ achava que tinha encontrado uma resposta. Mas na Feira Fruits, algumas respostas chegam pelas mãos erradas. Quando Abacatudo sorriu, Sabrina Pitaya entendeu: a verdade estava prestes a virar arma.\n\nFALAS:\nOZ: “Esse nome... Limão Rocha... por que está aqui?”\nAbacatudo: “Calma, garoto. Deixa eu ver isso. Talvez eu possa te ajudar.”\nSabrina Pitaya: “Não... esse sorriso não é de quem quer ajudar.”\n\nLEGENDA CURTA:\nOZ entrega a única pista da sua origem nas mãos erradas.\n\nELEVENLABS:\nOZ [voz baixa, confuso]: Esse nome... Limão Rocha... por que está aqui?\nAbacatudo [falso calmo, sorriso escondido]: Calma, garoto. Deixa eu ver isso.\nSabrina [sussurrando, desconfiada]: Não... esse sorriso não é de quem quer ajudar.\n\nCAPCUT:\nOZ encontra a foto antiga. Abacatudo finge ajudar. Sabrina percebe a mentira.`;if(n===2)return`CENA 2 — ${s.title}\n\nOBJETIVO:\n${s.objective}\n\nAÇÃO:\nAbacatudo sobe em uma caixa no centro da Feira Fruits e exibe o documento diante da multidão. Ele distorce a origem de OZ, transformando a dor dele em humilhação pública. Tomate Elinaldo tenta avançar, mas Sabrina segura seu braço ao notar uma rasura no papel.\n\nCÂMERA:\nPlano geral da multidão. Close em OZ paralisado. Close no sorriso de Abacatudo. Close na rasura que Sabrina percebe.\n\nEMOÇÃO:\nHumilhação pública, choque, vergonha, raiva contida e descoberta.\n\nNARRAÇÃO:\nA multidão ouviu a mentira antes de ouvir a verdade. Abacatudo quase venceu. Quase. Porque Sabrina viu o detalhe que ninguém viu.\n\nFALAS:\nAbacatudo: “Todos precisam saber quem esse garoto realmente é!”\nOZ: “Para... isso não pode ser verdade...”\nTomate Elinaldo: “Abacatudo, chega!”\nSabrina Pitaya: “Espera... esse documento foi mexido.”\n\nLEGENDA CURTA:\nAbacatudo transforma a origem de OZ em humilhação pública.\n\nELEVENLABS:\nAbacatudo [alto, teatral, cruel]: Todos precisam saber quem esse garoto realmente é!\nOZ [quase chorando]: Para... isso não pode ser verdade...\nSabrina [tensa, descobrindo]: Espera... esse documento foi mexido.\n\nCAPCUT:\nHumilhação pública. Documento revelado. Sabrina percebe a rasura.`;return`CENA ${n} — ${s.title}\n\nOBJETIVO:\n${s.objective}\n\nAÇÃO:\nTomate Elinaldo entra na frente de OZ, bloqueando a humilhação. Sabrina Pitaya aponta a rasura no documento e a multidão se cala. Abacatudo perde o controle por um instante. OZ, ainda ferido, pergunta quem Limão Rocha realmente era.\n\nCÂMERA:\nPlano médio de Tomate protegendo OZ. Close em Sabrina. Plano geral da feira em silêncio. Close nos olhos de OZ.\n\nEMOÇÃO:\nProteção, raiva justa, esperança, dúvida pública e gancho emocional.\n\nNARRAÇÃO:\nNo abismo da humilhação, a lealdade se ergueu como escudo. Tomate não deixou OZ cair sozinho. Sabrina não deixou a mentira passar inteira.\n\nFALAS:\nTomate Elinaldo: “Chega, Abacatudo! Isso não é verdade!”\nSabrina Pitaya: “Há algo mais aqui... uma mentira!”\nOZ: “Limão Rocha... quem ele realmente era?”\nAbacatudo: “Vocês não sabem com o que estão mexendo.”\n\nLEGENDA CURTA:\nTomate protege OZ e Sabrina planta a dúvida que pode derrubar Abacatudo.\n\nELEVENLABS:\nTomate [protetor, firme]: Chega, Abacatudo!\nSabrina [determinada]: Há algo mais aqui... uma mentira!\nOZ [ferido, esperançoso]: Quem ele realmente era?\n\nCAPCUT:\nTomate protege OZ. Sabrina descobre a falha. A verdade fica para parte 2.`}
+    async function generateCurrentScene(useApi=false){if(!state.map.length)generateMap();
+    const i=state.currentSceneIndex;sceneOutput.textContent='Gerando cena '+(i+1)+'...';setStatus('Cena em produção',70,'🎬');goTab('scene');
+    let text=generateSceneLocal(i);state.scenes[i]={title:state.map[i]?.title||'Cena',text,generatedAt:new Date().toISOString()};renderScene();updateDna();addMsg('Cena '+(i+1)+' gerada.')}
+    function renderScene(){scenePill.textContent='Cena '+(state.currentSceneIndex+1);sceneOutput.textContent=state.scenes[state.currentSceneIndex]?.text||'Sem cena atual.';renderSmartNodes()}
+    function approveCurrentScene(){const i=state.currentSceneIndex;if(!state.scenes[i])return alert('Gere a cena atual primeiro.');state.approved[i]=true;setStatus('Cena aprovada',82,'✅');renderMap();updateDna();addMsg('Cena '+(i+1)+' aprovada 100%.');if(state.approved.filter(Boolean).length>=state.map.length){setStatus('Exportação',100,'🚀');updateExport()}}
+    function nextScene(){const i=state.currentSceneIndex;if(!state.approved[i])return alert('Aprove a cena atual antes de continuar.');if(i+1>=state.map.length){setStatus('Exportação',100,'🚀');updateExport();goTab('export');return}state.currentSceneIndex=i+1;renderMap();renderScene();setStatus('Cena em produção',70,'🎬');goTab('scene');addMsg('Agora gere a Cena '+(state.currentSceneIndex+1));saveState()}
+    function getCurrentSceneText(){return state.scenes[state.currentSceneIndex]?.text||sceneOutput.textContent||''}
+
+    async function copyCurrentScene(){await navigator.clipboard.writeText(getCurrentSceneText());openModal('Cena copiada','A cena atual foi copiada.',getCurrentSceneText(),'cena.txt')}
+
+    function emailCurrentScene(){location.href='mailto:?subject='+encodeURIComponent('Cena Fruits Adventures')+'&body='+encodeURIComponent(getCurrentSceneText().slice(0,6000))}
+    function extractBlock(text,name){const heads='OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|NARRAÇÃO|FALAS|LEGENDA CURTA|ELEVENLABS|CAPCUT';
+    const re=new RegExp(name+':\\s*([\\s\\S]*?)(\\n\\n('+heads+')\\s*:|$)','i');
+    const m=text.match(re);return m?m[1].trim():''}
+
+    function extractNarration(t){return extractBlock(t,'NARRAÇÃO')||extractBlock(t,'AÇÃO')||t}
+
+    function extractDialogues(t){return extractBlock(t,'FALAS')||extractBlock(t,'ELEVENLABS')||extractBlock(t,'CAPCUT')||''}
+
+    function buildNarratorText(t,mode='full'){const nar=extractNarration(t),dia=extractDialogues(t);if(mode==='narration')return nar;if(mode==='dialogues')return dia;return ['Cena atual',nar?'Narração: '+nar:'',dia?'Falas: '+dia:'',extractBlock(t,'EMOÇÃO')?'Emoção: '+extractBlock(t,'EMOÇÃO'):''].filter(Boolean).join('\n\n')}
+    function narrateScene(mode='full'){const text=buildNarratorText(getCurrentSceneText(),mode);if(!('speechSynthesis'in window))return openModal('Narrador normal','Voz não disponível. Copie o texto.',text,'narrador.txt');speechSynthesis.cancel();speakText(text);openNarratorModal(mode,text)}
+
+    function speakText(text){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';u.rate=Number(localStorage.getItem('fruits_narrator_rate')||'0.92');u.pitch=1;speechSynthesis.speak(u)}
+
+    function openNarratorModal(mode,text){openModal('Narrador normal','Leitura grátis. Modo: '+mode+'.',text,'narrador.txt');if(!document.getElementById('repeatNarratorBtn')){const r=document.createElement('button');r.id='repeatNarratorBtn';r.className='green';r.textContent='Repetir voz';r.onclick=()=>speakText(modalText);
+    const slow=document.createElement('button');slow.textContent='Voz lenta';slow.onclick=()=>{localStorage.setItem('fruits_narrator_rate','0.78');speakText(modalText)};
+    const normal=document.createElement('button');normal.textContent='Voz normal';normal.onclick=()=>{localStorage.setItem('fruits_narrator_rate','0.92');speakText(modalText)};modalActions.append(r,slow,normal)}}
+
+    function stopNarrator(){if('speechSynthesis'in window)speechSynthesis.cancel()}
+    function srtTime(sec){const ms=Math.max(0,Math.round(sec*1000)),h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000),s=Math.floor(ms%60000/1000),x=ms%1000;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')},${String(x).padStart(3,'0')}`}
+
+    function buildSrt(text){const lines=text.replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(x=>x.trim()).filter(Boolean).filter(x=>!/^(CENA|OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|FALAS|NARRAÇÃO|CAPCUT|ELEVENLABS|LEGENDA)/i.test(x)).slice(0,120);
+    let cur=0;return lines.map((l,i)=>{const dur=Math.min(7.5,Math.max(2.2,l.split(/\s+/).length*.42+.8)),st=cur,en=cur+dur;cur=en+.18;return`${i+1}\n${srtTime(st)} --> ${srtTime(en)}\n${l}`}).join('\n\n')}
+    function buildEmotionSrtSource(t){const emotion=extractBlock(t,'EMOÇÃO'),dia=extractDialogues(t),nar=extractNarration(t);return [emotion?'[Clima emocional: '+emotion+']':'',nar,dia.split('\n').map(x=>x.trim()).filter(Boolean).map(l=>/OZ:/i.test(l)?'[OZ, voz baixa, tensão e dor] '+l:/Abacatudo:/i.test(l)?'[Abacatudo, falso calmo, malícia escondida] '+l:/Sabrina/i.test(l)?'[Sabrina Pitaya, desconfiada, intuição forte] '+l:/Tomate/i.test(l)?'[Tomate Elinaldo, protetor, firme] '+l:l).join('\n')].filter(Boolean).join('\n')}
+    function generateSceneSrt(mode='clean'){const source=mode==='emotion'?buildEmotionSrtSource(getCurrentSceneText()):getCurrentSceneText();openModal(mode==='emotion'?'SRT CapCut com emoção':'SRT CapCut limpo',mode==='emotion'?'Guia com emoção e intenção.':'Legenda limpa aproximada.',buildSrt(source),`cena-${state.currentSceneIndex+1}-${mode}.srt`)}
+
+    function generateProjectSrt(){openModal('SRT projeto','Legenda aproximada para todo projeto.',buildSrt(buildCleanScript()),'fruits-projeto.srt')}
+
+    function generateElevenText(){const txt=extractBlock(getCurrentSceneText(),'ELEVENLABS')||extractDialogues(getCurrentSceneText());openModal('ElevenLabs emocional','Texto com intenção de voz.',txt,'elevenlabs.txt')}
+    function continueOptions(){openModal('Continuar smart','Ações práticas.',`1. Voltar para editar\n2. Aprovar 100%\n3. Próxima cena\n4. SRT limpo / emoção\n5. Adaptar referência\n\nRegra: referência auxilia; Fruits é o foco.`,'continuar-smart.txt')}
+
+    function commentScene(){const c=prompt('Comentário da cena:');if(!c)return;state.notes+=(state.notes?'\n\n':'')+'Cena '+(state.currentSceneIndex+1)+': '+c;smartEditorNotes.value=state.notes;saveState();addMsg('Comentário salvo.')}
+    function openReferenceAssistant(){goTab('research');addMsg('Cole uma referência textual ou carregue uma imagem/storyboard para adaptar só a cena atual.')}
+
+    function loadReferenceImage(e){const f=e.target.files&&e.target.files[0];if(!f)return;
+    const r=new FileReader();r.onload=()=>{referenceImageData=r.result;referencePreview.innerHTML='<strong>Imagem carregada:</strong> '+f.name+'<br><img class="preview-img" src="'+referenceImageData+'">';addMsg('Referência visual carregada.')};r.readAsDataURL(f)}
+    function generateReferenceBrief(){saveSetup();saveCastUniverse();state.researchRefs=researchRefs.value;
+    const approved=state.scenes.map((s,i)=>state.approved[i]?`Cena ${i+1}:\n${s.text}`:'').filter(Boolean).join('\n\n');
+    const brief=`REFERÊNCIA IA — FRUITS ADVENTURES\n\nMissão: trabalhar passo a passo. Adaptar referência apenas para a premissa, cena ou quadro atual.\n\nFruits Adventures Titan é o foco. Referências externas de filmes, séries, música, clipe, propaganda ou storyboard são auxiliares de clima, estrutura, enquadramento, ritmo, emoção e produção. Não copiar obra, fala, cena, autor, diretor ou universo protegido.\n\nDNA:\n${JSON.stringify(buildProjectDna(),null,2)}\n\nMAPA:\n${JSON.stringify(state.map,null,2)}\n\nCENAS APROVADAS:\n${approved||'Nenhuma.'}\n\nREFERÊNCIA TEXTUAL:\n${state.researchRefs||'Nenhuma.'}\n\nIMAGEM/STORYBOARD:\n${referenceImageData?'Imagem carregada para referência visual.':'Nenhuma imagem.'}\n\nSaída esperada: 1) O que aproveitar. 2) O que descartar. 3) Como adaptar à cena atual. 4) Versão melhorada ou prompt. 5) Checklist de continuidade.`;radarOutput.textContent=brief;openModal('Referência IA','Brief pronto para adaptar sem perder o DNA Fruits.',brief,'referencia-ia.txt');setStatus('Referência IA',Math.max(state.score,88),'📡');saveState()}
+
+    async function copyReferenceBrief(){await navigator.clipboard.writeText(radarOutput.textContent);addMsg('Referência copiada.')}
+
+    function applyReferenceToCurrentScene(){generateReferenceBrief();addMsg('Referência preparada. Use com API para aplicar automaticamente ou copie o brief.')}
+    function openSmartEditor(mode='current',switchTab=true){currentEditorMode=mode;renderEditorNodes();
+    let text='';if(mode==='all')text=buildCleanScript();else if(mode==='srt')text=buildSrt(buildCleanScript());else if(mode==='narration')text=state.scenes.map((s,i)=>`Cena ${i+1}:\n${extractNarration(s.text)}`).join('\n\n');else if(mode==='dialogues')text=state.scenes.map((s,i)=>`Cena ${i+1}:\n${extractDialogues(s.text)}`).join('\n\n');else if(mode==='eleven')text=state.scenes.map((s,i)=>`Cena ${i+1}:\n${extractBlock(s.text,'ELEVENLABS')||extractDialogues(s.text)}`).join('\n\n');else text=getCurrentSceneText();smartEditorText.value=text;smartEditorNotes.value=state.notes||'';if(switchTab)goTab('editor')}
+
+    function renderEditorNodes(){const nodes=[['current','Cena atual'],['all','Cenas completas'],['narration','Narração'],['dialogues','Diálogos'],['srt','SRT CapCut'],['eleven','ElevenLabs'],['reference','Referência IA']];editorNodes.innerHTML=nodes.map(n=>`<div class="smart-node ${currentEditorMode===n[0]?'active':''}" onclick="${n[0]==='reference'?`goTab('research')`:`openSmartEditor('${n[0]}')`}">
+<strong>${n[1]}</strong>
+<span>editar / revisar</span>
+</div>`).join('')}
+
+    function applyEditorText(){const txt=smartEditorText.value;if(currentEditorMode==='all'){txt.split(/\n\n------------------------------\n\n/).forEach((part,i)=>{if(state.scenes[i])state.scenes[i].text=part.replace(/^CENA\s+\d+[^\n]*\n\n/i,'')})}else if(currentEditorMode==='current'){state.scenes[state.currentSceneIndex]={...(state.scenes[state.currentSceneIndex]||{}),text:txt,editedAt:new Date().toISOString()}}state.notes=smartEditorNotes.value;renderScene();updateDna();saveState();addMsg('Editor aplicado no roteiro.')}
+
+    async function copyEditorText(){await navigator.clipboard.writeText(smartEditorText.value);addMsg('Editor copiado.')}
+
+    function buildNotesPrompt(){const p=`APLICAR NOTAS COM IA\n\nCENA/ROTEIRO:\n${smartEditorText.value}\n\nNOTAS:\n${smartEditorNotes.value}\n\nTarefa: melhorar sem quebrar o DNA Fruits. Dizer o que mudou e devolver versão final.`;openModal('Prompt com notas','Copie para Gemini/Groq/OpenRouter ou use no backend.',p,'prompt-notas.txt')}
+
+    function applyNotesLocal(){smartEditorText.value+='\n\n[NOTAS APLICADAS / REVISÃO PENDENTE]\n'+smartEditorNotes.value;addMsg('Notas anexadas ao editor para revisão.')}
+    function buildExport(){return{app:'Fruits Adventures Studio — Scene Engine Final',version:'v5 restaurado com essência v3',exportedAt:new Date().toISOString(),setup:state.setup,api:{provider:state.api.provider,model:state.api.model,endpoint:state.api.endpoint},dna:buildProjectDna(),map:state.map,scenes:state.scenes,approved:state.approved,notes:state.notes,reference:radarOutput?.textContent||''}}
+
+    function updateExport(){exportOutput.textContent=JSON.stringify(buildExport(),null,2)}
+
+    function openExportModal(){updateExport();openModal('Exportar pacote final','Projeto completo em JSON.',exportOutput.textContent,'fruits-scene-engine-final.json')}
+
+    async function copyExportJson(){updateExport();await navigator.clipboard.writeText(exportOutput.textContent);openModal('JSON copiado','Pacote completo copiado.',exportOutput.textContent,'fruits-scene-engine-final.json')}
+
+    function buildCleanScript(){return state.scenes.map((s,i)=>`CENA ${i+1} — ${s.title||state.map[i]?.title||''}\n\n${s.text||''}`).join('\n\n------------------------------\n\n')}
+
+    async function copyCleanScript(){const t=buildCleanScript();await navigator.clipboard.writeText(t);openModal('Roteiro completo','Copiado.',t,'roteiro-fruits.txt')}
+
+    function downloadJson(){updateExport();downloadText(exportOutput.textContent,'fruits-scene-engine-final.json','application/json')}
+
+    function backupProject(){openModal('Backup seguro','Baixe antes de atualizar.',JSON.stringify({backupAt:new Date().toISOString(),localStorage:localStorage.getItem(STORAGE_KEY),export:buildExport()},null,2),'backup-fruits.json')}
+
+    function saveToBrowser(){saveState();alert('Projeto salvo no navegador.')}
+
+    function copyMapJson(){navigator.clipboard.writeText(JSON.stringify(state.map,null,2));addMsg('Mapa copiado.')}
+    function openModal(title,desc,text,file='fruits.txt'){modalTitle.textContent=title;modalDesc.textContent=desc;modalOutput.textContent=text||'';modalText=text||'';modalFile=file;Array.from(modalActions.querySelectorAll('#repeatNarratorBtn,#slowNarratorBtn,#normalNarratorBtn')).forEach(b=>b.remove());modal.classList.add('open')}
+
+    function closeModal(){modal.classList.remove('open')}
+
+    async function copyModal(){await navigator.clipboard.writeText(modalText);alert('Copiado.')}
+
+    function downloadModal(){downloadText(modalText,modalFile)}
+
+    function downloadText(text,filename,type='text/plain;charset=utf-8'){const blob=new Blob([text],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
+    function clearProjectConfirm(){if(!confirm('Tem certeza? Faça backup antes de limpar.')){addMsg('Limpeza cancelada.');return}state=clone(defaultState);collapsedGroups={};collapsedCastGroups={};localStorage.removeItem(STORAGE_KEY);saveJson(COLLAPSED_GROUPS_KEY,collapsedGroups);saveJson(COLLAPSED_CAST_KEY,collapsedCastGroups);fillForm();renderProviderCards();renderMatrixBank();renderCastCards();renderMap();renderScene();updateDna();updateExport();setStatus('Setup',8,'🟡');addMsg('Projeto limpo.');goTab('setup')}
+    function detectProviderFromKey(k){if((k||'').startsWith('AIza'))return'gemini';if((k||'').startsWith('gsk_'))return'groq';if((k||'').startsWith('sk-or-'))return'openrouter';return null}
+
+    function applyDetectedProvider(){const d=detectProviderFromKey(state.api.apiKey||apiKey.value.trim());if(d)selectProvider(d)}
+
+    async function testApiOnline(){state.api.apiKey=apiKey.value.trim();state.api.model=model.value;applyDetectedProvider();openModal('Testando API','Aguarde.','Testando...','teste-api.txt');try{const r=await callProvider('Responda apenas: API Fruits online OK',false);openModal('API funcionando',`${state.api.provider} / ${state.api.model}`,r,'teste-api.txt')}catch(e){openModal('API não conectou','Se aparecer Failed to fetch, use backend seguro.',e.message,'erro-api.txt')}}
+
+    async function callProvider(promptText, forceJson) {
+      const key = state.api.apiKey || apiKey.value.trim();
+      const providerName = state.api.provider;
+      const modelName = state.api.model;
+
+      if (!key) {
+        throw new Error("Cole sua API Key primeiro.");
+      }
+
+      if (providerName === "auto") {
+        throw new Error("Modo Auto precisa de backend para rotear várias chaves com segurança.");
+      }
+
+      if (providerName === "gemini") {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(key)}`;
+        const payload = {
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: promptText }]
+            }
+          ]
+        };
+
+        if (forceJson) {
+          payload.generationConfig = { response_mime_type: "application/json" };
         }
+
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const text = await res.text();
+        let data;
+
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { raw: text };
+        }
+
+        if (!res.ok) {
+          throw new Error(data.error?.message || text);
+        }
+
+        return data.candidates?.[0]?.content?.parts?.map(p => p.text).join("\n") || JSON.stringify(data, null, 2);
+      }
+
+      const endpointUrl = providerName === "groq"
+        ? "https://api.groq.com/openai/v1/chat/completions"
+        : "https://openrouter.ai/api/v1/chat/completions";
+
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${key}`
+      };
+
+      if (providerName === "openrouter") {
+        headers["HTTP-Referer"] = location.origin || "https://naldox3d.github.io";
+        headers["X-Title"] = "Fruits Adventures Studio";
+      }
+
+      const body = {
+        model: modelName,
+        messages: [
+          {
+            role: "system",
+            content: "Você é o Fruits Copilot. Responda em português do Brasil. Preserve o DNA Fruits e não copie obras protegidas."
+          },
+          {
+            role: "user",
+            content: promptText
+          }
+        ],
+        temperature: 0.45
+      };
+
+      if (forceJson && providerName === "groq") {
+        body.response_format = { type: "json_object" };
+      }
+
+      const res = await fetch(endpointUrl, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body)
       });
-    }
-    
-    state.notes = smartEditorNotes.value; 
-    renderScene(); 
-    saveState(); 
-    showToast('Edição aplicada e salva no roteiro central.');
-  }
 
-  // ==========================================
-  // EXTRAÇÕES, SRT E NARRADOR
-  // ==========================================
-  function extractBlock(text, name) {
-    const m = text.match(new RegExp(name + ':\\s*([\\s\\S]*?)(\\n\\n(OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|NARRAÇÃO|FALAS|LEGENDA CURTA|ELEVENLABS|CAPCUT)\\s*:|$)', 'i')); 
-    return m ? m[1].trim() : '';
-  }
+      const text = await res.text();
+      let data;
 
-  function srtTime(sec) {
-    const ms = Math.max(0, Math.round(sec * 1000));
-    const h = Math.floor(ms / 3600000);
-    const m = Math.floor((ms % 3600000) / 60000);
-    const s = Math.floor((ms % 60000) / 1000);
-    const x = ms % 1000;
-    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')},${String(x).padStart(3,'0')}`;
-  }
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { raw: text };
+      }
 
-  function buildSrt(text) { 
-    let cur = 0; 
-    return text.replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(x => x.trim()).filter(Boolean).filter(x => !/^(CENA|OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|FALAS|NARRAÇÃO|CAPCUT|ELEVENLABS|LEGENDA)/i.test(x)).map((l, i) => {
-      const dur = Math.min(7.5, Math.max(2.2, l.split(/\s+/).length * 0.42 + 0.8));
-      const st = cur;
-      const en = cur + dur;
-      cur = en + 0.18;
-      return `${i+1}\n${srtTime(st)} --> ${srtTime(en)}\n${l}`;
-    }).join('\n\n');
-  }
+      if (!res.ok) {
+        throw new Error(data.error?.message || data.message || text);
+      }
 
-  function narrateScene(mode = 'full') {
-    const text = getCurrentSceneText();
-    const nar = extractBlock(text, 'NARRAÇÃO') || extractBlock(text, 'AÇÃO');
-    const dia = extractBlock(text, 'FALAS') || extractBlock(text, 'ELEVENLABS');
-    let out = mode === 'narration' ? nar : mode === 'dialogues' ? dia : (nar + '\n\n' + dia);
-    
-    if(!out.trim()) return showToast('O texto desta cena está vazio para narrar.', 'warning');
-    
-    if('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(out); 
-      u.lang = 'pt-BR'; 
-      u.rate = 0.95;
-      speechSynthesis.speak(u); 
-      showToast('O Narrador foi iniciado.');
-    } else {
-      showToast('O seu navegador não suporta a função de voz.', 'error');
-    }
-  }
-
-  function stopNarrator() { if('speechSynthesis' in window) speechSynthesis.cancel(); }
-  function generateSceneSrt(mode = 'clean') {
-    let source = getCurrentSceneText();
-
-    if (mode === 'emotion') {
-      const emotion = extractBlock(source, 'EMOÇÃO');
-      const narration = extractBlock(source, 'NARRAÇÃO') || extractBlock(source, 'AÇÃO');
-      const dialogues = extractBlock(source, 'FALAS') || extractBlock(source, 'ELEVENLABS');
-      source = [
-        emotion ? '[Clima emocional: ' + emotion + ']' : '',
-        narration,
-        dialogues.split('\n').map(line => line.trim()).filter(Boolean).map(line => {
-          if (/OZ:/i.test(line)) return '[OZ, voz baixa, tensão e dor] ' + line;
-          if (/Abacatudo:/i.test(line)) return '[Abacatudo, falso calmo, malícia escondida] ' + line;
-          if (/Sabrina/i.test(line)) return '[Sabrina Pitaya, desconfiada, intuição forte] ' + line;
-          if (/Tomate/i.test(line)) return '[Tomate Elinaldo, protetor, firme] ' + line;
-          return line;
-        }).join('\n')
-      ].filter(Boolean).join('\n');
+      return data.choices?.[0]?.message?.content || JSON.stringify(data, null, 2);
     }
 
-    openModal(
-      mode === 'emotion' ? 'SRT CapCut com emoção' : 'SRT CapCut limpo',
-      mode === 'emotion' ? 'Legenda/guia com emoção, intenção e pausas aproximadas.' : 'Legenda formatada limpa.',
-      buildSrt(source),
-      mode === 'emotion' ? 'cena-srt-emocao.srt' : 'cena-srt.srt'
-    );
-  }
-  function generateElevenText() { openModal('ElevenLabs Intenção', 'Texto com emoção para IA de voz.', extractBlock(getCurrentSceneText(),'ELEVENLABS') || extractBlock(getCurrentSceneText(),'FALAS'), 'eleven.txt'); }
-  function generateProjectSrt() { openModal('SRT Completo do Projeto', 'Todas as cenas juntas.', buildSrt(state.scenes.map(s => s.text).join('\n\n')), 'projeto-completo.srt'); }
+    function showBackendExample(){openModal('Backend exemplo','Use Vercel/Render/Netlify Functions.',`POST /api/fruits-generate\n\nUse GEMINI_API_KEY, GROQ_API_KEY e OPENROUTER_API_KEY no servidor, nunca no HTML público.`,'backend.txt')}
+    window.addEventListener('beforeunload',saveState);[projectName,projectMode,format,sceneCount,mixIntensity,audienceMode,brief,worldPlace,tone,continuityRules,researchRefs,smartEditorNotes].forEach(el=>{el.addEventListener('input',saveSetupSoft);el.addEventListener('change',saveSetupSoft)});
 
-  // ==========================================
-  // EXPORTAÇÕES E TESTE DE API
-  // ==========================================
-  function buildProjectDna() {
-    const p = findMatrix(state.matrix.primary); 
-    return {
-      projeto: state.setup.projectName, 
-      formato: state.setup.format, 
-      brief: state.setup.brief, 
-      matriz: p ? {name: p.name, structure: p.structure} : null, 
-      elenco: state.cast.selected.map(castName), 
-      regras: state.cast.continuityRules
-    };
-  }
-
-  function updateExport() { 
-    exportOutput.textContent = JSON.stringify({app: 'Fruits Scene Engine Pro', version: 'v5 Uncut', date: new Date().toISOString(), dna: buildProjectDna(), scenes: state.scenes}, null, 2); 
-  }
-  
-  function buildCleanScript() { 
-    return state.scenes.map((s, i) => `CENA ${i+1}\n\n${s.text}`).join('\n\n---\n\n'); 
-  }
-  
-  async function copyCleanScript() { 
-    await navigator.clipboard.writeText(buildCleanScript()); 
-    showToast('Roteiro completo copiado para sua área de transferência!'); 
-  }
-  
-  function downloadJson() { 
-    updateExport(); 
-    downloadText(exportOutput.textContent, 'fruits-backup.json'); 
-  }
-  
-  function saveToBrowser() { 
-    saveState(); 
-    showToast('Progresso salvo no banco local do navegador.'); 
-  }
-  
-  function clearProjectConfirm() { 
-    if(confirm('Tem certeza? Isso apagará o roteiro atual e o mapa de cenas.')) { 
-      localStorage.removeItem(STORAGE_KEY); 
-      location.reload(); 
-    } 
-  }
-
-  function openModal(title, desc, text, file = 'fruits.txt') { 
-    modalTitle.textContent = title; 
-    modalDesc.textContent = desc; 
-    modalOutput.textContent = text; 
-    modalText = text; 
-    modalFile = file; 
-    modal.classList.add('open'); 
-  }
-  
-  function closeModal() { modal.classList.remove('open'); }
-  
-  async function copyModal() { 
-    await navigator.clipboard.writeText(modalText); 
-    showToast('Texto copiado com sucesso!'); 
-  }
-
-  function downloadModal() {
-    downloadText(modalText || '', modalFile || 'fruits.txt');
-  }
-  
-  function downloadText(text, filename) { 
-    const a = document.createElement('a'); 
-    a.href = URL.createObjectURL(new Blob([text], {type: 'text/plain'})); 
-    a.download = filename; 
-    a.click(); 
-  }
-  
-  async function testApiOnline(event) {
-    const btn = event?.currentTarget; 
-    if(btn) btn.classList.add('btn-loading');
-    try { 
-      const r = await callProvider('Responda apenas: API Online', false); 
-      showToast('Conexão bem sucedida! Resposta da IA: ' + r, 'success'); 
-    } catch(e) { 
-      showToast('Falha na API: ' + e.message, 'error'); 
-    } finally { 
-      if(btn) btn.classList.remove('btn-loading'); 
-    }
-  }
-
-  // EVENT LISTENERS E INICIALIZAÇÃO
-  window.addEventListener('beforeunload', saveState);
-  [projectName, projectMode, format, sceneCount, mixIntensity, audienceMode, brief, worldPlace, tone, continuityRules, researchRefs, smartEditorNotes].forEach(el => { 
-    el.addEventListener('input', saveState); 
-  });
-
-  // Funções legadas da matriz que faltavam nas chamadas
-  function renderSmartNodes(){
-    const scenes = state.map.map((m,i)=>({t:'Cena '+(i+1),s:state.approved[i]?'100%':state.scenes[i]?'gerada':i===state.currentSceneIndex?'ativa':'espera',scene:i})); 
-    const base = [
-      {t:'Setup',s:state.setup.brief?'ok':'vazio',tab:'setup'},
-      {t:'Banco Viral',s:state.matrix.primary?'mix ok':'vazio',tab:'viral'},
-      {t:'Mapa',s:state.map.length+' cenas',tab:'map'},
-      ...scenes,
-      {t:'Exportar',s:state.approved.filter(Boolean).length>=state.map.length&&state.map.length?'pronto':'aguardando',tab:'export'}
-    ]; 
-    smartNodes.innerHTML = base.map(n => {
-      const active = (n.tab && document.getElementById('tab-'+n.tab)?.classList.contains('active')) || (n.scene === state.currentSceneIndex && document.getElementById('tab-scene')?.classList.contains('active')); 
-      const done = /ok|100%|ativo|gerada|mix/.test(n.s); 
-      return `<div class="smart-node ${active?'active':''} ${done?'done':''}" onclick="${n.scene!==undefined?`selectScene(${n.scene})`:`goTab('${n.tab}')`}"><strong>${n.t}</strong><span>${n.s}</span></div>`;
-    }).join('');
-  }
-
-  initPortal(); 
-  init();
+    function saveSetupSoft(){state.setup.projectName=projectName.value.trim();state.setup.projectMode=projectMode.value;state.setup.format=format.value;state.setup.sceneCount=Number(sceneCount.value||3);state.setup.mixIntensity=mixIntensity.value;state.setup.audienceMode=audienceMode.value;state.setup.brief=brief.value.trim();state.cast.worldPlace=worldPlace.value.trim();state.cast.tone=tone.value;state.cast.continuityRules=continuityRules.value.trim();state.researchRefs=researchRefs.value;state.notes=smartEditorNotes.value;updateMatrixNotice();updateDna()}
+    init();
+    initPortal();
   </script>
 </body>
 </html>
