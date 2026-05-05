@@ -774,7 +774,10 @@ body {
           </div>
           <div class="field" style="margin-top:14px;">
             <label>Referência Visual (imagem / storyboard)</label>
-            <input type="file" id="refImage" accept="image/*" onchange="loadRefImage(event)"/>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+              <input type="file" id="refImage" accept="image/*" multiple onchange="loadRefImage(event)"/>
+              <button type="button" class="btn btn-sm btn-pink" onclick="clearRefImages()">Limpar referências</button>
+            </div>
             <div id="refPreview" style="margin-top:8px;"></div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
@@ -896,7 +899,7 @@ const DEFAULT = {
 };
 
 let state = loadState();
-let refImageData = null;
+let refImagesData = [];
 let modalText = '', modalFile = 'fruits.txt';
 let bankCollapsed = {}, castCollapsed = {};
 
@@ -1520,35 +1523,44 @@ function nextScene() {
 // LIMPAR CENA / COMEÇAR DO ZERO
 // ═══════════════════════════════════════════════
 function clearCurrentSceneAndRestart() {
-  const i = state.currentScene || 0;
+  const i = Number(state.currentScene || 0);
   const ok = confirm(
     'Limpar a Cena ' + (i + 1) + ' e começar do zero?\n\n' +
     'Isso apaga apenas o texto da cena atual. O mapa, setup, DNA, API e histórico de custos continuam.'
   );
   if (!ok) return;
 
-  state.scenes[i] = null;
+  if (!Array.isArray(state.scenes)) state.scenes = [];
+  if (!Array.isArray(state.approved)) state.approved = [];
+
+  delete state.scenes[i];
   state.approved[i] = false;
+  state.currentScene = i;
+
+  saveState();
+
+  renderScene();
+  renderMap();
+  renderSceneNav();
+  updateDna();
 
   const sceneOutput = document.getElementById('sceneOutput');
-  if (sceneOutput) sceneOutput.textContent = 'Cena limpa. Clique em Gerar Cena para começar de novo.';
+  if (sceneOutput) sceneOutput.textContent = 'Cena limpa. Clique em Gerar para começar de novo.';
 
   const sceneApproved = document.getElementById('sceneApproved');
   if (sceneApproved) sceneApproved.textContent = '';
 
   const smartEditor = document.getElementById('smartEditor');
-  if (smartEditor) smartEditor.value = '';
+  if (smartEditor) {
+    smartEditor.value = 'Cena limpa. Primeiro clique em Gerar Cena.';
+    smartEditor.dataset.editorMode = 'empty';
+  }
 
-  renderScene();
-  renderMap();
-  renderSceneNav();
-  renderNodes();
-  updateDna();
-  saveState();
-
-  setStatus('Cena ' + (i + 1) + ' limpa', 65, true);
+  goNode('scene');
+  setStatus('Cena ' + (i + 1) + ' limpa', state.map.length ? 55 : 20, true);
   log('Cena ' + (i + 1) + ' limpa. Pronto para gerar de novo.', 'warn');
 }
+
 
 // ═══════════════════════════════════════════════
 // EDITOR
@@ -1794,25 +1806,77 @@ function addAiMsg(text, type) {
 // REFERENCE
 // ═══════════════════════════════════════════════
 function loadRefImage(e) {
-  const f = e.target.files?.[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = () => {
-    refImageData = r.result;
-    document.getElementById('refPreview').innerHTML = `<div class="notice notice-info" style="margin-top:8px;">Imagem carregada: ${f.name}<br><img src="${refImageData}" style="max-width:100%;border-radius:8px;margin-top:8px;"/></div>`;
-    log('Referência visual carregada.', 'ok');
-  };
-  r.readAsDataURL(f);
+  const files = Array.from(e.target.files || []);
+  if (!files.length) return;
+
+  Promise.all(files.map(file => {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = () => resolve({ name: file.name, data: reader.result });
+      reader.readAsDataURL(file);
+    });
+  })).then(results => {
+    refImagesData = results;
+
+    const thumbs = results.map((img, i) => `
+      <div class="notice notice-info" style="margin-top:8px;">
+        <strong>Imagem ${i + 1}:</strong> ${img.name}<br>
+        <img src="${img.data}" style="max-width:100%;border-radius:8px;margin-top:8px;max-height:220px;object-fit:cover;display:block;"/>
+      </div>
+    `).join('');
+
+    document.getElementById('refPreview').innerHTML = `
+      <div class="notice notice-info" style="margin-top:8px;">
+        ${results.length} imagem(ns) carregada(s) como storyboard / sequência visual.
+      </div>
+      <div style="display:grid;gap:10px;margin-top:8px;">${thumbs}</div>
+    `;
+
+    log(`${results.length} referência(s) visual(is) carregada(s).`, 'ok');
+    saveState();
+  });
 }
+
+function clearRefImages() {
+  refImagesData = [];
+  const input = document.getElementById('refImage');
+  if (input) input.value = '';
+  const preview = document.getElementById('refPreview');
+  if (preview) preview.innerHTML = '';
+  log('Referências visuais limpas.', 'ok');
+  saveState();
+}
+
 function buildRefBrief() {
   state.refText = v('refText');
   const dna = buildDna();
-  const brief = `REFERÊNCIA IA — FRUITS ADVENTURES\n\nFruits Adventures é o foco. Referência é auxiliar de clima, estrutura e emoção.\nNão copiar obra, fala, cena ou universo protegido.\n\nDNA:\n${JSON.stringify(dna, null, 2)}\n\nREFERÊNCIA TEXTUAL:\n${state.refText || 'Nenhuma.'}\n\nIMAGEM:\n${refImageData ? 'Imagem carregada.' : 'Nenhuma.'}\n\nSaída esperada:\n1. O que aproveitar desta referência\n2. O que descartar\n3. Como adaptar à cena atual\n4. Versão melhorada\n5. Checklist de continuidade`;
+  const brief = `REFERÊNCIA IA — FRUITS ADVENTURES
+
+Fruits Adventures é o foco. Referência é auxiliar de clima, estrutura e emoção.
+Não copiar obra, fala, cena ou universo protegido.
+
+DNA:
+${JSON.stringify(dna, null, 2)}
+
+REFERÊNCIA TEXTUAL:
+${state.refText || 'Nenhuma.'}
+
+IMAGENS:
+${refImagesData.length ? `${refImagesData.length} imagem(ns) carregada(s).` : 'Nenhuma.'}
+
+Saída esperada:
+1. Ler as imagens como sequência/storyboard quando houver mais de uma
+2. O que aproveitar desta referência
+3. O que descartar para não copiar
+4. Como adaptar à cena atual
+5. Versão melhorada
+6. Checklist de continuidade`;
   document.getElementById('refOutput').innerHTML = `<div class="modal-output">${brief}</div>`;
   saveState();
   log('Brief de referência preparado.', 'ok');
   return brief;
 }
+
 function copyRefBrief() { navigator.clipboard.writeText(buildRefBrief()); log('Brief de referência copiado.', 'ok'); }
 function applyRefToScene() { buildRefBrief(); log('Referência pronta. Use o Copilot IA para aplicar na cena atual.', 'ia'); goNode('ai'); }
 
@@ -1850,6 +1914,9 @@ TAREFA:
 4. Sugira câmera, emoção, falas e CapCut.
 5. Entregue uma versão curta pronta para aplicar.
 
+Use todas as imagens como storyboard ou sequência visual.
+Se houver várias imagens, leia como progressão de ação, clima, composição, enquadramento e ritmo de corte.
+
 CENA ATUAL:
 ${scene}
 
@@ -1857,15 +1924,17 @@ BRIEF:
 ${baseBrief}`;
 
   const content = [];
-  const img = dataUrlToClaudeImage(refImageData);
-  if (img) content.push(img);
+  refImagesData.forEach(item => {
+    const img = dataUrlToClaudeImage(item.data);
+    if (img) content.push(img);
+  });
   content.push({ type: 'text', text: prompt });
 
   document.getElementById('refOutput').textContent = 'Claude Vision analisando referência...';
   log('Claude Vision analisando referência...', 'ia');
 
   try {
-    const res = await callApi(content, buildSystemPrompt() + '\nVocê também atua como diretor visual. Use imagem apenas como referência de composição, emoção e ritmo. Não copie identidade visual protegida.');
+    const res = await callApi(content, buildSystemPrompt() + '\nVocê também atua como diretor visual. Use as imagens apenas como referência de composição, emoção e ritmo. Não copie identidade visual protegida.');
     document.getElementById('refOutput').innerHTML = `<div class="modal-output">${res}</div>`;
     openModal('Análise Claude Vision', 'Referência adaptada ao DNA Fruits.', res, 'analise-claude-vision.txt');
     log('Análise Claude Vision concluída.', 'ok');
