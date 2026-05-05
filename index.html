@@ -610,8 +610,10 @@ Auto-Save e Loading States. Foco 100% no Universo Fruits Adventures.
 
   function showPortalHint() { 
     const error = document.getElementById("portalError");
-    error.textContent = "Dica: a senha padrão deste arquivo é fruits2026."; 
-    error.classList.add("show"); 
+    if (error) {
+      error.textContent = "Dica: a senha padrão deste arquivo é fruits2026."; 
+      error.classList.add("show");
+    } 
   }
 
   function lockPortalAgain() { 
@@ -682,6 +684,7 @@ Auto-Save e Loading States. Foco 100% no Universo Fruits Adventures.
 
   function clone(x) { return JSON.parse(JSON.stringify(x)); }
   function loadJson(k, f) { try { return JSON.parse(localStorage.getItem(k)||'')||f; } catch { return f; } }
+  function saveJson(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
   
   function saveState() { 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
@@ -890,6 +893,23 @@ Auto-Save e Loading States. Foco 100% no Universo Fruits Adventures.
   function toggleCast(id){state.cast.selected=state.cast.selected.includes(id)?state.cast.selected.filter(x=>x!==id):[...state.cast.selected,id]; renderCastCards(); saveCastUniverse()}
   function castName(id){return castBank.find(c=>c.id===id)?.name||id}
   function saveCastUniverse(){state.cast.worldPlace=worldPlace.value.trim(); state.cast.tone=tone.value; state.cast.continuityRules=continuityRules.value.trim(); updateDna(); setStatus('DNA salvo',35,'🧬'); }
+
+
+  function generateReferenceBrief() {
+    state.researchRefs = researchRefs.value || "";
+    const approved = state.scenes
+      .map((s, i) => state.approved[i] ? `Cena ${i+1} APROVADA:\n${s.text}` : "")
+      .filter(Boolean)
+      .join("\n\n");
+
+    const brief = `REFERÊNCIA IA / RADAR MULTIMODAL — FRUITS ADVENTURES\n\nMISSÃO:\nTrabalhar passo a passo. Adaptar a referência apenas para a premissa, cena ou quadro atual.\n\nREGRA PRINCIPAL:\nFruits Adventures é o foco. Referências externas de filmes, séries, música, clipe, propaganda ou storyboard são auxiliares de clima, estrutura, enquadramento, ritmo, emoção e produção. Não copiar obra, fala, cena, autor, diretor, franquia ou universo protegido.\n\nDNA DO PROJETO:\n${JSON.stringify(buildProjectDna(), null, 2)}\n\nMAPA:\n${JSON.stringify(state.map, null, 2)}\n\nCENAS APROVADAS:\n${approved || "Nenhuma cena aprovada ainda."}\n\nREFERÊNCIA TEXTUAL DO USUÁRIO:\n${state.researchRefs || "Nenhuma referência textual."}\n\nIMAGEM/STORYBOARD:\n${referenceImageData ? "Imagem carregada para referência visual. Analisar enquadramento, ação, emoção e tempo específico da cena." : "Nenhuma imagem carregada."}\n\nSAÍDA ESPERADA:\n1. O que aproveitar da referência.\n2. O que descartar para não fugir do DNA Fruits.\n3. Como adaptar para a cena/quadro atual.\n4. Versão melhorada ou prompt de cena.\n5. Checklist de continuidade.`;
+
+    radarOutput.textContent = brief;
+    openModal("Referência IA", "Prompt preparado para adaptar referência sem perder o DNA Fruits.", brief, "referencia-ia-fruits.txt");
+    showToast("Referência IA preparada.");
+    saveState();
+  }
+
 
   // ==========================================
   // MAPA & GERAÇÃO DE CENA INTELIGENTE (IA)
@@ -1168,7 +1188,33 @@ Auto-Save e Loading States. Foco 100% no Universo Fruits Adventures.
   }
 
   function stopNarrator() { if('speechSynthesis' in window) speechSynthesis.cancel(); }
-  function generateSceneSrt() { openModal('SRT CapCut', 'Legenda formatada.', buildSrt(getCurrentSceneText()), `cena-srt.srt`); }
+  function generateSceneSrt(mode = 'clean') {
+    let source = getCurrentSceneText();
+
+    if (mode === 'emotion') {
+      const emotion = extractBlock(source, 'EMOÇÃO');
+      const narration = extractBlock(source, 'NARRAÇÃO') || extractBlock(source, 'AÇÃO');
+      const dialogues = extractBlock(source, 'FALAS') || extractBlock(source, 'ELEVENLABS');
+      source = [
+        emotion ? '[Clima emocional: ' + emotion + ']' : '',
+        narration,
+        dialogues.split('\n').map(line => line.trim()).filter(Boolean).map(line => {
+          if (/OZ:/i.test(line)) return '[OZ, voz baixa, tensão e dor] ' + line;
+          if (/Abacatudo:/i.test(line)) return '[Abacatudo, falso calmo, malícia escondida] ' + line;
+          if (/Sabrina/i.test(line)) return '[Sabrina Pitaya, desconfiada, intuição forte] ' + line;
+          if (/Tomate/i.test(line)) return '[Tomate Elinaldo, protetor, firme] ' + line;
+          return line;
+        }).join('\n')
+      ].filter(Boolean).join('\n');
+    }
+
+    openModal(
+      mode === 'emotion' ? 'SRT CapCut com emoção' : 'SRT CapCut limpo',
+      mode === 'emotion' ? 'Legenda/guia com emoção, intenção e pausas aproximadas.' : 'Legenda formatada limpa.',
+      buildSrt(source),
+      mode === 'emotion' ? 'cena-srt-emocao.srt' : 'cena-srt.srt'
+    );
+  }
   function generateElevenText() { openModal('ElevenLabs Intenção', 'Texto com emoção para IA de voz.', extractBlock(getCurrentSceneText(),'ELEVENLABS') || extractBlock(getCurrentSceneText(),'FALAS'), 'eleven.txt'); }
   function generateProjectSrt() { openModal('SRT Completo do Projeto', 'Todas as cenas juntas.', buildSrt(state.scenes.map(s => s.text).join('\n\n')), 'projeto-completo.srt'); }
 
@@ -1231,6 +1277,10 @@ Auto-Save e Loading States. Foco 100% no Universo Fruits Adventures.
   async function copyModal() { 
     await navigator.clipboard.writeText(modalText); 
     showToast('Texto copiado com sucesso!'); 
+  }
+
+  function downloadModal() {
+    downloadText(modalText || '', modalFile || 'fruits.txt');
   }
   
   function downloadText(text, filename) { 
