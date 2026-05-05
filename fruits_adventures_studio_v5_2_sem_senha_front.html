@@ -1808,6 +1808,178 @@ function init() {
 
 initPortal();
 init();
+
+(function setupClaudeCostTracker(){
+const COST_KEY = 'mega_studio_claude_cost_history_v1';
+
+function loadCosts(){
+  try { return JSON.parse(localStorage.getItem(COST_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveCosts(items){
+  localStorage.setItem(COST_KEY, JSON.stringify(items.slice(-500)));
+}
+
+function formatUsd(v){
+  return 'US$' + Number(v || 0).toFixed(4);
+}
+
+function startOfDay(d){
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function startOfWeek(d){
+  const x = startOfDay(d);
+  const day = x.getDay();
+  const diff = day === 0 ? 6 : day - 1;
+  x.setDate(x.getDate() - diff);
+  return x;
+}
+
+function startOfMonth(d){
+  return new Date(d.getFullYear(), d.getMonth(), 1);
+}
+
+function sumSince(items, date){
+  return items
+    .filter(item => new Date(item.created_at) >= date)
+    .reduce((acc, item) => acc + Number(item.total_cost_usd || 0), 0);
+}
+
+function renderCostPanel(){
+  let panel = document.getElementById('claudeCostPanel');
+
+  if(!panel){
+    const apiSection =
+      document.querySelector('#tab-api') ||
+      document.querySelector('[data-tab="api"]') ||
+      document.querySelector('main') ||
+      document.body;
+
+    panel = document.createElement('div');
+    panel.id = 'claudeCostPanel';
+    panel.style.margin = '16px 0';
+    panel.style.padding = '16px';
+    panel.style.border = '1px solid rgba(255,185,50,.35)';
+    panel.style.borderRadius = '14px';
+    panel.style.background = 'rgba(255,185,50,.08)';
+    panel.style.color = 'var(--text,#e8ecff)';
+    panel.style.fontFamily = 'Inter, sans-serif';
+
+    apiSection.appendChild(panel);
+  }
+
+  const items = loadCosts();
+  const now = new Date();
+
+  const today = sumSince(items, startOfDay(now));
+  const week = sumSince(items, startOfWeek(now));
+  const month = sumSince(items, startOfMonth(now));
+  const total = items.reduce((acc, item) => acc + Number(item.total_cost_usd || 0), 0);
+  const last = items[items.length - 1];
+
+  const rows = items.slice(-8).reverse().map(item => {
+    const date = new Date(item.created_at).toLocaleString('pt-BR', {
+      day:'2-digit',
+      month:'2-digit',
+      hour:'2-digit',
+      minute:'2-digit'
+    });
+
+    return `
+      <tr>
+        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${date}</td>
+        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${item.model || '-'}</td>
+        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${item.input_tokens || 0}</td>
+        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${item.output_tokens || 0}</td>
+        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${formatUsd(item.total_cost_usd)}</td>
+      </tr>
+    `;
+  }).join('');
+
+  panel.innerHTML = `
+    <div style="font-weight:900;color:var(--gold,#ffb932);font-size:16px;margin-bottom:10px">
+      💰 Consumo Claude API
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:12px;font-size:13px">
+      <div><b>Última</b><br>${last ? formatUsd(last.total_cost_usd) : 'US$0.0000'}</div>
+      <div><b>Hoje</b><br>${formatUsd(today)}</div>
+      <div><b>Semana</b><br>${formatUsd(week)}</div>
+      <div><b>Mês</b><br>${formatUsd(month)}</div>
+      <div><b>Total local</b><br>${formatUsd(total)}</div>
+    </div>
+
+    <div style="font-size:11px;opacity:.75;margin-bottom:8px">
+      Histórico salvo neste navegador. Se limpar cache ou trocar aparelho, pode sumir.
+    </div>
+
+    <div style="overflow:auto;max-height:180px;border:1px solid rgba(255,255,255,.08);border-radius:10px">
+      <table style="width:100%;border-collapse:collapse;font-size:11px">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Data</th>
+            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Modelo</th>
+            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Entrada</th>
+            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Saída</th>
+            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Custo</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows || '<tr><td colspan="5" style="padding:8px;opacity:.7">Nenhum gasto registrado ainda.</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+
+    <button onclick="window.clearClaudeCostHistory()" style="margin-top:10px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,77,126,.35);background:rgba(255,77,126,.08);color:#ff8caf;font-weight:700">
+      Limpar histórico
+    </button>
+  `;
+}
+
+function addCost(cost){
+  if(!cost || !cost.total_cost_usd) return;
+
+  const items = loadCosts();
+  items.push({
+    ...cost,
+    created_at: cost.created_at || new Date().toISOString(),
+    project: cost.project || 'fruits'
+  });
+
+  saveCosts(items);
+  renderCostPanel();
+}
+
+window.clearClaudeCostHistory = function(){
+  if(confirm('Limpar histórico local de gastos da Claude API?')){
+    localStorage.removeItem(COST_KEY);
+    renderCostPanel();
+  }
+};
+
+const originalFetch = window.fetch.bind(window);
+
+window.fetch = async function(input, init){
+  const response = await originalFetch(input, init);
+
+  try{
+    const url = typeof input === 'string' ? input : input.url;
+
+    if(url && url.includes('/api/fruits-generate')){
+      response.clone().json().then(data => {
+        if(data && data.cost) addCost(data.cost);
+      }).catch(() => {});
+    }
+  }catch(e){}
+
+  return response;
+};
+
+setTimeout(renderCostPanel, 800);
+})();
+
 </script>
 </body>
 </html>
