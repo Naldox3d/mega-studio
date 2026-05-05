@@ -539,6 +539,7 @@ body {
         <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
           <button class="btn btn-sm btn-gold" onclick="generateMap()">Gerar Mapa</button>
           <button class="btn btn-sm btn-green" onclick="generateCurrentScene()">Gerar Cena</button>
+          <button class="btn btn-sm btn-pink" onclick="clearCurrentSceneAndRestart()">🧹 Limpar Cena</button>
           <button class="btn btn-sm" onclick="approveCurrentScene()">Aprovar ✓</button>
         </div>
       </div>
@@ -711,6 +712,7 @@ body {
             </div>
             <div class="action-row">
               <button class="btn btn-gold" onclick="generateCurrentScene()">⚡ Gerar</button>
+              <button class="btn btn-pink" onclick="clearCurrentSceneAndRestart()">🧹 Limpar</button>
               <button class="btn btn-green" onclick="approveCurrentScene()">✓ Aprovar</button>
               <button class="btn" onclick="nextScene()">→ Próxima</button>
               <button class="btn btn-sm" onclick="narrateScene('full')">🔊 Narrar</button>
@@ -881,7 +883,7 @@ const DEFAULT = {
     worldPlace: 'Feira Fruits', tone: 'Novela dramática',
     continuityRules: 'Frutas/legumes antropomórficos. Roupas base fixas. Cores vibrantes. Diálogo conciso e impactante.'
   },
-  api: { provider: 'claude', model: 'claude-sonnet-4-6', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'browser', maxTokens: 3000, temperature: 0.55 },
+  api: { provider: 'claude', model: 'claude-sonnet-4-6', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'backend', maxTokens: 3000, temperature: 0.55 },
   matrix: { primary: 'broken_family', mix: ['broken_family', 'public_betrayal'] },
   cast: { selected: ['tomate','sabrina','oz','abacatudo','limao','multidao'], worldPlace: 'Feira Fruits', tone: 'Novela dramática', continuityRules: '' },
   refText: '', map: [], currentScene: 0, scenes: [], approved: [],
@@ -905,7 +907,7 @@ function copyJson(obj) { navigator.clipboard.writeText(JSON.stringify(obj, null,
 // ═══════════════════════════════════════════════
 const PROVIDERS = {
   claude: { name: 'Claude', icon: '🤖', desc: 'Anthropic — roteiro, drama, visão e contexto longo', models: ['claude-sonnet-4-6', 'claude-haiku-4-5', 'claude-opus-4-7'] },
-  gemini: { name: 'Gemini', icon: '✨', desc: 'Google — bom para roteiro longo e JSON', models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash-lite'] },
+  gemini: { name: 'Gemini', icon: '✨', desc: 'Google — bom para roteiro longo e JSON', models: ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'] },
   groq:   { name: 'Groq',   icon: '⚡', desc: 'Ultra-rápido — chat e variações', models: ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'gemma2-9b-it'] },
   openrouter: { name: 'OpenRouter', icon: '🔀', desc: 'Múltiplos modelos — fallback', models: ['google/gemini-flash-1.5:free', 'meta-llama/llama-3.1-8b-instruct:free'] }
 };
@@ -980,12 +982,12 @@ function goNode(id) {
 function renderNodes() {
   const nodes = [
     { id: 'setup', label: 'Setup', status: state.setup.brief ? 'pronto' : 'vazio' },
-    { id: 'api', label: 'API', status: state.api.apiKey ? 'configurada' : 'sem chave' },
+    { id: 'api', label: 'API', status: (state.api.callMode === 'backend' || state.api.apiKey) ? 'configurada' : 'sem chave' },
     { id: 'viral', label: 'Matrizes', status: state.matrix.primary ? 'mix ativo' : 'vazio' },
     { id: 'cast', label: 'Elenco', status: state.cast.selected.length + ' sel.' },
     { id: 'map', label: 'Mapa', status: state.map.length ? state.map.length + ' cenas' : 'vazio' },
     ...state.map.map((m, i) => ({ id: 'scene', label: 'Cena ' + (i+1), sceneIdx: i, status: state.approved[i] ? '100%' : state.scenes[i] ? 'gerada' : i === state.currentScene ? 'ativa' : 'aguardando' })),
-    { id: 'ai', label: 'Copilot IA', status: state.api.apiKey ? 'pronto' : 'sem API' },
+    { id: 'ai', label: 'Copilot IA', status: (state.api.callMode === 'backend' || state.api.apiKey) ? 'pronto' : 'sem API' },
     { id: 'ref', label: 'Referência', status: 'auxiliar' },
     { id: 'export', label: 'Exportar', status: state.approved.filter(Boolean).length >= state.map.length && state.map.length ? 'pronto' : 'aguardando' }
   ];
@@ -1418,7 +1420,7 @@ async function generateCurrentScene() {
   setStatus('Gerando cena ' + (i+1), 70, true);
   goNode('scene');
   let text = '';
-  if (state.api.apiKey) {
+  if (state.api.apiKey || (state.api.provider === 'claude' && state.api.callMode === 'backend')) {
     try {
       const s = state.map[i];
       const approved = state.scenes.map((sc, idx) => state.approved[idx] ? `Cena ${idx+1} (aprovada):\n${sc.text}` : '').filter(Boolean).join('\n\n');
@@ -1506,6 +1508,41 @@ function nextScene() {
   setStatus('Cena ' + (state.currentScene+1) + ' — produção', 70, true);
   log('Avançando para Cena ' + (state.currentScene+1) + '. Gere a cena.', 'ia');
   saveState();
+}
+
+
+// ═══════════════════════════════════════════════
+// LIMPAR CENA / COMEÇAR DO ZERO
+// ═══════════════════════════════════════════════
+function clearCurrentSceneAndRestart() {
+  const i = state.currentScene || 0;
+  const ok = confirm(
+    'Limpar a Cena ' + (i + 1) + ' e começar do zero?\n\n' +
+    'Isso apaga apenas o texto da cena atual. O mapa, setup, DNA, API e histórico de custos continuam.'
+  );
+  if (!ok) return;
+
+  state.scenes[i] = null;
+  state.approved[i] = false;
+
+  const sceneOutput = document.getElementById('sceneOutput');
+  if (sceneOutput) sceneOutput.textContent = 'Cena limpa. Clique em Gerar Cena para começar de novo.';
+
+  const sceneApproved = document.getElementById('sceneApproved');
+  if (sceneApproved) sceneApproved.textContent = '';
+
+  const smartEditor = document.getElementById('smartEditor');
+  if (smartEditor) smartEditor.value = '';
+
+  renderScene();
+  renderMap();
+  renderSceneNav();
+  renderNodes();
+  updateDna();
+  saveState();
+
+  setStatus('Cena ' + (i + 1) + ' limpa', 65, true);
+  log('Cena ' + (i + 1) + ' limpa. Pronto para gerar de novo.', 'warn');
 }
 
 // ═══════════════════════════════════════════════
@@ -1613,7 +1650,7 @@ async function sendAiMessage() {
   if (!msg) return;
   input.value = '';
   addAiMsg(msg, 'user');
-  if (!state.api.apiKey) { addAiMsg('Configure a API Key na aba API para usar o Copilot IA.', 'err'); return; }
+  if (!state.api.apiKey && !(state.api.provider === 'claude' && state.api.callMode === 'backend')) { addAiMsg('Configure a API Key na aba API ou use Backend seguro Claude para usar o Copilot IA.', 'err'); return; }
   const loading = addAiMsg('Pensando...', 'ai loading');
   try {
     const scene = state.scenes[state.currentScene];
