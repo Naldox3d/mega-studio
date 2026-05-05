@@ -848,6 +848,7 @@ body {
     <div class="modal-footer" id="modalFooter">
       <button class="btn btn-green btn-sm" onclick="copyModal()">Copiar</button>
       <button class="btn btn-gold btn-sm" onclick="downloadModal()">Baixar</button>
+      <button class="btn btn-cyan btn-sm" onclick="applyModalToSceneEditor()">Direto pro Editor ⚡</button>
     </div>
   </div>
 </div>
@@ -2007,10 +2008,40 @@ function copyModal() { navigator.clipboard.writeText(modalText); log('Copiado.',
 function downloadModal() { downloadText(modalText, modalFile); log('Baixado: ' + modalFile, 'ok'); }
 
 // ═══════════════════════════════════════════════
-// UTILS
+// UTILS E FUNÇÃO DO NOVO BOTÃO
 // ═══════════════════════════════════════════════
 function esc(s) { return String(s).replace(/'/g, '&#39;').replace(/"/g, '&quot;'); }
 function unesc(s) { return String(s).replace(/&#39;/g, "'").replace(/&quot;/g, '"'); }
+
+function applyModalToSceneEditor() {
+  const i = state.currentScene;
+  
+  // Garante que a cena existe
+  if (!state.scenes[i]) {
+    state.scenes[i] = { title: state.map[i]?.title || 'Cena ' + (i+1), text: '', generatedAt: new Date().toISOString() };
+  }
+
+  // Vai para a aba da Cena
+  goNode('scene');
+  
+  // Abre o editor
+  loadEditor('current');
+  const editor = document.getElementById('smartEditor');
+  
+  // Joga o conteúdo da Modal no editor
+  editor.value = "=== REFERÊNCIA VISUAL ANALISADA ===\n" + 
+                 modalText + 
+                 "\n\n===================================\n" +
+                 "Copilot, por favor, pegue a emoção, o visual e as ideias lidas acima e aplique na nossa Cena atual.";
+  
+  // Habilita a edição manual
+  enableManualEdit();
+  
+  // Fecha a modal
+  closeModal();
+  
+  log('Análise visual enviada pro Editor. Mande a IA revisar a cena com isso!', 'ok');
+}
 
 // ═══════════════════════════════════════════════
 // INIT
@@ -2228,4 +2259,4 @@ setTimeout(renderCostPanel, 800);
 
 </script>
 </body>
-</html> 
+</html>
