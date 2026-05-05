@@ -492,6 +492,69 @@ textarea {
   margin-top:10px}
 
 
+
+    /* =========================
+       PORTAL DE ACESSO
+       Corrige tela ficando "tudo junto"
+       ========================= */
+
+    .portal-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 92, 138, .22), transparent 32%),
+        radial-gradient(circle at 100% 0, rgba(34, 230, 199, .18), transparent 34%),
+        rgba(7, 11, 24, .96);
+      backdrop-filter: blur(16px);
+    }
+
+    .portal-lock.hidden {
+      display: none;
+    }
+
+    .portal-box {
+      width: min(540px, 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(16, 24, 50, .96);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .portal-box h2 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: -.8px;
+    }
+
+    .portal-error {
+      display: none;
+      margin-top: 12px;
+      color: #ffd1dc;
+      border: 1px solid rgba(255, 92, 138, .45);
+      background: rgba(255, 92, 138, .10);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+    }
+
+    .portal-error.show {
+      display: block;
+    }
+
+    .portal-box code {
+      color: var(--gold);
+      background: rgba(0,0,0,.24);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 2px 6px;
+    }
+
     @media(max-width:1080px) {
   .top,.layout {
   grid-template-columns:1fr}
@@ -521,6 +584,18 @@ h1 {
   font-size:39px}
 
 }
+  
+    /* Ajustes visuais de organização */
+    .card-body .actions,
+    .panel-content .actions {
+      align-items: center;
+    }
+
+    .panel-content > .actions + .output,
+    .panel-content > .actions + .notice {
+      margin-top: 14px;
+    }
+
   </style>
 </head>
 <body>
