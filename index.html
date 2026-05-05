@@ -618,7 +618,12 @@
           </div>
           <div class="panel-content">
             <div class="warn-box">Escolha uma matriz principal e marque aspectos para mix. O mix é tempero de cena; não transforma tudo em bagunça.</div>
-            <input id="matrixSearch" placeholder="Buscar: anime, terror, luta, pirata, comédia, guerra, quarta parede..." oninput="renderMatrixBank()" style="margin: 14px 0;" />
+            <div class="actions" style="margin: 14px 0;">
+              <button onclick="collapseAllGroups()">Minimizar grupos</button>
+              <button onclick="expandAllGroups()">Expandir grupos</button>
+              <button class="gold" onclick="renderMatrixBank()">Atualizar busca</button>
+            </div>
+            <input id="matrixSearch" placeholder="Buscar: anime, terror, luta, pirata, comédia, guerra, quarta parede..." oninput="renderMatrixBank()" style="margin: 0 0 14px;" />
             <div class="grid-2">
               <div>
                 <h3>📚 Grupos</h3>
@@ -780,6 +785,8 @@
 
   <script>
     const STORAGE_KEY = "fruits_scene_engine_final_v3_full";
+    const COLLAPSED_GROUPS_KEY = "fruits_scene_engine_v3_collapsed_groups";
+    let collapsedGroups = loadCollapsedGroups();
 
     const providerModels = {
       gemini: ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.0-flash-lite"],
@@ -887,6 +894,26 @@
       } catch {
         return structuredClone(defaultState);
       }
+    }
+
+    function loadCollapsedGroups() {
+      try {
+        return JSON.parse(localStorage.getItem(COLLAPSED_GROUPS_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function saveCollapsedGroups() {
+      localStorage.setItem(COLLAPSED_GROUPS_KEY, JSON.stringify(collapsedGroups));
+    }
+
+    function resetRuntimeState() {
+      state = structuredClone(defaultState);
+      collapsedGroups = {};
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(COLLAPSED_GROUPS_KEY);
+      sessionStorage.removeItem(STORAGE_KEY);
     }
 
     function deepMerge(base, extra) {
@@ -1017,13 +1044,49 @@
 
     function renderMatrixBank() {
       const term = (matrixSearch?.value || "").toLowerCase();
-      const html = matrices.map(group => {
+      const html = matrices.map((group, groupIndex) => {
         const options = group.options.filter(o => !term || `${group.group} ${o.name} ${o.desc} ${o.tags.join(" ")}`.toLowerCase().includes(term));
         if (!options.length) return "";
-        return `<div style="margin-bottom:14px;"><h3>${group.group} <span class="pill">${options.length} opções</span></h3>${options.map(o => matrixOptionHtml(o)).join("")}</div>`;
+        const isCollapsed = !!collapsedGroups[group.group] && !term;
+        return `<div class="matrix-group" style="margin-bottom:14px;">
+          <div class="choice" style="min-height:auto;" onclick="toggleMatrixGroup('${escapeAttr(group.group)}')">
+            <h3 style="margin:0; display:flex; justify-content:space-between; gap:10px; align-items:center;">
+              <span>${isCollapsed ? "▶" : "▼"} ${group.group}</span>
+              <span class="pill">${options.length} opções</span>
+            </h3>
+          </div>
+          <div style="display:${isCollapsed ? "none" : "block"}; margin-top:8px;">
+            ${options.map(o => matrixOptionHtml(o)).join("")}
+          </div>
+        </div>`;
       }).join("");
       matrixBank.innerHTML = html || `<div class="notice">Nenhuma matriz encontrada.</div>`;
       updateMatrixDetails();
+    }
+
+    function escapeAttr(text) {
+      return String(text).replace(/'/g, "&#39;").replace(/"/g, "&quot;");
+    }
+
+    function toggleMatrixGroup(groupName) {
+      const fixedName = String(groupName).replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+      collapsedGroups[fixedName] = !collapsedGroups[fixedName];
+      saveCollapsedGroups();
+      renderMatrixBank();
+    }
+
+    function collapseAllGroups() {
+      matrices.forEach(g => collapsedGroups[g.group] = true);
+      saveCollapsedGroups();
+      renderMatrixBank();
+      addMsg("Grupos do Banco Viral minimizados para organizar a tela.");
+    }
+
+    function expandAllGroups() {
+      collapsedGroups = {};
+      saveCollapsedGroups();
+      renderMatrixBank();
+      addMsg("Grupos do Banco Viral expandidos.");
     }
 
     function matrixOptionHtml(o) {
@@ -1063,7 +1126,9 @@
       state.matrix.primary = null;
       renderMatrixBank();
       updateMatrixNotice();
+      updateDna();
       saveState();
+      addMsg("Mix do Banco Viral limpo.");
     }
 
     function updateMatrixDetails() {
@@ -1516,12 +1581,24 @@
     }
 
     function clearProjectConfirm() {
-      if (!confirm("Tem certeza? Faça backup antes de limpar.")) return;
-      localStorage.removeItem(STORAGE_KEY);
-      state = structuredClone(defaultState);
-      fillForm(); renderMap(); renderScene(); updateDna(); updateExport();
+      const ok = confirm("Tem certeza? Faça backup antes de limpar.");
+      if (!ok) {
+        addMsg("Limpeza cancelada. Nada foi apagado.");
+        return;
+      }
+      resetRuntimeState();
+      fillForm();
+      renderProviderCards();
+      renderMatrixBank();
+      renderCastCards();
+      renderMap();
+      renderScene();
+      updateDna();
+      updateExport();
       setStatus("Setup", 8, "🟡");
-      addMsg("Projeto limpo.");
+      addMsg("Projeto limpo. A tela foi reiniciada para o setup padrão.");
+      alert("Projeto limpo. O setup voltou ao padrão.");
+      goTab("setup");
     }
 
     function detectProviderFromKey(key) {
