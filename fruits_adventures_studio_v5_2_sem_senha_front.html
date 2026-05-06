@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio v5</title>
+<title>Fruits Adventures Mega Studio — Claude Director Engine</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -494,7 +494,7 @@ body {
 
 <div id="portal">
   <div class="portal-box">
-    <div class="portal-logo">🍅 Fruits Adventures Studio</div>
+    <div class="portal-logo">🎬 Fruits Adventures Mega Studio</div>
     <h2>Acesso ao Studio</h2>
     <p>Digite a senha para entrar no Scene Engine. O navegador lembrará o acesso.</p>
     <input id="portalInput" class="portal-input" type="password" placeholder="••••••••••" autocomplete="current-password"/>
@@ -507,7 +507,7 @@ body {
 <div id="app">
 
   <div class="topbar">
-    <div class="topbar-brand">🍅 Fruits Adventures <span>Scene Engine v5</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>Claude Director Engine</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -552,12 +552,16 @@ body {
         <div class="panel-scroll">
           <div class="section-title">⚙️ Setup do Projeto <span class="badge">Passo 1</span></div>
           <div class="field-grid">
-            <div class="field"><label>Nome do Projeto</label><input id="projectName" placeholder="Universo Fruits Adventures"/></div>
+            <div class="field"><label>Nome do Projeto</label><input id="projectName" placeholder="Mega Studio — Claude Director"/></div>
             <div class="field"><label>Modo</label>
               <select id="projectMode">
+                <option value="director">Claude Diretor IA — livre total</option>
+                <option value="client">Cliente / Freelance</option>
+                <option value="terror">Terror / Sobrevivência</option>
+                <option value="commercial">Comercial / Propaganda</option>
+                <option value="music">Clipe / Música</option>
+                <option value="storyboard">Storyboard / Pré-produção</option>
                 <option value="fruits">Universo Fruits oficial</option>
-                <option value="freelance">Freelance / cliente</option>
-                <option value="teste">Teste rápido</option>
               </select>
             </div>
             <div class="field"><label>Formato Final</label>
@@ -588,7 +592,7 @@ body {
           </div>
           <div class="section-title" style="margin-top:20px;">🌍 Universo e Continuidade</div>
           <div class="field-grid">
-            <div class="field"><label>Local Principal</label><input id="worldPlace" value="Feira Fruits"/></div>
+            <div class="field"><label>Local Principal</label><input id="worldPlace" placeholder="Livre — ex: cidade abandonada, estrada, estúdio, floresta..."/></div>
             <div class="field"><label>Tom Emocional</label>
               <select id="tone">
                 <option>Novela dramática</option><option>Suspense familiar</option>
@@ -597,11 +601,12 @@ body {
             </div>
             <div class="field field-full">
               <label>Regras de Continuidade</label>
-              <textarea id="continuityRules" rows="3">Frutas/legumes antropomórficos. Roupas base fixas conforme model sheets. Cores vibrantes. Ambiente de feira. Diálogo conciso e impactante.</textarea>
+              <textarea id="continuityRules" rows="3" placeholder="Regras livres do projeto. No modo Fruits, coloque aqui o DNA oficial; nos outros modos, deixe a imagem e o briefing guiarem a IA."></textarea>
             </div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
             <button class="btn btn-green" onclick="saveSetup()">💾 Salvar Setup</button>
+            <button class="btn btn-purple" onclick="resetToClaudeDirectorMode()">🎬 Ativar Claude Diretor IA Livre</button>
             <button class="btn btn-gold" onclick="goNode('viral')">Banco Viral →</button>
             <button class="btn" onclick="goNode('cast')">Elenco →</button>
             <button class="btn" onclick="generateMap()">Gerar Mapa →</button>
@@ -737,7 +742,7 @@ body {
         <div class="ai-panel">
           <div class="quick-prompts" id="quickPrompts"></div>
           <div class="ai-messages" id="aiMessages">
-            <div class="ai-msg system">Fruits Copilot pronto. Configure a API e faça perguntas sobre o projeto, peça para melhorar cenas ou gerar variações.</div>
+            <div class="ai-msg system">Claude Diretor IA pronto. Configure a API e use o Studio para criar, revisar, adaptar, narrar, gerar SRT, ElevenLabs e cenas completas. Fruits é apenas um preset opcional.</div>
           </div>
           <div class="ai-input-row">
             <input id="aiInput" class="ai-input" placeholder="Peça para melhorar a cena, criar alternativas, analisar continuidade..." />
@@ -748,8 +753,8 @@ body {
 
       <div class="tab-panel" id="tab-ref">
         <div class="panel-scroll">
-          <div class="section-title">📡 Referência IA <span class="badge">Auxiliar — Fruits é o foco</span></div>
-          <div class="notice notice-warn" style="margin-bottom:16px;">Referências externas são auxiliares de clima, estrutura e emoção. Nunca copiar obra, fala ou universo protegido.</div>
+          <div class="section-title">📡 Referência IA <span class="badge">Claude Vision / Diretor Visual</span></div>
+          <div class="notice notice-warn" style="margin-bottom:16px;">A imagem e o briefing comandam a direção. Fruits só entra se o modo Fruits estiver ativo. Nunca copiar obra, fala, marca, personagem ou universo protegido.</div>
           <div class="field">
             <label>Referência Textual (descreva a cena, clima ou estrutura)</label>
             <textarea id="refText" rows="5">Analise o clima, a estética e os detalhes destas imagens. Baseado puramente no que você está vendo, crie o conceito, o cenário e o tom de uma cena original de sobrevivência ou terror. Você tem total liberdade criativa para decidir a ameaça e o ambiente.</textarea>
@@ -765,7 +770,7 @@ body {
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
             <button class="btn btn-gold" onclick="buildRefBrief()">Preparar análise</button>
             <button class="btn btn-cyan" onclick="copyRefBrief()">Copiar brief</button>
-            <button class="btn btn-purple" onclick="analyzeRefWithClaude()">Analisar com Claude Vision</button>
+            <button class="btn btn-purple" onclick="analyzeRefWithClaude()">Analisar com Claude Diretor IA</button>
             <button class="btn btn-pink" onclick="applyRefToScene()">Aplicar na cena</button>
           </div>
           <div id="refOutput" class="notice notice-info" style="margin-top:16px;">Nenhuma referência ainda.</div>
@@ -836,7 +841,7 @@ body {
 const PORTAL_KEY = 'fa_v5_portal';
 // Segurança: a senha não fica mais neste HTML. O login real é feito pelo backend do Portal Principal.
 const PORTAL_PASS = ''; // legado desativado
-const STORAGE_KEY = 'fa_v5_state';
+const STORAGE_KEY = 'mega_studio_claude_director_state_v1';
 
 function initPortal() {
   // Segurança v5.2: este arquivo deve ficar atrás do Portal Principal seguro.
@@ -861,18 +866,47 @@ function lockPortal() {
 // ═══════════════════════════════════════════════
 const DEFAULT = {
   setup: {
-    projectName: 'Universo Fruits Adventures',
-    projectMode: 'fruits', format: '1 cena forte',
-    sceneCount: 3, mixIntensity: 'Normal', audienceMode: 'Nunca',
+    projectName: 'Mega Studio — Claude Director',
+    projectMode: 'director',
+    format: '1 cena forte',
+    sceneCount: 3,
+    mixIntensity: 'Cinema',
+    audienceMode: 'Cliffhanger com enquete',
     brief: '',
     worldPlace: '',
     tone: 'Terror / Suspense',
     continuityRules: ''
   },
-  api: { provider: 'claude', model: 'claude-sonnet-4-6', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'backend', maxTokens: 3000, temperature: 0.55 },
-  matrix: { primary: 'broken_family', mix: ['broken_family', 'public_betrayal'] },
-  cast: { selected: ['tomate','sabrina','oz','abacatudo','limao','multidao'], worldPlace: 'Feira Fruits', tone: 'Novela dramática', continuityRules: '' },
-  refText: 'Analise o clima, a estética e os detalhes destas imagens. Baseado puramente no que você está vendo, crie o conceito, o cenário e o tom de uma cena original de sobrevivência ou terror. Você tem total liberdade criativa para decidir a ameaça e o ambiente.',
+  api: {
+    provider: 'claude',
+    model: 'claude-sonnet-4-6',
+    apiKey: '',
+    endpoint: '/api/fruits-generate',
+    callMode: 'backend',
+    maxTokens: 4000,
+    temperature: 0.72
+  },
+  matrix: { primary: null, mix: [] },
+  cast: { selected: [], worldPlace: '', tone: '', continuityRules: '' },
+  director: {
+    modeName: 'Claude Diretor IA',
+    creativeFreedom: true,
+    fruitsAsPresetOnly: true,
+    visualFirst: true,
+    productionPipeline: [
+      'Análise visual',
+      'Conceito original',
+      'Mapa de cenas',
+      'Roteiro cinematográfico',
+      'Câmera',
+      'Falas',
+      'Narração',
+      'SRT CapCut',
+      'ElevenLabs',
+      'Exportação final'
+    ]
+  },
+  refText: 'Analise a imagem como diretor de cinema. Extraia clima, luz, composição, ameaça, emoção e potencial narrativo. Crie uma proposta original baseada somente no que aparece na referência, sem copiar obras, personagens ou universos protegidos.',
   map: [], currentScene: 0, scenes: [], approved: [],
   status: 'Setup', score: 8
 };
@@ -942,10 +976,12 @@ const QUICK_PROMPTS = [
   'Torne o conflito mais intenso',
   'Crie uma variação com mais suspense',
   'Sugira 3 ganchos para o final',
-  'Revise a continuidade do DNA Fruits',
+  'Revise a continuidade do projeto',
   'Gere o texto ElevenLabs emocional',
   'Analise o ritmo narrativo',
-  'Sugestão de câmera para esta cena'
+  'Sugestão de câmera para esta cena',
+  'Transforme referência visual em cena original',
+  'Gere pitch profissional para cliente'
 ];
 
 // ═══════════════════════════════════════════════
@@ -974,7 +1010,7 @@ function renderNodes() {
     { id: 'cast', label: 'Elenco', status: state.cast.selected.length + ' sel.' },
     { id: 'map', label: 'Mapa', status: state.map.length ? state.map.length + ' cenas' : 'vazio' },
     ...state.map.map((m, i) => ({ id: 'scene', label: 'Cena ' + (i+1), sceneIdx: i, status: state.approved[i] ? '100%' : state.scenes[i] ? 'gerada' : i === state.currentScene ? 'ativa' : 'aguardando' })),
-    { id: 'ai', label: 'Copilot IA', status: (state.api.callMode === 'backend' || state.api.apiKey) ? 'pronto' : 'sem API' },
+    { id: 'ai', label: 'Claude IA', status: (state.api.callMode === 'backend' || state.api.apiKey) ? 'pronto' : 'sem API' },
     { id: 'ref', label: 'Referência', status: 'auxiliar' },
     { id: 'export', label: 'Exportar', status: state.approved.filter(Boolean).length >= state.map.length && state.map.length ? 'pronto' : 'aguardando' }
   ];
@@ -1170,12 +1206,60 @@ async function callApi(prompt, systemMsg) {
   return data.choices?.[0]?.message?.content || '';
 }
 function buildSystemPrompt() {
-  return `Você é o Fruits Copilot — assistente de direção do Fruits Adventures Studio.
-Universo: Fruits Adventures Titan. Personagens são frutas/legumes antropomórficos.
-Foco: Fruits Adventures é o projeto principal. Referências externas são apenas auxiliares de clima, estrutura e emoção.
-Regra absoluta: não copiar obra, fala, cena, autor, diretor ou universo protegido.
-DNA: ${JSON.stringify(buildDna(), null, 2)}
-Responda sempre em português do Brasil. Seja criativo, emocional e viral dentro do DNA Fruits.`;
+  const dna = buildDna();
+
+  if (!isFruitsMode()) {
+    return `Você é CLAUDE DIRETOR IA, o cérebro criativo principal do Mega Studio.
+
+MISSÃO:
+Transformar briefing, imagem, referência visual ou ideia solta em material audiovisual profissional, original e pronto para produção.
+
+MODO ATUAL:
+${modeLabel()}
+
+REGRAS ABSOLUTAS:
+1. NÃO use Fruits Adventures, frutas antropomórficas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits, a menos que o usuário peça explicitamente.
+2. Crie personagens, mundo, conflito, ameaça, clima, nomes e estética do zero quando o modo for livre.
+3. A imagem e o briefing mandam mais que qualquer memória antiga.
+4. Não copie obras, personagens, falas, marcas, cenas ou universos protegidos.
+5. Trabalhe como diretor de cinema, roteirista, diretor de arte, editor de trailer e produtor de shorts.
+6. Entregue sempre conteúdo útil para produção: ação, câmera, emoção, narração, falas, CapCut, SRT e ElevenLabs quando fizer sentido.
+7. Escreva em português do Brasil, com força visual, clareza e impacto.
+
+DNA DO PROJETO:
+${JSON.stringify(dna, null, 2)}
+
+FORMATO DE RESPOSTA PREFERIDO:
+- Conceito
+- Clima visual
+- Personagens
+- Ação
+- Câmera
+- Emoção
+- Falas
+- Narração
+- CapCut
+- Gancho final`;
+  }
+
+  return `Você é CLAUDE DIRETOR IA dentro do preset Fruits Adventures.
+
+MISSÃO:
+Criar cenas cinematográficas, emocionais e virais para o universo Fruits Adventures.
+
+REGRAS DO PRESET FRUITS:
+1. Personagens são frutas/legumes antropomórficos.
+2. Preservar DNA, roupas base, relações e continuidade do universo Fruits quando existirem.
+3. Tomate Elinaldo, Sabrina Pitaya, OZ, Limão Rocha e Abacatudo só entram quando fizer sentido ou quando estiverem selecionados.
+4. Referências externas são apenas auxiliares de clima, estrutura e emoção.
+5. Não copiar obras, personagens, falas, marcas, cenas ou universos protegidos.
+6. Escreva sempre em português do Brasil.
+
+DNA DO PROJETO:
+${JSON.stringify(dna, null, 2)}
+
+ENTREGUE MATERIAL PRONTO PARA:
+roteiro, storyboard, CapCut, narração, ElevenLabs e produção visual.`;
 }
 
 // ═══════════════════════════════════════════════
@@ -1249,15 +1333,83 @@ function castName(id) { return CAST_BANK.find(c => c.id === id)?.name || id; }
 // ═══════════════════════════════════════════════
 // DNA
 // ═══════════════════════════════════════════════
+function isFruitsMode() {
+  return state.setup.projectMode === 'fruits';
+}
+
+function modeLabel() {
+  const labels = {
+    director: 'Claude Diretor IA — livre total',
+    client: 'Cliente / Freelance',
+    freelance: 'Cliente / Freelance',
+    teste: 'Claude Diretor IA — teste rápido',
+    terror: 'Terror / Sobrevivência',
+    commercial: 'Comercial / Propaganda',
+    music: 'Clipe / Música',
+    storyboard: 'Storyboard / Pré-produção',
+    fruits: 'Universo Fruits oficial'
+  };
+  return labels[state.setup.projectMode] || 'Claude Diretor IA';
+}
+
 function buildDna() {
   const pm = findMatrix(state.matrix.primary);
+  const fruits = isFruitsMode();
+
+  if (!fruits) {
+    return {
+      studio: 'Mega Studio — Claude Director Engine',
+      mode: state.setup.projectMode,
+      modeLabel: modeLabel(),
+      project: state.setup.projectName || 'Projeto livre',
+      brief: state.setup.brief || '',
+      visualFirst: true,
+      creativeFreedom: true,
+      rules: [
+        'Claude é o Diretor IA principal.',
+        'Criar mundo, personagens, conflito e estética a partir do briefing e das imagens.',
+        'Não usar Fruits, frutas, Feira Fruits, Tomate, Sabrina, OZ, Limão Rocha ou Abacatudo, a menos que o usuário peça explicitamente.',
+        'Não copiar obras, cenas, falas, personagens, marcas, autores ou universos protegidos.',
+        'Gerar material pronto para produção audiovisual: roteiro, câmera, emoção, falas, narração, SRT e ElevenLabs.'
+      ],
+      world: {
+        place: state.setup.worldPlace || '',
+        tone: state.setup.tone || '',
+        continuityRules: state.setup.continuityRules || ''
+      },
+      matrix: pm ? {
+        name: pm.name,
+        tags: pm.tags,
+        mix: state.matrix.mix.map(id => findMatrix(id)?.name || id)
+      } : null,
+      cast: state.cast.selected.map(id => castName(id))
+    };
+  }
+
   return {
-    project: state.setup.projectName, mode: state.setup.projectMode,
-    brief: state.setup.brief.slice(0, 200),
-    matrix: pm ? { name: pm.name, tags: pm.tags, mix: state.matrix.mix.map(id => findMatrix(id)?.name || id) } : null,
+    studio: 'Fruits Adventures Studio',
+    mode: 'fruits',
+    modeLabel: 'Universo Fruits oficial',
+    project: state.setup.projectName || 'Fruits Adventures',
+    brief: state.setup.brief || '',
+    matrix: pm ? {
+      name: pm.name,
+      tags: pm.tags,
+      mix: state.matrix.mix.map(id => findMatrix(id)?.name || id)
+    } : null,
     cast: state.cast.selected.map(id => castName(id)),
-    world: { place: state.cast.worldPlace || state.setup.worldPlace, tone: state.cast.tone || state.setup.tone },
-    rules: ['Fruits Adventures é o foco.', 'Referência externa é auxiliar.', 'Não copiar obras protegidas.']
+    world: {
+      place: state.cast.worldPlace || state.setup.worldPlace || 'Feira Fruits',
+      tone: state.cast.tone || state.setup.tone || 'Aventura emocional',
+      continuityRules: state.cast.continuityRules || state.setup.continuityRules || ''
+    },
+    rules: [
+      'Fruits Adventures é o foco somente neste modo.',
+      'Personagens são frutas/legumes antropomórficos.',
+      'Preservar Tomate Elinaldo, Sabrina Pitaya, OZ, Limão Rocha e Abacatudo quando selecionados.',
+      'Referência externa é auxiliar.',
+      'Não copiar obras protegidas.'
+    ]
   };
 }
 function updateDna() {
@@ -1268,21 +1420,141 @@ function updateDna() {
 // ═══════════════════════════════════════════════
 // MAP
 // ═══════════════════════════════════════════════
-function generateMap() {
+async function generateMap() {
   saveSetup();
-  const count = Number(state.setup.sceneCount || 3);
-  const base = [
-    { title: 'A Descoberta e a Falsa Ajuda', objective: 'Estabelecer o segredo de OZ e a entrada manipuladora de Abacatudo.', beat: 'Sabrina percebe o movimento estranho.' },
-    { title: 'A Revelação e a Queda de OZ', objective: 'Expor OZ publicamente e mostrar o impacto da traição.', beat: 'Sabrina percebe a rasura no documento.' },
-    { title: 'A Proteção e a Verdade Parcial', objective: 'Tomate protege OZ e Sabrina planta a dúvida.', beat: 'A verdade completa sobre Limão Rocha fica para parte 2.' },
-    { title: 'O Plano de Abacatudo', objective: 'Revelar a estratégia maior por trás da manipulação.', beat: 'Algo no passado de Limão Rocha explica tudo.' },
-    { title: 'A Aliança Improvávelb', objective: 'OZ e Tomate se unem contra Abacatudo.', beat: 'Sabrina descobre a prova definitiva.' }
+
+  const count = Math.max(1, Math.min(Number(state.setup.sceneCount || 3), 10));
+  const fruits = isFruitsMode();
+
+  setStatus('Gerando mapa com Claude', 45, true);
+  goNode('map');
+  log('Claude Diretor IA preparando mapa de cenas...', 'ia');
+
+  if (state.api.callMode === 'backend' || state.api.apiKey) {
+    try {
+      const prompt = `Crie um MAPA DE ${count} CENA(S) para este projeto.
+
+MODO:
+${modeLabel()}
+
+BRIEF DO USUÁRIO:
+${state.setup.brief || 'Sem brief. Crie uma proposta original a partir do modo escolhido.'}
+
+LOCAL / MUNDO:
+${state.setup.worldPlace || 'Livre'}
+
+TOM:
+${state.setup.tone || 'Cinematográfico'}
+
+REGRAS DE CONTINUIDADE:
+${state.setup.continuityRules || 'Criar continuidade própria.'}
+
+REGRAS:
+${fruits
+  ? '- Usar o preset Fruits Adventures e seu DNA quando fizer sentido.'
+  : '- NÃO usar Fruits, frutas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits.\n- Criar mundo, personagens e conflito originais do zero.'}
+
+FORMATO DE SAÍDA:
+Responda APENAS um JSON válido, sem markdown, neste formato:
+[
+  {
+    "title": "Título da cena",
+    "objective": "Objetivo dramático da cena",
+    "beat": "Gancho ou virada final",
+    "visual": "Clima visual/câmera",
+    "emotion": "Emoção principal"
+  }
+]`;
+
+      const res = await callApi(prompt, buildSystemPrompt());
+      const clean = String(res).replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(clean);
+
+      state.map = parsed.slice(0, count).map(item => ({
+        title: item.title || 'Cena sem título',
+        objective: item.objective || 'Objetivo narrativo',
+        beat: item.beat || 'Gancho final',
+        visual: item.visual || '',
+        emotion: item.emotion || ''
+      }));
+
+      state.currentScene = 0;
+      state.scenes = [];
+      state.approved = [];
+
+      renderMap();
+      renderSceneNav();
+      updateDna();
+      saveState();
+
+      setStatus('Mapa Claude pronto', 60, true);
+      log('Mapa gerado com Claude Diretor IA: ' + state.map.length + ' cenas.', 'ok');
+      return;
+    } catch (e) {
+      log('Claude não retornou JSON válido. Usando mapa local livre. ' + e.message, 'warn');
+    }
+  }
+
+  const freeBase = [
+    {
+      title: 'A Imagem Que Revela o Mundo',
+      objective: 'Apresentar o ambiente, o perigo e o protagonista de forma visual.',
+      beat: 'Algo no fundo da imagem muda tudo.',
+      visual: 'Plano aberto, luz dramática, câmera lenta.',
+      emotion: 'Curiosidade, tensão e descoberta.'
+    },
+    {
+      title: 'A Primeira Ameaça',
+      objective: 'Transformar o clima em conflito real.',
+      beat: 'O protagonista percebe que não está sozinho.',
+      visual: 'Cortes rápidos, close nos detalhes, som crescente.',
+      emotion: 'Medo, urgência e instinto de sobrevivência.'
+    },
+    {
+      title: 'A Decisão Sem Volta',
+      objective: 'Criar escolha forte, virada e gancho para continuação.',
+      beat: 'A fuga revela uma ameaça maior.',
+      visual: 'Contraluz, respiração pesada, câmera na mão.',
+      emotion: 'Coragem, choque e suspense.'
+    }
   ];
-  state.map = base.slice(0, Math.max(1, Math.min(count, base.length)));
-  state.currentScene = 0; state.scenes = []; state.approved = [];
-  renderMap(); renderSceneNav(); updateDna();
+
+  const fruitsBase = [
+    {
+      title: 'A Descoberta e a Falsa Ajuda',
+      objective: 'Estabelecer o segredo de OZ e a entrada manipuladora de Abacatudo.',
+      beat: 'Sabrina percebe o movimento estranho.',
+      visual: 'Close no documento, plano médio na feira.',
+      emotion: 'Desconfiança e tensão.'
+    },
+    {
+      title: 'A Revelação e a Queda de OZ',
+      objective: 'Expor OZ publicamente e mostrar o impacto da traição.',
+      beat: 'Sabrina percebe a rasura no documento.',
+      visual: 'Plano geral da multidão e close em OZ.',
+      emotion: 'Humilhação e choque.'
+    },
+    {
+      title: 'A Proteção e a Verdade Parcial',
+      objective: 'Tomate protege OZ e Sabrina planta a dúvida.',
+      beat: 'A verdade completa sobre Limão Rocha fica para parte 2.',
+      visual: 'Tomate em primeiro plano protegendo OZ.',
+      emotion: 'Proteção e esperança.'
+    }
+  ];
+
+  state.map = (fruits ? fruitsBase : freeBase).slice(0, count);
+  state.currentScene = 0;
+  state.scenes = [];
+  state.approved = [];
+
+  renderMap();
+  renderSceneNav();
+  updateDna();
+  saveState();
+
   setStatus('Mapa pronto', 55, true);
-  goNode('map'); log('Mapa gerado: ' + state.map.length + ' cenas.', 'ok');
+  log('Mapa local gerado em modo ' + modeLabel() + '.', 'ok');
 }
 function renderMap() {
   document.getElementById('mapContainer').innerHTML = state.map.length
@@ -1320,8 +1592,44 @@ function selectScene(i) {
 // SCENE GENERATION
 // ═══════════════════════════════════════════════
 function sceneLocalFallback(i) {
-  const s = state.map[i], n = i + 1;
-  const cast = state.cast.selected.map(castName).join(', ');
+  const s = state.map[i] || { title: 'Cena livre', objective: 'Criar uma cena original', beat: 'Gancho final' };
+  const n = i + 1;
+
+  if (!isFruitsMode()) {
+    return `CENA ${n} — ${s.title}
+
+OBJETIVO:
+${s.objective}
+
+AÇÃO:
+Um protagonista original atravessa um ambiente carregado de tensão. A imagem ou o briefing guia a atmosfera: luz baixa, detalhes inquietantes e uma ameaça que ainda não se revela por completo. Cada gesto parece importante, como se a cena estivesse prestes a virar.
+
+CÂMERA:
+Plano aberto para estabelecer o mundo. Travelling lento aproximando do protagonista. Close em um detalhe visual suspeito. Corte seco quando a ameaça se manifesta.
+
+EMOÇÃO:
+Tensão, curiosidade, medo crescente e decisão urgente.
+
+NARRAÇÃO:
+Nem todo perigo anuncia sua chegada. Às vezes, ele apenas espera a pessoa certa olhar para o lugar errado.
+
+FALAS:
+Protagonista: "Tem alguma coisa aqui... e não estava assim antes."
+Voz distante: "Você não devia ter voltado."
+Protagonista: "Então agora eu preciso descobrir por quê."
+
+CAPCUT:
+A imagem parecia normal. Até o fundo começar a mudar.
+
+ELEVENLABS:
+Protagonista [baixo, desconfiado, respirando pesado]: Tem alguma coisa aqui... e não estava assim antes.
+Voz distante [fria, quase sussurrada]: Você não devia ter voltado.
+Protagonista [decidido, medo virando coragem]: Então agora eu preciso descobrir por quê.
+
+GANCHO FINAL:
+No último segundo, a câmera revela uma silhueta parada atrás dele.`;
+  }
+
   if (n === 1) return `CENA 1 — ${s.title}
 
 OBJETIVO:
@@ -1416,7 +1724,14 @@ OZ [ferido, esperançoso]: Quem ele realmente era?`;
 }
 
 async function generateCurrentScene() {
-  if (!state.map.length) generateMap();
+  if (!state.map.length) {
+    await generateMap();
+  }
+  if (!state.map.length) {
+    log('Não foi possível gerar o mapa. Revise o setup ou a API.', 'err');
+    return;
+  }
+
   const i = state.currentScene;
   document.getElementById('sceneOutput').textContent = 'Gerando cena ' + (i+1) + '...';
   setStatus('Gerando cena ' + (i+1), 70, true);
@@ -1426,27 +1741,50 @@ async function generateCurrentScene() {
     try {
       const s = state.map[i];
       const approved = state.scenes.map((sc, idx) => state.approved[idx] ? `Cena ${idx+1} (aprovada):\n${sc.text}` : '').filter(Boolean).join('\n\n');
-      const prompt = `Crie a CENA ${i+1} completa para o projeto Fruits Adventures.
+      const fruits = isFruitsMode();
+      const prompt = `Crie a CENA ${i+1} completa para este projeto audiovisual.
+
+MODO:
+${modeLabel()}
+
+BRIEF DO PROJETO:
+${state.setup.brief || 'Sem brief explícito. Use o mapa e o modo atual para criar uma cena original.'}
 
 MAPA DA CENA:
 Título: ${s.title}
 Objetivo: ${s.objective}
 Beat final: ${s.beat}
+Visual sugerido: ${s.visual || ''}
+Emoção sugerida: ${s.emotion || ''}
 
 CENAS APROVADAS ANTERIORES:
 ${approved || 'Nenhuma ainda.'}
 
-FORMATO OBRIGATÓRIO (use exatamente estes blocos):
+REGRAS DE CONTINUIDADE:
+${state.setup.continuityRules || 'Manter coerência com as cenas anteriores.'}
+
+REGRAS DE MODO:
+${fruits
+  ? `- Usar o preset Fruits Adventures.
+- Personagens podem ser frutas/legumes antropomórficos.
+- Preservar DNA Fruits quando existir.`
+  : `- NÃO usar Fruits Adventures.
+- NÃO usar frutas antropomórficas.
+- NÃO usar Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits.
+- Criar personagens, mundo, ameaça, nomes e conflito originais.
+- A cena deve parecer dirigida a partir do briefing/imagem/modo atual.`}
+
+FORMATO OBRIGATÓRIO:
 CENA ${i+1} — [título]
 
 OBJETIVO:
 [objetivo narrativo]
 
 AÇÃO:
-[descrição da cena, acontecimentos]
+[descrição cinematográfica dos acontecimentos]
 
 CÂMERA:
-[planos, close, movimentos]
+[planos, movimentos, enquadramentos, ritmo de corte]
 
 EMOÇÃO:
 [emoções em jogo]
@@ -1458,12 +1796,15 @@ FALAS:
 [diálogos por personagem]
 
 CAPCUT:
-[legenda curta para CapCut]
+[legendas curtas e impactantes para edição]
 
 ELEVENLABS:
 [texto emocional por personagem para geração de voz]
 
-Regras: personagens são frutas/legumes. DNA Fruits preservado. Sem copiar obras externas. Cena com impacto emocional forte e viral.`;
+GANCHO FINAL:
+[última imagem ou frase que segura o público]
+
+Entregue somente a cena pronta. Nada de explicação.`;
       text = await callApi(prompt);
       log('Cena ' + (i+1) + ' gerada com IA (' + PROVIDERS[state.api.provider]?.name + ').', 'ok');
     } catch(e) {
@@ -1618,26 +1959,34 @@ async function reviewCurrentSceneWithAI() {
     return;
   }
 
-  editor.value = 'Revisando a cena atual com IA...';
+  editor.value = 'Revisando a cena atual com Claude Diretor IA...';
   editor.readOnly = true;
   if (badge) badge.textContent = 'revisando';
   setStatus('Revisando cena ' + (i + 1), 78, true);
 
+  const fruits = isFruitsMode();
   const prompt = `Revise a cena abaixo SEM criar outra história separada.
 
+MODO:
+${modeLabel()}
+
 OBJETIVO DA REVISÃO:
-- Manter o mesmo mapa, a mesma cena e os mesmos acontecimentos principais.
-- Melhorar clareza, emoção, falas, ritmo de TikTok/Shorts e continuidade Fruits.
-- Corrigir contradições com o DNA: OZ é filho de Limão Rocha; Abacatudo manipula; Tomate protege; Sabrina percebe a mentira.
-- Não inventar novo roteiro paralelo.
-- Devolver a CENA COMPLETA revisada no mesmo formato de blocos: CENA, OBJETIVO, AÇÃO, CÂMERA, EMOÇÃO, NARRAÇÃO, FALAS, CAPCUT, ELEVENLABS.
+- Manter o mesmo mapa, a mesma cena e os acontecimentos principais.
+- Melhorar clareza, emoção, falas, ritmo de TikTok/Shorts, câmera e impacto visual.
+- Não inventar um roteiro paralelo.
+- Devolver a CENA COMPLETA revisada no mesmo formato de blocos: CENA, OBJETIVO, AÇÃO, CÂMERA, EMOÇÃO, NARRAÇÃO, FALAS, CAPCUT, ELEVENLABS, GANCHO FINAL.
 - Não explique a revisão. Entregue somente a versão revisada pronta para substituir, se aprovada.
+
+REGRAS DE MODO:
+${fruits
+  ? '- Preservar DNA Fruits, relações e personagens selecionados.'
+  : '- NÃO inserir Fruits, frutas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits. Preservar o projeto como obra livre/original.'}
 
 CENA ATUAL PARA REVISAR:
 ${s.text}`;
 
   try {
-    const revised = await callApi(prompt, buildSystemPrompt() + '\nVocê é revisor de roteiro. Preserve a cena original e apenas melhore a execução.');
+    const revised = await callApi(prompt, buildSystemPrompt() + '\nVocê é revisor de roteiro e diretor de cena. Preserve a cena original e apenas eleve a execução.');
     editor.value = revised;
     editor.readOnly = false;
     editor.dataset.reviewApplied = 'true';
@@ -1844,12 +2193,22 @@ function clearRefImages() {
 function buildRefBrief() {
   state.refText = v('refText');
   const dna = buildDna();
-  const brief = `REFERÊNCIA IA — FRUITS ADVENTURES
+  const fruits = isFruitsMode();
 
-Fruits Adventures é o foco. Referência é auxiliar de clima, estrutura e emoção.
-Não copiar obra, fala, cena ou universo protegido.
+  const brief = `REFERÊNCIA IA — MEGA STUDIO / CLAUDE DIRECTOR
 
-DNA:
+MODO:
+${modeLabel()}
+
+REGRA PRINCIPAL:
+${fruits
+  ? 'Usar o preset Fruits Adventures somente porque o modo Fruits está ativo.'
+  : 'Não usar Fruits Adventures. Não transformar a referência em frutas, limões, tomates ou personagens antigos. Criar uma proposta original a partir da imagem e do briefing.'}
+
+NÃO COPIAR:
+Obras, personagens, falas, marcas, cenas, diretores, estilos identificáveis protegidos ou universos existentes.
+
+DNA / CONFIGURAÇÃO:
 ${JSON.stringify(dna, null, 2)}
 
 REFERÊNCIA TEXTUAL:
@@ -1858,16 +2217,21 @@ ${state.refText || 'Nenhuma.'}
 IMAGENS:
 ${refImagesData.length ? `${refImagesData.length} imagem(ns) carregada(s).` : 'Nenhuma.'}
 
-Saída esperada:
-1. Ler as imagens como sequência/storyboard quando houver mais de uma
-2. O que aproveitar desta referência
-3. O que descartar para não copiar
-4. Como adaptar à cena atual
-5. Versão melhorada
-6. Checklist de continuidade`;
+SAÍDA ESPERADA:
+1. Leitura visual objetiva da imagem
+2. Clima, luz, paleta, composição e ameaça
+3. Conceito narrativo original
+4. Personagens sugeridos, se necessário
+5. Cena aplicável ao projeto
+6. Câmera e ritmo de edição
+7. Narração
+8. Falas
+9. CapCut/SRT
+10. O que descartar para evitar cópia`;
+
   document.getElementById('refOutput').innerHTML = `<div class="modal-output">${brief}</div>`;
   saveState();
-  log('Brief de referência preparado.', 'ok');
+  log('Brief de referência preparado para Claude Diretor IA.', 'ok');
   return brief;
 }
 
@@ -1897,25 +2261,49 @@ async function analyzeRefWithClaude() {
     return;
   }
 
+  const fruits = isFruitsMode();
   const baseBrief = buildRefBrief();
   const scene = state.scenes[state.currentScene]?.text || 'Nenhuma cena gerada ainda.';
-  const prompt = `Analise esta referência para o Fruits Adventures Studio.
+
+  const prompt = `Analise esta referência visual como CLAUDE DIRETOR IA.
+
+MODO:
+${modeLabel()}
+
+REGRA DE MODO:
+${fruits
+  ? `O modo Fruits está ativo. Pode adaptar para o universo Fruits Adventures se fizer sentido.`
+  : `O modo livre está ativo. NÃO use Fruits Adventures, frutas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits. Crie algo original baseado somente na imagem e no briefing.`}
 
 TAREFA:
-1. Diga o que aproveitar visualmente/narrativamente.
-2. Diga o que descartar para não copiar obra externa.
-3. Adapte apenas para a cena atual do universo Fruits.
-4. Sugira câmera, emoção, falas e CapCut.
-5. Entregue uma versão curta pronta para aplicar.
-
-Use todas as imagens como storyboard ou sequência visual.
-Se houver várias imagens, leia como progressão de ação, clima, composição, enquadramento e ritmo de corte.
+1. Descrever o que você vê na imagem de forma cinematográfica.
+2. Extrair clima, luz, paleta, enquadramento, ameaça e emoção.
+3. Criar um conceito narrativo 100% original.
+4. Sugerir personagens originais, se necessário.
+5. Sugerir câmera, ritmo de edição, som e tensão.
+6. Criar uma versão curta pronta para virar cena.
+7. Criar falas e narração se fizer sentido.
+8. Gerar uma sugestão para CapCut/SRT.
+9. Dizer o que descartar para não copiar obra externa.
 
 CENA ATUAL:
 ${scene}
 
 BRIEF:
-${baseBrief}`;
+${baseBrief}
+
+ENTREGUE EM BLOCOS:
+LEITURA VISUAL:
+CONCEITO ORIGINAL:
+PERSONAGENS:
+AÇÃO:
+CÂMERA:
+EMOÇÃO:
+NARRAÇÃO:
+FALAS:
+CAPCUT:
+GANCHO FINAL:
+DESCARTAR PARA NÃO COPIAR:`;
 
   const content = [];
   refImagesData.forEach(item => {
@@ -1924,14 +2312,18 @@ ${baseBrief}`;
   });
   content.push({ type: 'text', text: prompt });
 
-  document.getElementById('refOutput').textContent = 'Claude Vision analisando referência...';
-  log('Claude Vision analisando referência...', 'ia');
+  document.getElementById('refOutput').textContent = 'Claude Diretor IA analisando referência...';
+  log('Claude Diretor IA analisando referência visual...', 'ia');
 
   try {
-    const res = await callApi(content, buildSystemPrompt() + '\nVocê também atua como diretor visual. Use as imagens apenas como referência de composição, emoção e ritmo. Não copie identidade visual protegida.');
+    const res = await callApi(
+      content,
+      buildSystemPrompt() + '\nVocê atua como diretor visual, roteirista e produtor de pré-produção. A imagem manda no conceito. O modo escolhido manda nas regras.'
+    );
+
     document.getElementById('refOutput').innerHTML = `<div class="modal-output">${res}</div>`;
-    openModal('Análise Claude Vision', 'Referência adaptada ao DNA Fruits.', res, 'analise-claude-vision.txt');
-    log('Análise Claude Vision concluída.', 'ok');
+    openModal('Análise Claude Diretor IA', 'Referência transformada em direção audiovisual.', res, 'analise-claude-diretor.txt');
+    log('Análise Claude Diretor IA concluída.', 'ok');
   } catch (e) {
     document.getElementById('refOutput').textContent = 'Erro Claude Vision: ' + e.message;
     log('Erro Claude Vision: ' + e.message, 'err');
@@ -1945,7 +2337,7 @@ function buildCleanScript() {
   return state.scenes.map((s, i) => `CENA ${i+1} — ${s.title || state.map[i]?.title || ''}\n\n${s.text || ''}`).join('\n\n' + '─'.repeat(50) + '\n\n');
 }
 function buildExportJson() {
-  return { app: 'Fruits Adventures Studio v5', exportedAt: new Date().toISOString(), setup: state.setup, api: { provider: state.api.provider, model: state.api.model, endpoint: state.api.endpoint, callMode: state.api.callMode, maxTokens: state.api.maxTokens, temperature: state.api.temperature }, dna: buildDna(), map: state.map, scenes: state.scenes, approved: state.approved };
+  return { app: 'Fruits Adventures Mega Studio — Claude Director Engine', exportedAt: new Date().toISOString(), setup: state.setup, api: { provider: state.api.provider, model: state.api.model, endpoint: state.api.endpoint, callMode: state.api.callMode, maxTokens: state.api.maxTokens, temperature: state.api.temperature }, dna: buildDna(), map: state.map, scenes: state.scenes, approved: state.approved };
 }
 function updateExport() {
   document.getElementById('exportPreview').textContent = JSON.stringify(buildExportJson(), null, 2);
@@ -1953,11 +2345,11 @@ function updateExport() {
 function copyCleanScript() { navigator.clipboard.writeText(buildCleanScript()); log('Roteiro copiado.', 'ok'); }
 function downloadJson() {
   updateExport();
-  downloadText(JSON.stringify(buildExportJson(), null, 2), 'fruits-adventures-v5.json', 'application/json');
+  downloadText(JSON.stringify(buildExportJson(), null, 2), 'mega-studio-claude-director.json', 'application/json');
   log('JSON baixado.', 'ok');
 }
 function backupProject() {
-  downloadText(JSON.stringify({ backupAt: new Date().toISOString(), state }, null, 2), 'backup-fruits.json', 'application/json');
+  downloadText(JSON.stringify({ backupAt: new Date().toISOString(), state }, null, 2), 'backup-mega-studio-claude-director.json', 'application/json');
   log('Backup salvo.', 'ok');
 }
 function downloadText(text, filename, type = 'text/plain;charset=utf-8') {
@@ -1994,37 +2386,66 @@ function unesc(s) { return String(s).replace(/&#39;/g, "'").replace(/&quot;/g, '
 function applyModalToSceneEditor() {
   const i = state.currentScene;
   
-  // Garante que a cena existe
   if (!state.scenes[i]) {
     state.scenes[i] = { title: state.map[i]?.title || 'Cena ' + (i+1), text: '', generatedAt: new Date().toISOString() };
   }
 
-  // Vai para a aba da Cena
   goNode('scene');
-  
-  // Abre o editor
   loadEditor('current');
   const editor = document.getElementById('smartEditor');
   
-  // Joga o conteúdo da Modal no editor
-  editor.value = "=== REFERÊNCIA VISUAL ANALISADA ===\n" + 
+  editor.value = "=== REFERÊNCIA VISUAL ANALISADA PELO CLAUDE DIRETOR IA ===\n" + 
                  modalText + 
                  "\n\n===================================\n" +
-                 "Copilot, por favor, pegue a emoção, o visual e as ideias lidas acima e aplique na nossa Cena atual.";
+                 "Claude Diretor IA, aplique a emoção, a estética, a câmera e as ideias acima na cena atual, obedecendo ao modo selecionado: " + modeLabel() + ".";
   
-  // Habilita a edição manual
   enableManualEdit();
-  
-  // Fecha a modal
   closeModal();
-  
-  log('Análise visual enviada pro Editor. Mande a IA revisar a cena com isso!', 'ok');
+  log('Análise visual enviada para o Editor como direção de cena.', 'ok');
+}
+
+
+function resetToClaudeDirectorMode() {
+  if (!confirm('Ativar Claude Diretor IA livre e limpar DNA Fruits antigo deste navegador?')) return;
+
+  state.setup.projectName = 'Mega Studio — Claude Director';
+  state.setup.projectMode = 'director';
+  state.setup.brief = '';
+  state.setup.worldPlace = '';
+  state.setup.tone = 'Terror / Suspense';
+  state.setup.continuityRules = '';
+
+  state.matrix = { primary: null, mix: [] };
+  state.cast = { selected: [], worldPlace: '', tone: '', continuityRules: '' };
+
+  state.map = [];
+  state.currentScene = 0;
+  state.scenes = [];
+  state.approved = [];
+
+  state.refText = 'Analise a imagem como diretor de cinema. Extraia clima, luz, composição, ameaça, emoção e potencial narrativo. Crie uma proposta original baseada somente no que aparece na referência, sem copiar obras, personagens ou universos protegidos.';
+
+  saveState();
+  fillForm();
+  renderMap();
+  renderScene();
+  renderSceneNav();
+  renderNodes();
+  updateDna();
+
+  setStatus('Claude Diretor IA livre', 20, true);
+  log('Modo Claude Diretor IA ativado. DNA Fruits antigo zerado.', 'ok');
+  goNode('setup');
 }
 
 // ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
 function init() {
+  if (!state.director && state.setup && state.setup.projectMode === 'fruits' && !state.setup.brief && (!state.scenes || !state.scenes.length)) {
+    state = clone(DEFAULT);
+    saveState();
+  }
   // Correção: se o projeto está em Backend seguro, não reutilizar chave antiga salva no navegador.
   if (state.api && state.api.callMode === 'backend' && String(state.api.endpoint || '').includes('/api/fruits-generate')) {
     state.api.provider = 'claude';
