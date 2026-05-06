@@ -492,7 +492,6 @@ body {
 </head>
 <body>
 
-<!-- PORTAL -->
 <div id="portal">
   <div class="portal-box">
     <div class="portal-logo">🍅 Fruits Adventures Studio</div>
@@ -505,10 +504,8 @@ body {
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
 
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-brand">🍅 Fruits Adventures <span>Scene Engine v5</span></div>
     <div class="topbar-status">
@@ -522,16 +519,12 @@ body {
     <button class="topbar-lock" onclick="lockPortal()">🔒 Travar</button>
   </div>
 
-  <!-- NODES FLOW -->
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <!-- TERMINAL STRIP -->
   <div class="terminal-strip" id="terminalStrip">Scene Engine v5 iniciado. Configure o Setup e salve para começar.</div>
 
-  <!-- MAIN -->
   <div class="main">
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-label">🎬 Cenas do Projeto</div>
@@ -553,10 +546,8 @@ body {
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="content">
 
-      <!-- SETUP TAB -->
       <div class="tab-panel active" id="tab-setup">
         <div class="panel-scroll">
           <div class="section-title">⚙️ Setup do Projeto <span class="badge">Passo 1</span></div>
@@ -592,7 +583,7 @@ body {
             </div>
             <div class="field field-full">
               <label>Brief / Premissa Principal</label>
-              <textarea id="brief" rows="5" placeholder="Descreva a premissa, personagens, conflito central e o que você quer gerar...">O Segredo de OZ na Feira Fruits. OZ encontra uma foto antiga e um documento escondido sobre sua origem ligada a Limão Rocha. Abacatudo aparece fingindo ajudar, mas usa o documento para expor OZ em público. Tomate Elinaldo entra para proteger OZ, enquanto Sabrina Pitaya percebe que existe uma mentira no documento.</textarea>
+              <textarea id="brief" rows="5" placeholder="Deixe em branco para a IA criar o cenário e a história livremente a partir das imagens..."></textarea>
             </div>
           </div>
           <div class="section-title" style="margin-top:20px;">🌍 Universo e Continuidade</div>
@@ -618,7 +609,6 @@ body {
         </div>
       </div>
 
-      <!-- API TAB -->
       <div class="tab-panel" id="tab-api">
         <div class="panel-scroll">
           <div class="section-title">🔌 Configuração de API <span class="badge">Obrigatório para IA</span></div>
@@ -656,7 +646,6 @@ body {
         </div>
       </div>
 
-      <!-- VIRAL BANK TAB -->
       <div class="tab-panel" id="tab-viral">
         <div class="panel-scroll">
           <div class="section-title">🎭 Banco de Matrizes Narrativas <span class="badge">Mix de aspectos</span></div>
@@ -671,7 +660,6 @@ body {
         </div>
       </div>
 
-      <!-- CAST TAB -->
       <div class="tab-panel" id="tab-cast">
         <div class="panel-scroll">
           <div class="section-title">🎭 Elenco + Universo <span class="badge">Smart Bank</span></div>
@@ -685,7 +673,6 @@ body {
         </div>
       </div>
 
-      <!-- MAP TAB -->
       <div class="tab-panel" id="tab-map">
         <div class="panel-scroll">
           <div class="section-title">🗺️ Mapa de Cenas <span class="badge">Estrutura narrativa</span></div>
@@ -697,10 +684,8 @@ body {
         </div>
       </div>
 
-      <!-- SCENE EDITOR TAB (SPLIT VIEW) -->
       <div class="tab-panel" id="tab-scene">
         <div class="scene-split">
-          <!-- LEFT: Scene Output -->
           <div class="scene-left">
             <div class="split-header">
               <h3>Cena Atual</h3>
@@ -722,7 +707,6 @@ body {
               <button class="btn btn-sm" onclick="copyScene()">Copiar</button>
             </div>
           </div>
-          <!-- RIGHT: AI Editor -->
           <div class="scene-right">
             <div class="split-header">
               <h3>Editor IA <span id="editorModeBadge" class="scene-pill">revisão</span></h3>
@@ -749,7 +733,6 @@ body {
         </div>
       </div>
 
-      <!-- AI CHAT TAB -->
       <div class="tab-panel" id="tab-ai">
         <div class="ai-panel">
           <div class="quick-prompts" id="quickPrompts"></div>
@@ -763,14 +746,13 @@ body {
         </div>
       </div>
 
-      <!-- REFERENCE TAB -->
       <div class="tab-panel" id="tab-ref">
         <div class="panel-scroll">
           <div class="section-title">📡 Referência IA <span class="badge">Auxiliar — Fruits é o foco</span></div>
           <div class="notice notice-warn" style="margin-bottom:16px;">Referências externas são auxiliares de clima, estrutura e emoção. Nunca copiar obra, fala ou universo protegido.</div>
           <div class="field">
             <label>Referência Textual (descreva a cena, clima ou estrutura)</label>
-            <textarea id="refText" rows="5" placeholder="Ex: referência de enquadramento, emoção, ritmo de corte, clima de cena específica..."></textarea>
+            <textarea id="refText" rows="5">Analise o clima, a estética e os detalhes destas imagens. Baseado puramente no que você está vendo, crie o conceito, o cenário e o tom de uma cena original de sobrevivência ou terror. Você tem total liberdade criativa para decidir a ameaça e o ambiente.</textarea>
           </div>
           <div class="field" style="margin-top:14px;">
             <label>Referência Visual (imagem / storyboard)</label>
@@ -790,7 +772,6 @@ body {
         </div>
       </div>
 
-      <!-- EXPORT TAB -->
       <div class="tab-panel" id="tab-export">
         <div class="panel-scroll">
           <div class="section-title">📦 Exportação Final <span class="badge">Quando todas as cenas estiverem aprovadas</span></div>
@@ -831,12 +812,7 @@ body {
         </div>
       </div>
 
-    </div><!-- /content -->
-  </div><!-- /main -->
-</div><!-- /app -->
-
-<!-- MODAL -->
-<div id="modal">
+    </div></div></div><div id="modal">
   <div class="modal-box">
     <div class="modal-header">
       <h3 id="modalTitle">Resultado</h3>
@@ -888,14 +864,16 @@ const DEFAULT = {
     projectName: 'Universo Fruits Adventures',
     projectMode: 'fruits', format: '1 cena forte',
     sceneCount: 3, mixIntensity: 'Normal', audienceMode: 'Nunca',
-    brief: 'O Segredo de OZ na Feira Fruits. OZ encontra uma foto antiga e um documento escondido sobre sua origem ligada a Limão Rocha. Abacatudo aparece fingindo ajudar, mas usa o documento para expor OZ em público. Tomate Elinaldo entra para proteger OZ, enquanto Sabrina Pitaya percebe que existe uma mentira no documento.',
-    worldPlace: 'Feira Fruits', tone: 'Novela dramática',
-    continuityRules: 'Frutas/legumes antropomórficos. Roupas base fixas. Cores vibrantes. Diálogo conciso e impactante.'
+    brief: '',
+    worldPlace: '',
+    tone: 'Terror / Suspense',
+    continuityRules: ''
   },
   api: { provider: 'claude', model: 'claude-sonnet-4-6', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'backend', maxTokens: 3000, temperature: 0.55 },
   matrix: { primary: 'broken_family', mix: ['broken_family', 'public_betrayal'] },
   cast: { selected: ['tomate','sabrina','oz','abacatudo','limao','multidao'], worldPlace: 'Feira Fruits', tone: 'Novela dramática', continuityRules: '' },
-  refText: '', map: [], currentScene: 0, scenes: [], approved: [],
+  refText: 'Analise o clima, a estética e os detalhes destas imagens. Baseado puramente no que você está vendo, crie o conceito, o cenário e o tom de uma cena original de sobrevivência ou terror. Você tem total liberdade criativa para decidir a ameaça e o ambiente.',
+  map: [], currentScene: 0, scenes: [], approved: [],
   status: 'Setup', score: 8
 };
 
