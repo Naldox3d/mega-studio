@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.4.1 Production Fix</title>
+<title>Fruits Adventures Mega Studio — V6.4.2 Studio Tabs Fix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -250,6 +250,12 @@ body {
 .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
 .modal-output { font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.7; white-space: pre-wrap; color: #d0d8ff; }
 .modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; }
+.editor-toolbar { display:flex; gap:6px; flex-wrap:wrap; padding:10px 12px; border-bottom:1px solid var(--border); background:rgba(255,255,255,0.015); }
+.editor-toolbar .btn.active { border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 0 1px rgba(0,255,213,.15) inset; }
+.editor-tools { display:flex; gap:6px; flex-wrap:wrap; padding:10px 12px; border-top:1px solid var(--border); background:rgba(0,0,0,0.16); }
+.modal-toolbar { display:flex; gap:6px; flex-wrap:wrap; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(255,255,255,.015); }
+.modal-toolbar .btn.active { border-color:var(--cyan); color:var(--cyan); }
+@media(max-width:740px){ .editor-toolbar,.editor-tools,.modal-toolbar{gap:5px; padding:8px;} .editor-toolbar .btn,.editor-tools .btn,.modal-toolbar .btn{font-size:10px; padding:8px 9px;} }
 .file-tools { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:8px 0 12px; }
 .file-tools input { max-width:360px; }
 
@@ -281,7 +287,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.1 Production Fix</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.2 Studio Tabs Fix</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -293,7 +299,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.4.1 iniciado. Correção de produção: SRT limpo, Vozes preenchidas, CapCut por cena, narrador reforçado e Drive com fallback.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.4.2 iniciado. Estúdio e banners com abas padronizadas: Cena base, Narração, Falas, ElevenLabs e SRT.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -411,29 +417,27 @@ Nunca inventar personagens fora desta lista.</textarea>
           <div class="scene-right">
             <div class="split-header">
               <h3>Roteiro Final (Editor IA) <span id="editorModeBadge" class="scene-pill">cena base</span></h3>
-              <div style="display:flex;gap:6px;margin-left:auto;">
-                <button class="btn btn-sm" onclick="loadEditor('current')">Cena base</button>
-                <button class="btn btn-sm" onclick="loadEditor('narration')">Narração</button>
-                <button class="btn btn-sm" onclick="loadEditor('dialogues')">Falas</button>
-                <button class="btn btn-sm" onclick="loadEditor('eleven')">ElevenLabs</button>
-              </div>
             </div>
-            <textarea id="smartEditor" class="smart-editor" placeholder="Clique em '⚡ Gerar Cena' para a IA ler o Storyboard e escrever o Roteiro Final aqui..."></textarea>
-            
+            <div class="editor-toolbar" id="editorToolbar">
+              <button class="btn btn-sm active" data-mode="current" onclick="loadEditor('current')">Cena base</button>
+              <button class="btn btn-sm" data-mode="narration" onclick="loadEditor('narration')">Narração</button>
+              <button class="btn btn-sm" data-mode="dialogues" onclick="loadEditor('dialogues')">Falas</button>
+              <button class="btn btn-sm" data-mode="eleven" onclick="loadEditor('eleven')">ElevenLabs</button>
+              <button class="btn btn-sm" data-mode="srt" onclick="loadEditor('srt')">SRT</button>
+            </div>
+            <textarea id="smartEditor" class="smart-editor" placeholder="Clique em '⚡ Gerar Roteiro da Cena' para a IA ler o Storyboard e escrever o Roteiro Final aqui..."></textarea>
+            <div class="editor-tools">
+              <button class="btn btn-sm" onclick="narrateEditorMode()">🔊 Ouvir aba</button>
+              <button class="btn btn-sm" onclick="stopNarrator()">⏹ Parar</button>
+              <button class="btn btn-sm" onclick="copyCurrentEditorScript()">📋 Copiar aba</button>
+              <button class="btn btn-sm" onclick="downloadCurrentSceneTxt()">⬇️ Baixar aba</button>
+              <button class="btn btn-sm btn-cyan" onclick="shareCurrentEditorText()">☁️ Drive</button>
+            </div>
             <div class="action-row">
               <button class="btn btn-gold" onclick="generateCurrentScene()">⚡ Gerar Roteiro da Cena</button>
               <button class="btn btn-cyan" onclick="reviewCurrentSceneWithAI()">🤖 Ajuste Fino IA</button>
               <button class="btn btn-green" onclick="approveCurrentScene()">✓ Aprovar e Salvar</button>
-              <button class="btn" onclick="copyCurrentEditorScript()">📋 Copiar Cena</button>
-              <button class="btn" onclick="downloadCurrentSceneTxt()">⬇️ Baixar Cena</button>
               <button class="btn" onclick="nextScene()">→ Próxima</button>
-              
-              <div style="border-left: 1px solid var(--border); margin: 0 4px; padding-left: 10px; display: flex; gap: 6px;">
-                <button class="btn btn-sm" onclick="narrateScene('full')">🔊 Narrar</button>
-                <button class="btn btn-sm" onclick="stopNarrator()">⏹</button>
-                <button class="btn btn-sm btn-cyan" onclick="genSrt('clean')">SRT</button>
-                <button class="btn btn-sm btn-purple" onclick="genElevenText()">Vozes</button>
-              </div>
             </div>
           </div>
         </div>
@@ -1107,30 +1111,30 @@ function cleanSrtLine(l) {
 }
 function isBadSrtLine(l) {
   const x = cleanSrtLine(l).toLowerCase();
-  return !x || x === '---' || /^\d+$/.test(x) || /^\[?\d{2}:\d{2}/.test(x) ||
-    x.includes('roteiro audiovisual final') || x.includes('fruits adventures: apocalipse') ||
-    x.includes('objetivo') || x.includes('ação detalhada') || x.includes('ação:') ||
-    x.includes('câmera') || x.includes('fotografia') || x.includes('emoção') ||
-    x.includes('configuração técnica') || x.includes('plano ') || x.includes('lente') ||
-    x.includes('frame rate') || x.includes('prompt') || x.includes('capcut') ||
+  if (!x || x === '---' || /^\d+$/.test(x) || /^\[?\d{2}:\d{2}/.test(x)) return true;
+  if (/^(cena\s*\d+|roteiro|int\.|ext\.|int\/ext|localizacao|localização)/i.test(x)) return true;
+  if (/^a mao no asfalto$|^a mão no asfalto$|^a viatura na neblina$/i.test(x)) return true;
+  return x.includes('roteiro audiovisual final') || x.includes('roteiro final') || x.includes('fruits adventures') ||
+    x.includes('objetivo') || x.includes('ação detalhada') || x.includes('acao detalhada') || x.includes('ação:') || x.includes('acao:') ||
+    x.includes('câmera') || x.includes('camera') || x.includes('fotografia') || x.includes('emoção') || x.includes('emocao') ||
+    x.includes('configuração técnica') || x.includes('configuracao tecnica') || x.includes('plano ') || x.includes('lente') ||
+    x.includes('frame rate') || x.includes('prompt') || x.includes('capcut studio pack') ||
     x.includes('elevenlabs') || x.includes('designer de voz') || x.includes('negativo') ||
-    x.includes('localização e tempo') || x.includes('gancho final') || x.includes('objetivo da cena');
+    x.includes('localização e tempo') || x.includes('localizacao e tempo') || x.includes('gancho final') || x.includes('objetivo da cena');
 }
 function extractPublicLines(text) {
-  const falaBlock = extractBlock(text || '', 'FALAS');
-  const narrBlock = extractBlock(text || '', 'NARRAÇÃO');
-  const capcutBlock = extractBlock(text || '', 'CAPCUT');
+  const raw = String(text || '');
+  const falaBlock = extractBlock(raw, 'FALAS') || extractBlock(raw, 'DIÁLOGOS');
+  const narrBlock = extractBlock(raw, 'NARRAÇÃO');
+  const capcutBlock = extractBlock(raw, 'CAPCUT');
   let source = [narrBlock, falaBlock, capcutBlock].filter(Boolean).join('\n');
-  if (!source) {
-    source = String(text || '')
-      .split(/\n+/)
-      .filter(line => !/^\s*(#|---|OBJETIVO|LOCALIZAÇÃO|AÇÃO|CÂMERA|FOTOGRAFIA|EMOÇÃO|CAPCUT|ELEVENLABS|GANCHO|CONFIGURAÇÃO|LENTE|PLANO|ILUMINAÇÃO)/i.test(stripProductionMarkdown(line)))
-      .join('\n');
-  }
+  if (!source) source = raw;
   return source.replace(/\r/g,'')
+    .replace(/\*\([^)]*pausa[^)]*\)\*/gi, ' ')
     .split(/(?<=[.!?…])\s+|\n+/)
     .map(cleanSrtLine)
-    .filter(l => !isBadSrtLine(l) && l.length > 3 && l.length < 180)
+    .map(l => l.replace(/^"|"$/g,''))
+    .filter(l => !isBadSrtLine(l) && l.length > 3 && l.length < 150)
     .slice(0, 80);
 }
 function buildSrt(text) {
@@ -1216,6 +1220,143 @@ async function shareTextAsFile(text, filename) {
   }
 }
 function shareModalText() { shareTextAsFile(modalText, modalFile || sceneFileName('resultado','txt')); }
+
+
+
+// ═══════════════════════════════════════════════
+// V6.4.2 — ABAS PADRONIZADAS NO ESTÚDIO E BANNERS
+// ═══════════════════════════════════════════════
+let currentEditorMode = 'current';
+let modalSceneIndex = null;
+let modalMode = 'current';
+
+function normalizeHeaderName(str) {
+  return String(str || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z ]+/g,' ').replace(/\s+/g,' ').trim();
+}
+function extractBlock(text, name) {
+  const raw = String(text || '').replace(/\r/g, '');
+  const wanted = normalizeHeaderName(name);
+  const headerNames = ['OBJETIVO','ACAO','AÇÃO','CAMERA','CÂMERA','FOTOGRAFIA','EMOCAO','EMOÇÃO','NARRACAO','NARRAÇÃO','FALAS','DIALOGOS','DIÁLOGOS','CAPCUT','ELEVENLABS','GANCHO FINAL','SRT'];
+  const lines = raw.split('\n');
+  let start = -1;
+  for (let i=0; i<lines.length; i++) {
+    const h = normalizeHeaderName(lines[i]);
+    if (h === wanted || h.endsWith(' ' + wanted) || h.includes(wanted + ' ')) { start = i + 1; break; }
+  }
+  if (start < 0) return '';
+  let out = [];
+  for (let i=start; i<lines.length; i++) {
+    const h = normalizeHeaderName(lines[i]);
+    if (headerNames.some(n => { const hn = normalizeHeaderName(n); return h === hn || h.endsWith(' ' + hn) || h.includes(hn + ' '); })) break;
+    out.push(lines[i]);
+  }
+  return out.join('\n').trim();
+}
+function buildNarrationText(s) {
+  const n = extractBlock(s.text, 'NARRAÇÃO');
+  if (n) return n;
+  const cap = extractBlock(s.text, 'CAPCUT');
+  const lines = extractPublicLines(cap || s.text || s.summary).slice(0, 12);
+  return lines.length ? lines.join('\n') : (s.summary || 'Gere o roteiro da cena para criar a narração.');
+}
+function buildDialoguesText(s, i) {
+  const f = extractBlock(s.text, 'FALAS') || extractBlock(s.text, 'DIÁLOGOS');
+  if (f && f.trim().length > 12) return f;
+  return buildSuggestedDialoguePack(s, i);
+}
+function getEditorContent(mode, s, i) {
+  if (!s) return '';
+  if (mode === 'current') return s.text || '';
+  if (mode === 'narration') return buildNarrationText(s);
+  if (mode === 'dialogues') return buildDialoguesText(s, i);
+  if (mode === 'eleven') return buildSceneVoicePack(s, i);
+  if (mode === 'srt') return buildSrt(s.text || s.summary || '');
+  return s.text || '';
+}
+function setToolbarActive(mode) {
+  const bar = document.getElementById('editorToolbar');
+  if (!bar) return;
+  bar.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+}
+function loadEditor(mode) {
+  currentEditorMode = mode || 'current';
+  const editor = document.getElementById('smartEditor');
+  const badge = document.getElementById('editorModeBadge');
+  const s = state.scenes[state.currentScene];
+  if (!editor || !s) return;
+  editor.readOnly = false;
+  editor.value = getEditorContent(currentEditorMode, s, state.currentScene);
+  if (badge) badge.textContent = ({current:'roteiro final', narration:'narração', dialogues:'falas', eleven:'elevenlabs', srt:'srt capcut'}[currentEditorMode] || 'cena');
+  setToolbarActive(currentEditorMode);
+}
+function narrateEditorMode() {
+  const editor = document.getElementById('smartEditor');
+  const txt = editor ? editor.value : getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene);
+  narrateText(txt, ({current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT'}[currentEditorMode] || 'aba'));
+}
+function shareCurrentEditorText() {
+  const editor = document.getElementById('smartEditor');
+  const text = editor ? editor.value : '';
+  const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt'}[currentEditorMode] || 'aba');
+  shareTextAsFile(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+}
+function openSceneTabsModal(mode) {
+  modalSceneIndex = state.currentScene;
+  modalMode = mode || 'current';
+  const s = state.scenes[modalSceneIndex];
+  const titleMap = {current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT CapCut Limpo'};
+  const ext = modalMode === 'srt' ? 'srt' : 'txt';
+  const kindMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut'};
+  openModal(titleMap[modalMode] + ' — ' + sceneLabel(modalSceneIndex), 'Abas padronizadas da cena.', getEditorContent(modalMode, s, modalSceneIndex), sceneFileName(kindMap[modalMode], ext), true);
+}
+function loadModalSceneTab(mode) {
+  if (modalSceneIndex == null) modalSceneIndex = state.currentScene;
+  modalMode = mode || 'current';
+  const s = state.scenes[modalSceneIndex];
+  const kindMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut'};
+  const titleMap = {current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT CapCut Limpo'};
+  modalText = getEditorContent(modalMode, s, modalSceneIndex);
+  modalFile = sceneFileName(kindMap[modalMode], modalMode === 'srt' ? 'srt' : 'txt');
+  document.getElementById('modalTitle').textContent = titleMap[modalMode] + ' — ' + sceneLabel(modalSceneIndex);
+  document.getElementById('modalOutput').textContent = modalText || '[Sem conteúdo gerado]';
+  const tabs = document.getElementById('modalSceneTabs');
+  if (tabs) tabs.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === modalMode));
+}
+function openModal(t, d, txt, f, withTabs=false) {
+  document.getElementById('modalTitle').textContent = t;
+  document.getElementById('modalOutput').textContent = txt || '[Sem conteúdo gerado]';
+  modalText = txt || '';
+  modalFile = f || sceneFileName('resultado','txt');
+  const tabs = document.getElementById('modalSceneTabs');
+  if (tabs) {
+    tabs.style.display = withTabs ? 'flex' : 'none';
+    if (withTabs) tabs.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === modalMode));
+  }
+  document.getElementById('modal').classList.add('open');
+}
+function genSrt(mode) {
+  const s = state.scenes[state.currentScene];
+  if (!s) return;
+  if (mode === 'production') {
+    openModal('SRT Produção Comentado — ' + sceneLabel(state.currentScene), 'Legenda comentada da cena.', buildProductionSrt(s.text || ''), sceneFileName('srt_producao','srt'));
+  } else {
+    openSceneTabsModal('srt');
+  }
+}
+function genElevenText() { openSceneTabsModal('eleven'); }
+function downloadCurrentSceneTxt() {
+  const s = getCurrentScene();
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, s, state.currentScene) || '';
+  const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt'}[currentEditorMode] || 'roteiro');
+  downloadText(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+  log('Aba baixada em arquivo.', 'ok');
+}
+function copyCurrentEditorScript() {
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+  copyText(text, 'Aba copiada.');
+}
 
 // AI CHAT
 function renderQuickPrompts() { document.getElementById('quickPrompts').innerHTML = QUICK_PROMPTS.map(p => `<span class="qp" onclick="document.getElementById('aiInput').value='${p}';sendAiMessage()">${p}</span>`).join(''); }
@@ -1655,6 +1796,22 @@ window.fetch = async function(input, init){
 };
 setTimeout(renderCostPanel, 800);
 })();
+
+// FINAL OVERRIDES V6.4.2 — manter ações da aba ativa até o fim do arquivo
+function copyCurrentEditorScript() {
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+  copyText(text, 'Aba copiada.');
+}
+function downloadCurrentSceneTxt() {
+  const s = getCurrentScene();
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, s, state.currentScene) || '';
+  const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt'}[currentEditorMode] || 'roteiro');
+  downloadText(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+  log('Aba baixada em arquivo.', 'ok');
+}
+
 </script>
 </body>
 </html>
