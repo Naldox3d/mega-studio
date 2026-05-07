@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.4 Mobile Cloud Pack</title>
+<title>Fruits Adventures Mega Studio — V6.4.1 Production Fix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -281,7 +281,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4 Mobile Cloud Pack</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.1 Production Fix</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -293,7 +293,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.4 iniciado. Narrador limpo, SRT CapCut, Vozes ElevenLabs, nomes de arquivo, pacote mobile e compartilhamento na nuvem ativos.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.4.1 iniciado. Correção de produção: SRT limpo, Vozes preenchidas, CapCut por cena, narrador reforçado e Drive com fallback.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -465,13 +465,14 @@ Nunca inventar personagens fora desta lista.</textarea>
             <div class="export-card">
               <h4>💾 Backup / JSON</h4>
               <p>Salva o projeto inteiro. Use antes de atualizar o site.</p>
-              <button class="btn btn-gold btn-sm" onclick="downloadJson()">Baixar JSON</button>
+              <button class="btn btn-gold btn-sm" onclick="downloadJson()">⬇️ Baixar JSON AGORA</button>
               <label class="btn btn-sm btn-cyan" style="cursor:pointer;margin-top:6px;">Importar JSON<input type="file" accept="application/json,.json" style="display:none" onchange="importProjectJson(event)"></label>
             </div>
             <div class="export-card">
               <h4>🎬 CapCut Studio</h4>
               <p>Pacote vertical: roteiro curto, narração, legenda, corte e postagem.</p>
-              <button class="btn btn-gold btn-sm" onclick="exportCapCutStudioPack()">Gerar Pacote</button>
+              <button class="btn btn-gold btn-sm" onclick="exportCapCutStudioPack()">Gerar Cena Atual</button>
+              <button class="btn btn-sm" onclick="exportCapCutProjectPack()">Projeto Completo</button>
             </div>
             <div class="export-card">
               <h4>🎥 Flow / Veo 8s</h4>
@@ -1028,25 +1029,63 @@ function clearCurrentSceneAndRestart() {
 // ═══════════════════════════════════════════════
 // UTILS, NARRATOR, SRT, EXPORT (Preservados intactos)
 // ═══════════════════════════════════════════════
-function cleanForNarration(text) {
+function stripProductionMarkdown(text) {
   return String(text || '')
     .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/^\s*#{1,6}\s*/gm, '')
+    .replace(/\*\*/g, '')
     .replace(/[*_`>#|~]/g, '')
-    .replace(/[🎬🎯📷💔🎙️✅⚠️🔧📝📦🎥🎞️]/g, '')
-    .replace(/-{3,}/g, '. ')
+    .replace(/[🎬🎯📷💔🎙️✅⚠️🔧📝📦🎥🎞️🚫]/g, '')
+    .replace(/^[\-–—]{3,}\s*$/gm, '')
+    .replace(/\r/g, '')
+    .trim();
+}
+
+function cleanForNarration(text) {
+  return stripProductionMarkdown(text)
+    .replace(/^\s*\d+\s*$/gm, '')
+    .replace(/\d{2}:\d{2}:\d{2},\d{3}\s*-->\s*\d{2}:\d{2}:\d{2},\d{3}/g, ' ')
     .replace(/\[(\d{2}:\d{2}\s*-\s*\d{2}:\d{2})\]/g, 'Tempo $1.')
+    .replace(/\bOBJETIVO\s*:/gi, 'Objetivo da cena:')
+    .replace(/\bAÇÃO\s*:/gi, 'Ação:')
+    .replace(/\bCÂMERA\s*:/gi, 'Câmera:')
+    .replace(/\bNARRAÇÃO\s*:/gi, 'Narração:')
+    .replace(/\bFALAS\s*:/gi, 'Falas:')
     .replace(/\n{2,}/g, '. ')
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+let speechQueue = [];
+function splitSpeech(text, maxLen = 850) {
+  const cleaned = cleanForNarration(text);
+  const parts = [];
+  let buf = '';
+  cleaned.split(/(?<=[.!?…])\s+/).forEach(sentence => {
+    if ((buf + ' ' + sentence).trim().length > maxLen) { if (buf.trim()) parts.push(buf.trim()); buf = sentence; }
+    else buf = (buf + ' ' + sentence).trim();
+  });
+  if (buf.trim()) parts.push(buf.trim());
+  return parts.length ? parts : [cleaned];
+}
+
 function narrateText(text, label='texto') {
-  if (!text) return alert('Nada para narrar.');
+  const cleaned = cleanForNarration(text);
+  if (!cleaned) return alert('Nada para narrar.');
   if (!('speechSynthesis' in window)) return alert('Narrador não suportado neste navegador.');
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(cleanForNarration(text));
-  u.lang = 'pt-BR'; u.rate = 0.95; u.pitch = 1;
-  speechSynthesis.speak(u); log('Narrando ' + label + '...', 'ia');
+  try { speechSynthesis.cancel(); speechSynthesis.resume(); } catch(e) {}
+  speechQueue = splitSpeech(cleaned);
+  const speakNext = () => {
+    const chunk = speechQueue.shift();
+    if (!chunk) { log('Narração concluída.', 'ok'); return; }
+    const u = new SpeechSynthesisUtterance(chunk);
+    u.lang = 'pt-BR'; u.rate = 0.92; u.pitch = 1;
+    u.onend = speakNext;
+    u.onerror = () => log('Narrador bloqueado pelo navegador. Toque novamente em Ouvir ou use Copiar.', 'warn');
+    speechSynthesis.speak(u);
+  };
+  speakNext();
+  log('Narrando ' + label + '...', 'ia');
 }
 function narrateScene(mode) {
   const s = state.scenes[state.currentScene];
@@ -1054,45 +1093,89 @@ function narrateScene(mode) {
   const txt = mode === 'narration' ? (extractBlock(s.text,'NARRAÇÃO') || s.text) : s.text;
   narrateText(txt, sceneLabel(state.currentScene));
 }
-function stopNarrator() { if ('speechSynthesis' in window) speechSynthesis.cancel(); log('Narrador parado.', 'warn'); }
+function stopNarrator() { if ('speechSynthesis' in window) { speechQueue=[]; speechSynthesis.cancel(); } log('Narrador parado.', 'warn'); }
 
 function srtTime(s) { const ms = Math.round(s*1000), h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), sec = Math.floor(ms%60000/1000), x = ms%1000; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')},${String(x).padStart(3,'0')}`; }
 function cleanSrtLine(l) {
-  return String(l || '')
-    .replace(/^#{1,6}\s*/,'')
-    .replace(/[*_`>#|~]/g,'')
-    .replace(/[🎬🎯📷💔🎙️✅⚠️🔧📝📦🎥🎞️]/g,'')
+  return stripProductionMarkdown(l)
     .replace(/^[-–—]+\s*/, '')
+    .replace(/^\d+\.\s*/, '')
+    .replace(/^\s*\[[^\]]+\]\s*$/, '')
+    .replace(/^\s*\([^)]*\)\s*$/, '')
+    .replace(/^(beat|bloco)\s*\d+.*$/i, '')
     .trim();
 }
 function isBadSrtLine(l) {
   const x = cleanSrtLine(l).toLowerCase();
-  return !x || x === '---' || x.includes('roteiro audiovisual final') || x.includes('fruits adventures: apocalipse') || x.includes('objetivo:') || x.includes('ação:') || x.includes('câmera:') || x.includes('emoção:') || x.includes('configuração técnica') || x.includes('plano ') || x.includes('lente:') || x.includes('frame rate');
+  return !x || x === '---' || /^\d+$/.test(x) || /^\[?\d{2}:\d{2}/.test(x) ||
+    x.includes('roteiro audiovisual final') || x.includes('fruits adventures: apocalipse') ||
+    x.includes('objetivo') || x.includes('ação detalhada') || x.includes('ação:') ||
+    x.includes('câmera') || x.includes('fotografia') || x.includes('emoção') ||
+    x.includes('configuração técnica') || x.includes('plano ') || x.includes('lente') ||
+    x.includes('frame rate') || x.includes('prompt') || x.includes('capcut') ||
+    x.includes('elevenlabs') || x.includes('designer de voz') || x.includes('negativo') ||
+    x.includes('localização e tempo') || x.includes('gancho final') || x.includes('objetivo da cena');
+}
+function extractPublicLines(text) {
+  const falaBlock = extractBlock(text || '', 'FALAS');
+  const narrBlock = extractBlock(text || '', 'NARRAÇÃO');
+  const capcutBlock = extractBlock(text || '', 'CAPCUT');
+  let source = [narrBlock, falaBlock, capcutBlock].filter(Boolean).join('\n');
+  if (!source) {
+    source = String(text || '')
+      .split(/\n+/)
+      .filter(line => !/^\s*(#|---|OBJETIVO|LOCALIZAÇÃO|AÇÃO|CÂMERA|FOTOGRAFIA|EMOÇÃO|CAPCUT|ELEVENLABS|GANCHO|CONFIGURAÇÃO|LENTE|PLANO|ILUMINAÇÃO)/i.test(stripProductionMarkdown(line)))
+      .join('\n');
+  }
+  return source.replace(/\r/g,'')
+    .split(/(?<=[.!?…])\s+|\n+/)
+    .map(cleanSrtLine)
+    .filter(l => !isBadSrtLine(l) && l.length > 3 && l.length < 180)
+    .slice(0, 80);
 }
 function buildSrt(text) {
-  const raw = String(text||'').replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(x=>x.trim()).filter(Boolean);
-  const lines = raw.map(cleanSrtLine).filter(l => !isBadSrtLine(l) && l.length > 3).slice(0,90);
+  let lines = extractPublicLines(text);
+  if (!lines.length) lines = ['A estrada parecia morta.', 'Até que a ameaça apareceu.', 'Agora eles precisam sobreviver.'];
   let t=0;
-  return lines.map((l,i)=>{ const dur=Math.min(6.5, Math.max(2.2, l.length/18)); const out=`${i+1}\n${srtTime(t)} --> ${srtTime(t+dur)}\n${l}\n`; t+=dur+0.15; return out; }).join('\n');
+  return lines.map((l,i)=>{ const dur=Math.min(5.8, Math.max(2.0, l.length/21)); const out=`${i+1}\n${srtTime(t)} --> ${srtTime(t+dur)}\n${l}\n`; t+=dur+0.14; return out; }).join('\n');
+}
+function buildProductionSrt(text) {
+  const raw = String(text||'').replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(cleanSrtLine).filter(l => l && l.length > 2).slice(0,110);
+  let t=0;
+  return raw.map((l,i)=>{ const dur=Math.min(6.5, Math.max(2.2, l.length/18)); const out=`${i+1}\n${srtTime(t)} --> ${srtTime(t+dur)}\n${l}\n`; t+=dur+0.15; return out; }).join('\n');
+}
+function buildSuggestedDialoguePack(s, i) {
+  const title = sceneLabel(i);
+  const lower = ((s.summary||'') + ' ' + (s.text||'')).toLowerCase();
+  const isAmbush = lower.includes('armadilha') || lower.includes('viatura') || lower.includes('neblina');
+  const caio = isAmbush ? 'Armadilha.' : 'Fiquem atrás de mim.';
+  const tomate = isAmbush ? 'Minha lanterna... ela tá apagando.' : 'Eu não gostei disso, Caio.';
+  const sabrina = isAmbush ? 'Não olha pra mão. Olha pra neblina.' : 'Tem coisa se mexendo ao redor.';
+  const vilao = isAmbush ? 'Vocês entraram na minha estrada.' : 'Agora vocês pertencem a mim.';
+  return `DIÁLOGOS SUGERIDOS — ${title}\n\nCAIO [baixo, urgente]: "${caio}"\nTOMATE ELINALDO [tremendo, tentando manter coragem]: "${tomate}"\nSABRINA PITAYA [firme, cortante]: "${sabrina}"\nVILÃO POLICIAL [grave, arrastado, ameaçador]: "${vilao}"`;
 }
 function buildSceneVoicePack(s, i) {
   const falas = extractBlock(s.text||'', 'FALAS') || '';
   const eleven = extractBlock(s.text||'', 'ELEVENLABS') || '';
   const narracao = extractBlock(s.text||'', 'NARRAÇÃO') || '';
-  const fallback = falas || eleven || narracao || (s.text||'');
-  return `🎙️ PACOTE DE VOZ — ${sceneLabel(i)}\n\nDESIGNER DE VOZ / DNA:\n\nCAIO: voz masculina jovem adulta, grave média, firme, protetora, cansada, respiração tensa. Fala pouco, com comando e urgência.\n\nTOMATE ELINALDO: voz masculina expressiva, um pouco aguda, nervosa, humana-cartunesca sem infantilizar. Medo visível na respiração, mas com coragem.\n\nSABRINA PITAYA: voz feminina rouca, firme, combatente, frases curtas, energia de guerreira.\n\nVILÃO POLICIAL INFECTADO: voz grave, arrastada, gutural, ameaçadora, com respiração quebrada e poucas palavras.\n\nNARRADOR: voz grave, documental sombria, ritmo lento, suspense.\n\n---\n\nNARRAÇÃO DA CENA:\n${narracao || '[Sem bloco de narração separado. Use o roteiro para extrair.]'}\n\n---\n\nFALAS / ELEVENLABS:\n${fallback}\n\n---\n\nREGRA DE GRAVAÇÃO:\nUma voz por personagem. Pausas curtas. Emoção clara. Exportar cada personagem em arquivo separado quando possível.`;
+  const suggested = buildSuggestedDialoguePack(s, i);
+  const fallback = [falas, eleven, suggested].filter(Boolean).join('\n\n') || (s.text||'');
+  return `🎙️ PACOTE DE VOZ — ${sceneLabel(i)}\n\nDESIGNER DE VOZ / DNA:\n\nCAIO: voz masculina jovem adulta, grave média, firme, protetora, cansada, respiração tensa. Fala pouco, com comando e urgência.\n\nTOMATE ELINALDO: voz masculina expressiva, um pouco aguda, nervosa, humana-cartunesca sem infantilizar. Medo visível na respiração, mas com coragem.\n\nSABRINA PITAYA: voz feminina rouca, firme, combatente, frases curtas, energia de guerreira.\n\nVILÃO POLICIAL INFECTADO: voz grave, arrastada, gutural, ameaçadora, com respiração quebrada e poucas palavras.\n\nNARRADOR: voz grave, documental sombria, ritmo lento, suspense.\n\n---\n\nNARRAÇÃO DA CENA:\n${narracao || 'Use uma narração curta e grave: a estrada não era saída; era uma armadilha.'}\n\n---\n\nFALAS / ELEVENLABS:\n${fallback}\n\n---\n\nVERSÃO LIMPA PARA APP DE VOZ / VOZ DA ZUEIRA:\n${extractPublicLines(s.text || s.summary || '').slice(0, 10).join('\n')}\n\n---\n\nREGRA DE GRAVAÇÃO:\nUma voz por personagem. Pausas curtas. Emoção clara. Exportar cada personagem em arquivo separado quando possível.`;
 }
-function genSrt(mode) { const s = state.scenes[state.currentScene]; if (!s) return; openModal('SRT CapCut Limpo', 'Legenda limpa para CapCut.', buildSrt(s.text || ''), sceneFileName('srt','srt')); }
+function genSrt(mode) { const s = state.scenes[state.currentScene]; if (!s) return; const title = mode === 'production' ? 'SRT Produção Comentado' : 'SRT CapCut Limpo'; const txt = mode === 'production' ? buildProductionSrt(s.text || '') : buildSrt(s.text || ''); openModal(title, 'Legenda da cena atual.', txt, sceneFileName(mode === 'production' ? 'srt_producao' : 'srt_capcut','srt')); }
 function genElevenText() { const s = state.scenes[state.currentScene]; if(!s) return; openModal('Vozes ElevenLabs', 'Designer de voz, narração e falas.', buildSceneVoicePack(s, state.currentScene), sceneFileName('vozes','txt')); }
-function genProjectSrt() { const text = state.scenes.map(s => s.text||'').join('\n\n'); openModal('SRT Completo Limpo', 'Todas as cenas para CapCut.', buildSrt(text), projectFileName('srt','srt')); }
+function genProjectSrt() { const text = state.scenes.map(s => s.text||'').join('\n\n'); openModal('SRT Completo Limpo', 'Todas as cenas para CapCut.', buildSrt(text), projectFileName('srt_capcut','srt')); }
+function copyProjectSrt() { navigator.clipboard.writeText(buildSrt(state.scenes.map(s => s.text||'').join('\n\n'))); log('SRT limpo copiado.', 'ok'); }
 function exportEleven() { const text = state.scenes.map((s,i) => buildSceneVoicePack(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n'); openModal('ElevenLabs Completo', 'Designer e falas de todas as cenas.', text, projectFileName('vozes','txt')); }
+function copyElevenProject() { const text = state.scenes.map((s,i) => buildSceneVoicePack(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n'); navigator.clipboard.writeText(text); log('Vozes copiadas.', 'ok'); }
 
 function copyScene() { navigator.clipboard.writeText(state.scenes[state.currentScene]?.text || ''); log('Cena copiada.', 'ok'); }
 function copyEditor() { navigator.clipboard.writeText(document.getElementById('smartEditor').value); log('Editor copiado.', 'ok'); }
 
 function buildCleanScript() { return state.scenes.map((s, i) => `${s.title}\n\n${s.text || '[Vazio]'}`).join('\n\n' + '─'.repeat(50) + '\n\n'); }
-function updateExport() { document.getElementById('exportPreview').textContent = buildCleanScript(); }
+function updateExport() { const el = document.getElementById('exportPreview'); if (el) el.textContent = buildCleanScript(); }
 function copyCleanScript() { navigator.clipboard.writeText(buildCleanScript()); log('Roteiro copiado.', 'ok'); }
+function copyExportPreview() { copyCleanScript(); }
 function preferredBaseName() {
   const typed = (state.fileBaseName || document.getElementById('fileBaseName')?.value || '').trim();
   if (typed) return fileSlug(typed);
@@ -1107,10 +1190,10 @@ function backupProject() { downloadJson(); }
 function clearProject() { if(!confirm('Apagar TUDO?')) return; localStorage.removeItem(STORAGE_KEY); location.reload(); }
 
 function modalTitleText() { return document.getElementById('modalTitle')?.textContent || 'resultado'; }
-function openModal(t, d, txt, f) { document.getElementById('modalTitle').textContent = t; document.getElementById('modalOutput').textContent = txt || ''; modalText = txt || ''; modalFile = f || sceneFileName('resultado','txt'); document.getElementById('modal').classList.add('open'); }
+function openModal(t, d, txt, f) { document.getElementById('modalTitle').textContent = t; document.getElementById('modalOutput').textContent = txt || '[Sem conteúdo gerado]'; modalText = txt || ''; modalFile = f || sceneFileName('resultado','txt'); document.getElementById('modal').classList.add('open'); }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 function copyModal() { navigator.clipboard.writeText(modalText); log('Copiado.', 'ok'); }
-function downloadModal() { downloadText(modalText, modalFile); }
+function downloadModal() { downloadText(modalText, modalFile); log('Arquivo baixado: ' + modalFile, 'ok'); }
 async function shareTextAsFile(text, filename) {
   try {
     const file = new File([text || ''], filename, { type: 'text/plain' });
@@ -1121,10 +1204,16 @@ async function shareTextAsFile(text, filename) {
       await navigator.share({ title: filename, text: text || '' });
       log('Texto compartilhado. Escolha Google Drive/Docs se aparecer.', 'ok');
     } else {
+      navigator.clipboard && navigator.clipboard.writeText(text || '');
       downloadText(text, filename);
-      alert('Compartilhamento direto não suportado. Baixei o arquivo para você enviar ao Drive manualmente.');
+      alert('Compartilhamento direto indisponível neste navegador. Copiei/baixei o arquivo; envie pelo app Drive manualmente.');
+      log('Compartilhamento indisponível. Arquivo baixado para envio manual ao Drive.', 'warn');
     }
-  } catch (e) { log('Compartilhamento cancelado ou indisponível.', 'warn'); }
+  } catch (e) {
+    try { navigator.clipboard && await navigator.clipboard.writeText(text || ''); } catch(_) {}
+    log('Compartilhamento cancelado/indisponível. Conteúdo copiado; use Baixar e envie pelo Drive manualmente.', 'warn');
+    alert('O navegador não abriu o Drive. Use Baixar ou Copiar e envie manualmente pelo Google Drive.');
+  }
 }
 function shareModalText() { shareTextAsFile(modalText, modalFile || sceneFileName('resultado','txt')); }
 
@@ -1407,9 +1496,16 @@ function buildCapCutStudioPackForScene(s, i) {
 }
 
 function exportCapCutStudioPack() {
-  const text = state.scenes.map((s,i) => buildCapCutStudioPackForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
-  openModal('Pacote CapCut Studio', 'Roteiro curto, narração, legenda e edição.', text, projectFileName('capcut_studio_pack','txt'));
+  const s = getCurrentScene();
+  const i = state.currentScene;
+  const text = buildCapCutStudioPackForScene(s, i);
+  openModal('Pacote CapCut Studio — ' + sceneLabel(i), 'Roteiro curto, narração, legenda e edição da cena atual.', text, sceneFileName('capcut_studio_pack','txt'));
 }
+function exportCapCutProjectPack() {
+  const text = state.scenes.map((s,i) => buildCapCutStudioPackForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
+  openModal('Pacote CapCut Studio — Projeto Completo', 'Todas as cenas aprovadas/rascunhadas.', text, projectFileName('capcut_studio_pack','txt'));
+}
+
 
 function buildFlowVeoPackForScene(s, i) {
   const title = sceneLabel(i);
