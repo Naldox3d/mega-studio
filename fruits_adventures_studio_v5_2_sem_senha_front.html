@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.4.2 Studio Tabs Fix</title>
+<title>Fruits Adventures Mega Studio — V6.4.3 SRT Drive Fix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -287,7 +287,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.2 Studio Tabs Fix</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.3 SRT Drive Fix</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -299,7 +299,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.4.2 iniciado. Estúdio e banners com abas padronizadas: Cena base, Narração, Falas, ElevenLabs e SRT.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.4.3 iniciado. SRT com Drive em TXT compatível, narração sem timing e abas padronizadas.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -1224,7 +1224,7 @@ function shareModalText() { shareTextAsFile(modalText, modalFile || sceneFileNam
 
 
 // ═══════════════════════════════════════════════
-// V6.4.2 — ABAS PADRONIZADAS NO ESTÚDIO E BANNERS
+// V6.4.3 — ABAS PADRONIZADAS + SRT DRIVE FIX
 // ═══════════════════════════════════════════════
 let currentEditorMode = 'current';
 let modalSceneIndex = null;
@@ -1811,6 +1811,120 @@ function downloadCurrentSceneTxt() {
   downloadText(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
   log('Aba baixada em arquivo.', 'ok');
 }
+
+
+// ═══════════════════════════════════════════════
+// FINAL OVERRIDES V6.4.3 — SRT Drive Fix + Narrador limpo
+// ═══════════════════════════════════════════════
+function safeShareFileName(filename) {
+  const name = String(filename || 'arquivo.txt');
+  // Android/Chrome/Drive às vezes não aceita compartilhar .srt direto pelo Web Share.
+  // Para Drive, mantemos o CONTEÚDO SRT, mas usamos .txt no compartilhamento.
+  if (name.toLowerCase().endsWith('.srt')) return name.replace(/\.srt$/i, '.txt');
+  return name;
+}
+
+function srtToSpokenText(srt) {
+  return String(srt || '')
+    .replace(/\r/g, '')
+    .split('\n')
+    .filter(line => {
+      const l = line.trim();
+      if (!l) return false;
+      if (/^\d+$/.test(l)) return false;
+      if (/^\d{2}:\d{2}:\d{2},\d{3}\s*-->\s*\d{2}:\d{2}:\d{2},\d{3}$/.test(l)) return false;
+      return true;
+    })
+    .join('. ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function cleanSrtLine(l) {
+  return stripProductionMarkdown(l)
+    .replace(/^[-–—]+\s*/, '')
+    .replace(/^\d+\.\s*/, '')
+    .replace(/^\s*\[[A-ZÀ-Ú0-9 _/-]+\]\s*:?\s*/i, '')
+    .replace(/^\s*\([^)]*\)\s*$/, '')
+    .replace(/^(beat|bloco)\s*\d+.*$/i, '')
+    .trim();
+}
+
+function isBadSrtLine(l) {
+  const x = cleanSrtLine(l).toLowerCase();
+  if (!x || x === '---' || /^\d+$/.test(x) || /^\[?\d{2}:\d{2}/.test(x)) return true;
+  if (/^(cena\s*\d+|roteiro|int\.|ext\.|int\/ext|localizacao|localização)/i.test(x)) return true;
+  if (/^a mao no asfalto$|^a mão no asfalto$|^a viatura na neblina$|^hospital abandonado\s*\/\s*a confissao$|^hospital abandonado\s*\/\s*a confissão$/i.test(x)) return true;
+  return x.includes('roteiro audiovisual final') || x.includes('roteiro final') || x.includes('fruits adventures') ||
+    x.includes('objetivo') || x.includes('ação detalhada') || x.includes('acao detalhada') || x.includes('ação:') || x.includes('acao:') ||
+    x.includes('câmera') || x.includes('camera') || x.includes('fotografia') || x.includes('emoção') || x.includes('emocao') ||
+    x.includes('configuração técnica') || x.includes('configuracao tecnica') || x.includes('plano ') || x.includes('lente') ||
+    x.includes('frame rate') || x.includes('prompt') || x.includes('capcut studio pack') ||
+    x.includes('elevenlabs') || x.includes('designer de voz') || x.includes('negativo') ||
+    x.includes('localização e tempo') || x.includes('localizacao e tempo') || x.includes('gancho final') || x.includes('objetivo da cena') ||
+    x.includes('estilo') || x.includes('texto') || x.includes('duração total') || x.includes('duracao total') ||
+    x.includes('fade in') || x.includes('fade out') || x.includes('regra de gravação') || x.includes('regra de gravacao');
+}
+
+function narrateEditorMode() {
+  const editor = document.getElementById('smartEditor');
+  const txt = editor ? editor.value : getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene);
+  const spoken = currentEditorMode === 'srt' ? srtToSpokenText(txt) : txt;
+  narrateText(spoken, ({current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT sem timing'}[currentEditorMode] || 'aba'));
+}
+
+function shareCurrentEditorText() {
+  const editor = document.getElementById('smartEditor');
+  const text = editor ? editor.value : '';
+  const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut'}[currentEditorMode] || 'aba');
+  const filename = sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt');
+  shareTextAsFile(text, safeShareFileName(filename));
+}
+
+function shareModalText() {
+  shareTextAsFile(modalText, safeShareFileName(modalFile || sceneFileName('resultado','txt')));
+}
+
+async function shareTextAsFile(text, filename) {
+  const safeName = safeShareFileName(filename);
+  try {
+    const file = new File([text || ''], safeName, { type: 'text/plain;charset=utf-8' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: safeName, text: 'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
+      log('Compartilhado. Escolha Google Drive se aparecer no Android.', 'ok');
+    } else if (navigator.share) {
+      await navigator.share({ title: safeName, text: text || '' });
+      log('Texto compartilhado. Escolha Google Drive/Docs se aparecer.', 'ok');
+    } else {
+      if (navigator.clipboard) await navigator.clipboard.writeText(text || '');
+      downloadText(text, safeName);
+      alert('Compartilhamento direto indisponível neste navegador. Copiei/baixei o arquivo; envie pelo app Drive manualmente.');
+      log('Compartilhamento indisponível. Arquivo baixado para envio manual ao Drive.', 'warn');
+    }
+  } catch (e) {
+    try { if (navigator.clipboard) await navigator.clipboard.writeText(text || ''); } catch(_) {}
+    log('Compartilhamento cancelado/indisponível. Conteúdo copiado; use Baixar e envie pelo Drive manualmente.', 'warn');
+    alert('O navegador não abriu o Drive. Use Baixar ou Copiar e envie manualmente pelo Google Drive.');
+  }
+}
+
+function genProjectSrt() {
+  const text = state.scenes.map(s => s.text||'').join('\n\n');
+  openModal('SRT Completo Limpo', 'Todas as cenas para CapCut. Baixar gera .srt; Drive compartilha como .txt compatível.', buildSrt(text), projectFileName('srt_capcut','srt'));
+}
+
+function loadEditor(mode) {
+  currentEditorMode = mode || 'current';
+  const editor = document.getElementById('smartEditor');
+  const badge = document.getElementById('editorModeBadge');
+  const s = state.scenes[state.currentScene];
+  if (!editor || !s) return;
+  editor.readOnly = false;
+  editor.value = getEditorContent(currentEditorMode, s, state.currentScene);
+  if (badge) badge.textContent = ({current:'roteiro final', narration:'narração', dialogues:'falas', eleven:'elevenlabs', srt:'srt capcut'}[currentEditorMode] || 'cena');
+  setToolbarActive(currentEditorMode);
+}
+
 
 </script>
 </body>
