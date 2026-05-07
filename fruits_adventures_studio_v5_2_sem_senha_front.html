@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.5 CapCut 2D 100% + Compartilhar</title>
+<title>Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado + Whisk 2D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -287,7 +287,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.5 CapCut 2D 100% + Compartilhar</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.7 Storyboard Fatiado + Whisk 2D</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -2088,7 +2088,7 @@ function genProjectSrt() {
 (function markV645(){
   try {
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.5 CapCut 2D 100% + Compartilhar';
+    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
   } catch(e) {}
@@ -2386,8 +2386,8 @@ function genProjectSrt() {
     const strip = document.getElementById('terminalStrip');
     if (strip && /V6\.4\.5|Drive/.test(strip.textContent)) strip.textContent = 'Engine V6.5 ativo: História 2D CapCut 100%, vídeo IA opcional e Compartilhar nativo do celular.';
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.5 CapCut 2D 100% + Compartilhar';
-    document.title = 'Fruits Adventures Mega Studio — V6.5 CapCut 2D 100% + Compartilhar';
+    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
+    document.title = 'Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado + Whisk 2D';
   }
 
   const oldShareTextAsFile = window.shareTextAsFile;
@@ -2632,8 +2632,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchMotionLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.6 Whisk 2D + CapCut 100% + Compartilhar';
-    document.title = 'Fruits Adventures Mega Studio — V6.6 Whisk 2D + CapCut 100%';
+    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
+    document.title = 'Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado + Whisk 2D';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.6 ativo: Whisk/Movimento 2D transforma storyboard em vídeo sutil com prompt curto, detalhado e negativo.';
   }
@@ -2647,6 +2647,290 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   setupMotion2DNow();
   setTimeout(setupMotion2DNow, 500);
+})();
+
+// ═══════════════════════════════════════════════
+// V6.7 — STORYBOARD FATIADO / CLAUDE DIRETOR POR QUADROS
+// ═══════════════════════════════════════════════
+(function setupStoryboardSliceDirector(){
+  const oldMigrateState = window.migrateState;
+  window.migrateState = function(){
+    if (typeof oldMigrateState === 'function') oldMigrateState();
+    if (!state || !Array.isArray(state.scenes)) return;
+    state.scenes.forEach((s) => {
+      if (typeof s.storyboardSlices !== 'string') s.storyboardSlices = '';
+    });
+    try { saveState(); } catch(e) {}
+  };
+
+  function sceneCoreText(s){
+    return [s && s.summary, s && s.visualPrompt, s && s.visualAnalysis, s && s.text].filter(Boolean).join('\n\n');
+  }
+
+  function hasRealSlices(text){
+    return /FATIA\s*\d+|QUADRO\s*\d+|MOMENTO\s*\d+/i.test(String(text || ''));
+  }
+
+  window.buildStoryboardSliceFallback = function(s, i){
+    const title = typeof sceneLabel === 'function' ? sceneLabel(i || 0) : 'Cena ' + ((i || 0) + 1);
+    const base = (s && (s.summary || extractBlock(s.text || '', 'AÇÃO') || s.text)) || 'Cena ainda sem resumo.';
+    return `🧩 STORYBOARD FATIADO — ${title}\n\nBASE VISUAL DA CENA:\n${base}\n\nFATIA 1 — Abertura / ambiente\nVISUAL: estabelecer o cenário, luz, clima, perigo escondido e posição inicial dos personagens.\nAÇÃO: a câmera apresenta a cena antes do conflito principal.\nCÂMERA: plano aberto ou push-in lento.\nEMOÇÃO: suspense e expectativa.\nNARRAÇÃO/SRT: frase curta que prepara o público.\nVÍDEO IA: movimento sutil de câmera, atmosfera, poeira, neblina ou luz.\n\nFATIA 2 — Percepção / reação\nVISUAL: foco no personagem principal percebendo algo estranho.\nAÇÃO: olhar, pausa, respiração, objeto na mão ou pequeno gesto de alerta.\nCÂMERA: close no rosto/mão e corte para o detalhe.\nEMOÇÃO: medo controlado.\nNARRAÇÃO/SRT: frase curta de tensão.\nVÍDEO IA: piscar, respirar, leve tremor, zoom lento.\n\nFATIA 3 — Revelação / ameaça\nVISUAL: mostrar o detalhe perigoso da cena.\nAÇÃO: a ameaça se torna clara para o público.\nCÂMERA: close dramático ou pan curto.\nEMOÇÃO: choque.\nNARRAÇÃO/SRT: frase de impacto.\nVÍDEO IA: sombra, luz piscando, neblina ou objeto se mexendo pouco.\n\nFATIA 4 — Decisão / ação\nVISUAL: personagem toma atitude.\nAÇÃO: fala curta, movimento para atacar, fugir ou proteger alguém.\nCÂMERA: corte médio, movimento lateral ou push-in.\nEMOÇÃO: urgência.\nNARRAÇÃO/SRT: frase direta.\nVÍDEO IA: gesto leve, câmera acompanhando, parallax 2D.\n\nFATIA 5 — Gancho final\nVISUAL: imagem final que deixa pergunta ou perigo maior.\nAÇÃO: corte antes da consequência total.\nCÂMERA: aproximação final ou corte seco.\nEMOÇÃO: tensão máxima.\nNARRAÇÃO/SRT: frase final de gancho.\nVÍDEO IA: zoom lento, escurecimento, luz/fumaça, suspense.\n\nOBSERVAÇÃO:\nEste fatiamento é base automática. Para precisão máxima, clique em “🧩 Fatiar Storyboard” com Claude Vision usando a imagem da cena.`;
+  };
+
+  window.buildStoryboardSlicesText = function(s, i){
+    if (!s) return '';
+    if (s.storyboardSlices && s.storyboardSlices.trim()) return s.storyboardSlices.trim();
+    if (hasRealSlices(s.text)) {
+      const raw = String(s.text || '');
+      const m = raw.match(/(?:MAPA DO STORYBOARD|STORYBOARD FATIADO|FATIA 1|QUADRO 1|MOMENTO 1)[\s\S]*/i);
+      return (m ? m[0] : raw).trim();
+    }
+    return buildStoryboardSliceFallback(s, i);
+  };
+
+  function buildStoryboardSlicePrompt(s, i, fullScript){
+    return `${typeof buildDirectorContract === 'function' ? buildDirectorContract() : ''}\n\nCENA: ${s.title || ('Cena ' + (i + 1))}\n\nRESUMO DO DIRETOR:\n${s.summary || 'Sem resumo.'}\n\nGUIA VISUAL / PROMPT DE IMAGEM:\n${s.visualPrompt || 'Nenhum guia visual gerado.'}\n\nANÁLISE DA REFERÊNCIA:\n${s.visualAnalysis || 'Nenhuma análise visual prévia.'}\n\nTAREFA PRINCIPAL:\nO storyboard/imagem desta cena já representa a CENA COMPLETA. Não trate como ideia solta. Seu trabalho é REFATIAR a cena em quadros/momentos narrativos e contar a história a partir dessas fatias.\n\nREGRAS DE DIREÇÃO:\n- Use storyboard, imagem, resumo e DNA como fonte principal.\n- Não invente personagens novos.\n- Não mude roupa base, rosto, proporção, espécie, cor ou identidade visual.\n- Não copie obras protegidas.\n- Cada fatia deve virar produção prática: câmera, ação, emoção, fala/narração, SRT e prompt de vídeo 2D.\n- Se a imagem tiver várias ações no mesmo quadro, separe em micro-momentos.\n- Se a imagem for simples, crie 4 a 6 fatias coerentes para animar em 2D.\n\nFORMATO OBRIGATÓRIO:\nMAPA DO STORYBOARD:\n[leitura geral da cena em 3 a 5 linhas]\n\nFATIA 1 — [nome curto]\nVISUAL:\nAÇÃO:\nCÂMERA:\nEMOÇÃO:\nNARRAÇÃO:\nFALA OPCIONAL:\nSRT CAPCUT:\nPROMPT VÍDEO 2D:\nNEGATIVO:\n\nFATIA 2 — [nome curto]\nVISUAL:\nAÇÃO:\nCÂMERA:\nEMOÇÃO:\nNARRAÇÃO:\nFALA OPCIONAL:\nSRT CAPCUT:\nPROMPT VÍDEO 2D:\nNEGATIVO:\n\n[continue até FATIA 4, 5 ou 6 conforme a cena pedir]\n${fullScript ? `\nDEPOIS DAS FATIAS, MONTE TAMBÉM:\n\nROTEIRO FINAL DA CENA:\nOBJETIVO:\nAÇÃO:\nCÂMERA:\nEMOÇÃO:\nNARRAÇÃO:\nFALAS:\nCAPCUT:\nELEVENLABS:\nGANCHO FINAL:\n\nWHISK / MOVIMENTO 2D RESUMIDO:\n[prompt curto em inglês para animar esta imagem com movimento sutil]\n\nPROMPT NEGATIVO GERAL:\n[não mudar personagem, roupa, rosto, composição, nem adicionar texto/logo]` : ''}`;
+  }
+
+  async function callSceneWithImageIfPossible(s, userText, sysPrompt){
+    let content = userText;
+    if (s && s.image && (state.api.provider === 'claude' || state.api.provider === 'gemini')) {
+      const base64Data = s.image.data.split(',')[1];
+      content = [
+        { type: 'image', source: { type: 'base64', media_type: s.image.type, data: base64Data } },
+        { type: 'text', text: userText + '\n\nUse a imagem anexada como storyboard/fonte visual principal da cena completa.' }
+      ];
+    }
+    return callApi(content, sysPrompt);
+  }
+
+  window.generateStoryboardSlicesOnly = async function(){
+    if (typeof migrateState === 'function') migrateState();
+    if (typeof saveSetup === 'function') saveSetup();
+    const i = state.currentScene || 0;
+    const s = state.scenes[i];
+    if (!s) return;
+    if (!s.summary && !s.image && !s.visualPrompt) return log('Adicione resumo, guia visual ou imagem antes de fatiar o storyboard.', 'warn');
+    if (!state.api.apiKey && state.api.callMode !== 'backend') { log('Sem API Key ou Backend seguro.', 'err'); goNode('setup'); return; }
+
+    const editor = document.getElementById('smartEditor');
+    if (editor) editor.value = '🧩 Claude está lendo o storyboard e refatiando a cena em quadros/momentos...';
+    setStatus('Fatiando storyboard', 82, true);
+    const sys = 'Você é Diretor de Storyboard, editor de animatic e roteirista audiovisual. Seu foco é transformar storyboard de cena completa em fatias narrativas úteis para roteiro, SRT, voz e vídeo IA.';
+    try {
+      const res = await callSceneWithImageIfPossible(s, buildStoryboardSlicePrompt(s, i, false), sys);
+      s.storyboardSlices = res;
+      saveState();
+      if (typeof loadEditor === 'function') loadEditor('slices');
+      setStatus('Storyboard fatiado', 86, true);
+      log('Storyboard fatiado em quadros/momentos. Agora gere o roteiro final usando essas fatias.', 'ok');
+    } catch(e) {
+      if (editor) editor.value = 'Erro: ' + e.message;
+      log('Erro ao fatiar storyboard: ' + e.message, 'err');
+    }
+  };
+
+  const oldGenerateCurrentScene = window.generateCurrentScene;
+  window.generateCurrentScene = async function(){
+    if (typeof migrateState === 'function') migrateState();
+    if (typeof saveSetup === 'function') saveSetup();
+    const i = state.currentScene || 0;
+    const s = state.scenes[i];
+    if (!s) return;
+    if (!s.summary && !s.image && !s.visualPrompt) { log('Erro: escreva o resumo no Storyboard ou adicione uma imagem/guia visual.', 'err'); return; }
+    if (!state.api.apiKey && state.api.callMode !== 'backend') { log('Sem API Key ou Backend seguro.', 'err'); goNode('setup'); return; }
+
+    const editor = document.getElementById('smartEditor');
+    if (editor) editor.value = '🎬 Claude lendo o storyboard completo, fatiando a cena e montando o roteiro final...';
+    setStatus('Storyboard → roteiro', 84, true);
+
+    const sys = `Você é o ROTEIRISTA FINAL, DIRETOR DE STORYBOARD e DIRETOR DE CENA do Fruits Adventures Mega Studio V6.7.\n\nSeu foco principal é STORYBOARD POR CENA. A imagem/storyboard já representa a cena completa. Você não deve inventar uma cena do zero: deve refatiar o storyboard em quadros/momentos e contar a história a partir dessas fatias. Entregue roteiro pronto para produção, CapCut, ElevenLabs, SRT e vídeo IA 2D.`;
+
+    const previousSlices = s.storyboardSlices ? `\n\nFATIAS JÁ APROVADAS/GERADAS:\n${s.storyboardSlices}\n\nUse essas fatias como trilho principal e melhore somente se necessário.` : '';
+    const prompt = buildStoryboardSlicePrompt(s, i, true) + previousSlices;
+
+    try {
+      const res = await callSceneWithImageIfPossible(s, prompt, sys);
+      s.text = res;
+      if (!s.storyboardSlices) {
+        const m = String(res).match(/(?:MAPA DO STORYBOARD|STORYBOARD FATIADO|FATIA 1)[\s\S]*?(?=\n\s*ROTEIRO FINAL DA CENA\s*:|\n\s*OBJETIVO\s*:|$)/i);
+        if (m) s.storyboardSlices = m[0].trim();
+      }
+      saveState();
+      if (typeof loadStudioView === 'function') loadStudioView();
+      if (typeof loadEditor === 'function') loadEditor('current');
+      setStatus((s.title || 'Cena') + ' fatiada e roteirizada', 90, true);
+      log('Cena gerada com foco em storyboard fatiado: quadros, ação, câmera, SRT, voz e vídeo IA.', 'ok');
+    } catch(e) {
+      if (editor) editor.value = 'Erro: ' + e.message;
+      log('Erro ao gerar por storyboard fatiado: ' + e.message, 'err');
+      if (typeof oldGenerateCurrentScene === 'function') {
+        log('Você ainda pode tentar o gerador antigo se desejar recarregando a página anterior.', 'warn');
+      }
+    }
+  };
+
+  const oldGetEditorContent = window.getEditorContent;
+  window.getEditorContent = function(mode, s, i){
+    if (mode === 'slices') return buildStoryboardSlicesText(s, i);
+    if (typeof oldGetEditorContent === 'function') return oldGetEditorContent(mode, s, i);
+    return s && s.text || '';
+  };
+
+  const oldLoadEditor = window.loadEditor;
+  window.loadEditor = function(mode){
+    currentEditorMode = mode || 'current';
+    const editor = document.getElementById('smartEditor');
+    const badge = document.getElementById('editorModeBadge');
+    const s = state.scenes[state.currentScene || 0];
+    if (currentEditorMode === 'slices') {
+      if (editor) { editor.readOnly = false; editor.value = buildStoryboardSlicesText(s, state.currentScene || 0); }
+      if (badge) badge.textContent = 'storyboard fatiado';
+      if (typeof setToolbarActive === 'function') setToolbarActive(currentEditorMode);
+      return;
+    }
+    if (typeof oldLoadEditor === 'function') return oldLoadEditor(mode);
+  };
+
+  const oldApprove = window.approveCurrentScene;
+  window.approveCurrentScene = function(){
+    if (currentEditorMode === 'slices') {
+      const s = state.scenes[state.currentScene || 0];
+      const editor = document.getElementById('smartEditor');
+      if (s && editor) {
+        s.storyboardSlices = editor.value.trim();
+        saveState();
+        log('Fatias do storyboard salvas. Agora você pode gerar o roteiro final da cena.', 'ok');
+        return;
+      }
+    }
+    if (typeof oldApprove === 'function') return oldApprove();
+  };
+
+  const oldBuildWhisk = window.buildWhisk2DMotionPromptForScene;
+  window.buildWhisk2DMotionPromptForScene = function(s, i){
+    const base = typeof oldBuildWhisk === 'function' ? oldBuildWhisk(s, i) : '';
+    const slices = buildStoryboardSlicesText(s, i);
+    return base + `\n\n=== STORYBOARD FATIADO PARA MOVIMENTO 2D ===\nUse estas fatias para gerar clipes curtos ou movimentos separados, mantendo a mesma imagem/personagem:\n\n${slices}\n\nREGRA DE ANIMAÇÃO:\nCada fatia deve virar um movimento pequeno e controlado: piscar, respirar, câmera aproximando, parallax, neblina, luz, vento, objeto balançando ou expressão leve. Evitar ação grande que deforme o personagem.`;
+  };
+
+  const oldBuildPackage = window.buildCurrentScenePackage;
+  window.buildCurrentScenePackage = function(){
+    const base = typeof oldBuildPackage === 'function' ? oldBuildPackage() : '';
+    const s = typeof getCurrentScene === 'function' ? getCurrentScene() : (state.scenes[state.currentScene || 0] || {});
+    return base + '\n\n=== STORYBOARD FATIADO / FATIAS DA CENA ===\n' + buildStoryboardSlicesText(s, state.currentScene || 0) + '\n';
+  };
+
+  window.exportStoryboardSlicesCurrent = function(){
+    const s = typeof getCurrentScene === 'function' ? getCurrentScene() : state.scenes[state.currentScene || 0];
+    openModal('Storyboard Fatiado — ' + (typeof sceneLabel === 'function' ? sceneLabel(state.currentScene || 0) : 'Cena Atual'), 'Fatias narrativas para roteiro, SRT, voz e vídeo IA.', buildStoryboardSlicesText(s, state.currentScene || 0), sceneFileName('storyboard_fatiado','txt'));
+  };
+
+  window.exportStoryboardSlicesProject = function(){
+    const text = (state.scenes || []).map((s,i) => buildStoryboardSlicesText(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
+    openModal('Storyboard Fatiado — Projeto Completo', 'Fatias de todas as cenas.', text, projectFileName('storyboard_fatiado','txt'));
+  };
+
+  function ensureSlicesButton(){
+    const bar = document.getElementById('editorToolbar');
+    if (!bar || bar.querySelector('[data-mode="slices"]')) return;
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-purple';
+    btn.dataset.mode = 'slices';
+    btn.textContent = '🧩 Fatias';
+    btn.onclick = function(){ loadEditor('slices'); };
+    const videoBtn = bar.querySelector('[data-mode="videoia"]');
+    if (videoBtn) bar.insertBefore(btn, videoBtn);
+    else bar.appendChild(btn);
+  }
+
+  function ensureSliceActionButton(){
+    const row = document.querySelector('#tab-scene .action-row');
+    if (!row || document.getElementById('btnSliceStoryboard')) return;
+    const btn = document.createElement('button');
+    btn.id = 'btnSliceStoryboard';
+    btn.className = 'btn btn-purple';
+    btn.textContent = '🧩 Fatiar Storyboard';
+    btn.onclick = function(){ generateStoryboardSlicesOnly(); };
+    row.insertBefore(btn, row.firstChild);
+  }
+
+  function ensureSlicesExportCard(){
+    const grid = document.querySelector('#tab-export .export-grid');
+    if (!grid || document.getElementById('exportCardStoryboardSlices')) return;
+    const card = document.createElement('div');
+    card.className = 'export-card';
+    card.id = 'exportCardStoryboardSlices';
+    card.innerHTML = `
+      <h4>🧩 Storyboard Fatiado</h4>
+      <p>Divide a cena/storyboard em fatias: visual, ação, câmera, emoção, narração, SRT e prompt de vídeo 2D.</p>
+      <button class="btn btn-purple btn-sm" onclick="exportStoryboardSlicesCurrent()">Cena Atual</button>
+      <button class="btn btn-sm" onclick="exportStoryboardSlicesProject()">Projeto Completo</button>
+      <button class="btn btn-cyan btn-sm" onclick="generateStoryboardSlicesOnly()">Fatiar com Claude</button>`;
+    const capcutCard = Array.from(grid.querySelectorAll('.export-card')).find(c => /CapCut Studio/.test(c.textContent));
+    if (capcutCard) grid.insertBefore(card, capcutCard);
+    else grid.insertBefore(card, grid.firstChild);
+  }
+
+  const oldCopy = window.copyCurrentEditorScript;
+  window.copyCurrentEditorScript = function(){
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+    copyText(text, currentEditorMode === 'slices' ? 'Storyboard fatiado copiado.' : 'Aba copiada.');
+  };
+
+  const oldDownload = window.downloadCurrentSceneTxt;
+  window.downloadCurrentSceneTxt = function(){
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+    const suffixMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance', capcut2d:'capcut_2d_100', motion2d:'whisk_movimento_2d', slices:'storyboard_fatiado'};
+    const suffix = suffixMap[currentEditorMode] || 'aba';
+    downloadText(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+    log('Aba baixada em arquivo.', 'ok');
+  };
+
+  const oldShare = window.shareCurrentEditorText;
+  window.shareCurrentEditorText = function(){
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+    const suffixMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance', capcut2d:'capcut_2d_100', motion2d:'whisk_movimento_2d', slices:'storyboard_fatiado'};
+    const suffix = suffixMap[currentEditorMode] || 'aba';
+    shareTextAsFile(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+  };
+
+  const oldNarrate = window.narrateEditorMode;
+  window.narrateEditorMode = function(){
+    if (currentEditorMode === 'slices') {
+      const editor = document.getElementById('smartEditor');
+      return narrateText(editor ? editor.value : buildStoryboardSlicesText(getCurrentScene(), state.currentScene || 0), 'Storyboard fatiado');
+    }
+    if (typeof oldNarrate === 'function') return oldNarrate();
+  };
+
+  function patchLabels(){
+    const brand = document.querySelector('.topbar-brand span');
+    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
+    document.title = 'Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado';
+    const logo = document.querySelector('.portal-logo');
+    if (logo) logo.textContent = '🎬 Mega Studio V6.7';
+    const strip = document.getElementById('terminalStrip');
+    if (strip) strip.textContent = 'Engine V6.7 ativo: Claude lê o storyboard completo, refatia a cena em quadros/momentos e gera roteiro, SRT, voz e vídeo IA.';
+    const genBtn = Array.from(document.querySelectorAll('#tab-scene .action-row .btn')).find(b => /Gerar Roteiro da Cena/.test(b.textContent));
+    if (genBtn) genBtn.textContent = '⚡ Storyboard → Roteiro';
+  }
+
+  function setupSlicesNow(){
+    if (typeof migrateState === 'function') migrateState();
+    ensureSlicesButton();
+    ensureSliceActionButton();
+    ensureSlicesExportCard();
+    patchLabels();
+    if (typeof renderNodes === 'function') renderNodes();
+  }
+
+  setupSlicesNow();
+  setTimeout(setupSlicesNow, 500);
+  setTimeout(setupSlicesNow, 1500);
 })();
 
 </script>
