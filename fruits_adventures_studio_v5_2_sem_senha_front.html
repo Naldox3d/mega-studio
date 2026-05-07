@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.1 Director Blueprint</title>
+<title>Fruits Adventures Mega Studio — V6.2 Claude API Fix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -279,7 +279,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.1 Director Blueprint</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.2 Claude API Fix</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -291,7 +291,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.1 iniciado. Crie o guia visual, gere a imagem em qualquer ferramenta e finalize o roteiro com Claude Vision.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.2 iniciado. Modelos Claude atualizados; use Backend seguro e teste a conexão.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -338,11 +338,13 @@ Nunca inventar personagens fora desta lista.</textarea>
           </div>
 
           <div class="section-title" style="margin-top:20px;">🔌 Configuração de API</div>
+          <div class="notice notice-warn">Se estiver usando Backend seguro, deixe a API Key fora do HTML e configure ANTHROPIC_API_KEY no servidor/Vercel. O botão Atualizar Claude troca o modelo antigo automaticamente.</div>
           <div class="api-provider-grid" id="providerGrid"></div>
           <div class="api-status-row">
             <div class="dot" id="apiDot" style="background:var(--muted)"></div>
             <span id="apiStatusText">API não testada</span>
             <button class="btn btn-sm btn-cyan" style="margin-left:auto;" onclick="testApi()">Testar Conexão</button>
+            <button class="btn btn-sm btn-gold" onclick="forceClaudeModernModel()">Atualizar Claude</button>
           </div>
           <div class="field-grid">
             <div class="field"><label>Provider</label>
@@ -527,7 +529,7 @@ Inimigos: infectados/frutas zumbis quando o modo Fruits estiver ativo; vilão po
 Não inventar personagens fora das regras do diretor sem pedir autorização.
 Não copiar cenas, falas, personagens ou universo protegido. Use referências apenas como clima, linguagem visual e estrutura.`
   },
-  api: { provider: 'claude', model: 'claude-3-5-sonnet-20241022', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'backend', maxTokens: 4000, temperature: 0.62 },
+  api: { provider: 'claude', model: 'claude-sonnet-4-5', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'backend', maxTokens: 4000, temperature: 0.62 },
   scenes: [ { title: 'Cena 1', summary: '', image: null, visualPrompt: '', visualAnalysis: '', text: '', approved: false } ],
   currentScene: 0,
   status: 'Setup', score: 8
@@ -546,14 +548,49 @@ function loadState() {
 function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 function clone(x) { return JSON.parse(JSON.stringify(x)); }
 
+function normalizeClaudeModel(model) {
+  const deprecated = ['claude-3-5-sonnet-20241022', 'claude-3-haiku-20240307', 'claude-3-opus-20240229'];
+  if (!model || deprecated.includes(model)) return 'claude-sonnet-4-5';
+  return model;
+}
+
+function migrateStateForClaudeModels() {
+  if (!state.api) state.api = clone(DEFAULT.api);
+  if (state.api.provider === 'claude') {
+    const before = state.api.model;
+    state.api.model = normalizeClaudeModel(state.api.model);
+    state.api.callMode = state.api.callMode || 'backend';
+    state.api.endpoint = state.api.endpoint || '/api/fruits-generate';
+    if (before !== state.api.model) log('Modelo Claude antigo atualizado para: ' + state.api.model, 'ok');
+  }
+  saveState();
+}
+
+function forceClaudeModernModel() {
+  state.api.provider = 'claude';
+  state.api.model = 'claude-sonnet-4-5';
+  state.api.callMode = 'backend';
+  state.api.endpoint = '/api/fruits-generate';
+  set('provider', 'claude');
+  set('model', 'claude-sonnet-4-5');
+  set('callMode', 'backend');
+  set('endpoint', '/api/fruits-generate');
+  saveState();
+  renderProviderGrid();
+  renderModels();
+  log('Claude atualizado: modelo claude-sonnet-4-5 + Backend seguro.', 'ok');
+}
+
 // ═══════════════════════════════════════════════
 // DATA & PROVIDERS
 // ═══════════════════════════════════════════════
 const PROVIDERS = {
-  claude: { name: 'Claude', icon: '🤖', desc: 'Melhor para roteiro e visão', models: ['claude-3-5-sonnet-20241022', 'claude-3-haiku-20240307'] },
-  gemini: { name: 'Gemini', icon: '✨', desc: 'Google (Aceita Imagem)', models: ['gemini-2.5-flash', 'gemini-1.5-pro'] },
-  groq:   { name: 'Groq',   icon: '⚡', desc: 'Rápido (Sem Imagem)', models: ['llama-3.3-70b-versatile'] },
-  openrouter: { name: 'OpenRouter', icon: '🔀', desc: 'Fallback', models: ['google/gemini-flash-1.5:free'] }
+  // Modelos Claude atualizados. Evita o erro antigo: claude-3-5-sonnet-20241022.
+  // Dica: se o backend aceitar aliases, use claude-sonnet-4-5. Se ele exigir ID datado, use claude-sonnet-4-5-20250929.
+  claude: { name: 'Claude', icon: '🤖', desc: 'Melhor para roteiro e visão', models: ['claude-sonnet-4-5', 'claude-sonnet-4-5-20250929', 'claude-haiku-4-5', 'claude-opus-4-7'] },
+  gemini: { name: 'Gemini', icon: '✨', desc: 'Google (Aceita Imagem)', models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-1.5-pro'] },
+  groq:   { name: 'Groq',   icon: '⚡', desc: 'Rápido (Sem Imagem)', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'] },
+  openrouter: { name: 'OpenRouter', icon: '🔀', desc: 'Fallback', models: ['anthropic/claude-sonnet-4.5', 'google/gemini-2.5-flash', 'google/gemini-flash-1.5:free'] }
 };
 
 const QUICK_PROMPTS = ['Analise o ritmo da cena 1', 'Sugira 3 ganchos para o final', 'Me dê uma ideia visual baseada no meu Setup'];
@@ -649,6 +686,7 @@ function selectProvider(id) { state.api.provider = id; set('provider', id); rend
 function onProviderChange() { selectProvider(v('provider')); }
 function renderModels() {
   const p = PROVIDERS[state.api.provider]; if (!p) return;
+  if (state.api.provider === 'claude') state.api.model = normalizeClaudeModel(state.api.model);
   document.getElementById('model').innerHTML = p.models.map(m => `<option value="${m}">${m}</option>`).join('');
   if (!p.models.includes(state.api.model)) state.api.model = p.models[0];
   document.getElementById('model').value = state.api.model;
@@ -658,7 +696,7 @@ async function testApi() {
   const dot = document.getElementById('apiDot'), txt = document.getElementById('apiStatusText');
   dot.className = 'dot dot-idle'; txt.textContent = 'Testando...';
   try {
-    const res = await callApi('Responda apenas: API conectada.');
+    const res = await callApi('Responda apenas: API Claude conectada e modelo atualizado.');
     dot.className = 'dot dot-ok'; txt.textContent = 'Conectada: ' + res.slice(0, 30);
   } catch(e) { dot.className = 'dot dot-err'; txt.textContent = 'Erro: ' + e.message; }
 }
@@ -666,7 +704,7 @@ async function testApi() {
 // O CORAÇÃO DA API (Preservado do original, aceita arrays de imagens)
 async function callApi(prompt, systemMsg) {
   state.api.apiKey = v('apiKey') || state.api.apiKey;
-  state.api.model = v('model') || state.api.model;
+  state.api.model = normalizeClaudeModel(v('model') || state.api.model);
   state.api.callMode = v('callMode') || state.api.callMode;
   saveState();
 
