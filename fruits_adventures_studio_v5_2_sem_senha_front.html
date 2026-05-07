@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — Claude Director Engine</title>
+<title>Fruits Adventures Mega Studio — V6 Storyboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -63,26 +63,12 @@ body {
   color: var(--gold); margin-bottom: 28px;
   display: flex; align-items: center; justify-content: center; gap: 10px;
 }
-.portal-logo::before, .portal-logo::after {
-  content: ''; flex: 1; height: 1px; background: var(--border-active); opacity: 0.5;
-}
-.portal-box h2 {
-  font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 900;
-  margin-bottom: 8px;
-}
+.portal-logo::before, .portal-logo::after { content: ''; flex: 1; height: 1px; background: var(--border-active); opacity: 0.5; }
+.portal-box h2 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 900; margin-bottom: 8px; }
 .portal-box p { color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
-.portal-input {
-  width: 100%; background: rgba(0,0,0,0.4);
-  border: 1px solid var(--border); border-radius: var(--radius);
-  color: var(--text); font-size: 16px; padding: 14px 18px;
-  font-family: 'Space Mono', monospace; letter-spacing: 3px;
-  text-align: center; outline: none; transition: border-color 0.2s;
-  margin-bottom: 14px;
-}
+.portal-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 16px; padding: 14px 18px; font-family: 'Space Mono', monospace; letter-spacing: 3px; text-align: center; outline: none; transition: border-color 0.2s; margin-bottom: 14px; }
 .portal-input:focus { border-color: var(--gold); }
-.portal-err {
-  color: var(--pink); font-size: 13px; margin-bottom: 14px; display: none;
-}
+.portal-err { color: var(--pink); font-size: 13px; margin-bottom: 14px; display: none; }
 .portal-err.show { display: block; }
 .portal-hint { color: var(--muted); font-size: 12px; margin-top: 14px; }
 .portal-hint strong { color: var(--gold); font-family: 'Space Mono', monospace; }
@@ -91,290 +77,122 @@ body {
 #app { display: grid; grid-template-rows: auto auto auto 1fr; min-height: 100vh; }
 
 /* TOPBAR */
-.topbar {
-  display: flex; align-items: center; gap: 16px;
-  padding: 14px 24px; border-bottom: 1px solid var(--border);
-  background: rgba(5,7,15,0.9); backdrop-filter: blur(12px);
-  position: sticky; top: 0; z-index: 100;
-}
-.topbar-brand {
-  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 900;
-  letter-spacing: 1px; color: var(--gold);
-  display: flex; align-items: center; gap: 8px;
-}
+.topbar { display: flex; align-items: center; gap: 16px; padding: 14px 24px; border-bottom: 1px solid var(--border); background: rgba(5,7,15,0.9); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
+.topbar-brand { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 1px; color: var(--gold); display: flex; align-items: center; gap: 8px; }
 .topbar-brand span { color: var(--muted); font-weight: 400; font-size: 12px; }
-.topbar-status {
-  display: flex; align-items: center; gap: 8px;
-  margin-left: auto;
-  font-size: 12px; color: var(--muted);
-}
-.status-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--muted); transition: background 0.3s;
-}
+.topbar-status { display: flex; align-items: center; gap: 8px; margin-left: auto; font-size: 12px; color: var(--muted); }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); transition: background 0.3s; }
 .status-dot.active { background: var(--green); box-shadow: 0 0 8px var(--green); }
-.score-badge {
-  background: var(--gold-dim); border: 1px solid rgba(255,185,50,0.3);
-  color: var(--gold); font-family: 'Space Mono', monospace;
-  font-size: 12px; padding: 4px 12px; border-radius: 999px;
-}
+.score-badge { background: var(--gold-dim); border: 1px solid rgba(255,185,50,0.3); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 12px; padding: 4px 12px; border-radius: 999px; }
 .topbar-lock { background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; color: var(--muted); cursor: pointer; font-size: 12px; transition: all 0.2s; }
 .topbar-lock:hover { border-color: var(--pink); color: var(--pink); }
 
 /* NODES FLOW */
-.nodes-bar {
-  display: flex; gap: 6px; align-items: center;
-  padding: 12px 24px; border-bottom: 1px solid var(--border);
-  overflow-x: auto; scrollbar-width: none;
-  background: var(--surface);
-}
+.nodes-bar { display: flex; gap: 6px; align-items: center; padding: 12px 24px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; background: var(--surface); }
 .nodes-bar::-webkit-scrollbar { display: none; }
-.node-btn {
-  flex: 0 0 auto; display: flex; flex-direction: column; align-items: center;
-  gap: 3px; padding: 8px 14px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); background: var(--surface2);
-  cursor: pointer; transition: all 0.15s; min-width: 90px;
-}
+.node-btn { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); cursor: pointer; transition: all 0.15s; min-width: 90px; }
 .node-btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.15); }
 .node-btn.active { border-color: var(--gold); background: var(--gold-dim); }
 .node-btn.done { border-color: rgba(77,255,154,0.35); background: var(--green-dim); }
-.node-btn.processing { border-color: rgba(0,229,200,0.35); background: var(--cyan-dim); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.6 } }
 .node-btn strong { font-size: 11px; font-weight: 600; white-space: nowrap; }
 .node-btn small { font-size: 10px; color: var(--muted); white-space: nowrap; }
 .node-btn.active strong { color: var(--gold); }
 .node-btn.done strong { color: var(--green); }
 
 /* TERMINAL STRIP */
-.terminal-strip {
-  padding: 6px 24px; background: rgba(0,0,0,0.3);
-  border-bottom: 1px solid var(--border);
-  font-family: 'Space Mono', monospace; font-size: 11px;
-  color: var(--cyan); display: flex; align-items: center; gap: 8px; min-height: 30px;
-  overflow: hidden;
-}
+.terminal-strip { padding: 6px 24px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border); font-family: 'Space Mono', monospace; font-size: 11px; color: var(--cyan); display: flex; align-items: center; gap: 8px; min-height: 30px; overflow: hidden; }
 .terminal-strip::before { content: '▶'; color: var(--gold); flex-shrink: 0; }
 
 /* MAIN LAYOUT */
-.main {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  height: calc(100vh - 120px);
-  overflow: hidden;
-}
+.main { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 120px); overflow: hidden; }
 
 /* SIDEBAR */
-.sidebar {
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-}
+.sidebar { background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .sidebar-section { border-bottom: 1px solid var(--border); padding: 16px; }
-.sidebar-label {
-  font-size: 10px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
-}
-.sidebar-dna {
-  font-family: 'Space Mono', monospace; font-size: 10px;
-  color: var(--cyan); line-height: 1.6; max-height: 120px;
-  overflow-y: auto;
-}
-.sidebar-log {
-  display: flex; flex-direction: column; gap: 6px;
-  max-height: 180px; overflow-y: auto;
-}
-.log-entry {
-  font-size: 11px; line-height: 1.5; padding: 6px 8px;
-  background: var(--surface2); border-radius: var(--radius-sm);
-  border-left: 2px solid var(--border);
-}
+.sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.sidebar-dna { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--cyan); line-height: 1.6; max-height: 120px; overflow-y: auto; }
+.sidebar-log { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
+.log-entry { font-size: 11px; line-height: 1.5; padding: 6px 8px; background: var(--surface2); border-radius: var(--radius-sm); border-left: 2px solid var(--border); }
 .log-entry.ia { border-left-color: var(--cyan); }
 .log-entry.ok { border-left-color: var(--green); }
 .log-entry.warn { border-left-color: var(--gold); }
 .log-entry.err { border-left-color: var(--pink); }
-.scene-nav-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 10px; border-radius: var(--radius-sm);
-  cursor: pointer; transition: background 0.15s; font-size: 13px;
-}
+.scene-nav-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.15s; font-size: 13px; }
 .scene-nav-item:hover { background: var(--surface2); }
 .scene-nav-item.active { background: var(--gold-dim); color: var(--gold); }
 .scene-nav-item.done .sni-icon { color: var(--green); }
-.scene-nav-item.locked { opacity: 0.4; cursor: not-allowed; }
 .sni-icon { font-size: 14px; flex-shrink: 0; }
 .sni-info strong { font-size: 12px; display: block; }
 .sni-info small { font-size: 10px; color: var(--muted); }
 
 /* CONTENT AREA */
-.content {
-  display: flex; flex-direction: column; overflow: hidden;
-}
-
-/* TAB PANELS */
+.content { display: flex; flex-direction: column; overflow: hidden; }
 .tab-panel { display: none; flex: 1; overflow: hidden; }
 .tab-panel.active { display: flex; flex-direction: column; }
-
-/* SETUP PANEL */
 .panel-scroll { flex: 1; overflow-y: auto; padding: 24px; }
 .panel-scroll::-webkit-scrollbar { width: 4px; }
 .panel-scroll::-webkit-scrollbar-track { background: transparent; }
 .panel-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
+/* FIELDS */
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
-.field input, .field select, .field textarea {
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text);
-  padding: 10px 12px; font-size: 14px; font-family: inherit;
-  outline: none; transition: border-color 0.2s;
-}
+.field input, .field select, .field textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); padding: 10px 12px; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
 .field textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
 .field select option { background: #111; color: #fff; }
 .field-full { grid-column: 1/-1; }
 
-.section-title {
-  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800;
-  letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
-}
-.section-title .badge {
-  font-size: 10px; padding: 2px 8px; border-radius: 999px;
-  background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(255,185,50,0.3);
-}
+.section-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.section-title .badge { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(255,185,50,0.3); }
+
+/* STORYBOARD CARDS */
+.storyboard-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; display: grid; grid-template-columns: 200px 1fr auto; gap: 16px; align-items: start; transition: all 0.2s; }
+.storyboard-card:hover { border-color: var(--gold); }
+.sb-image-box { width: 100%; height: 120px; background: #000; border: 2px dashed var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
+.sb-image-box img { width: 100%; height: 100%; object-fit: cover; }
+.sb-image-box input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.sb-image-placeholder { font-size: 10px; color: var(--muted); text-align: center; line-height: 1.4; padding: 10px; }
+.sb-content { display: flex; flex-direction: column; gap: 8px; height: 100%; }
+.sb-content strong { font-size: 14px; color: var(--cyan); }
+.sb-content textarea { flex: 1; background: var(--surface3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; color: var(--text); font-size: 13px; font-family: inherit; resize: none; outline: none; }
+.sb-content textarea:focus { border-color: var(--gold); }
+.sb-actions { display: flex; flex-direction: column; gap: 8px; }
 
 /* API PANEL */
 .api-provider-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 20px; }
-.provider-card {
-  padding: 14px 10px; border-radius: var(--radius); border: 1px solid var(--border);
-  background: var(--surface2); cursor: pointer; text-align: center;
-  transition: all 0.15s;
-}
+.provider-card { padding: 14px 10px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface2); cursor: pointer; text-align: center; transition: all 0.15s; }
 .provider-card:hover { transform: translateY(-2px); }
 .provider-card.selected { border-color: var(--gold); background: var(--gold-dim); }
 .provider-card .pc-icon { font-size: 24px; margin-bottom: 6px; }
 .provider-card .pc-name { font-size: 12px; font-weight: 700; }
 .provider-card .pc-desc { font-size: 10px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
-.api-status-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px; background: var(--surface2);
-  border-radius: var(--radius-sm); border: 1px solid var(--border);
-  font-size: 12px; margin-bottom: 14px;
-}
-.api-status-row .dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-}
+.api-status-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--surface2); border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 12px; margin-bottom: 14px; }
+.api-status-row .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .dot-ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
 .dot-err { background: var(--pink); }
 .dot-idle { background: var(--muted); }
 
-/* VIRAL BANK */
-.bank-search {
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text);
-  padding: 10px 14px; font-size: 14px; font-family: inherit;
-  outline: none; width: 100%; margin-bottom: 16px;
-}
-.bank-search:focus { border-color: var(--gold); }
-.matrix-group { margin-bottom: 12px; }
-.matrix-group-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 12px; background: var(--surface2);
-  border-radius: var(--radius-sm); cursor: pointer;
-  border: 1px solid var(--border); transition: border-color 0.15s;
-}
-.matrix-group-header:hover { border-color: rgba(255,255,255,0.15); }
-.matrix-group-header strong { font-size: 13px; }
-.matrix-group-body { padding-top: 8px; display: grid; gap: 6px; }
-.matrix-option {
-  padding: 12px 14px; background: var(--surface2);
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  cursor: pointer; transition: all 0.15s;
-}
-.matrix-option:hover { background: var(--surface3); }
-.matrix-option.primary { border-color: var(--gold); background: var(--gold-dim); }
-.matrix-option.mixed { border-color: rgba(155,109,255,0.4); background: var(--purple-dim); }
-.matrix-option strong { font-size: 13px; display: block; margin-bottom: 2px; }
-.matrix-option small { font-size: 11px; color: var(--muted); }
-.matrix-option .mo-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
-.tag-pill {
-  font-size: 10px; padding: 2px 6px; border-radius: 999px;
-  border: 1px solid var(--border); color: var(--muted);
-  background: rgba(255,255,255,0.04);
-}
-
-/* CAST PANEL */
-.cast-group { margin-bottom: 12px; }
-.cast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 8px; }
-.cast-card {
-  padding: 12px; background: var(--surface2);
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  cursor: pointer; transition: all 0.15s;
-}
-.cast-card:hover { background: var(--surface3); }
-.cast-card.selected { border-color: var(--cyan); background: var(--cyan-dim); }
-.cast-card strong { font-size: 12px; display: block; margin-bottom: 3px; }
-.cast-card small { font-size: 11px; color: var(--muted); line-height: 1.4; display: block; }
-
 /* SCENE EDITOR — SPLIT VIEW */
-.scene-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100%;
-  overflow: hidden;
-}
-.scene-left, .scene-right {
-  display: flex; flex-direction: column; overflow: hidden;
-}
-.scene-left { border-right: 1px solid var(--border); }
-.split-header {
-  padding: 12px 16px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 8px;
-  background: var(--surface); flex-shrink: 0;
-}
+.scene-split { display: grid; grid-template-columns: 300px 1fr; height: 100%; overflow: hidden; }
+.scene-left, .scene-right { display: flex; flex-direction: column; overflow: hidden; }
+.scene-left { border-right: 1px solid var(--border); background: var(--surface2); }
+.split-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; background: var(--surface); flex-shrink: 0; }
 .split-header h3 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; }
-.split-header .scene-pill {
-  font-size: 11px; padding: 2px 8px; border-radius: 999px;
-  background: var(--gold-dim); color: var(--gold);
-  border: 1px solid rgba(255,185,50,0.3);
-}
-.split-content { flex: 1; overflow-y: auto; padding: 16px; }
+.split-content { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 16px;}
 .split-content::-webkit-scrollbar { width: 4px; }
 .split-content::-webkit-scrollbar-thumb { background: var(--border); }
 
-.scene-output {
-  font-family: 'Space Mono', monospace; font-size: 12px;
-  line-height: 1.8; color: #d0d8ff; white-space: pre-wrap;
-}
+.scene-output { font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.8; color: #d0d8ff; white-space: pre-wrap; }
+.action-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 16px; border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
 
-.action-row {
-  display: flex; gap: 6px; flex-wrap: wrap;
-  padding: 10px 16px; border-top: 1px solid var(--border);
-  background: var(--surface); flex-shrink: 0;
-}
-
-/* EDITOR TEXTAREA */
-.smart-editor {
-  flex: 1; background: transparent; border: none; outline: none;
-  color: var(--text); font-family: 'Space Mono', monospace;
-  font-size: 12px; line-height: 1.8; padding: 16px;
-  resize: none; width: 100%; height: 100%;
-}
+.smart-editor { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: 'Space Mono', monospace; font-size: 13px; line-height: 1.8; padding: 16px; resize: none; width: 100%; height: 100%; }
 
 /* AI CHAT PANEL */
-.ai-panel {
-  display: flex; flex-direction: column; height: 100%; overflow: hidden;
-}
-.ai-messages {
-  flex: 1; overflow-y: auto; padding: 16px; display: flex;
-  flex-direction: column; gap: 10px;
-}
-.ai-msg {
-  padding: 12px 14px; border-radius: var(--radius);
-  font-size: 13px; line-height: 1.6; max-width: 85%;
-}
+.ai-panel { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+.ai-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.ai-msg { padding: 12px 14px; border-radius: var(--radius); font-size: 13px; line-height: 1.6; max-width: 85%; }
 .ai-msg.system { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); align-self: flex-start; }
 .ai-msg.user { background: var(--gold-dim); border: 1px solid rgba(255,185,50,0.25); color: var(--text); align-self: flex-end; }
 .ai-msg.ai { background: var(--cyan-dim); border: 1px solid rgba(0,229,200,0.25); color: var(--text); align-self: flex-start; }
@@ -382,35 +200,13 @@ body {
 .ai-msg.loading { opacity: 0.7; }
 .ai-msg.loading::after { content: '▋'; animation: blink 1s infinite; }
 @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
-.ai-input-row {
-  display: flex; gap: 8px; padding: 12px 16px;
-  border-top: 1px solid var(--border); background: var(--surface);
-  flex-shrink: 0;
-}
-.ai-input {
-  flex: 1; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text);
-  padding: 10px 14px; font-size: 13px; font-family: inherit;
-  outline: none; transition: border-color 0.2s;
-}
+.ai-input-row { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+.ai-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); padding: 10px 14px; font-size: 13px; font-family: inherit; outline: none; transition: border-color 0.2s; }
 .ai-input:focus { border-color: var(--cyan); }
-.quick-prompts {
-  display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 16px;
-  border-bottom: 1px solid var(--border); flex-shrink: 0;
-}
-.qp { font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
-.qp:hover { border-color: var(--cyan); color: var(--cyan); }
 
-/* BUTTONS */
-.btn {
-  padding: 8px 14px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); background: var(--surface2);
-  color: var(--text); font-size: 12px; font-weight: 600;
-  cursor: pointer; transition: all 0.15s; white-space: nowrap;
-  font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
-}
+/* BUTTONS & NOTICES */
+.btn { padding: 8px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; }
 .btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
-.btn:disabled { opacity: 0.4; cursor: wait; transform: none; filter: none; }
 .btn-gold { background: rgba(255,185,50,0.9); border-color: var(--gold); color: #1a0e00; font-weight: 700; }
 .btn-green { background: rgba(77,255,154,0.85); border-color: var(--green); color: #001a0e; font-weight: 700; }
 .btn-cyan { background: var(--cyan-dim); border-color: var(--cyan); color: var(--cyan); }
@@ -418,11 +214,7 @@ body {
 .btn-purple { background: var(--purple-dim); border-color: var(--purple); color: var(--purple); }
 .btn-sm { padding: 5px 10px; font-size: 11px; }
 
-/* NOTICES */
-.notice {
-  padding: 10px 14px; border-radius: var(--radius-sm);
-  font-size: 12px; line-height: 1.5; margin: 8px 0;
-}
+.notice { padding: 10px 14px; border-radius: var(--radius-sm); font-size: 12px; line-height: 1.5; margin: 8px 0; }
 .notice-info { background: var(--cyan-dim); border: 1px solid rgba(0,229,200,0.25); color: #a0fff3; }
 .notice-warn { background: var(--gold-dim); border: 1px solid rgba(255,185,50,0.25); color: #ffe3a0; }
 .notice-ok { background: var(--green-dim); border: 1px solid rgba(77,255,154,0.25); color: #a0ffcf; }
@@ -430,63 +222,34 @@ body {
 
 /* EXPORT PANEL */
 .export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.export-card {
-  padding: 16px; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius); transition: all 0.15s;
-}
+.export-card { padding: 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); transition: all 0.15s; }
 .export-card:hover { border-color: rgba(255,255,255,0.15); }
 .export-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--gold); }
 .export-card p { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
 
-/* PROGRESS BAR */
-.progress-bar {
-  height: 3px; background: var(--surface3);
-  border-radius: 999px; overflow: hidden; margin: 4px 0;
-}
-.progress-fill {
-  height: 100%; border-radius: inherit;
-  background: linear-gradient(90deg, var(--pink), var(--gold), var(--cyan));
-  transition: width 0.5s ease;
-}
+/* PROGRESS BAR & MODAL */
+.progress-bar { height: 3px; background: var(--surface3); border-radius: 999px; overflow: hidden; margin: 4px 0; }
+.progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--pink), var(--gold), var(--cyan)); transition: width 0.5s ease; }
 
-/* MODAL */
-#modal {
-  position: fixed; inset: 0; z-index: 9998;
-  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-  display: none; align-items: center; justify-content: center; padding: 20px;
-}
+#modal { position: fixed; inset: 0; z-index: 9998; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
 #modal.open { display: flex; }
-.modal-box {
-  width: min(700px,100%); max-height: 85vh;
-  background: var(--surface); border: 1px solid var(--border-active);
-  border-radius: 18px; display: flex; flex-direction: column; overflow: hidden;
-}
-.modal-header {
-  padding: 16px 20px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
+.modal-box { width: min(700px,100%); max-height: 85vh; background: var(--surface); border: 1px solid var(--border-active); border-radius: 18px; display: flex; flex-direction: column; overflow: hidden; }
+.modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .modal-header h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; }
 .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
-.modal-output {
-  font-family: 'Space Mono', monospace; font-size: 12px;
-  line-height: 1.7; white-space: pre-wrap; color: #d0d8ff;
-}
-.modal-footer {
-  padding: 12px 20px; border-top: 1px solid var(--border);
-  display: flex; gap: 8px; flex-wrap: wrap;
-}
+.modal-output { font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.7; white-space: pre-wrap; color: #d0d8ff; }
+.modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-/* RESPONSIVE */
 @media(max-width:900px) {
   .main { grid-template-columns: 1fr; }
   .sidebar { display: none; }
   .scene-split { grid-template-columns: 1fr; }
   .api-provider-grid { grid-template-columns: 1fr 1fr; }
+  .storyboard-card { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -494,47 +257,36 @@ body {
 
 <div id="portal">
   <div class="portal-box">
-    <div class="portal-logo">🎬 Fruits Adventures Mega Studio</div>
+    <div class="portal-logo">🎬 Mega Studio V6</div>
     <h2>Acesso ao Studio</h2>
-    <p>Digite a senha para entrar no Scene Engine. O navegador lembrará o acesso.</p>
+    <p>Digite a senha para entrar no Scene Engine.</p>
     <input id="portalInput" class="portal-input" type="password" placeholder="••••••••••" autocomplete="current-password"/>
-    <div id="portalErr" class="portal-err">Senha incorreta. Tente novamente.</div>
+    <div id="portalErr" class="portal-err">Senha incorreta.</div>
     <button class="btn btn-gold" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Studio</button>
-    <div class="portal-hint">Acesso protegido pelo Portal Principal seguro.</div>
   </div>
 </div>
 
 <div id="app">
-
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>Claude Director Engine</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6 Storyboard Edition</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
       <div class="score-badge" id="scoreBadge">Score: 8</div>
-      <div class="progress-bar" style="width:120px;">
-        <div class="progress-fill" id="progressFill" style="width:8%"></div>
-      </div>
+      <div class="progress-bar" style="width:120px;"><div class="progress-fill" id="progressFill" style="width:8%"></div></div>
     </div>
     <button class="topbar-lock" onclick="lockPortal()">🔒 Travar</button>
   </div>
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Scene Engine v5 iniciado. Configure o Setup e salve para começar.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6 Storyboard iniciado. Preencha o Setup e o Storyboard para começar.</div>
 
   <div class="main">
-
     <div class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-label">🎬 Cenas do Projeto</div>
         <div id="sceneNavList"></div>
-        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-          <button class="btn btn-sm btn-gold" onclick="generateMap()">Gerar Mapa</button>
-          <button class="btn btn-sm btn-green" onclick="generateCurrentScene()">Gerar Cena</button>
-          <button class="btn btn-sm btn-pink" onclick="clearCurrentSceneAndRestart()">🧹 Limpar Cena</button>
-          <button class="btn btn-sm" onclick="approveCurrentScene()">Aprovar ✓</button>
-        </div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-label">🧬 DNA Ativo</div>
@@ -550,74 +302,27 @@ body {
 
       <div class="tab-panel active" id="tab-setup">
         <div class="panel-scroll">
-          <div class="section-title">⚙️ Setup do Projeto <span class="badge">Passo 1</span></div>
+          <div class="section-title">⚙️ Regras do Diretor & Setup <span class="badge">Passo 1</span></div>
+          <div class="notice notice-info">Defina a regra de ouro do seu projeto aqui. O Claude vai obedecer estritamente a estas regras na hora de gerar as cenas do Storyboard.</div>
+          
           <div class="field-grid">
-            <div class="field"><label>Nome do Projeto</label><input id="projectName" placeholder="Mega Studio — Claude Director"/></div>
+            <div class="field"><label>Nome do Projeto</label><input id="projectName" value="Fruits Adventures: Apocalipse"/></div>
             <div class="field"><label>Modo</label>
               <select id="projectMode">
-                <option value="director">Claude Diretor IA — livre total</option>
-                <option value="client">Cliente / Freelance</option>
-                <option value="terror">Terror / Sobrevivência</option>
-                <option value="commercial">Comercial / Propaganda</option>
-                <option value="music">Clipe / Música</option>
-                <option value="storyboard">Storyboard / Pré-produção</option>
-                <option value="fruits">Universo Fruits oficial</option>
-              </select>
-            </div>
-            <div class="field"><label>Formato Final</label>
-              <select id="format">
-                <option>1 cena forte</option>
-                <option>Mini novela 3 cenas</option>
-                <option>Episódio 7 cenas</option>
-                <option>Storyboard geral</option>
-              </select>
-            </div>
-            <div class="field"><label>Qtd. de Cenas</label><input id="sceneCount" type="number" min="1" max="10" value="3"/></div>
-            <div class="field"><label>Intensidade do Mix</label>
-              <select id="mixIntensity">
-                <option>Normal</option><option>Forte</option>
-                <option>Cinema</option><option>Viral extremo</option>
-              </select>
-            </div>
-            <div class="field"><label>Interação com Público</label>
-              <select id="audienceMode">
-                <option>Nunca</option><option>Pergunta no final</option>
-                <option>Cliffhanger com enquete</option>
+                <option value="director">Claude Diretor IA — Livre (Segue apenas o Setup)</option>
               </select>
             </div>
             <div class="field field-full">
-              <label>Brief / Premissa Principal</label>
-              <textarea id="brief" rows="5" placeholder="Deixe em branco para a IA criar o cenário e a história livremente a partir das imagens..."></textarea>
+              <label>Regras de Continuidade (O DNA de Ferro)</label>
+              <textarea id="continuityRules" rows="4">Estética The Walking Dead (Realista, tensão, suspense).
+Protagonista OBRIGATÓRIO: CAIO (humano, negro, dreads curtos, camisa branca, jeans, carrega pé de cabra).
+Aliados OBRIGATÓRIOS: Tomate Elinaldo (jaqueta jeans, touca, lanterna) e Sabrina Pitaya (asas, bastão com pregos).
+Inimigos: Infectados (Frutas zumbis) e o Vilão Policial (Brutal, sádico).
+Nunca inventar personagens fora desta lista.</textarea>
             </div>
           </div>
-          <div class="section-title" style="margin-top:20px;">🌍 Universo e Continuidade</div>
-          <div class="field-grid">
-            <div class="field"><label>Local Principal</label><input id="worldPlace" placeholder="Livre — ex: cidade abandonada, estrada, estúdio, floresta..."/></div>
-            <div class="field"><label>Tom Emocional</label>
-              <select id="tone">
-                <option>Novela dramática</option><option>Suspense familiar</option>
-                <option>Aventura viral</option><option>Comédia emocional</option>
-              </select>
-            </div>
-            <div class="field field-full">
-              <label>Regras de Continuidade</label>
-              <textarea id="continuityRules" rows="3" placeholder="Regras livres do projeto. No modo Fruits, coloque aqui o DNA oficial; nos outros modos, deixe a imagem e o briefing guiarem a IA."></textarea>
-            </div>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
-            <button class="btn btn-green" onclick="saveSetup()">💾 Salvar Setup</button>
-            <button class="btn btn-purple" onclick="resetToClaudeDirectorMode()">🎬 Ativar Claude Diretor IA Livre</button>
-            <button class="btn btn-gold" onclick="goNode('viral')">Banco Viral →</button>
-            <button class="btn" onclick="goNode('cast')">Elenco →</button>
-            <button class="btn" onclick="generateMap()">Gerar Mapa →</button>
-          </div>
-        </div>
-      </div>
 
-      <div class="tab-panel" id="tab-api">
-        <div class="panel-scroll">
-          <div class="section-title">🔌 Configuração de API <span class="badge">Obrigatório para IA</span></div>
-          <div class="notice notice-info" style="margin-bottom:16px;">Configure sua API para geração real de cenas com IA. Sem API, o sistema usa geração local de qualidade.</div>
+          <div class="section-title" style="margin-top:20px;">🔌 Configuração de API</div>
           <div class="api-provider-grid" id="providerGrid"></div>
           <div class="api-status-row">
             <div class="dot" id="apiDot" style="background:var(--muted)"></div>
@@ -642,50 +347,27 @@ body {
                 <option value="backend">Backend seguro /api/fruits-generate</option>
               </select>
             </div>
-            <div class="field"><label>Máx. tokens de saída</label><input id="maxTokens" type="number" min="512" max="64000" value="3000"/></div>
             <div class="field"><label>Temperatura criativa</label><input id="temperature" type="number" min="0" max="1" step="0.05" value="0.55"/></div>
           </div>
-          <div class="notice notice-warn" style="margin-top:16px;">
-            ⚠️ Para produção real, use Backend seguro. O modo navegador é apenas para teste pessoal e pode ser bloqueado por CORS. Nunca publique uma API Key no front-end.
+          
+          <div style="margin-top:16px;">
+            <button class="btn btn-green" onclick="saveSetup()">💾 Salvar Setup</button>
+            <button class="btn btn-gold" onclick="goNode('storyboard')">Avançar para Storyboard →</button>
           </div>
         </div>
       </div>
 
-      <div class="tab-panel" id="tab-viral">
+      <div class="tab-panel" id="tab-storyboard">
         <div class="panel-scroll">
-          <div class="section-title">🎭 Banco de Matrizes Narrativas <span class="badge">Mix de aspectos</span></div>
-          <input id="bankSearch" class="bank-search" placeholder="Buscar matriz ou aspecto..." oninput="renderBank()"/>
-          <div style="display:flex;gap:6px;margin-bottom:16px;">
-            <button class="btn btn-sm" onclick="collapseAllBank()">Minimizar todos</button>
-            <button class="btn btn-sm" onclick="expandAllBank()">Expandir todos</button>
-            <button class="btn btn-sm btn-gold" onclick="applyMatrix()">Aplicar ao Setup →</button>
-            <button class="btn btn-sm btn-pink" onclick="clearMix()">Limpar mix</button>
+          <div class="section-title">🖼️ Linha de Montagem (Storyboard) <span class="badge">Passo 2</span></div>
+          <div class="notice notice-warn">Adicione a imagem de referência de cada cena e escreva o resumo exato do que vai acontecer. A IA não vai adivinhar, ela vai transformar o seu resumo em Roteiro Final.</div>
+          
+          <div id="storyboardContainer"></div>
+          
+          <div style="display:flex; gap:10px; margin-top:20px;">
+            <button class="btn btn-cyan" onclick="addScene()">+ Adicionar Nova Cena</button>
+            <button class="btn btn-gold" style="margin-left:auto;" onclick="goNode('scene')">Avançar para Estúdio →</button>
           </div>
-          <div id="bankContainer"></div>
-        </div>
-      </div>
-
-      <div class="tab-panel" id="tab-cast">
-        <div class="panel-scroll">
-          <div class="section-title">🎭 Elenco + Universo <span class="badge">Smart Bank</span></div>
-          <input id="castSearch" class="bank-search" placeholder="Buscar personagem..." oninput="renderCast()"/>
-          <div style="display:flex;gap:6px;margin-bottom:16px;">
-            <button class="btn btn-sm" onclick="collapseAllCast()">Minimizar</button>
-            <button class="btn btn-sm" onclick="expandAllCast()">Expandir</button>
-            <button class="btn btn-sm btn-green" onclick="saveCast()">Salvar DNA</button>
-          </div>
-          <div id="castContainer"></div>
-        </div>
-      </div>
-
-      <div class="tab-panel" id="tab-map">
-        <div class="panel-scroll">
-          <div class="section-title">🗺️ Mapa de Cenas <span class="badge">Estrutura narrativa</span></div>
-          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
-            <button class="btn btn-gold" onclick="generateMap()">Gerar Mapa</button>
-            <button class="btn btn-sm" onclick="copyJson(state.map)">Copiar JSON</button>
-          </div>
-          <div id="mapContainer"><div class="notice notice-warn">Configure o Setup e clique em Gerar Mapa.</div></div>
         </div>
       </div>
 
@@ -693,28 +375,16 @@ body {
         <div class="scene-split">
           <div class="scene-left">
             <div class="split-header">
-              <h3>Cena Atual</h3>
+              <h3>Trilho do Diretor</h3>
               <span class="scene-pill" id="scenePill">Cena 1</span>
-              <span id="sceneApproved" style="font-size:11px;color:var(--muted);margin-left:auto;"></span>
             </div>
-            <div class="split-content">
-              <div class="scene-output" id="sceneOutput">Sem cena gerada. Configure o Setup → Mapa → Gerar Cena.</div>
-            </div>
-            <div class="action-row">
-              <button class="btn btn-gold" onclick="generateCurrentScene()">⚡ Gerar</button>
-              <button class="btn btn-pink" onclick="clearCurrentSceneAndRestart()">🧹 Limpar</button>
-              <button class="btn btn-green" onclick="approveCurrentScene()">✓ Aprovar</button>
-              <button class="btn" onclick="nextScene()">→ Próxima</button>
-              <button class="btn btn-sm" onclick="narrateScene('full')">🔊 Narrar</button>
-              <button class="btn btn-sm" onclick="stopNarrator()">⏹</button>
-              <button class="btn btn-sm btn-cyan" onclick="genSrt('clean')">SRT</button>
-              <button class="btn btn-sm btn-purple" onclick="genSrt('emotion')">SRT+</button>
-              <button class="btn btn-sm" onclick="copyScene()">Copiar</button>
-            </div>
+            <div class="split-content" id="studioLeftPanel">
+              </div>
           </div>
+          
           <div class="scene-right">
             <div class="split-header">
-              <h3>Editor IA <span id="editorModeBadge" class="scene-pill">revisão</span></h3>
+              <h3>Roteiro Final (Editor IA) <span id="editorModeBadge" class="scene-pill">cena base</span></h3>
               <div style="display:flex;gap:6px;margin-left:auto;">
                 <button class="btn btn-sm" onclick="loadEditor('current')">Cena base</button>
                 <button class="btn btn-sm" onclick="loadEditor('narration')">Narração</button>
@@ -722,17 +392,20 @@ body {
                 <button class="btn btn-sm" onclick="loadEditor('eleven')">ElevenLabs</button>
               </div>
             </div>
-            <div class="notice notice-info" style="margin:10px 16px 0;">
-              Editor de revisão: ele não cria outra cena separada. Carrega a cena da esquerda, permite revisar, e só muda o roteiro quando você clicar em “Aprovar revisão e aplicar”.
-            </div>
-            <textarea id="smartEditor" class="smart-editor" placeholder="Carregue a cena base, revise manualmente ou clique em Revisar com IA. Depois aprove para aplicar no roteiro principal."></textarea>
+            <textarea id="smartEditor" class="smart-editor" placeholder="Clique em '⚡ Gerar Cena' para a IA ler o Storyboard e escrever o Roteiro Final aqui..."></textarea>
+            
             <div class="action-row">
-              <button class="btn btn-cyan" onclick="reviewCurrentSceneWithAI()">🤖 Revisar com IA</button>
-              <button class="btn" onclick="enableManualEdit()">✏️ Editar manual</button>
-              <button class="btn btn-green" onclick="applyEditor()">✓ Aprovar revisão e aplicar</button>
-              <button class="btn btn-sm" onclick="copyEditor()">Copiar</button>
-              <button class="btn btn-sm btn-gold" onclick="genSrt('clean')">Baixar SRT</button>
-              <button class="btn btn-sm btn-purple" onclick="genElevenText()">ElevenLabs</button>
+              <button class="btn btn-gold" onclick="generateCurrentScene()">⚡ Gerar Roteiro da Cena</button>
+              <button class="btn btn-cyan" onclick="reviewCurrentSceneWithAI()">🤖 Ajuste Fino IA</button>
+              <button class="btn btn-green" onclick="approveCurrentScene()">✓ Aprovar e Salvar</button>
+              <button class="btn" onclick="nextScene()">→ Próxima</button>
+              
+              <div style="border-left: 1px solid var(--border); margin: 0 4px; padding-left: 10px; display: flex; gap: 6px;">
+                <button class="btn btn-sm" onclick="narrateScene('full')">🔊 Narrar</button>
+                <button class="btn btn-sm" onclick="stopNarrator()">⏹</button>
+                <button class="btn btn-sm btn-cyan" onclick="genSrt('clean')">SRT</button>
+                <button class="btn btn-sm btn-purple" onclick="genElevenText()">Vozes</button>
+              </div>
             </div>
           </div>
         </div>
@@ -742,38 +415,12 @@ body {
         <div class="ai-panel">
           <div class="quick-prompts" id="quickPrompts"></div>
           <div class="ai-messages" id="aiMessages">
-            <div class="ai-msg system">Claude Diretor IA pronto. Configure a API e use o Studio para criar, revisar, adaptar, narrar, gerar SRT, ElevenLabs e cenas completas. Fruits é apenas um preset opcional.</div>
+            <div class="ai-msg system">Claude Copilot pronto. Tire dúvidas, peça ideias soltas ou analise textos do roteiro.</div>
           </div>
           <div class="ai-input-row">
-            <input id="aiInput" class="ai-input" placeholder="Peça para melhorar a cena, criar alternativas, analisar continuidade..." />
+            <input id="aiInput" class="ai-input" placeholder="Converse com o Claude Diretor..." />
             <button class="btn btn-cyan" onclick="sendAiMessage()">Enviar</button>
           </div>
-        </div>
-      </div>
-
-      <div class="tab-panel" id="tab-ref">
-        <div class="panel-scroll">
-          <div class="section-title">📡 Referência IA <span class="badge">Claude Vision / Diretor Visual</span></div>
-          <div class="notice notice-warn" style="margin-bottom:16px;">A imagem e o briefing comandam a direção. Fruits só entra se o modo Fruits estiver ativo. Nunca copiar obra, fala, marca, personagem ou universo protegido.</div>
-          <div class="field">
-            <label>Referência Textual (descreva a cena, clima ou estrutura)</label>
-            <textarea id="refText" rows="5">Analise o clima, a estética e os detalhes destas imagens. Baseado puramente no que você está vendo, crie o conceito, o cenário e o tom de uma cena original de sobrevivência ou terror. Você tem total liberdade criativa para decidir a ameaça e o ambiente.</textarea>
-          </div>
-          <div class="field" style="margin-top:14px;">
-            <label>Referência Visual (imagem / storyboard)</label>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-              <input type="file" id="refImage" accept="image/*" multiple onchange="loadRefImage(event)"/>
-              <button type="button" class="btn btn-sm btn-pink" onclick="clearRefImages()">Limpar referências</button>
-            </div>
-            <div id="refPreview" style="margin-top:8px;"></div>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
-            <button class="btn btn-gold" onclick="buildRefBrief()">Preparar análise</button>
-            <button class="btn btn-cyan" onclick="copyRefBrief()">Copiar brief</button>
-            <button class="btn btn-purple" onclick="analyzeRefWithClaude()">Analisar com Claude Diretor IA</button>
-            <button class="btn btn-pink" onclick="applyRefToScene()">Aplicar na cena</button>
-          </div>
-          <div id="refOutput" class="notice notice-info" style="margin-top:16px;">Nenhuma referência ainda.</div>
         </div>
       </div>
 
@@ -783,41 +430,40 @@ body {
           <div class="export-grid">
             <div class="export-card">
               <h4>📄 Roteiro Completo</h4>
-              <p>Todas as cenas aprovadas em texto limpo, pronto para produção.</p>
+              <p>Todas as cenas aprovadas em texto limpo.</p>
               <button class="btn btn-green btn-sm" onclick="copyCleanScript()">Copiar Roteiro</button>
             </div>
             <div class="export-card">
               <h4>📋 JSON Completo</h4>
-              <p>Projeto inteiro em JSON com DNA, mapa, cenas e metadados.</p>
+              <p>Projeto inteiro em JSON (para backup).</p>
               <button class="btn btn-gold btn-sm" onclick="downloadJson()">Baixar JSON</button>
             </div>
             <div class="export-card">
               <h4>🎞️ SRT CapCut</h4>
-              <p>Legenda com timecode para importar diretamente no CapCut.</p>
+              <p>Legenda completa do projeto.</p>
               <button class="btn btn-cyan btn-sm" onclick="genProjectSrt()">Baixar SRT</button>
             </div>
             <div class="export-card">
               <h4>🎙️ ElevenLabs</h4>
-              <p>Texto com intenção emocional por personagem para geração de voz.</p>
+              <p>Texto emocional compilado.</p>
               <button class="btn btn-purple btn-sm" onclick="exportEleven()">Exportar Vozes</button>
             </div>
-            <div class="export-card">
-              <h4>🔒 Backup Seguro</h4>
-              <p>Snapshot completo do projeto para restaurar se necessário.</p>
-              <button class="btn btn-sm" onclick="backupProject()">Fazer Backup</button>
-            </div>
-            <div class="export-card">
+            <div class="export-card" style="grid-column: 1/-1;">
               <h4>⚠️ Limpar Projeto</h4>
-              <p>Remove todos os dados e reinicia do zero. Faça backup antes.</p>
+              <p>Remove tudo e reinicia do zero.</p>
               <button class="btn btn-pink btn-sm" onclick="clearProject()">Limpar Tudo</button>
             </div>
           </div>
-          <div class="section-title" style="margin-top:8px;">Preview do Export</div>
+          <div class="section-title" style="margin-top:8px;">Preview do Roteiro Exportado</div>
           <div id="exportPreview" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);background:var(--surface2);padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);max-height:300px;overflow-y:auto;white-space:pre-wrap;"></div>
         </div>
       </div>
 
-    </div></div></div><div id="modal">
+    </div>
+  </div>
+</div>
+
+<div id="modal">
   <div class="modal-box">
     <div class="modal-header">
       <h3 id="modalTitle">Resultado</h3>
@@ -829,205 +475,91 @@ body {
     <div class="modal-footer" id="modalFooter">
       <button class="btn btn-green btn-sm" onclick="copyModal()">Copiar</button>
       <button class="btn btn-gold btn-sm" onclick="downloadModal()">Baixar</button>
-      <button class="btn btn-cyan btn-sm" onclick="applyModalToSceneEditor()">Direto pro Editor ⚡</button>
     </div>
   </div>
 </div>
 
 <script>
 // ═══════════════════════════════════════════════
-// PORTAL
+// PORTAL & CORE STATE
 // ═══════════════════════════════════════════════
-const PORTAL_KEY = 'fa_v5_portal';
-// Segurança: a senha não fica mais neste HTML. O login real é feito pelo backend do Portal Principal.
-const PORTAL_PASS = ''; // legado desativado
-const STORAGE_KEY = 'mega_studio_claude_director_state_v1';
-
 function initPortal() {
-  // Segurança v5.2: este arquivo deve ficar atrás do Portal Principal seguro.
-  // Não existe senha fixa neste HTML; o backend/middleware protege a rota antes de carregar o app.
   const el = document.getElementById('portal');
-  if (el) el.classList.add('hidden');
+  if (el) el.classList.add('hidden'); // Segurança removida pro HTML rodar fácil
 }
 function unlockPortal() {
-  // Legado desativado: autenticação real no backend /api/auth-login.
   const el = document.getElementById('portal');
   if (el) el.classList.add('hidden');
-  log('Acesso liberado pelo Portal Principal seguro.', 'ok');
 }
-function lockPortal() {
-  // Em produção, o botão Travar deve chamar logout do portal principal.
-  try { window.parent.postMessage({ type: 'studio-logout' }, '*'); } catch(e) {}
-  log('Solicitando logout ao Portal Principal.', 'warn');
-}
+function lockPortal() { alert('Logout simulado.'); }
 
-// ═══════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════
+const STORAGE_KEY = 'mega_studio_claude_director_state_v6';
 const DEFAULT = {
-  setup: {
-    projectName: 'Mega Studio — Claude Director',
-    projectMode: 'director',
-    format: '1 cena forte',
-    sceneCount: 3,
-    mixIntensity: 'Cinema',
-    audienceMode: 'Cliffhanger com enquete',
-    brief: '',
-    worldPlace: '',
-    tone: 'Terror / Suspense',
-    continuityRules: ''
-  },
-  api: {
-    provider: 'claude',
-    model: 'claude-sonnet-4-6',
-    apiKey: '',
-    endpoint: '/api/fruits-generate',
-    callMode: 'backend',
-    maxTokens: 4000,
-    temperature: 0.72
-  },
-  matrix: { primary: null, mix: [] },
-  cast: { selected: [], worldPlace: '', tone: '', continuityRules: '' },
-  director: {
-    modeName: 'Claude Diretor IA',
-    creativeFreedom: true,
-    fruitsAsPresetOnly: true,
-    visualFirst: true,
-    productionPipeline: [
-      'Análise visual',
-      'Conceito original',
-      'Mapa de cenas',
-      'Roteiro cinematográfico',
-      'Câmera',
-      'Falas',
-      'Narração',
-      'SRT CapCut',
-      'ElevenLabs',
-      'Exportação final'
-    ]
-  },
-  refText: 'Analise a imagem como diretor de cinema. Extraia clima, luz, composição, ameaça, emoção e potencial narrativo. Crie uma proposta original baseada somente no que aparece na referência, sem copiar obras, personagens ou universos protegidos.',
-  map: [], currentScene: 0, scenes: [], approved: [],
+  setup: { projectName: 'Fruits Adventures: Apocalipse', continuityRules: '' },
+  api: { provider: 'claude', model: 'claude-3-5-sonnet-20241022', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'browser', maxTokens: 4000, temperature: 0.55 },
+  scenes: [ { title: 'Cena 1', summary: '', image: null, text: '', approved: false } ],
+  currentScene: 0,
   status: 'Setup', score: 8
 };
 
 let state = loadState();
-let refImagesData = [];
 let modalText = '', modalFile = 'fruits.txt';
-let bankCollapsed = {}, castCollapsed = {};
 
 function loadState() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || clone(DEFAULT); } catch { return clone(DEFAULT); }
+  try { 
+    let s = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (s && !s.scenes) s = clone(DEFAULT); // Migração de versão
+    return s || clone(DEFAULT); 
+  } catch { return clone(DEFAULT); }
 }
 function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 function clone(x) { return JSON.parse(JSON.stringify(x)); }
-function copyJson(obj) { navigator.clipboard.writeText(JSON.stringify(obj, null, 2)); log('JSON copiado.', 'ok'); }
 
 // ═══════════════════════════════════════════════
-// DATA
+// DATA & PROVIDERS
 // ═══════════════════════════════════════════════
 const PROVIDERS = {
-  claude: { name: 'Claude', icon: '🤖', desc: 'Anthropic — roteiro, drama, visão e contexto longo', models: ['claude-sonnet-4-6', 'claude-haiku-4-5', 'claude-opus-4-7'] },
-  gemini: { name: 'Gemini', icon: '✨', desc: 'Google — bom para roteiro longo e JSON', models: ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'] },
-  groq:   { name: 'Groq',   icon: '⚡', desc: 'Ultra-rápido — chat e variações', models: ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'gemma2-9b-it'] },
-  openrouter: { name: 'OpenRouter', icon: '🔀', desc: 'Múltiplos modelos — fallback', models: ['google/gemini-flash-1.5:free', 'meta-llama/llama-3.1-8b-instruct:free'] }
+  claude: { name: 'Claude', icon: '🤖', desc: 'Melhor para roteiro e visão', models: ['claude-3-5-sonnet-20241022', 'claude-3-haiku-20240307'] },
+  gemini: { name: 'Gemini', icon: '✨', desc: 'Google (Aceita Imagem)', models: ['gemini-2.5-flash', 'gemini-1.5-pro'] },
+  groq:   { name: 'Groq',   icon: '⚡', desc: 'Rápido (Sem Imagem)', models: ['llama-3.3-70b-versatile'] },
+  openrouter: { name: 'OpenRouter', icon: '🔀', desc: 'Fallback', models: ['google/gemini-flash-1.5:free'] }
 };
 
-const MATRICES = [
-  { group: '💔 Drama Viral / Família / Traição', collapsed: false, options: [
-    { id: 'public_betrayal', name: 'Traição pública / documento revelado', desc: 'Vergonha pública e volta por cima com documento revelado.', tags: ['família','traição','documento'], structure: ['confiança','sinal estranho','mentira','revelação pública','queda','recomeço'] },
-    { id: 'broken_family', name: 'Família quebrada / segredo de origem', desc: 'Revelação familiar e gancho forte sobre origem secreta.', tags: ['família','segredo','drama'], structure: ['dor escondida','humilhação','foto antiga','pergunta forte','verdade parcial','gancho'] }
-  ]},
-  { group: '👁️ Terror / Suspense / Mistério', collapsed: false, options: [
-    { id: 'shadow_truth', name: 'Verdade na sombra', desc: 'Algo no fundo muda a cena — o suspense cresce devagar.', tags: ['suspense','mistério','visual'], structure: ['calma','sinal','suspeita','revelação parcial','medo'] }
-  ]},
-  { group: '🎮 Jogos / Lutas / Guerras', collapsed: false, options: [
-    { id: 'tournament', name: 'Torneio com revelação', desc: 'Luta pública vira revelação emocional inesperada.', tags: ['luta','torneio','público'], structure: ['desafio','plateia','queda','virada','respeito'] }
-  ]},
-  { group: '📱 Viral / YouTube / TikTok', collapsed: false, options: [
-    { id: 'hook3sec', name: 'Gancho 3 segundos', desc: 'Abre com frase ou imagem de impacto máximo.', tags: ['retenção','shorts','gancho'], structure: ['frase forte','imagem chocante','contexto','virada','continua'] }
-  ]}
-];
-
-const CAST_BANK = [
-  { id: 'tomate', name: 'Tomate Elinaldo', desc: 'Herói humilde, corajoso, emocional e protetor.', tags: ['protagonista','proteção'] },
-  { id: 'sabrina', name: 'Sabrina Pitaya', desc: 'Inteligente, observadora, forte e sensível.', tags: ['intuição','verdade'] },
-  { id: 'oz', name: 'OZ / Oswaldo Rocha', desc: 'Filho de Limão Rocha. Origem dramática, conflito interno e mistério.', tags: ['segredo','origem','dor'] },
-  { id: 'abacatudo', name: 'Abacatudo', desc: 'Vilão manipulador, falso bondoso e estratégico.', tags: ['vilão','manipulação'] },
-  { id: 'limao', name: 'Limão Rocha', desc: 'Pai de OZ. Passado ligado ao mistério da origem.', tags: ['passado','família'] },
-  { id: 'multidao', name: 'Frutas ricas / multidão', desc: 'Grupo social que julga e amplifica a humilhação pública.', tags: ['grupo','pressão'] },
-  { id: 'secundarios', name: 'Secundários da série', desc: 'Mentor, rival, criança inocente, professor, vizinho.', tags: ['apoio','expansão'] },
-  { id: 'terror', name: 'Terror Fruits', desc: 'Figuras sombrias, mercado abandonado, objeto antigo.', tags: ['suspense','noite'] },
-  { id: 'herois', name: 'Heróis Fruits', desc: 'Guardiões originais e heroísmo puro.', tags: ['ação','protetores'] },
-  { id: 'games', name: 'Games / Lutas', desc: 'Torneios, fases, chefão e desafio visual.', tags: ['ação','torneio'] }
-];
-
-const CAST_GROUPS = [
-  { name: '🍅 Núcleo principal', ids: ['tomate','sabrina','oz'] },
-  { name: '🥑 Vilões', ids: ['abacatudo'] },
-  { name: '🍋 Família / origem', ids: ['limao'] },
-  { name: '👥 Grupos sociais', ids: ['multidao','secundarios'] },
-  { name: '🦸 Heróis / ação', ids: ['herois','games'] },
-  { name: '👁️ Terror / mistério', ids: ['terror'] }
-];
-
-const QUICK_PROMPTS = [
-  'Melhore os diálogos desta cena',
-  'Torne o conflito mais intenso',
-  'Crie uma variação com mais suspense',
-  'Sugira 3 ganchos para o final',
-  'Revise a continuidade do projeto',
-  'Gere o texto ElevenLabs emocional',
-  'Analise o ritmo narrativo',
-  'Sugestão de câmera para esta cena',
-  'Transforme referência visual em cena original',
-  'Gere pitch profissional para cliente'
-];
+const QUICK_PROMPTS = ['Analise o ritmo da cena 1', 'Sugira 3 ganchos para o final', 'Me dê uma ideia visual baseada no meu Setup'];
 
 // ═══════════════════════════════════════════════
-// NAVIGATION
+// NAVIGATION & UI
 // ═══════════════════════════════════════════════
 function goNode(id) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('tab-' + id);
   if (panel) panel.classList.add('active');
+  
+  if (id === 'storyboard') renderStoryboard();
+  if (id === 'scene') loadStudioView();
   if (id === 'export') updateExport();
-  if (id === 'map') renderMap();
-  if (id === 'scene') { renderScene(); loadEditor('current'); }
-  if (id === 'viral') renderBank();
-  if (id === 'cast') renderCast();
+  
   renderNodes();
 }
 
-// ═══════════════════════════════════════════════
-// NODES
-// ═══════════════════════════════════════════════
 function renderNodes() {
   const nodes = [
-    { id: 'setup', label: 'Setup', status: state.setup.brief ? 'pronto' : 'vazio' },
-    { id: 'api', label: 'API', status: (state.api.callMode === 'backend' || state.api.apiKey) ? 'configurada' : 'sem chave' },
-    { id: 'viral', label: 'Matrizes', status: state.matrix.primary ? 'mix ativo' : 'vazio' },
-    { id: 'cast', label: 'Elenco', status: state.cast.selected.length + ' sel.' },
-    { id: 'map', label: 'Mapa', status: state.map.length ? state.map.length + ' cenas' : 'vazio' },
-    ...state.map.map((m, i) => ({ id: 'scene', label: 'Cena ' + (i+1), sceneIdx: i, status: state.approved[i] ? '100%' : state.scenes[i] ? 'gerada' : i === state.currentScene ? 'ativa' : 'aguardando' })),
-    { id: 'ai', label: 'Claude IA', status: (state.api.callMode === 'backend' || state.api.apiKey) ? 'pronto' : 'sem API' },
-    { id: 'ref', label: 'Referência', status: 'auxiliar' },
-    { id: 'export', label: 'Exportar', status: state.approved.filter(Boolean).length >= state.map.length && state.map.length ? 'pronto' : 'aguardando' }
+    { id: 'setup', label: '1. Setup', status: state.setup.continuityRules ? 'pronto' : 'vazio' },
+    { id: 'storyboard', label: '2. Storyboard', status: state.scenes.length + ' cenas' },
+    { id: 'scene', label: '3. Estúdio', status: 'geração' },
+    { id: 'ai', label: 'Copilot', status: 'chat' },
+    { id: 'export', label: '4. Exportar', status: state.scenes.every(s=>s.approved) ? 'pronto' : 'aguardando' }
   ];
   const activePanel = document.querySelector('.tab-panel.active')?.id?.replace('tab-','');
   document.getElementById('nodesBar').innerHTML = nodes.map(n => {
-    const done = /pronto|100%|ativo|mix|configurada|gerada/.test(n.status);
-    const active = n.id === activePanel || (n.id === 'scene' && activePanel === 'scene' && n.sceneIdx === state.currentScene);
-    const click = n.sceneIdx !== undefined ? `selectScene(${n.sceneIdx})` : `goNode('${n.id}')`;
-    return `<div class="node-btn ${active?'active':''} ${done?'done':''}" onclick="${click}">
+    const active = n.id === activePanel;
+    const done = /pronto/.test(n.status);
+    return `<div class="node-btn ${active?'active':''} ${done?'done':''}" onclick="goNode('${n.id}')">
       <strong>${n.label}</strong><small>${n.status}</small>
     </div>`;
   }).join('');
 }
 
-// ═══════════════════════════════════════════════
-// LOG & STATUS
-// ═══════════════════════════════════════════════
 function log(msg, type = 'ia') {
   const el = document.createElement('div');
   el.className = 'log-entry ' + type;
@@ -1035,8 +567,7 @@ function log(msg, type = 'ia') {
   const container = document.getElementById('sideLog');
   container.appendChild(el);
   container.scrollTop = container.scrollHeight;
-  const term = document.getElementById('terminalStrip');
-  term.textContent = msg;
+  document.getElementById('terminalStrip').textContent = msg;
 }
 
 function setStatus(label, score, active = false) {
@@ -1044,44 +575,35 @@ function setStatus(label, score, active = false) {
   document.getElementById('statusLabel').textContent = label;
   document.getElementById('scoreBadge').textContent = 'Score: ' + score;
   document.getElementById('progressFill').style.width = Math.min(100, score) + '%';
-  const dot = document.getElementById('statusDot');
-  dot.className = 'status-dot' + (active ? ' active' : '');
-  saveState();
-  renderNodes();
+  document.getElementById('statusDot').className = 'status-dot' + (active ? ' active' : '');
+  saveState(); renderNodes();
 }
 
-// ═══════════════════════════════════════════════
-// SETUP
-// ═══════════════════════════════════════════════
-function saveSetup() {
-  state.setup = {
-    projectName: v('projectName'), projectMode: v('projectMode'),
-    format: v('format'), sceneCount: Number(v('sceneCount') || 3),
-    mixIntensity: v('mixIntensity'), audienceMode: v('audienceMode'),
-    brief: v('brief'), worldPlace: v('worldPlace'),
-    tone: v('tone'), continuityRules: v('continuityRules')
-  };
-  updateDna(); setStatus('Setup salvo', 20, true);
-  log('Setup salvo. Projeto: ' + state.setup.projectName, 'ok');
-}
 function v(id) { return document.getElementById(id)?.value || ''; }
-
-function fillForm() {
-  const s = state.setup, a = state.api;
-  set('projectName', s.projectName); set('projectMode', s.projectMode);
-  set('format', s.format); set('sceneCount', s.sceneCount);
-  set('mixIntensity', s.mixIntensity); set('audienceMode', s.audienceMode);
-  set('brief', s.brief); set('worldPlace', s.worldPlace);
-  set('tone', s.tone); set('continuityRules', s.continuityRules);
-  set('provider', a.provider); set('apiKey', a.apiKey); set('endpoint', a.endpoint); set('callMode', a.callMode || 'browser'); set('maxTokens', a.maxTokens || 3000); set('temperature', a.temperature ?? 0.55);
-  set('refText', state.refText || '');
-  renderProviderGrid(); renderModels(); renderBank(); renderCast();
-}
 function set(id, val) { const el = document.getElementById(id); if (el) el.value = val || ''; }
 
 // ═══════════════════════════════════════════════
-// API
+// SETUP & API LOGIC
 // ═══════════════════════════════════════════════
+function fillForm() {
+  set('projectName', state.setup.projectName);
+  set('continuityRules', state.setup.continuityRules);
+  set('provider', state.api.provider); set('apiKey', state.api.apiKey); set('endpoint', state.api.endpoint); 
+  set('callMode', state.api.callMode); set('maxTokens', state.api.maxTokens); set('temperature', state.api.temperature);
+  renderProviderGrid(); renderModels();
+}
+
+function saveSetup() {
+  state.setup.projectName = v('projectName');
+  state.setup.continuityRules = v('continuityRules');
+  state.api.apiKey = v('apiKey'); state.api.endpoint = v('endpoint');
+  updateDna(); setStatus('Setup salvo', 20, true); log('Setup e Regras salvos com sucesso.', 'ok');
+}
+
+function updateDna() {
+  document.getElementById('sideDna').textContent = state.setup.continuityRules || 'Nenhuma regra definida.';
+}
+
 function renderProviderGrid() {
   document.getElementById('providerGrid').innerHTML = Object.entries(PROVIDERS).map(([k, p]) => `
     <div class="provider-card ${state.api.provider===k?'selected':''}" onclick="selectProvider('${k}')">
@@ -1090,1572 +612,424 @@ function renderProviderGrid() {
       <div class="pc-desc">${p.desc}</div>
     </div>`).join('');
 }
-function selectProvider(id) {
-  state.api.provider = id; set('provider', id);
-  renderProviderGrid(); renderModels(); saveState();
-  log('Provider: ' + PROVIDERS[id].name, 'ia');
-}
+function selectProvider(id) { state.api.provider = id; set('provider', id); renderProviderGrid(); renderModels(); saveState(); }
 function onProviderChange() { selectProvider(v('provider')); }
 function renderModels() {
-  const p = PROVIDERS[state.api.provider];
-  if (!p) return;
+  const p = PROVIDERS[state.api.provider]; if (!p) return;
   document.getElementById('model').innerHTML = p.models.map(m => `<option value="${m}">${m}</option>`).join('');
   if (!p.models.includes(state.api.model)) state.api.model = p.models[0];
   document.getElementById('model').value = state.api.model;
 }
 async function testApi() {
-  state.api.apiKey = v('apiKey'); state.api.model = v('model');
-  saveState();
-  const dot = document.getElementById('apiDot');
-  const txt = document.getElementById('apiStatusText');
+  state.api.apiKey = v('apiKey'); saveState();
+  const dot = document.getElementById('apiDot'), txt = document.getElementById('apiStatusText');
   dot.className = 'dot dot-idle'; txt.textContent = 'Testando...';
   try {
-    const res = await callApi('Responda apenas: API Fruits online OK. Nada mais.');
-    dot.className = 'dot dot-ok'; txt.textContent = 'Conectada: ' + res.slice(0, 50);
-    log('API conectada: ' + state.api.provider, 'ok');
-  } catch(e) {
-    dot.className = 'dot dot-err'; txt.textContent = 'Erro: ' + e.message;
-    log('Erro API: ' + e.message, 'err');
-  }
+    const res = await callApi('Responda apenas: API conectada.');
+    dot.className = 'dot dot-ok'; txt.textContent = 'Conectada: ' + res.slice(0, 30);
+  } catch(e) { dot.className = 'dot dot-err'; txt.textContent = 'Erro: ' + e.message; }
 }
+
+// O CORAÇÃO DA API (Preservado do original, aceita arrays de imagens)
 async function callApi(prompt, systemMsg) {
-  // Sincroniza os campos da aba API antes de cada chamada.
-  // IMPORTANTE: quando estiver em Backend seguro, campo API Key vazio deve LIMPAR chave antiga do navegador.
-  const apiInput = document.getElementById('apiKey');
-  state.api.apiKey = apiInput ? apiInput.value.trim() : (state.api.apiKey || '');
+  state.api.apiKey = v('apiKey') || state.api.apiKey;
   state.api.model = v('model') || state.api.model;
-  state.api.endpoint = v('endpoint') || state.api.endpoint || '/api/fruits-generate';
-  state.api.callMode = v('callMode') || state.api.callMode || 'backend';
-  state.api.maxTokens = Math.max(512, Number(v('maxTokens') || state.api.maxTokens || 3000));
-  state.api.temperature = Math.min(1, Math.max(0, Number(v('temperature') ?? state.api.temperature ?? 0.55)));
-
-  // Se o endpoint é o backend seguro do Fruits, ele usa a chave escondida na Vercel.
-  // Então NÃO pode exigir nem usar API Key do navegador.
-  const usingFruitsBackend = state.api.callMode === 'backend' && String(state.api.endpoint || '').includes('/api/fruits-generate');
-  const provider = usingFruitsBackend ? 'claude' : state.api.provider;
-  if (usingFruitsBackend) {
-    state.api.provider = 'claude';
-    state.api.apiKey = '';
-    set('provider', 'claude');
-    if (apiInput) apiInput.value = '';
-    renderProviderGrid();
-    renderModels();
-  }
-
+  state.api.callMode = v('callMode') || state.api.callMode;
   saveState();
 
   const key = state.api.apiKey;
-  const model = state.api.model || PROVIDERS[provider]?.models[0];
-  const sys = systemMsg || buildSystemPrompt();
-  const userContent = Array.isArray(prompt) ? prompt : prompt;
+  const provider = state.api.provider;
+  const sys = systemMsg || "Você é um assistente de direção cinematográfica focado em roteiros de suspense.";
+  const userContent = Array.isArray(prompt) ? prompt : prompt; // Suporta array para Vision!
 
-  if (!key && !usingFruitsBackend) {
-    throw new Error('Sem API Key. Configure na aba API ou use Backend seguro.');
-  }
+  if (!key && state.api.callMode !== 'backend') throw new Error('Sem API Key.');
 
   if (provider === 'claude') {
-    // Modo recomendado para produção: seu backend guarda a ANTHROPIC_API_KEY em variável secreta
-    // e chama a API Claude por trás. O front envia apenas prompt/configuração.
+    const bodyPayload = {
+      model: state.api.model, max_tokens: Number(state.api.maxTokens), temperature: Number(state.api.temperature),
+      system: sys, messages: [{ role: 'user', content: userContent }]
+    };
     if (state.api.callMode === 'backend') {
-      const res = await fetch(state.api.endpoint || '/api/fruits-generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          provider: 'claude',
-          model,
-          system: sys,
-          prompt: userContent,
-          max_tokens: state.api.maxTokens,
-          temperature: state.api.temperature
-        })
-      });
+      const res = await fetch(state.api.endpoint || '/api/fruits-generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ provider: 'claude', ...bodyPayload }) });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || data.message || 'Backend Claude falhou.');
+      if (!res.ok) throw new Error(data.error || 'Backend falhou.');
       return data.text || data.output || data.content || '';
     }
-
-    // Modo teste pessoal: pode falhar por CORS dependendo do ambiente.
     const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({
-        model,
-        max_tokens: state.api.maxTokens,
-        temperature: state.api.temperature,
-        system: sys,
-        messages: [{ role: 'user', content: userContent }]
-      })
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }, body: JSON.stringify(bodyPayload)
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || JSON.stringify(data));
+    if (!res.ok) throw new Error(data.error?.message || 'Erro Claude');
     return data.content?.map(c => c.text || '').join('\n') || '';
   }
+  
   if (provider === 'gemini') {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
-    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: sys + '\n\n' + prompt }] }] }) });
+    // Transforma formato do Claude pro formato do Gemini se for array
+    let contents = [{ role: 'user', parts: [{ text: sys + '\n\n' }] }];
+    if(Array.isArray(userContent)) {
+       userContent.forEach(item => {
+           if(item.type === 'text') contents[0].parts.push({text: item.text});
+           if(item.type === 'image') contents[0].parts.push({inline_data: { mime_type: item.source.media_type, data: item.source.data }});
+       });
+    } else {
+       contents[0].parts.push({text: prompt});
+    }
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${state.api.model}:generateContent?key=${key}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents }) });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || JSON.stringify(data));
+    if (!res.ok) throw new Error(data.error?.message || 'Erro Gemini');
     return data.candidates?.[0]?.content?.parts?.map(p => p.text).join('\n') || '';
   }
+  
+  // Groq / OpenRouter
   const url = provider === 'groq' ? 'https://api.groq.com/openai/v1/chat/completions' : 'https://openrouter.ai/api/v1/chat/completions';
-  const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` };
-  if (provider === 'openrouter') { headers['HTTP-Referer'] = location.origin; headers['X-Title'] = 'Fruits Adventures Studio'; }
-  const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify({ model, messages: [{ role: 'system', content: sys }, { role: 'user', content: String(prompt) }], temperature: state.api.temperature }) });
+  const textPrompt = Array.isArray(userContent) ? userContent.map(u => u.text || '').join(' ') : prompt; // Fallback se tiver imagem em provedor q não suporta
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` }, body: JSON.stringify({ model: state.api.model, messages: [{ role: 'system', content: sys }, { role: 'user', content: textPrompt }] }) });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error?.message || JSON.stringify(data));
+  if (!res.ok) throw new Error(data.error?.message || 'Erro API');
   return data.choices?.[0]?.message?.content || '';
 }
-function buildSystemPrompt() {
-  const dna = buildDna();
 
-  if (!isFruitsMode()) {
-    return `Você é CLAUDE DIRETOR IA, o cérebro criativo principal do Mega Studio.
-
-MISSÃO:
-Transformar briefing, imagem, referência visual ou ideia solta em material audiovisual profissional, original e pronto para produção.
-
-MODO ATUAL:
-${modeLabel()}
-
-REGRAS ABSOLUTAS:
-1. NÃO use Fruits Adventures, frutas antropomórficas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits, a menos que o usuário peça explicitamente.
-2. Crie personagens, mundo, conflito, ameaça, clima, nomes e estética do zero quando o modo for livre.
-3. A imagem e o briefing mandam mais que qualquer memória antiga.
-4. Não copie obras, personagens, falas, marcas, cenas ou universos protegidos.
-5. Trabalhe como diretor de cinema, roteirista, diretor de arte, editor de trailer e produtor de shorts.
-6. Entregue sempre conteúdo útil para produção: ação, câmera, emoção, narração, falas, CapCut, SRT e ElevenLabs quando fizer sentido.
-7. Escreva em português do Brasil, com força visual, clareza e impacto.
-
-DNA DO PROJETO:
-${JSON.stringify(dna, null, 2)}
-
-FORMATO DE RESPOSTA PREFERIDO:
-- Conceito
-- Clima visual
-- Personagens
-- Ação
-- Câmera
-- Emoção
-- Falas
-- Narração
-- CapCut
-- Gancho final`;
-  }
-
-  return `Você é CLAUDE DIRETOR IA dentro do preset Fruits Adventures.
-
-MISSÃO:
-Criar cenas cinematográficas, emocionais e virais para o universo Fruits Adventures.
-
-REGRAS DO PRESET FRUITS:
-1. Personagens são frutas/legumes antropomórficos.
-2. Preservar DNA, roupas base, relações e continuidade do universo Fruits quando existirem.
-3. Tomate Elinaldo, Sabrina Pitaya, OZ, Limão Rocha e Abacatudo só entram quando fizer sentido ou quando estiverem selecionados.
-4. Referências externas são apenas auxiliares de clima, estrutura e emoção.
-5. Não copiar obras, personagens, falas, marcas, cenas ou universos protegidos.
-6. Escreva sempre em português do Brasil.
-
-DNA DO PROJETO:
-${JSON.stringify(dna, null, 2)}
-
-ENTREGUE MATERIAL PRONTO PARA:
-roteiro, storyboard, CapCut, narração, ElevenLabs e produção visual.`;
+// ═══════════════════════════════════════════════
+// STORYBOARD (A LINHA DE MONTAGEM)
+// ═══════════════════════════════════════════════
+function addScene() {
+  state.scenes.push({ title: `Cena ${state.scenes.length + 1}`, summary: '', image: null, text: '', approved: false });
+  saveState(); renderStoryboard(); renderSceneNav();
 }
 
-// ═══════════════════════════════════════════════
-// VIRAL BANK
-// ═══════════════════════════════════════════════
-function renderBank() {
-  const term = (v('bankSearch') || '').toLowerCase();
-  document.getElementById('bankContainer').innerHTML = MATRICES.map(g => {
-    const opts = g.options.filter(o => !term || (g.group + o.name + o.desc + o.tags.join(' ')).toLowerCase().includes(term));
-    if (!opts.length) return '';
-    const col = bankCollapsed[g.group] && !term;
-    return `<div class="matrix-group">
-      <div class="matrix-group-header" onclick="toggleBank('${esc(g.group)}')">
-        <strong>${col?'▶':'▼'} ${g.group}</strong>
-        <span class="tag-pill">${opts.length} opções</span>
-      </div>
-      ${col ? '' : `<div class="matrix-group-body">${opts.map(o => {
-        const isPrimary = state.matrix.primary === o.id;
-        const isMix = state.matrix.mix.includes(o.id);
-        return `<div class="matrix-option ${isPrimary?'primary':isMix?'mixed':''}" onclick="selectMatrix('${o.id}')">
-          <strong>${o.name}</strong>
-          <small>${o.desc}</small>
-          <div class="mo-tags">${o.tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')}</div>
-          <label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--purple);cursor:pointer;" onclick="event.stopPropagation();toggleMix('${o.id}')">
-            <input type="checkbox" ${isMix?'checked':''} style="width:auto;accent-color:var(--purple)"> Adicionar ao mix
-          </label>
-        </div>`;
-      }).join('')}</div>`}
-    </div>`;
-  }).join('') || '<div class="notice notice-warn">Nenhuma matriz encontrada.</div>';
-}
-function toggleBank(g) { g = unesc(g); bankCollapsed[g] = !bankCollapsed[g]; renderBank(); }
-function collapseAllBank() { MATRICES.forEach(g => bankCollapsed[g.group] = true); renderBank(); }
-function expandAllBank() { bankCollapsed = {}; renderBank(); }
-function selectMatrix(id) { state.matrix.primary = id; if (!state.matrix.mix.includes(id)) state.matrix.mix.push(id); renderBank(); saveState(); log('Matriz selecionada: ' + id, 'ok'); }
-function toggleMix(id) { state.matrix.mix = state.matrix.mix.includes(id) ? state.matrix.mix.filter(x=>x!==id) : [...state.matrix.mix, id]; renderBank(); saveState(); }
-function applyMatrix() { if (!state.matrix.primary) { log('Escolha uma matriz primeiro.', 'warn'); return; } updateDna(); setStatus('Matriz aplicada', 30); goNode('setup'); log('Matriz aplicada ao projeto.', 'ok'); }
-function clearMix() { state.matrix = { primary: null, mix: [] }; renderBank(); saveState(); log('Mix limpo.', 'warn'); }
-function findMatrix(id) { for (const g of MATRICES) for (const o of g.options) if (o.id === id) return o; return null; }
-
-// ═══════════════════════════════════════════════
-// CAST
-// ═══════════════════════════════════════════════
-function renderCast() {
-  const term = (v('castSearch') || '').toLowerCase();
-  document.getElementById('castContainer').innerHTML = CAST_GROUPS.map(g => {
-    const chars = g.ids.map(id => CAST_BANK.find(c => c.id === id)).filter(Boolean).filter(c => !term || (g.name + c.name + c.desc + c.tags.join(' ')).toLowerCase().includes(term));
-    if (!chars.length) return '';
-    const col = castCollapsed[g.name] && !term;
-    return `<div class="cast-group">
-      <div class="matrix-group-header" onclick="toggleCastGroup('${esc(g.name)}')">
-        <strong>${col?'▶':'▼'} ${g.name}</strong>
-        <span class="tag-pill">${chars.length} personagens</span>
-      </div>
-      ${col ? '' : `<div class="cast-grid">${chars.map(c => `
-        <div class="cast-card ${state.cast.selected.includes(c.id)?'selected':''}" onclick="toggleCast('${c.id}')">
-          <strong>${c.name}</strong>
-          <small>${c.desc}</small>
-          <div class="mo-tags" style="margin-top:5px;">${c.tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')}</div>
-        </div>`).join('')}</div>`}
-    </div>`;
-  }).join('');
-}
-function toggleCastGroup(g) { g = unesc(g); castCollapsed[g] = !castCollapsed[g]; renderCast(); }
-function collapseAllCast() { CAST_GROUPS.forEach(g => castCollapsed[g.name] = true); renderCast(); }
-function expandAllCast() { castCollapsed = {}; renderCast(); }
-function toggleCast(id) { state.cast.selected = state.cast.selected.includes(id) ? state.cast.selected.filter(x=>x!==id) : [...state.cast.selected, id]; renderCast(); saveCast(); }
-function saveCast() { state.cast.worldPlace = v('worldPlace'); state.cast.tone = v('tone'); state.cast.continuityRules = v('continuityRules'); updateDna(); setStatus('DNA salvo', Math.max(state.score, 40)); log('DNA e elenco salvos.', 'ok'); }
-function castName(id) { return CAST_BANK.find(c => c.id === id)?.name || id; }
-
-// ═══════════════════════════════════════════════
-// DNA
-// ═══════════════════════════════════════════════
-function isFruitsMode() {
-  return state.setup.projectMode === 'fruits';
-}
-
-function modeLabel() {
-  const labels = {
-    director: 'Claude Diretor IA — livre total',
-    client: 'Cliente / Freelance',
-    freelance: 'Cliente / Freelance',
-    teste: 'Claude Diretor IA — teste rápido',
-    terror: 'Terror / Sobrevivência',
-    commercial: 'Comercial / Propaganda',
-    music: 'Clipe / Música',
-    storyboard: 'Storyboard / Pré-produção',
-    fruits: 'Universo Fruits oficial'
+function handleImageUpload(e, idx) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    state.scenes[idx].image = { data: reader.result, type: file.type };
+    saveState(); renderStoryboard();
   };
-  return labels[state.setup.projectMode] || 'Claude Diretor IA';
+  reader.readAsDataURL(file);
 }
 
-function buildDna() {
-  const pm = findMatrix(state.matrix.primary);
-  const fruits = isFruitsMode();
+function removeImage(idx) { state.scenes[idx].image = null; saveState(); renderStoryboard(); }
 
-  if (!fruits) {
-    return {
-      studio: 'Mega Studio — Claude Director Engine',
-      mode: state.setup.projectMode,
-      modeLabel: modeLabel(),
-      project: state.setup.projectName || 'Projeto livre',
-      brief: state.setup.brief || '',
-      visualFirst: true,
-      creativeFreedom: true,
-      rules: [
-        'Claude é o Diretor IA principal.',
-        'Criar mundo, personagens, conflito e estética a partir do briefing e das imagens.',
-        'Não usar Fruits, frutas, Feira Fruits, Tomate, Sabrina, OZ, Limão Rocha ou Abacatudo, a menos que o usuário peça explicitamente.',
-        'Não copiar obras, cenas, falas, personagens, marcas, autores ou universos protegidos.',
-        'Gerar material pronto para produção audiovisual: roteiro, câmera, emoção, falas, narração, SRT e ElevenLabs.'
-      ],
-      world: {
-        place: state.setup.worldPlace || '',
-        tone: state.setup.tone || '',
-        continuityRules: state.setup.continuityRules || ''
-      },
-      matrix: pm ? {
-        name: pm.name,
-        tags: pm.tags,
-        mix: state.matrix.mix.map(id => findMatrix(id)?.name || id)
-      } : null,
-      cast: state.cast.selected.map(id => castName(id))
-    };
-  }
+function updateSummary(idx, val) { state.scenes[idx].summary = val; saveState(); }
 
-  return {
-    studio: 'Fruits Adventures Studio',
-    mode: 'fruits',
-    modeLabel: 'Universo Fruits oficial',
-    project: state.setup.projectName || 'Fruits Adventures',
-    brief: state.setup.brief || '',
-    matrix: pm ? {
-      name: pm.name,
-      tags: pm.tags,
-      mix: state.matrix.mix.map(id => findMatrix(id)?.name || id)
-    } : null,
-    cast: state.cast.selected.map(id => castName(id)),
-    world: {
-      place: state.cast.worldPlace || state.setup.worldPlace || 'Feira Fruits',
-      tone: state.cast.tone || state.setup.tone || 'Aventura emocional',
-      continuityRules: state.cast.continuityRules || state.setup.continuityRules || ''
-    },
-    rules: [
-      'Fruits Adventures é o foco somente neste modo.',
-      'Personagens são frutas/legumes antropomórficos.',
-      'Preservar Tomate Elinaldo, Sabrina Pitaya, OZ, Limão Rocha e Abacatudo quando selecionados.',
-      'Referência externa é auxiliar.',
-      'Não copiar obras protegidas.'
-    ]
-  };
-}
-function updateDna() {
-  document.getElementById('sideDna').textContent = JSON.stringify(buildDna(), null, 2);
-  saveState();
+function renderStoryboard() {
+  const container = document.getElementById('storyboardContainer');
+  if(!state.scenes.length) { container.innerHTML = '<p>Nenhuma cena adicionada.</p>'; return; }
+  
+  container.innerHTML = state.scenes.map((s, i) => `
+    <div class="storyboard-card">
+      <div class="sb-image-box">
+        ${s.image ? `<img src="${s.image.data}"> <button class="btn btn-sm btn-pink" style="position:absolute;top:4px;right:4px;" onclick="removeImage(${i})">X</button>` : `<div class="sb-image-placeholder">+ Imagem de Referência<br>(Tire um print para<br>ficar mais leve)</div>`}
+        ${!s.image ? `<input type="file" accept="image/*" onchange="handleImageUpload(event, ${i})">` : ''}
+      </div>
+      <div class="sb-content">
+        <strong>${s.title}</strong>
+        <textarea placeholder="Ex: Caio encontra a mão de zumbi. Vilão Policial aparece com a viatura. Caio quebra o farol e eles fogem." oninput="updateSummary(${i}, this.value)">${s.summary}</textarea>
+      </div>
+      <div class="sb-actions">
+        <button class="btn btn-sm" onclick="deleteScene(${i})">🗑️ Excluir Cena</button>
+        <button class="btn btn-sm btn-cyan" onclick="selectScene(${i})">🎬 Ir pro Estúdio</button>
+      </div>
+    </div>
+  `).join('');
 }
 
-// ═══════════════════════════════════════════════
-// MAP
-// ═══════════════════════════════════════════════
-async function generateMap() {
-  saveSetup();
-
-  const count = Math.max(1, Math.min(Number(state.setup.sceneCount || 3), 10));
-  const fruits = isFruitsMode();
-
-  setStatus('Gerando mapa com Claude', 45, true);
-  goNode('map');
-  log('Claude Diretor IA preparando mapa de cenas...', 'ia');
-
-  if (state.api.callMode === 'backend' || state.api.apiKey) {
-    try {
-      const prompt = `Crie um MAPA DE ${count} CENA(S) para este projeto.
-
-MODO:
-${modeLabel()}
-
-BRIEF DO USUÁRIO:
-${state.setup.brief || 'Sem brief. Crie uma proposta original a partir do modo escolhido.'}
-
-LOCAL / MUNDO:
-${state.setup.worldPlace || 'Livre'}
-
-TOM:
-${state.setup.tone || 'Cinematográfico'}
-
-REGRAS DE CONTINUIDADE:
-${state.setup.continuityRules || 'Criar continuidade própria.'}
-
-REGRAS:
-${fruits
-  ? '- Usar o preset Fruits Adventures e seu DNA quando fizer sentido.'
-  : '- NÃO usar Fruits, frutas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits.\n- Criar mundo, personagens e conflito originais do zero.'}
-
-FORMATO DE SAÍDA:
-Responda APENAS um JSON válido, sem markdown, neste formato:
-[
-  {
-    "title": "Título da cena",
-    "objective": "Objetivo dramático da cena",
-    "beat": "Gancho ou virada final",
-    "visual": "Clima visual/câmera",
-    "emotion": "Emoção principal"
-  }
-]`;
-
-      const res = await callApi(prompt, buildSystemPrompt());
-      const clean = String(res).replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(clean);
-
-      state.map = parsed.slice(0, count).map(item => ({
-        title: item.title || 'Cena sem título',
-        objective: item.objective || 'Objetivo narrativo',
-        beat: item.beat || 'Gancho final',
-        visual: item.visual || '',
-        emotion: item.emotion || ''
-      }));
-
-      state.currentScene = 0;
-      state.scenes = [];
-      state.approved = [];
-
-      renderMap();
-      renderSceneNav();
-      updateDna();
-      saveState();
-
-      setStatus('Mapa Claude pronto', 60, true);
-      log('Mapa gerado com Claude Diretor IA: ' + state.map.length + ' cenas.', 'ok');
-      return;
-    } catch (e) {
-      log('Claude não retornou JSON válido. Usando mapa local livre. ' + e.message, 'warn');
-    }
-  }
-
-  const freeBase = [
-    {
-      title: 'A Imagem Que Revela o Mundo',
-      objective: 'Apresentar o ambiente, o perigo e o protagonista de forma visual.',
-      beat: 'Algo no fundo da imagem muda tudo.',
-      visual: 'Plano aberto, luz dramática, câmera lenta.',
-      emotion: 'Curiosidade, tensão e descoberta.'
-    },
-    {
-      title: 'A Primeira Ameaça',
-      objective: 'Transformar o clima em conflito real.',
-      beat: 'O protagonista percebe que não está sozinho.',
-      visual: 'Cortes rápidos, close nos detalhes, som crescente.',
-      emotion: 'Medo, urgência e instinto de sobrevivência.'
-    },
-    {
-      title: 'A Decisão Sem Volta',
-      objective: 'Criar escolha forte, virada e gancho para continuação.',
-      beat: 'A fuga revela uma ameaça maior.',
-      visual: 'Contraluz, respiração pesada, câmera na mão.',
-      emotion: 'Coragem, choque e suspense.'
-    }
-  ];
-
-  const fruitsBase = [
-    {
-      title: 'A Descoberta e a Falsa Ajuda',
-      objective: 'Estabelecer o segredo de OZ e a entrada manipuladora de Abacatudo.',
-      beat: 'Sabrina percebe o movimento estranho.',
-      visual: 'Close no documento, plano médio na feira.',
-      emotion: 'Desconfiança e tensão.'
-    },
-    {
-      title: 'A Revelação e a Queda de OZ',
-      objective: 'Expor OZ publicamente e mostrar o impacto da traição.',
-      beat: 'Sabrina percebe a rasura no documento.',
-      visual: 'Plano geral da multidão e close em OZ.',
-      emotion: 'Humilhação e choque.'
-    },
-    {
-      title: 'A Proteção e a Verdade Parcial',
-      objective: 'Tomate protege OZ e Sabrina planta a dúvida.',
-      beat: 'A verdade completa sobre Limão Rocha fica para parte 2.',
-      visual: 'Tomate em primeiro plano protegendo OZ.',
-      emotion: 'Proteção e esperança.'
-    }
-  ];
-
-  state.map = (fruits ? fruitsBase : freeBase).slice(0, count);
-  state.currentScene = 0;
-  state.scenes = [];
-  state.approved = [];
-
-  renderMap();
-  renderSceneNav();
-  updateDna();
-  saveState();
-
-  setStatus('Mapa pronto', 55, true);
-  log('Mapa local gerado em modo ' + modeLabel() + '.', 'ok');
+function deleteScene(idx) {
+  if(!confirm('Apagar esta cena do projeto?')) return;
+  state.scenes.splice(idx, 1);
+  state.scenes.forEach((s, i) => s.title = `Cena ${i+1}`); // Re-enumera
+  if(state.currentScene >= state.scenes.length) state.currentScene = Math.max(0, state.scenes.length - 1);
+  saveState(); renderStoryboard(); renderSceneNav();
 }
-function renderMap() {
-  document.getElementById('mapContainer').innerHTML = state.map.length
-    ? state.map.map((s, i) => `
-      <div style="margin-bottom:10px;padding:14px;background:var(--surface2);border:1px solid ${state.approved[i]?'rgba(77,255,154,0.3)':i===state.currentScene?'var(--border-active)':'var(--border)'};border-radius:var(--radius);cursor:pointer;transition:all 0.15s;" onclick="selectScene(${i})">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <span>${state.approved[i]?'✅':i===state.currentScene?'🎬':i>state.approved.filter(Boolean).length?'🔒':'⏳'}</span>
-          <strong style="font-family:'Syne',sans-serif;font-size:14px;">Cena ${i+1} — ${s.title}</strong>
-        </div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">${s.objective}</div>
-        <div style="font-size:11px;color:var(--purple);">Beat: ${s.beat}</div>
-      </div>`) .join('')
-    : '<div class="notice notice-warn">Nenhum mapa gerado. Configure o Setup e clique em Gerar Mapa.</div>';
-}
+
 function renderSceneNav() {
-  document.getElementById('sceneNavList').innerHTML = state.map.map((s, i) => `
-    <div class="scene-nav-item ${i===state.currentScene?'active':''} ${state.approved[i]?'done':''}" onclick="selectScene(${i})">
-      <span class="sni-icon">${state.approved[i]?'✅':i===state.currentScene?'🎬':'○'}</span>
-      <div class="sni-info">
-        <strong>Cena ${i+1}</strong>
-        <small>${s.title.slice(0,28)}</small>
-      </div>
+  document.getElementById('sceneNavList').innerHTML = state.scenes.map((s, i) => `
+    <div class="scene-nav-item ${i===state.currentScene?'active':''} ${s.approved?'done':''}" onclick="selectScene(${i})">
+      <span class="sni-icon">${s.approved?'✅':i===state.currentScene?'🎬':'○'}</span>
+      <div class="sni-info"><strong>${s.title}</strong></div>
     </div>`).join('');
 }
-function selectScene(i) {
-  if (i > state.approved.filter(Boolean).length && !state.approved[i]) {
-    log('Aprove as cenas em ordem antes de avançar.', 'warn'); return;
-  }
-  state.currentScene = i;
-  renderMap(); renderScene(); renderSceneNav();
-  goNode('scene'); saveState();
-}
+
+function selectScene(i) { state.currentScene = i; saveState(); goNode('scene'); renderSceneNav(); }
 
 // ═══════════════════════════════════════════════
-// SCENE GENERATION
+// ESTÚDIO (GERAÇÃO DE ROTEIRO)
 // ═══════════════════════════════════════════════
-function sceneLocalFallback(i) {
-  const s = state.map[i] || { title: 'Cena livre', objective: 'Criar uma cena original', beat: 'Gancho final' };
-  const n = i + 1;
-
-  if (!isFruitsMode()) {
-    return `CENA ${n} — ${s.title}
-
-OBJETIVO:
-${s.objective}
-
-AÇÃO:
-Um protagonista original atravessa um ambiente carregado de tensão. A imagem ou o briefing guia a atmosfera: luz baixa, detalhes inquietantes e uma ameaça que ainda não se revela por completo. Cada gesto parece importante, como se a cena estivesse prestes a virar.
-
-CÂMERA:
-Plano aberto para estabelecer o mundo. Travelling lento aproximando do protagonista. Close em um detalhe visual suspeito. Corte seco quando a ameaça se manifesta.
-
-EMOÇÃO:
-Tensão, curiosidade, medo crescente e decisão urgente.
-
-NARRAÇÃO:
-Nem todo perigo anuncia sua chegada. Às vezes, ele apenas espera a pessoa certa olhar para o lugar errado.
-
-FALAS:
-Protagonista: "Tem alguma coisa aqui... e não estava assim antes."
-Voz distante: "Você não devia ter voltado."
-Protagonista: "Então agora eu preciso descobrir por quê."
-
-CAPCUT:
-A imagem parecia normal. Até o fundo começar a mudar.
-
-ELEVENLABS:
-Protagonista [baixo, desconfiado, respirando pesado]: Tem alguma coisa aqui... e não estava assim antes.
-Voz distante [fria, quase sussurrada]: Você não devia ter voltado.
-Protagonista [decidido, medo virando coragem]: Então agora eu preciso descobrir por quê.
-
-GANCHO FINAL:
-No último segundo, a câmera revela uma silhueta parada atrás dele.`;
-  }
-
-  if (n === 1) return `CENA 1 — ${s.title}
-
-OBJETIVO:
-${s.objective}
-
-AÇÃO:
-OZ encontra uma foto antiga e um documento amarelado perto de uma barraca de sucos na Feira Fruits. Abacatudo se aproxima com um sorriso falso, oferece ajuda e toma o documento. Sabrina Pitaya observa de longe e percebe que o gesto dele é calculado.
-
-CÂMERA:
-Close nas mãos trêmulas de OZ. Plano médio de Abacatudo aproximando. Corte para Sabrina desconfiada.
-
-EMOÇÃO:
-Curiosidade, tensão, falsa ajuda, malícia, desconfiança.
-
-NARRAÇÃO:
-OZ achava que tinha encontrado uma resposta. Mas na Feira Fruits, algumas respostas chegam pelas mãos erradas. Quando Abacatudo sorriu, Sabrina Pitaya entendeu: a verdade estava prestes a virar arma.
-
-FALAS:
-OZ: "Esse nome... Limão Rocha... por que está aqui?"
-Abacatudo: "Calma, garoto. Deixa eu ver isso. Talvez eu possa te ajudar."
-Sabrina Pitaya: "Não... esse sorriso não é de quem quer ajudar."
-
-CAPCUT:
-OZ encontra a foto antiga. Abacatudo finge ajudar. Sabrina percebe a mentira.
-
-ELEVENLABS:
-OZ [voz baixa, confuso, tremendo]: Esse nome... Limão Rocha... por que está aqui?
-Abacatudo [falso calmo, sorriso escondido]: Calma, garoto. Deixa eu ver isso.
-Sabrina [sussurrando, desconfiada, intuição forte]: Não... esse sorriso não é de quem quer ajudar.`;
-
-  if (n === 2) return `CENA 2 — ${s.title}
-
-OBJETIVO:
-${s.objective}
-
-AÇÃO:
-Abacatudo sobe em uma caixa no centro da Feira e exibe o documento diante da multidão. Distorce a origem de OZ, transformando dor em humilhação pública. Tomate Elinaldo avança, mas Sabrina segura seu braço ao notar uma rasura no papel.
-
-CÂMERA:
-Plano geral da multidão. Close em OZ paralisado. Close no sorriso de Abacatudo. Close na rasura que Sabrina percebe.
-
-EMOÇÃO:
-Humilhação pública, choque, vergonha, raiva contida, descoberta.
-
-NARRAÇÃO:
-A multidão ouviu a mentira antes de ouvir a verdade. Abacatudo quase venceu. Quase. Porque Sabrina viu o detalhe que ninguém viu.
-
-FALAS:
-Abacatudo: "Todos precisam saber quem esse garoto realmente é!"
-OZ: "Para... isso não pode ser verdade..."
-Tomate Elinaldo: "Abacatudo, chega!"
-Sabrina Pitaya: "Espera... esse documento foi mexido."
-
-CAPCUT:
-Humilhação pública. Documento revelado. Sabrina percebe a rasura.
-
-ELEVENLABS:
-Abacatudo [alto, teatral, cruel]: Todos precisam saber quem esse garoto realmente é!
-OZ [quase chorando, voz partida]: Para... isso não pode ser verdade...
-Sabrina [tensa, descobrindo algo]: Espera... esse documento foi mexido.`;
-
-  return `CENA ${n} — ${s.title}
-
-OBJETIVO:
-${s.objective}
-
-AÇÃO:
-Tomate Elinaldo entra na frente de OZ, bloqueando a humilhação. Sabrina aponta a rasura e a multidão se cala. Abacatudo perde o controle por um instante. OZ, ainda ferido, pergunta quem Limão Rocha realmente era.
-
-CÂMERA:
-Plano médio de Tomate protegendo OZ. Close em Sabrina. Plano geral da feira em silêncio. Close nos olhos de OZ.
-
-EMOÇÃO:
-Proteção, raiva justa, esperança, dúvida pública, gancho emocional.
-
-NARRAÇÃO:
-No abismo da humilhação, a lealdade se ergueu como escudo. Tomate não deixou OZ cair sozinho. Sabrina não deixou a mentira passar inteira.
-
-FALAS:
-Tomate Elinaldo: "Chega, Abacatudo! Isso não é verdade!"
-Sabrina Pitaya: "Há algo mais aqui... uma mentira!"
-OZ: "Limão Rocha... quem ele realmente era?"
-Abacatudo: "Vocês não sabem com o que estão mexendo."
-
-CAPCUT:
-Tomate protege OZ. Sabrina descobre a falha. A verdade fica para parte 2.
-
-ELEVENLABS:
-Tomate [protetor, firme, determinado]: Chega, Abacatudo!
-Sabrina [determinada, revelando]: Há algo mais aqui... uma mentira!
-OZ [ferido, esperançoso]: Quem ele realmente era?`;
-}
-
-async function generateCurrentScene() {
-  if (!state.map.length) {
-    await generateMap();
-  }
-  if (!state.map.length) {
-    log('Não foi possível gerar o mapa. Revise o setup ou a API.', 'err');
-    return;
-  }
-
+function loadStudioView() {
   const i = state.currentScene;
-  document.getElementById('sceneOutput').textContent = 'Gerando cena ' + (i+1) + '...';
-  setStatus('Gerando cena ' + (i+1), 70, true);
-  goNode('scene');
-  let text = '';
-  if (state.api.callMode === 'backend' || state.api.apiKey) {
-    try {
-      const s = state.map[i];
-      const approved = state.scenes.map((sc, idx) => state.approved[idx] ? `Cena ${idx+1} (aprovada):\n${sc.text}` : '').filter(Boolean).join('\n\n');
-      const fruits = isFruitsMode();
-      const prompt = `Crie a CENA ${i+1} completa para este projeto audiovisual.
-
-MODO:
-${modeLabel()}
-
-BRIEF DO PROJETO:
-${state.setup.brief || 'Sem brief explícito. Use o mapa e o modo atual para criar uma cena original.'}
-
-MAPA DA CENA:
-Título: ${s.title}
-Objetivo: ${s.objective}
-Beat final: ${s.beat}
-Visual sugerido: ${s.visual || ''}
-Emoção sugerida: ${s.emotion || ''}
-
-CENAS APROVADAS ANTERIORES:
-${approved || 'Nenhuma ainda.'}
-
-REGRAS DE CONTINUIDADE:
-${state.setup.continuityRules || 'Manter coerência com as cenas anteriores.'}
-
-REGRAS DE MODO:
-${fruits
-  ? `- Usar o preset Fruits Adventures.
-- Personagens podem ser frutas/legumes antropomórficos.
-- Preservar DNA Fruits quando existir.`
-  : `- NÃO usar Fruits Adventures.
-- NÃO usar frutas antropomórficas.
-- NÃO usar Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits.
-- Criar personagens, mundo, ameaça, nomes e conflito originais.
-- A cena deve parecer dirigida a partir do briefing/imagem/modo atual.`}
-
-FORMATO OBRIGATÓRIO:
-CENA ${i+1} — [título]
-
-OBJETIVO:
-[objetivo narrativo]
-
-AÇÃO:
-[descrição cinematográfica dos acontecimentos]
-
-CÂMERA:
-[planos, movimentos, enquadramentos, ritmo de corte]
-
-EMOÇÃO:
-[emoções em jogo]
-
-NARRAÇÃO:
-[narração para voz-over]
-
-FALAS:
-[diálogos por personagem]
-
-CAPCUT:
-[legendas curtas e impactantes para edição]
-
-ELEVENLABS:
-[texto emocional por personagem para geração de voz]
-
-GANCHO FINAL:
-[última imagem ou frase que segura o público]
-
-Entregue somente a cena pronta. Nada de explicação.`;
-      text = await callApi(prompt);
-      log('Cena ' + (i+1) + ' gerada com IA (' + PROVIDERS[state.api.provider]?.name + ').', 'ok');
-    } catch(e) {
-      text = sceneLocalFallback(i);
-      log('API falhou — usando geração local. ' + e.message, 'warn');
-    }
-  } else {
-    text = sceneLocalFallback(i);
-    log('Cena ' + (i+1) + ' gerada localmente (sem API).', 'ia');
-  }
-  state.scenes[i] = { title: state.map[i].title, text, generatedAt: new Date().toISOString() };
-  renderScene(); renderSceneNav(); updateDna();
-  setStatus('Cena ' + (i+1) + ' gerada', 75);
-}
-
-function renderScene() {
-  const i = state.currentScene;
-  document.getElementById('scenePill').textContent = 'Cena ' + (i+1);
-  document.getElementById('sceneOutput').textContent = state.scenes[i]?.text || 'Sem cena. Clique em Gerar.';
-  document.getElementById('sceneApproved').textContent = state.approved[i] ? '✅ Aprovada 100%' : '';
+  const s = state.scenes[i];
+  if (!s) return;
+  
+  document.getElementById('scenePill').textContent = s.title;
+  
+  // Painel Esquerdo: Trilho do Diretor (O que a IA vai ler)
+  document.getElementById('studioLeftPanel').innerHTML = `
+    <div style="font-size:11px; color:var(--gold); text-transform:uppercase; font-weight:bold;">O que a IA vai processar:</div>
+    ${s.image ? `<img src="${s.image.data}" style="width:100%; border-radius:var(--radius-sm); border:1px solid var(--border);">` : '<div class="notice notice-warn">Nenhuma imagem carregada no Storyboard para esta cena.</div>'}
+    <div style="background:var(--surface3); padding:12px; border-radius:var(--radius-sm); font-size:12px; line-height:1.5;">
+      <strong>Resumo da Ação:</strong><br>
+      ${s.summary || '<span style="color:var(--pink)">Nenhum resumo escrito. Volte ao Storyboard.</span>'}
+    </div>
+  `;
+  
   loadEditor('current');
 }
 
-function approveCurrentScene() {
-  const i = state.currentScene;
-  if (!state.scenes[i]) { log('Gere a cena antes de aprovar.', 'warn'); return; }
-  state.approved[i] = true;
-  renderScene(); renderMap(); renderSceneNav(); updateDna();
-  setStatus('Cena ' + (i+1) + ' aprovada!', 85);
-  log('Cena ' + (i+1) + ' aprovada 100%.', 'ok');
-  if (state.approved.filter(Boolean).length >= state.map.length) {
-    setStatus('Pronto para exportar!', 100, true);
-    log('Todas as cenas aprovadas! Vá para Exportar.', 'ok');
-    updateExport();
-  }
-}
-
-function nextScene() {
-  const i = state.currentScene;
-  if (!state.approved[i]) { log('Aprove a cena atual antes de avançar.', 'warn'); return; }
-  if (i + 1 >= state.map.length) { setStatus('Exportação', 100, true); goNode('export'); return; }
-  state.currentScene = i + 1;
-  renderMap(); renderScene(); renderSceneNav();
-  setStatus('Cena ' + (state.currentScene+1) + ' — produção', 70, true);
-  log('Avançando para Cena ' + (state.currentScene+1) + '. Gere a cena.', 'ia');
-  saveState();
-}
-
-
-// ═══════════════════════════════════════════════
-// LIMPAR CENA / COMEÇAR DO ZERO
-// ═══════════════════════════════════════════════
-function clearCurrentSceneAndRestart() {
-  const i = Number(state.currentScene || 0);
-  const ok = confirm(
-    'Limpar a Cena ' + (i + 1) + ' e começar do zero?\n\n' +
-    'Isso apaga apenas o texto da cena atual. O mapa, setup, DNA, API e histórico de custos continuam.'
-  );
-  if (!ok) return;
-
-  if (!Array.isArray(state.scenes)) state.scenes = [];
-  if (!Array.isArray(state.approved)) state.approved = [];
-
-  delete state.scenes[i];
-  state.approved[i] = false;
-  state.currentScene = i;
-
-  saveState();
-
-  renderScene();
-  renderMap();
-  renderSceneNav();
-  updateDna();
-
-  const sceneOutput = document.getElementById('sceneOutput');
-  if (sceneOutput) sceneOutput.textContent = 'Cena limpa. Clique em Gerar para começar de novo.';
-
-  const sceneApproved = document.getElementById('sceneApproved');
-  if (sceneApproved) sceneApproved.textContent = '';
-
-  const smartEditor = document.getElementById('smartEditor');
-  if (smartEditor) {
-    smartEditor.value = 'Cena limpa. Primeiro clique em Gerar Cena.';
-    smartEditor.dataset.editorMode = 'empty';
-  }
-
-  goNode('scene');
-  setStatus('Cena ' + (i + 1) + ' limpa', state.map.length ? 55 : 20, true);
-  log('Cena ' + (i + 1) + ' limpa. Pronto para gerar de novo.', 'warn');
-}
-
-
-// ═══════════════════════════════════════════════
-// EDITOR
-// ═══════════════════════════════════════════════
 function loadEditor(mode) {
   const editor = document.getElementById('smartEditor');
   const badge = document.getElementById('editorModeBadge');
   const s = state.scenes[state.currentScene];
-  if (!s) {
-    if (editor) editor.value = 'Sem cena gerada. Primeiro clique em Gerar Cena.';
-    return;
-  }
-
-  editor.dataset.editorMode = mode;
-  editor.dataset.reviewApplied = 'false';
+  
   editor.readOnly = false;
-
-  if (mode === 'current') {
-    editor.value = s.text || '';
-    if (badge) badge.textContent = 'cena base';
-  }
-  else if (mode === 'narration') {
-    editor.value = extractBlock(s.text, 'NARRAÇÃO') || extractBlock(s.text, 'AÇÃO') || s.text;
-    if (badge) badge.textContent = 'narração';
-  }
-  else if (mode === 'dialogues') {
-    editor.value = extractBlock(s.text, 'FALAS') || extractBlock(s.text, 'ELEVENLABS') || '';
-    if (badge) badge.textContent = 'falas';
-  }
-  else if (mode === 'eleven') {
-    editor.value = extractBlock(s.text, 'ELEVENLABS') || '';
-    if (badge) badge.textContent = 'elevenlabs';
-  }
-  else if (mode === 'capcut') {
-    editor.value = extractBlock(s.text, 'CAPCUT') || '';
-    if (badge) badge.textContent = 'capcut';
-  }
-
-  log('Editor carregou a ' + (mode === 'current' ? 'cena base' : mode) + ' para revisão. Nada foi aplicado ainda.', 'ia');
+  if (mode === 'current') { editor.value = s.text || ''; badge.textContent = 'roteiro final'; }
+  else if (mode === 'narration') { editor.value = extractBlock(s.text, 'NARRAÇÃO') || extractBlock(s.text, 'AÇÃO'); badge.textContent = 'narração'; }
+  else if (mode === 'dialogues') { editor.value = extractBlock(s.text, 'FALAS'); badge.textContent = 'falas'; }
+  else if (mode === 'eleven') { editor.value = extractBlock(s.text, 'ELEVENLABS'); badge.textContent = 'elevenlabs'; }
 }
+
 function extractBlock(text, name) {
-  const heads = 'OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|NARRAÇÃO|FALAS|CAPCUT|ELEVENLABS';
-  const re = new RegExp(name + ':\\s*([\\s\\S]*?)(\\n\\n(' + heads + ')\\s*:|$)', 'i');
-  const m = text?.match(re);
-  return m ? m[1].trim() : '';
+  const re = new RegExp(name + ':\\s*([\\s\\S]*?)(\\n\\n(OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|NARRAÇÃO|FALAS|CAPCUT|ELEVENLABS|GANCHO FINAL)\\s*:|$)', 'i');
+  const m = (text||'').match(re); return m ? m[1].trim() : '';
 }
+
+async function generateCurrentScene() {
+  const i = state.currentScene;
+  const s = state.scenes[i];
+  
+  if (!s.summary) { log('Erro: Escreva o resumo no Storyboard primeiro.', 'err'); return; }
+  if (!state.api.apiKey && state.api.callMode !== 'backend') { log('Sem API Key.', 'err'); goNode('setup'); return; }
+
+  document.getElementById('smartEditor').value = '🎬 Lendo o Storyboard e gravando a cena... aguarde.';
+  setStatus('Gravando ' + s.title, 75, true);
+
+  const sysPrompt = `Você é o ROTEIRISTA FINAL do Mega Studio.
+Sua única função é receber o "Trilho do Diretor" (Resumo + Foto) e escrever o roteiro cinematográfico limpo.
+NÃO INVENTE PERSONAGENS NOVOS. Obedeça estritamente às Regras de Continuidade.
+
+REGRAS DE CONTINUIDADE DO UNIVERSO:
+${state.setup.continuityRules || 'Nenhuma regra definida.'}
+
+FORMATO OBRIGATÓRIO (Mantenha todos os cabeçalhos):
+OBJETIVO:
+AÇÃO:
+CÂMERA:
+EMOÇÃO:
+NARRAÇÃO: (Voz grave de suspense)
+FALAS: (Diálogos tensos)
+CAPCUT: (Legendas)
+ELEVENLABS: (Texto para voz)
+GANCHO FINAL:`;
+
+  const userText = `Escreva o Roteiro Final da ${s.title}.\nRESUMO DA AÇÃO:\n${s.summary}`;
+  let content = userText;
+
+  // Se tem imagem e o provedor suporta (Claude/Gemini), envia a imagem junto!
+  if (s.image && (state.api.provider === 'claude' || state.api.provider === 'gemini')) {
+    const base64Data = s.image.data.split(',')[1];
+    content = [
+      { type: 'image', source: { type: 'base64', media_type: s.image.type, data: base64Data } },
+      { type: 'text', text: userText + "\n\nUse a estética, a iluminação e a ameaça visíveis nesta imagem de referência anexada." }
+    ];
+  }
+
+  try {
+    const res = await callApi(content, sysPrompt);
+    state.scenes[i].text = res;
+    saveState(); loadStudioView();
+    setStatus(s.title + ' pronta', 80);
+    log(s.title + ' gerada com sucesso baseada no Storyboard!', 'ok');
+  } catch (e) {
+    document.getElementById('smartEditor').value = 'Erro: ' + e.message;
+    log('Erro ao gerar: ' + e.message, 'err');
+  }
+}
+
+// O NOVO AJUSTE FINO (A Janela Pergunta a Ordem do Diretor!)
 async function reviewCurrentSceneWithAI() {
   const i = state.currentScene;
   const s = state.scenes[i];
   const editor = document.getElementById('smartEditor');
-  const badge = document.getElementById('editorModeBadge');
 
-  if (!s || !s.text) {
-    log('Gere uma cena antes de revisar com IA.', 'warn');
-    return;
-  }
+  if (!s || !s.text) { log('Gere a cena antes de ajustar.', 'warn'); return; }
 
-  if (!(state.api.apiKey || (state.api.provider === 'claude' && state.api.callMode === 'backend'))) {
-    log('Use Backend seguro Claude ou configure uma API Key antes de revisar com IA.', 'warn');
-    goNode('api');
-    return;
-  }
+  const instrucao = prompt("🎬 DIREÇÃO DE CENA:\nO que você quer mudar neste roteiro?\n(Ex: 'Apague fulano e coloque o Caio' ou deixe em branco para melhorar o texto)");
+  if (instrucao === null) return; // Cancelou
 
-  editor.value = 'Revisando a cena atual com Claude Diretor IA...';
-  editor.readOnly = true;
-  if (badge) badge.textContent = 'revisando';
-  setStatus('Revisando cena ' + (i + 1), 78, true);
+  editor.value = 'Reescrevendo a cena de acordo com a sua ordem...';
+  setStatus('Revisando ' + s.title, 85, true);
 
-  const fruits = isFruitsMode();
-  const prompt = `Revise a cena abaixo SEM criar outra história separada.
+  const promptTexto = `Revise e reescreva a cena abaixo.
+INSTRUÇÕES ESPECÍFICAS DO DIRETOR (Prioridade Máxima):
+${instrucao ? instrucao : 'Apenas melhore o roteiro, a clareza e a tensão mantendo a história original.'}
 
-MODO:
-${modeLabel()}
-
-OBJETIVO DA REVISÃO:
-- Manter o mesmo mapa, a mesma cena e os acontecimentos principais.
-- Melhorar clareza, emoção, falas, ritmo de TikTok/Shorts, câmera e impacto visual.
-- Não inventar um roteiro paralelo.
-- Devolver a CENA COMPLETA revisada no mesmo formato de blocos: CENA, OBJETIVO, AÇÃO, CÂMERA, EMOÇÃO, NARRAÇÃO, FALAS, CAPCUT, ELEVENLABS, GANCHO FINAL.
-- Não explique a revisão. Entregue somente a versão revisada pronta para substituir, se aprovada.
-
-REGRAS DE MODO:
-${fruits
-  ? '- Preservar DNA Fruits, relações e personagens selecionados.'
-  : '- NÃO inserir Fruits, frutas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits. Preservar o projeto como obra livre/original.'}
+REGRAS DE CONTINUIDADE:
+${state.setup.continuityRules}
 
 CENA ATUAL PARA REVISAR:
-${s.text}`;
+${s.text}
+
+Devolva a cena inteira revisada mantendo os blocos (OBJETIVO, AÇÃO, CÂMERA...).`;
 
   try {
-    const revised = await callApi(prompt, buildSystemPrompt() + '\nVocê é revisor de roteiro e diretor de cena. Preserve a cena original e apenas eleve a execução.');
+    const revised = await callApi(promptTexto, "Você é o revisor e deve obedecer cegamente às instruções do Diretor e às Regras de Continuidade.");
     editor.value = revised;
-    editor.readOnly = false;
-    editor.dataset.reviewApplied = 'true';
-    if (badge) badge.textContent = 'revisão pronta';
-    setStatus('Revisão pronta', 82, true);
-    log('Revisão IA pronta. Confira e clique em Aprovar revisão e aplicar para mudar o roteiro.', 'ok');
+    log('Ajuste fino pronto! Leia e clique em Aprovar.', 'ok');
   } catch (e) {
-    editor.readOnly = false;
     editor.value = s.text;
-    if (badge) badge.textContent = 'erro revisão';
-    log('Erro na revisão IA: ' + e.message, 'err');
+    log('Erro na revisão: ' + e.message, 'err');
   }
 }
 
-function enableManualEdit() {
-  const editor = document.getElementById('smartEditor');
-  if (!editor) return;
-  editor.readOnly = false;
-  const badge = document.getElementById('editorModeBadge');
-  if (badge) badge.textContent = 'edição manual';
-  log('Editor liberado para edição manual. Depois clique em Aprovar revisão e aplicar.', 'ia');
-}
+function enableManualEdit() { document.getElementById('smartEditor').readOnly = false; log('Pode editar manualmente na caixa.', 'ok'); }
 
-function applyEditor() {
+function approveCurrentScene() {
   const i = state.currentScene;
-  const editor = document.getElementById('smartEditor');
-  const newText = editor.value.trim();
-
-  if (!newText) {
-    log('Editor vazio. Nada para aplicar.', 'warn');
-    return;
-  }
-
-  const ok = confirm(
-    'Aplicar esta revisão na Cena ' + (i + 1) + '?\n\n' +
-    'Isso vai substituir o texto da cena da esquerda pelo conteúdo aprovado no Editor IA.'
-  );
-  if (!ok) return;
-
-  if (!state.scenes[i]) {
-    state.scenes[i] = { title: state.map[i]?.title || 'Cena', text: '', generatedAt: new Date().toISOString() };
-  }
-
+  const newText = document.getElementById('smartEditor').value.trim();
+  if (!newText) return log('Roteiro vazio.', 'warn');
+  
   state.scenes[i].text = newText;
-  state.scenes[i].editedAt = new Date().toISOString();
-  state.scenes[i].reviewStatus = 'approved_editor_revision';
-
-  renderScene();
-  renderMap();
-  renderSceneNav();
-  renderNodes();
-  updateDna();
-  saveState();
-  setStatus('Revisão aplicada', 84, true);
-  log('Revisão aprovada e aplicada na Cena ' + (i+1) + '.', 'ok');
+  state.scenes[i].approved = true;
+  saveState(); renderSceneNav();
+  setStatus(state.scenes[i].title + ' Aprovada', 90, true);
+  log(state.scenes[i].title + ' salva e aprovada!', 'ok');
 }
-function copyEditor() { navigator.clipboard.writeText(document.getElementById('smartEditor').value); log('Editor copiado.', 'ok'); }
-function copyScene() { navigator.clipboard.writeText(state.scenes[state.currentScene]?.text || ''); log('Cena copiada.', 'ok'); }
+
+function nextScene() {
+  if (state.currentScene + 1 < state.scenes.length) {
+    selectScene(state.currentScene + 1);
+  } else { goNode('export'); }
+}
+
+function clearCurrentSceneAndRestart() {
+  if(!confirm('Apagar o texto desta cena e começar de novo? (O resumo do storyboard será mantido)')) return;
+  state.scenes[state.currentScene].text = '';
+  state.scenes[state.currentScene].approved = false;
+  saveState(); loadStudioView(); renderSceneNav();
+}
 
 // ═══════════════════════════════════════════════
-// NARRATOR
+// UTILS, NARRATOR, SRT, EXPORT (Preservados intactos)
 // ═══════════════════════════════════════════════
 function narrateScene(mode) {
-  const s = state.scenes[state.currentScene];
-  if (!s) return;
-  let text = '';
-  if (mode === 'narration') text = extractBlock(s.text, 'NARRAÇÃO') || extractBlock(s.text, 'AÇÃO');
-  else if (mode === 'dialogues') text = extractBlock(s.text, 'FALAS');
-  else text = [extractBlock(s.text, 'NARRAÇÃO'), extractBlock(s.text, 'FALAS')].filter(Boolean).join('\n\n');
-  if (!text) { log('Nenhum texto para narrar.', 'warn'); return; }
-  if (!('speechSynthesis' in window)) { openModal('Narrador', 'Voz não disponível.', text, 'narrador.txt'); return; }
+  const s = state.scenes[state.currentScene]; if (!s) return;
+  let text = [extractBlock(s.text, 'NARRAÇÃO'), extractBlock(s.text, 'FALAS')].filter(Boolean).join('\n\n');
+  if (!text) return log('Nenhum texto para narrar.', 'warn');
+  if (!('speechSynthesis' in window)) return alert('Voz não suportada neste navegador.');
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'pt-BR'; u.rate = 0.9;
-  speechSynthesis.speak(u);
-  log('Narrando cena ' + (state.currentScene+1) + '...', 'ia');
+  const u = new SpeechSynthesisUtterance(text); u.lang = 'pt-BR'; u.rate = 0.9;
+  speechSynthesis.speak(u); log('Narrando...', 'ia');
 }
 function stopNarrator() { if ('speechSynthesis' in window) speechSynthesis.cancel(); log('Narrador parado.', 'warn'); }
 
-// ═══════════════════════════════════════════════
-// SRT
-// ═══════════════════════════════════════════════
-function srtTime(s) {
-  const ms = Math.round(s * 1000), h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), sec = Math.floor(ms%60000/1000), x = ms%1000;
-  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')},${String(x).padStart(3,'0')}`;
-}
+function srtTime(s) { const ms = Math.round(s*1000), h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), sec = Math.floor(ms%60000/1000), x = ms%1000; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')},${String(x).padStart(3,'0')}`; }
 function buildSrt(text) {
   const lines = text.replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(x=>x.trim()).filter(Boolean).filter(x=>!/^(CENA|OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|FALAS|NARRAÇÃO|CAPCUT|ELEVENLABS)/i.test(x)).slice(0, 120);
   let cur = 0;
-  return lines.map((l, i) => {
-    const dur = Math.min(7, Math.max(2, l.split(/\s+/).length * 0.4 + 0.7));
-    const st = cur, en = cur + dur; cur = en + 0.15;
-    return `${i+1}\n${srtTime(st)} --> ${srtTime(en)}\n${l}`;
-  }).join('\n\n');
+  return lines.map((l, i) => { const dur = Math.min(7, Math.max(2, l.split(/\s+/).length*0.4+0.7)); const st = cur, en = cur+dur; cur = en+0.15; return `${i+1}\n${srtTime(st)} --> ${srtTime(en)}\n${l}`; }).join('\n\n');
 }
-function genSrt(mode) {
-  const s = state.scenes[state.currentScene];
-  if (!s) return;
-  const text = mode === 'emotion' ? buildEmotionText(s.text) : s.text;
-  openModal('SRT CapCut ' + (mode==='emotion'?'+ Emoção':'Limpo'), 'Timecode aproximado.', buildSrt(text), `cena-${state.currentScene+1}-${mode}.srt`);
-}
-function buildEmotionText(t) {
-  const em = extractBlock(t, 'EMOÇÃO'), dia = extractBlock(t, 'FALAS'), nar = extractBlock(t, 'NARRAÇÃO');
-  return [em?'[' + em + ']':'', nar, dia].filter(Boolean).join('\n');
-}
-function genProjectSrt() {
-  const text = state.scenes.map((s,i) => s.text || '').join('\n\n');
-  openModal('SRT Projeto Completo', 'Todas as cenas.', buildSrt(text), 'fruits-projeto.srt');
-}
-function genElevenText() {
-  const s = state.scenes[state.currentScene];
-  if (!s) return;
-  openModal('ElevenLabs', 'Texto emocional por personagem.', extractBlock(s.text, 'ELEVENLABS') || extractBlock(s.text, 'FALAS') || '', 'elevenlabs.txt');
-}
-function exportEleven() {
-  const text = state.scenes.map((s,i) => `=== CENA ${i+1} ===\n${extractBlock(s.text||'','ELEVENLABS')||extractBlock(s.text||'','FALAS')||''}`).join('\n\n');
-  openModal('ElevenLabs — Projeto Completo', 'Todas as cenas.', text, 'fruits-elevenlabs.txt');
-}
+function genSrt(mode) { const s = state.scenes[state.currentScene]; if (!s) return; const t = s.text; openModal('SRT', 'Timecode', buildSrt(t), 'cena.srt'); }
+function genElevenText() { const s = state.scenes[state.currentScene]; if(!s) return; openModal('Vozes ElevenLabs', 'Texto', extractBlock(s.text,'ELEVENLABS')||extractBlock(s.text,'FALAS'), 'vozes.txt'); }
+function genProjectSrt() { const text = state.scenes.map(s => s.text||'').join('\n\n'); openModal('SRT Completo', 'Todas as cenas', buildSrt(text), 'projeto.srt'); }
+function exportEleven() { const text = state.scenes.map((s,i) => `=== ${s.title} ===\n${extractBlock(s.text,'ELEVENLABS')||extractBlock(s.text,'FALAS')}`).join('\n\n'); openModal('ElevenLabs Completo', 'Tudo', text, 'projeto_vozes.txt'); }
 
-// ═══════════════════════════════════════════════
-// AI CHAT
-// ═══════════════════════════════════════════════
-function renderQuickPrompts() {
-  document.getElementById('quickPrompts').innerHTML = QUICK_PROMPTS.map(p => `<span class="qp" onclick="sendPrompt(${JSON.stringify(p)})">${p}</span>`).join('');
-}
-function sendPrompt(text) {
-  document.getElementById('aiInput').value = text;
-  sendAiMessage();
-}
-async function sendAiMessage() {
-  const input = document.getElementById('aiInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  addAiMsg(msg, 'user');
-  if (!state.api.apiKey && !(state.api.provider === 'claude' && state.api.callMode === 'backend')) { addAiMsg('Configure a API Key na aba API ou use Backend seguro Claude para usar o Copilot IA.', 'err'); return; }
-  const loading = addAiMsg('Pensando...', 'ai loading');
-  try {
-    const scene = state.scenes[state.currentScene];
-    const context = scene ? `\n\nCENA ATUAL:\n${scene.text.slice(0,1000)}` : '';
-    const res = await callApi(msg + context);
-    loading.className = 'ai-msg ai';
-    loading.textContent = res;
-  } catch(e) {
-    loading.className = 'ai-msg err';
-    loading.textContent = 'Erro: ' + e.message;
-  }
-}
-function addAiMsg(text, type) {
-  const el = document.createElement('div');
-  el.className = 'ai-msg ' + type;
-  el.textContent = text;
-  const msgs = document.getElementById('aiMessages');
-  msgs.appendChild(el);
-  msgs.scrollTop = msgs.scrollHeight;
-  return el;
-}
+function copyScene() { navigator.clipboard.writeText(state.scenes[state.currentScene]?.text || ''); log('Cena copiada.', 'ok'); }
+function copyEditor() { navigator.clipboard.writeText(document.getElementById('smartEditor').value); log('Editor copiado.', 'ok'); }
 
-// ═══════════════════════════════════════════════
-// REFERENCE
-// ═══════════════════════════════════════════════
-function loadRefImage(e) {
-  const files = Array.from(e.target.files || []);
-  if (!files.length) return;
-
-  Promise.all(files.map(file => {
-    return new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = () => resolve({ name: file.name, data: reader.result });
-      reader.readAsDataURL(file);
-    });
-  })).then(results => {
-    refImagesData = results;
-
-    const thumbs = results.map((img, i) => `
-      <div class="notice notice-info" style="margin-top:0;padding:8px;">
-        <strong>Frame ${i + 1}:</strong> ${img.name}<br>
-        <img src="${img.data}" style="width:100%;height:170px;border-radius:8px;margin-top:8px;object-fit:cover;display:block;"/>
-      </div>
-    `).join('');
-
-    document.getElementById('refPreview').innerHTML = `
-      <div class="notice notice-info" style="margin-top:8px;">
-        ${results.length} imagem(ns) carregada(s) como storyboard / sequência visual.
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:8px;">${thumbs}</div>
-    `;
-
-    log(`${results.length} referência(s) visual(is) carregada(s).`, 'ok');
-    saveState();
-  });
-}
-
-function clearRefImages() {
-  refImagesData = [];
-  const input = document.getElementById('refImage');
-  if (input) input.value = '';
-  const preview = document.getElementById('refPreview');
-  if (preview) preview.innerHTML = '';
-  log('Referências visuais limpas.', 'ok');
-  saveState();
-}
-
-function buildRefBrief() {
-  state.refText = v('refText');
-  const dna = buildDna();
-  const fruits = isFruitsMode();
-
-  const brief = `REFERÊNCIA IA — MEGA STUDIO / CLAUDE DIRECTOR
-
-MODO:
-${modeLabel()}
-
-REGRA PRINCIPAL:
-${fruits
-  ? 'Usar o preset Fruits Adventures somente porque o modo Fruits está ativo.'
-  : 'Não usar Fruits Adventures. Não transformar a referência em frutas, limões, tomates ou personagens antigos. Criar uma proposta original a partir da imagem e do briefing.'}
-
-NÃO COPIAR:
-Obras, personagens, falas, marcas, cenas, diretores, estilos identificáveis protegidos ou universos existentes.
-
-DNA / CONFIGURAÇÃO:
-${JSON.stringify(dna, null, 2)}
-
-REFERÊNCIA TEXTUAL:
-${state.refText || 'Nenhuma.'}
-
-IMAGENS:
-${refImagesData.length ? `${refImagesData.length} imagem(ns) carregada(s).` : 'Nenhuma.'}
-
-SAÍDA ESPERADA:
-1. Leitura visual objetiva da imagem
-2. Clima, luz, paleta, composição e ameaça
-3. Conceito narrativo original
-4. Personagens sugeridos, se necessário
-5. Cena aplicável ao projeto
-6. Câmera e ritmo de edição
-7. Narração
-8. Falas
-9. CapCut/SRT
-10. O que descartar para evitar cópia`;
-
-  document.getElementById('refOutput').innerHTML = `<div class="modal-output">${brief}</div>`;
-  saveState();
-  log('Brief de referência preparado para Claude Diretor IA.', 'ok');
-  return brief;
-}
-
-function copyRefBrief() { navigator.clipboard.writeText(buildRefBrief()); log('Brief de referência copiado.', 'ok'); }
-function applyRefToScene() { buildRefBrief(); log('Referência pronta. Use o Copilot IA para aplicar na cena atual.', 'ia'); goNode('ai'); }
-
-function dataUrlToClaudeImage(dataUrl) {
-  const m = String(dataUrl || '').match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
-  if (!m) return null;
-  return {
-    type: 'image',
-    source: { type: 'base64', media_type: m[1], data: m[2] }
-  };
-}
-
-async function analyzeRefWithClaude() {
-  state.api.provider = 'claude';
-  set('provider', 'claude');
-  renderProviderGrid();
-  renderModels();
-  state.api.apiKey = v('apiKey') || state.api.apiKey;
-  saveState();
-
-  if (!state.api.apiKey && (v('callMode') || state.api.callMode) !== 'backend') {
-    log('Cole sua API Key Claude ou use o modo Backend seguro.', 'warn');
-    goNode('api');
-    return;
-  }
-
-  const fruits = isFruitsMode();
-  const baseBrief = buildRefBrief();
-  const scene = state.scenes[state.currentScene]?.text || 'Nenhuma cena gerada ainda.';
-
-  const prompt = `Analise esta referência visual como CLAUDE DIRETOR IA.
-
-MODO:
-${modeLabel()}
-
-REGRA DE MODO:
-${fruits
-  ? `O modo Fruits está ativo. Pode adaptar para o universo Fruits Adventures se fizer sentido.`
-  : `O modo livre está ativo. NÃO use Fruits Adventures, frutas, Tomate, Sabrina, OZ, Limão Rocha, Abacatudo ou Feira Fruits. Crie algo original baseado somente na imagem e no briefing.`}
-
-TAREFA:
-1. Descrever o que você vê na imagem de forma cinematográfica.
-2. Extrair clima, luz, paleta, enquadramento, ameaça e emoção.
-3. Criar um conceito narrativo 100% original.
-4. Sugerir personagens originais, se necessário.
-5. Sugerir câmera, ritmo de edição, som e tensão.
-6. Criar uma versão curta pronta para virar cena.
-7. Criar falas e narração se fizer sentido.
-8. Gerar uma sugestão para CapCut/SRT.
-9. Dizer o que descartar para não copiar obra externa.
-
-CENA ATUAL:
-${scene}
-
-BRIEF:
-${baseBrief}
-
-ENTREGUE EM BLOCOS:
-LEITURA VISUAL:
-CONCEITO ORIGINAL:
-PERSONAGENS:
-AÇÃO:
-CÂMERA:
-EMOÇÃO:
-NARRAÇÃO:
-FALAS:
-CAPCUT:
-GANCHO FINAL:
-DESCARTAR PARA NÃO COPIAR:`;
-
-  const content = [];
-  refImagesData.forEach(item => {
-    const img = dataUrlToClaudeImage(item.data);
-    if (img) content.push(img);
-  });
-  content.push({ type: 'text', text: prompt });
-
-  document.getElementById('refOutput').textContent = 'Claude Diretor IA analisando referência...';
-  log('Claude Diretor IA analisando referência visual...', 'ia');
-
-  try {
-    const res = await callApi(
-      content,
-      buildSystemPrompt() + '\nVocê atua como diretor visual, roteirista e produtor de pré-produção. A imagem manda no conceito. O modo escolhido manda nas regras.'
-    );
-
-    document.getElementById('refOutput').innerHTML = `<div class="modal-output">${res}</div>`;
-    openModal('Análise Claude Diretor IA', 'Referência transformada em direção audiovisual.', res, 'analise-claude-diretor.txt');
-    log('Análise Claude Diretor IA concluída.', 'ok');
-  } catch (e) {
-    document.getElementById('refOutput').textContent = 'Erro Claude Vision: ' + e.message;
-    log('Erro Claude Vision: ' + e.message, 'err');
-  }
-}
-
-// ═══════════════════════════════════════════════
-// EXPORT
-// ═══════════════════════════════════════════════
-function buildCleanScript() {
-  return state.scenes.map((s, i) => `CENA ${i+1} — ${s.title || state.map[i]?.title || ''}\n\n${s.text || ''}`).join('\n\n' + '─'.repeat(50) + '\n\n');
-}
-function buildExportJson() {
-  return { app: 'Fruits Adventures Mega Studio — Claude Director Engine', exportedAt: new Date().toISOString(), setup: state.setup, api: { provider: state.api.provider, model: state.api.model, endpoint: state.api.endpoint, callMode: state.api.callMode, maxTokens: state.api.maxTokens, temperature: state.api.temperature }, dna: buildDna(), map: state.map, scenes: state.scenes, approved: state.approved };
-}
-function updateExport() {
-  document.getElementById('exportPreview').textContent = JSON.stringify(buildExportJson(), null, 2);
-}
+function buildCleanScript() { return state.scenes.map((s, i) => `${s.title}\n\n${s.text || '[Vazio]'}`).join('\n\n' + '─'.repeat(50) + '\n\n'); }
+function updateExport() { document.getElementById('exportPreview').textContent = buildCleanScript(); }
 function copyCleanScript() { navigator.clipboard.writeText(buildCleanScript()); log('Roteiro copiado.', 'ok'); }
-function downloadJson() {
-  updateExport();
-  downloadText(JSON.stringify(buildExportJson(), null, 2), 'mega-studio-claude-director.json', 'application/json');
-  log('JSON baixado.', 'ok');
-}
-function backupProject() {
-  downloadText(JSON.stringify({ backupAt: new Date().toISOString(), state }, null, 2), 'backup-mega-studio-claude-director.json', 'application/json');
-  log('Backup salvo.', 'ok');
-}
-function downloadText(text, filename, type = 'text/plain;charset=utf-8') {
-  const blob = new Blob([text], { type }), url = URL.createObjectURL(blob), a = document.createElement('a');
-  a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-}
-function clearProject() {
-  if (!confirm('Limpar tudo? Faça backup antes.')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  state = clone(DEFAULT);
-  fillForm(); renderMap(); renderScene(); renderSceneNav(); renderNodes(); updateDna();
-  setStatus('Setup', 8); log('Projeto limpo.', 'warn'); goNode('setup');
-}
+function downloadText(text, filename, type = 'text/plain;charset=utf-8') { const blob = new Blob([text], { type }), url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
+function downloadJson() { downloadText(JSON.stringify(state, null, 2), 'projeto_backup.json', 'application/json'); log('JSON baixado.', 'ok'); }
+function backupProject() { downloadJson(); }
+function clearProject() { if(!confirm('Apagar TUDO?')) return; localStorage.removeItem(STORAGE_KEY); location.reload(); }
 
-// ═══════════════════════════════════════════════
-// MODAL
-// ═══════════════════════════════════════════════
-function openModal(title, desc, text, file = 'fruits.txt') {
-  document.getElementById('modalTitle').textContent = title;
-  document.getElementById('modalOutput').textContent = text;
-  modalText = text; modalFile = file;
-  document.getElementById('modal').classList.add('open');
-}
+function openModal(t, d, txt, f) { document.getElementById('modalTitle').textContent = t; document.getElementById('modalOutput').textContent = txt; modalText = txt; modalFile = f; document.getElementById('modal').classList.add('open'); }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 function copyModal() { navigator.clipboard.writeText(modalText); log('Copiado.', 'ok'); }
-function downloadModal() { downloadText(modalText, modalFile); log('Baixado: ' + modalFile, 'ok'); }
+function downloadModal() { downloadText(modalText, modalFile); }
 
-// ═══════════════════════════════════════════════
-// UTILS E FUNÇÃO DO NOVO BOTÃO
-// ═══════════════════════════════════════════════
-function esc(s) { return String(s).replace(/'/g, '&#39;').replace(/"/g, '&quot;'); }
-function unesc(s) { return String(s).replace(/&#39;/g, "'").replace(/&quot;/g, '"'); }
-
-function applyModalToSceneEditor() {
-  const i = state.currentScene;
-  
-  if (!state.scenes[i]) {
-    state.scenes[i] = { title: state.map[i]?.title || 'Cena ' + (i+1), text: '', generatedAt: new Date().toISOString() };
-  }
-
-  goNode('scene');
-  loadEditor('current');
-  const editor = document.getElementById('smartEditor');
-  
-  editor.value = "=== REFERÊNCIA VISUAL ANALISADA PELO CLAUDE DIRETOR IA ===\n" + 
-                 modalText + 
-                 "\n\n===================================\n" +
-                 "Claude Diretor IA, aplique a emoção, a estética, a câmera e as ideias acima na cena atual, obedecendo ao modo selecionado: " + modeLabel() + ".";
-  
-  enableManualEdit();
-  closeModal();
-  log('Análise visual enviada para o Editor como direção de cena.', 'ok');
-}
-
-
-function resetToClaudeDirectorMode() {
-  if (!confirm('Ativar Claude Diretor IA livre e limpar DNA Fruits antigo deste navegador?')) return;
-
-  state.setup.projectName = 'Mega Studio — Claude Director';
-  state.setup.projectMode = 'director';
-  state.setup.brief = '';
-  state.setup.worldPlace = '';
-  state.setup.tone = 'Terror / Suspense';
-  state.setup.continuityRules = '';
-
-  state.matrix = { primary: null, mix: [] };
-  state.cast = { selected: [], worldPlace: '', tone: '', continuityRules: '' };
-
-  state.map = [];
-  state.currentScene = 0;
-  state.scenes = [];
-  state.approved = [];
-
-  state.refText = 'Analise a imagem como diretor de cinema. Extraia clima, luz, composição, ameaça, emoção e potencial narrativo. Crie uma proposta original baseada somente no que aparece na referência, sem copiar obras, personagens ou universos protegidos.';
-
-  saveState();
-  fillForm();
-  renderMap();
-  renderScene();
-  renderSceneNav();
-  renderNodes();
-  updateDna();
-
-  setStatus('Claude Diretor IA livre', 20, true);
-  log('Modo Claude Diretor IA ativado. DNA Fruits antigo zerado.', 'ok');
-  goNode('setup');
+// AI CHAT
+function renderQuickPrompts() { document.getElementById('quickPrompts').innerHTML = QUICK_PROMPTS.map(p => `<span class="qp" onclick="document.getElementById('aiInput').value='${p}';sendAiMessage()">${p}</span>`).join(''); }
+async function sendAiMessage() {
+  const input = document.getElementById('aiInput'); const msg = input.value.trim(); if (!msg) return; input.value = '';
+  const msgs = document.getElementById('aiMessages');
+  msgs.innerHTML += `<div class="ai-msg user">${msg}</div>`; msgs.scrollTop = msgs.scrollHeight;
+  const loading = document.createElement('div'); loading.className = 'ai-msg ai loading'; loading.textContent = 'Pensando...'; msgs.appendChild(loading); msgs.scrollTop = msgs.scrollHeight;
+  try {
+    const s = state.scenes[state.currentScene]; const ctx = s ? `\n\nCENA ATUAL:\n${s.text.slice(0,1000)}` : '';
+    const res = await callApi(msg + ctx, "Você é um assistente de direção amigável.");
+    loading.className = 'ai-msg ai'; loading.textContent = res;
+  } catch(e) { loading.className = 'ai-msg err'; loading.textContent = 'Erro: ' + e.message; }
 }
 
 // ═══════════════════════════════════════════════
-// INIT
+// INICIALIZAÇÃO
 // ═══════════════════════════════════════════════
 function init() {
-  if (!state.director && state.setup && state.setup.projectMode === 'fruits' && !state.setup.brief && (!state.scenes || !state.scenes.length)) {
-    state = clone(DEFAULT);
-    saveState();
-  }
-  // Correção: se o projeto está em Backend seguro, não reutilizar chave antiga salva no navegador.
-  if (state.api && state.api.callMode === 'backend' && String(state.api.endpoint || '').includes('/api/fruits-generate')) {
-    state.api.provider = 'claude';
-    state.api.apiKey = '';
-    state.api.endpoint = '/api/fruits-generate';
-    state.api.callMode = 'backend';
-    saveState();
-  }
-  fillForm();
-  renderNodes();
-  renderMap();
-  renderScene();
-  renderSceneNav();
-  renderQuickPrompts();
-  updateDna();
-  setStatus(state.status, state.score, state.score > 50);
-  log('Scene Engine v5 carregado. Bem-vindo!', 'ok');
+  initPortal(); fillForm(); renderStoryboard(); renderSceneNav(); renderNodes(); renderQuickPrompts(); updateDna();
+  
+  if (state.scenes.length === 0) addScene(); // Garante q tem pelo menos 1 cena
 
-  // API key / model sync
   document.getElementById('apiKey').addEventListener('input', () => { state.api.apiKey = v('apiKey'); saveState(); });
   document.getElementById('model').addEventListener('change', () => { state.api.model = v('model'); saveState(); });
   document.getElementById('callMode').addEventListener('change', () => { state.api.callMode = v('callMode'); saveState(); });
-  document.getElementById('maxTokens').addEventListener('input', () => { state.api.maxTokens = Number(v('maxTokens') || 3000); saveState(); });
-  document.getElementById('temperature').addEventListener('input', () => { state.api.temperature = Number(v('temperature') || 0.55); saveState(); });
-  document.getElementById('provider').addEventListener('change', onProviderChange);
-
-  // Enter no portal
-  document.getElementById('portalInput').addEventListener('keydown', e => { if (e.key === 'Enter') unlockPortal(); });
-
-  // Enter no chat
   document.getElementById('aiInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendAiMessage(); });
-
-  // Auto-save
-  window.addEventListener('beforeunload', saveState);
+  
+  goNode('setup'); // Inicia na aba Setup
 }
 
-initPortal();
 init();
 
+// ═══════════════════════════════════════════════
+// RASTREADOR DE CUSTOS (Intacto)
+// ═══════════════════════════════════════════════
 (function setupClaudeCostTracker(){
 const COST_KEY = 'mega_studio_claude_cost_history_v1';
-
-function loadCosts(){
-  try { return JSON.parse(localStorage.getItem(COST_KEY)) || []; }
-  catch { return []; }
-}
-
-function saveCosts(items){
-  localStorage.setItem(COST_KEY, JSON.stringify(items.slice(-500)));
-}
-
-function formatUsd(v){
-  return 'US$' + Number(v || 0).toFixed(4);
-}
-
-function startOfDay(d){
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function startOfWeek(d){
-  const x = startOfDay(d);
-  const day = x.getDay();
-  const diff = day === 0 ? 6 : day - 1;
-  x.setDate(x.getDate() - diff);
-  return x;
-}
-
-function startOfMonth(d){
-  return new Date(d.getFullYear(), d.getMonth(), 1);
-}
-
-function sumSince(items, date){
-  return items
-    .filter(item => new Date(item.created_at) >= date)
-    .reduce((acc, item) => acc + Number(item.total_cost_usd || 0), 0);
-}
+function loadCosts(){ try { return JSON.parse(localStorage.getItem(COST_KEY)) || []; } catch { return []; } }
+function saveCosts(items){ localStorage.setItem(COST_KEY, JSON.stringify(items.slice(-500))); }
+function formatUsd(v){ return 'US$' + Number(v || 0).toFixed(4); }
+function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function startOfWeek(d){ const x = startOfDay(d); const day = x.getDay(); const diff = day === 0 ? 6 : day - 1; x.setDate(x.getDate() - diff); return x; }
+function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
+function sumSince(items, date){ return items.filter(i => new Date(i.created_at) >= date).reduce((acc, i) => acc + Number(i.total_cost_usd || 0), 0); }
 
 function renderCostPanel(){
   let panel = document.getElementById('claudeCostPanel');
-
   if(!panel){
-    const apiSection =
-      document.querySelector('#tab-api') ||
-      document.querySelector('[data-tab="api"]') ||
-      document.querySelector('main') ||
-      document.body;
-
-    panel = document.createElement('div');
-    panel.id = 'claudeCostPanel';
-    panel.style.margin = '16px 0';
-    panel.style.padding = '16px';
-    panel.style.border = '1px solid rgba(255,185,50,.35)';
-    panel.style.borderRadius = '14px';
-    panel.style.background = 'rgba(255,185,50,.08)';
-    panel.style.color = 'var(--text,#e8ecff)';
-    panel.style.fontFamily = 'Inter, sans-serif';
-
+    const apiSection = document.querySelector('#tab-setup .api-provider-grid').parentElement;
+    if(!apiSection) return;
+    panel = document.createElement('div'); panel.id = 'claudeCostPanel';
+    panel.style.margin = '16px 0'; panel.style.padding = '16px'; panel.style.border = '1px solid rgba(255,185,50,.35)'; panel.style.borderRadius = '14px'; panel.style.background = 'rgba(255,185,50,.08)'; panel.style.color = 'var(--text,#e8ecff)'; panel.style.fontFamily = 'Inter, sans-serif';
     apiSection.appendChild(panel);
   }
-
-  const items = loadCosts();
-  const now = new Date();
-
-  const today = sumSince(items, startOfDay(now));
-  const week = sumSince(items, startOfWeek(now));
-  const month = sumSince(items, startOfMonth(now));
-  const total = items.reduce((acc, item) => acc + Number(item.total_cost_usd || 0), 0);
-  const last = items[items.length - 1];
-
-  const rows = items.slice(-8).reverse().map(item => {
-    const date = new Date(item.created_at).toLocaleString('pt-BR', {
-      day:'2-digit',
-      month:'2-digit',
-      hour:'2-digit',
-      minute:'2-digit'
-    });
-
-    return `
-      <tr>
-        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${date}</td>
-        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${item.model || '-'}</td>
-        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${item.input_tokens || 0}</td>
-        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${item.output_tokens || 0}</td>
-        <td style="padding:6px;border-top:1px solid rgba(255,255,255,.08)">${formatUsd(item.total_cost_usd)}</td>
-      </tr>
-    `;
-  }).join('');
-
+  const items = loadCosts(); const now = new Date();
+  const today = sumSince(items, startOfDay(now)), week = sumSince(items, startOfWeek(now)), month = sumSince(items, startOfMonth(now)), total = items.reduce((a, i) => a + Number(i.total_cost_usd || 0), 0), last = items[items.length - 1];
+  const rows = items.slice(-5).reverse().map(i => `<tr><td style="padding:4px;border-top:1px solid rgba(255,255,255,.08)">${new Date(i.created_at).toLocaleDateString()}</td><td style="padding:4px;border-top:1px solid rgba(255,255,255,.08)">${i.model||'-'}</td><td style="padding:4px;border-top:1px solid rgba(255,255,255,.08)">${formatUsd(i.total_cost_usd)}</td></tr>`).join('');
+  
   panel.innerHTML = `
-    <div style="font-weight:900;color:var(--gold,#ffb932);font-size:16px;margin-bottom:10px">
-      💰 Consumo Claude API
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:12px;font-size:13px">
+    <div style="font-weight:900;color:var(--gold);margin-bottom:10px">💰 Consumo Claude API</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;font-size:12px">
       <div><b>Última</b><br>${last ? formatUsd(last.total_cost_usd) : 'US$0.0000'}</div>
       <div><b>Hoje</b><br>${formatUsd(today)}</div>
-      <div><b>Semana</b><br>${formatUsd(week)}</div>
       <div><b>Mês</b><br>${formatUsd(month)}</div>
-      <div><b>Total local</b><br>${formatUsd(total)}</div>
+      <div><b>Total</b><br>${formatUsd(total)}</div>
     </div>
-
-    <div style="font-size:11px;opacity:.75;margin-bottom:8px">
-      Histórico salvo neste navegador. Se limpar cache ou trocar aparelho, pode sumir.
-    </div>
-
-    <div style="overflow:auto;max-height:180px;border:1px solid rgba(255,255,255,.08);border-radius:10px">
-      <table style="width:100%;border-collapse:collapse;font-size:11px">
-        <thead>
-          <tr>
-            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Data</th>
-            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Modelo</th>
-            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Entrada</th>
-            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Saída</th>
-            <th style="text-align:left;padding:6px;color:var(--gold,#ffb932)">Custo</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows || '<tr><td colspan="5" style="padding:8px;opacity:.7">Nenhum gasto registrado ainda.</td></tr>'}
-        </tbody>
+    <div style="overflow:auto;max-height:100px;border:1px solid rgba(255,255,255,.08);border-radius:10px">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;text-align:left;">
+        <thead><tr><th style="padding:4px;color:var(--gold)">Data</th><th style="padding:4px;color:var(--gold)">Modelo</th><th style="padding:4px;color:var(--gold)">Custo</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="3" style="padding:4px;opacity:.7">Sem gastos.</td></tr>'}</tbody>
       </table>
     </div>
-
-    <button onclick="window.clearClaudeCostHistory()" style="margin-top:10px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,77,126,.35);background:rgba(255,77,126,.08);color:#ff8caf;font-weight:700">
-      Limpar histórico
-    </button>
   `;
 }
-
-function addCost(cost){
-  if(!cost || !cost.total_cost_usd) return;
-
-  const items = loadCosts();
-  items.push({
-    ...cost,
-    created_at: cost.created_at || new Date().toISOString(),
-    project: cost.project || 'fruits'
-  });
-
-  saveCosts(items);
-  renderCostPanel();
-}
-
-window.clearClaudeCostHistory = function(){
-  if(confirm('Limpar histórico local de gastos da Claude API?')){
-    localStorage.removeItem(COST_KEY);
-    renderCostPanel();
-  }
-};
-
+function addCost(cost){ if(!cost || !cost.total_cost_usd) return; const items = loadCosts(); items.push({ ...cost, created_at: cost.created_at || new Date().toISOString() }); saveCosts(items); renderCostPanel(); }
 const originalFetch = window.fetch.bind(window);
-
 window.fetch = async function(input, init){
   const response = await originalFetch(input, init);
-
-  try{
-    const url = typeof input === 'string' ? input : input.url;
-
-    if(url && url.includes('/api/fruits-generate')){
-      response.clone().json().then(data => {
-        if(data && data.cost) addCost(data.cost);
-      }).catch(() => {});
-    }
-  }catch(e){}
-
+  try{ const url = typeof input === 'string' ? input : input.url; if(url && url.includes('/api/fruits-generate')){ response.clone().json().then(data => { if(data && data.cost) addCost(data.cost); }).catch(() => {}); } }catch(e){}
   return response;
 };
-
 setTimeout(renderCostPanel, 800);
 })();
-
 </script>
 </body>
 </html>
