@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.3 Produtora Pack</title>
+<title>Fruits Adventures Mega Studio — V6.4 Mobile Cloud Pack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -250,6 +250,8 @@ body {
 .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
 .modal-output { font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.7; white-space: pre-wrap; color: #d0d8ff; }
 .modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; }
+.file-tools { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:8px 0 12px; }
+.file-tools input { max-width:360px; }
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -279,7 +281,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.3 Produtora Pack</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4 Mobile Cloud Pack</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -291,7 +293,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.3 iniciado. Backup, CapCut Studio, Flow/Veo 8s, Designer de Voz e Pacote da Cena ativos.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.4 iniciado. Narrador limpo, SRT CapCut, Vozes ElevenLabs, nomes de arquivo, pacote mobile e compartilhamento na nuvem ativos.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -475,6 +477,7 @@ Nunca inventar personagens fora desta lista.</textarea>
               <h4>🎥 Flow / Veo 8s</h4>
               <p>Quebra a cena em blocos de 8 segundos para gerar vídeo curto.</p>
               <button class="btn btn-cyan btn-sm" onclick="exportFlowVeoPack()">Gerar Prompts 8s</button>
+              <button class="btn btn-sm" onclick="exportReelsCutPack()">Versão Reels Curta</button>
             </div>
             <div class="export-card">
               <h4>🎞️ SRT CapCut</h4>
@@ -515,6 +518,12 @@ Nunca inventar personagens fora desta lista.</textarea>
             </div>
           </div>
           <div class="section-title" style="margin-top:8px;">Preview do Roteiro Exportado</div>
+          <div class="file-tools">
+            <input id="fileBaseName" placeholder="Nome base dos arquivos: fruits_apocalipse_cena_02" oninput="state.fileBaseName=this.value;saveState()" />
+            <button class="btn btn-sm" onclick="copyExportPreview()">📋 Copiar Preview</button>
+            <button class="btn btn-sm" onclick="narrateText(buildCleanScript(), 'Preview do roteiro')">🔊 Ouvir Preview</button>
+            <button class="btn btn-sm" onclick="stopNarrator()">⏹ Parar Voz</button>
+          </div>
           <div id="exportPreview" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);background:var(--surface2);padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);max-height:300px;overflow-y:auto;white-space:pre-wrap;"></div>
         </div>
       </div>
@@ -535,6 +544,9 @@ Nunca inventar personagens fora desta lista.</textarea>
     <div class="modal-footer" id="modalFooter">
       <button class="btn btn-green btn-sm" onclick="copyModal()">Copiar</button>
       <button class="btn btn-gold btn-sm" onclick="downloadModal()">Baixar</button>
+      <button class="btn btn-sm" onclick="narrateText(modalText, modalTitleText())">🔊 Ouvir</button>
+      <button class="btn btn-sm" onclick="stopNarrator()">⏹ Parar Voz</button>
+      <button class="btn btn-cyan btn-sm" onclick="shareModalText()">☁️ Compartilhar/Drive</button>
     </div>
   </div>
 </div>
@@ -1016,27 +1028,64 @@ function clearCurrentSceneAndRestart() {
 // ═══════════════════════════════════════════════
 // UTILS, NARRATOR, SRT, EXPORT (Preservados intactos)
 // ═══════════════════════════════════════════════
-function narrateScene(mode) {
-  const s = state.scenes[state.currentScene]; if (!s) return;
-  let text = [extractBlock(s.text, 'NARRAÇÃO'), extractBlock(s.text, 'FALAS')].filter(Boolean).join('\n\n');
-  if (!text) return log('Nenhum texto para narrar.', 'warn');
-  if (!('speechSynthesis' in window)) return alert('Voz não suportada neste navegador.');
+function cleanForNarration(text) {
+  return String(text || '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/[*_`>#|~]/g, '')
+    .replace(/[🎬🎯📷💔🎙️✅⚠️🔧📝📦🎥🎞️]/g, '')
+    .replace(/-{3,}/g, '. ')
+    .replace(/\[(\d{2}:\d{2}\s*-\s*\d{2}:\d{2})\]/g, 'Tempo $1.')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function narrateText(text, label='texto') {
+  if (!text) return alert('Nada para narrar.');
+  if (!('speechSynthesis' in window)) return alert('Narrador não suportado neste navegador.');
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text); u.lang = 'pt-BR'; u.rate = 0.9;
-  speechSynthesis.speak(u); log('Narrando...', 'ia');
+  const u = new SpeechSynthesisUtterance(cleanForNarration(text));
+  u.lang = 'pt-BR'; u.rate = 0.95; u.pitch = 1;
+  speechSynthesis.speak(u); log('Narrando ' + label + '...', 'ia');
+}
+function narrateScene(mode) {
+  const s = state.scenes[state.currentScene];
+  if (!s || !s.text) return alert('Gere a cena primeiro.');
+  const txt = mode === 'narration' ? (extractBlock(s.text,'NARRAÇÃO') || s.text) : s.text;
+  narrateText(txt, sceneLabel(state.currentScene));
 }
 function stopNarrator() { if ('speechSynthesis' in window) speechSynthesis.cancel(); log('Narrador parado.', 'warn'); }
 
 function srtTime(s) { const ms = Math.round(s*1000), h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), sec = Math.floor(ms%60000/1000), x = ms%1000; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')},${String(x).padStart(3,'0')}`; }
-function buildSrt(text) {
-  const lines = text.replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(x=>x.trim()).filter(Boolean).filter(x=>!/^(CENA|OBJETIVO|AÇÃO|CÂMERA|EMOÇÃO|FALAS|NARRAÇÃO|CAPCUT|ELEVENLABS)/i.test(x)).slice(0, 120);
-  let cur = 0;
-  return lines.map((l, i) => { const dur = Math.min(7, Math.max(2, l.split(/\s+/).length*0.4+0.7)); const st = cur, en = cur+dur; cur = en+0.15; return `${i+1}\n${srtTime(st)} --> ${srtTime(en)}\n${l}`; }).join('\n\n');
+function cleanSrtLine(l) {
+  return String(l || '')
+    .replace(/^#{1,6}\s*/,'')
+    .replace(/[*_`>#|~]/g,'')
+    .replace(/[🎬🎯📷💔🎙️✅⚠️🔧📝📦🎥🎞️]/g,'')
+    .replace(/^[-–—]+\s*/, '')
+    .trim();
 }
-function genSrt(mode) { const s = state.scenes[state.currentScene]; if (!s) return; const t = s.text; openModal('SRT', 'Timecode', buildSrt(t), 'cena.srt'); }
-function genElevenText() { const s = state.scenes[state.currentScene]; if(!s) return; openModal('Vozes ElevenLabs', 'Texto', extractBlock(s.text,'ELEVENLABS')||extractBlock(s.text,'FALAS'), 'vozes.txt'); }
-function genProjectSrt() { const text = state.scenes.map(s => s.text||'').join('\n\n'); openModal('SRT Completo', 'Todas as cenas', buildSrt(text), 'projeto.srt'); }
-function exportEleven() { const text = state.scenes.map((s,i) => `=== ${s.title} ===\n${extractBlock(s.text,'ELEVENLABS')||extractBlock(s.text,'FALAS')}`).join('\n\n'); openModal('ElevenLabs Completo', 'Tudo', text, 'projeto_vozes.txt'); }
+function isBadSrtLine(l) {
+  const x = cleanSrtLine(l).toLowerCase();
+  return !x || x === '---' || x.includes('roteiro audiovisual final') || x.includes('fruits adventures: apocalipse') || x.includes('objetivo:') || x.includes('ação:') || x.includes('câmera:') || x.includes('emoção:') || x.includes('configuração técnica') || x.includes('plano ') || x.includes('lente:') || x.includes('frame rate');
+}
+function buildSrt(text) {
+  const raw = String(text||'').replace(/\r/g,'').split(/(?<=[.!?…])\s+|\n+/).map(x=>x.trim()).filter(Boolean);
+  const lines = raw.map(cleanSrtLine).filter(l => !isBadSrtLine(l) && l.length > 3).slice(0,90);
+  let t=0;
+  return lines.map((l,i)=>{ const dur=Math.min(6.5, Math.max(2.2, l.length/18)); const out=`${i+1}\n${srtTime(t)} --> ${srtTime(t+dur)}\n${l}\n`; t+=dur+0.15; return out; }).join('\n');
+}
+function buildSceneVoicePack(s, i) {
+  const falas = extractBlock(s.text||'', 'FALAS') || '';
+  const eleven = extractBlock(s.text||'', 'ELEVENLABS') || '';
+  const narracao = extractBlock(s.text||'', 'NARRAÇÃO') || '';
+  const fallback = falas || eleven || narracao || (s.text||'');
+  return `🎙️ PACOTE DE VOZ — ${sceneLabel(i)}\n\nDESIGNER DE VOZ / DNA:\n\nCAIO: voz masculina jovem adulta, grave média, firme, protetora, cansada, respiração tensa. Fala pouco, com comando e urgência.\n\nTOMATE ELINALDO: voz masculina expressiva, um pouco aguda, nervosa, humana-cartunesca sem infantilizar. Medo visível na respiração, mas com coragem.\n\nSABRINA PITAYA: voz feminina rouca, firme, combatente, frases curtas, energia de guerreira.\n\nVILÃO POLICIAL INFECTADO: voz grave, arrastada, gutural, ameaçadora, com respiração quebrada e poucas palavras.\n\nNARRADOR: voz grave, documental sombria, ritmo lento, suspense.\n\n---\n\nNARRAÇÃO DA CENA:\n${narracao || '[Sem bloco de narração separado. Use o roteiro para extrair.]'}\n\n---\n\nFALAS / ELEVENLABS:\n${fallback}\n\n---\n\nREGRA DE GRAVAÇÃO:\nUma voz por personagem. Pausas curtas. Emoção clara. Exportar cada personagem em arquivo separado quando possível.`;
+}
+function genSrt(mode) { const s = state.scenes[state.currentScene]; if (!s) return; openModal('SRT CapCut Limpo', 'Legenda limpa para CapCut.', buildSrt(s.text || ''), sceneFileName('srt','srt')); }
+function genElevenText() { const s = state.scenes[state.currentScene]; if(!s) return; openModal('Vozes ElevenLabs', 'Designer de voz, narração e falas.', buildSceneVoicePack(s, state.currentScene), sceneFileName('vozes','txt')); }
+function genProjectSrt() { const text = state.scenes.map(s => s.text||'').join('\n\n'); openModal('SRT Completo Limpo', 'Todas as cenas para CapCut.', buildSrt(text), projectFileName('srt','srt')); }
+function exportEleven() { const text = state.scenes.map((s,i) => buildSceneVoicePack(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n'); openModal('ElevenLabs Completo', 'Designer e falas de todas as cenas.', text, projectFileName('vozes','txt')); }
 
 function copyScene() { navigator.clipboard.writeText(state.scenes[state.currentScene]?.text || ''); log('Cena copiada.', 'ok'); }
 function copyEditor() { navigator.clipboard.writeText(document.getElementById('smartEditor').value); log('Editor copiado.', 'ok'); }
@@ -1044,15 +1093,40 @@ function copyEditor() { navigator.clipboard.writeText(document.getElementById('s
 function buildCleanScript() { return state.scenes.map((s, i) => `${s.title}\n\n${s.text || '[Vazio]'}`).join('\n\n' + '─'.repeat(50) + '\n\n'); }
 function updateExport() { document.getElementById('exportPreview').textContent = buildCleanScript(); }
 function copyCleanScript() { navigator.clipboard.writeText(buildCleanScript()); log('Roteiro copiado.', 'ok'); }
+function preferredBaseName() {
+  const typed = (state.fileBaseName || document.getElementById('fileBaseName')?.value || '').trim();
+  if (typed) return fileSlug(typed);
+  const s = getCurrentScene();
+  return fileSlug((state.setup.projectName || 'fruits_apocalipse') + '_' + sceneLabel(state.currentScene));
+}
+function sceneFileName(kind, ext='txt') { return `${preferredBaseName()}_${kind}.${ext}`; }
+function projectFileName(kind, ext='txt') { return `${fileSlug(state.setup.projectName || 'fruits_adventures')}_${kind}.${ext}`; }
 function downloadText(text, filename, type = 'text/plain;charset=utf-8') { const blob = new Blob([text], { type }), url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
-function downloadJson() { downloadText(JSON.stringify(state, null, 2), 'projeto_backup.json', 'application/json'); log('JSON baixado.', 'ok'); }
+function downloadJson() { downloadText(JSON.stringify(state, null, 2), projectFileName('backup_' + new Date().toISOString().slice(0,10), 'json'), 'application/json'); log('JSON baixado.', 'ok'); }
 function backupProject() { downloadJson(); }
 function clearProject() { if(!confirm('Apagar TUDO?')) return; localStorage.removeItem(STORAGE_KEY); location.reload(); }
 
-function openModal(t, d, txt, f) { document.getElementById('modalTitle').textContent = t; document.getElementById('modalOutput').textContent = txt; modalText = txt; modalFile = f; document.getElementById('modal').classList.add('open'); }
+function modalTitleText() { return document.getElementById('modalTitle')?.textContent || 'resultado'; }
+function openModal(t, d, txt, f) { document.getElementById('modalTitle').textContent = t; document.getElementById('modalOutput').textContent = txt || ''; modalText = txt || ''; modalFile = f || sceneFileName('resultado','txt'); document.getElementById('modal').classList.add('open'); }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 function copyModal() { navigator.clipboard.writeText(modalText); log('Copiado.', 'ok'); }
 function downloadModal() { downloadText(modalText, modalFile); }
+async function shareTextAsFile(text, filename) {
+  try {
+    const file = new File([text || ''], filename, { type: 'text/plain' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: filename, text: 'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
+      log('Compartilhado. Escolha Google Drive se aparecer no Android.', 'ok');
+    } else if (navigator.share) {
+      await navigator.share({ title: filename, text: text || '' });
+      log('Texto compartilhado. Escolha Google Drive/Docs se aparecer.', 'ok');
+    } else {
+      downloadText(text, filename);
+      alert('Compartilhamento direto não suportado. Baixei o arquivo para você enviar ao Drive manualmente.');
+    }
+  } catch (e) { log('Compartilhamento cancelado ou indisponível.', 'warn'); }
+}
+function shareModalText() { shareTextAsFile(modalText, modalFile || sceneFileName('resultado','txt')); }
 
 // AI CHAT
 function renderQuickPrompts() { document.getElementById('quickPrompts').innerHTML = QUICK_PROMPTS.map(p => `<span class="qp" onclick="document.getElementById('aiInput').value='${p}';sendAiMessage()">${p}</span>`).join(''); }
@@ -1081,6 +1155,7 @@ function migrateState() {
   if (!state.api.maxTokens) state.api.maxTokens = 4000;
   if (state.api.callMode === 'browser' && !state.api.apiKey) state.api.callMode = 'backend';
   if (!Array.isArray(state.scenes) || !state.scenes.length) state.scenes = clone(DEFAULT.scenes);
+  if (typeof state.fileBaseName !== 'string') state.fileBaseName = '';
   state.scenes.forEach((s, i) => {
     if (!s.title) s.title = `Cena ${i+1}`;
     if (typeof s.summary !== 'string') s.summary = '';
@@ -1297,12 +1372,12 @@ function downloadCurrentSceneTxt() {
   const s = getCurrentScene();
   const editor = document.getElementById('smartEditor');
   const text = (editor && editor.value.trim()) || s.text || '';
-  downloadText(text, fileSlug(s.title || 'cena') + '_roteiro.txt');
+  downloadText(text, sceneFileName('roteiro','txt'));
   log('Cena baixada em TXT.', 'ok');
 }
 
 function downloadCleanScript() {
-  downloadText(buildCleanScript(), 'roteiro_completo_fruits_adventures.txt');
+  downloadText(buildCleanScript(), projectFileName('roteiro_completo','txt'));
   log('Roteiro completo baixado.', 'ok');
 }
 
@@ -1312,10 +1387,11 @@ function copyProjectSrt() {
 }
 
 function buildElevenProjectText() {
-  return state.scenes.map((s,i) => `=== ${sceneLabel(i)} ===\n${extractBlock(s.text||'','ELEVENLABS') || extractBlock(s.text||'','FALAS') || s.text || ''}`).join('\n\n');
+  return state.scenes.map((s,i) => buildSceneVoicePack(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
 }
 
 function copyElevenProject() { copyText(buildElevenProjectText(), 'Texto de vozes copiado.'); }
+function copyExportPreview() { copyText(buildCleanScript(), 'Preview do roteiro copiado.'); }
 
 function fileSlug(name) {
   return String(name || 'arquivo').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').toLowerCase() || 'arquivo';
@@ -1332,7 +1408,7 @@ function buildCapCutStudioPackForScene(s, i) {
 
 function exportCapCutStudioPack() {
   const text = state.scenes.map((s,i) => buildCapCutStudioPackForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
-  openModal('Pacote CapCut Studio', 'Roteiro curto, narração, legenda e edição.', text, 'capcut_studio_pack.txt');
+  openModal('Pacote CapCut Studio', 'Roteiro curto, narração, legenda e edição.', text, projectFileName('capcut_studio_pack','txt'));
 }
 
 function buildFlowVeoPackForScene(s, i) {
@@ -1344,12 +1420,19 @@ function buildFlowVeoPackForScene(s, i) {
 
 function exportFlowVeoPack() {
   const text = state.scenes.map((s,i) => buildFlowVeoPackForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
-  openModal('Flow / Veo 8s', 'Prompts em blocos curtos para vídeo IA.', text, 'flow_veo_8s_pack.txt');
+  openModal('Flow / Veo 8s', 'Prompts em blocos curtos para vídeo IA.', text, projectFileName('flow_veo_8s_pack','txt'));
+}
+
+function exportReelsCutPack() {
+  const s = getCurrentScene();
+  const i = state.currentScene;
+  const text = `🎞️ VERSÃO CURTA / REELS — ${sceneLabel(i)}\n\nIMPORTANTE:\nEsta versão NÃO altera a obra completa. Use como adaptação curta para TikTok, Reels, Shorts, CapCut ou teste de retenção.\n\nFORMATO:\n15 a 35 segundos, vertical 9:16, frases curtas, ação direta, gancho no final.\n\nROTEIRO CURTO SUGERIDO:\n1. Comece no perigo mais visual da cena.\n2. Corte explicações técnicas.\n3. Use 1 frase de narração forte.\n4. Use no máximo 2 falas curtas.\n5. Finalize com gancho e corte seco.\n\nBASE DA CENA:\n${s.summary || ''}\n\nPROMPT DE ADAPTAÇÃO PARA IA:\nTransforme a cena abaixo em versão curta para Reels/TikTok/Shorts, sem alterar o roteiro mestre. Mantenha o DNA dos personagens, reduza excesso técnico, preserve ação, fala curta, narração forte, legenda impactante e gancho final.\n\nROTEIRO MESTRE:\n${(s.text || '').slice(0, 6000)}`;
+  openModal('Versão Reels/TikTok/Shorts', 'Adaptação curta sem mexer na obra completa.', text, sceneFileName('reels_curto','txt'));
 }
 
 function exportVoiceDesigner() {
   const text = `🎙️ DESIGNER DE VOZ — FRUITS ADVENTURES\n\nOBJETIVO:\nCriar vozes consistentes para ElevenLabs, CapCut ou dublagem manual. Use como direção vocal antes de gerar áudio.\n\nCAIO:\nVoz masculina jovem adulta, grave média, firme, protetora, cansada, respiração tensa. Fala pouco, com comando e urgência. Evitar exagero heroico.\n\nTOMATE ELINALDO:\nVoz masculina expressiva, um pouco aguda, nervosa, humana-cartunesca sem infantilizar. Medo visível na respiração, mas com coragem.\n\nSABRINA PITAYA:\nVoz feminina rouca, firme, combatente, frases curtas, energia de guerreira. Pouca hesitação, olhar frio, alerta constante.\n\nVILÃO POLICIAL INFECTADO:\nVoz grave, arrastada, gutural, ameaçadora, com respiração quebrada. Poucas palavras. Pode ter distorção leve e ruído orgânico.\n\nNARRADOR:\nVoz masculina grave ou feminina grave, tom documental sombrio, ritmo lento, suspense, sem teatralidade excessiva.\n\nREGRA DE MIXAGEM:\nVozes em -6dB a -3dB, música baixa, efeitos de ambiente e respiração dando tensão. Legendas sempre visíveis no CapCut.\n`;
-  openModal('Designer de Voz', 'Perfis vocais por personagem.', text, 'designer_de_voz.txt');
+  openModal('Designer de Voz', 'Perfis vocais por personagem.', text, projectFileName('designer_de_voz','txt'));
 }
 
 function buildCurrentScenePackage() {
@@ -1368,19 +1451,19 @@ function buildCurrentScenePackage() {
 
 function downloadCurrentScenePackage() {
   const s = getCurrentScene();
-  downloadText(buildCurrentScenePackage(), fileSlug(s.title || 'cena') + '_pacote_completo.txt');
+  downloadText(buildCurrentScenePackage(), sceneFileName('pacote_completo','txt'));
   log('Pacote completo da cena baixado.', 'ok');
 }
 
 function exportGraphicPack() {
   const s = getCurrentScene();
   const text = `🖼️ BRIEF GRÁFICO — ${s.title || 'Projeto'}\n\nOBJETIVO:\nTransformar o roteiro aprovado em peças de divulgação e produtos.\n\nPEÇAS SUGERIDAS:\n1. Post quadrado 1080x1080\n2. Story/Reels cover 1080x1920\n3. Thumbnail YouTube 16:9\n4. Banner do site\n5. Camiseta com personagem/frase\n6. Caneca com arte principal\n7. Adesivo/brinde\n8. Flyer de serviço/freelance\n\nCONCEITO VISUAL:\n${s.summary || 'Usar a cena aprovada como base.'}\n\nFRAME MESTRE:\nUsar a imagem de referência da cena como inspiração visual.\n\nFRASES DE DIVULGAÇÃO:\n- A estrada parecia morta.\n- Até a mão aparecer.\n- Fruits Adventures: Apocalipse.\n- Um universo autoral criado com IA, direção e coragem.\n\nPROMPT GRÁFICO BASE:\nCrie uma peça promocional cinematográfica para divulgar uma série autoral de sobrevivência pós-apocalíptica com personagens Fruits Adventures, atmosfera escura, textura de filme, suspense, personagens em destaque e chamada forte. Sem logos de terceiros e sem copiar obras existentes.\n`;
-  openModal('Brief para Gráfica IA', 'Post, thumbnail, produto e divulgação.', text, 'brief_grafica_ia.txt');
+  openModal('Brief para Gráfica IA', 'Post, thumbnail, produto e divulgação.', text, sceneFileName('brief_grafica','txt'));
 }
 
 function exportClientProposal() {
   const text = `🧾 MODELO DE PROPOSTA / BRIEFING DE CLIENTE\n\nSERVIÇO:\nPré-produção audiovisual com IA: roteiro, storyboard, prompts visuais, narração, SRT, pacote CapCut e peças gráficas.\n\nO QUE O CLIENTE ENVIA:\n- Objetivo do vídeo/campanha\n- Produto, marca ou personagem\n- Público-alvo\n- Referências visuais\n- Prazo desejado\n- Onde será publicado\n\nO QUE A PRODUÇÃO ENTREGA:\n- Roteiro aprovado\n- Guia visual\n- Prompts para imagem/vídeo\n- SRT para legenda\n- Texto para voz/ElevenLabs\n- Pacote CapCut Studio\n- Artes de divulgação quando contratado\n\nOBSERVAÇÃO PROFISSIONAL:\nO cliente não acessa o Studio interno. Ele recebe briefing, prévia, prazos, entregáveis e arquivos finais. Alterações extras devem ser combinadas no escopo.\n`;
-  openModal('Modelo Cliente / Proposta', 'Base para captação e prestação de serviço.', text, 'modelo_proposta_cliente.txt');
+  openModal('Modelo Cliente / Proposta', 'Base para captação e prestação de serviço.', text, projectFileName('modelo_proposta_cliente','txt'));
 }
 
 function importProjectJson(event) {
@@ -1409,7 +1492,7 @@ function importProjectJson(event) {
 // ═══════════════════════════════════════════════
 function init() {
   migrateState();
-  initPortal(); fillForm(); renderStoryboard(); renderSceneNav(); renderNodes(); renderQuickPrompts(); updateDna();
+  initPortal(); fillForm(); renderStoryboard(); renderSceneNav(); renderNodes(); renderQuickPrompts(); updateDna(); const fbn=document.getElementById('fileBaseName'); if(fbn) fbn.value=state.fileBaseName||'';
   
   if (state.scenes.length === 0) addScene(); // Garante q tem pelo menos 1 cena
 
