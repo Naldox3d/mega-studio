@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.4.5 Vídeo IA + SRT Drive Fix</title>
+<title>Fruits Adventures Mega Studio — V6.5 CapCut 2D 100% + Compartilhar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -287,7 +287,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.5 Vídeo IA + SRT Drive Fix</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.5 CapCut 2D 100% + Compartilhar</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -2088,10 +2088,364 @@ function genProjectSrt() {
 (function markV645(){
   try {
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.4.5 Vídeo IA + SRT Drive Fix';
+    if (brand) brand.textContent = 'V6.5 CapCut 2D 100% + Compartilhar';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
   } catch(e) {}
+})();
+
+
+
+// ═══════════════════════════════════════════════
+// V6.5 — CAPCUT STORY MODE 2D 100% + COMPARTILHAR NATIVO
+// ═══════════════════════════════════════════════
+(function setupCapCut2D100Mode(){
+  const STYLE_ID = 'capcut2d100Style';
+  if (!document.getElementById(STYLE_ID)) {
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.textContent = `
+      .capcut2d-panel { display:flex; flex-direction:column; gap:14px; }
+      .capcut2d-hero { background:linear-gradient(135deg, rgba(0,229,200,.10), rgba(255,185,50,.08)); border:1px solid rgba(0,229,200,.25); border-radius:var(--radius); padding:16px; }
+      .capcut2d-hero h3 { font-family:'Syne',sans-serif; font-size:18px; color:var(--cyan); margin-bottom:6px; }
+      .capcut2d-hero p { color:var(--muted); font-size:12px; line-height:1.6; }
+      .capcut2d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+      .capcut2d-card { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:14px; }
+      .capcut2d-card h4 { color:var(--gold); font-size:13px; margin-bottom:8px; }
+      .capcut2d-card p { color:var(--muted); font-size:11px; line-height:1.5; }
+      .capcut2d-actions { display:flex; flex-wrap:wrap; gap:8px; }
+      .capcut2d-output { min-height:360px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); padding:16px; white-space:pre-wrap; font-family:'Space Mono',monospace; font-size:12px; line-height:1.7; color:#d0d8ff; overflow:auto; }
+      .capcut2d-badge { display:inline-flex; align-items:center; gap:6px; background:var(--green-dim); border:1px solid rgba(77,255,154,.30); color:var(--green); padding:4px 9px; border-radius:999px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; }
+      @media(max-width:900px){ .capcut2d-grid{grid-template-columns:1fr;} }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function ensureStateCapCut2D(){
+    if (!state.capcut2d) {
+      state.capcut2d = { style:'hq_cinematica', costMode:'capcut_100', pace:'normal', seconds:45 };
+      saveState();
+    }
+  }
+
+  const oldMigrateState = window.migrateState;
+  window.migrateState = function(){
+    if (typeof oldMigrateState === 'function') oldMigrateState();
+    ensureStateCapCut2D();
+  };
+
+  function capcut2dStyleLabel(id){
+    return ({
+      hq_cinematica: 'HQ Cinemática',
+      storyboard_vivo: 'Storyboard Vivo',
+      trailer_narrado: 'Trailer Narrado',
+      terror_documental: 'Terror Documental',
+      aventura_livre: 'Aventura Narrada'
+    })[id] || 'HQ Cinemática';
+  }
+
+  function capcut2dStyleDNA(id){
+    const map = {
+      hq_cinematica: 'visual de quadrinhos animados, cortes por quadro, zoom lento, legenda forte, tensão e impacto',
+      storyboard_vivo: 'pré-produção animada, câmera simulada, quadros claros, descrição de ação e movimento planejado',
+      trailer_narrado: 'ritmo de teaser, frases curtas, tela preta, impacto sonoro, cortes rápidos e gancho final',
+      terror_documental: 'arquivo secreto, relato sombrio, rádio falhando, textura suja, texto na tela e suspense investigativo',
+      aventura_livre: 'aventura clara, narração expressiva, emoção, ação compreensível e energia de episódio curto'
+    };
+    return map[id] || map.hq_cinematica;
+  }
+
+  window.buildCapCut2D100PackForScene = function(s, i){
+    ensureStateCapCut2D();
+    s = s || getCurrentScene();
+    i = typeof i === 'number' ? i : state.currentScene;
+    const title = sceneLabel(i);
+    const styleId = state.capcut2d.style || 'hq_cinematica';
+    const styleName = capcut2dStyleLabel(styleId);
+    const styleDNA = capcut2dStyleDNA(styleId);
+    const seconds = Number(state.capcut2d.seconds || 45);
+    const narration = buildNarrationText ? buildNarrationText(s) : (extractBlock(s.text || '', 'NARRAÇÃO') || s.summary || '');
+    const dialogues = buildDialoguesText ? buildDialoguesText(s, i) : (extractBlock(s.text || '', 'FALAS') || '');
+    const srt = buildSrt(s.text || s.summary || narration || dialogues || '');
+    const action = extractBlock(s.text || '', 'AÇÃO') || s.summary || '';
+    const hook = extractBlock(s.text || '', 'GANCHO FINAL') || 'Corte seco antes da ameaça revelar tudo.';
+
+    return `🎞️ CAPCUT STORY MODE 2D 100% — ${title}\n\n` +
+`MODO DE PRODUÇÃO:\n100% CapCut 2D / 0% vídeo IA obrigatório.\nUse imagem parada, zoom, pan, tremor, efeitos, narração, falas separadas, música e SRT. Vídeo IA fica apenas como extra opcional, não como base da cena.\n\n` +
+`ESTILO PRONTO:\n${styleName}\nDNA DO ESTILO: ${styleDNA}.\n\n` +
+`DURAÇÃO SUGERIDA:\n${seconds} segundos em formato vertical 9:16.\n\n` +
+`IMAGEM BASE / FRAME MESTRE:\nUse a imagem de referência da cena ou o melhor frame gerado no Storyboard. Não precisa animar boca. O movimento vem do CapCut: zoom, pan, tremor, blur, máscara, vinheta, luz piscando e cortes.\n\n` +
+`RESUMO DA CENA:\n${s.summary || title}\n\n` +
+`AÇÃO PRINCIPAL:\n${action || 'Transformar a cena em sequência narrada com tensão crescente.'}\n\n` +
+`PLANO DE EDIÇÃO CAPCUT 2D:\n` +
+`0s–3s: abrir com imagem parada forte, zoom lento e som ambiente baixo.\n` +
+`3s–7s: aproximar no detalhe mais importante da cena usando keyframes.\n` +
+`7s–12s: inserir narração grave ou emocional; legenda grande sincronizada.\n` +
+`12s–18s: cortar para reação dos personagens usando outra imagem ou crop do mesmo frame.\n` +
+`18s–25s: aplicar tremor leve, blur rápido, vinheta e SFX de impacto.\n` +
+`25s–35s: entrar falas curtas por personagem em áudio separado, sem exigir lip sync.\n` +
+`35s–${seconds}s: subir música, revelar gancho, cortar para preto ou freeze dramático.\n\n` +
+`NARRAÇÃO PRONTA:\n${narration || 'A cena começa em silêncio. A imagem parece parada, mas a tensão cresce a cada segundo.'}\n\n` +
+`FALAS / VOZES SEPARADAS:\n${dialogues || 'Use falas curtas, uma voz por personagem, sem depender da boca animada.'}\n\n` +
+`SFX / AMBIENTE:\nvento baixo, respiração, ruído metálico, impacto grave, rádio falhando, passos distantes, textura de poeira e silêncio antes do susto.\n\n` +
+`LEGENDAS SRT CAPCUT:\n${srt}\n\n` +
+`NÃO GASTAR CRÉDITO COM:\n- diálogo longo com vários personagens falando no mesmo vídeo;\n- lip sync de todos os personagens;\n- refazer vídeo só porque a boca errou;\n- clipe longo quando uma imagem com zoom resolve.\n\n` +
+`SÓ USAR VÍDEO IA SE SOBRAR CRÉDITO:\n- 2 a 4 segundos do momento mais visual da cena;\n- mão saindo do chão, vilão surgindo, explosão, ataque ou corrida;\n- sem fala, sem lip sync obrigatório.\n\n` +
+`GANCHO FINAL:\n${hook}\n\n` +
+`CHECKLIST 100% CAPCUT:\n[ ] Imagem base importada\n[ ] Keyframes de zoom/pan aplicados\n[ ] Narração adicionada\n[ ] Falas separadas por personagem\n[ ] SRT importado\n[ ] SFX e música adicionados\n[ ] Corte final com gancho\n[ ] Compartilhar/Drive usado para salvar pacote`;
+  };
+
+  window.buildCapCut2D100ProjectPack = function(){
+    migrateState();
+    return state.scenes.map((s,i)=>buildCapCut2D100PackForScene(s,i)).join('\n\n' + '═'.repeat(52) + '\n\n');
+  };
+
+  window.exportCapCut2D100Current = function(){
+    const text = buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene);
+    openModal('CapCut Story Mode 2D 100% — ' + sceneLabel(state.currentScene), 'Plano econômico: 100% CapCut, sem vídeo IA obrigatório.', text, sceneFileName('capcut_2d_100','txt'));
+  };
+
+  window.exportCapCut2D100Project = function(){
+    const text = buildCapCut2D100ProjectPack();
+    openModal('CapCut Story Mode 2D 100% — Projeto Completo', 'Todas as cenas em modo 2D econômico para CapCut.', text, projectFileName('capcut_2d_100_projeto','txt'));
+  };
+
+  window.copyCapCut2D100Current = function(){
+    copyText(buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene), 'Plano CapCut 2D 100% copiado.');
+  };
+
+  window.downloadCapCut2D100Current = function(){
+    downloadText(buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene), sceneFileName('capcut_2d_100','txt'));
+    log('Plano CapCut 2D 100% baixado.', 'ok');
+  };
+
+  window.shareCapCut2D100Current = function(){
+    shareTextAsFile(buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene), sceneFileName('capcut_2d_100','txt'));
+  };
+
+  window.shareCapCut2D100Project = function(){
+    shareTextAsFile(buildCapCut2D100ProjectPack(), projectFileName('capcut_2d_100_projeto','txt'));
+  };
+
+  function ensureCapCut2DTab(){
+    if (document.getElementById('tab-capcut2d')) return;
+    const content = document.querySelector('.content');
+    if (!content) return;
+    const panel = document.createElement('div');
+    panel.className = 'tab-panel';
+    panel.id = 'tab-capcut2d';
+    panel.innerHTML = `
+      <div class="panel-scroll capcut2d-panel">
+        <div class="capcut2d-hero">
+          <span class="capcut2d-badge">100% CapCut / 0% vídeo IA obrigatório</span>
+          <h3 style="margin-top:10px">🎞️ História 2D CapCut — Modo 100%</h3>
+          <p>Este fluxo transforma cada cena em história narrada 2D usando imagem parada, keyframes, SRT, narração, falas separadas, SFX e cortes. O objetivo é economizar crédito e não depender de lip sync.</p>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Estilo pronto</label>
+            <select id="capcut2dStyle" onchange="state.capcut2d.style=this.value;saveState();renderCapCut2D100Panel()">
+              <option value="hq_cinematica">HQ Cinemática</option>
+              <option value="storyboard_vivo">Storyboard Vivo</option>
+              <option value="trailer_narrado">Trailer Narrado</option>
+              <option value="terror_documental">Terror Documental</option>
+              <option value="aventura_livre">Aventura Narrada</option>
+            </select>
+          </div>
+          <div class="field"><label>Modo de custo</label>
+            <select id="capcut2dCost" onchange="state.capcut2d.costMode=this.value;saveState();renderCapCut2D100Panel()">
+              <option value="capcut_100">100% CapCut 2D — Econômico total</option>
+              <option value="capcut_90">90% CapCut / 10% vídeo IA opcional</option>
+              <option value="capcut_70">70% CapCut / 30% vídeo IA premium</option>
+            </select>
+          </div>
+          <div class="field"><label>Duração alvo</label><input id="capcut2dSeconds" type="number" min="15" max="120" value="45" oninput="state.capcut2d.seconds=Number(this.value||45);saveState();renderCapCut2D100Panel()"/></div>
+        </div>
+        <div class="capcut2d-grid">
+          <div class="capcut2d-card"><h4>1. Base</h4><p>Imagem da cena + zoom/pan no CapCut. Nada de boca obrigatória.</p></div>
+          <div class="capcut2d-card"><h4>2. Som</h4><p>Narração, falas separadas, música e SFX criam a emoção sem gastar vídeo.</p></div>
+          <div class="capcut2d-card"><h4>3. Exportar</h4><p>Gerar pacote, copiar, baixar ou compartilhar no menu do celular para escolher Google Drive.</p></div>
+        </div>
+        <div class="capcut2d-actions">
+          <button class="btn btn-green" onclick="exportCapCut2D100Current()">Gerar Cena Atual</button>
+          <button class="btn btn-gold" onclick="exportCapCut2D100Project()">Projeto Completo</button>
+          <button class="btn" onclick="copyCapCut2D100Current()">📋 Copiar</button>
+          <button class="btn" onclick="downloadCapCut2D100Current()">⬇️ Baixar</button>
+          <button class="btn btn-cyan" onclick="shareCapCut2D100Current()">📤 Compartilhar</button>
+        </div>
+        <div class="section-title">Preview do Plano 2D 100%</div>
+        <div id="capcut2dOutput" class="capcut2d-output"></div>
+      </div>`;
+    const exportPanel = document.getElementById('tab-export');
+    content.insertBefore(panel, exportPanel || null);
+  }
+
+  window.renderCapCut2D100Panel = function(){
+    ensureStateCapCut2D();
+    ensureCapCut2DTab();
+    const styleSel = document.getElementById('capcut2dStyle');
+    const costSel = document.getElementById('capcut2dCost');
+    const sec = document.getElementById('capcut2dSeconds');
+    if (styleSel) styleSel.value = state.capcut2d.style || 'hq_cinematica';
+    if (costSel) costSel.value = state.capcut2d.costMode || 'capcut_100';
+    if (sec) sec.value = state.capcut2d.seconds || 45;
+    const out = document.getElementById('capcut2dOutput');
+    if (out) out.textContent = buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene);
+  };
+
+  const oldGoNode = window.goNode;
+  window.goNode = function(id){
+    ensureCapCut2DTab();
+    if (typeof oldGoNode === 'function') oldGoNode(id);
+    if (id === 'capcut2d') renderCapCut2D100Panel();
+    patchShareLabels();
+  };
+
+  window.renderNodes = function(){
+    ensureStateCapCut2D();
+    const nodes = [
+      { id: 'setup', label: '1. Setup', status: state.setup.continuityRules ? 'pronto' : 'vazio' },
+      { id: 'storyboard', label: '2. Storyboard', status: state.scenes.length + ' cenas' },
+      { id: 'scene', label: '3. Estúdio', status: 'roteiro' },
+      { id: 'capcut2d', label: '4. 2D 100%', status: 'econômico' },
+      { id: 'ai', label: 'Copilot', status: 'chat' },
+      { id: 'export', label: '5. Exportar', status: state.scenes.every(s=>s.approved) ? 'pronto' : 'aguardando' }
+    ];
+    const activePanel = document.querySelector('.tab-panel.active')?.id?.replace('tab-','');
+    const bar = document.getElementById('nodesBar');
+    if (!bar) return;
+    bar.innerHTML = nodes.map(n => {
+      const active = n.id === activePanel;
+      const done = /pronto|econômico/.test(n.status);
+      return `<div class="node-btn ${active?'active':''} ${done?'done':''}" onclick="goNode('${n.id}')"><strong>${n.label}</strong><small>${n.status}</small></div>`;
+    }).join('');
+  };
+
+  const oldGetEditorContent = window.getEditorContent;
+  window.getEditorContent = function(mode, s, i){
+    if (mode === 'capcut2d') return buildCapCut2D100PackForScene(s, i);
+    if (typeof oldGetEditorContent === 'function') return oldGetEditorContent(mode, s, i);
+    return s ? (s.text || '') : '';
+  };
+
+  const oldLoadEditor = window.loadEditor;
+  window.loadEditor = function(mode){
+    currentEditorMode = mode || 'current';
+    if (currentEditorMode === 'capcut2d') {
+      const editor = document.getElementById('smartEditor');
+      const badge = document.getElementById('editorModeBadge');
+      const s = state.scenes[state.currentScene];
+      if (editor && s) editor.value = buildCapCut2D100PackForScene(s, state.currentScene);
+      if (badge) badge.textContent = 'capcut 2d 100%';
+      setToolbarActive(currentEditorMode);
+      return;
+    }
+    if (typeof oldLoadEditor === 'function') oldLoadEditor(mode);
+  };
+
+  function ensureEditorButton(){
+    const bar = document.getElementById('editorToolbar');
+    if (!bar || bar.querySelector('[data-mode="capcut2d"]')) return;
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-green';
+    btn.dataset.mode = 'capcut2d';
+    btn.setAttribute('onclick', "loadEditor('capcut2d')");
+    btn.textContent = '🎞️ 2D 100%';
+    bar.appendChild(btn);
+  }
+
+  function ensureExportCards(){
+    const grid = document.querySelector('#tab-export .export-grid');
+    if (!grid || document.getElementById('exportCardCapcut2D100')) return;
+    const card = document.createElement('div');
+    card.className = 'export-card';
+    card.id = 'exportCardCapcut2D100';
+    card.innerHTML = `
+      <h4>🎞️ História 2D CapCut 100%</h4>
+      <p>Modo econômico total: imagem parada, narração, falas, SRT, SFX e cortes. Vídeo IA só opcional.</p>
+      <button class="btn btn-green btn-sm" onclick="exportCapCut2D100Current()">Cena Atual</button>
+      <button class="btn btn-sm" onclick="exportCapCut2D100Project()">Projeto Completo</button>
+      <button class="btn btn-cyan btn-sm" onclick="shareCapCut2D100Current()">📤 Compartilhar</button>`;
+    const first = grid.querySelector('.export-card');
+    grid.insertBefore(card, first || null);
+
+    const srtCard = Array.from(grid.querySelectorAll('.export-card')).find(c => /SRT CapCut/.test(c.textContent));
+    if (srtCard && !srtCard.querySelector('[data-share-srt]')) {
+      const b = document.createElement('button');
+      b.className = 'btn btn-cyan btn-sm';
+      b.dataset.shareSrt = '1';
+      b.textContent = '📤 Compartilhar SRT';
+      b.onclick = function(){ shareTextAsFile(buildSrt(state.scenes.map(s => s.text || '').join('\n\n')), projectFileName('srt_capcut','srt')); };
+      srtCard.appendChild(b);
+    }
+  }
+
+  function patchShareLabels(){
+    document.querySelectorAll('button').forEach(btn => {
+      if (/Drive|Compartilhar\/Drive/.test(btn.textContent)) btn.textContent = '📤 Compartilhar';
+    });
+    const strip = document.getElementById('terminalStrip');
+    if (strip && /V6\.4\.5|Drive/.test(strip.textContent)) strip.textContent = 'Engine V6.5 ativo: História 2D CapCut 100%, vídeo IA opcional e Compartilhar nativo do celular.';
+    const brand = document.querySelector('.topbar-brand span');
+    if (brand) brand.textContent = 'V6.5 CapCut 2D 100% + Compartilhar';
+    document.title = 'Fruits Adventures Mega Studio — V6.5 CapCut 2D 100% + Compartilhar';
+  }
+
+  const oldShareTextAsFile = window.shareTextAsFile;
+  window.shareTextAsFile = async function(text, filename, mimeType){
+    const safeName = typeof safeShareFileName === 'function' ? safeShareFileName(filename) : String(filename || 'arquivo.txt');
+    const payload = text || '';
+    const type = mimeType || (safeName.toLowerCase().endsWith('.json') ? 'application/json' : 'text/plain');
+    try { if (navigator.clipboard) await navigator.clipboard.writeText(payload); } catch(_) {}
+    try {
+      const file = new File([payload], safeName, { type });
+      if (navigator.canShare && navigator.canShare({ files:[file] })) {
+        await navigator.share({ files:[file], title:safeName, text:'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
+        log('Menu de compartilhamento aberto. Escolha Google Drive, WhatsApp, Gmail ou outro app.', 'ok');
+        return;
+      }
+      if (navigator.share) {
+        await navigator.share({ title:safeName, text:payload });
+        log('Compartilhamento de texto aberto. Escolha o aplicativo desejado.', 'ok');
+        return;
+      }
+    } catch(e) {}
+    if (typeof oldShareTextAsFile === 'function') {
+      try { return oldShareTextAsFile(payload, safeName); } catch(e) {}
+    }
+    downloadText(payload, safeName);
+    log('Compartilhar não abriu neste navegador. Conteúdo copiado e arquivo baixado.', 'warn');
+  };
+
+  // Botões extras de compartilhamento para downloads principais.
+  window.shareCleanScript = function(){ shareTextAsFile(buildCleanScript(), projectFileName('roteiro_completo','txt')); };
+  window.shareProjectSrt = function(){ shareTextAsFile(buildSrt(state.scenes.map(s => s.text || '').join('\n\n')), projectFileName('srt_capcut','srt')); };
+  window.shareCurrentScenePackage = function(){ shareTextAsFile(buildCurrentScenePackage(), sceneFileName('pacote_completo','txt')); };
+  window.shareProjectJson = function(){ shareTextAsFile(JSON.stringify(state, null, 2), projectFileName('backup_' + new Date().toISOString().slice(0,10), 'json'), 'application/json'); };
+
+  function addShareButtonsToFileTools(){
+    const tools = document.querySelector('#tab-export .file-tools');
+    if (!tools || tools.querySelector('[data-share-preview]')) return;
+    const b = document.createElement('button');
+    b.className = 'btn btn-sm btn-cyan';
+    b.dataset.sharePreview = '1';
+    b.textContent = '📤 Compartilhar Preview';
+    b.onclick = shareCleanScript;
+    tools.appendChild(b);
+  }
+
+  function setupNow(){
+    ensureStateCapCut2D();
+    ensureCapCut2DTab();
+    ensureEditorButton();
+    ensureExportCards();
+    addShareButtonsToFileTools();
+    patchShareLabels();
+    renderNodes();
+    if (document.querySelector('.tab-panel.active')?.id === 'tab-capcut2d') renderCapCut2D100Panel();
+  }
+
+  setupNow();
+  setTimeout(setupNow, 400);
 })();
 
 
