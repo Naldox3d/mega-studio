@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.2 Claude API Fix</title>
+<title>Fruits Adventures Mega Studio — V6.3 Produtora Pack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -279,7 +279,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.2 Claude API Fix</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.3 Produtora Pack</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -291,7 +291,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.2 iniciado. Modelos Claude atualizados; use Backend seguro e teste a conexão.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.3 iniciado. Backup, CapCut Studio, Flow/Veo 8s, Designer de Voz e Pacote da Cena ativos.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -422,6 +422,8 @@ Nunca inventar personagens fora desta lista.</textarea>
               <button class="btn btn-gold" onclick="generateCurrentScene()">⚡ Gerar Roteiro da Cena</button>
               <button class="btn btn-cyan" onclick="reviewCurrentSceneWithAI()">🤖 Ajuste Fino IA</button>
               <button class="btn btn-green" onclick="approveCurrentScene()">✓ Aprovar e Salvar</button>
+              <button class="btn" onclick="copyCurrentEditorScript()">📋 Copiar Cena</button>
+              <button class="btn" onclick="downloadCurrentSceneTxt()">⬇️ Baixar Cena</button>
               <button class="btn" onclick="nextScene()">→ Próxima</button>
               
               <div style="border-left: 1px solid var(--border); margin: 0 4px; padding-left: 10px; display: flex; gap: 6px;">
@@ -456,25 +458,59 @@ Nunca inventar personagens fora desta lista.</textarea>
               <h4>📄 Roteiro Completo</h4>
               <p>Todas as cenas aprovadas em texto limpo.</p>
               <button class="btn btn-green btn-sm" onclick="copyCleanScript()">Copiar Roteiro</button>
+              <button class="btn btn-sm" onclick="downloadCleanScript()">Baixar TXT</button>
             </div>
             <div class="export-card">
-              <h4>📋 JSON Completo</h4>
-              <p>Projeto inteiro em JSON (para backup).</p>
+              <h4>💾 Backup / JSON</h4>
+              <p>Salva o projeto inteiro. Use antes de atualizar o site.</p>
               <button class="btn btn-gold btn-sm" onclick="downloadJson()">Baixar JSON</button>
+              <label class="btn btn-sm btn-cyan" style="cursor:pointer;margin-top:6px;">Importar JSON<input type="file" accept="application/json,.json" style="display:none" onchange="importProjectJson(event)"></label>
+            </div>
+            <div class="export-card">
+              <h4>🎬 CapCut Studio</h4>
+              <p>Pacote vertical: roteiro curto, narração, legenda, corte e postagem.</p>
+              <button class="btn btn-gold btn-sm" onclick="exportCapCutStudioPack()">Gerar Pacote</button>
+            </div>
+            <div class="export-card">
+              <h4>🎥 Flow / Veo 8s</h4>
+              <p>Quebra a cena em blocos de 8 segundos para gerar vídeo curto.</p>
+              <button class="btn btn-cyan btn-sm" onclick="exportFlowVeoPack()">Gerar Prompts 8s</button>
             </div>
             <div class="export-card">
               <h4>🎞️ SRT CapCut</h4>
               <p>Legenda completa do projeto.</p>
               <button class="btn btn-cyan btn-sm" onclick="genProjectSrt()">Baixar SRT</button>
+              <button class="btn btn-sm" onclick="copyProjectSrt()">Copiar SRT</button>
             </div>
             <div class="export-card">
               <h4>🎙️ ElevenLabs</h4>
-              <p>Texto emocional compilado.</p>
+              <p>Texto emocional compilado para vozes premium.</p>
               <button class="btn btn-purple btn-sm" onclick="exportEleven()">Exportar Vozes</button>
+              <button class="btn btn-sm" onclick="copyElevenProject()">Copiar Vozes</button>
+            </div>
+            <div class="export-card">
+              <h4>🎚️ Designer de Voz</h4>
+              <p>Perfis de voz por personagem para ElevenLabs, CapCut ou dublagem.</p>
+              <button class="btn btn-purple btn-sm" onclick="exportVoiceDesigner()">Gerar Perfis</button>
+            </div>
+            <div class="export-card">
+              <h4>📦 Pacote da Cena Atual</h4>
+              <p>Roteiro, guia visual, análise, SRT, vozes, CapCut e Flow em um TXT.</p>
+              <button class="btn btn-green btn-sm" onclick="downloadCurrentScenePackage()">Baixar Pacote</button>
+            </div>
+            <div class="export-card">
+              <h4>🖼️ Gráfica IA</h4>
+              <p>Brief para post, thumbnail, banner, camiseta, caneca e divulgação.</p>
+              <button class="btn btn-gold btn-sm" onclick="exportGraphicPack()">Gerar Brief Gráfico</button>
+            </div>
+            <div class="export-card">
+              <h4>🧾 Proposta / Cliente</h4>
+              <p>Base para briefing, prazo, escopo e prestação de serviço.</p>
+              <button class="btn btn-sm btn-cyan" onclick="exportClientProposal()">Gerar Modelo</button>
             </div>
             <div class="export-card" style="grid-column: 1/-1;">
               <h4>⚠️ Limpar Projeto</h4>
-              <p>Remove tudo e reinicia do zero.</p>
+              <p>Remove tudo e reinicia do zero. Faça backup antes.</p>
               <button class="btn btn-pink btn-sm" onclick="clearProject()">Limpar Tudo</button>
             </div>
           </div>
@@ -1230,6 +1266,142 @@ async function reviewCurrentSceneWithAI() {
     editor.value = revised;
     log('Ajuste fino pronto. Revise e clique em Aprovar e Salvar.', 'ok');
   } catch (e) { editor.value = s.text; log('Erro na revisão: ' + e.message, 'err'); }
+}
+
+
+// ═══════════════════════════════════════════════
+// V6.3 — PRODUTORA PACK / EXPORTS PROFISSIONAIS
+// ═══════════════════════════════════════════════
+function getCurrentScene() {
+  migrateState();
+  return state.scenes[state.currentScene] || state.scenes[0] || { title: 'Cena', summary: '', text: '', visualPrompt: '', visualAnalysis: '' };
+}
+
+function sceneLabel(i) {
+  const s = state.scenes[i];
+  return (s && s.title) ? s.title : 'Cena ' + (i + 1);
+}
+
+function copyText(text, msg) {
+  navigator.clipboard.writeText(text || '');
+  log(msg || 'Copiado.', 'ok');
+}
+
+function copyCurrentEditorScript() {
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || getCurrentScene().text || '';
+  copyText(text, 'Roteiro da cena copiado.');
+}
+
+function downloadCurrentSceneTxt() {
+  const s = getCurrentScene();
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || s.text || '';
+  downloadText(text, fileSlug(s.title || 'cena') + '_roteiro.txt');
+  log('Cena baixada em TXT.', 'ok');
+}
+
+function downloadCleanScript() {
+  downloadText(buildCleanScript(), 'roteiro_completo_fruits_adventures.txt');
+  log('Roteiro completo baixado.', 'ok');
+}
+
+function copyProjectSrt() {
+  const text = state.scenes.map(s => s.text || '').join('\n\n');
+  copyText(buildSrt(text), 'SRT completo copiado.');
+}
+
+function buildElevenProjectText() {
+  return state.scenes.map((s,i) => `=== ${sceneLabel(i)} ===\n${extractBlock(s.text||'','ELEVENLABS') || extractBlock(s.text||'','FALAS') || s.text || ''}`).join('\n\n');
+}
+
+function copyElevenProject() { copyText(buildElevenProjectText(), 'Texto de vozes copiado.'); }
+
+function fileSlug(name) {
+  return String(name || 'arquivo').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').toLowerCase() || 'arquivo';
+}
+
+function buildCapCutStudioPackForScene(s, i) {
+  const title = sceneLabel(i);
+  const narration = extractBlock(s.text || '', 'NARRAÇÃO') || '';
+  const capcut = extractBlock(s.text || '', 'CAPCUT') || '';
+  const hook = extractBlock(s.text || '', 'GANCHO FINAL') || '';
+  const action = extractBlock(s.text || '', 'AÇÃO') || s.summary || '';
+  return `🎬 CAPCUT STUDIO PACK — ${title}\n\nFORMATO:\nVídeo vertical 9:16, 30 a 60 segundos, ritmo de trailer/shorts, cortes fortes, legenda grande e suspense.\n\nCENA EM UMA FRASE:\n${s.summary || title}\n\nPROMPT CURTO PARA CAPCUT STUDIO:\nCrie um vídeo cinematográfico de sobrevivência pós-apocalíptica baseado nesta cena: ${s.summary || action.slice(0, 500)}. Use estética suja, névoa, rodovia destruída, luz dramática, tensão crescente, personagens em perigo e final com gancho. Não copie obras existentes.\n\nNARRAÇÃO SUGERIDA:\n${narration || 'Transforme a ação em uma narração curta, grave e tensa.'}\n\nLEGENDAS / CAPCUT:\n${capcut || 'A estrada parecia morta.\nAté a mão aparecer.\nA luz salvava...\nmas também chamava o perigo.'}\n\nGANCHO FINAL:\n${hook || 'A ameaça maior aparece no fundo e a cena corta antes do ataque.'}\n\nEDIÇÃO:\n- Começar com silêncio e imagem forte.\n- Usar cortes curtos quando a ameaça aparece.\n- Inserir som grave, respiração, ruído metálico e sirene distante.\n- Finalizar com corte seco para preto.\n`;
+}
+
+function exportCapCutStudioPack() {
+  const text = state.scenes.map((s,i) => buildCapCutStudioPackForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
+  openModal('Pacote CapCut Studio', 'Roteiro curto, narração, legenda e edição.', text, 'capcut_studio_pack.txt');
+}
+
+function buildFlowVeoPackForScene(s, i) {
+  const title = sceneLabel(i);
+  const visual = s.visualPrompt || '';
+  const action = extractBlock(s.text || '', 'AÇÃO') || s.summary || '';
+  return `🎥 FLOW / VEO 8s — ${title}\n\nUSO:\nGere clipes curtos de 8 segundos e monte no CapCut. Cada bloco deve ser um vídeo separado.\n\nBLOCO 1 — 0s a 8s / MASTER SHOT:\n${s.summary || action.slice(0, 600)}\nEstilo: cinematográfico, pós-apocalíptico, câmera baixa, névoa, luz dramática, textura suja, tensão.\n\nBLOCO 2 — 8s a 16s / DETALHE DA AMEAÇA:\nClose na ameaça principal da cena. Movimento lento, suspense, som imaginado de rachadura, respiração e metal.\n\nBLOCO 3 — 16s a 24s / REAÇÃO DOS PERSONAGENS:\nMostrar reação dos personagens principais, tensão corporal, olhar, preparação para fuga ou combate.\n\nBLOCO 4 — 24s a 32s / GANCHO FINAL:\nRevelar ameaça maior no fundo, luzes piscando, corte seco antes do ataque.\n\nPROMPT VISUAL BASE:\n${visual ? visual.slice(0, 2500) : 'Use o resumo da cena como guia visual principal.'}\n\nNEGATIVO GERAL:\nSem texto na imagem, sem logo, sem aparência infantil, sem personagem extra em foco, sem copiar cena de filme/série existente.\n`;
+}
+
+function exportFlowVeoPack() {
+  const text = state.scenes.map((s,i) => buildFlowVeoPackForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
+  openModal('Flow / Veo 8s', 'Prompts em blocos curtos para vídeo IA.', text, 'flow_veo_8s_pack.txt');
+}
+
+function exportVoiceDesigner() {
+  const text = `🎙️ DESIGNER DE VOZ — FRUITS ADVENTURES\n\nOBJETIVO:\nCriar vozes consistentes para ElevenLabs, CapCut ou dublagem manual. Use como direção vocal antes de gerar áudio.\n\nCAIO:\nVoz masculina jovem adulta, grave média, firme, protetora, cansada, respiração tensa. Fala pouco, com comando e urgência. Evitar exagero heroico.\n\nTOMATE ELINALDO:\nVoz masculina expressiva, um pouco aguda, nervosa, humana-cartunesca sem infantilizar. Medo visível na respiração, mas com coragem.\n\nSABRINA PITAYA:\nVoz feminina rouca, firme, combatente, frases curtas, energia de guerreira. Pouca hesitação, olhar frio, alerta constante.\n\nVILÃO POLICIAL INFECTADO:\nVoz grave, arrastada, gutural, ameaçadora, com respiração quebrada. Poucas palavras. Pode ter distorção leve e ruído orgânico.\n\nNARRADOR:\nVoz masculina grave ou feminina grave, tom documental sombrio, ritmo lento, suspense, sem teatralidade excessiva.\n\nREGRA DE MIXAGEM:\nVozes em -6dB a -3dB, música baixa, efeitos de ambiente e respiração dando tensão. Legendas sempre visíveis no CapCut.\n`;
+  openModal('Designer de Voz', 'Perfis vocais por personagem.', text, 'designer_de_voz.txt');
+}
+
+function buildCurrentScenePackage() {
+  const s = getCurrentScene();
+  const i = state.currentScene;
+  return `📦 PACOTE DA CENA — ${sceneLabel(i)}\n\n` +
+    `=== RESUMO ===\n${s.summary || ''}\n\n` +
+    `=== GUIA VISUAL ===\n${s.visualPrompt || ''}\n\n` +
+    `=== ANÁLISE DA IMAGEM ===\n${s.visualAnalysis || ''}\n\n` +
+    `=== ROTEIRO FINAL ===\n${s.text || ''}\n\n` +
+    `=== SRT ===\n${buildSrt(s.text || '')}\n\n` +
+    `=== ELEVENLABS ===\n${extractBlock(s.text || '', 'ELEVENLABS') || extractBlock(s.text || '', 'FALAS') || ''}\n\n` +
+    `=== CAPCUT STUDIO ===\n${buildCapCutStudioPackForScene(s, i)}\n\n` +
+    `=== FLOW / VEO 8s ===\n${buildFlowVeoPackForScene(s, i)}\n`;
+}
+
+function downloadCurrentScenePackage() {
+  const s = getCurrentScene();
+  downloadText(buildCurrentScenePackage(), fileSlug(s.title || 'cena') + '_pacote_completo.txt');
+  log('Pacote completo da cena baixado.', 'ok');
+}
+
+function exportGraphicPack() {
+  const s = getCurrentScene();
+  const text = `🖼️ BRIEF GRÁFICO — ${s.title || 'Projeto'}\n\nOBJETIVO:\nTransformar o roteiro aprovado em peças de divulgação e produtos.\n\nPEÇAS SUGERIDAS:\n1. Post quadrado 1080x1080\n2. Story/Reels cover 1080x1920\n3. Thumbnail YouTube 16:9\n4. Banner do site\n5. Camiseta com personagem/frase\n6. Caneca com arte principal\n7. Adesivo/brinde\n8. Flyer de serviço/freelance\n\nCONCEITO VISUAL:\n${s.summary || 'Usar a cena aprovada como base.'}\n\nFRAME MESTRE:\nUsar a imagem de referência da cena como inspiração visual.\n\nFRASES DE DIVULGAÇÃO:\n- A estrada parecia morta.\n- Até a mão aparecer.\n- Fruits Adventures: Apocalipse.\n- Um universo autoral criado com IA, direção e coragem.\n\nPROMPT GRÁFICO BASE:\nCrie uma peça promocional cinematográfica para divulgar uma série autoral de sobrevivência pós-apocalíptica com personagens Fruits Adventures, atmosfera escura, textura de filme, suspense, personagens em destaque e chamada forte. Sem logos de terceiros e sem copiar obras existentes.\n`;
+  openModal('Brief para Gráfica IA', 'Post, thumbnail, produto e divulgação.', text, 'brief_grafica_ia.txt');
+}
+
+function exportClientProposal() {
+  const text = `🧾 MODELO DE PROPOSTA / BRIEFING DE CLIENTE\n\nSERVIÇO:\nPré-produção audiovisual com IA: roteiro, storyboard, prompts visuais, narração, SRT, pacote CapCut e peças gráficas.\n\nO QUE O CLIENTE ENVIA:\n- Objetivo do vídeo/campanha\n- Produto, marca ou personagem\n- Público-alvo\n- Referências visuais\n- Prazo desejado\n- Onde será publicado\n\nO QUE A PRODUÇÃO ENTREGA:\n- Roteiro aprovado\n- Guia visual\n- Prompts para imagem/vídeo\n- SRT para legenda\n- Texto para voz/ElevenLabs\n- Pacote CapCut Studio\n- Artes de divulgação quando contratado\n\nOBSERVAÇÃO PROFISSIONAL:\nO cliente não acessa o Studio interno. Ele recebe briefing, prévia, prazos, entregáveis e arquivos finais. Alterações extras devem ser combinadas no escopo.\n`;
+  openModal('Modelo Cliente / Proposta', 'Base para captação e prestação de serviço.', text, 'modelo_proposta_cliente.txt');
+}
+
+function importProjectJson(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (!data || !data.scenes) throw new Error('JSON não parece ser backup do Studio.');
+      state = data;
+      migrateState();
+      fillForm(); renderStoryboard(); renderSceneNav(); renderNodes(); updateDna(); updateExport();
+      setStatus('Backup importado', 30, true);
+      log('Backup JSON importado com sucesso.', 'ok');
+      goNode('export');
+    } catch (e) {
+      log('Erro ao importar JSON: ' + e.message, 'err');
+    }
+  };
+  reader.readAsText(file);
 }
 
 // ═══════════════════════════════════════════════
