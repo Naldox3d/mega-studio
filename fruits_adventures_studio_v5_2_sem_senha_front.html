@@ -2449,6 +2449,206 @@ function genProjectSrt() {
 })();
 
 
+
+// ═══════════════════════════════════════════════
+// FINAL OVERRIDES V6.6 — WHISK / MOVIMENTO 2D A PARTIR DE STORYBOARD
+// ═══════════════════════════════════════════════
+(function setupWhisk2DMotionModule(){
+  function motionSafeText(text, max){
+    return String(text || '').replace(/\r/g,'').replace(/\s+/g,' ').trim().slice(0, max || 900);
+  }
+
+  function getSceneAction(s){
+    const action = (typeof extractBlock === 'function' ? extractBlock(s.text || '', 'AÇÃO') : '') || s.summary || '';
+    const camera = typeof extractBlock === 'function' ? extractBlock(s.text || '', 'CÂMERA') : '';
+    const emotion = typeof extractBlock === 'function' ? extractBlock(s.text || '', 'EMOÇÃO') : '';
+    return { action: motionSafeText(action, 900), camera: motionSafeText(camera, 500), emotion: motionSafeText(emotion, 500) };
+  }
+
+  window.buildWhisk2DMotionPromptForScene = function(s, i){
+    s = s || (typeof getCurrentScene === 'function' ? getCurrentScene() : {});
+    const title = typeof sceneLabel === 'function' ? sceneLabel(i || 0) : (s.title || 'Cena');
+    const scene = getSceneAction(s);
+    const narration = typeof buildNarrationText === 'function' ? motionSafeText(buildNarrationText(s), 700) : '';
+    const dialogues = typeof buildDialoguesText === 'function' ? motionSafeText(buildDialoguesText(s, i || 0), 900) : '';
+    const visual = motionSafeText(s.visualPrompt || '', 1000);
+    const analysis = motionSafeText(s.visualAnalysis || '', 700);
+    const baseAction = scene.action || 'os personagens observam uma ameaça fora de quadro e a câmera se aproxima lentamente';
+    const cameraBase = scene.camera || 'slow push-in, slight handheld suspense, subtle parallax, shallow depth of field';
+    const emotionBase = scene.emotion || 'suspense, medo contido, tensão crescente, silêncio antes do perigo';
+
+    return `🪄 WHISK / MOVIMENTO 2D — ${title}
+Imagem/storyboard → vídeo curto com movimento 2D sutil
+
+OBJETIVO:
+Transformar a imagem aprovada da cena em um vídeo animado curto sem redesenhar personagens, sem trocar figurino e sem inventar elementos novos. Movimento simples, seguro e cinematográfico: piscar, respirar, neblina, luz, parallax, zoom lento e pequenos gestos.
+
+CONFIGURAÇÃO RECOMENDADA:
+Formato vertical 9:16. Duração 5 a 8 segundos. Movimento 2D suave. Estilo do projeto preservado. Use a imagem anexada como base principal.
+
+PROMPT CURTO — ESTILO WHISK:
+Animate this exact storyboard image with subtle 2D motion. ${baseAction} Characters blink slowly, breathe softly, and hold tension. Add slight camera zoom-in, gentle parallax, drifting fog, flickering light, and small environmental movement. Keep the original character designs, outfits, colors, proportions, composition, and background unchanged. Vertical 9:16, 5 seconds, cinematic suspense mood.
+
+PROMPT DETALHADO — CAPCUT AI / SEEDANCE / FLOW / VEO:
+Use the provided image as the exact visual reference. Create a short vertical 9:16 animated 2D cinematic shot. Preserve every character design, face, outfit, color, silhouette, body proportion, object position, and scene composition. Do not redesign the characters.
+
+Scene action: ${baseAction}
+Camera movement: ${cameraBase}. Start almost still, then slowly push in. Add very light handheld tension, not shaky comedy. Use subtle 2D parallax between foreground, characters, and background.
+Emotion: ${emotionBase}. Characters should show tiny believable reactions: slow blinking, slight breathing, micro eye movement, small hand or shoulder tension. Background can have fog drifting, dust floating, weak light flicker, wind on leaves/clothes, and a soft shadow pulse.
+
+MOVIMENTO EM 3 BATIDAS:
+1. Primeiro segundo: imagem quase parada, suspense, ambiente respirando.
+2. Meio do clipe: personagem principal pisca ou mexe os olhos; objeto/luz/neblina se move levemente.
+3. Final: câmera aproxima no detalhe ameaçador ou no rosto tenso; corte antes da revelação completa.
+
+SOM / AMBIENTE SUGERIDO PARA CAPCUT:
+vento baixo, respiração tensa, ruído metálico distante, grave cinematográfico, silêncio antes do corte. Evitar música alegre.
+
+NARRAÇÃO OPCIONAL:
+${narration || 'Use uma narração curta e grave, com suspense e pausa antes do gancho.'}
+
+FALAS OPCIONAIS:
+${dialogues || 'Use falas curtas somente se necessário. Priorize expressão visual e legenda no CapCut.'}
+
+PROMPT NEGATIVO / NÃO FAZER:
+Do not change the characters. Do not redesign faces, clothing, colors, proportions, or species. Do not add new characters. Do not remove important objects. Do not turn it realistic if the source is cartoon, and do not turn it childish if the source is cinematic. Do not add text, subtitles, logos, watermark, random symbols, extra fingers, distorted eyes, melted faces, camera chaos, fast action, comedy, or unrelated background changes.
+
+VERSÃO PORTUGUÊS PARA COLAR:
+Anime esta imagem exata com movimento 2D sutil. Preserve personagens, roupas, cores, proporções, cenário e composição. Adicione piscar lento, respiração leve, zoom suave de câmera, parallax discreto, neblina se movendo, luz piscando fraca e pequenos movimentos do ambiente. Não invente personagens, não redesenhe rostos, não mude figurino e não coloque texto na tela. Vertical 9:16, 5 segundos, suspense cinematográfico.
+
+GUIA VISUAL DA CENA:
+${visual || 'Sem guia visual ainda. Gere o Guia Visual IA ou use a imagem/storyboard aprovada como referência.'}
+
+ANÁLISE DA IMAGEM:
+${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, movimento e composição antes do vídeo.'}`;
+  };
+
+  window.exportWhisk2DMotionCurrent = function(){
+    const s = typeof getCurrentScene === 'function' ? getCurrentScene() : (state.scenes[state.currentScene] || {});
+    const text = buildWhisk2DMotionPromptForScene(s, state.currentScene || 0);
+    openModal('Whisk / Movimento 2D — ' + (typeof sceneLabel === 'function' ? sceneLabel(state.currentScene || 0) : 'Cena Atual'), 'Prompt de animação 2D sutil para Whisk, CapCut AI, Seedance, Flow ou Veo.', text, sceneFileName('whisk_movimento_2d','txt'));
+  };
+
+  window.exportWhisk2DMotionProject = function(){
+    const text = (state.scenes || []).map((s,i) => buildWhisk2DMotionPromptForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
+    openModal('Whisk / Movimento 2D — Projeto Completo', 'Prompts de movimento 2D para todas as cenas.', text, projectFileName('whisk_movimento_2d','txt'));
+  };
+
+  const previousGetEditorContent = window.getEditorContent;
+  window.getEditorContent = function(mode, s, i){
+    if (mode === 'motion2d') return buildWhisk2DMotionPromptForScene(s, i);
+    if (typeof previousGetEditorContent === 'function') return previousGetEditorContent(mode, s, i);
+    return (s && s.text) || '';
+  };
+
+  const previousLoadEditor = window.loadEditor;
+  window.loadEditor = function(mode){
+    if (mode === 'motion2d') {
+      currentEditorMode = 'motion2d';
+      const editor = document.getElementById('smartEditor');
+      const badge = document.getElementById('editorModeBadge');
+      const s = typeof getCurrentScene === 'function' ? getCurrentScene() : (state.scenes[state.currentScene] || {});
+      if (editor) editor.value = buildWhisk2DMotionPromptForScene(s, state.currentScene || 0);
+      if (badge) badge.textContent = 'whisk / movimento 2d';
+      if (typeof setToolbarActive === 'function') setToolbarActive(currentEditorMode);
+      return;
+    }
+    if (typeof previousLoadEditor === 'function') return previousLoadEditor(mode);
+  };
+
+  function ensureMotion2DButton(){
+    const bar = document.getElementById('editorToolbar');
+    if (!bar || bar.querySelector('[data-mode="motion2d"]')) return;
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-purple';
+    btn.dataset.mode = 'motion2d';
+    btn.setAttribute('onclick', "loadEditor('motion2d')");
+    btn.textContent = '🪄 Whisk 2D';
+    const videoBtn = bar.querySelector('[data-mode="videoia"]');
+    if (videoBtn && videoBtn.nextSibling) bar.insertBefore(btn, videoBtn.nextSibling);
+    else bar.appendChild(btn);
+  }
+
+  function ensureMotion2DExportCard(){
+    const grid = document.querySelector('#tab-export .export-grid');
+    if (!grid || document.getElementById('exportCardWhisk2DMotion')) return;
+    const card = document.createElement('div');
+    card.className = 'export-card';
+    card.id = 'exportCardWhisk2DMotion';
+    card.innerHTML = `
+      <h4>🪄 Whisk / Movimento 2D</h4>
+      <p>Transforma imagem/storyboard em prompt de vídeo 2D: piscar, respirar, zoom, parallax, neblina e luz sem mudar personagens.</p>
+      <button class="btn btn-purple btn-sm" onclick="exportWhisk2DMotionCurrent()">Cena Atual</button>
+      <button class="btn btn-sm" onclick="exportWhisk2DMotionProject()">Projeto Completo</button>
+      <button class="btn btn-cyan btn-sm" onclick="shareTextAsFile(buildWhisk2DMotionPromptForScene(getCurrentScene(), state.currentScene), sceneFileName('whisk_movimento_2d','txt'))">📤 Compartilhar</button>`;
+    const videoCard = Array.from(grid.querySelectorAll('.export-card')).find(c => /Vídeo IA|CapCut \/ Seedance/.test(c.textContent));
+    if (videoCard && videoCard.nextSibling) grid.insertBefore(card, videoCard.nextSibling);
+    else grid.insertBefore(card, grid.firstChild);
+  }
+
+  const previousCopy = window.copyCurrentEditorScript;
+  window.copyCurrentEditorScript = function(){
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+    copyText(text, currentEditorMode === 'motion2d' ? 'Prompt Whisk/2D copiado.' : 'Aba copiada.');
+  };
+
+  const previousDownload = window.downloadCurrentSceneTxt;
+  window.downloadCurrentSceneTxt = function(){
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+    const suffixMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance', capcut2d:'capcut_2d_100', motion2d:'whisk_movimento_2d'};
+    const suffix = suffixMap[currentEditorMode] || 'aba';
+    downloadText(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+    log('Aba baixada em arquivo.', 'ok');
+  };
+
+  const previousShare = window.shareCurrentEditorText;
+  window.shareCurrentEditorText = function(){
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+    const suffixMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance', capcut2d:'capcut_2d_100', motion2d:'whisk_movimento_2d'};
+    const suffix = suffixMap[currentEditorMode] || 'aba';
+    shareTextAsFile(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+  };
+
+  const previousNarrate = window.narrateEditorMode;
+  window.narrateEditorMode = function(){
+    const editor = document.getElementById('smartEditor');
+    const txt = editor ? editor.value : getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene);
+    if (currentEditorMode === 'motion2d') return narrateText(txt, 'Prompt Whisk / Movimento 2D');
+    if (typeof previousNarrate === 'function') return previousNarrate();
+    return narrateText(txt, 'aba');
+  };
+
+  if (typeof buildCurrentScenePackage === 'function') {
+    const oldBuildPackage = window.buildCurrentScenePackage;
+    window.buildCurrentScenePackage = function(){
+      const base = oldBuildPackage();
+      const s = typeof getCurrentScene === 'function' ? getCurrentScene() : (state.scenes[state.currentScene] || {});
+      return base + '\n\n=== WHISK / MOVIMENTO 2D ===\n' + buildWhisk2DMotionPromptForScene(s, state.currentScene || 0) + '\n';
+    };
+  }
+
+  function patchMotionLabels(){
+    const brand = document.querySelector('.topbar-brand span');
+    if (brand) brand.textContent = 'V6.6 Whisk 2D + CapCut 100% + Compartilhar';
+    document.title = 'Fruits Adventures Mega Studio — V6.6 Whisk 2D + CapCut 100%';
+    const strip = document.getElementById('terminalStrip');
+    if (strip) strip.textContent = 'Engine V6.6 ativo: Whisk/Movimento 2D transforma storyboard em vídeo sutil com prompt curto, detalhado e negativo.';
+  }
+
+  function setupMotion2DNow(){
+    ensureMotion2DButton();
+    ensureMotion2DExportCard();
+    patchMotionLabels();
+    if (typeof renderNodes === 'function') renderNodes();
+  }
+
+  setupMotion2DNow();
+  setTimeout(setupMotion2DNow, 500);
+})();
+
 </script>
 </body>
 </html>
