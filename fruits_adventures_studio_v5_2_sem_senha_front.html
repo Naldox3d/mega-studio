@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.4.4 Drive Soft Fix</title>
+<title>Fruits Adventures Mega Studio — V6.4.5 Vídeo IA + SRT Drive Fix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -287,7 +287,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.4 Drive Soft Fix</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.5 Vídeo IA + SRT Drive Fix</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -299,7 +299,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.4.4 iniciado. SRT compartilha como TXT, sem popup travando, baixar SRT preservado.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.4.5 iniciado. Vídeo IA para CapCut/Seedance, SRT Drive mais suave e abas padronizadas.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -424,6 +424,7 @@ Nunca inventar personagens fora desta lista.</textarea>
               <button class="btn btn-sm" data-mode="dialogues" onclick="loadEditor('dialogues')">Falas</button>
               <button class="btn btn-sm" data-mode="eleven" onclick="loadEditor('eleven')">ElevenLabs</button>
               <button class="btn btn-sm" data-mode="srt" onclick="loadEditor('srt')">SRT</button>
+              <button class="btn btn-sm btn-cyan" data-mode="videoia" onclick="loadEditor('videoia')">🎬 Vídeo IA</button>
             </div>
             <textarea id="smartEditor" class="smart-editor" placeholder="Clique em '⚡ Gerar Roteiro da Cena' para a IA ler o Storyboard e escrever o Roteiro Final aqui..."></textarea>
             <div class="editor-tools">
@@ -483,6 +484,12 @@ Nunca inventar personagens fora desta lista.</textarea>
               <p>Quebra a cena em blocos de 8 segundos para gerar vídeo curto.</p>
               <button class="btn btn-cyan btn-sm" onclick="exportFlowVeoPack()">Gerar Prompts 8s</button>
               <button class="btn btn-sm" onclick="exportReelsCutPack()">Versão Reels Curta</button>
+            </div>
+            <div class="export-card">
+              <h4>🎬 Vídeo IA — CapCut / Seedance</h4>
+              <p>Prompt único com imagem, câmera, ação, som, falas opcionais e versão 9:16.</p>
+              <button class="btn btn-cyan btn-sm" onclick="exportVideoIaCurrent()">Cena Atual</button>
+              <button class="btn btn-sm" onclick="exportVideoIaProject()">Projeto Completo</button>
             </div>
             <div class="export-card">
               <h4>🎞️ SRT CapCut</h4>
@@ -1683,7 +1690,8 @@ function buildCurrentScenePackage() {
     `=== SRT ===\n${buildSrt(s.text || '')}\n\n` +
     `=== ELEVENLABS ===\n${extractBlock(s.text || '', 'ELEVENLABS') || extractBlock(s.text || '', 'FALAS') || ''}\n\n` +
     `=== CAPCUT STUDIO ===\n${buildCapCutStudioPackForScene(s, i)}\n\n` +
-    `=== FLOW / VEO 8s ===\n${buildFlowVeoPackForScene(s, i)}\n`;
+    `=== FLOW / VEO 8s ===\n${buildFlowVeoPackForScene(s, i)}\n\n` +
+    `=== VIDEO IA / CAPCUT / SEEDANCE ===\n${buildVideoIaPromptForScene(s, i)}\n`;
 }
 
 function downloadCurrentScenePackage() {
@@ -1813,17 +1821,14 @@ function downloadCurrentSceneTxt() {
 }
 
 
-
 // ═══════════════════════════════════════════════
-// FINAL OVERRIDES V6.4.4 — DRIVE SOFT FIX + SRT LIMPO
-// Cole este bloco no FIM do script. Ele sobrescreve as funções anteriores.
-// Objetivo: SRT baixa como .srt, mas botão Drive compartilha como .txt compatível.
-// Se o navegador bloquear/cancelar o Drive, não trava com alerta: copia e baixa fallback.
+// FINAL OVERRIDES V6.4.3 — SRT Drive Fix + Narrador limpo
 // ═══════════════════════════════════════════════
 function safeShareFileName(filename) {
-  const name = String(filename || 'arquivo.txt').trim() || 'arquivo.txt';
+  const name = String(filename || 'arquivo.txt');
+  // Android/Chrome/Drive às vezes não aceita compartilhar .srt direto pelo Web Share.
+  // Para Drive, mantemos o CONTEÚDO SRT, mas usamos .txt no compartilhamento.
   if (name.toLowerCase().endsWith('.srt')) return name.replace(/\.srt$/i, '.txt');
-  if (!/\.[a-z0-9]{2,6}$/i.test(name)) return name + '.txt';
   return name;
 }
 
@@ -1876,68 +1881,44 @@ function narrateEditorMode() {
   narrateText(spoken, ({current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT sem timing'}[currentEditorMode] || 'aba'));
 }
 
-async function copyTextSafe(text) {
-  try {
-    if (navigator.clipboard) await navigator.clipboard.writeText(text || '');
-  } catch (_) {}
-}
-
-async function shareTextAsFile(text, filename) {
-  const safeName = safeShareFileName(filename);
-  const content = text || '';
-  const file = new File([content], safeName, { type: 'text/plain;charset=utf-8' });
-
-  try {
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], title: safeName, text: 'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
-      log('Compartilhado. Se escolher Google Drive, confirme o upload.', 'ok');
-      return;
-    }
-    if (navigator.share) {
-      await navigator.share({ title: safeName, text: content });
-      log('Texto compartilhado. Escolha Drive/Docs se aparecer.', 'ok');
-      return;
-    }
-  } catch (e) {
-    // Usuário cancelou ou o navegador bloqueou. Não exibe alerta para não travar o fluxo.
-  }
-
-  await copyTextSafe(content);
-  downloadText(content, safeName, 'text/plain;charset=utf-8');
-  log('Drive não abriu pelo navegador. Conteúdo copiado e arquivo baixado: envie manualmente ao Drive.', 'warn');
-}
-
 function shareCurrentEditorText() {
   const editor = document.getElementById('smartEditor');
   const text = editor ? editor.value : '';
   const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut'}[currentEditorMode] || 'aba');
   const filename = sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt');
-  shareTextAsFile(text, filename);
+  shareTextAsFile(text, safeShareFileName(filename));
 }
 
 function shareModalText() {
-  shareTextAsFile(modalText, modalFile || sceneFileName('resultado','txt'));
+  shareTextAsFile(modalText, safeShareFileName(modalFile || sceneFileName('resultado','txt')));
 }
 
-function downloadModal() {
-  // Baixar preserva o nome original. Se for SRT, baixa .srt mesmo.
-  downloadText(modalText, modalFile || sceneFileName('resultado','txt'));
-  log('Arquivo baixado: ' + (modalFile || 'resultado.txt'), 'ok');
+async function shareTextAsFile(text, filename) {
+  const safeName = safeShareFileName(filename);
+  try {
+    const file = new File([text || ''], safeName, { type: 'text/plain;charset=utf-8' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: safeName, text: 'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
+      log('Compartilhado. Escolha Google Drive se aparecer no Android.', 'ok');
+    } else if (navigator.share) {
+      await navigator.share({ title: safeName, text: text || '' });
+      log('Texto compartilhado. Escolha Google Drive/Docs se aparecer.', 'ok');
+    } else {
+      if (navigator.clipboard) await navigator.clipboard.writeText(text || '');
+      downloadText(text, safeName);
+      alert('Compartilhamento direto indisponível neste navegador. Copiei/baixei o arquivo; envie pelo app Drive manualmente.');
+      log('Compartilhamento indisponível. Arquivo baixado para envio manual ao Drive.', 'warn');
+    }
+  } catch (e) {
+    try { if (navigator.clipboard) await navigator.clipboard.writeText(text || ''); } catch(_) {}
+    log('Compartilhamento cancelado/indisponível. Conteúdo copiado; use Baixar e envie pelo Drive manualmente.', 'warn');
+    alert('O navegador não abriu o Drive. Use Baixar ou Copiar e envie manualmente pelo Google Drive.');
+  }
 }
 
 function genProjectSrt() {
-  const text = state.scenes.map(s => s.text || '').join('\n\n');
+  const text = state.scenes.map(s => s.text||'').join('\n\n');
   openModal('SRT Completo Limpo', 'Todas as cenas para CapCut. Baixar gera .srt; Drive compartilha como .txt compatível.', buildSrt(text), projectFileName('srt_capcut','srt'));
-}
-
-function genSrt(mode) {
-  const s = state.scenes[state.currentScene];
-  if (!s) return;
-  if (mode === 'production') {
-    openModal('SRT Produção Comentado — ' + sceneLabel(state.currentScene), 'Legenda comentada da cena.', buildProductionSrt(s.text || ''), sceneFileName('srt_producao','srt'));
-  } else {
-    openSceneTabsModal('srt');
-  }
 }
 
 function loadEditor(mode) {
@@ -1951,6 +1932,167 @@ function loadEditor(mode) {
   if (badge) badge.textContent = ({current:'roteiro final', narration:'narração', dialogues:'falas', eleven:'elevenlabs', srt:'srt capcut'}[currentEditorMode] || 'cena');
   setToolbarActive(currentEditorMode);
 }
+
+
+// ═══════════════════════════════════════════════
+// FINAL OVERRIDES V6.4.5 — VIDEO IA + SRT DRIVE SUAVE
+// ═══════════════════════════════════════════════
+function buildVideoIaPromptForScene(s, i) {
+  const title = sceneLabel(i);
+  const visual = (s.visualPrompt || '').trim();
+  const analysis = (s.visualAnalysis || '').trim();
+  const base = (s.summary || '').trim();
+  const roteiro = (s.text || '').trim();
+  const narr = buildNarrationText(s).trim();
+  const falas = buildDialoguesText(s, i).trim();
+  const publicLines = extractPublicLines(roteiro || base).slice(0, 12).join(' ');
+  const isHospital = /hospital|corredor|emergency|radiology|confiss/i.test(base + ' ' + visual + ' ' + roteiro);
+  const locationHint = isHospital
+    ? 'corredor de hospital abandonado, azulejos verde-água rachados, macas enferrujadas, placas EMERGENCY e RADIOLOGY tortas, luz fluorescente fria piscando, fumaça no fundo'
+    : 'cenário pós-apocalíptico sujo, névoa volumétrica, asfalto rachado, carros destruídos, luz dramática natural, atmosfera de sobrevivência';
+  const actionHint = base || publicLines || 'os personagens percebem uma ameaça escondida e precisam decidir se fogem ou enfrentam o perigo';
+  return `🎬 PROMPT DE VÍDEO IA — ${title}\nCapCut AI / Seedance / Flow / Veo / gerador de vídeo\n\nFORMATO:\nVertical 9:16, duração sugerida 8 a 12 segundos, estilo trailer cinematográfico sombrio, realista, pós-apocalíptico, suspense de sobrevivência.\n\nIMAGEM DE REFERÊNCIA:\nUse a imagem anexada como base principal de composição, personagem, figurino, pose, cenário, iluminação e atmosfera. Preserve o DNA visual dos personagens.\n\nCENA / AÇÃO PRINCIPAL:\n${actionHint}\n\nDESCRIÇÃO CINEMATOGRÁFICA:\n${locationHint}. Caio, humano negro com dreads curtos, camisa branca suja e pé de cabra, mantém postura protetora. Tomate Elinaldo, tomate antropomórfico com touca laranja, jaqueta jeans velha e lanterna, demonstra medo e culpa sem virar caricatura infantil. Sabrina Pitaya, pitaya antropomórfica rosa-magenta com pequenas asas de dragão, roupa de combate e bastão com pregos, observa com atitude de guerreira.\n\nMOVIMENTO DE CÂMERA:\nComece com travelling lento para dentro da cena. Use leve handheld de tensão. Faça foco alternar entre o rosto assustado de Tomate, o olhar desconfiado de Caio e a postura alerta de Sabrina. Termine com micro aproximação no detalhe mais ameaçador ou no silêncio do corredor.\n\nAÇÃO EM 3 BATIDAS:\n1. Estabelecer o ambiente e a ameaça invisível.\n2. Tomate hesita, segura a lanterna e parece esconder algo.\n3. Caio e Sabrina percebem que algo está errado; cortar antes da revelação total.\n\nSOM / AMBIENTE:\nZumbido de lâmpada fluorescente, vento distante, metal rangendo, passos ecoando, respiração tensa, ruído grave crescente. Sem música alegre.\n\nFALAS OPCIONAIS (somente se o gerador aceitar voz):\n${falas}\n\nNARRAÇÃO OPCIONAL:\n${narr || 'A estrada não era saída; era uma armadilha.'}\n\nVERSÃO CURTA PARA COLAR NO CAPCUT/SEEDANCE:\nCrie um vídeo vertical 9:16 cinematográfico de sobrevivência pós-apocalíptica usando a imagem de referência. ${actionHint} Atmosfera realista, suja, tensa, com névoa, luz dramática, câmera lenta com leve handheld, foco em expressões de medo, culpa e desconfiança. Som de ambiente sombrio, respiração, metal rangendo e suspense crescente. Final com corte seco antes da revelação.\n\nNEGATIVO:\nSem texto na tela, sem logo, sem marca d'água, sem visual infantil, sem transformar Caio em fruta, sem adicionar personagens fora do DNA, sem comédia, sem cores limpas demais, sem copiar cenas de filmes ou séries existentes.\n\nREFERÊNCIA DO GUIA VISUAL:\n${visual ? visual.slice(0, 1800) : 'Use o guia visual da cena e a imagem anexada como referência.'}\n\nANÁLISE DA IMAGEM, SE EXISTIR:\n${analysis ? analysis.slice(0, 1200) : 'Após gerar/subir a imagem, use Analisar Imagem para refinar câmera, blocking, iluminação e emoção.'}`;
+}
+
+function exportVideoIaCurrent() {
+  const s = getCurrentScene();
+  if (!s) return;
+  const text = buildVideoIaPromptForScene(s, state.currentScene);
+  openModal('Vídeo IA — CapCut / Seedance — ' + sceneLabel(state.currentScene), 'Prompt pronto para vídeo IA com câmera, ação, som e falas opcionais.', text, sceneFileName('video_ia_capcut_seedance','txt'));
+}
+
+function exportVideoIaProject() {
+  const text = state.scenes.map((s,i) => buildVideoIaPromptForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
+  openModal('Vídeo IA — Projeto Completo', 'Prompts de vídeo IA para todas as cenas.', text, projectFileName('video_ia_capcut_seedance','txt'));
+}
+
+// Conteúdo da nova aba do Estúdio
+function getEditorContent(mode, s, i) {
+  if (!s) return '';
+  if (mode === 'current') return s.text || '';
+  if (mode === 'narration') return buildNarrationText(s);
+  if (mode === 'dialogues') return buildDialoguesText(s, i);
+  if (mode === 'eleven') return buildSceneVoicePack(s, i);
+  if (mode === 'srt') return buildSrt(s.text || s.summary || '');
+  if (mode === 'videoia') return buildVideoIaPromptForScene(s, i);
+  return s.text || '';
+}
+
+function loadEditor(mode) {
+  currentEditorMode = mode || 'current';
+  const editor = document.getElementById('smartEditor');
+  const badge = document.getElementById('editorModeBadge');
+  const s = state.scenes[state.currentScene];
+  if (!editor || !s) return;
+  editor.readOnly = false;
+  editor.value = getEditorContent(currentEditorMode, s, state.currentScene);
+  if (badge) badge.textContent = ({current:'roteiro final', narration:'narração', dialogues:'falas', eleven:'elevenlabs', srt:'srt capcut', videoia:'vídeo ia'}[currentEditorMode] || 'cena');
+  setToolbarActive(currentEditorMode);
+}
+
+function narrateEditorMode() {
+  const editor = document.getElementById('smartEditor');
+  const txt = editor ? editor.value : getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene);
+  const spoken = currentEditorMode === 'srt' ? srtToSpokenText(txt) : txt;
+  narrateText(spoken, ({current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT sem timing', videoia:'Prompt de vídeo IA'}[currentEditorMode] || 'aba'));
+}
+
+function copyCurrentEditorScript() {
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+  copyText(text, 'Aba copiada.');
+}
+
+function downloadCurrentSceneTxt() {
+  const s = getCurrentScene();
+  const editor = document.getElementById('smartEditor');
+  const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, s, state.currentScene) || '';
+  const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance'}[currentEditorMode] || 'roteiro');
+  downloadText(text, sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt'));
+  log('Aba baixada em arquivo.', 'ok');
+}
+
+function shareCurrentEditorText() {
+  const editor = document.getElementById('smartEditor');
+  const text = editor ? editor.value : '';
+  const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance'}[currentEditorMode] || 'aba');
+  const filename = sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt');
+  shareTextAsFile(text, filename);
+}
+
+function openSceneTabsModal(mode) {
+  modalSceneIndex = state.currentScene;
+  modalMode = mode || 'current';
+  const s = state.scenes[modalSceneIndex];
+  const titleMap = {current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT CapCut Limpo', videoia:'Vídeo IA'};
+  const ext = modalMode === 'srt' ? 'srt' : 'txt';
+  const kindMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance'};
+  openModal(titleMap[modalMode] + ' — ' + sceneLabel(modalSceneIndex), 'Abas padronizadas da cena.', getEditorContent(modalMode, s, modalSceneIndex), sceneFileName(kindMap[modalMode], ext), true);
+}
+
+function loadModalSceneTab(mode) {
+  if (modalSceneIndex == null) modalSceneIndex = state.currentScene;
+  modalMode = mode || 'current';
+  const s = state.scenes[modalSceneIndex];
+  const kindMap = {current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut', videoia:'video_ia_capcut_seedance'};
+  const titleMap = {current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT CapCut Limpo', videoia:'Vídeo IA'};
+  modalText = getEditorContent(modalMode, s, modalSceneIndex);
+  modalFile = sceneFileName(kindMap[modalMode], modalMode === 'srt' ? 'srt' : 'txt');
+  document.getElementById('modalTitle').textContent = titleMap[modalMode] + ' — ' + sceneLabel(modalSceneIndex);
+  document.getElementById('modalOutput').textContent = modalText || '[Sem conteúdo gerado]';
+  const tabs = document.getElementById('modalSceneTabs');
+  if (tabs) tabs.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === modalMode));
+}
+
+function safeShareFileName(filename) {
+  const name = String(filename || 'arquivo.txt').replace(/\s+/g, '_');
+  // Download continua .srt. Compartilhar/Drive usa .txt para evitar bloqueio Android.
+  if (name.toLowerCase().endsWith('.srt')) return name.replace(/\.srt$/i, '.txt');
+  return name;
+}
+
+async function shareTextAsFile(text, filename) {
+  const safeName = safeShareFileName(filename);
+  const payload = text || '';
+  try {
+    if (navigator.clipboard) await navigator.clipboard.writeText(payload);
+  } catch (_) {}
+  try {
+    const file = new File([payload], safeName, { type: 'text/plain' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: safeName, text: 'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
+      log('Compartilhado. Escolha Google Drive se aparecer no Android.', 'ok');
+      return;
+    }
+    if (navigator.share) {
+      await navigator.share({ title: safeName, text: payload });
+      log('Texto compartilhado. Escolha Google Drive/Docs se aparecer.', 'ok');
+      return;
+    }
+  } catch (e) {
+    // O usuário pode cancelar ou o navegador pode bloquear. Não trava o fluxo.
+  }
+  downloadText(payload, safeName);
+  log('Drive indisponível no navegador. Conteúdo copiado e arquivo baixado para envio manual.', 'warn');
+}
+
+function shareModalText() {
+  shareTextAsFile(modalText, modalFile || sceneFileName('resultado','txt'));
+}
+
+function genProjectSrt() {
+  const text = state.scenes.map(s => s.text||'').join('\n\n');
+  openModal('SRT Completo Limpo', 'Todas as cenas para CapCut. Baixar gera .srt; Drive envia como .txt compatível.', buildSrt(text), projectFileName('srt_capcut','srt'));
+}
+
+(function markV645(){
+  try {
+    const brand = document.querySelector('.topbar-brand span');
+    if (brand) brand.textContent = 'V6.4.5 Vídeo IA + SRT Drive Fix';
+    const strip = document.getElementById('terminalStrip');
+    if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
+  } catch(e) {}
+})();
 
 
 </script>
