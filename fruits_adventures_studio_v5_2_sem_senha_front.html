@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6 Storyboard</title>
+<title>Fruits Adventures Mega Studio — V6.1 Director Blueprint</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -220,6 +220,17 @@ body {
 .notice-ok { background: var(--green-dim); border: 1px solid rgba(77,255,154,0.25); color: #a0ffcf; }
 .notice-err { background: var(--pink-dim); border: 1px solid rgba(255,77,126,0.25); color: #ffa0bf; }
 
+
+
+/* DIRECTOR BLUEPRINT */
+.visual-blueprint-box { margin-top: 8px; background: rgba(155,109,255,0.08); border: 1px solid rgba(155,109,255,0.25); border-radius: var(--radius-sm); padding: 10px; }
+.visual-blueprint-box label { display:block; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--purple); font-weight:800; margin-bottom:6px; }
+.visual-blueprint-box textarea { width:100%; min-height:96px; background:rgba(0,0,0,0.22); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:8px; font-family:'Space Mono',monospace; font-size:11px; line-height:1.55; resize:vertical; }
+.workflow-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:14px 0; }
+.workflow-step { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; font-size:11px; line-height:1.45; color:var(--muted); }
+.workflow-step strong { display:block; color:var(--gold); margin-bottom:4px; font-size:12px; }
+@media(max-width:900px){ .workflow-strip { grid-template-columns:1fr; } }
+
 /* EXPORT PANEL */
 .export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .export-card { padding: 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); transition: all 0.15s; }
@@ -257,7 +268,7 @@ body {
 
 <div id="portal">
   <div class="portal-box">
-    <div class="portal-logo">🎬 Mega Studio V6</div>
+    <div class="portal-logo">🎬 Mega Studio V6.1</div>
     <h2>Acesso ao Studio</h2>
     <p>Digite a senha para entrar no Scene Engine.</p>
     <input id="portalInput" class="portal-input" type="password" placeholder="••••••••••" autocomplete="current-password"/>
@@ -268,7 +279,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6 Storyboard Edition</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.1 Director Blueprint</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -280,7 +291,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6 Storyboard iniciado. Preencha o Setup e o Storyboard para começar.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.1 iniciado. Crie o guia visual, gere a imagem em qualquer ferramenta e finalize o roteiro com Claude Vision.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -303,13 +314,17 @@ body {
       <div class="tab-panel active" id="tab-setup">
         <div class="panel-scroll">
           <div class="section-title">⚙️ Regras do Diretor & Setup <span class="badge">Passo 1</span></div>
-          <div class="notice notice-info">Defina a regra de ouro do seu projeto aqui. O Claude vai obedecer estritamente a estas regras na hora de gerar as cenas do Storyboard.</div>
+          <div class="notice notice-info">Defina a regra de ouro do projeto. O Claude vai usar isso como contrato de direção: personagens permitidos, estética, tom, limites e continuidade.</div>
           
           <div class="field-grid">
             <div class="field"><label>Nome do Projeto</label><input id="projectName" value="Fruits Adventures: Apocalipse"/></div>
             <div class="field"><label>Modo</label>
               <select id="projectMode">
-                <option value="director">Claude Diretor IA — Livre (Segue apenas o Setup)</option>
+                <option value="director">Claude Diretor IA — Livre total</option>
+                <option value="fruits">Fruits Adventures oficial</option>
+                <option value="client">Cliente / Freelance</option>
+                <option value="terror">Terror / Sobrevivência</option>
+                <option value="storyboard">Storyboard / Pré-produção</option>
               </select>
             </div>
             <div class="field field-full">
@@ -347,7 +362,8 @@ Nunca inventar personagens fora desta lista.</textarea>
                 <option value="backend">Backend seguro /api/fruits-generate</option>
               </select>
             </div>
-            <div class="field"><label>Temperatura criativa</label><input id="temperature" type="number" min="0" max="1" step="0.05" value="0.55"/></div>
+            <div class="field"><label>Máx. tokens de saída</label><input id="maxTokens" type="number" min="512" max="64000" value="4000"/></div>
+            <div class="field"><label>Temperatura criativa</label><input id="temperature" type="number" min="0" max="1" step="0.05" value="0.62"/></div>
           </div>
           
           <div style="margin-top:16px;">
@@ -360,7 +376,13 @@ Nunca inventar personagens fora desta lista.</textarea>
       <div class="tab-panel" id="tab-storyboard">
         <div class="panel-scroll">
           <div class="section-title">🖼️ Linha de Montagem (Storyboard) <span class="badge">Passo 2</span></div>
-          <div class="notice notice-warn">Adicione a imagem de referência de cada cena e escreva o resumo exato do que vai acontecer. A IA não vai adivinhar, ela vai transformar o seu resumo em Roteiro Final.</div>
+          <div class="notice notice-warn">Adicione a imagem de referência de cada cena e escreva o resumo exato do que vai acontecer. A IA não vai adivinhar: ela vai transformar o seu trilho em roteiro final.</div>
+          <div class="workflow-strip">
+            <div class="workflow-step"><strong>1. Resumo</strong>Você escreve a ação da cena em linguagem simples.</div>
+            <div class="workflow-step"><strong>2. Guia Visual IA</strong>O Studio cria um prompt cinematográfico para imagem/render.</div>
+            <div class="workflow-step"><strong>3. Referência</strong>Você gera/usa uma imagem e sobe no card da cena.</div>
+            <div class="workflow-step"><strong>4. Roteiro Final</strong>Claude lê resumo + guia + imagem e entrega roteiro, câmera, falas, SRT e vozes.</div>
+          </div>
           
           <div id="storyboardContainer"></div>
           
@@ -495,9 +517,18 @@ function lockPortal() { alert('Logout simulado.'); }
 
 const STORAGE_KEY = 'mega_studio_claude_director_state_v6';
 const DEFAULT = {
-  setup: { projectName: 'Fruits Adventures: Apocalipse', continuityRules: '' },
-  api: { provider: 'claude', model: 'claude-3-5-sonnet-20241022', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'browser', maxTokens: 4000, temperature: 0.55 },
-  scenes: [ { title: 'Cena 1', summary: '', image: null, text: '', approved: false } ],
+  setup: {
+    projectName: 'Fruits Adventures: Apocalipse',
+    projectMode: 'director',
+    continuityRules: `Estética cinematográfica de sobrevivência pós-apocalíptica: realista, tensa, suja, com suspense, poeira, fumaça, sombras e luz natural dramática.
+Protagonista OBRIGATÓRIO: CAIO (humano, negro, dreads curtos, camisa branca, jeans, carrega pé de cabra).
+Aliados OBRIGATÓRIOS quando o projeto for Fruits: Tomate Elinaldo (jaqueta jeans, touca, lanterna) e Sabrina Pitaya (asas, bastão com pregos).
+Inimigos: infectados/frutas zumbis quando o modo Fruits estiver ativo; vilão policial brutal e sádico se estiver no briefing.
+Não inventar personagens fora das regras do diretor sem pedir autorização.
+Não copiar cenas, falas, personagens ou universo protegido. Use referências apenas como clima, linguagem visual e estrutura.`
+  },
+  api: { provider: 'claude', model: 'claude-3-5-sonnet-20241022', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'backend', maxTokens: 4000, temperature: 0.62 },
+  scenes: [ { title: 'Cena 1', summary: '', image: null, visualPrompt: '', visualAnalysis: '', text: '', approved: false } ],
   currentScene: 0,
   status: 'Setup', score: 8
 };
@@ -587,6 +618,7 @@ function set(id, val) { const el = document.getElementById(id); if (el) el.value
 // ═══════════════════════════════════════════════
 function fillForm() {
   set('projectName', state.setup.projectName);
+  set('projectMode', state.setup.projectMode || 'director');
   set('continuityRules', state.setup.continuityRules);
   set('provider', state.api.provider); set('apiKey', state.api.apiKey); set('endpoint', state.api.endpoint); 
   set('callMode', state.api.callMode); set('maxTokens', state.api.maxTokens); set('temperature', state.api.temperature);
@@ -595,8 +627,9 @@ function fillForm() {
 
 function saveSetup() {
   state.setup.projectName = v('projectName');
+  state.setup.projectMode = v('projectMode') || 'director';
   state.setup.continuityRules = v('continuityRules');
-  state.api.apiKey = v('apiKey'); state.api.endpoint = v('endpoint');
+  state.api.apiKey = v('apiKey'); state.api.endpoint = v('endpoint'); state.api.maxTokens = Number(v('maxTokens') || state.api.maxTokens || 4000); state.api.temperature = Number(v('temperature') || state.api.temperature || 0.62);
   updateDna(); setStatus('Setup salvo', 20, true); log('Setup e Regras salvos com sucesso.', 'ok');
 }
 
@@ -961,10 +994,211 @@ async function sendAiMessage() {
   } catch(e) { loading.className = 'ai-msg err'; loading.textContent = 'Erro: ' + e.message; }
 }
 
+
+
+// ═══════════════════════════════════════════════
+// V6.1 — DIRECTOR BLUEPRINT / TOQUE DE MIDAS
+// ═══════════════════════════════════════════════
+function migrateState() {
+  if (!state.setup) state.setup = clone(DEFAULT.setup);
+  if (!state.setup.projectMode) state.setup.projectMode = 'director';
+  if (!state.setup.continuityRules) state.setup.continuityRules = DEFAULT.setup.continuityRules;
+  if (!state.api) state.api = clone(DEFAULT.api);
+  if (!state.api.maxTokens) state.api.maxTokens = 4000;
+  if (state.api.callMode === 'browser' && !state.api.apiKey) state.api.callMode = 'backend';
+  if (!Array.isArray(state.scenes) || !state.scenes.length) state.scenes = clone(DEFAULT.scenes);
+  state.scenes.forEach((s, i) => {
+    if (!s.title) s.title = `Cena ${i+1}`;
+    if (typeof s.summary !== 'string') s.summary = '';
+    if (!('image' in s)) s.image = null;
+    if (typeof s.visualPrompt !== 'string') s.visualPrompt = '';
+    if (typeof s.visualAnalysis !== 'string') s.visualAnalysis = '';
+    if (typeof s.text !== 'string') s.text = '';
+    if (typeof s.approved !== 'boolean') s.approved = false;
+  });
+  saveState();
+}
+
+function htmlEscape(str) {
+  return String(str || '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function modeLabel() {
+  const labels = {
+    director: 'Claude Diretor IA — Livre total',
+    fruits: 'Fruits Adventures oficial',
+    client: 'Cliente / Freelance',
+    terror: 'Terror / Sobrevivência',
+    storyboard: 'Storyboard / Pré-produção'
+  };
+  return labels[state.setup.projectMode] || 'Claude Diretor IA';
+}
+
+function isFruitsMode() { return state.setup.projectMode === 'fruits'; }
+
+function buildDirectorContract() {
+  return `PROJETO: ${state.setup.projectName || 'Projeto sem nome'}\nMODO: ${modeLabel()}\n\nREGRAS DO DIRETOR:\n${state.setup.continuityRules || 'Sem regras definidas.'}\n\nREGRA DE SEGURANÇA CRIATIVA:\nNão copiar obras, personagens, falas, marcas, cenas ou universos protegidos. Referências servem apenas para clima, linguagem visual, fotografia, ritmo e estrutura.`;
+}
+
+function addScene() {
+  state.scenes.push({ title: `Cena ${state.scenes.length + 1}`, summary: '', image: null, visualPrompt: '', visualAnalysis: '', text: '', approved: false });
+  saveState(); renderStoryboard(); renderSceneNav(); renderNodes();
+}
+
+function renderStoryboard() {
+  migrateState();
+  const container = document.getElementById('storyboardContainer');
+  if(!state.scenes.length) { container.innerHTML = '<p>Nenhuma cena adicionada.</p>'; return; }
+  container.innerHTML = state.scenes.map((s, i) => `
+    <div class="storyboard-card">
+      <div class="sb-image-box">
+        ${s.image ? `<img src="${s.image.data}"> <button class="btn btn-sm btn-pink" style="position:absolute;top:4px;right:4px;" onclick="removeImage(${i})">X</button>` : `<div class="sb-image-placeholder">+ Imagem de Referência<br>Opcional, mas melhora<br>Claude Vision</div>`}
+        ${!s.image ? `<input type="file" accept="image/*" onchange="handleImageUpload(event, ${i})">` : ''}
+      </div>
+      <div class="sb-content">
+        <strong>${htmlEscape(s.title)}</strong>
+        <textarea placeholder="Ex: Caio encontra a mão de zumbi. O vilão policial aparece com a viatura. Caio quebra o farol e eles fogem." oninput="updateSummary(${i}, this.value)">${htmlEscape(s.summary)}</textarea>
+        <div class="visual-blueprint-box">
+          <label>Guia visual / prompt de imagem-render</label>
+          <textarea placeholder="Clique em 🎨 Guia Visual IA para criar um prompt cinematográfico profissional para Runway, Midjourney, Gemini, Leonardo, Blender, Unreal ou outro gerador/render." oninput="updateVisualPrompt(${i}, this.value)">${htmlEscape(s.visualPrompt)}</textarea>
+        </div>
+        ${s.visualAnalysis ? `<div class="notice notice-ok"><strong>Análise da referência:</strong><br>${htmlEscape(s.visualAnalysis).slice(0, 700)}${s.visualAnalysis.length > 700 ? '...' : ''}</div>` : ''}
+      </div>
+      <div class="sb-actions">
+        <button class="btn btn-sm btn-purple" onclick="generateVisualBlueprint(${i})">🎨 Guia Visual IA</button>
+        <button class="btn btn-sm btn-cyan" onclick="analyzeSceneReference(${i})">👁️ Analisar Imagem</button>
+        <button class="btn btn-sm" onclick="copyVisualPrompt(${i})">Copiar Guia</button>
+        <button class="btn btn-sm" onclick="deleteScene(${i})">🗑️ Excluir Cena</button>
+        <button class="btn btn-sm btn-cyan" onclick="selectScene(${i})">🎬 Ir pro Estúdio</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateVisualPrompt(idx, val) { state.scenes[idx].visualPrompt = val; saveState(); }
+
+function copyVisualPrompt(idx) {
+  const s = state.scenes[idx];
+  navigator.clipboard.writeText(s.visualPrompt || '');
+  log('Guia visual copiado.', 'ok');
+}
+
+async function generateVisualBlueprint(idx) {
+  migrateState(); saveSetup();
+  const s = state.scenes[idx];
+  if (!s || !s.summary) { log('Escreva o resumo da cena antes de gerar o Guia Visual.', 'warn'); return; }
+  if (!state.api.apiKey && state.api.callMode !== 'backend') { log('Configure a API ou use Backend seguro.', 'err'); goNode('setup'); return; }
+  setStatus('Criando guia visual', 48, true);
+  log('Claude Diretor IA criando Guia Visual da ' + s.title + '...', 'ia');
+
+  const sys = `Você é um Diretor de Arte, Diretor de Fotografia e Supervisor de Pré-produção audiovisual. Sua tarefa é transformar uma cena em um GUIA VISUAL profissional para gerar imagem/render, sem copiar obras protegidas.`;
+  const prompt = `${buildDirectorContract()}\n\nCENA: ${s.title}\nRESUMO DA AÇÃO:\n${s.summary}\n\nCrie um GUIA VISUAL PROFISSIONAL para produzir a imagem de referência desta cena.\n\nENTREGUE NESTES BLOCOS:\nPROMPT PRINCIPAL PARA IMAGEM/RENDER:\n[um prompt cinematográfico em português, detalhado, com personagens, ação, cenário, luz, lente, câmera, textura, paleta e clima]\n\nNEGATIVO / EVITAR:\n[o que evitar: cópia, cartoon se for realista, personagens errados, excesso de limpeza, etc.]\n\nDIREÇÃO DE ARTE:\n[figurino, objetos, maquiagem, sujeira, cenário]\n\nFOTOGRAFIA / CÂMERA:\n[lente, ângulo, plano, luz, profundidade, movimento sugerido]\n\nCHECKLIST PARA APROVAR A IMAGEM:\n[lista curta do que a imagem precisa mostrar para poder virar roteiro final]\n\nNão diga que você não gera imagem. Entregue o guia para o usuário gerar em qualquer ferramenta ou renderizar em 3D.`;
+  try {
+    const res = await callApi(prompt, sys);
+    s.visualPrompt = res;
+    saveState(); renderStoryboard();
+    openModal('Guia Visual IA — ' + s.title, 'Prompt profissional para gerar/renderizar a referência.', res, `guia_visual_${idx+1}.txt`);
+    setStatus('Guia visual pronto', 58, true);
+    log('Guia Visual pronto. Copie para sua ferramenta de imagem ou use como direção de render.', 'ok');
+  } catch(e) { log('Erro ao gerar Guia Visual: ' + e.message, 'err'); }
+}
+
+async function analyzeSceneReference(idx) {
+  migrateState(); saveSetup();
+  const s = state.scenes[idx];
+  if (!s || !s.image) { log('Suba uma imagem no card da cena antes de analisar.', 'warn'); return; }
+  if (!state.api.apiKey && state.api.callMode !== 'backend') { log('Configure a API ou use Backend seguro.', 'err'); goNode('setup'); return; }
+  if (!(state.api.provider === 'claude' || state.api.provider === 'gemini')) { log('Análise de imagem precisa de Claude ou Gemini.', 'warn'); return; }
+  setStatus('Analisando referência', 62, true);
+  log('Claude Vision analisando a referência da ' + s.title + '...', 'ia');
+  const base64Data = s.image.data.split(',')[1];
+  const content = [
+    { type: 'image', source: { type: 'base64', media_type: s.image.type, data: base64Data } },
+    { type: 'text', text: `${buildDirectorContract()}\n\nCENA: ${s.title}\nRESUMO: ${s.summary}\nGUIA VISUAL PLANEJADO:\n${s.visualPrompt || 'Nenhum guia visual ainda.'}\n\nAnalise a imagem anexada como diretor. Diga: 1) o que funciona, 2) o que falta para ficar cinematográfico, 3) se obedece ao Setup, 4) ajustes práticos, 5) como usar essa imagem no roteiro final. Seja direto e produtivo.` }
+  ];
+  try {
+    const res = await callApi(content, 'Você é um diretor visual avaliando uma referência de cena. Seja técnico, prático e cinematográfico.');
+    s.visualAnalysis = res;
+    saveState(); renderStoryboard();
+    openModal('Análise da Referência — ' + s.title, 'Leitura visual para orientar o roteiro final.', res, `analise_referencia_${idx+1}.txt`);
+    setStatus('Referência analisada', 66, true);
+    log('Imagem analisada. Agora o roteiro final pode usar essa leitura visual.', 'ok');
+  } catch(e) { log('Erro ao analisar imagem: ' + e.message, 'err'); }
+}
+
+function loadStudioView() {
+  migrateState();
+  const i = state.currentScene;
+  const s = state.scenes[i];
+  if (!s) return;
+  document.getElementById('scenePill').textContent = s.title;
+  document.getElementById('studioLeftPanel').innerHTML = `
+    <div style="font-size:11px; color:var(--gold); text-transform:uppercase; font-weight:bold;">Trilho do Diretor que a IA vai processar:</div>
+    ${s.image ? `<img src="${s.image.data}" style="width:100%; border-radius:var(--radius-sm); border:1px solid var(--border);">` : '<div class="notice notice-warn">Sem imagem ainda. Você pode gerar roteiro com resumo + guia visual, mas uma imagem melhora a leitura do Claude Vision.</div>'}
+    <div style="background:var(--surface3); padding:12px; border-radius:var(--radius-sm); font-size:12px; line-height:1.5;"><strong>Resumo da Ação:</strong><br>${htmlEscape(s.summary) || '<span style="color:var(--pink)">Nenhum resumo escrito. Volte ao Storyboard.</span>'}</div>
+    <div style="background:rgba(155,109,255,0.08); border:1px solid rgba(155,109,255,0.25); padding:12px; border-radius:var(--radius-sm); font-size:11px; line-height:1.55; white-space:pre-wrap;"><strong style="color:var(--purple)">Guia Visual:</strong><br>${htmlEscape(s.visualPrompt || 'Nenhum guia visual gerado.')}</div>
+    ${s.visualAnalysis ? `<div class="notice notice-ok"><strong>Análise da imagem:</strong><br>${htmlEscape(s.visualAnalysis)}</div>` : ''}
+  `;
+  loadEditor('current');
+}
+
+async function generateCurrentScene() {
+  migrateState(); saveSetup();
+  const i = state.currentScene;
+  const s = state.scenes[i];
+  if (!s.summary) { log('Erro: escreva o resumo no Storyboard primeiro.', 'err'); return; }
+  if (!state.api.apiKey && state.api.callMode !== 'backend') { log('Sem API Key ou Backend seguro.', 'err'); goNode('setup'); return; }
+
+  document.getElementById('smartEditor').value = '🎬 Claude Diretor IA lendo resumo, guia visual e imagem... aguarde.';
+  setStatus('Escrevendo ' + s.title, 78, true);
+
+  const sysPrompt = `Você é o ROTEIRISTA FINAL e DIRETOR DE CENA do Mega Studio V6.1.\n\nVocê recebe um contrato de direção, um resumo, um guia visual e, quando houver, uma imagem de referência. Sua função é transformar isso em roteiro audiovisual pronto para produção.\n\nREGRAS:\n- Obedeça ao contrato de direção.\n- Não invente personagem novo fora das regras.\n- Se não houver imagem, use o resumo + guia visual.\n- Se houver imagem, use a imagem como referência visual principal.\n- Não copie obras, cenas, falas, personagens ou marcas protegidas.\n- Entregue em português do Brasil.\n- Seja cinematográfico, direto e útil para CapCut, ElevenLabs e produção.`;
+
+  const userText = `${buildDirectorContract()}\n\nCENA: ${s.title}\n\nRESUMO DA AÇÃO:\n${s.summary}\n\nGUIA VISUAL / PROMPT DE IMAGEM:\n${s.visualPrompt || 'Nenhum guia visual gerado. Deduzir visual a partir do resumo e das regras.'}\n\nANÁLISE DA REFERÊNCIA, SE EXISTIR:\n${s.visualAnalysis || 'Nenhuma análise visual prévia.'}\n\nFORMATO OBRIGATÓRIO:\nOBJETIVO:\nAÇÃO:\nCÂMERA:\nEMOÇÃO:\nNARRAÇÃO:\nFALAS:\nCAPCUT:\nELEVENLABS:\nGANCHO FINAL:\n\nEscreva somente o roteiro final da cena.`;
+
+  let content = userText;
+  if (s.image && (state.api.provider === 'claude' || state.api.provider === 'gemini')) {
+    const base64Data = s.image.data.split(',')[1];
+    content = [
+      { type: 'image', source: { type: 'base64', media_type: s.image.type, data: base64Data } },
+      { type: 'text', text: userText + '\n\nUse a imagem anexada como referência visual principal: composição, luz, emoção, ameaça, pose e cenário.' }
+    ];
+  }
+  try {
+    const res = await callApi(content, sysPrompt);
+    state.scenes[i].text = res;
+    saveState(); loadStudioView();
+    setStatus(s.title + ' pronta', 84, true);
+    log(s.title + ' gerada com roteiro final inteligente.', 'ok');
+  } catch (e) {
+    document.getElementById('smartEditor').value = 'Erro: ' + e.message;
+    log('Erro ao gerar: ' + e.message, 'err');
+  }
+}
+
+async function reviewCurrentSceneWithAI() {
+  migrateState(); saveSetup();
+  const i = state.currentScene;
+  const s = state.scenes[i];
+  const editor = document.getElementById('smartEditor');
+  if (!s || !s.text) { log('Gere a cena antes de ajustar.', 'warn'); return; }
+  const instrucao = prompt('🎬 DIREÇÃO DE CENA:\nO que você quer mudar neste roteiro?\nEx: deixe mais tenso, reduza falas, troque ação, corrija personagem.');
+  if (instrucao === null) return;
+  editor.value = 'Reescrevendo a cena de acordo com sua direção...';
+  setStatus('Ajustando ' + s.title, 88, true);
+  const promptTexto = `${buildDirectorContract()}\n\nINSTRUÇÕES ESPECÍFICAS DO DIRETOR:\n${instrucao || 'Melhorar ritmo, clareza, tensão e utilidade para produção, mantendo a história.'}\n\nRESUMO DA CENA:\n${s.summary}\n\nGUIA VISUAL:\n${s.visualPrompt || 'Nenhum.'}\n\nCENA ATUAL:\n${s.text}\n\nReescreva a cena inteira mantendo os blocos: OBJETIVO, AÇÃO, CÂMERA, EMOÇÃO, NARRAÇÃO, FALAS, CAPCUT, ELEVENLABS, GANCHO FINAL.`;
+  try {
+    const revised = await callApi(promptTexto, 'Você é revisor final de roteiro audiovisual. Obedeça às instruções do Diretor e preserve continuidade.');
+    editor.value = revised;
+    log('Ajuste fino pronto. Revise e clique em Aprovar e Salvar.', 'ok');
+  } catch (e) { editor.value = s.text; log('Erro na revisão: ' + e.message, 'err'); }
+}
+
 // ═══════════════════════════════════════════════
 // INICIALIZAÇÃO
 // ═══════════════════════════════════════════════
 function init() {
+  migrateState();
   initPortal(); fillForm(); renderStoryboard(); renderSceneNav(); renderNodes(); renderQuickPrompts(); updateDna();
   
   if (state.scenes.length === 0) addScene(); // Garante q tem pelo menos 1 cena
@@ -972,6 +1206,8 @@ function init() {
   document.getElementById('apiKey').addEventListener('input', () => { state.api.apiKey = v('apiKey'); saveState(); });
   document.getElementById('model').addEventListener('change', () => { state.api.model = v('model'); saveState(); });
   document.getElementById('callMode').addEventListener('change', () => { state.api.callMode = v('callMode'); saveState(); });
+  document.getElementById('maxTokens').addEventListener('input', () => { state.api.maxTokens = Number(v('maxTokens') || 4000); saveState(); });
+  document.getElementById('temperature').addEventListener('input', () => { state.api.temperature = Number(v('temperature') || 0.62); saveState(); });
   document.getElementById('aiInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendAiMessage(); });
   
   goNode('setup'); // Inicia na aba Setup
