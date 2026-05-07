@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.4.3 SRT Drive Fix</title>
+<title>Fruits Adventures Mega Studio — V6.4.4 Drive Soft Fix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -287,7 +287,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.3 SRT Drive Fix</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.4.4 Drive Soft Fix</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -299,7 +299,7 @@ body {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V6.4.3 iniciado. SRT com Drive em TXT compatível, narração sem timing e abas padronizadas.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V6.4.4 iniciado. SRT compartilha como TXT, sem popup travando, baixar SRT preservado.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -1813,14 +1813,17 @@ function downloadCurrentSceneTxt() {
 }
 
 
+
 // ═══════════════════════════════════════════════
-// FINAL OVERRIDES V6.4.3 — SRT Drive Fix + Narrador limpo
+// FINAL OVERRIDES V6.4.4 — DRIVE SOFT FIX + SRT LIMPO
+// Cole este bloco no FIM do script. Ele sobrescreve as funções anteriores.
+// Objetivo: SRT baixa como .srt, mas botão Drive compartilha como .txt compatível.
+// Se o navegador bloquear/cancelar o Drive, não trava com alerta: copia e baixa fallback.
 // ═══════════════════════════════════════════════
 function safeShareFileName(filename) {
-  const name = String(filename || 'arquivo.txt');
-  // Android/Chrome/Drive às vezes não aceita compartilhar .srt direto pelo Web Share.
-  // Para Drive, mantemos o CONTEÚDO SRT, mas usamos .txt no compartilhamento.
+  const name = String(filename || 'arquivo.txt').trim() || 'arquivo.txt';
   if (name.toLowerCase().endsWith('.srt')) return name.replace(/\.srt$/i, '.txt');
+  if (!/\.[a-z0-9]{2,6}$/i.test(name)) return name + '.txt';
   return name;
 }
 
@@ -1873,44 +1876,68 @@ function narrateEditorMode() {
   narrateText(spoken, ({current:'Cena base', narration:'Narração', dialogues:'Falas', eleven:'ElevenLabs', srt:'SRT sem timing'}[currentEditorMode] || 'aba'));
 }
 
+async function copyTextSafe(text) {
+  try {
+    if (navigator.clipboard) await navigator.clipboard.writeText(text || '');
+  } catch (_) {}
+}
+
+async function shareTextAsFile(text, filename) {
+  const safeName = safeShareFileName(filename);
+  const content = text || '';
+  const file = new File([content], safeName, { type: 'text/plain;charset=utf-8' });
+
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: safeName, text: 'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
+      log('Compartilhado. Se escolher Google Drive, confirme o upload.', 'ok');
+      return;
+    }
+    if (navigator.share) {
+      await navigator.share({ title: safeName, text: content });
+      log('Texto compartilhado. Escolha Drive/Docs se aparecer.', 'ok');
+      return;
+    }
+  } catch (e) {
+    // Usuário cancelou ou o navegador bloqueou. Não exibe alerta para não travar o fluxo.
+  }
+
+  await copyTextSafe(content);
+  downloadText(content, safeName, 'text/plain;charset=utf-8');
+  log('Drive não abriu pelo navegador. Conteúdo copiado e arquivo baixado: envie manualmente ao Drive.', 'warn');
+}
+
 function shareCurrentEditorText() {
   const editor = document.getElementById('smartEditor');
   const text = editor ? editor.value : '';
   const suffix = ({current:'roteiro', narration:'narracao', dialogues:'falas', eleven:'vozes', srt:'srt_capcut'}[currentEditorMode] || 'aba');
   const filename = sceneFileName(suffix, currentEditorMode === 'srt' ? 'srt' : 'txt');
-  shareTextAsFile(text, safeShareFileName(filename));
+  shareTextAsFile(text, filename);
 }
 
 function shareModalText() {
-  shareTextAsFile(modalText, safeShareFileName(modalFile || sceneFileName('resultado','txt')));
+  shareTextAsFile(modalText, modalFile || sceneFileName('resultado','txt'));
 }
 
-async function shareTextAsFile(text, filename) {
-  const safeName = safeShareFileName(filename);
-  try {
-    const file = new File([text || ''], safeName, { type: 'text/plain;charset=utf-8' });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], title: safeName, text: 'Arquivo gerado pelo Fruits Adventures Mega Studio.' });
-      log('Compartilhado. Escolha Google Drive se aparecer no Android.', 'ok');
-    } else if (navigator.share) {
-      await navigator.share({ title: safeName, text: text || '' });
-      log('Texto compartilhado. Escolha Google Drive/Docs se aparecer.', 'ok');
-    } else {
-      if (navigator.clipboard) await navigator.clipboard.writeText(text || '');
-      downloadText(text, safeName);
-      alert('Compartilhamento direto indisponível neste navegador. Copiei/baixei o arquivo; envie pelo app Drive manualmente.');
-      log('Compartilhamento indisponível. Arquivo baixado para envio manual ao Drive.', 'warn');
-    }
-  } catch (e) {
-    try { if (navigator.clipboard) await navigator.clipboard.writeText(text || ''); } catch(_) {}
-    log('Compartilhamento cancelado/indisponível. Conteúdo copiado; use Baixar e envie pelo Drive manualmente.', 'warn');
-    alert('O navegador não abriu o Drive. Use Baixar ou Copiar e envie manualmente pelo Google Drive.');
-  }
+function downloadModal() {
+  // Baixar preserva o nome original. Se for SRT, baixa .srt mesmo.
+  downloadText(modalText, modalFile || sceneFileName('resultado','txt'));
+  log('Arquivo baixado: ' + (modalFile || 'resultado.txt'), 'ok');
 }
 
 function genProjectSrt() {
-  const text = state.scenes.map(s => s.text||'').join('\n\n');
+  const text = state.scenes.map(s => s.text || '').join('\n\n');
   openModal('SRT Completo Limpo', 'Todas as cenas para CapCut. Baixar gera .srt; Drive compartilha como .txt compatível.', buildSrt(text), projectFileName('srt_capcut','srt'));
+}
+
+function genSrt(mode) {
+  const s = state.scenes[state.currentScene];
+  if (!s) return;
+  if (mode === 'production') {
+    openModal('SRT Produção Comentado — ' + sceneLabel(state.currentScene), 'Legenda comentada da cena.', buildProductionSrt(s.text || ''), sceneFileName('srt_producao','srt'));
+  } else {
+    openSceneTabsModal('srt');
+  }
 }
 
 function loadEditor(mode) {
