@@ -1182,7 +1182,7 @@ body.radio-on .radio-head small {
 
     <div class="portal-meta-card">
       <div><strong>Criador:</strong> Elinaldo Menezes de Medeiros</div>
-      <div><strong>Build:</strong> V7.0 Comic Book Apocalipse</div>
+      <div><strong>Build:</strong> V7.1 Comic Radio + CapCut Motion Book</div>
       <div><strong>Data:</strong> 08/05/2026</div>
       <div><strong>Modo:</strong> Sobrevivência • Motion Comic • CapCut</div>
     </div>
@@ -4188,12 +4188,12 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
   function patchV68Labels(){
     ensureComicsDefaults();
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.8 Fruits Comics Book + Pagina Viva 8s';
+    if (brand) brand.textContent = 'V7.1 Comic Radio + CapCut Motion Book';
     document.title = 'Fruits Adventures Mega Studio — V7.1 Comic Radio + CapCut Motion Book';
     const logo = document.querySelector('.portal-logo');
-    if (logo) logo.textContent = '📚 Mega Studio V6.8';
+    if (logo) logo.textContent = 'FRUITS ADVENTURES COMIC STUDIO V7.1';
     const strip = document.getElementById('terminalStrip');
-    if (strip) strip.textContent = 'Engine V6.8 ativo: ' + comicsBrand() + ' transforma storyboard em pagina viva, Flow 8s, HQ animada e prompts com Eli/L.';
+    if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Comic Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
   }
 
   function setupNow(){
@@ -4484,6 +4484,35 @@ function toggleRadioPanel() {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
   else setup();
   setTimeout(setup, 800);
+})();
+</script>
+
+
+<script>
+/* V7.1 FINAL LABEL GUARD — impede scripts antigos V6.8 de sobrescreverem a interface */
+(function forceV71Labels(){
+  function apply(){
+    try {
+      document.title = 'Fruits Adventures Comic Studio — V7.1 Comic Radio + CapCut Motion Book';
+      const brand = document.querySelector('.topbar-brand span');
+      if (brand) brand.textContent = 'V7.1 COMIC RADIO + CAPCUT MOTION BOOK';
+      const strip = document.getElementById('terminalStrip');
+      if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Comic Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
+      const portalLogo = document.querySelector('.portal-logo');
+      if (portalLogo && !portalLogo.querySelector('span')) {
+        portalLogo.innerHTML = 'FRUITS ADVENTURES<br><span>COMIC STUDIO</span>';
+      }
+      const metaCards = document.querySelectorAll('.portal-meta-card div');
+      metaCards.forEach(div => {
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.1 Comic Radio + CapCut Motion Book';
+      });
+    } catch(e) {}
+  }
+  apply();
+  setTimeout(apply, 100);
+  setTimeout(apply, 700);
+  setTimeout(apply, 1600);
+  setTimeout(apply, 2600);
 })();
 </script>
 
