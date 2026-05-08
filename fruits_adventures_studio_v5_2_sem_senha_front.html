@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V7.1 Comic Radio + CapCut Motion Book</title>
+<title>Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -1169,6 +1169,19 @@ body.radio-on .radio-head small {
   }
 }
 
+
+/* V7.2 — MEDIA RADIO / PLAYER REAL */
+.media-radio{width:min(360px,calc(100vw - 28px));}
+.media-radio.collapsed{width:230px;}
+.radio-divider{height:1px;background:rgba(215,208,191,.16);margin:12px -12px 10px;}
+.radio-file-btn{position:relative;overflow:hidden;}
+.radio-file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+#radioAudioPlayer{width:100%;margin-top:8px;height:34px;background:#09090b;border:2px solid rgba(185,176,158,.20);}
+.radio-textbox{width:100%;min-height:90px;max-height:180px;resize:vertical;background:#09090b;color:#ddd6c8;border:2px solid rgba(185,176,158,.26);padding:8px 10px;font-family:'Space Mono',monospace;font-size:11px;line-height:1.45;outline:none;}
+.radio-textbox:focus{border-color:#b8904f;}
+body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shadow:8px 8px 0 rgba(0,0,0,.55),0 0 34px rgba(117,129,140,.18);}
+@media(max-width:740px){.media-radio{width:min(340px,calc(100vw - 20px));max-height:72vh;overflow:auto;}}
+
 </style>
 </head>
 <body>
@@ -1182,7 +1195,7 @@ body.radio-on .radio-head small {
 
     <div class="portal-meta-card">
       <div><strong>Criador:</strong> Elinaldo Menezes de Medeiros</div>
-      <div><strong>Build:</strong> V7.1 Comic Radio + CapCut Motion Book</div>
+      <div><strong>Build:</strong> V7.2 Media Radio + CapCut Motion Book</div>
       <div><strong>Data:</strong> 08/05/2026</div>
       <div><strong>Modo:</strong> Sobrevivência • Motion Comic • CapCut</div>
     </div>
@@ -1196,11 +1209,12 @@ body.radio-on .radio-head small {
 </div>
 
 
-<!-- V7.1 — COMIC RADIO FOCUS -->
-<div id="comicRadio" class="comic-radio" aria-label="Comic Radio Focus">
+
+<!-- V7.2 — MEDIA RADIO / AUDIO PLAYER / SRT VOICE -->
+<div id="comicRadio" class="comic-radio media-radio" aria-label="Media Radio Focus">
   <div class="radio-head">
     <div>
-      <strong>📻 Comic Radio</strong>
+      <strong>📻 Media Radio</strong>
       <small id="radioStatus">parado</small>
     </div>
     <button class="radio-mini-btn" id="radioCollapseBtn" onclick="toggleRadioPanel()" title="Minimizar rádio">—</button>
@@ -1209,8 +1223,10 @@ body.radio-on .radio-head small {
     <div class="radio-row">
       <button class="btn btn-gold btn-sm" id="radioPlayBtn" onclick="toggleComicRadio()">▶ Tocar foco</button>
       <button class="btn btn-sm" onclick="nextComicRadioMood()">↻ Tema</button>
+      <button class="btn btn-pink btn-sm" onclick="stopAllMediaRadio()">■ Stop</button>
     </div>
-    <label class="radio-label">Trilha temática</label>
+
+    <label class="radio-label">Trilha temática gerada</label>
     <select id="radioMood" class="radio-select" onchange="setComicRadioMood(this.value)">
       <option value="fog">Neblina relaxante</option>
       <option value="ruins">Ruínas apocalípticas</option>
@@ -1218,15 +1234,45 @@ body.radio-on .radio-head small {
       <option value="rain">Chuva na estrada</option>
       <option value="suspense">Suspense leve</option>
     </select>
-    <label class="radio-label">Volume</label>
-    <input id="radioVolume" class="radio-volume" type="range" min="0" max="100" value="22" oninput="setComicRadioVolume(this.value)">
-    <div class="radio-note">Som gerado no navegador. Clique para iniciar; autoplay é bloqueado pelo navegador.</div>
+
+    <div class="radio-divider"></div>
+
+    <label class="radio-label">Meus áudios / trilhas</label>
+    <div class="radio-row">
+      <label class="btn btn-cyan btn-sm radio-file-btn">🎵 Abrir arquivos
+        <input id="radioAudioFiles" type="file" accept="audio/*,video/mp4,video/webm" multiple onchange="loadRadioAudioFiles(event)">
+      </label>
+      <label class="btn btn-sm radio-file-btn">📁 Pasta
+        <input id="radioAudioFolder" type="file" webkitdirectory directory multiple onchange="loadRadioAudioFiles(event)">
+      </label>
+    </div>
+    <select id="radioPlaylist" class="radio-select" onchange="selectRadioTrack(this.value)">
+      <option value="">Nenhum arquivo carregado</option>
+    </select>
+    <audio id="radioAudioPlayer" controls preload="metadata"></audio>
+
+    <div class="radio-divider"></div>
+
+    <label class="radio-label">TXT / SRT para voz normal</label>
+    <div class="radio-row">
+      <label class="btn btn-purple btn-sm radio-file-btn">📄 Abrir TXT/SRT
+        <input id="radioTextFile" type="file" accept=".txt,.srt,text/plain" onchange="loadRadioTextFile(event)">
+      </label>
+      <button class="btn btn-sm" onclick="speakRadioText()">🔊 Ler</button>
+      <button class="btn btn-sm" onclick="pauseRadioVoice()">⏸ Pausar</button>
+      <button class="btn btn-sm" onclick="stopRadioVoice()">⏹ Voz</button>
+    </div>
+    <textarea id="radioTextBox" class="radio-textbox" placeholder="Cole aqui texto, roteiro ou SRT para o navegador ler com voz normal/gratuita."></textarea>
+
+    <label class="radio-label">Volume geral</label>
+    <input id="radioVolume" class="radio-volume" type="range" min="0" max="100" value="35" oninput="setComicRadioVolume(this.value)">
+    <div class="radio-note">Use “Abrir arquivos” para tocar suas trilhas reais. O modo “Tocar foco” é uma trilha simples gerada pelo navegador e pode soar baixa em alguns aparelhos.</div>
   </div>
 </div>
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅📚 Fruits Adventures Comic Studio <span>V7.1 Comic Radio + CapCut Motion Book</span></div>
+    <div class="topbar-brand">🍅📚 Fruits Adventures Comic Studio <span>V7.2 Media Radio + CapCut Motion Book</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -1238,7 +1284,7 @@ body.radio-on .radio-head small {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V7.1 ativo: HQ apocalíptica + Comic Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V7.1 ativo: HQ apocalíptica + Media Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -3027,7 +3073,7 @@ function genProjectSrt() {
 (function markV645(){
   try {
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.1 Comic Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
   } catch(e) {}
@@ -3325,8 +3371,8 @@ function genProjectSrt() {
     const strip = document.getElementById('terminalStrip');
     if (strip && /V6\.4\.5|Drive/.test(strip.textContent)) strip.textContent = 'Engine V6.5 ativo: História 2D CapCut 100%, vídeo IA opcional e Compartilhar nativo do celular.';
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.1 Comic Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.1 Comic Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
   }
 
   const oldShareTextAsFile = window.shareTextAsFile;
@@ -3571,8 +3617,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchMotionLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.1 Comic Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.1 Comic Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.6 ativo: Whisk/Movimento 2D transforma storyboard em vídeo sutil com prompt curto, detalhado e negativo.';
   }
@@ -3848,8 +3894,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.1 Comic Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.1 Comic Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = '🎬 Mega Studio V6.7';
     const strip = document.getElementById('terminalStrip');
@@ -4188,12 +4234,12 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
   function patchV68Labels(){
     ensureComicsDefaults();
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.1 Comic Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.1 Comic Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = 'FRUITS ADVENTURES COMIC STUDIO V7.1';
     const strip = document.getElementById('terminalStrip');
-    if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Comic Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
+    if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Media Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
   }
 
   function setupNow(){
@@ -4217,7 +4263,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 (function comicLayoutPatch(){
   function patchComicUI(){
     try {
-      document.title = 'Fruits Adventures Comic Studio — V7.1 Comic Radio + CapCut Motion Book';
+      document.title = 'Fruits Adventures Comic Studio — V7.2 Media Radio + CapCut Motion Book';
       const portalLogo = document.querySelector('.portal-logo');
       if (portalLogo) portalLogo.innerHTML = '🍅📚 FRUITS COMIC<br/>MOTION STUDIO';
       const terminal = document.getElementById('terminalStrip');
@@ -4253,239 +4299,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 </script>
 
 
-<script>
-/* ═══════════════════════════════════════════════
-   V7.1 — COMIC RADIO FOCUS ENGINE
-   Trilha ambiente relaxante/temática gerada no navegador.
-   Não usa arquivo externo; funciona offline após abrir a página.
-   ═══════════════════════════════════════════════ */
-let radioAudioCtx = null;
-let radioMaster = null;
-let radioNodes = [];
-let radioNoiseBuffer = null;
-let radioOn = false;
-let radioMood = localStorage.getItem('comicRadioMood') || 'fog';
-let radioVolume = Number(localStorage.getItem('comicRadioVolume') || 22);
 
-const RADIO_MOODS = {
-  fog:      { label: 'Neblina relaxante', base: 55,  chord: [110, 146.83, 196],  lfo: 0.035, noise: 0.10, pulse: 0.00 },
-  ruins:    { label: 'Ruínas apocalípticas', base: 42,  chord: [84, 126, 168],      lfo: 0.025, noise: 0.14, pulse: 0.04 },
-  studio:   { label: 'Foco de produção', base: 63,  chord: [126, 189, 252],     lfo: 0.045, noise: 0.06, pulse: 0.02 },
-  rain:     { label: 'Chuva na estrada', base: 48,  chord: [96, 144, 192],      lfo: 0.030, noise: 0.22, pulse: 0.00 },
-  suspense: { label: 'Suspense leve', base: 39,  chord: [78, 117, 156],      lfo: 0.020, noise: 0.09, pulse: 0.08 }
-};
-
-function ensureRadioUI(){
-  const moodSelect = document.getElementById('radioMood');
-  const volume = document.getElementById('radioVolume');
-  if (moodSelect) moodSelect.value = radioMood;
-  if (volume) volume.value = String(radioVolume);
-  updateRadioStatus();
-}
-
-function createNoiseBuffer(ctx) {
-  const bufferSize = ctx.sampleRate * 2;
-  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-  return buffer;
-}
-
-function connectSoftOsc(ctx, freq, type, gainValue, destination, detune = 0) {
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
-
-  osc.type = type;
-  osc.frequency.value = freq;
-  osc.detune.value = detune;
-
-  filter.type = 'lowpass';
-  filter.frequency.value = 650;
-  filter.Q.value = 0.45;
-
-  gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, gainValue), ctx.currentTime + 1.6);
-
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.connect(destination);
-  osc.start();
-
-  radioNodes.push(osc, gain, filter);
-  return { osc, gain, filter };
-}
-
-function stopComicRadio() {
-  if (!radioAudioCtx) return;
-  try {
-    radioNodes.forEach(node => {
-      try {
-        if (node.gain) node.gain.exponentialRampToValueAtTime(0.0001, radioAudioCtx.currentTime + 0.35);
-        if (node.stop) setTimeout(() => { try { node.stop(); } catch(e){} }, 420);
-      } catch(e){}
-    });
-    if (radioMaster && radioMaster.gain) {
-      radioMaster.gain.exponentialRampToValueAtTime(0.0001, radioAudioCtx.currentTime + 0.35);
-    }
-  } catch(e) {}
-  setTimeout(() => {
-    try { radioAudioCtx && radioAudioCtx.close(); } catch(e){}
-    radioAudioCtx = null;
-    radioMaster = null;
-    radioNodes = [];
-  }, 520);
-  radioOn = false;
-  document.body.classList.remove('radio-on');
-  updateRadioStatus();
-}
-
-function startComicRadio() {
-  stopComicRadio();
-  setTimeout(() => {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) {
-      alert('Seu navegador não suporta Web Audio API.');
-      return;
-    }
-    const ctx = new AudioContext();
-    radioAudioCtx = ctx;
-    radioMaster = ctx.createGain();
-    radioMaster.gain.value = Math.max(0.0001, radioVolume / 100 * 0.28);
-    radioMaster.connect(ctx.destination);
-
-    const mood = RADIO_MOODS[radioMood] || RADIO_MOODS.fog;
-
-    // Compressor leve para evitar picos
-    const comp = ctx.createDynamicsCompressor();
-    comp.threshold.value = -28;
-    comp.knee.value = 20;
-    comp.ratio.value = 6;
-    comp.attack.value = 0.04;
-    comp.release.value = 0.35;
-    comp.connect(radioMaster);
-
-    // Drone base
-    connectSoftOsc(ctx, mood.base, 'sine', 0.055, comp, -5);
-    connectSoftOsc(ctx, mood.base * 1.005, 'sine', 0.035, comp, 4);
-
-    // Acorde suave
-    mood.chord.forEach((f, idx) => {
-      connectSoftOsc(ctx, f, idx % 2 ? 'triangle' : 'sine', 0.015 / (idx + 1), comp, (idx - 1) * 7);
-    });
-
-    // LFO para respirar o som
-    const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
-    lfo.frequency.value = mood.lfo;
-    lfoGain.gain.value = 0.018;
-    lfo.connect(lfoGain);
-    lfoGain.connect(radioMaster.gain);
-    lfo.start();
-    radioNodes.push(lfo, lfoGain);
-
-    // Ruído: vento/chuva/neblina
-    radioNoiseBuffer = createNoiseBuffer(ctx);
-    const noise = ctx.createBufferSource();
-    noise.buffer = radioNoiseBuffer;
-    noise.loop = true;
-    const noiseFilter = ctx.createBiquadFilter();
-    noiseFilter.type = 'bandpass';
-    noiseFilter.frequency.value = radioMood === 'rain' ? 1200 : 420;
-    noiseFilter.Q.value = radioMood === 'rain' ? 0.6 : 0.28;
-    const noiseGain = ctx.createGain();
-    noiseGain.gain.value = mood.noise * 0.12;
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(comp);
-    noise.start();
-    radioNodes.push(noise, noiseFilter, noiseGain);
-
-    // Pulso de suspense leve
-    if (mood.pulse > 0) {
-      const pulse = ctx.createOscillator();
-      const pulseGain = ctx.createGain();
-      const pulseFilter = ctx.createBiquadFilter();
-      pulse.type = 'sine';
-      pulse.frequency.value = mood.base * 0.5;
-      pulseGain.gain.value = mood.pulse * 0.15;
-      pulseFilter.type = 'lowpass';
-      pulseFilter.frequency.value = 220;
-      pulse.connect(pulseFilter);
-      pulseFilter.connect(pulseGain);
-      pulseGain.connect(comp);
-      pulse.start();
-      radioNodes.push(pulse, pulseGain, pulseFilter);
-    }
-
-    radioOn = true;
-    document.body.classList.add('radio-on');
-    updateRadioStatus();
-  }, 560);
-}
-
-function toggleComicRadio() {
-  if (radioOn) stopComicRadio();
-  else startComicRadio();
-}
-
-function setComicRadioMood(value) {
-  radioMood = value || 'fog';
-  localStorage.setItem('comicRadioMood', radioMood);
-  if (radioOn) startComicRadio();
-  updateRadioStatus();
-}
-
-function nextComicRadioMood() {
-  const keys = Object.keys(RADIO_MOODS);
-  const idx = keys.indexOf(radioMood);
-  const next = keys[(idx + 1) % keys.length];
-  const select = document.getElementById('radioMood');
-  if (select) select.value = next;
-  setComicRadioMood(next);
-}
-
-function setComicRadioVolume(value) {
-  radioVolume = Number(value || 0);
-  localStorage.setItem('comicRadioVolume', String(radioVolume));
-  if (radioMaster) {
-    radioMaster.gain.setTargetAtTime(Math.max(0.0001, radioVolume / 100 * 0.28), radioAudioCtx.currentTime, 0.08);
-  }
-  updateRadioStatus();
-}
-
-function updateRadioStatus() {
-  const status = document.getElementById('radioStatus');
-  const btn = document.getElementById('radioPlayBtn');
-  const mood = RADIO_MOODS[radioMood] || RADIO_MOODS.fog;
-  if (status) status.textContent = radioOn ? 'tocando • ' + mood.label : 'parado • ' + mood.label;
-  if (btn) btn.textContent = radioOn ? '⏸ Parar rádio' : '▶ Tocar foco';
-}
-
-function toggleRadioPanel() {
-  const panel = document.getElementById('comicRadio');
-  const btn = document.getElementById('radioCollapseBtn');
-  if (!panel) return;
-  panel.classList.toggle('collapsed');
-  localStorage.setItem('comicRadioCollapsed', panel.classList.contains('collapsed') ? '1' : '0');
-  if (btn) btn.textContent = panel.classList.contains('collapsed') ? '+' : '—';
-}
-
-(function initComicRadio(){
-  function setup(){
-    ensureRadioUI();
-    const panel = document.getElementById('comicRadio');
-    const btn = document.getElementById('radioCollapseBtn');
-    if (panel && localStorage.getItem('comicRadioCollapsed') === '1') {
-      panel.classList.add('collapsed');
-      if (btn) btn.textContent = '+';
-    }
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
-  else setup();
-  setTimeout(setup, 800);
-})();
-</script>
 
 
 <script>
@@ -4493,18 +4307,18 @@ function toggleRadioPanel() {
 (function forceV71Labels(){
   function apply(){
     try {
-      document.title = 'Fruits Adventures Comic Studio — V7.1 Comic Radio + CapCut Motion Book';
+      document.title = 'Fruits Adventures Comic Studio — V7.2 Media Radio + CapCut Motion Book';
       const brand = document.querySelector('.topbar-brand span');
-      if (brand) brand.textContent = 'V7.1 COMIC RADIO + CAPCUT MOTION BOOK';
+      if (brand) brand.textContent = 'V7.2 MEDIA RADIO + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
-      if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Comic Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
+      if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Media Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
       const portalLogo = document.querySelector('.portal-logo');
       if (portalLogo && !portalLogo.querySelector('span')) {
         portalLogo.innerHTML = 'FRUITS ADVENTURES<br><span>COMIC STUDIO</span>';
       }
       const metaCards = document.querySelectorAll('.portal-meta-card div');
       metaCards.forEach(div => {
-        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.1 Comic Radio + CapCut Motion Book';
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.2 Media Radio + CapCut Motion Book';
       });
     } catch(e) {}
   }
@@ -4514,6 +4328,45 @@ function toggleRadioPanel() {
   setTimeout(apply, 1600);
   setTimeout(apply, 2600);
 })();
+</script>
+
+
+<script>
+/* V7.2 — MEDIA RADIO ENGINE */
+let radioAudioCtx=null,radioMaster=null,radioOn=false,radioMood=localStorage.getItem('comicRadioMood')||'fog',radioVolume=Number(localStorage.getItem('comicRadioVolume')||35);
+let radioNodes=[],radioNoiseBuffer=null,radioTracks=[],radioTrackUrls=[],radioSpeechQueue=[],radioSpeechPaused=false;
+const RADIO_MOODS={fog:{label:'Neblina relaxante',base:55,chord:[110,146.83,196],lfo:.035,noise:.14,pulse:0},ruins:{label:'Ruínas apocalípticas',base:42,chord:[84,126,168],lfo:.025,noise:.18,pulse:.04},studio:{label:'Foco de produção',base:63,chord:[126,189,252],lfo:.045,noise:.10,pulse:.02},rain:{label:'Chuva na estrada',base:48,chord:[96,144,192],lfo:.030,noise:.28,pulse:0},suspense:{label:'Suspense leve',base:39,chord:[78,117,156],lfo:.020,noise:.13,pulse:.08}};
+function ensureRadioUI(){const m=document.getElementById('radioMood'),v=document.getElementById('radioVolume'),p=document.getElementById('radioAudioPlayer');if(m)m.value=radioMood;if(v)v.value=String(radioVolume);if(p)p.volume=Math.min(1,Math.max(0,radioVolume/100));updateRadioStatus();}
+function createNoiseBuffer(ctx){const b=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b;}
+function connectSoftOsc(ctx,f,type,g,dest,detune=0){const o=ctx.createOscillator(),ga=ctx.createGain(),fi=ctx.createBiquadFilter();o.type=type;o.frequency.value=f;o.detune.value=detune;fi.type='lowpass';fi.frequency.value=720;fi.Q.value=.45;ga.gain.setValueAtTime(.0001,ctx.currentTime);ga.gain.exponentialRampToValueAtTime(Math.max(.0002,g),ctx.currentTime+1.2);o.connect(fi);fi.connect(ga);ga.connect(dest);o.start();radioNodes.push(o,ga,fi);}
+function stopGeneratedRadio(){if(!radioAudioCtx)return;try{radioNodes.forEach(n=>{try{if(n.gain)n.gain.exponentialRampToValueAtTime(.0001,radioAudioCtx.currentTime+.25);if(n.stop)setTimeout(()=>{try{n.stop()}catch(e){}},320)}catch(e){}});if(radioMaster&&radioMaster.gain)radioMaster.gain.exponentialRampToValueAtTime(.0001,radioAudioCtx.currentTime+.25)}catch(e){}setTimeout(()=>{try{radioAudioCtx&&radioAudioCtx.close()}catch(e){}radioAudioCtx=null;radioMaster=null;radioNodes=[]},400);radioOn=false;document.body.classList.remove('radio-on');updateRadioStatus();}
+function stopComicRadio(){stopGeneratedRadio();}
+function startComicRadio(){pauseLocalTrack();stopGeneratedRadio();setTimeout(()=>{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){alert('Seu navegador não suporta Web Audio API.');return}const ctx=new AC();radioAudioCtx=ctx;radioMaster=ctx.createGain();radioMaster.gain.value=Math.max(.0001,radioVolume/100*.55);radioMaster.connect(ctx.destination);const mood=RADIO_MOODS[radioMood]||RADIO_MOODS.fog;const comp=ctx.createDynamicsCompressor();comp.threshold.value=-30;comp.knee.value=20;comp.ratio.value=5;comp.attack.value=.04;comp.release.value=.35;comp.connect(radioMaster);connectSoftOsc(ctx,mood.base,'sine',.11,comp,-5);connectSoftOsc(ctx,mood.base*1.005,'sine',.07,comp,4);mood.chord.forEach((f,i)=>connectSoftOsc(ctx,f,i%2?'triangle':'sine',.034/(i+1),comp,(i-1)*7));const lfo=ctx.createOscillator(),lg=ctx.createGain();lfo.frequency.value=mood.lfo;lg.gain.value=.026;lfo.connect(lg);lg.connect(radioMaster.gain);lfo.start();radioNodes.push(lfo,lg);radioNoiseBuffer=createNoiseBuffer(ctx);const no=ctx.createBufferSource(),nf=ctx.createBiquadFilter(),ng=ctx.createGain();no.buffer=radioNoiseBuffer;no.loop=true;nf.type='bandpass';nf.frequency.value=radioMood==='rain'?1200:440;nf.Q.value=radioMood==='rain'?.6:.28;ng.gain.value=mood.noise*.22;no.connect(nf);nf.connect(ng);ng.connect(comp);no.start();radioNodes.push(no,nf,ng);if(mood.pulse>0){const p=ctx.createOscillator(),pg=ctx.createGain(),pf=ctx.createBiquadFilter();p.type='sine';p.frequency.value=mood.base*.5;pg.gain.value=mood.pulse*.24;pf.type='lowpass';pf.frequency.value=220;p.connect(pf);pf.connect(pg);pg.connect(comp);p.start();radioNodes.push(p,pg,pf)}radioOn=true;document.body.classList.add('radio-on');updateRadioStatus()},430);}
+function toggleComicRadio(){radioOn?stopGeneratedRadio():startComicRadio();}
+function setComicRadioMood(v){radioMood=v||'fog';localStorage.setItem('comicRadioMood',radioMood);if(radioOn)startComicRadio();updateRadioStatus();}
+function nextComicRadioMood(){const k=Object.keys(RADIO_MOODS),i=k.indexOf(radioMood),n=k[(i+1)%k.length],s=document.getElementById('radioMood');if(s)s.value=n;setComicRadioMood(n);}
+function setComicRadioVolume(v){radioVolume=Number(v||0);localStorage.setItem('comicRadioVolume',String(radioVolume));if(radioMaster&&radioAudioCtx)radioMaster.gain.setTargetAtTime(Math.max(.0001,radioVolume/100*.55),radioAudioCtx.currentTime,.08);const p=document.getElementById('radioAudioPlayer');if(p)p.volume=Math.min(1,Math.max(0,radioVolume/100));updateRadioStatus();}
+function loadRadioAudioFiles(ev){const files=Array.from(ev.target.files||[]).filter(f=>(f.type||'').startsWith('audio/')||(f.type||'').startsWith('video/')||/\.(mp3|wav|ogg|m4a|aac|flac|mp4|webm)$/i.test(f.name));if(!files.length){alert('Nenhum áudio/vídeo compatível encontrado.');return}radioTrackUrls.forEach(u=>URL.revokeObjectURL(u));radioTracks=files;radioTrackUrls=files.map(f=>URL.createObjectURL(f));const list=document.getElementById('radioPlaylist');if(list){list.innerHTML=files.map((f,i)=>`<option value="${i}">${i+1}. ${escapeHtmlRadio(f.name)}</option>`).join('');list.value='0'}selectRadioTrack(0);updateRadioStatus('arquivos carregados');}
+function selectRadioTrack(index){const i=Number(index||0),p=document.getElementById('radioAudioPlayer');if(!p||!radioTrackUrls[i])return;stopGeneratedRadio();p.src=radioTrackUrls[i];p.volume=Math.min(1,Math.max(0,radioVolume/100));p.play().then(()=>{document.body.classList.add('radio-file-playing');updateRadioStatus('tocando arquivo')}).catch(()=>updateRadioStatus('arquivo pronto'));p.onended=playNextRadioTrack;p.onplay=()=>{stopGeneratedRadio();document.body.classList.add('radio-file-playing');updateRadioStatus('tocando arquivo')};p.onpause=()=>{document.body.classList.remove('radio-file-playing');updateRadioStatus('pausado')};}
+function playNextRadioTrack(){if(!radioTracks.length)return;const list=document.getElementById('radioPlaylist');let n=(Number(list&&list.value||0)+1)%radioTracks.length;if(list)list.value=String(n);selectRadioTrack(n);}
+function pauseLocalTrack(){const p=document.getElementById('radioAudioPlayer');if(p&&!p.paused)p.pause();document.body.classList.remove('radio-file-playing');}
+function loadRadioTextFile(ev){const f=ev.target.files&&ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const b=document.getElementById('radioTextBox');if(b)b.value=String(r.result||'');updateRadioStatus('texto carregado')};r.readAsText(f);}
+function cleanRadioSrtText(t){return String(t||'').replace(/\r/g,'').split('\n').filter(line=>{const l=line.trim();if(!l)return false;if(/^\d+$/.test(l))return false;if(/^\d{2}:\d{2}:\d{2},\d{3}\s*-->\s*\d{2}:\d{2}:\d{2},\d{3}$/.test(l))return false;return true}).join('. ').replace(/\[[^\]]+\]/g,' ').replace(/\s+/g,' ').trim();}
+function splitRadioSpeech(t,max=760){const c=cleanRadioSrtText(t),parts=[];let b='';c.split(/(?<=[.!?…])\s+/).forEach(s=>{if((b+' '+s).trim().length>max){if(b.trim())parts.push(b.trim());b=s}else b=(b+' '+s).trim()});if(b.trim())parts.push(b.trim());return parts.length?parts:[c];}
+function speakRadioText(){const box=document.getElementById('radioTextBox'),text=box?box.value:'';if(!text.trim()){alert('Abra um TXT/SRT ou cole um texto primeiro.');return}if(!('speechSynthesis'in window)){alert('Este navegador não suporta voz normal.');return}if(radioSpeechPaused){speechSynthesis.resume();radioSpeechPaused=false;updateRadioStatus('voz retomada');return}try{speechSynthesis.cancel()}catch(e){}radioSpeechQueue=splitRadioSpeech(text);const next=()=>{const chunk=radioSpeechQueue.shift();if(!chunk){updateRadioStatus('voz concluída');return}const u=new SpeechSynthesisUtterance(chunk);u.lang='pt-BR';u.rate=.92;u.pitch=1;u.volume=Math.min(1,Math.max(.1,radioVolume/100));u.onend=next;u.onerror=()=>updateRadioStatus('voz bloqueada');speechSynthesis.speak(u);updateRadioStatus('lendo texto')};next();}
+function pauseRadioVoice(){if('speechSynthesis'in window){speechSynthesis.pause();radioSpeechPaused=true;updateRadioStatus('voz pausada')}}
+function stopRadioVoice(){radioSpeechQueue=[];radioSpeechPaused=false;if('speechSynthesis'in window)speechSynthesis.cancel();updateRadioStatus();}
+function stopAllMediaRadio(){stopGeneratedRadio();pauseLocalTrack();stopRadioVoice();updateRadioStatus('parado');}
+function updateRadioStatus(extra){const st=document.getElementById('radioStatus'),btn=document.getElementById('radioPlayBtn'),m=RADIO_MOODS[radioMood]||RADIO_MOODS.fog;const label=extra||(radioOn?'tocando • '+m.label:'parado • '+m.label);if(st)st.textContent=label;if(btn)btn.textContent=radioOn?'⏸ Parar foco':'▶ Tocar foco';}
+function toggleRadioPanel(){const p=document.getElementById('comicRadio'),b=document.getElementById('radioCollapseBtn');if(!p)return;p.classList.toggle('collapsed');localStorage.setItem('comicRadioCollapsed',p.classList.contains('collapsed')?'1':'0');if(b)b.textContent=p.classList.contains('collapsed')?'+':'—';}
+function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+(function initMediaRadio(){function setup(){ensureRadioUI();const p=document.getElementById('comicRadio'),b=document.getElementById('radioCollapseBtn');if(p&&localStorage.getItem('comicRadioCollapsed')==='1'){p.classList.add('collapsed');if(b)b.textContent='+'}const player=document.getElementById('radioAudioPlayer');if(player)player.volume=Math.min(1,Math.max(0,radioVolume/100));}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();setTimeout(setup,800);})();
+</script>
+
+
+<script>
+/* V7.2 FINAL LABEL GUARD */
+(function forceV72Labels(){function apply(){try{document.title='Fruits Adventures Comic Studio — V7.2 Media Radio + CapCut Motion Book';const brand=document.querySelector('.topbar-brand span');if(brand)brand.textContent='V7.2 MEDIA RADIO + CAPCUT MOTION BOOK';const strip=document.getElementById('terminalStrip');if(strip)strip.textContent='Engine V7.2 ativo: Media Radio com arquivos locais, narração de TXT/SRT, HQ apocalíptica e CapCut Motion Book cena por cena.';document.querySelectorAll('.portal-meta-card div').forEach(div=>{if(div.textContent.includes('Build:'))div.innerHTML='<strong>Build:</strong> V7.2 Media Radio + CapCut Motion Book';});}catch(e){}}apply();setTimeout(apply,100);setTimeout(apply,700);setTimeout(apply,1600);setTimeout(apply,2600);})();
 </script>
 
 </body>
