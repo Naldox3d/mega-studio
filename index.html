@@ -3,29 +3,52 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Mega Studio — GitHub Pages</title>
+<title>Fruits Adventures: Os Iniciantes do Punk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
 <style>
 :root{
   --bg:#05070f;
-  --surface:#0c0f1e;
-  --surface2:#111628;
-  --border:rgba(255,255,255,.08);
-  --text:#e8ecff;
-  --muted:#7b83a8;
-  --gold:#ffb932;
-  --cyan:#00e5c8;
-  --pink:#ff4d7e;
-  --green:#4dff9a;
-  --radius:16px;
+  --surface:#0b0e18;
+  --surface2:#111624;
+  --panel:#151a27;
+  --border:rgba(220,190,128,.18);
+  --border2:rgba(220,190,128,.36);
+  --text:#ece7da;
+  --muted:#9aa1b5;
+  --gold:#d6b15f;
+  --yellow:#d9e73a;
+  --cyan:#55d9d1;
+  --pink:#d85f75;
+  --tomato:#e14735;
+  --green:#6fd08e;
+  --radius:18px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   min-height:100vh;
-  background:radial-gradient(circle at top,#11183a 0%,#05070f 52%,#02030a 100%);
+  background:
+    radial-gradient(circle at 12% 14%, rgba(85,217,209,.08), transparent 28%),
+    radial-gradient(circle at 84% 16%, rgba(225,71,53,.12), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(214,177,95,.12), transparent 34%),
+    linear-gradient(180deg,#05070f 0%,#090d17 52%,#04050a 100%);
   color:var(--text);
   font-family:Inter,sans-serif;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.11;
+  background-image:
+    radial-gradient(rgba(255,255,255,.20) 1px, transparent 1.2px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:10px 10px,44px 44px,44px 44px;
+  z-index:0;
 }
 .hidden{display:none!important}
 .login-wrap{
@@ -35,37 +58,164 @@ body{
   align-items:center;
   justify-content:center;
   padding:22px;
+  z-index:2;
+}
+.login-wrap::before{
+  content:"OS INICIANTES DO PUNK";
+  position:absolute;
+  top:8%;
+  left:5%;
+  font-family:Syne,sans-serif;
+  font-size:clamp(42px,8vw,142px);
+  font-weight:900;
+  color:rgba(217,231,58,.08);
+  letter-spacing:.05em;
+  line-height:.88;
+  transform:rotate(-4deg);
+  -webkit-text-stroke:1px rgba(236,231,218,.08);
+}
+.login-wrap::after{
+  content:"VOLTANDO PRA CARUARU";
+  position:absolute;
+  right:6%;
+  bottom:9%;
+  font-family:Space Mono,monospace;
+  color:rgba(85,217,209,.12);
+  font-size:clamp(18px,2.8vw,42px);
+  letter-spacing:.18em;
+  transform:rotate(3deg);
 }
 .login-card{
-  width:min(460px,94vw);
-  background:rgba(12,15,30,.94);
-  border:1px solid rgba(255,185,50,.38);
-  border-radius:24px;
+  position:relative;
+  width:min(620px,94vw);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+    rgba(11,14,24,.96);
+  border:1px solid var(--border2);
+  border-radius:28px;
   padding:34px;
-  box-shadow:0 30px 90px rgba(0,0,0,.55);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.035) inset,
+    0 34px 90px rgba(0,0,0,.65),
+    0 0 60px rgba(214,177,95,.08);
+}
+.login-card::before{
+  content:"";
+  position:absolute;
+  inset:13px;
+  border:1px solid rgba(214,177,95,.14);
+  border-radius:22px;
+  pointer-events:none;
 }
 .brand{
-  font-family:Syne,sans-serif;
-  color:var(--gold);
-  font-weight:900;
+  display:inline-flex;
+  margin:0 auto 20px;
+  padding:7px 13px;
+  border:1px solid rgba(214,177,95,.34);
+  border-radius:999px;
+  background:rgba(214,177,95,.09);
+  color:#e5c784;
+  font-family:Space Mono,monospace;
+  font-weight:700;
   text-transform:uppercase;
   letter-spacing:2px;
-  font-size:14px;
-  margin-bottom:22px;
+  font-size:11px;
   text-align:center;
+}
+.creator-head{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:20px;
+}
+.avatar{
+  width:76px;
+  height:76px;
+  border-radius:23px;
+  display:grid;
+  place-items:center;
+  color:#140c04;
+  font-family:Syne,sans-serif;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:.08em;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255,255,255,.36), transparent 23%),
+    linear-gradient(145deg,#eccb86,#a96d35);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 16px 30px rgba(0,0,0,.36);
+}
+.creator-title{
+  text-align:left;
+}
+.creator-title strong{
+  display:block;
+  font-family:Syne,sans-serif;
+  font-size:clamp(21px,3.4vw,30px);
+  line-height:1;
+  color:#f2e8d4;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.creator-title span{
+  display:block;
+  margin-top:8px;
+  font-family:Space Mono,monospace;
+  color:#a9b4c7;
+  font-size:11px;
+  letter-spacing:.08em;
 }
 .login-card h1{
   font-family:Syne,sans-serif;
-  font-size:28px;
-  margin-bottom:8px;
+  font-size:clamp(30px,5vw,48px);
+  line-height:.95;
+  margin:8px 0 12px;
   text-align:center;
+  color:var(--yellow);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  text-shadow:3px 3px 0 rgba(0,0,0,.65);
 }
 .login-card p{
-  color:var(--muted);
+  color:#bac0d1;
   font-size:14px;
-  line-height:1.6;
+  line-height:1.68;
   text-align:center;
-  margin-bottom:22px;
+  margin:0 auto 22px;
+  max-width:500px;
+}
+.business-card{
+  background:rgba(0,0,0,.23);
+  border:1px solid rgba(214,177,95,.18);
+  border-radius:18px;
+  padding:15px;
+  margin:0 0 18px;
+}
+.business-card div{
+  padding:5px 0;
+  color:#d7d2c5;
+  font-size:13px;
+  line-height:1.45;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+.business-card div:last-child{border-bottom:none}
+.business-card b{color:#e0bd7a}
+.tags{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 18px;
+}
+.tags span{
+  padding:6px 10px;
+  border:1px solid rgba(85,217,209,.18);
+  border-radius:999px;
+  background:rgba(85,217,209,.075);
+  color:#c9fffb;
+  font-size:11px;
+  font-weight:700;
 }
 .field{
   display:flex;
@@ -76,50 +226,63 @@ body{
 .field label{
   font-size:11px;
   text-transform:uppercase;
-  letter-spacing:1.6px;
+  letter-spacing:1.8px;
   color:var(--gold);
-  font-weight:700;
+  font-weight:800;
 }
 .field input{
   background:#080b17;
-  border:1px solid var(--border);
-  border-radius:12px;
+  border:1px solid rgba(220,190,128,.18);
+  border-radius:14px;
   color:var(--text);
-  padding:13px 14px;
+  padding:14px 15px;
   font-size:15px;
   outline:none;
 }
-.field input:focus{border-color:var(--gold)}
+.field input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 4px rgba(214,177,95,.08);
+}
 .btn{
-  border:1px solid var(--border);
+  border:1px solid rgba(220,190,128,.18);
   background:var(--surface2);
   color:var(--text);
   border-radius:12px;
   padding:11px 15px;
-  font-weight:700;
+  font-weight:800;
   cursor:pointer;
   font-family:Inter,sans-serif;
 }
-.btn:hover{filter:brightness(1.08)}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .btn-gold{
-  background:var(--gold);
-  border-color:var(--gold);
+  background:linear-gradient(180deg,#eccb86,#c89747);
+  border-color:#d6b15f;
   color:#1b1000;
   width:100%;
   justify-content:center;
+  min-height:48px;
 }
 .err{
   display:none;
-  color:#ff9ab8;
+  color:#ffb4c5;
   font-size:13px;
-  background:rgba(255,77,126,.1);
-  border:1px solid rgba(255,77,126,.25);
+  background:rgba(216,95,117,.10);
+  border:1px solid rgba(216,95,117,.26);
   padding:10px 12px;
   border-radius:12px;
   margin:12px 0;
 }
 .err.show{display:block}
+.note{
+  font-size:11px;
+  color:#8f98ad;
+  margin-top:12px;
+  line-height:1.5;
+  text-align:center;
+}
 .app{
+  position:relative;
+  z-index:2;
   min-height:100vh;
   display:flex;
   flex-direction:column;
@@ -138,6 +301,7 @@ body{
   font-weight:900;
   color:var(--gold);
   margin-right:auto;
+  letter-spacing:.04em;
 }
 .tab{
   border:1px solid var(--border);
@@ -146,11 +310,11 @@ body{
   border-radius:999px;
   padding:8px 14px;
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
 }
 .tab.active{
   border-color:var(--gold);
-  background:rgba(255,185,50,.14);
+  background:rgba(214,177,95,.14);
   color:var(--gold);
 }
 .status{
@@ -159,7 +323,7 @@ body{
   color:var(--cyan);
   padding:8px 18px;
   border-bottom:1px solid var(--border);
-  background:rgba(0,0,0,.22);
+  background:rgba(0,0,0,.24);
 }
 .frame-wrap{flex:1;min-height:0}
 .frame{
@@ -170,65 +334,91 @@ body{
   background:#05070f;
 }
 .frame.active{display:block}
-.note{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:12px;
-  line-height:1.5;
-}
 .logout{
-  color:var(--pink);
-  border-color:rgba(255,77,126,.35);
-  background:rgba(255,77,126,.08);
+  color:#ff9cb0;
+  border-color:rgba(216,95,117,.35);
+  background:rgba(216,95,117,.08);
 }
 @media(max-width:700px){
   .top{flex-wrap:wrap}
   .top .title{width:100%}
   .frame{height:calc(100vh - 136px)}
+  .creator-head{flex-direction:column}
+  .creator-title{text-align:center}
+  .login-card{padding:26px 22px}
 }
 </style>
+
 </head>
 <body>
 
+
 <section id="login" class="login-wrap">
   <div class="login-card">
-    <div class="brand">🍅 Fruits + 🖨️ Gráfica Studio</div>
-    <h1>Mega Studio</h1>
-    <p>Versão simples para GitHub Pages. Esta senha é apenas visual, porque GitHub Pages é site estático.</p>
+    <div style="text-align:center"><div class="brand">Nova fase oficial • Caruaru Punk Comic</div></div>
 
-    <div class="field">
-      <label>Usuário</label>
-      <input id="user" autocomplete="username" placeholder="admin" />
+    <div class="creator-head">
+      <div class="avatar">EM</div>
+      <div class="creator-title">
+        <strong>Fruits Adventures</strong>
+        <span>Os Iniciantes do Punk</span>
+      </div>
+    </div>
+
+    <h1>Os Iniciantes do Punk</h1>
+    <p>
+      Portal criativo de storyboard, HQ viva, motion comic, trilha, narração, SRT e CapCut Motion Book.
+      Uma fase autoral onde banda, curta-metragem, Caruaru e universo Fruits viram saga.
+    </p>
+
+    <div class="business-card">
+      <div><b>Criador:</b> Elinaldo Menezes de Medeiros</div>
+      <div><b>Função:</b> Criador • Produtor • Diretor Criativo</div>
+      <div><b>Formação:</b> Estudante de Design de Animação</div>
+      <div><b>Instituição:</b> Unicesumar</div>
+      <div><b>Base:</b> Caruaru • Pernambuco • Brasil</div>
+      <div><b>Projeto:</b> Fruits Adventures Comic Studio</div>
+    </div>
+
+    <div class="tags">
+      <span>Storyboard</span>
+      <span>Comic Book</span>
+      <span>Rock/Punk</span>
+      <span>2D Motion</span>
+      <span>CapCut Book</span>
     </div>
 
     <div class="field">
-      <label>Senha</label>
-      <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••" />
+      <label>Acesso do portal</label>
+      <input id="user" autocomplete="username" placeholder="Digite seu usuário" />
     </div>
 
-    <div id="err" class="err">Usuário ou senha incorretos.</div>
+    <div class="field">
+      <label>Chave de acesso</label>
+      <input id="pass" type="password" autocomplete="current-password" placeholder="Digite sua chave" />
+    </div>
+
+    <div id="err" class="err">Acesso não autorizado.</div>
 
     <button class="btn btn-gold" onclick="login()">Entrar no Portal</button>
 
     <div class="note">
-      Login padrão:<br>
-      <b>Usuário:</b> admin<br>
-      <b>Senha:</b> fruits2026<br><br>
-      Para Claude API no GitHub Pages, use o modo “Teste rápido no navegador” dentro do app. Para esconder a chave da API, depois use Vercel.
+      Cartão de visita criativo do Fruits Adventures: produção autoral, memória, banda, curta, storyboard e HQ viva.
     </div>
   </div>
 </section>
 
+
 <section id="app" class="app hidden">
   <div class="top">
-    <div class="title">Mega Studio — GitHub Pages</div>
+    <div class="title">Fruits Adventures: Os Iniciantes do Punk</div>
     <button id="tab-fruits" class="tab active" onclick="showTab('fruits')">🍅 Fruits Studio</button>
     <button id="tab-grafica" class="tab" onclick="showTab('grafica')">🖨️ Gráfica IA</button>
     <button class="btn logout" onclick="logout()">Sair</button>
   </div>
 
   <div class="status" id="status">
-    Portal GitHub ativo. Escolha Fruits Studio ou Gráfica IA.
+    Portal ativo: escolha Fruits Studio ou Gráfica IA.
   </div>
 
   <div class="frame-wrap">
@@ -240,8 +430,6 @@ body{
 <script>
 const $ = id => document.getElementById(id);
 
-// Versão GitHub Pages: login simples no navegador.
-// Atenção: isso não é segurança real. É apenas uma trava visual.
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'fruits2026';
 const LOGIN_KEY = 'mega_studio_github_login_ok';
@@ -262,7 +450,7 @@ function login(){
     localStorage.setItem(LOGIN_KEY, 'ok');
     $('login').classList.add('hidden');
     $('app').classList.remove('hidden');
-    $('status').textContent = 'Login aprovado. Versão GitHub Pages carregada.';
+    $('status').textContent = 'Portal aprovado. Os Iniciantes do Punk carregado.';
   }else{
     $('err').classList.add('show');
   }
@@ -282,7 +470,7 @@ function showTab(name){
   });
 
   $('status').textContent = name === 'fruits'
-    ? 'Fruits Studio ativo: cenas, SRT, narrador, referência e Claude.'
+    ? 'Fruits Studio ativo: Os Iniciantes do Punk, cenas, SRT, narrador, referência e Claude.'
     : 'Gráfica IA ativa: briefing, orçamento, copy, layout e checklist.';
 }
 
