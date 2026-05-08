@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado + Whisk 2D</title>
+<title>Fruits Adventures Mega Studio — V6.8 Fruits Comics Book Adventures</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -287,7 +287,7 @@ body {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.7 Storyboard Fatiado + Whisk 2D</span></div>
+    <div class="topbar-brand">🎬 Fruits Adventures Mega Studio <span>V6.8 Fruits Comics Book + Página Viva 8s</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -2088,7 +2088,7 @@ function genProjectSrt() {
 (function markV645(){
   try {
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
+    if (brand) brand.textContent = 'V6.8 Fruits Comics Book + Página Viva 8s';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
   } catch(e) {}
@@ -2386,8 +2386,8 @@ function genProjectSrt() {
     const strip = document.getElementById('terminalStrip');
     if (strip && /V6\.4\.5|Drive/.test(strip.textContent)) strip.textContent = 'Engine V6.5 ativo: História 2D CapCut 100%, vídeo IA opcional e Compartilhar nativo do celular.';
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
-    document.title = 'Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado + Whisk 2D';
+    if (brand) brand.textContent = 'V6.8 Fruits Comics Book + Página Viva 8s';
+    document.title = 'Fruits Adventures Mega Studio — V6.8 Fruits Comics Book Adventures';
   }
 
   const oldShareTextAsFile = window.shareTextAsFile;
@@ -2632,8 +2632,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchMotionLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
-    document.title = 'Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado + Whisk 2D';
+    if (brand) brand.textContent = 'V6.8 Fruits Comics Book + Página Viva 8s';
+    document.title = 'Fruits Adventures Mega Studio — V6.8 Fruits Comics Book Adventures';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.6 ativo: Whisk/Movimento 2D transforma storyboard em vídeo sutil com prompt curto, detalhado e negativo.';
   }
@@ -2909,8 +2909,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V6.7 Storyboard Fatiado + Whisk 2D';
-    document.title = 'Fruits Adventures Mega Studio — V6.7 Storyboard Fatiado';
+    if (brand) brand.textContent = 'V6.8 Fruits Comics Book + Página Viva 8s';
+    document.title = 'Fruits Adventures Mega Studio — V6.8 Fruits Comics Book Adventures';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = '🎬 Mega Studio V6.7';
     const strip = document.getElementById('terminalStrip');
@@ -2931,6 +2931,345 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
   setupSlicesNow();
   setTimeout(setupSlicesNow, 500);
   setTimeout(setupSlicesNow, 1500);
+})();
+
+
+
+// ═══════════════════════════════════════════════
+// FINAL OVERRIDES V6.8 — FRUITS COMICS BOOK ADVENTURES / PAGINA VIVA 8s
+// ═══════════════════════════════════════════════
+(function setupFruitsComicsBookAdventures(){
+  function safeTxt(text, max){
+    return String(text || '').replace(/\r/g,'').replace(/\s+/g,' ').trim().slice(0, max || 1200);
+  }
+
+  function ensureComicsDefaults(){
+    if (!state.setup) state.setup = {};
+    if (!state.setup.comicsBrandName) state.setup.comicsBrandName = 'Fruits Comics Book Adventures';
+    if (!state.setup.comicsMotionName) state.setup.comicsMotionName = 'Pagina Viva 90s';
+    if (!state.setup.tomatoAlias) state.setup.tomatoAlias = 'Eli';
+    if (!state.setup.comicsTextMode) state.setup.comicsTextMode = 'ptbr';
+    saveState && saveState();
+  }
+
+  function comicsBrand(){ ensureComicsDefaults(); return state.setup.comicsBrandName || 'Fruits Comics Book Adventures'; }
+  function comicsMotion(){ ensureComicsDefaults(); return state.setup.comicsMotionName || 'Pagina Viva 90s'; }
+  function tomatoAlias(){ ensureComicsDefaults(); return state.setup.tomatoAlias || 'Eli'; }
+  function textMode(){ ensureComicsDefaults(); return state.setup.comicsTextMode || 'ptbr'; }
+
+  function buildAliasGuide(){
+    const alias = tomatoAlias();
+    return 'REGRA DE NOME DO PERSONAGEM:\n- O personagem antes chamado Tomate Elinaldo deve aparecer como "' + alias + '" nas falas, baloes e chamadas curtas.\n- Visualmente ele continua sendo o mesmo tomate antropomorfico do universo Fruits Adventures: touca, jaqueta jeans, lanterna, expressao assustada/corajosa.\n- Use "' + alias + '" para textos curtos dentro da pagina. Use "Tomate Elinaldo / ' + alias + '" apenas em documentos tecnicos se precisar explicar continuidade.\n- Nunca trocar o DNA visual do personagem por causa do apelido.';
+  }
+
+  function getSceneBits(s, i){
+    s = s || {};
+    const title = typeof sceneLabel === 'function' ? sceneLabel(i || 0) : (s.title || 'Cena');
+    const summary = safeTxt(s.summary || '', 1200);
+    const slices = safeTxt(s.storyboardSlices || '', 2600);
+    const text = safeTxt(s.text || '', 2200);
+    const visual = safeTxt(s.visualPrompt || '', 1600);
+    const analysis = safeTxt(s.visualAnalysis || '', 1200);
+    const action = (typeof extractBlock === 'function' ? extractBlock(s.text || '', 'AÇÃO') : '') || summary || 'personagens descobrem uma ameaca em uma estrada destruida e precisam reagir antes que o perigo domine a pagina';
+    const narration = (typeof buildNarrationText === 'function' ? buildNarrationText(s) : '') || '';
+    const dialogues = (typeof buildDialoguesText === 'function' ? buildDialoguesText(s, i || 0) : '') || '';
+    return { title, summary, slices, text, visual, analysis, action: safeTxt(action, 1000), narration: safeTxt(narration, 1000), dialogues: safeTxt(dialogues, 1200) };
+  }
+
+  window.buildFruitsComicsBookPromptForScene = function(s, i){
+    const b = getSceneBits(s, i);
+    const brand = comicsBrand();
+    const motion = comicsMotion();
+    const alias = tomatoAlias();
+    const mode = textMode();
+    const textRule = mode === 'no_text'
+      ? 'SEM TEXTO NA IMAGEM: criar baloes vazios ou areas limpas para adicionar falas depois no CapCut/Canva. Nao escrever letras dentro da arte.'
+      : mode === 'mixed'
+        ? 'TEXTO CURTO EM PORTUGUES: usar poucas falas grandes e legiveis. Evitar texto pequeno. Nao usar ingles em baloes.'
+        : 'TEXTO EM PORTUGUES DO BRASIL: todos os baloes, titulo, onomatopeias e chamadas devem estar em portugues. Nao usar ingles.';
+
+    return `📚 ${brand.toUpperCase()} — ${b.title}
+Modo: ${motion} / comic book vivo / storyboard fatiado / Flow 8s
+
+${buildAliasGuide()}
+
+CONCEITO VIRAL:
+Transformar a cena em uma pagina de quadrinhos viva, com energia de jogo 2D dos anos 90, leitura de painel em painel, suspense, impacto visual, onomatopeias e microanimacoes. A pagina deve parecer uma HQ autoral do universo Fruits Adventures, sem copiar personagens, cenas, nomes, logos ou arte de obras existentes.
+
+NOME/TITULO SUGERIDO DA SERIE:
+${brand}
+Alternativas virais para testar:
+1. Fruits Adventures: Pagina Viva
+2. Fruits Comic Book Adventures
+3. Fruits Adventures Motion Comics
+4. Eli & Sabrina: Estrada dos Infectados
+5. Fruits Adventures: Panels of Fear
+
+DIRECAO DA PAGINA DE QUADRINHOS:
+- Criar uma pagina com 5 ou 6 quadros grandes.
+- Bordas grossas, alto contraste, clima de terror 2D, composicao clara.
+- Cada quadro deve representar uma fatia da cena: abertura, perigo, reacao de ${alias}, acao de Sabrina, revelacao e gancho.
+- Usar baloes grandes, poucas palavras e leitura facil em celular.
+- ${textRule}
+- Evitar texto pequeno de rodape, "panel", "warning", "alert", "technical failure" e qualquer chamada tecnica.
+
+PERSONAGENS / DNA:
+- Caio: humano negro, dreads curtos, camisa branca suja, jeans, pe de cabra, postura protetora.
+- ${alias}: tomate antropomorfico, touca, jaqueta jeans, lanterna, olhar assustado mas corajoso.
+- Sabrina Pitaya: pitaya antropomorfica magenta/rosa, pequenas asas, roupa de combate, bastao com pregos, postura firme.
+- Vilao policial: silhueta brutal em neblina vermelha, farois/sirene, presenca ameacadora.
+
+BASE DA CENA:
+${b.summary || b.action}
+
+FATIAS / STORYBOARD, SE EXISTIR:
+${b.slices || 'Ainda sem fatias aprovadas. O sistema deve dividir a cena em abertura, ameaca, reacao, decisao e gancho final.'}
+
+PROMPT PARA GERAR A PAGINA DE QUADRINHOS:
+Crie uma pagina de quadrinhos cinematografica, ${brand}, terror 2D pos-apocaliptico, formato 16:9 ou 4:5, 5 quadros grandes, bordas brancas grossas, atmosfera de neblina, asfalto rachado, luz dramatica, personagens do universo Fruits Adventures. A pagina deve contar uma unica cena completa em fatias visuais. Mantenha personagens consistentes, pose forte, leitura clara, composicao de motion comic, estilo HQ autoral, sem copiar obras existentes.
+
+PROMPT COM BALOES EM PORTUGUES:
+Titulo no topo: "${brand}: O Caminho dos Infectados".
+Quadro 1: Caio na estrada destruida, fala: "Todo mundo para."
+Quadro 2: mao infectada rompendo o asfalto, onomatopeia: "CRACK!"
+Quadro 3: ${alias} com lanterna falhando, fala: "Minha lanterna... esta apagando."
+Quadro 4: Sabrina Pitaya segura o bastao e encara a nevoa, fala: "Nao olhem para a mao. Olhem para a nevoa."
+Quadro 5: vilao policial em silhueta vermelha, fala: "Voces cruzaram o meu caminho."
+Todos os textos em portugues do Brasil, baloes grandes, sem ingles, sem letras pequenas.
+
+PROMPT SEM TEXTO PARA PRODUCAO PROFISSIONAL:
+Crie a mesma pagina de quadrinhos, mas sem nenhum texto dentro da arte. Use apenas baloes vazios bem posicionados e areas limpas para adicionar falas depois no CapCut, Canva ou editor. Nao escrever titulo, nao escrever onomatopeias, nao escrever pseudo-texto.
+
+PROMPT FLOW 8s — PAGINA INTEIRA ANIMADA:
+Animate this exact comic-book page as an 8-second 2D motion comic sequence. Keep the original page layout, panel borders, characters, colors, speech bubbles, composition, and comic style unchanged. The camera starts on the full comic page, then travels panel by panel like a living comic book.
+0-1s: full page appears, subtle paper texture, dark horror mood.
+1-2.4s: camera enters Panel 1, fog drifts, Caio blinks and breathes subtly.
+2.4-3.7s: cut to Panel 2, asphalt cracks, infected hand rises slightly, debris shakes, impact text pops if present.
+3.7-5.1s: move to Panel 3, ${alias} trembles slightly, lantern flickers, eyes remain scared.
+5.1-6.5s: slide to Panel 4, Sabrina grips her weapon, hair/wings move subtly, fog passes behind her.
+6.5-8s: enter Panel 5, villain silhouette in red fog, red lights pulse, slow zoom-in, suspense freeze frame.
+Style: 2D motion comic, limited animation, page-reading camera, panel-to-panel movement, 90s comic action game energy, horror suspense, subtle parallax. Do not change characters, text, faces, outfits, panel borders, or composition.
+
+PROMPT FLOW 8s — QUADRO UNICO SE A PAGINA BAGUNCAR:
+Animate only the selected comic panel for 8 seconds. Preserve the exact panel composition and character design. Add subtle 2D parallax, fog, blinking, breathing, lantern flicker or red light pulse depending on the panel. Slow cinematic push-in. Do not add new characters. Do not change text. Do not deform faces.
+
+PROMPT NEGATIVO GERAL:
+Nao usar texto em ingles. Nao escrever panel, alert, warning, emergency ou textos tecnicos. Nao criar letras pequenas ilegiveis. Nao trocar roupas, rosto, proporcao ou estilo dos personagens. Nao adicionar personagens extras. Nao transformar em 3D realista. Nao remover as bordas dos quadrinhos. Nao poluir a pagina. Nao copiar Comix Zone, Marvel, DC, manga especifico, filme, serie ou jogo existente; usar apenas a linguagem geral de HQ viva e acao 2D.
+
+ROTEIRO DE ANIMACAO PARA CAPCUT:
+1. Mostrar pagina completa por 1 segundo.
+2. Zoom no Quadro 1 com som de vento.
+3. Corte de impacto para a mao e "CRACK".
+4. Pan para ${alias} com lanterna piscando.
+5. Deslize para Sabrina com vento/nevoa.
+6. Corte vermelho para o vilao.
+7. Voltar para pagina completa ou cortar para preto.
+
+GUIA VISUAL EXISTENTE:
+${b.visual || 'Sem guia visual ainda.'}
+
+ANALISE DA IMAGEM, SE EXISTIR:
+${b.analysis || 'Sem analise visual ainda.'}`;
+  };
+
+  window.exportFruitsComicsCurrent = function(){
+    const s = typeof getCurrentScene === 'function' ? getCurrentScene() : state.scenes[state.currentScene || 0];
+    const text = buildFruitsComicsBookPromptForScene(s, state.currentScene || 0);
+    openModal('Fruits Comics Book Adventures — ' + (typeof sceneLabel === 'function' ? sceneLabel(state.currentScene || 0) : 'Cena Atual'), 'Prompts ampliados para pagina viva, HQ, Flow 8s e CapCut.', text, sceneFileName('fruits_comics_book_adventures','txt'));
+  };
+
+  window.exportFruitsComicsProject = function(){
+    const text = (state.scenes || []).map((s,i) => buildFruitsComicsBookPromptForScene(s,i)).join('\n\n' + '═'.repeat(40) + '\n\n');
+    openModal('Fruits Comics Book Adventures — Projeto Completo', 'Prompts HQ/motion comic para todas as cenas.', text, projectFileName('fruits_comics_book_adventures','txt'));
+  };
+
+  window.shareFruitsComicsCurrent = function(){
+    const s = typeof getCurrentScene === 'function' ? getCurrentScene() : state.scenes[state.currentScene || 0];
+    shareTextAsFile(buildFruitsComicsBookPromptForScene(s, state.currentScene || 0), sceneFileName('fruits_comics_book_adventures','txt'));
+  };
+
+  const oldGetEditorContentV68 = window.getEditorContent;
+  window.getEditorContent = function(mode, s, i){
+    if (mode === 'comicsbook') return buildFruitsComicsBookPromptForScene(s, i);
+    if (typeof oldGetEditorContentV68 === 'function') return oldGetEditorContentV68(mode, s, i);
+    return s && s.text || '';
+  };
+
+  const oldLoadEditorV68 = window.loadEditor;
+  window.loadEditor = function(mode){
+    currentEditorMode = mode || 'current';
+    if (currentEditorMode === 'comicsbook') {
+      const editor = document.getElementById('smartEditor');
+      const badge = document.getElementById('editorModeBadge');
+      const s = state.scenes[state.currentScene || 0];
+      if (editor) { editor.readOnly = false; editor.value = buildFruitsComicsBookPromptForScene(s, state.currentScene || 0); }
+      if (badge) badge.textContent = 'fruits comics book';
+      if (typeof setToolbarActive === 'function') setToolbarActive(currentEditorMode);
+      return;
+    }
+    if (typeof oldLoadEditorV68 === 'function') return oldLoadEditorV68(mode);
+  };
+
+  const oldBuildWhiskV68 = window.buildWhisk2DMotionPromptForScene;
+  window.buildWhisk2DMotionPromptForScene = function(s, i){
+    const base = typeof oldBuildWhiskV68 === 'function' ? oldBuildWhiskV68(s, i) : '';
+    return base + '\n\n=== FRUITS COMICS BOOK / PAGINA VIVA 8s ===\n' + buildFruitsComicsBookPromptForScene(s, i).slice(0, 6500) + '\n';
+  };
+
+  const oldBuildVideoIaV68 = window.buildVideoIaPromptForScene;
+  window.buildVideoIaPromptForScene = function(s, i){
+    const base = typeof oldBuildVideoIaV68 === 'function' ? oldBuildVideoIaV68(s, i) : '';
+    return base + '\n\n=== MODO HQ VIVA / FLOW 8s ===\n' + buildFruitsComicsBookPromptForScene(s, i).slice(0, 5200) + '\n';
+  };
+
+  const oldPackageV68 = window.buildCurrentScenePackage;
+  window.buildCurrentScenePackage = function(){
+    const base = typeof oldPackageV68 === 'function' ? oldPackageV68() : '';
+    const s = typeof getCurrentScene === 'function' ? getCurrentScene() : state.scenes[state.currentScene || 0];
+    return base + '\n\n=== FRUITS COMICS BOOK ADVENTURES / PAGINA VIVA ===\n' + buildFruitsComicsBookPromptForScene(s, state.currentScene || 0) + '\n';
+  };
+
+  const oldCopyV68 = window.copyCurrentEditorScript;
+  window.copyCurrentEditorScript = function(){
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || getEditorContent(currentEditorMode, getCurrentScene(), state.currentScene) || '';
+    copyText(text, currentEditorMode === 'comicsbook' ? 'Prompt Fruits Comics Book copiado.' : 'Aba copiada.');
+  };
+
+  const oldDownloadV68 = window.downloadCurrentSceneTxt;
+  window.downloadCurrentSceneTxt = function(){
+    if (currentEditorMode !== 'comicsbook') return oldDownloadV68 && oldDownloadV68();
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || buildFruitsComicsBookPromptForScene(getCurrentScene(), state.currentScene || 0);
+    downloadText(text, sceneFileName('fruits_comics_book_adventures','txt'));
+    log('Prompt Fruits Comics Book baixado.', 'ok');
+  };
+
+  const oldShareV68 = window.shareCurrentEditorText;
+  window.shareCurrentEditorText = function(){
+    if (currentEditorMode !== 'comicsbook') return oldShareV68 && oldShareV68();
+    const editor = document.getElementById('smartEditor');
+    const text = (editor && editor.value.trim()) || buildFruitsComicsBookPromptForScene(getCurrentScene(), state.currentScene || 0);
+    shareTextAsFile(text, sceneFileName('fruits_comics_book_adventures','txt'));
+  };
+
+  function ensureComicsSettingsUI(){
+    ensureComicsDefaults();
+    const grid = document.querySelector('#tab-setup .field-grid');
+    if (!grid || document.getElementById('comicsBrandName')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'field field-full';
+    wrap.innerHTML = `
+      <label>Fruits Comics Book / Pagina Viva</label>
+      <div style="display:grid;grid-template-columns:1.2fr .7fr .8fr;gap:10px;">
+        <input id="comicsBrandName" value="${htmlEscape(comicsBrand())}" placeholder="Nome viral: Fruits Comics Book Adventures" />
+        <select id="tomatoAlias">
+          <option value="Eli">Eli</option>
+          <option value="L">L</option>
+          <option value="Elinaldo">Elinaldo</option>
+          <option value="Tomate Eli">Tomate Eli</option>
+        </select>
+        <select id="comicsTextMode">
+          <option value="ptbr">Baloes PT-BR</option>
+          <option value="no_text">Sem texto</option>
+          <option value="mixed">Pouco texto PT-BR</option>
+        </select>
+      </div>
+      <div class="notice notice-info">Modo HQ viva: storyboard completo vira pagina de quadrinhos, fatias, Flow 8s e animacao painel a painel. O Tomate Elinaldo pode aparecer abreviado como Eli ou L nas falas.</div>`;
+    grid.appendChild(wrap);
+    const aliasEl = document.getElementById('tomatoAlias');
+    const modeEl = document.getElementById('comicsTextMode');
+    if (aliasEl) aliasEl.value = tomatoAlias();
+    if (modeEl) modeEl.value = textMode();
+    ['comicsBrandName','tomatoAlias','comicsTextMode'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', saveComicsSettings);
+      if (el) el.addEventListener('change', saveComicsSettings);
+    });
+  }
+
+  function saveComicsSettings(){
+    ensureComicsDefaults();
+    const brand = document.getElementById('comicsBrandName');
+    const alias = document.getElementById('tomatoAlias');
+    const mode = document.getElementById('comicsTextMode');
+    if (brand) state.setup.comicsBrandName = brand.value || 'Fruits Comics Book Adventures';
+    if (alias) state.setup.tomatoAlias = alias.value || 'Eli';
+    if (mode) state.setup.comicsTextMode = mode.value || 'ptbr';
+    saveState && saveState();
+  }
+
+  const oldSaveSetupV68 = window.saveSetup;
+  window.saveSetup = function(){
+    if (typeof oldSaveSetupV68 === 'function') oldSaveSetupV68();
+    saveComicsSettings();
+  };
+
+  function ensureComicsEditorButton(){
+    const bar = document.getElementById('editorToolbar');
+    if (!bar || bar.querySelector('[data-mode="comicsbook"]')) return;
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-gold';
+    btn.dataset.mode = 'comicsbook';
+    btn.textContent = '📚 Comics';
+    btn.onclick = function(){ loadEditor('comicsbook'); };
+    const motionBtn = bar.querySelector('[data-mode="motion2d"]') || bar.querySelector('[data-mode="videoia"]');
+    if (motionBtn) bar.insertBefore(btn, motionBtn);
+    else bar.appendChild(btn);
+  }
+
+  function ensureComicsActionButton(){
+    const row = document.querySelector('#tab-scene .action-row');
+    if (!row || document.getElementById('btnFruitsComics')) return;
+    const btn = document.createElement('button');
+    btn.id = 'btnFruitsComics';
+    btn.className = 'btn btn-gold';
+    btn.textContent = '📚 Pagina Viva';
+    btn.onclick = function(){ exportFruitsComicsCurrent(); };
+    row.appendChild(btn);
+  }
+
+  function ensureComicsExportCard(){
+    const grid = document.querySelector('#tab-export .export-grid');
+    if (!grid || document.getElementById('exportCardFruitsComics')) return;
+    const card = document.createElement('div');
+    card.className = 'export-card';
+    card.id = 'exportCardFruitsComics';
+    card.innerHTML = `
+      <h4>📚 Fruits Comics Book</h4>
+      <p>Pagina viva estilo HQ: prompts ampliados, Flow 8s, quadro unico, versao com texto e sem texto.</p>
+      <button class="btn btn-gold btn-sm" onclick="exportFruitsComicsCurrent()">Cena Atual</button>
+      <button class="btn btn-sm" onclick="exportFruitsComicsProject()">Projeto Completo</button>
+      <button class="btn btn-cyan btn-sm" onclick="shareFruitsComicsCurrent()">📤 Compartilhar</button>`;
+    const sliceCard = document.getElementById('exportCardStoryboardSlices');
+    if (sliceCard) grid.insertBefore(card, sliceCard.nextSibling);
+    else grid.insertBefore(card, grid.firstChild);
+  }
+
+  function patchV68Labels(){
+    ensureComicsDefaults();
+    const brand = document.querySelector('.topbar-brand span');
+    if (brand) brand.textContent = 'V6.8 Fruits Comics Book + Pagina Viva 8s';
+    document.title = 'Fruits Adventures Mega Studio — V6.8 Fruits Comics Book Adventures';
+    const logo = document.querySelector('.portal-logo');
+    if (logo) logo.textContent = '📚 Mega Studio V6.8';
+    const strip = document.getElementById('terminalStrip');
+    if (strip) strip.textContent = 'Engine V6.8 ativo: ' + comicsBrand() + ' transforma storyboard em pagina viva, Flow 8s, HQ animada e prompts com Eli/L.';
+  }
+
+  function setupNow(){
+    ensureComicsDefaults();
+    ensureComicsSettingsUI();
+    ensureComicsEditorButton();
+    ensureComicsActionButton();
+    ensureComicsExportCard();
+    patchV68Labels();
+    if (typeof renderNodes === 'function') renderNodes();
+  }
+
+  setupNow();
+  setTimeout(setupNow, 500);
+  setTimeout(setupNow, 1500);
 })();
 
 </script>
