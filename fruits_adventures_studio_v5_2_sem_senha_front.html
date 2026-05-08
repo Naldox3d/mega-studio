@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book</title>
+<title>Fruits Adventures Mega Studio — V7.4 Pro UI Responsive + CapCut Motion Book</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -1236,6 +1236,448 @@ body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shad
   }
 }
 
+
+/* ═══════════════════════════════════════════════
+   V7.4 — PRO UI RESPONSIVE
+   Foco: monitor 27", visual mais profissional, melhor respiro e responsividade.
+   ═══════════════════════════════════════════════ */
+:root{
+  --bg:#060913;
+  --surface:#0d1220;
+  --surface2:#12192b;
+  --surface3:#1a2238;
+  --border:rgba(201, 174, 128, 0.16);
+  --border-strong:rgba(201,174,128,0.30);
+  --text:#e9edf8;
+  --muted:#97a0bc;
+  --gold:#d6ad68;
+  --gold-soft:rgba(214,173,104,0.12);
+  --cyan:#45d9d0;
+  --cyan-soft:rgba(69,217,208,0.10);
+  --green:#6bdb96;
+  --green-soft:rgba(107,219,150,0.10);
+  --pink:#dd7b90;
+  --pink-soft:rgba(221,123,144,0.10);
+  --shadow-soft:0 10px 30px rgba(0,0,0,0.20);
+  --shadow-card:0 14px 34px rgba(0,0,0,0.26);
+  --radius:16px;
+  --radius-sm:10px;
+}
+html,body{
+  background:
+    radial-gradient(circle at 80% 8%, rgba(214,173,104,0.08), transparent 22%),
+    radial-gradient(circle at 12% 18%, rgba(69,217,208,0.05), transparent 22%),
+    linear-gradient(180deg, #070a14 0%, #090d18 48%, #070a14 100%);
+}
+body{
+  color:var(--text);
+  letter-spacing:.01em;
+}
+#app{
+  max-width: 2560px;
+  margin: 0 auto;
+}
+.topbar{
+  min-height:72px;
+  padding:16px 28px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(9,13,24,.96), rgba(8,11,20,.88));
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.topbar-brand{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:.03em;
+}
+.topbar-brand span{
+  font-size:13px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#b7bfd6;
+}
+.topbar-status{
+  gap:12px;
+  font-size:13px;
+}
+.score-badge{
+  border-radius:12px;
+  padding:8px 14px;
+  min-width:82px;
+  background:linear-gradient(180deg, rgba(214,173,104,.14), rgba(214,173,104,.06));
+  border:1px solid var(--border-strong);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+.topbar-lock{
+  min-height:40px;
+  border-radius:10px;
+  padding:8px 14px;
+}
+.nodes-bar{
+  gap:10px;
+  padding:14px 22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+  border-bottom:1px solid var(--border);
+}
+.node-btn{
+  min-width:108px;
+  min-height:58px;
+  justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+  border:1px solid rgba(201,174,128,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+}
+.node-btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(201,174,128,.34);
+  box-shadow: var(--shadow-soft);
+}
+.node-btn strong{
+  font-size:12px;
+}
+.node-btn small{
+  font-size:10px;
+  color:#adb5cb;
+}
+.node-btn.active{
+  background:linear-gradient(180deg, rgba(214,173,104,.16), rgba(214,173,104,.08));
+  border-color: rgba(214,173,104,.45);
+}
+.node-btn.done{
+  background:linear-gradient(180deg, rgba(107,219,150,.14), rgba(107,219,150,.07));
+  border-color: rgba(107,219,150,.34);
+}
+.terminal-strip{
+  min-height:36px;
+  padding:8px 20px;
+  font-size:12px;
+  border-bottom:1px solid var(--border);
+  color:#8ff0ea;
+  background:linear-gradient(180deg, rgba(8,10,16,.8), rgba(5,7,13,.6));
+}
+.main{
+  grid-template-columns: clamp(250px, 16vw, 320px) minmax(0, 1fr);
+  height: calc(100vh - 136px);
+}
+.sidebar{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
+    #0b1020;
+  border-right:1px solid var(--border);
+}
+.sidebar-section{
+  padding:18px 16px;
+  border-bottom:1px solid rgba(201,174,128,.10);
+}
+.sidebar-label{
+  font-size:11px;
+  letter-spacing:.18em;
+  color:#cab387;
+}
+.sidebar-dna, .sidebar-log{
+  scrollbar-width: thin;
+}
+.scene-nav-item{
+  min-height:42px;
+  border-radius:10px;
+  font-size:14px;
+  border:1px solid transparent;
+}
+.scene-nav-item:hover{
+  background:rgba(255,255,255,.03);
+  border-color:rgba(201,174,128,.16);
+}
+.scene-nav-item.active{
+  background:linear-gradient(180deg, rgba(214,173,104,.16), rgba(214,173,104,.06));
+  border-color:rgba(214,173,104,.42);
+  color:#f5d39a;
+}
+.content{
+  background:
+    radial-gradient(circle at 80% 15%, rgba(214,173,104,.07), transparent 20%),
+    linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,0)),
+    transparent;
+}
+.panel-scroll{
+  padding:28px clamp(20px, 2.1vw, 40px) 44px;
+}
+.panel-scroll > *{
+  max-width: 1700px;
+}
+.section-title{
+  font-size:30px;
+  letter-spacing:.04em;
+  line-height:1.15;
+  margin-bottom:18px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(201,174,128,.16);
+}
+.section-title .badge{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:999px;
+}
+.notice{
+  padding:14px 18px;
+  margin:10px 0 18px;
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.6;
+}
+.field-grid{
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap:18px;
+  margin-bottom:24px;
+}
+.field{
+  gap:8px;
+}
+.field label{
+  font-size:11px;
+  letter-spacing:.16em;
+  color:#cfab68;
+}
+.field input,
+.field select,
+.field textarea,
+.smart-editor,
+.sb-content textarea,
+.visual-blueprint-box textarea{
+  min-height:48px;
+  font-size:15px;
+  line-height:1.55;
+  border-radius:12px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+  border:1px solid rgba(201,174,128,.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+}
+.field textarea{
+  min-height:130px;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.smart-editor:focus,
+.sb-content textarea:focus,
+.visual-blueprint-box textarea:focus{
+  border-color: rgba(214,173,104,.52);
+  box-shadow: 0 0 0 4px rgba(214,173,104,.07);
+}
+.btn{
+  min-height:40px;
+  padding:9px 14px;
+  border-radius:10px;
+  font-size:12px;
+  letter-spacing:.02em;
+  border:1px solid rgba(201,174,128,.16);
+  background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+}
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+.btn-gold{
+  color:#1a1203;
+  background:linear-gradient(180deg, #e2bc7b, #cfa05a);
+  border-color:#d2a764;
+}
+.btn-green{
+  color:#0d1a12;
+  background:linear-gradient(180deg, #7be2a8, #59c98b);
+  border-color:#6bdb96;
+}
+.btn-cyan{
+  color:#c9fffb;
+  background:linear-gradient(180deg, rgba(69,217,208,.16), rgba(69,217,208,.08));
+  border-color:rgba(69,217,208,.30);
+}
+.btn-pink{
+  color:#ffd9e3;
+  background:linear-gradient(180deg, rgba(221,123,144,.16), rgba(221,123,144,.08));
+  border-color:rgba(221,123,144,.28);
+}
+.btn-purple{
+  color:#efe0ff;
+  background:linear-gradient(180deg, rgba(155,109,255,.16), rgba(155,109,255,.08));
+  border-color:rgba(155,109,255,.28);
+}
+.storyboard-card,
+.export-card,
+.provider-card,
+.api-status-row,
+.visual-blueprint-box,
+.workflow-step{
+  border-radius:14px;
+  border:1px solid rgba(201,174,128,.14);
+  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012));
+  box-shadow: var(--shadow-card);
+}
+.storyboard-card{
+  grid-template-columns: clamp(170px, 18vw, 250px) minmax(0,1fr) auto;
+  gap:18px;
+}
+.sb-image-box{
+  height:150px;
+  border-radius:12px;
+  border-color:rgba(201,174,128,.22);
+}
+.sb-content strong{
+  font-size:15px;
+}
+.api-provider-grid{
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap:14px;
+}
+.provider-card{
+  padding:18px 12px;
+}
+.provider-card .pc-icon{
+  font-size:26px;
+}
+.provider-card .pc-name{
+  font-size:13px;
+}
+.provider-card .pc-desc{
+  font-size:11px;
+}
+.scene-split{
+  grid-template-columns: clamp(290px, 20vw, 360px) minmax(0,1fr);
+  border:1px solid rgba(201,174,128,.14);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow: var(--shadow-card);
+  min-height: 68vh;
+}
+.scene-left{
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.012));
+}
+.scene-right{
+  background:rgba(8,11,18,.5);
+}
+.split-header{
+  min-height:56px;
+  padding:14px 16px;
+}
+.split-header h3{
+  font-size:16px;
+}
+.split-content{
+  padding:18px;
+  gap:18px;
+}
+.action-row,
+.editor-toolbar,
+.editor-tools,
+.modal-toolbar,
+.modal-footer{
+  gap:8px;
+}
+.export-grid{
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap:14px;
+}
+.modal-box{
+  width:min(980px, 100%);
+  border-radius:18px;
+}
+.media-radio.docked-left{
+  border-radius:14px !important;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)), #101522 !important;
+}
+@media (min-width: 1800px){
+  .topbar{padding-inline:34px;}
+  .nodes-bar{padding-inline:28px;}
+  .panel-scroll{padding-left:34px;padding-right:34px;}
+  .field-grid{grid-template-columns: repeat(3, minmax(260px, 1fr));}
+  .field-full{grid-column: 1 / -1;}
+}
+@media (max-width: 1366px){
+  .topbar-brand{font-size:24px;}
+  .section-title{font-size:24px;}
+  .storyboard-card{grid-template-columns: 200px minmax(0,1fr);}
+  .storyboard-card > :last-child{grid-column: 1 / -1;}
+}
+@media (max-width: 1180px){
+  .main{
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+  .api-provider-grid{
+    grid-template-columns: repeat(2, minmax(170px, 1fr));
+  }
+  .scene-split{
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .scene-left{
+    border-right:none;
+    border-bottom:1px solid rgba(201,174,128,.14);
+  }
+}
+@media (max-width: 900px){
+  .topbar{
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+  .topbar-brand{
+    font-size:20px;
+    width:100%;
+  }
+  .nodes-bar{
+    padding: 12px 14px;
+  }
+  .terminal-strip{
+    padding: 8px 14px;
+    font-size:11px;
+  }
+  .main{
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .sidebar{
+    border-right:none;
+    border-bottom:1px solid var(--border);
+    max-height:none;
+  }
+  .panel-scroll{
+    padding: 18px 14px 34px;
+  }
+  .field-grid{
+    grid-template-columns: 1fr;
+  }
+  .section-title{
+    font-size:21px;
+  }
+  .export-grid,
+  .api-provider-grid{
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px){
+  .node-btn{
+    min-width: 92px;
+    min-height: 54px;
+    padding: 8px 10px;
+  }
+  .btn{
+    width: 100%;
+    justify-content: center;
+  }
+  .action-row .btn,
+  .editor-toolbar .btn,
+  .editor-tools .btn,
+  .radio-row .btn{
+    width:auto;
+  }
+  .storyboard-card{
+    grid-template-columns: 1fr;
+  }
+  .sb-image-box{
+    height: 190px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1249,7 +1691,7 @@ body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shad
 
     <div class="portal-meta-card">
       <div><strong>Criador:</strong> Elinaldo Menezes de Medeiros</div>
-      <div><strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book</div>
+      <div><strong>Build:</strong> V7.4 Pro UI Responsive + CapCut Motion Book</div>
       <div><strong>Data:</strong> 08/05/2026</div>
       <div><strong>Modo:</strong> Sobrevivência • Motion Comic • CapCut</div>
     </div>
@@ -1326,7 +1768,7 @@ body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shad
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅📚 Fruits Adventures Comic Studio <span>V7.3 Media Radio Sidebar + CapCut Motion Book</span></div>
+    <div class="topbar-brand">🍅📚 Fruits Adventures Comic Studio <span>V7.4 Pro UI Responsive + CapCut Motion Book</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3130,7 +3572,7 @@ function genProjectSrt() {
 (function markV645(){
   try {
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.4 Pro UI Responsive + CapCut Motion Book';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
   } catch(e) {}
@@ -3428,8 +3870,8 @@ function genProjectSrt() {
     const strip = document.getElementById('terminalStrip');
     if (strip && /V6\.4\.5|Drive/.test(strip.textContent)) strip.textContent = 'Engine V6.5 ativo: História 2D CapCut 100%, vídeo IA opcional e Compartilhar nativo do celular.';
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.4 Pro UI Responsive + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.4 Pro UI Responsive + CapCut Motion Book';
   }
 
   const oldShareTextAsFile = window.shareTextAsFile;
@@ -3674,8 +4116,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchMotionLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.4 Pro UI Responsive + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.4 Pro UI Responsive + CapCut Motion Book';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.6 ativo: Whisk/Movimento 2D transforma storyboard em vídeo sutil com prompt curto, detalhado e negativo.';
   }
@@ -3951,8 +4393,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.4 Pro UI Responsive + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.4 Pro UI Responsive + CapCut Motion Book';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = '🎬 Mega Studio V6.7';
     const strip = document.getElementById('terminalStrip');
@@ -4291,8 +4733,8 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
   function patchV68Labels(){
     ensureComicsDefaults();
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.4 Pro UI Responsive + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.4 Pro UI Responsive + CapCut Motion Book';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = 'FRUITS ADVENTURES COMIC STUDIO V7.1';
     const strip = document.getElementById('terminalStrip');
@@ -4320,7 +4762,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 (function comicLayoutPatch(){
   function patchComicUI(){
     try {
-      document.title = 'Fruits Adventures Comic Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
+      document.title = 'Fruits Adventures Comic Studio — V7.4 Pro UI Responsive + CapCut Motion Book';
       const portalLogo = document.querySelector('.portal-logo');
       if (portalLogo) portalLogo.innerHTML = '🍅📚 FRUITS COMIC<br/>MOTION STUDIO';
       const terminal = document.getElementById('terminalStrip');
@@ -4364,9 +4806,9 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 (function forceV71Labels(){
   function apply(){
     try {
-      document.title = 'Fruits Adventures Comic Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
+      document.title = 'Fruits Adventures Comic Studio — V7.4 Pro UI Responsive + CapCut Motion Book';
       const brand = document.querySelector('.topbar-brand span');
-      if (brand) brand.textContent = 'V7.3 MEDIA RADIO SIDEBAR + CAPCUT MOTION BOOK';
+      if (brand) brand.textContent = 'V7.4 PRO UI RESPONSIVE + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
       if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Media Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
       const portalLogo = document.querySelector('.portal-logo');
@@ -4375,7 +4817,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
       }
       const metaCards = document.querySelectorAll('.portal-meta-card div');
       metaCards.forEach(div => {
-        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book';
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.4 Pro UI Responsive + CapCut Motion Book';
       });
     } catch(e) {}
   }
@@ -4423,7 +4865,7 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 
 <script>
 /* V7.2 FINAL LABEL GUARD */
-(function forceV72Labels(){function apply(){try{document.title='Fruits Adventures Comic Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';const brand=document.querySelector('.topbar-brand span');if(brand)brand.textContent='V7.3 MEDIA RADIO SIDEBAR + CAPCUT MOTION BOOK';const strip=document.getElementById('terminalStrip');if(strip)strip.textContent='Engine V7.3 ativo: Media Radio fixado na lateral esquerda, abaixo do Diário de Produção, sem atrapalhar o editor.';document.querySelectorAll('.portal-meta-card div').forEach(div=>{if(div.textContent.includes('Build:'))div.innerHTML='<strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book';});}catch(e){}}apply();setTimeout(apply,100);setTimeout(apply,700);setTimeout(apply,1600);setTimeout(apply,2600);})();
+(function forceV72Labels(){function apply(){try{document.title='Fruits Adventures Comic Studio — V7.4 Pro UI Responsive + CapCut Motion Book';const brand=document.querySelector('.topbar-brand span');if(brand)brand.textContent='V7.4 PRO UI RESPONSIVE + CAPCUT MOTION BOOK';const strip=document.getElementById('terminalStrip');if(strip)strip.textContent='Engine V7.4 ativo: layout pro responsivo para monitor grande, melhor leitura, botões mais claros e visual mais profissional.';document.querySelectorAll('.portal-meta-card div').forEach(div=>{if(div.textContent.includes('Build:'))div.innerHTML='<strong>Build:</strong> V7.4 Pro UI Responsive + CapCut Motion Book';});}catch(e){}}apply();setTimeout(apply,100);setTimeout(apply,700);setTimeout(apply,1600);setTimeout(apply,2600);})();
 </script>
 
 
@@ -4445,11 +4887,11 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
         radio.classList.add('docked-left');
       }
       const brand = document.querySelector('.topbar-brand span');
-      if (brand) brand.textContent = 'V7.3 MEDIA RADIO SIDEBAR + CAPCUT MOTION BOOK';
+      if (brand) brand.textContent = 'V7.4 PRO UI RESPONSIVE + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
-      if (strip) strip.textContent = 'Engine V7.3 ativo: Media Radio fixado na lateral esquerda, abaixo do Diário de Produção, sem atrapalhar o editor.';
+      if (strip) strip.textContent = 'Engine V7.4 ativo: layout pro responsivo para monitor grande, melhor leitura, botões mais claros e visual mais profissional.';
       document.querySelectorAll('.portal-meta-card div').forEach(div => {
-        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book';
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.4 Pro UI Responsive + CapCut Motion Book';
       });
     } catch(e) {}
   }
@@ -4459,6 +4901,31 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
   setTimeout(dock, 900);
   setTimeout(dock, 1800);
   window.addEventListener('resize', dock);
+})();
+</script>
+
+
+<script>
+/* V7.4 FINAL LABEL GUARD */
+(function forceV74Labels(){
+  function apply(){
+    try{
+      document.title = 'Fruits Adventures Comic Studio — V7.4 Pro UI Responsive + CapCut Motion Book';
+      const brand = document.querySelector('.topbar-brand span');
+      if(brand) brand.textContent = 'V7.4 PRO UI RESPONSIVE + CAPCUT MOTION BOOK';
+      const strip = document.getElementById('terminalStrip');
+      if(strip) strip.textContent = 'Engine V7.4 ativo: layout pro responsivo para monitor grande, melhor leitura, botões mais claros e visual mais profissional.';
+      document.querySelectorAll('.portal-meta-card div').forEach(div => {
+        if(div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.4 Pro UI Responsive + CapCut Motion Book';
+      });
+      document.body.classList.add('ui-v74-ready');
+    }catch(e){}
+  }
+  apply();
+  setTimeout(apply, 100);
+  setTimeout(apply, 700);
+  setTimeout(apply, 1800);
+  window.addEventListener('resize', apply);
 })();
 </script>
 
