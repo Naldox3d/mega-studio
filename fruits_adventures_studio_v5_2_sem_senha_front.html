@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book</title>
+<title>Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -1182,6 +1182,60 @@ body.radio-on .radio-head small {
 body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shadow:8px 8px 0 rgba(0,0,0,.55),0 0 34px rgba(117,129,140,.18);}
 @media(max-width:740px){.media-radio{width:min(340px,calc(100vw - 20px));max-height:72vh;overflow:auto;}}
 
+
+/* V7.3 — MEDIA RADIO NA SIDEBAR ESQUERDA
+   Fica abaixo do Diário de Produção e deixa de cobrir o editor. */
+.sidebar-radio-slot {
+  padding: 12px 10px 14px;
+}
+.sidebar-radio-slot .comic-radio,
+.comic-radio.docked-left {
+  position: static !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.45) !important;
+  margin-top: 8px;
+}
+.sidebar-radio-slot .comic-radio.collapsed {
+  width: 100% !important;
+}
+.sidebar-radio-slot .radio-head {
+  padding: 8px 9px;
+}
+.sidebar-radio-slot .radio-body {
+  padding: 9px;
+}
+.sidebar-radio-slot .radio-row {
+  gap: 6px;
+}
+.sidebar-radio-slot .radio-row .btn {
+  font-size: 10px;
+  padding: 5px 7px;
+}
+.sidebar-radio-slot .radio-select,
+.sidebar-radio-slot .radio-textbox {
+  font-size: 10px;
+}
+.sidebar-radio-slot #radioAudioPlayer {
+  height: 32px;
+}
+.sidebar-radio-slot .radio-note {
+  font-size: 9.5px;
+}
+@media(max-width:900px){
+  /* Como a sidebar some no mobile, o rádio volta a flutuar embaixo para continuar acessível. */
+  .comic-radio.docked-left {
+    position: fixed !important;
+    right: 10px !important;
+    bottom: 10px !important;
+    z-index: 9997 !important;
+    width: min(340px, calc(100vw - 20px)) !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1195,7 +1249,7 @@ body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shad
 
     <div class="portal-meta-card">
       <div><strong>Criador:</strong> Elinaldo Menezes de Medeiros</div>
-      <div><strong>Build:</strong> V7.2 Media Radio + CapCut Motion Book</div>
+      <div><strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book</div>
       <div><strong>Data:</strong> 08/05/2026</div>
       <div><strong>Modo:</strong> Sobrevivência • Motion Comic • CapCut</div>
     </div>
@@ -1272,7 +1326,7 @@ body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shad
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅📚 Fruits Adventures Comic Studio <span>V7.2 Media Radio + CapCut Motion Book</span></div>
+    <div class="topbar-brand">🍅📚 Fruits Adventures Comic Studio <span>V7.3 Media Radio Sidebar + CapCut Motion Book</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -1299,6 +1353,9 @@ body.radio-file-playing .media-radio{border-color:rgba(117,129,140,.85);box-shad
       <div class="sidebar-section">
         <div class="sidebar-label">💥 Diário de Produção</div>
         <div class="sidebar-log" id="sideLog"></div>
+      </div>
+      <div class="sidebar-section sidebar-radio-slot" id="sidebarRadioSlot">
+        <div class="sidebar-label">📻 Rádio / Voz</div>
       </div>
     </div>
 
@@ -3073,7 +3130,7 @@ function genProjectSrt() {
 (function markV645(){
   try {
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
   } catch(e) {}
@@ -3371,8 +3428,8 @@ function genProjectSrt() {
     const strip = document.getElementById('terminalStrip');
     if (strip && /V6\.4\.5|Drive/.test(strip.textContent)) strip.textContent = 'Engine V6.5 ativo: História 2D CapCut 100%, vídeo IA opcional e Compartilhar nativo do celular.';
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
   }
 
   const oldShareTextAsFile = window.shareTextAsFile;
@@ -3617,8 +3674,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchMotionLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.6 ativo: Whisk/Movimento 2D transforma storyboard em vídeo sutil com prompt curto, detalhado e negativo.';
   }
@@ -3894,8 +3951,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = '🎬 Mega Studio V6.7';
     const strip = document.getElementById('terminalStrip');
@@ -4234,8 +4291,8 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
   function patchV68Labels(){
     ensureComicsDefaults();
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V7.2 Media Radio + CapCut Motion Book';
-    document.title = 'Fruits Adventures Mega Studio — V7.2 Media Radio + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.3 Media Radio Sidebar + CapCut Motion Book';
+    document.title = 'Fruits Adventures Mega Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = 'FRUITS ADVENTURES COMIC STUDIO V7.1';
     const strip = document.getElementById('terminalStrip');
@@ -4263,7 +4320,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 (function comicLayoutPatch(){
   function patchComicUI(){
     try {
-      document.title = 'Fruits Adventures Comic Studio — V7.2 Media Radio + CapCut Motion Book';
+      document.title = 'Fruits Adventures Comic Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
       const portalLogo = document.querySelector('.portal-logo');
       if (portalLogo) portalLogo.innerHTML = '🍅📚 FRUITS COMIC<br/>MOTION STUDIO';
       const terminal = document.getElementById('terminalStrip');
@@ -4307,9 +4364,9 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 (function forceV71Labels(){
   function apply(){
     try {
-      document.title = 'Fruits Adventures Comic Studio — V7.2 Media Radio + CapCut Motion Book';
+      document.title = 'Fruits Adventures Comic Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';
       const brand = document.querySelector('.topbar-brand span');
-      if (brand) brand.textContent = 'V7.2 MEDIA RADIO + CAPCUT MOTION BOOK';
+      if (brand) brand.textContent = 'V7.3 MEDIA RADIO SIDEBAR + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
       if (strip) strip.textContent = 'Engine V7.1 ativo: HQ apocalíptica + Media Radio Focus para concentração, storyboard vivo e CapCut Motion Book cena por cena.';
       const portalLogo = document.querySelector('.portal-logo');
@@ -4318,7 +4375,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
       }
       const metaCards = document.querySelectorAll('.portal-meta-card div');
       metaCards.forEach(div => {
-        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.2 Media Radio + CapCut Motion Book';
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book';
       });
     } catch(e) {}
   }
@@ -4366,7 +4423,43 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 
 <script>
 /* V7.2 FINAL LABEL GUARD */
-(function forceV72Labels(){function apply(){try{document.title='Fruits Adventures Comic Studio — V7.2 Media Radio + CapCut Motion Book';const brand=document.querySelector('.topbar-brand span');if(brand)brand.textContent='V7.2 MEDIA RADIO + CAPCUT MOTION BOOK';const strip=document.getElementById('terminalStrip');if(strip)strip.textContent='Engine V7.2 ativo: Media Radio com arquivos locais, narração de TXT/SRT, HQ apocalíptica e CapCut Motion Book cena por cena.';document.querySelectorAll('.portal-meta-card div').forEach(div=>{if(div.textContent.includes('Build:'))div.innerHTML='<strong>Build:</strong> V7.2 Media Radio + CapCut Motion Book';});}catch(e){}}apply();setTimeout(apply,100);setTimeout(apply,700);setTimeout(apply,1600);setTimeout(apply,2600);})();
+(function forceV72Labels(){function apply(){try{document.title='Fruits Adventures Comic Studio — V7.3 Media Radio Sidebar + CapCut Motion Book';const brand=document.querySelector('.topbar-brand span');if(brand)brand.textContent='V7.3 MEDIA RADIO SIDEBAR + CAPCUT MOTION BOOK';const strip=document.getElementById('terminalStrip');if(strip)strip.textContent='Engine V7.3 ativo: Media Radio fixado na lateral esquerda, abaixo do Diário de Produção, sem atrapalhar o editor.';document.querySelectorAll('.portal-meta-card div').forEach(div=>{if(div.textContent.includes('Build:'))div.innerHTML='<strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book';});}catch(e){}}apply();setTimeout(apply,100);setTimeout(apply,700);setTimeout(apply,1600);setTimeout(apply,2600);})();
+</script>
+
+
+<script>
+/* V7.3 — DOCK RADIO BELOW DIÁRIO DE PRODUÇÃO */
+(function dockMediaRadioLeft(){
+  function dock(){
+    try {
+      const radio = document.getElementById('comicRadio');
+      const slot = document.getElementById('sidebarRadioSlot');
+      if (radio && slot && radio.parentElement !== slot && window.innerWidth > 900) {
+        slot.appendChild(radio);
+        radio.classList.add('docked-left');
+        radio.classList.remove('collapsed');
+        const btn = document.getElementById('radioCollapseBtn');
+        if (btn) btn.textContent = '—';
+      }
+      if (window.innerWidth <= 900 && radio) {
+        radio.classList.add('docked-left');
+      }
+      const brand = document.querySelector('.topbar-brand span');
+      if (brand) brand.textContent = 'V7.3 MEDIA RADIO SIDEBAR + CAPCUT MOTION BOOK';
+      const strip = document.getElementById('terminalStrip');
+      if (strip) strip.textContent = 'Engine V7.3 ativo: Media Radio fixado na lateral esquerda, abaixo do Diário de Produção, sem atrapalhar o editor.';
+      document.querySelectorAll('.portal-meta-card div').forEach(div => {
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.3 Media Radio Sidebar + CapCut Motion Book';
+      });
+    } catch(e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', dock);
+  else dock();
+  setTimeout(dock, 200);
+  setTimeout(dock, 900);
+  setTimeout(dock, 1800);
+  window.addEventListener('resize', dock);
+})();
 </script>
 
 </body>
