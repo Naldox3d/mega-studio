@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures: Os Iniciantes do Punk — V8.1</title>
+<title>Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -2266,6 +2266,87 @@ body{
   .punk-dna-grid{grid-template-columns:1fr;}
 }
 
+
+/* V8.1 — FIX FINAL: NODES, TOPBAR E COMPARTILHAR */
+.topbar{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  align-items:center !important;
+}
+.topbar-brand{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  max-width:none !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+  font-size:clamp(14px,1.55vw,20px) !important;
+}
+.topbar-brand span{
+  display:inline !important;
+}
+.topbar-status{
+  flex:0 0 auto !important;
+  margin-left:auto !important;
+}
+.topbar-lock{
+  flex:0 0 auto !important;
+  border-color:rgba(225,71,53,.38) !important;
+  color:#ffd0d0 !important;
+}
+.node-btn[data-v81="true"]{
+  min-width:104px !important;
+}
+.node-btn.node-punk-active{
+  border-color:rgba(217,231,58,.62)!important;
+  background:linear-gradient(180deg,rgba(217,231,58,.16),rgba(225,71,53,.07))!important;
+}
+.punk-node-board{
+  padding:18px;
+}
+.punk-node-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(160px,1fr));
+  gap:14px;
+}
+.punk-node-card{
+  border:1px solid rgba(217,231,58,.22);
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),#0d111d;
+  border-radius:14px;
+  padding:14px;
+  min-height:120px;
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
+}
+.punk-node-card h4{
+  color:#e6c479;
+  font-size:13px;
+  margin-bottom:8px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.punk-node-card p{
+  color:#aeb7c8;
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:10px;
+}
+.punk-node-card .btn{
+  margin:3px 4px 0 0;
+}
+.export-card .btn-share-v81{
+  margin-top:6px;
+  border-color:rgba(69,217,208,.35)!important;
+  color:#c9fffb!important;
+}
+@media(max-width:1280px){
+  .punk-node-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:740px){
+  .topbar{flex-wrap:wrap!important;}
+  .topbar-brand{width:100%!important;white-space:normal!important;}
+  .punk-node-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 <body>
@@ -2376,19 +2457,19 @@ body{
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.1 Punk Band + CapCut Motion Book</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.1 Punk Nodes + Compartilhar</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
       <div class="score-badge" id="scoreBadge">Score: 8</div>
       <div class="progress-bar" style="width:120px;"><div class="progress-fill" id="progressFill" style="width:8%"></div></div>
     </div>
-    <button class="topbar-lock" onclick="lockPortal()">🔒 Travar</button>
+    <button class="topbar-lock" onclick="lockPortal()">🚪 Sair</button>
   </div>
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V8.1 ativo: Os Iniciantes do Punk — nodes atualizados, compartilhar em todos os exports e botão Sair restaurado.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -2414,20 +2495,20 @@ body{
       <div class="tab-panel active" id="tab-setup">
         <div class="panel-scroll">
           <div class="section-title">🎸 Contrato Punk Comic & Setup <span class="badge">Passo 1</span></div>
-          <div class="notice notice-info">Versão nova V8.1: mantenha os personagens punk oficiais. A imagem de referência serve só para clima de banda/cartoon punk, sem copiar nomes, logo ou composição.</div>
+          <div class="notice notice-info">Defina a regra de ouro da nova fase: banda, curta, Caruaru, estética punk comic, personagens de origem, objetos-símbolo e continuidade.</div>
 
           <div class="punk-dna-card">
             <div class="punk-dna-header">
-              <div class="punk-dna-kicker">VERSÃO NOVA V8.1 — PERSONAGENS PUNK</div>
+              <div class="punk-dna-kicker">NOVA FASE OFICIAL</div>
               <h3>Fruits Adventures: Os Iniciantes do Punk</h3>
-              <p>Banda punk autoral, curta-metragem em Caruaru, comic underground, storyboard e personagens com visual de banda cansada, engraçada e sobrevivente.</p>
+              <p>Banda, curta-metragem, Caruaru, comic underground, storyboard e frutas com alma humana.</p>
             </div>
             <div class="punk-dna-grid">
-              <div><strong>Eli / Elinaldo</strong><span>camisa sem manga punk, cabelo bagunçado, chave de fenda + placa de HD • criador/gambiarra poética</span></div>
-              <div><strong>Taciano</strong><span>careca ou boné baixo, postura de diretor, claquete • líder seco, irônico e punk</span></div>
-              <div><strong>Bruno</strong><span>guitarra, corpo forte, energia de palco • peso, ritmo e coração da banda</span></div>
-              <div><strong>Cesar</strong><span>barba/óculos ou visual cansado, filmadora Sony HD100 • bastidor, olhar de curta e crítica ácida</span></div>
-              <div><strong>Tomate Elinaldo</strong><span>mascote/fruta punk do universo Fruits • elo emocional, humor e símbolo visual</span></div>
+              <div><strong>Eli / Elinaldo</strong><span>chave de fenda + placa de HD • criador e gambiarra poética</span></div>
+              <div><strong>Taciano</strong><span>claquete • presença de direção e atitude punk</span></div>
+              <div><strong>Bruno</strong><span>guitarra • ritmo, peso e energia musical</span></div>
+              <div><strong>Cesar</strong><span>filmadora Sony HD100 • olhar de curta e bastidor</span></div>
+              <div><strong>Tomate Elinaldo</strong><span>mascote/fruta • elo emocional do universo Fruits</span></div>
             </div>
           </div>
 
@@ -2446,13 +2527,13 @@ body{
             </div>
             <div class="field field-full">
               <label>Regras de Continuidade (O DNA de Ferro)</label>
-              <textarea id="continuityRules" rows="4">DNA OFICIAL V8.1: Fruits Adventures: Os Iniciantes do Punk.
-Referência de clima: capa/arte de banda punk adulta e cartunesca, com personagens cansados, exagerados, engraçados e sujos. Usar só como linguagem visual; NÃO copiar nomes, logos, roupas, letras, composição ou banda existente.
-Estética: punk comic underground, Caruaru, curta-metragem, garagem/banheiro/piscina improvisada, cartaz rasgado, instrumentos, poeira, fios, amplificador velho, humor ácido e sobrevivência criativa.
-Elenco-raiz obrigatório: Eli/Elinaldo (camisa sem manga punk, cabelo bagunçado, chave de fenda e placa de HD), Taciano (careca ou boné baixo, claquete, postura de diretor punk), Bruno (guitarra, corpo forte, ritmo e peso), Cesar (barba/óculos ou visual cansado, filmadora Sony HD100 e olhar de bastidor) e Tomate Elinaldo (mascote/fruta punk, elo emocional do universo Fruits).
-Tomate Elinaldo continua nome oficial; em balões/falas pode usar Tomate Eli ou Eli quando precisar caber melhor.
-Não infantilizar. Não deixar limpo demais. Não trocar os personagens punk por heróis genéricos. Não copiar franquias, capas, bandas, logos ou personagens protegidos.
-Cada cena deve gerar: página comic, storyboard em quadros, falas punk, narração, SRT, fatiamento, prompt de vídeo IA e CapCut Motion Book.</textarea>
+              <textarea id="continuityRules" rows="4">DNA OFICIAL: Fruits Adventures: Os Iniciantes do Punk.
+Estética punk comic underground com base humana, clima de banda, curta-metragem, Caruaru, storyboard, objetos de produção e humor ácido.
+Visual: cartunesco adulto, sujo, nostálgico, cinematográfico, com cores desbotadas, cenário cheio de equipamentos e memória.
+Elenco-raiz: Eli/Elinaldo (criador, chave de fenda e placa de HD), Taciano (claquete, careca, atitude de direção), Bruno (guitarra, ritmo e som), Cesar (corpo grande e pesado, punk veterano/editor audiovisual, sem óculos, Sony HD100), e Tomate Elinaldo (mascote/fruta símbolo do universo).
+Tomate Elinaldo continua nome oficial; em balões/falas pode usar Eli quando precisar caber melhor.
+Não deixar infantil, colorido demais ou genérico. Não copiar franquias. Usar referências apenas como linguagem visual, clima e estrutura.
+Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, vídeo IA e CapCut Motion Book.</textarea>
             </div>
           </div>
 
@@ -2692,14 +2773,14 @@ const STORAGE_KEY = 'mega_studio_claude_director_state_v6';
 const DEFAULT = {
   setup: {
     projectName: 'Fruits Adventures: Os Iniciantes do Punk',
-    projectMode: 'director',
-    continuityRules: `DNA OFICIAL V8.1: Fruits Adventures: Os Iniciantes do Punk.
-Referência de clima: capa/arte de banda punk adulta e cartunesca, com personagens cansados, exagerados, engraçados e sujos. Usar só como linguagem visual; NÃO copiar nomes, logos, roupas, letras, composição ou banda existente.
-Estética: punk comic underground, Caruaru, curta-metragem, garagem/banheiro/piscina improvisada, cartaz rasgado, instrumentos, poeira, fios, amplificador velho, humor ácido e sobrevivência criativa.
-Elenco-raiz obrigatório: Eli/Elinaldo (camisa sem manga punk, cabelo bagunçado, chave de fenda e placa de HD), Taciano (careca ou boné baixo, claquete, postura de diretor punk), Bruno (guitarra, corpo forte, ritmo e peso), Cesar (barba/óculos ou visual cansado, filmadora Sony HD100 e olhar de bastidor) e Tomate Elinaldo (mascote/fruta punk, elo emocional do universo Fruits).
-Tomate Elinaldo continua nome oficial; em balões/falas pode usar Tomate Eli ou Eli quando precisar caber melhor.
-Não infantilizar. Não deixar limpo demais. Não trocar os personagens punk por heróis genéricos. Não copiar franquias, capas, bandas, logos ou personagens protegidos.
-Cada cena deve gerar: página comic, storyboard em quadros, falas punk, narração, SRT, fatiamento, prompt de vídeo IA e CapCut Motion Book.`
+    projectMode: 'punk',
+    continuityRules: `DNA OFICIAL: Fruits Adventures: Os Iniciantes do Punk.
+Estética punk comic underground com base humana, clima de banda, curta-metragem, Caruaru, storyboard, objetos de produção e humor ácido.
+Visual: cartunesco adulto, sujo, nostálgico, cinematográfico, com cores desbotadas, cenário cheio de equipamentos e memória.
+Elenco-raiz: Eli/Elinaldo (criador, chave de fenda e placa de HD), Taciano (claquete, careca, atitude de direção), Bruno (guitarra, ritmo e som), Cesar (corpo grande e pesado, punk veterano/editor audiovisual, sem óculos, Sony HD100), e Tomate Elinaldo (mascote/fruta símbolo do universo).
+Tomate Elinaldo continua nome oficial; em balões/falas pode usar Eli quando precisar caber melhor.
+Não deixar infantil, colorido demais ou genérico. Não copiar franquias. Usar referências apenas como linguagem visual, clima e estrutura.
+Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, vídeo IA e CapCut Motion Book.`
   },
   api: { provider: 'claude', model: 'claude-sonnet-4-5', apiKey: '', endpoint: '/api/fruits-generate', callMode: 'backend', maxTokens: 4000, temperature: 0.62 },
   scenes: [ { title: 'Cena 1', summary: '', image: null, visualPrompt: '', visualAnalysis: '', text: '', approved: false } ],
@@ -4200,7 +4281,7 @@ function genProjectSrt() {
 (function markV645(){
   try {
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V8.1 Punk Band + CapCut Motion Book';
+    if (brand) brand.textContent = 'V7.8 Creator Card + CapCut Motion Book';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.4.5 ativo. Nova aba Vídeo IA para CapCut/Seedance e Drive sem alerta travando.';
   } catch(e) {}
@@ -4209,7 +4290,7 @@ function genProjectSrt() {
 
 
 // ═══════════════════════════════════════════════
-// V6.5 — CAPCUT PUNK 2D MOTION + COMPARTILHAR NATIVO
+// V6.5 — CAPCUT STORY MODE 2D 100% + COMPARTILHAR NATIVO
 // ═══════════════════════════════════════════════
 (function setupCapCut2D100Mode(){
   const STYLE_ID = 'capcut2d100Style';
@@ -4282,7 +4363,7 @@ function genProjectSrt() {
     const action = extractBlock(s.text || '', 'AÇÃO') || s.summary || '';
     const hook = extractBlock(s.text || '', 'GANCHO FINAL') || 'Corte seco antes da ameaça revelar tudo.';
 
-    return `🎞️ CAPCUT PUNK 2D MOTION — ${title}\n\n` +
+    return `🎞️ CAPCUT STORY MODE 2D 100% — ${title}\n\n` +
 `MODO DE PRODUÇÃO:\n100% CapCut 2D / 0% vídeo IA obrigatório.\nUse imagem parada, zoom, pan, tremor, efeitos, narração, falas separadas, música e SRT. Vídeo IA fica apenas como extra opcional, não como base da cena.\n\n` +
 `ESTILO PRONTO:\n${styleName}\nDNA DO ESTILO: ${styleDNA}.\n\n` +
 `DURAÇÃO SUGERIDA:\n${seconds} segundos em formato vertical 9:16.\n\n` +
@@ -4314,21 +4395,21 @@ function genProjectSrt() {
 
   window.exportCapCut2D100Current = function(){
     const text = buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene);
-    openModal('CapCut Punk 2D Motion — ' + sceneLabel(state.currentScene), 'Plano punk econômico: CapCut + motion comic, sem vídeo IA obrigatório.', text, sceneFileName('capcut_2d_100','txt'));
+    openModal('CapCut Story Mode 2D 100% — ' + sceneLabel(state.currentScene), 'Plano econômico: 100% CapCut, sem vídeo IA obrigatório.', text, sceneFileName('capcut_2d_100','txt'));
   };
 
   window.exportCapCut2D100Project = function(){
     const text = buildCapCut2D100ProjectPack();
-    openModal('CapCut Punk 2D Motion — Projeto Completo', 'Todas as cenas em modo punk 2D/motion comic para CapCut.', text, projectFileName('capcut_2d_100_projeto','txt'));
+    openModal('CapCut Story Mode 2D 100% — Projeto Completo', 'Todas as cenas em modo 2D econômico para CapCut.', text, projectFileName('capcut_2d_100_projeto','txt'));
   };
 
   window.copyCapCut2D100Current = function(){
-    copyText(buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene), 'Plano Punk 2D CapCut copiado.');
+    copyText(buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene), 'Plano CapCut 2D 100% copiado.');
   };
 
   window.downloadCapCut2D100Current = function(){
     downloadText(buildCapCut2D100PackForScene(getCurrentScene(), state.currentScene), sceneFileName('capcut_2d_100','txt'));
-    log('Plano Punk 2D CapCut baixado.', 'ok');
+    log('Plano CapCut 2D 100% baixado.', 'ok');
   };
 
   window.shareCapCut2D100Current = function(){
@@ -4384,7 +4465,7 @@ function genProjectSrt() {
           <button class="btn" onclick="downloadCapCut2D100Current()">⬇️ Baixar</button>
           <button class="btn btn-cyan" onclick="shareCapCut2D100Current()">📤 Compartilhar</button>
         </div>
-        <div class="section-title">Preview do Punk 2D Motion</div>
+        <div class="section-title">Preview do Plano 2D 100%</div>
         <div id="capcut2dOutput" class="capcut2d-output"></div>
       </div>`;
     const exportPanel = document.getElementById('tab-export');
@@ -4418,7 +4499,7 @@ function genProjectSrt() {
       { id: 'setup', label: '1. Setup', status: state.setup.continuityRules ? 'pronto' : 'vazio' },
       { id: 'storyboard', label: '2. Storyboard', status: state.scenes.length + ' cenas' },
       { id: 'scene', label: '3. Estúdio', status: 'roteiro' },
-      { id: 'capcut2d', label: '4. Punk 2D', status: 'motion' },
+      { id: 'capcut2d', label: '4. 2D 100%', status: 'econômico' },
       { id: 'ai', label: 'Copilot', status: 'chat' },
       { id: 'export', label: '5. Exportar', status: state.scenes.every(s=>s.approved) ? 'pronto' : 'aguardando' }
     ];
@@ -4461,7 +4542,7 @@ function genProjectSrt() {
     btn.className = 'btn btn-sm btn-green';
     btn.dataset.mode = 'capcut2d';
     btn.setAttribute('onclick', "loadEditor('capcut2d')");
-    btn.textContent = '🎞️ Punk 2D';
+    btn.textContent = '🎞️ 2D 100%';
     bar.appendChild(btn);
   }
 
@@ -4498,8 +4579,8 @@ function genProjectSrt() {
     const strip = document.getElementById('terminalStrip');
     if (strip && /V6\.4\.5|Drive/.test(strip.textContent)) strip.textContent = 'Engine V6.5 ativo: História 2D CapCut 100%, vídeo IA opcional e Compartilhar nativo do celular.';
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V8.1 Punk Band + CapCut Motion Book';
-    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+    if (brand) brand.textContent = 'V7.8 Creator Card + CapCut Motion Book';
+    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
   }
 
   const oldShareTextAsFile = window.shareTextAsFile;
@@ -4744,8 +4825,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchMotionLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V8.1 Punk Band + CapCut Motion Book';
-    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+    if (brand) brand.textContent = 'V7.8 Creator Card + CapCut Motion Book';
+    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
     const strip = document.getElementById('terminalStrip');
     if (strip) strip.textContent = 'Engine V6.6 ativo: Whisk/Movimento 2D transforma storyboard em vídeo sutil com prompt curto, detalhado e negativo.';
   }
@@ -5021,8 +5102,8 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
 
   function patchLabels(){
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V8.1 Punk Band + CapCut Motion Book';
-    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+    if (brand) brand.textContent = 'V7.8 Creator Card + CapCut Motion Book';
+    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = '🎬 Mega Studio V6.7';
     const strip = document.getElementById('terminalStrip');
@@ -5106,7 +5187,7 @@ Modo: ${motion} / comic book vivo / storyboard fatiado / Flow 8s
 ${buildAliasGuide()}
 
 CONCEITO VIRAL:
-Transformar a cena em uma pagina de quadrinhos viva com DNA dos Iniciantes do Punk: banda adulta, cansada, engraçada, suja, instrumentos, objetos de produção, Caruaru, humor acido e energia underground. Usar leitura de painel em painel, suspense, impacto visual, onomatopeias e microanimacoes. A pagina deve parecer uma HQ autoral do universo Fruits Adventures, sem copiar personagens, cenas, nomes, logos, capa ou arte de obras existentes.
+Transformar a cena em uma pagina de quadrinhos viva, com energia de jogo 2D dos anos 90, leitura de painel em painel, suspense, impacto visual, onomatopeias e microanimacoes. A pagina deve parecer uma HQ autoral do universo Fruits Adventures, sem copiar personagens, cenas, nomes, logos ou arte de obras existentes.
 
 NOME/TITULO SUGERIDO DA SERIE:
 ${brand}
@@ -5138,7 +5219,7 @@ FATIAS / STORYBOARD, SE EXISTIR:
 ${b.slices || 'Ainda sem fatias aprovadas. O sistema deve dividir a cena em abertura, ameaca, reacao, decisao e gancho final.'}
 
 PROMPT PARA GERAR A PAGINA DE QUADRINHOS:
-Crie uma pagina de quadrinhos cinematografica, ${brand}, punk comic 2D, formato 16:9 ou 4:5, 5 quadros grandes, bordas brancas grossas, atmosfera suja de garagem/rua/Caruaru, instrumentos musicais, equipamentos de filmagem, humor acido e tensao. Mostrar os personagens oficiais: Eli/Elinaldo, Taciano, Bruno, Cesar e Tomate Elinaldo quando fizer sentido. A pagina deve contar uma unica cena completa em fatias visuais. Mantenha personagens consistentes, pose forte, leitura clara, composicao de motion comic, estilo HQ autoral, sem copiar obras existentes.
+Crie uma pagina de quadrinhos cinematografica, ${brand}, terror 2D pos-apocaliptico, formato 16:9 ou 4:5, 5 quadros grandes, bordas brancas grossas, atmosfera de neblina, asfalto rachado, luz dramatica, personagens do universo Fruits Adventures. A pagina deve contar uma unica cena completa em fatias visuais. Mantenha personagens consistentes, pose forte, leitura clara, composicao de motion comic, estilo HQ autoral, sem copiar obras existentes.
 
 PROMPT COM BALOES EM PORTUGUES:
 Titulo no topo: "${brand}: O Caminho dos Infectados".
@@ -5361,12 +5442,12 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
   function patchV68Labels(){
     ensureComicsDefaults();
     const brand = document.querySelector('.topbar-brand span');
-    if (brand) brand.textContent = 'V8.1 Punk Band + CapCut Motion Book';
-    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+    if (brand) brand.textContent = 'V7.8 Creator Card + CapCut Motion Book';
+    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
     const logo = document.querySelector('.portal-logo');
-    if (logo) logo.textContent = 'FRUITS ADVENTURES PUNK BAND STUDIO V8.1';
+    if (logo) logo.textContent = 'FRUITS ADVENTURES COMIC STUDIO V7.1';
     const strip = document.getElementById('terminalStrip');
-    if (strip) strip.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+    if (strip) strip.textContent = 'Engine V8.1 ativo: Os Iniciantes do Punk — nodes atualizados, compartilhar em todos os exports e botão Sair restaurado.';
   }
 
   function setupNow(){
@@ -5390,13 +5471,13 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 (function comicLayoutPatch(){
   function patchComicUI(){
     try {
-      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
       const portalLogo = document.querySelector('.portal-logo');
       if (portalLogo) portalLogo.innerHTML = '🍅📚 FRUITS COMIC<br/>MOTION STUDIO';
       const terminal = document.getElementById('terminalStrip');
       if (terminal && !terminal.dataset.comicPatched) {
         terminal.dataset.comicPatched = '1';
-        terminal.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+        terminal.textContent = 'BAM! V7.0 HQ apocalíptica ativa: storyboard em página viva, motion comic e CapCut Motion Book técnico cena por cena.';
       }
       const setupNotice = document.querySelector('#tab-setup .notice-info');
       if (setupNotice && !setupNotice.dataset.comicPatched) {
@@ -5434,18 +5515,18 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
 (function forceV71Labels(){
   function apply(){
     try {
-      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
       const brand = document.querySelector('.topbar-brand span');
-      if (brand) brand.textContent = 'V8.1 PUNK BAND + CAPCUT MOTION BOOK';
+      if (brand) brand.textContent = 'V7.8 CREATOR CARD + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
-      if (strip) strip.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+      if (strip) strip.textContent = 'Engine V8.1 ativo: Os Iniciantes do Punk — nodes atualizados, compartilhar em todos os exports e botão Sair restaurado.';
       const portalLogo = document.querySelector('.portal-logo');
       if (portalLogo && !portalLogo.querySelector('span')) {
         portalLogo.innerHTML = 'FRUITS ADVENTURES<br><span>COMIC STUDIO</span>';
       }
       const metaCards = document.querySelectorAll('.portal-meta-card div');
       metaCards.forEach(div => {
-        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V8.1 Punk Band + CapCut Motion Book';
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.8 Creator Card + CapCut Motion Book';
       });
     } catch(e) {}
   }
@@ -5493,7 +5574,7 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 
 <script>
 /* V7.2 FINAL LABEL GUARD */
-(function forceV72Labels(){function apply(){try{document.title='Fruits Adventures: Os Iniciantes do Punk — V8.1';const brand=document.querySelector('.topbar-brand span');if(brand)brand.textContent='V8.1 PUNK BAND + CAPCUT MOTION BOOK';const strip=document.getElementById('terminalStrip');if(strip)strip.textContent='Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';document.querySelectorAll('.portal-meta-card div').forEach(div=>{if(div.textContent.includes('Build:'))div.innerHTML='<strong>Build:</strong> V8.1 Punk Band + CapCut Motion Book';});}catch(e){}}apply();setTimeout(apply,100);setTimeout(apply,700);setTimeout(apply,1600);setTimeout(apply,2600);})();
+(function forceV72Labels(){function apply(){try{document.title='Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';const brand=document.querySelector('.topbar-brand span');if(brand)brand.textContent='V7.8 CREATOR CARD + CAPCUT MOTION BOOK';const strip=document.getElementById('terminalStrip');if(strip)strip.textContent='Engine V7.8 ativo: portal limpo sem senha exposta, cartão de visita do criador e produção Comic Studio cena por cena.';document.querySelectorAll('.portal-meta-card div').forEach(div=>{if(div.textContent.includes('Build:'))div.innerHTML='<strong>Build:</strong> V7.8 Creator Card + CapCut Motion Book';});}catch(e){}}apply();setTimeout(apply,100);setTimeout(apply,700);setTimeout(apply,1600);setTimeout(apply,2600);})();
 </script>
 
 
@@ -5515,11 +5596,11 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
         radio.classList.add('docked-left');
       }
       const brand = document.querySelector('.topbar-brand span');
-      if (brand) brand.textContent = 'V8.1 PUNK BAND + CAPCUT MOTION BOOK';
+      if (brand) brand.textContent = 'V7.8 CREATOR CARD + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
-      if (strip) strip.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+      if (strip) strip.textContent = 'Engine V7.8 ativo: portal limpo sem senha exposta, cartão de visita do criador e produção Comic Studio cena por cena.';
       document.querySelectorAll('.portal-meta-card div').forEach(div => {
-        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V8.1 Punk Band + CapCut Motion Book';
+        if (div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.8 Creator Card + CapCut Motion Book';
       });
     } catch(e) {}
   }
@@ -5538,13 +5619,13 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 (function forceV74Labels(){
   function apply(){
     try{
-      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
       const brand = document.querySelector('.topbar-brand span');
-      if(brand) brand.textContent = 'V8.1 PUNK BAND + CAPCUT MOTION BOOK';
+      if(brand) brand.textContent = 'V7.8 CREATOR CARD + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
-      if(strip) strip.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+      if(strip) strip.textContent = 'Engine V7.8 ativo: portal limpo sem senha exposta, cartão de visita do criador e produção Comic Studio cena por cena.';
       document.querySelectorAll('.portal-meta-card div').forEach(div => {
-        if(div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V8.1 Punk Band + CapCut Motion Book';
+        if(div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V7.8 Creator Card + CapCut Motion Book';
       });
       document.body.classList.add('ui-v74-ready');
     }catch(e){}
@@ -5566,11 +5647,11 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 (function forceV76Labels(){
   function apply(){
     try{
-      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
       const brand = document.querySelector('.topbar-brand span');
-      if(brand) brand.textContent = 'V8.1 PUNK BAND + CAPCUT MOTION BOOK';
+      if(brand) brand.textContent = 'V7.8 CREATOR CARD + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
-      if(strip) strip.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+      if(strip) strip.textContent = 'Engine V7.8 ativo: portal limpo sem senha exposta, cartão de visita do criador e produção Comic Studio cena por cena.';
       document.body.classList.add('ui-v76-ready');
     }catch(e){}
   }
@@ -5587,11 +5668,11 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 (function forceV77Labels(){
   function apply(){
     try{
-      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
       const brand = document.querySelector('.topbar-brand span');
-      if(brand) brand.textContent = 'V8.1 PUNK BAND + CAPCUT MOTION BOOK';
+      if(brand) brand.textContent = 'V7.8 CREATOR CARD + CAPCUT MOTION BOOK';
       const strip = document.getElementById('terminalStrip');
-      if(strip) strip.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+      if(strip) strip.textContent = 'Engine V7.8 ativo: portal limpo sem senha exposta, cartão de visita do criador e produção Comic Studio cena por cena.';
       document.body.classList.add('ui-v77-ready');
     }catch(e){}
   }
@@ -5608,11 +5689,11 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 (function forceV78CreatorPortal(){
   function apply(){
     try{
-      document.title='Fruits Adventures: Os Iniciantes do Punk — V8.1';
+      document.title='Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
       const brand=document.querySelector('.topbar-brand span');
-      if(brand) brand.textContent='V8.1 PUNK BAND + CAPCUT MOTION BOOK';
+      if(brand) brand.textContent='V7.8 CREATOR CARD + CAPCUT MOTION BOOK';
       const strip=document.getElementById('terminalStrip');
-      if(strip) strip.textContent='Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+      if(strip) strip.textContent='Engine V7.8 ativo: portal limpo sem senha exposta, cartão de visita do criador e produção Comic Studio cena por cena.';
       document.querySelectorAll('.portal-hint').forEach(el=>el.remove());
       const portal=document.querySelector('#portal .portal-box');
       if(portal){
@@ -5649,13 +5730,13 @@ function escapeHtmlRadio(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&
 <script>
 /* V8.0 — INTERNAL DNA GUARD: OS INICIANTES DO PUNK */
 (function forcePunkInternalDNA(){
-  const punkRules = `DNA OFICIAL V8.1: Fruits Adventures: Os Iniciantes do Punk.
-Referência de clima: capa/arte de banda punk adulta e cartunesca, com personagens cansados, exagerados, engraçados e sujos. Usar só como linguagem visual; NÃO copiar nomes, logos, roupas, letras, composição ou banda existente.
-Estética: punk comic underground, Caruaru, curta-metragem, garagem/banheiro/piscina improvisada, cartaz rasgado, instrumentos, poeira, fios, amplificador velho, humor ácido e sobrevivência criativa.
-Elenco-raiz obrigatório: Eli/Elinaldo (camisa sem manga punk, cabelo bagunçado, chave de fenda e placa de HD), Taciano (careca ou boné baixo, claquete, postura de diretor punk), Bruno (guitarra, corpo forte, ritmo e peso), Cesar (barba/óculos ou visual cansado, filmadora Sony HD100 e olhar de bastidor) e Tomate Elinaldo (mascote/fruta punk, elo emocional do universo Fruits).
-Tomate Elinaldo continua nome oficial; em balões/falas pode usar Tomate Eli ou Eli quando precisar caber melhor.
-Não infantilizar. Não deixar limpo demais. Não trocar os personagens punk por heróis genéricos. Não copiar franquias, capas, bandas, logos ou personagens protegidos.
-Cada cena deve gerar: página comic, storyboard em quadros, falas punk, narração, SRT, fatiamento, prompt de vídeo IA e CapCut Motion Book.`;
+  const punkRules = `DNA OFICIAL: Fruits Adventures: Os Iniciantes do Punk.
+Estética punk comic underground com base humana, clima de banda, curta-metragem, Caruaru, storyboard, objetos de produção e humor ácido.
+Visual: cartunesco adulto, sujo, nostálgico, cinematográfico, com cores desbotadas, cenário cheio de equipamentos e memória.
+Elenco-raiz: Eli/Elinaldo (criador, chave de fenda e placa de HD), Taciano (claquete, careca, atitude de direção), Bruno (guitarra, ritmo e som), Cesar (filmadora Sony HD100, olhar audiovisual) e Tomate Elinaldo (mascote/fruta símbolo do universo).
+Tomate Elinaldo continua nome oficial; em balões/falas pode usar Eli quando precisar caber melhor.
+Não deixar infantil, colorido demais ou genérico. Não copiar franquias. Usar referências apenas como linguagem visual, clima e estrutura.
+Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, vídeo IA e CapCut Motion Book.`;
 
   function setVal(id, value){
     const el = document.getElementById(id);
@@ -5666,12 +5747,12 @@ Cada cena deve gerar: página comic, storyboard em quadros, falas punk, narraç�
 
   function apply(){
     try{
-      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
+      document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
       const brand = document.querySelector('.topbar-brand');
-      if(brand) brand.innerHTML = '🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.1 Punk Band + CapCut Motion Book</span>';
+      if(brand) brand.innerHTML = '🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.1 Punk Nodes + Compartilhar</span>';
 
       const strip = document.getElementById('terminalStrip');
-      if(strip) strip.textContent = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
+      if(strip) strip.textContent = 'Engine V8.1 ativo: Os Iniciantes do Punk — nodes atualizados, compartilhar em todos os exports e botão Sair restaurado.';
 
       setVal('projectName','Fruits Adventures: Os Iniciantes do Punk');
       setVal('continuityRules', punkRules);
@@ -5711,29 +5792,222 @@ Cada cena deve gerar: página comic, storyboard em quadros, falas punk, narraç�
 
 
 <script>
-/* V8.0 HOTFIX — trava final para impedir retorno visual para V7/V7.8 */
-(function finalV8HotfixLock(){
-  const title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1';
-  const brandHtml = '🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.1 Punk Band + CapCut Motion Book</span>';
-  const stripText = 'Engine V8.1 ativo: personagens punk oficiais, banda, curta, Caruaru, HQ viva, storyboard e CapCut Motion Book.';
-  function apply(){
+/* V8.1 FINAL FIX — impede alternar V7/V8, atualiza nodes, restaura Sair e Compartilhar */
+(function(){
+  const PUNK_DNA_V81 = `DNA OFICIAL: Fruits Adventures: Os Iniciantes do Punk.
+Estética punk comic underground com base humana, clima de banda, curta-metragem, Caruaru, storyboard, objetos de produção e humor ácido.
+Visual: cartunesco adulto, sujo, nostálgico, cinematográfico, com cores desbotadas, cenário cheio de equipamentos e memória.
+Elenco-raiz: Eli/Elinaldo (criador, chave de fenda e placa de HD), Taciano (claquete, careca, atitude de direção), Bruno (guitarra, ritmo e som), Cesar (corpo grande e pesado, punk veterano/editor audiovisual, sem óculos, Sony HD100), e Tomate Elinaldo (mascote/fruta símbolo do universo).
+Tomate Elinaldo continua nome oficial; em balões/falas pode usar Eli quando precisar caber melhor.
+Não deixar infantil, colorido demais ou genérico. Não copiar franquias. Usar referências apenas como linguagem visual, clima e estrutura.
+Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, vídeo IA e CapCut Motion Book.`;
+
+  function $(id){ return document.getElementById(id); }
+
+  function forceLabels(){
+    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.1 Studio Nodes';
+    const brand = document.querySelector('.topbar-brand');
+    if(brand){
+      brand.innerHTML = '🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.1 Punk Nodes + Compartilhar</span>';
+    }
+    const strip = $('terminalStrip');
+    if(strip){
+      strip.textContent = 'Engine V8.1 ativo: Os Iniciantes do Punk — nodes atualizados, compartilhar em todos os exports e botão Sair restaurado.';
+    }
+    const lock = document.querySelector('.topbar-lock');
+    if(lock){
+      lock.innerHTML = '🚪 Sair';
+      lock.title = 'Sair e voltar ao portal';
+    }
+  }
+
+  window.lockPortal = function(){
+    const portal = $('portal');
+    if(portal) portal.classList.remove('hidden');
+    try{ window.scrollTo(0,0); }catch(e){}
+  };
+
+  function migratePunkState(){
     try{
-      document.title = title;
-      const brand = document.querySelector('.topbar-brand');
-      if(brand) brand.innerHTML = brandHtml;
-      const strip = document.getElementById('terminalStrip');
-      if(strip) strip.textContent = stripText;
-      document.querySelectorAll('.portal-meta-card div').forEach(div=>{
-        if(div.textContent.includes('Build:')) div.innerHTML = '<strong>Build:</strong> V8.1 Punk Band + CapCut Motion Book';
-      });
-      document.body.classList.add('punk-v8-ready','v8-hotfix-lock');
+      if(window.state){
+        state.setup = state.setup || {};
+        state.setup.projectName = 'Fruits Adventures: Os Iniciantes do Punk';
+        state.setup.projectMode = 'punk';
+        state.setup.continuityRules = PUNK_DNA_V81;
+        if(state.status && String(state.status).includes('V7')) state.status = 'Setup';
+        if(typeof saveState === 'function') saveState();
+      }
+      const projectName = $('projectName');
+      if(projectName) projectName.value = 'Fruits Adventures: Os Iniciantes do Punk';
+      const projectMode = $('projectMode');
+      if(projectMode){
+        if(!Array.from(projectMode.options).some(o=>o.value==='punk')){
+          const opt = document.createElement('option');
+          opt.value='punk';
+          opt.textContent='Os Iniciantes do Punk';
+          projectMode.insertBefore(opt, projectMode.firstChild);
+        }
+        projectMode.value = 'punk';
+      }
+      const rules = $('continuityRules');
+      if(rules) rules.value = PUNK_DNA_V81;
+      const sideDna = $('sideDna');
+      if(sideDna) sideDna.textContent = PUNK_DNA_V81;
     }catch(e){}
   }
-  apply();
-  [100,700,1600,2600,3600,5200,8000].forEach(ms=>setTimeout(apply,ms));
+
+  const oldGoNode = window.goNode;
+  window.goNode = function(id){
+    if(id === 'nodes'){
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      let panel = $('tab-ai');
+      if(panel) panel.classList.add('active');
+      renderPunkNodeBoard();
+      if(typeof renderNodes === 'function') renderNodes();
+      return;
+    }
+    if(id === 'capcut'){
+      if(typeof oldGoNode === 'function') oldGoNode('export');
+      setTimeout(()=>highlightCapcutCards(),80);
+      return;
+    }
+    if(typeof oldGoNode === 'function') oldGoNode(id);
+    setTimeout(()=>{ if(id==='export') ensureShareButtons(); },120);
+  };
+
+  window.renderNodes = function(){
+    const nodes = [
+      { id:'setup', icon:'🎸', label:'1. Setup', status:'DNA Punk' },
+      { id:'storyboard', icon:'📚', label:'2. Storyboard', status:(window.state?.scenes?.length || 0) + ' cenas' },
+      { id:'nodes', icon:'🧠', label:'3. Nodes', status:'mapa da saga' },
+      { id:'scene', icon:'🎬', label:'4. Estúdio', status:'roteiro' },
+      { id:'capcut', icon:'🎞️', label:'5. CapCut', status:'motion book' },
+      { id:'ai', icon:'🤖', label:'6. Copilot', status:'diretor IA' },
+      { id:'export', icon:'📦', label:'7. Exportar', status:(window.state?.scenes?.every?.(s=>s.approved) ? 'pronto' : 'packs') }
+    ];
+    const activePanel = document.querySelector('.tab-panel.active')?.id?.replace('tab-','');
+    const html = nodes.map(n=>{
+      let active = n.id === activePanel;
+      if(n.id === 'nodes' && activePanel === 'ai' && document.body.classList.contains('node-board-open')) active = true;
+      if(n.id === 'capcut' && activePanel === 'export') active = false;
+      return `<div data-v81="true" class="node-btn ${active?'active node-punk-active':''}" onclick="goNode('${n.id}')">
+        <strong>${n.icon} ${n.label}</strong><small>${n.status}</small>
+      </div>`;
+    }).join('');
+    const bar = $('nodesBar');
+    if(bar) bar.innerHTML = html;
+  };
+
+  function renderPunkNodeBoard(){
+    document.body.classList.add('node-board-open');
+    const wrap = $('aiMessages');
+    if(!wrap) return;
+    wrap.innerHTML = `
+      <div class="punk-node-board">
+        <div class="section-title">🧠 Mapa de Nodes — Os Iniciantes do Punk <span class="badge">visão global</span></div>
+        <div class="notice notice-info">Use este painel para acompanhar a saga sem ficar perdido entre abas: cada node mostra uma etapa e seus atalhos principais.</div>
+        <div class="punk-node-grid">
+          <div class="punk-node-card"><h4>DNA Punk</h4><p>Elenco, objetos-símbolo, Caruaru, banda, curta e estilo underground.</p><button class="btn btn-sm btn-gold" onclick="goNode('setup')">Abrir Setup</button></div>
+          <div class="punk-node-card"><h4>Cenas</h4><p>Cena 1, Cena 2, Cena 3 e continuidade da saga.</p><button class="btn btn-sm btn-cyan" onclick="goNode('storyboard')">Abrir Storyboard</button></div>
+          <div class="punk-node-card"><h4>Página Viva</h4><p>Comic page, balões, grid, fatiamento e leitura visual.</p><button class="btn btn-sm" onclick="goNode('storyboard')">Preparar Página</button></div>
+          <div class="punk-node-card"><h4>Roteiro</h4><p>Narração, falas, ElevenLabs, SRT e editor IA.</p><button class="btn btn-sm btn-green" onclick="goNode('scene')">Abrir Estúdio</button></div>
+          <div class="punk-node-card"><h4>Ritmo</h4><p>Analisar ritmo da cena, tensão, ganchos e virada final.</p><button class="btn btn-sm btn-purple" onclick="quickDirectorPrompt('Analise o ritmo da cena atual e sugira melhorias para Os Iniciantes do Punk.')">Analisar</button></div>
+          <div class="punk-node-card"><h4>CapCut Book</h4><p>Voz, SFX, VFX, keyframes, cortes e transições cena por cena.</p><button class="btn btn-sm btn-gold" onclick="goNode('capcut')">Abrir Packs</button></div>
+          <div class="punk-node-card"><h4>Compartilhar</h4><p>Enviar roteiro, SRT, pacote, JSON e briefs para Drive/WhatsApp/Gmail.</p><button class="btn btn-sm btn-cyan" onclick="goNode('export')">Exportar</button></div>
+          <div class="punk-node-card"><h4>Próxima Cena</h4><p>Levar continuidade da cena aprovada para a próxima sem perder a saga.</p><button class="btn btn-sm btn-green" onclick="nextScene && nextScene()">Próxima</button></div>
+        </div>
+      </div>`;
+  }
+
+  window.quickDirectorPrompt = function(text){
+    if(typeof goNode === 'function') oldGoNode ? oldGoNode('ai') : null;
+    const input = $('aiInput');
+    if(input){ input.value = text; input.focus(); }
+  };
+
+  function highlightCapcutCards(){
+    document.querySelectorAll('.export-card').forEach(card=>{
+      const t = card.textContent || '';
+      if(/CapCut|SRT|Vídeo IA|Flow|Whisk|Fruits Comics|Storyboard/i.test(t)){
+        card.style.borderColor = 'rgba(217,231,58,.45)';
+      }
+    });
+    ensureShareButtons();
+  }
+
+  function cardText(card){
+    const title = card.querySelector('h4')?.textContent?.trim() || 'Exportação';
+    const desc = card.querySelector('p')?.textContent?.trim() || '';
+    let preview = '';
+    try{
+      if(title.includes('Roteiro') && typeof buildCleanScript === 'function') preview = buildCleanScript();
+      if(title.includes('SRT') && typeof buildProjectSrt === 'function') preview = buildProjectSrt();
+    }catch(e){}
+    return `${title}\n${desc}\n\n${preview || 'Pacote gerado no Fruits Adventures: Os Iniciantes do Punk.'}`;
+  }
+
+  window.shareAnyTextV81 = async function(title, text){
+    try{
+      if(navigator.share){
+        await navigator.share({title, text});
+      }else if(navigator.clipboard){
+        await navigator.clipboard.writeText(text);
+        alert('Conteúdo copiado. Agora você pode colar no Drive, WhatsApp ou Gmail.');
+      }else{
+        alert(text);
+      }
+    }catch(e){}
+  };
+
+  window.shareExportCardV81 = function(btn){
+    const card = btn.closest('.export-card');
+    const title = card?.querySelector('h4')?.textContent?.trim() || 'Fruits Adventures';
+    shareAnyTextV81(title, cardText(card));
+  };
+
+  function ensureShareButtons(){
+    document.querySelectorAll('.export-card').forEach(card=>{
+      if(card.querySelector('.btn-share-v81')) return;
+      const b = document.createElement('button');
+      b.className = 'btn btn-sm btn-cyan btn-share-v81';
+      b.type = 'button';
+      b.textContent = '☁️ Compartilhar';
+      b.onclick = function(){ shareExportCardV81(b); };
+      card.appendChild(b);
+    });
+  }
+
+  function forceExportCardNames(){
+    document.querySelectorAll('.export-card h4').forEach(h=>{
+      h.innerHTML = h.innerHTML
+        .replace('Fruits Comics Book','Os Iniciantes do Punk')
+        .replace('CapCut Studio','CapCut Motion Book');
+    });
+  }
+
+  function applyAll(){
+    forceLabels();
+    migratePunkState();
+    if(typeof window.renderNodes === 'function') window.renderNodes();
+    ensureShareButtons();
+    forceExportCardNames();
+  }
+
+  document.addEventListener('DOMContentLoaded', applyAll);
+  applyAll();
+  setTimeout(applyAll,100);
+  setTimeout(applyAll,700);
+  setTimeout(applyAll,1900);
+  setTimeout(applyAll,3200);
+  const timer = setInterval(applyAll, 1200);
+  setTimeout(()=>clearInterval(timer), 12000);
+
+  try{
+    const obs = new MutationObserver(()=>{ forceLabels(); ensureShareButtons(); forceExportCardNames(); });
+    obs.observe(document.body,{childList:true,subtree:true});
+  }catch(e){}
 })();
 </script>
 
 </body>
-<!-- HOTFIX V8.1 PUNK CHARACTERS: arquivo atual para substituir index.html -->
 </html>
