@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures: Os Iniciantes do Punk — V8.2 Lite Performance</title>
+<title>Fruits Adventures: Os Iniciantes do Punk — V8.2.1 Boot Fix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -502,11 +502,30 @@ body.app-error #bootLoader .bar{display:none;}
 .radio-divider{height:1px;background:rgba(255,255,255,.08);margin:10px 0;}#radioAudioPlayer{width:100%;height:32px;margin-top:6px;}.radio-volume{width:100%;}.radio-note{font-size:9.5px;color:#8d98ad;line-height:1.45;margin-top:8px;}
 @media(max-width:740px){.portal-creator-badge{flex-direction:column}.portal-signature{text-align:center}.portal-tools{flex-direction:column}}
 
+/* V8.2.1 — BOOT FAILSAFE: evita travar eternamente na tela de carregamento */
+#bootLoader{animation:bootFailsafeHideV821 .01s linear 3.2s forwards;}
+body.app-ready #bootLoader{animation:none;display:none!important;}
+body.app-error #bootLoader{animation:none;display:grid!important;}
+@keyframes bootFailsafeHideV821{to{opacity:0;visibility:hidden;pointer-events:none;}}
+
 </style>
 </head>
 <body>
 
-<div id="bootLoader"><div class="boot-box"><strong>Carregando Fruits Studio V8.2</strong><p>Otimizando interface, nodes, cache local e módulos de produção. Se aparecer erro, use “Limpar cache do projeto”.</p><div class="bar"><span></span></div></div></div>
+<div id="bootLoader"><div class="boot-box"><strong>Carregando Fruits Studio V8.2.1</strong><p>Otimizando interface, nodes, cache local e módulos de produção. Se aparecer erro, use “Limpar cache do projeto”.</p><div class="bar"><span></span></div></div></div>
+
+<script>
+(function(){
+  function bootOpen(){
+    if (!document.body.classList.contains('app-ready') && !document.body.classList.contains('app-error')) {
+      document.body.classList.add('app-ready');
+      console.warn('V8.2.1 Boot Failsafe: loader liberado automaticamente.');
+    }
+  }
+  window.__fruitsBootFailsafe = setTimeout(bootOpen, 3200);
+  window.addEventListener('load', function(){ setTimeout(bootOpen, 600); });
+})();
+</script>
 
 <div id="portal">
   <div class="portal-box portal-box-apoc portal-clean-card">
@@ -2127,6 +2146,7 @@ function showBootErrorV82(err) {
 }
 
 function finishBootV82() {
+  try { if (window.__fruitsBootFailsafe) clearTimeout(window.__fruitsBootFailsafe); } catch(e) {}
   document.body.classList.remove('app-error');
   document.body.classList.add('app-ready');
 }
