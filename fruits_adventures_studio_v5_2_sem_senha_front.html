@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V8.1 Punk Nodes Full</title>
+<title>Fruits Adventures Studio — V8.2 Final Portal com Senha</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -2149,6 +2149,20 @@ body{
 .portal-clean-card .portal-subtext{max-width:470px!important;}
 .portal-clean-card .portal-services span{white-space:nowrap;}
 
+/* V8.3 — PORTAL LOGIN DUPLO + HERO PUNK */
+.portal-punk-hero{
+  display:flex;align-items:center;justify-content:center;
+  width:112px;height:112px;margin:6px auto 18px;border-radius:28px;
+  background:radial-gradient(circle at 30% 25%, rgba(255,255,255,.34), transparent 24%), linear-gradient(145deg,#d7e73d,#a74431 58%,#111827);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 18px 34px rgba(0,0,0,.32);
+  font-size:48px;
+}
+.portal-login-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.portal-login-grid .portal-label{margin-bottom:4px;}
+.portal-login-note{margin-top:8px;color:#95a0b4;font-size:11px;line-height:1.5;}
+
+
 
 /* V8.0 — OS INICIANTES DO PUNK / INTERNAL SITE */
 :root{
@@ -2347,50 +2361,61 @@ body{
   .punk-node-grid{grid-template-columns:1fr;}
 }
 
+
+/* V8.2 FINAL — PORTAL COM SENHA PRIVADA */
+.portal-access-card{
+  margin:0 0 16px !important;
+  text-align:left;
+}
+.portal-access-card div{
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+.portal-access-card div:last-child{border-bottom:none;}
+
 </style>
 </head>
 <body>
 
 <div id="portal">
   <div class="portal-box portal-box-apoc portal-clean-card">
-    <div class="portal-issue">PORTAL DO CRIADOR • CARTÃO DE VISITA</div>
+    <div class="portal-issue">PORTAL ZOMBIE PUNK • ACESSO PROTEGIDO</div>
+
+    <div class="portal-punk-hero">🍅🎸☠️</div>
 
     <div class="portal-creator-badge">
-      <div class="portal-avatar">EM</div>
       <div>
-        <div class="portal-logo">FRUITS ADVENTURES<br><span>COMIC STUDIO</span></div>
-        <div class="portal-signature">Storyboard • HQ Viva • Motion Comic • CapCut</div>
+        <div class="portal-logo" style="text-align:center !important;">FRUITS ADVENTURES<br><span>ZOMBIE PUNK STUDIO</span></div>
+        <div class="portal-signature" style="text-align:center;">Tomate zombie • guitarra punk • storyboard • motion comic</div>
       </div>
     </div>
 
-    <h2>Elinaldo Menezes</h2>
+    <h2>Acesso do Portal</h2>
     <p class="portal-subtext">
-      Criador, produtor e estudante de Design de Animação, desenvolvendo um estúdio autoral para transformar ideias em storyboard, comic book, narração, SRT e produção 2D.
+      Entre com seu login e sua senha para acessar o studio. O cartão de visita fica visual e limpo, sem expor a senha na tela.
     </p>
 
-    <div class="portal-meta-card portal-business-card">
-      <div><strong>Nome:</strong> Elinaldo Menezes de Medeiros</div>
-      <div><strong>Função:</strong> Criador • Produtor • Diretor Criativo</div>
-      <div><strong>Formação:</strong> Estudante de Design de Animação</div>
-      <div><strong>Instituição:</strong> Unicesumar</div>
-      <div><strong>Base:</strong> Caruaru • Pernambuco • Brasil</div>
-      <div><strong>Projeto:</strong> Fruits Adventures Comic Studio</div>
-    </div>
-
     <div class="portal-services">
+      <span>Tomate Zombie</span>
+      <span>Guitarra Punk</span>
       <span>Storyboard</span>
-      <span>Comic Book</span>
-      <span>2D Motion</span>
       <span>CapCut Book</span>
     </div>
 
-    <div class="portal-label">Acesso do portal</div>
-    <input id="portalInput" class="portal-input" type="password" placeholder="Digite sua chave de acesso" autocomplete="current-password"/>
-    <div id="portalErr" class="portal-err">Chave de acesso incorreta.</div>
-    <button class="btn btn-gold portal-enter-btn" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Portal</button>
+    <div class="portal-login-grid">
+      <div>
+        <div class="portal-label">Login</div>
+        <input id="portalUserInput" class="portal-input" type="text" placeholder="Digite seu login" autocomplete="username" onkeydown="if(event.key==='Enter') document.getElementById('portalPassInput')?.focus()"/>
+      </div>
+      <div>
+        <div class="portal-label">Senha</div>
+        <input id="portalPassInput" class="portal-input" type="password" placeholder="Digite sua senha" autocomplete="current-password" onkeydown="if(event.key==='Enter') unlockPortal()"/>
+      </div>
+    </div>
+    <div id="portalErr" class="portal-err">Login ou senha inválidos.</div>
+    <button class="btn btn-gold portal-enter-btn" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Studio</button>
 
     <div class="portal-footer-note">
-      Cartão de visita criativo do Fruits Adventures: produção autoral, visual apocalíptico, roteiro, storyboard, voz, SRT e CapCut Motion Book.
+      Acesso protegido do Fruits Adventures Studio com visual zombie punk e entrada por login + senha.
     </div>
   </div>
 </div>
@@ -2458,7 +2483,7 @@ body{
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.1 Punk Nodes + Compartilhar</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.2 Final Portal Seguro</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -2470,7 +2495,7 @@ body{
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.1 ativo: Os Iniciantes do Punk — nodes atualizados, compartilhar em todos os exports e botão Sair restaurado.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V8.2 final ativo: portal com senha privada, cartão portal com senha exposta, nodes rápidos e exportações com compartilhar.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -2760,20 +2785,60 @@ Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, v
 // ═══════════════════════════════════════════════
 // PORTAL & CORE STATE
 // ═══════════════════════════════════════════════
+const PORTAL_USER_HASH = 'd3dc88ae24a3be59843285c31e59c42286e0724f6698aad5e14217416ab05c25';
+const PORTAL_PASS_HASH = '14af3fcc4dec1500710bfc308a0684a8be31cbb21cd97683fb767e13e627adf1';
+async function sha256Text(text) {
+  const data = new TextEncoder().encode(String(text || ''));
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 function initPortal() {
   const el = document.getElementById('portal');
-  if (el) el.classList.add('hidden'); // Segurança removida pro HTML rodar fácil
+  if (!el) return;
+  try {
+    if (localStorage.getItem('mega_studio_github_login_ok') === '1') {
+      el.classList.add('hidden');
+      return;
+    }
+  } catch(e) {}
+  el.classList.remove('hidden');
+  setTimeout(() => document.getElementById('portalUserInput')?.focus(), 80);
 }
-function unlockPortal() {
+async function unlockPortal() {
   const el = document.getElementById('portal');
-  if (el) el.classList.add('hidden');
+  const userInput = document.getElementById('portalUserInput');
+  const passInput = document.getElementById('portalPassInput');
+  const err = document.getElementById('portalErr');
+  const typedUser = userInput ? userInput.value.trim() : '';
+  const typedPass = passInput ? passInput.value.trim() : '';
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'studio-portal-login-attempt' }, '*');
+    }
+  } catch(e) {}
+  const ok = typedUser && typedPass && (await sha256Text(typedUser) === PORTAL_USER_HASH) && (await sha256Text(typedPass) === PORTAL_PASS_HASH);
+  if (ok) {
+    try { localStorage.setItem('mega_studio_github_login_ok', '1'); } catch(e) {}
+    if (err) err.classList.remove('show');
+    if (userInput) userInput.value = '';
+    if (passInput) passInput.value = '';
+    if (el) el.classList.add('hidden');
+    return;
+  }
+  if (err) err.classList.add('show');
+  if (passInput) passInput.value = '';
+  if (typedUser) {
+    passInput?.focus();
+  } else {
+    userInput?.focus();
+  }
 }
 function lockPortal() {
   try { window.parent.postMessage({ type: 'studio-logout' }, '*'); } catch(e) {}
   try { localStorage.removeItem('mega_studio_github_login_ok'); } catch(e) {}
   const el = document.getElementById('portal');
-  if (window.parent && window.parent !== window) { return; }
   if (el) el.classList.remove('hidden');
+  setTimeout(() => document.getElementById('portalUserInput')?.focus(), 80);
 }
 
 const STORAGE_KEY = 'mega_studio_claude_director_state_v6';
@@ -5455,7 +5520,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = 'FRUITS ADVENTURES COMIC STUDIO V7.1';
     const strip = document.getElementById('terminalStrip');
-    if (strip) strip.textContent = 'Engine V8.1 ativo: Os Iniciantes do Punk — nodes atualizados, compartilhar em todos os exports e botão Sair restaurado.';
+    if (strip) strip.textContent = 'Engine V8.2 final ativo: portal com senha privada, cartão portal com senha exposta, nodes rápidos e exportações com compartilhar.';
   }
 
   function setupNow(){
@@ -5599,27 +5664,25 @@ Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, v
   function cleanPortal() {
     document.querySelectorAll('.portal-hint').forEach(el=>el.remove());
     const portal = document.querySelector('#portal .portal-box');
-    if(portal && (portal.textContent.includes('Login padrão') || portal.textContent.includes('fruits2026'))) {
-      portal.innerHTML = `<div class="portal-issue">PORTAL DO CRIADOR • CARTÃO DE VISITA</div>
-      <div class="portal-creator-badge"><div class="portal-avatar">EM</div><div><div class="portal-logo">FRUITS ADVENTURES<br><span>COMIC STUDIO</span></div><div class="portal-signature">Storyboard • HQ Viva • Motion Comic • CapCut</div></div></div>
-      <h2>Elinaldo Menezes</h2>
-      <p class="portal-subtext">Criador, produtor e estudante de Design de Animação, desenvolvendo um estúdio autoral para transformar ideias em storyboard, comic book, narração, SRT e produção 2D.</p>
-      <div class="portal-meta-card portal-business-card">
-        <div><strong>Nome:</strong> Elinaldo Menezes de Medeiros</div>
-        <div><strong>Função:</strong> Criador • Produtor • Diretor Criativo</div>
-        <div><strong>Projeto:</strong> Fruits Adventures Comic Studio</div>
+    if(portal && (portal.textContent.includes('Login padrão') || portal.textContent.includes('Acesso liberado'))) {
+      portal.innerHTML = `<div class="portal-issue">PORTAL ZOMBIE PUNK • ACESSO PROTEGIDO</div>
+      <div class="portal-punk-hero">🍅🎸☠️</div>
+      <div class="portal-creator-badge"><div><div class="portal-logo" style="text-align:center !important;">FRUITS ADVENTURES<br><span>ZOMBIE PUNK STUDIO</span></div><div class="portal-signature" style="text-align:center;">Tomate zombie • guitarra punk • storyboard • motion comic</div></div></div>
+      <h2>Acesso do Portal</h2>
+      <p class="portal-subtext">Entre com seu login e sua senha para acessar o studio. O cartão de visita fica visual e limpo, sem expor a senha na tela.</p>
+      <div class="portal-services"><span>Tomate Zombie</span><span>Guitarra Punk</span><span>Storyboard</span><span>CapCut Book</span></div>
+      <div class="portal-login-grid">
+        <div><div class="portal-label">Login</div><input id="portalUserInput" class="portal-input" type="text" placeholder="Digite seu login" autocomplete="username" onkeydown="if(event.key==='Enter') document.getElementById('portalPassInput')?.focus()"/></div>
+        <div><div class="portal-label">Senha</div><input id="portalPassInput" class="portal-input" type="password" placeholder="Digite sua senha" autocomplete="current-password" onkeydown="if(event.key==='Enter') unlockPortal()"/></div>
       </div>
-      <div class="portal-services"><span>Storyboard</span><span>Comic Book</span><span>2D Motion</span><span>CapCut Book</span></div>
-      <div class="portal-label">Acesso do portal</div>
-      <input id="portalInput" class="portal-input" type="password" placeholder="Digite sua chave de acesso" autocomplete="current-password"/>
-      <div id="portalErr" class="portal-err">Chave de acesso incorreta.</div>
-      <button class="btn btn-gold portal-enter-btn" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Portal</button>`;
+      <div id="portalErr" class="portal-err">Login ou senha inválidos.</div>
+      <button class="btn btn-gold portal-enter-btn" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Studio</button>`;
     }
   }
 
   // 2. Força Labels e UI
   function forceLabels() {
-    document.title = 'Fruits Adventures: Os Iniciantes do Punk — V8.2 Studio Nodes';
+    document.title = 'Fruits Adventures: Zombie Punk Studio — V8.3 Login';
     const brand = document.querySelector('.topbar-brand');
     if(brand) brand.innerHTML = '🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.2 Punk Nodes + Story Maker</span>';
 
