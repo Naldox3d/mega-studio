@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V8.5 Hellipunk Writer Room</title>
+<title>Fruits Adventures Studio — V8.7 Hellipunk Writer Room — Storyboard Limpo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -3278,7 +3278,7 @@ body::before {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.5 Writer Room</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.7 Storyboard Limpo</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3290,7 +3290,7 @@ body::before {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.5 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V8.7 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -7291,6 +7291,454 @@ ${base}
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootRaimi); else bootRaimi();
   setTimeout(bootRaimi, 900);
+})();
+</script>
+
+
+<!-- =========================================================
+     V8.7 — STORYBOARD LIMPO + EDITOR EXPANDIDO DA CENA
+     Troca campos grandes por botões e popup/banner amplo.
+     ========================================================= -->
+<style>
+.storyboard-card.storyboard-compact-v87{
+  grid-template-columns: 210px minmax(0,1fr) 180px !important;
+  align-items: stretch !important;
+  min-height: 188px !important;
+}
+.storyboard-compact-v87 .sb-image-box{
+  height: 166px !important;
+}
+.sb-compact-main-v87{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-width:0;
+}
+.sb-title-row-v87{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.sb-title-row-v87 strong{
+  color:var(--cyan);
+  font-size:16px;
+  letter-spacing:.02em;
+}
+.sb-status-pill-v87{
+  flex:0 0 auto;
+  border:1px solid rgba(116,217,154,.28);
+  color:#bfffd6;
+  background:rgba(116,217,154,.08);
+  border-radius:999px;
+  padding:4px 8px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+.sb-preview-grid-v87{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.sb-preview-box-v87{
+  min-height:92px;
+  border:1px solid var(--desktop-border, rgba(255,255,255,.10));
+  background:#0b1020;
+  border-radius:12px;
+  padding:10px;
+  overflow:hidden;
+}
+.sb-preview-box-v87 label{
+  display:block;
+  margin-bottom:6px;
+  color:#e8c989;
+  font-size:9.5px;
+  letter-spacing:.12em;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.sb-preview-text-v87{
+  color:#dce7ff;
+  font-size:12px;
+  line-height:1.45;
+  max-height:54px;
+  overflow:hidden;
+  white-space:pre-wrap;
+}
+.sb-preview-empty-v87{
+  color:#8792aa;
+  font-style:italic;
+}
+.sb-quick-row-v87{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:auto;
+}
+.sb-actions-v87{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  align-self:stretch;
+}
+.sb-actions-v87 .btn{
+  justify-content:center;
+}
+.scene-editor-overlay-v87{
+  position:fixed;
+  inset:0;
+  z-index:10020;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(0,0,0,.76);
+  backdrop-filter:blur(10px);
+}
+.scene-editor-overlay-v87.open{
+  display:flex;
+}
+.scene-editor-modal-v87{
+  width:min(1040px, 100%);
+  max-height:90vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid rgba(214,173,104,.36);
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)), #0d1220;
+  box-shadow:0 28px 90px rgba(0,0,0,.56);
+}
+.scene-editor-head-v87{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 16px;
+  background:#0b1020;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+.scene-editor-head-v87 h3{
+  margin:0 0 4px;
+  color:#e8c989;
+  font-family:'Syne', sans-serif;
+  font-size:16px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.scene-editor-head-v87 p{
+  margin:0;
+  color:#9aa4b8;
+  font-size:12px;
+  line-height:1.45;
+}
+.scene-editor-body-v87{
+  padding:14px 16px;
+  overflow:auto;
+  display:grid;
+  grid-template-columns: minmax(0,1fr) 240px;
+  gap:12px;
+}
+.scene-editor-text-v87{
+  width:100%;
+  min-height:420px;
+  resize:vertical;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  padding:14px;
+  background:#070b15;
+  color:#f0f4ff;
+  font-family:'Space Mono', monospace;
+  font-size:13px;
+  line-height:1.65;
+  outline:none;
+}
+.scene-editor-text-v87:focus{
+  border-color:rgba(214,173,104,.52);
+  box-shadow:0 0 0 3px rgba(214,173,104,.06);
+}
+.scene-editor-side-v87{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.scene-editor-help-v87{
+  border:1px solid rgba(101,217,210,.20);
+  background:rgba(101,217,210,.07);
+  color:#bffcf8;
+  border-radius:12px;
+  padding:10px;
+  font-size:11px;
+  line-height:1.45;
+}
+.scene-editor-foot-v87{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:12px 16px;
+  border-top:1px solid rgba(255,255,255,.10);
+  background:#0b1020;
+}
+.scene-editor-foot-v87 .btn{
+  min-width:120px;
+  justify-content:center;
+}
+@media(max-width:1100px){
+  .storyboard-card.storyboard-compact-v87{ grid-template-columns:170px minmax(0,1fr) !important; }
+  .sb-actions-v87{ grid-column:1 / -1; flex-direction:row; flex-wrap:wrap; }
+}
+@media(max-width:760px){
+  .storyboard-card.storyboard-compact-v87{ grid-template-columns:1fr !important; }
+  .sb-preview-grid-v87{ grid-template-columns:1fr; }
+  .scene-editor-body-v87{ grid-template-columns:1fr; }
+  .scene-editor-text-v87{ min-height:330px; }
+  .scene-editor-foot-v87 .btn{ width:100%; }
+}
+</style>
+
+<div id="sceneTextEditorOverlayV87" class="scene-editor-overlay-v87" onclick="if(event.target===this) closeSceneTextEditorV87()">
+  <div class="scene-editor-modal-v87" role="dialog" aria-modal="true" aria-labelledby="sceneTextEditorTitleV87">
+    <div class="scene-editor-head-v87">
+      <div>
+        <h3 id="sceneTextEditorTitleV87">Editor Expandido da Cena</h3>
+        <p id="sceneTextEditorSubV87">Cole, revise e salve o texto no card sem poluir o storyboard.</p>
+      </div>
+      <button class="btn btn-sm btn-pink" onclick="closeSceneTextEditorV87()">Fechar</button>
+    </div>
+    <div class="scene-editor-body-v87">
+      <textarea id="sceneTextEditorAreaV87" class="scene-editor-text-v87" placeholder="Cole ou edite aqui..."></textarea>
+      <div class="scene-editor-side-v87">
+        <div class="scene-editor-help-v87" id="sceneTextEditorHelpV87">Use este painel para editar com calma. Depois clique em Salvar na Cena.</div>
+        <button class="btn btn-gold" onclick="saveSceneTextEditorV87()">💾 Salvar na Cena</button>
+        <button class="btn btn-cyan" onclick="pasteIntoSceneTextEditorV87()">📋 Colar do Clipboard</button>
+        <button class="btn" onclick="copySceneTextEditorV87()">📄 Copiar texto</button>
+        <button class="btn btn-purple" onclick="improveSceneTextWithAI_V87()">🤖 Melhorar com IA</button>
+        <button class="btn btn-cyan" onclick="makeShortSceneTextV87()">✂️ Versão curta</button>
+        <button class="btn btn-pink" onclick="clearSceneTextEditorV87()">🧹 Limpar</button>
+      </div>
+    </div>
+    <div class="scene-editor-foot-v87">
+      <button class="btn btn-green" onclick="saveSceneTextEditorV87(); closeSceneTextEditorV87();">✓ Salvar e fechar</button>
+      <button class="btn btn-purple" onclick="generateRaimiVisualPromptV87()">🎥 Prompt Raimi-Cam</button>
+      <button class="btn btn-cyan" onclick="runVisualBlueprintFromEditorV87()">🎨 Guia Visual IA</button>
+      <button class="btn" onclick="runImageAnalysisFromEditorV87()">👁️ Analisar Imagem</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const EDITOR = { idx: 0, field: 'summary' };
+  function byId(id){ return document.getElementById(id); }
+  function sceneAt(idx){ return (window.state && window.state.scenes && window.state.scenes[idx]) ? window.state.scenes[idx] : null; }
+  function esc(v){ return (typeof window.htmlEscape === 'function') ? window.htmlEscape(v || '') : String(v || '').replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]); }); }
+  function toast(msg, type){ if(typeof window.log === 'function') window.log(msg, type || 'ok'); else console.log(msg); }
+  function persist(){ if(typeof window.saveState === 'function') window.saveState(); }
+  function previewText(text, empty){
+    text = String(text || '').trim();
+    if(!text) return '<span class="sb-preview-empty-v87">' + esc(empty || 'Clique para escrever.') + '</span>';
+    return esc(text.length > 260 ? text.slice(0,260) + '...' : text);
+  }
+  function ensureSceneSchema(){
+    if(!window.state || !Array.isArray(window.state.scenes)) return;
+    window.state.scenes.forEach(function(s, i){
+      if(!s.title) s.title = 'Cena ' + (i + 1);
+      if(typeof s.summary !== 'string') s.summary = '';
+      if(typeof s.visualPrompt !== 'string') s.visualPrompt = '';
+      if(typeof s.visualAnalysis !== 'string') s.visualAnalysis = '';
+      if(typeof s.text !== 'string') s.text = '';
+    });
+  }
+
+  window.renderStoryboard = function(){
+    ensureSceneSchema();
+    const container = byId('storyboardContainer');
+    if(!container) return;
+    if(!window.state || !window.state.scenes || !window.state.scenes.length){
+      container.innerHTML = '<p>Nenhuma cena adicionada.</p>';
+      return;
+    }
+    container.innerHTML = window.state.scenes.map(function(s, i){
+      const img = s.image ? '<img src="' + s.image.data + '"> <button class="btn btn-sm btn-pink" style="position:absolute;top:4px;right:4px;" onclick="removeImage(' + i + ')">X</button>' : '<div class="sb-image-placeholder">+ Imagem de Referência<br>Clique aqui para subir<br>um frame da cena</div><input type="file" accept="image/*" onchange="handleImageUpload(event, ' + i + ')">';
+      const approved = s.approved ? 'APROVADA' : 'EM PRODUÇÃO';
+      return `
+      <div class="storyboard-card storyboard-compact-v87">
+        <div class="sb-image-box">${img}</div>
+        <div class="sb-compact-main-v87">
+          <div class="sb-title-row-v87"><strong>${esc(s.title)}</strong><span class="sb-status-pill-v87">${approved}</span></div>
+          <div class="sb-preview-grid-v87">
+            <div class="sb-preview-box-v87">
+              <label>Resumo da ação</label>
+              <div class="sb-preview-text-v87">${previewText(s.summary, 'Sem descrição. Clique em Descrição para colar ou escrever.')}</div>
+            </div>
+            <div class="sb-preview-box-v87">
+              <label>Guia visual</label>
+              <div class="sb-preview-text-v87">${previewText(s.visualPrompt, 'Sem guia visual. Clique em Guia Visual para colar prompt ou gerar.')}</div>
+            </div>
+          </div>
+          ${s.visualAnalysis ? '<div class="notice notice-ok" style="margin:0;"><strong>Análise da referência:</strong><br>' + esc(String(s.visualAnalysis).slice(0,280)) + (String(s.visualAnalysis).length > 280 ? '...' : '') + '</div>' : ''}
+          <div class="sb-quick-row-v87">
+            <button class="btn btn-sm btn-gold" onclick="openSceneTextEditorV87(${i}, 'summary')">📝 Descrição</button>
+            <button class="btn btn-sm btn-purple" onclick="openSceneTextEditorV87(${i}, 'visualPrompt')">🎨 Guia Visual</button>
+            <button class="btn btn-sm" onclick="openSceneFullPreviewV87(${i})">👁️ Ver completo</button>
+            <button class="btn btn-sm btn-cyan" onclick="copySceneFieldV87(${i}, 'visualPrompt')">📋 Copiar guia</button>
+          </div>
+        </div>
+        <div class="sb-actions-v87">
+          <button class="btn btn-sm btn-purple" onclick="generateVisualBlueprint(${i})">🎨 Guia IA</button>
+          <button class="btn btn-sm" onclick="analyzeSceneImage(${i})">👁️ Analisar imagem</button>
+          <button class="btn btn-sm btn-cyan" onclick="generateRaimiVisualPromptForSceneV87(${i})">🎥 Raimi Visual</button>
+          <button class="btn btn-sm btn-green" onclick="selectScene(${i})">🎬 Ir pro Estúdio</button>
+          <button class="btn btn-sm btn-pink" onclick="deleteScene(${i})">🗑️ Excluir</button>
+        </div>
+      </div>`;
+    }).join('');
+  };
+
+  window.openSceneTextEditorV87 = function(idx, field){
+    ensureSceneSchema();
+    const s = sceneAt(idx);
+    if(!s) return;
+    EDITOR.idx = idx;
+    EDITOR.field = field || 'summary';
+    const isVisual = EDITOR.field === 'visualPrompt';
+    byId('sceneTextEditorTitleV87').textContent = (isVisual ? 'Editor do Guia Visual — ' : 'Editor da Descrição — ') + (s.title || ('Cena ' + (idx + 1)));
+    byId('sceneTextEditorSubV87').textContent = isVisual ? 'Prompt de imagem/render: estética, câmera, luz, cenário, composição, formato e restrições.' : 'Resumo da ação: o que acontece na história, em linguagem simples e direta para a IA transformar em roteiro.';
+    byId('sceneTextEditorHelpV87').innerHTML = isVisual ? 'Cole aqui prompts longos para imagem. Use <strong>Prompt Raimi-Cam</strong> para gerar uma versão caótica/terror cômico autoral.' : 'Escreva o acontecimento principal da cena. Depois o Estúdio usa este texto junto com a imagem e o guia visual.';
+    byId('sceneTextEditorAreaV87').value = s[EDITOR.field] || '';
+    byId('sceneTextEditorOverlayV87').classList.add('open');
+    setTimeout(function(){ byId('sceneTextEditorAreaV87').focus(); }, 60);
+  };
+
+  window.closeSceneTextEditorV87 = function(){
+    const o = byId('sceneTextEditorOverlayV87');
+    if(o) o.classList.remove('open');
+  };
+
+  window.saveSceneTextEditorV87 = function(){
+    const s = sceneAt(EDITOR.idx);
+    if(!s) return;
+    s[EDITOR.field] = byId('sceneTextEditorAreaV87').value;
+    persist();
+    if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
+    if(typeof window.loadStudioView === 'function' && window.state.currentScene === EDITOR.idx) window.loadStudioView();
+    toast((EDITOR.field === 'visualPrompt' ? 'Guia visual' : 'Descrição') + ' salva na ' + (s.title || 'cena') + '.', 'ok');
+  };
+
+  window.copySceneTextEditorV87 = function(){
+    const txt = byId('sceneTextEditorAreaV87').value || '';
+    if(navigator.clipboard) navigator.clipboard.writeText(txt);
+    toast('Texto copiado.', 'ok');
+  };
+
+  window.pasteIntoSceneTextEditorV87 = async function(){
+    try{
+      if(!navigator.clipboard || !navigator.clipboard.readText) throw new Error('Clipboard indisponível neste navegador.');
+      const txt = await navigator.clipboard.readText();
+      byId('sceneTextEditorAreaV87').value = txt;
+      toast('Texto colado no editor expandido.', 'ok');
+    }catch(e){ alert('Não consegui colar automaticamente. Cole manualmente com Ctrl+V ou toque e segure: ' + e.message); }
+  };
+
+  window.clearSceneTextEditorV87 = function(){
+    if(confirm('Limpar o texto deste editor?')) byId('sceneTextEditorAreaV87').value = '';
+  };
+
+  window.makeShortSceneTextV87 = function(){
+    const area = byId('sceneTextEditorAreaV87');
+    const txt = String(area.value || '').replace(/\s+/g, ' ').trim();
+    if(!txt) return;
+    area.value = txt.slice(0, 520) + (txt.length > 520 ? '...' : '');
+    toast('Versão curta criada no editor. Revise antes de salvar.', 'ok');
+  };
+
+  window.copySceneFieldV87 = function(idx, field){
+    const s = sceneAt(idx);
+    if(!s) return;
+    const txt = s[field] || '';
+    if(navigator.clipboard) navigator.clipboard.writeText(txt);
+    toast((field === 'visualPrompt' ? 'Guia visual' : 'Texto') + ' copiado.', 'ok');
+  };
+
+  window.openSceneFullPreviewV87 = function(idx){
+    const s = sceneAt(idx);
+    if(!s) return;
+    const out = '=== ' + (s.title || 'Cena') + ' ===\n\nRESUMO DA AÇÃO:\n' + (s.summary || '—') + '\n\nGUIA VISUAL:\n' + (s.visualPrompt || '—') + '\n\nANÁLISE DA IMAGEM:\n' + (s.visualAnalysis || '—');
+    if(typeof window.openModal === 'function') window.openModal('Cena completa — ' + (s.title || ''), 'Resumo, guia visual e análise em uma tela.', out, 'cena_completa_' + (idx+1) + '.txt');
+    else alert(out);
+  };
+
+  function localRaimiPrompt(s){
+    const base = (s.visualPrompt || s.summary || '').trim();
+    return `Cena em garagem punk underground de Caruaru, noite, estética zombie punk comic adulta, terror exagerado com humor sombrio, câmera POV da força maligna atravessando o cenário, ângulo holandês, lente grande angular distorcida, luz fluorescente piscando, sombras agressivas, guitarra voando sozinha, claquete batendo no chão, câmera Sony HD100 ligada sem bateria, Tomate Elinaldo assustado no centro, cabos se mexendo como tentáculos, objetos tremendo, poeira no ar, energia caótica, splatstick visual sem gore realista explícito, composição cinematográfica vertical 9:16, motion comic adulto, textura suja, alto contraste, sem texto na imagem, sem logos, sem copiar personagens, cenas ou franquias.\n\nBASE DA CENA:\n${base || 'Use a descrição da cena como base visual.'}`;
+  }
+
+  window.generateRaimiVisualPromptForSceneV87 = function(idx){
+    const s = sceneAt(idx);
+    if(!s) return;
+    s.visualPrompt = localRaimiPrompt(s);
+    persist();
+    window.renderStoryboard();
+    window.openSceneTextEditorV87(idx, 'visualPrompt');
+    toast('Prompt visual Raimi-Cam criado no Guia Visual.', 'ok');
+  };
+
+  window.generateRaimiVisualPromptV87 = function(){
+    const s = sceneAt(EDITOR.idx);
+    if(!s) return;
+    byId('sceneTextEditorAreaV87').value = localRaimiPrompt(s);
+    EDITOR.field = 'visualPrompt';
+    byId('sceneTextEditorTitleV87').textContent = 'Editor do Guia Visual — ' + (s.title || 'Cena');
+    toast('Prompt Raimi-Cam colocado no editor. Clique em Salvar na Cena.', 'ok');
+  };
+
+  window.runVisualBlueprintFromEditorV87 = function(){
+    saveSceneTextEditorV87();
+    if(typeof window.generateVisualBlueprint === 'function') window.generateVisualBlueprint(EDITOR.idx);
+  };
+
+  window.runImageAnalysisFromEditorV87 = function(){
+    saveSceneTextEditorV87();
+    if(typeof window.analyzeSceneImage === 'function') window.analyzeSceneImage(EDITOR.idx);
+  };
+
+  window.improveSceneTextWithAI_V87 = async function(){
+    const s = sceneAt(EDITOR.idx);
+    if(!s) return;
+    if(!window.state.api || (!window.state.api.apiKey && window.state.api.callMode !== 'backend')){
+      toast('Configure API ou Backend para usar Melhorar com IA.', 'warn');
+      return;
+    }
+    const area = byId('sceneTextEditorAreaV87');
+    const isVisual = EDITOR.field === 'visualPrompt';
+    const original = area.value.trim();
+    if(!original && !s.summary){ toast('Escreva algo primeiro.', 'warn'); return; }
+    area.value = '🤖 Melhorando com IA... aguarde.';
+    try{
+      const prompt = isVisual
+        ? `Transforme este guia visual em um prompt profissional para gerar imagem/render. Preserve o DNA Fruits Adventures, estética Hellipunk, Caruaru, storyboard adulto e não copie obras protegidas. Entregue em português, direto para colar em gerador de imagem.\n\nRESUMO DA CENA:\n${s.summary || ''}\n\nGUIA ATUAL:\n${original}`
+        : `Melhore este resumo de ação para storyboard. Deixe claro o que acontece, quem age, emoção, perigo, começo/meio/fim e gancho. Não escreva roteiro final, só descrição objetiva da cena.\n\nTEXTO ATUAL:\n${original}`;
+      const res = await window.callApi(prompt, isVisual ? 'Você é diretor de arte e fotografia para storyboard/geração de imagem.' : 'Você é roteirista de storyboard e editor de continuidade.');
+      area.value = res;
+      toast('IA melhorou o texto. Revise e salve.', 'ok');
+    }catch(e){ area.value = original; toast('Erro na melhoria IA: ' + e.message, 'err'); }
+  };
+
+  const oldAdd = window.addScene;
+  window.addScene = function(){
+    if(typeof oldAdd === 'function') oldAdd();
+    ensureSceneSchema();
+    persist();
+    window.renderStoryboard();
+  };
+
+  function boot(){
+    ensureSceneSchema();
+    if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
+    toast('Storyboard Limpo V8.7 carregado: Descrição e Guia Visual agora abrem em editor expandido.', 'ok');
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 80);
 })();
 </script>
 
