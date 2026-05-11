@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V8.4 Desktop Responsivo</title>
+<title>Fruits Adventures Studio — V8.5 Hellipunk Writer Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -3278,7 +3278,7 @@ body::before {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Os Iniciantes do Punk <span>V8.4 Desktop Responsivo</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.5 Writer Room</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3290,7 +3290,7 @@ body::before {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.4 ativo: modo desktop responsivo, portal com senha privada, visual calmo e exportações com compartilhar.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V8.5 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -6315,7 +6315,7 @@ ${b.analysis || 'Sem analise visual ainda.'}`;
     const logo = document.querySelector('.portal-logo');
     if (logo) logo.textContent = 'FRUITS ADVENTURES COMIC STUDIO V7.1';
     const strip = document.getElementById('terminalStrip');
-    if (strip) strip.textContent = 'Engine V8.4 ativo: modo desktop responsivo, portal com senha privada, visual calmo e exportações com compartilhar.';
+    if (strip) strip.textContent = 'Engine V8.5 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.';
   }
 
   function setupNow(){
@@ -6698,12 +6698,406 @@ Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, v
       document.body.classList.add('desktop-v84-ready');
       const strip = document.getElementById('terminalStrip');
       if (strip && /V8\.2|senha exposta/i.test(strip.textContent || '')) {
-        strip.textContent = 'Engine V8.4 ativo: modo desktop responsivo, portal com senha privada, visual calmo e exportações com compartilhar.';
+        strip.textContent = 'Engine V8.5 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.';
       }
     } catch(e) {}
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
   else apply();
+})();
+</script>
+
+
+
+<!-- ═══════════════════════════════════════════════
+     V8.5 HELLIPUNK WRITER ROOM — FINAL INTEGRATED LAYER
+     Sala de roteiristas, mindmap global, mesa de diretores, auditoria e DNA Tomate Hellipunk.
+     Mantém compatibilidade com V8.4 e centraliza as novas funções sem loops infinitos.
+     ═══════════════════════════════════════════════ -->
+<style id="v85-hellipunk-style">
+:root {
+  --v85-blood: #b84a3f;
+  --v85-blood-soft: rgba(184,74,63,.12);
+  --v85-acid: #d9e73a;
+  --v85-acid-soft: rgba(217,231,58,.10);
+  --v85-ember: #e0b36d;
+  --v85-fog: #7f8a99;
+  --v85-panel: #0b101d;
+  --v85-panel-2: #111827;
+  --v85-line: rgba(224,179,109,.20);
+}
+body.v85-hellipunk-ready .topbar-brand span,
+body.v85-hellipunk-ready .portal-issue,
+body.v85-hellipunk-ready .sidebar-label { color: var(--v85-ember) !important; }
+body.v85-hellipunk-ready .terminal-strip {
+  color: #bafff8 !important;
+  border-bottom-color: rgba(217,231,58,.16) !important;
+}
+.v85-kicker {
+  display:inline-flex; align-items:center; gap:6px; padding:5px 9px; margin-bottom:10px;
+  border:1px solid rgba(217,231,58,.25); border-radius:999px;
+  color:var(--v85-acid); background:var(--v85-acid-soft);
+  font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+}
+.v85-dashboard {
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:12px 0 16px;
+}
+.v85-stat-card,
+.v85-panel-card,
+.mindmap-node,
+.director-card,
+.v85-export-card {
+  border:1px solid var(--v85-line) !important; border-radius:14px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--v85-panel) !important;
+  box-shadow:none !important;
+}
+.v85-stat-card { padding:12px; min-height:74px; }
+.v85-stat-card strong { display:block; color:var(--v85-ember); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; }
+.v85-stat-card span { display:block; color:var(--text); font-size:20px; font-family:'Syne',sans-serif; font-weight:900; }
+.v85-stat-card small { display:block; color:var(--muted); font-size:10px; margin-top:3px; line-height:1.35; }
+.mindmap-container { display:flex; flex-direction:column; gap:14px; position:relative; padding-left:24px; border-left:2px solid rgba(224,179,109,.18); margin-top:14px; }
+.mindmap-node { position:relative; padding:14px; }
+.mindmap-node::before { content:''; position:absolute; left:-33px; top:18px; width:14px; height:14px; border-radius:50%; background:var(--v85-panel-2); border:2px solid var(--v85-fog); }
+.mindmap-node.approved { border-color:rgba(116,217,154,.38) !important; }
+.mindmap-node.approved::before { border-color:var(--green); background:var(--green); box-shadow:0 0 12px rgba(116,217,154,.45); }
+.mindmap-node.draft::before { border-color:var(--v85-ember); }
+.mindmap-title { display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--v85-ember); font-family:'Syne',sans-serif; font-size:15px; font-weight:900; margin-bottom:8px; }
+.mindmap-title span { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.mindmap-summary { color:var(--text); font-size:12px; line-height:1.55; margin-bottom:10px; }
+.v85-chip-row { display:flex; gap:6px; flex-wrap:wrap; margin:8px 0; }
+.v85-chip { display:inline-flex; align-items:center; gap:4px; padding:4px 7px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.035); color:#d6deec; font-size:10px; }
+.v85-chip.ok { border-color:rgba(116,217,154,.30); color:#b8ffd5; }
+.v85-chip.warn { border-color:rgba(224,179,109,.32); color:#f1d5a4; }
+.v85-chip.danger { border-color:rgba(184,74,63,.36); color:#ffc3bd; }
+.mindmap-banner { background:rgba(0,0,0,.22); border-left:3px solid var(--v85-acid); padding:10px; border-radius:10px; font-family:'Space Mono',monospace; font-size:10.5px; color:#dce8f7; line-height:1.55; margin-top:8px; }
+.directors-board { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-top:12px; }
+.director-card { padding:12px; cursor:pointer; text-align:left; transition:border-color .15s, transform .15s, background .15s; }
+.director-card:hover { transform:translateY(-1px); border-color:rgba(217,231,58,.35) !important; background:linear-gradient(180deg,rgba(217,231,58,.06),rgba(255,255,255,.012)),var(--v85-panel) !important; }
+.director-card h5 { color:var(--v85-ember); font-family:'Syne',sans-serif; font-size:13px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:5px; }
+.director-card p { color:var(--muted); font-size:10.5px; line-height:1.45; }
+.v85-panel-card { padding:14px; margin:12px 0; }
+.v85-panel-card h4 { color:var(--v85-ember); font-family:'Syne',sans-serif; font-size:14px; margin-bottom:6px; text-transform:uppercase; letter-spacing:.07em; }
+.v85-panel-card p { color:var(--muted); font-size:12px; line-height:1.55; margin-bottom:10px; }
+.v85-action-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; }
+.v85-audit-output { white-space:pre-wrap; font-family:'Space Mono',monospace; font-size:11px; line-height:1.6; color:#d7e1f4; background:rgba(0,0,0,.20); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; margin-top:10px; }
+@media(max-width:900px){ .v85-dashboard{grid-template-columns:repeat(2,minmax(0,1fr));} }
+@media(max-width:640px){ .v85-dashboard{grid-template-columns:1fr;} .mindmap-title{align-items:flex-start; flex-direction:column;} }
+</style>
+
+<script id="v85-hellipunk-script">
+(function fruitsHellipunkV85(){
+  'use strict';
+
+  const V85_DNA = `DNA DA SAGA — FRUITS ADVENTURES: TOMATE HELLIPUNK / V8.5
+GÊNERO: survival horror, pós-apocalipse, punk comic underground, drama de sobrevivência e gore controlado.
+
+REGRAS DO UNIVERSO:
+- O mundo é sujo, escasso, tenso e brutal. Toda cena precisa ter consequência, ameaça ou custo emocional.
+- Tecnologia funciona como gambiarra: cabos remendados, bateria fraca, rádio chiado, HD velho, ferramentas improvisadas.
+- Humor pode existir, mas é ácido e nervoso; nunca infantiliza o perigo.
+- Referências externas servem apenas como linguagem, clima, ritmo e estrutura. Não copiar personagem, fala, cena ou franquia.
+
+ELENCO BASE:
+1. Eli / Elinaldo: humano faz-tudo, chave de fenda, placa de HD, olhar cansado de quem resolve problema no limite.
+2. Taciano: o Diretor, impaciente, atitude punk, segura a claquete como se fosse arma e decide sob pressão.
+3. Tomate Hellipunk: tomate antropomórfico sobrevivente, olhar invocado, camisa preta rasgada com símbolo de anarquia, guitarra quebrada, presença de mascote oficial da resistência.
+4. Sabrina Pitaya: pitaya rosa/magenta, pequenas asas de dragão, roupa de combate, bastão com pregos, guerreira fria e protetora.
+5. Figurantes / Extras: zumbis, punks, sobreviventes famintos, técnicos de sucata, crianças escondidas, sombras de fundo e ameaças sem nome.
+
+TÉCNICA DE DIREÇÃO:
+- Show, don't tell: olhar, respiração, silêncio, mão tremendo, corte seco, objeto caindo e som distante.
+- Toda cena deve registrar CÂMERA, EMOÇÃO, SOM/AMBIENTE, CONTINUIDADE VISUAL e GANCHO FINAL.
+- O Tomate Hellipunk deve manter camisa preta rasgada, guitarra quebrada e atitude sobrevivente, salvo mudança dramática explícita.
+- O roteiro deve sair pronto para: storyboard, narração, falas, SRT/CapCut, prompt de vídeo e CapCut Motion Book.`;
+
+  const $ = (id) => document.getElementById(id);
+  const qa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+
+  function getState(){ return window.state || { setup:{}, scenes:[], currentScene:0 }; }
+  function scenes(){ const s=getState(); return Array.isArray(s.scenes) ? s.scenes : []; }
+  function currentScene(){ const s=getState(); return scenes()[s.currentScene || 0] || scenes()[0] || null; }
+  function save(){ try { if (typeof window.saveState === 'function') window.saveState(); } catch(e) {} }
+  function terminal(text){ const el=$('terminalStrip'); if(el) el.textContent = text; }
+  function openModal(title, text){
+    try {
+      if (typeof window.showModal === 'function') return window.showModal(title, text, 'fruits_hellipunk_v85.txt');
+      const modal=$('modal'), h=document.querySelector('#modal h3'), out=document.querySelector('#modal .modal-output');
+      if(modal && h && out){ h.textContent=title; out.textContent=text; modal.classList.add('open'); return; }
+    } catch(e) {}
+    alert(title + '\n\n' + text.slice(0, 1600));
+  }
+  function shareText(title, text){
+    try {
+      if (typeof window.shareAnyTextV81 === 'function') return window.shareAnyTextV81(title, text);
+      if (navigator.share) return navigator.share({ title, text });
+      if (navigator.clipboard) return navigator.clipboard.writeText(text).then(()=>alert('Conteúdo copiado.'));
+    } catch(e) {}
+    openModal(title, text);
+  }
+  function downloadText(filename, text){
+    try {
+      if (typeof window.downloadText === 'function') return window.downloadText(filename, text);
+      const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 500);
+    } catch(e) { openModal(filename, text); }
+  }
+
+  function extractBlockSmart(text, labels){
+    const source = String(text || '');
+    const names = Array.isArray(labels) ? labels : [labels];
+    for (const label of names) {
+      if (typeof window.extractBlock === 'function') {
+        try { const found = window.extractBlock(source, label); if (found) return String(found).trim(); } catch(e) {}
+      }
+      const safe = String(label).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const re = new RegExp('(?:^|\\n)\\s*(?:#+\\s*)?' + safe + '\\s*[:\\-–—]?\\s*([\\s\\S]*?)(?=\\n\\s*(?:[A-ZÁÉÍÓÚÂÊÔÃÕÇ0-9 \/]{3,}\\s*[:\\-–—]|#{1,6}\\s)|$)', 'i');
+      const m = source.match(re);
+      if (m && m[1]) return m[1].trim();
+      const line = source.split(/\n/).find(l => l.toLowerCase().includes(String(label).toLowerCase()));
+      if (line) return line.trim();
+    }
+    return '';
+  }
+  function sceneTitle(scene, index){ return scene?.title || `Cena ${index + 1}`; }
+  function sceneText(scene){ return String(scene?.text || scene?.summary || scene?.visualPrompt || ''); }
+  function hasAny(text, terms){ const low=String(text||'').toLowerCase(); return terms.some(t=>low.includes(t.toLowerCase())); }
+  function sceneAudit(scene, index){
+    const text = sceneText(scene);
+    const checks = [
+      ['Câmera', !!extractBlockSmart(text, ['CÂMERA','CAMERA','MOVIMENTO DE CÂMERA']) || hasAny(text,['travelling','close','plano','handheld','zoom','corte'])],
+      ['Emoção', !!extractBlockSmart(text, ['EMOÇÃO','EMOCAO','CLIMA']) || hasAny(text,['medo','raiva','culpa','tensão','silêncio','respiração'])],
+      ['Som/Ambiente', !!extractBlockSmart(text, ['SOM','SOM/AMBIENTE','AMBIENTE']) || hasAny(text,['ruído','vento','chiado','passos','metal','grito'])],
+      ['Visual Hellipunk', hasAny(text + ' ' + (scene?.visualPrompt||''), ['camisa preta','guitarra quebrada','anarquia','hellipunk','punk','sobrevivente'])],
+      ['Gancho final', hasAny(text, ['gancho','corta','revelação','antes da revelação','continua','final'])],
+      ['Falas/Narração', hasAny(text, ['fala','diálogo','narração','voz','srt'])]
+    ];
+    const ok = checks.filter(([,v])=>v).length;
+    const score = Math.round((ok / checks.length) * 100);
+    const missing = checks.filter(([,v])=>!v).map(([name])=>name);
+    return { checks, score, missing, title: sceneTitle(scene,index) };
+  }
+  function buildSceneAudit(scene=currentScene(), index=getState().currentScene||0){
+    if(!scene) return 'Nenhuma cena encontrada para auditar.';
+    const audit = sceneAudit(scene,index);
+    const camera = extractBlockSmart(sceneText(scene), ['CÂMERA','CAMERA','MOVIMENTO DE CÂMERA']).slice(0,260) || 'Não identificado claramente.';
+    const emotion = extractBlockSmart(sceneText(scene), ['EMOÇÃO','EMOCAO','CLIMA']).slice(0,260) || 'Não identificado claramente.';
+    return `AUDITORIA V8.5 — ${audit.title}\n\nScore de continuidade: ${audit.score}%\n\nChecklist:\n${audit.checks.map(([k,v])=>`${v?'✅':'⚠️'} ${k}`).join('\n')}\n\nCâmera detectada:\n${camera}\n\nEmoção/clima detectado:\n${emotion}\n\nCorreções recomendadas:\n${audit.missing.length ? audit.missing.map(m=>`- Reforçar ${m} na cena antes de aprovar.`).join('\n') : '- Cena tem base técnica suficiente para seguir para CapCut Motion Book.'}\n\nNota profissional:\nAntes de aprovar, confirme se Tomate Hellipunk mantém camisa preta rasgada, guitarra quebrada, atitude sobrevivente e se a cena tem custo emocional real.`;
+  }
+
+  function applyMetadata(){
+    document.body.classList.add('v85-hellipunk-ready');
+    document.title = 'Fruits Adventures Studio — V8.5 Hellipunk Writer Room';
+    const brand = document.querySelector('.topbar-brand');
+    if (brand) brand.innerHTML = '🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.5 Writer Room</span>';
+    const issue = document.querySelector('.portal-issue');
+    if (issue) issue.textContent = 'PORTAL HELLIPUNK • ACESSO PROTEGIDO';
+    const sig = document.querySelector('.portal-signature');
+    if (sig) sig.textContent = 'Tomate Hellipunk • survival horror • storyboard • CapCut Motion Book';
+    terminal('Engine V8.5 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.');
+  }
+
+  function applyDna(force=false){
+    const state = getState();
+    state.setup = state.setup || {};
+    const current = String(state.setup.continuityRules || '');
+    const should = force || !current.trim() || /DNA OFICIAL|Tomate Elinaldo|Iniciantes do Punk|V8\.2/i.test(current);
+    if (should) {
+      state.setup.projectName = 'Fruits Adventures: Tomate Hellipunk';
+      state.setup.projectMode = 'terror';
+      state.setup.continuityRules = V85_DNA;
+      const projectName = $('projectName'); if(projectName) projectName.value = state.setup.projectName;
+      const projectMode = $('projectMode'); if(projectMode) {
+        if(!qa('option', projectMode).some(o=>o.value==='hellipunk')) {
+          const opt=document.createElement('option'); opt.value='hellipunk'; opt.textContent='Tomate Hellipunk / Survival Horror'; projectMode.insertBefore(opt, projectMode.firstChild);
+        }
+        projectMode.value='hellipunk';
+      }
+      const rules = $('continuityRules'); if(rules) rules.value = V85_DNA;
+      save();
+      try { if (typeof window.updateDna === 'function') window.updateDna(); } catch(e) {}
+    }
+  }
+
+  function ensureMindmapTab(){
+    if ($('tab-mindmap')) return;
+    const content = document.querySelector('.content'); if(!content) return;
+    const panel = document.createElement('div');
+    panel.className = 'tab-panel';
+    panel.id = 'tab-mindmap';
+    panel.innerHTML = `
+      <div class="panel-scroll">
+        <div class="v85-kicker">V8.5 Writer Room</div>
+        <div class="section-title">🗺️ Mindmap Global Hellipunk <span class="badge">continuidade</span></div>
+        <div class="notice notice-info">Acompanhe cenas aprovadas, técnicas de câmera, emoção, riscos de continuidade e atalhos para a Mesa de Diretores.</div>
+        <div id="v85Dashboard" class="v85-dashboard"></div>
+        <div class="v85-panel-card">
+          <h4>Auditoria rápida da cena atual</h4>
+          <p>Verifica se a cena tem câmera, emoção, som/ambiente, visual Hellipunk, gancho e falas/narração antes de aprovar.</p>
+          <div class="v85-action-grid">
+            <button class="btn btn-gold" type="button" onclick="auditCurrentSceneV85()">🔍 Auditar cena atual</button>
+            <button class="btn btn-cyan" type="button" onclick="goNode('ai')">🎬 Abrir Mesa de Diretores</button>
+            <button class="btn btn-purple" type="button" onclick="applyHellipunkDnaV85(true)">🧬 Aplicar DNA Hellipunk</button>
+            <button class="btn btn-green" type="button" onclick="exportHellipunkBriefV85()">📦 Exportar Brief V8.5</button>
+          </div>
+          <div id="v85AuditInline" class="v85-audit-output" style="display:none"></div>
+        </div>
+        <div id="mindmapTimeline" class="mindmap-container"></div>
+      </div>`;
+    content.appendChild(panel);
+  }
+
+  function renderMindmap(){
+    ensureMindmapTab();
+    const list = scenes();
+    const dash = $('v85Dashboard');
+    const timeline = $('mindmapTimeline');
+    if(!timeline) return;
+    const approved = list.filter(s=>s.approved).length;
+    const audits = list.map(sceneAudit);
+    const avg = audits.length ? Math.round(audits.reduce((a,b)=>a+b.score,0)/audits.length) : 0;
+    const weak = audits.filter(a=>a.score < 70).length;
+    if(dash) dash.innerHTML = `
+      <div class="v85-stat-card"><strong>Cenas</strong><span>${list.length}</span><small>Total no projeto</small></div>
+      <div class="v85-stat-card"><strong>Aprovadas</strong><span>${approved}</span><small>Prontas para pacote</small></div>
+      <div class="v85-stat-card"><strong>Continuidade</strong><span>${avg}%</span><small>Média técnica estimada</small></div>
+      <div class="v85-stat-card"><strong>Atenção</strong><span>${weak}</span><small>Cenas abaixo de 70%</small></div>`;
+    if(!list.length){ timeline.innerHTML = '<p style="color:var(--muted)">O projeto ainda não tem cenas para mapear.</p>'; return; }
+    timeline.innerHTML = list.map((scene, index)=>{
+      const audit = sceneAudit(scene,index);
+      const text = sceneText(scene);
+      const camera = extractBlockSmart(text, ['CÂMERA','CAMERA','MOVIMENTO DE CÂMERA']).slice(0,180);
+      const emotion = extractBlockSmart(text, ['EMOÇÃO','EMOCAO','CLIMA']).slice(0,180);
+      const chips = audit.checks.map(([name, ok])=>`<span class="v85-chip ${ok?'ok':'warn'}">${ok?'✓':'!'} ${esc(name)}</span>`).join('');
+      const banner = (camera || emotion) ? `<div class="mindmap-banner"><strong>Direção detectada:</strong><br>${camera ? `🎥 ${esc(camera)}<br>` : ''}${emotion ? `🎭 ${esc(emotion)}` : ''}</div>` : `<div class="mindmap-banner"><strong>Direção detectada:</strong><br>⚠️ Ainda falta explicitar câmera e emoção para esta cena.</div>`;
+      return `<div class="mindmap-node ${scene.approved ? 'approved' : 'draft'}">
+        <div class="mindmap-title"><span>${esc(sceneTitle(scene,index))}</span><span class="v85-chip ${scene.approved?'ok':'warn'}">${scene.approved?'Aprovada':'Rascunho'} • ${audit.score}%</span></div>
+        <div class="mindmap-summary">${esc(scene.summary || 'Ação central ainda não definida para esta cena.')}</div>
+        <div class="v85-chip-row">${chips}</div>${banner}
+        <div class="v85-chip-row" style="margin-top:10px">
+          <button class="btn btn-sm btn-gold" type="button" onclick="selectScene(${index}); goNode('scene')">Editar cena</button>
+          <button class="btn btn-sm btn-cyan" type="button" onclick="auditSceneV85(${index})">Auditar</button>
+          <button class="btn btn-sm btn-purple" type="button" onclick="directorCoverageV85('Continuidade Hellipunk','continuidade visual, câmera, emoção, som e gancho final', ${index})">Copilot</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function ensureDirectorsBoard(){
+    const inputRow = document.querySelector('.ai-input-row');
+    if(!inputRow || $('directorsBoardUI')) return;
+    const board = document.createElement('div');
+    board.id = 'directorsBoardUI';
+    board.className = 'v85-panel-card';
+    board.innerHTML = `
+      <h4>🎬 Mesa de Diretores — Leitura Crítica</h4>
+      <p>Escolha uma lente profissional para o Copilot analisar a cena atual sem copiar obra específica: foco em tensão, ritmo, câmera, som, gore controlado e continuidade.</p>
+      <div class="directors-board">
+        <button class="director-card" type="button" onclick="directorCoverageV85('Sam Raimi / terror físico','tensão claustrofóbica, câmera nervosa, horror físico e gore inventivo')"><h5>Sam Raimi</h5><p>Terror físico, caos visual, cortes secos e ameaça próxima.</p></button>
+        <button class="director-card" type="button" onclick="directorCoverageV85('Frank Darabont / drama de sobrevivência','drama humano, silêncio, culpa, perda e horror clássico')"><h5>Frank Darabont</h5><p>Drama humano, sobrevivência e silêncio tenso.</p></button>
+        <button class="director-card" type="button" onclick="directorCoverageV85('Angela Kang / sobrevivência tática','pressão implacável, ameaça de grupo, ritmo opressivo e decisões difíceis')"><h5>Angela Kang</h5><p>Sobrevivência tática, consequências e tensão em grupo.</p></button>
+        <button class="director-card" type="button" onclick="directorCoverageV85('George Miller / ação punk','world-building brutal, ação clara, caos orquestrado e ritmo visual')"><h5>George Miller</h5><p>Ação punk, composição limpa e energia de perseguição.</p></button>
+        <button class="director-card" type="button" onclick="directorCoverageV85('Continuísta Hellipunk','roupas, props, tom, câmera, emoção e ligação com cenas anteriores')"><h5>Continuísta</h5><p>Confere se a saga não perde roupa, props, tom e arco.</p></button>
+        <button class="director-card" type="button" onclick="directorCoverageV85('Editor CapCut','SRT, narração, cortes, SFX, VFX, keyframes e duração vertical')"><h5>Editor CapCut</h5><p>Transforma crítica em plano de edição prático.</p></button>
+      </div>`;
+    inputRow.parentElement.insertBefore(board, inputRow);
+  }
+
+  function makeCoveragePrompt(label, focus, index){
+    const list = scenes();
+    const scene = typeof index === 'number' ? list[index] : currentScene();
+    const i = typeof index === 'number' ? index : (getState().currentScene || 0);
+    if(!scene || !sceneText(scene).trim()) return '';
+    const prior = list.slice(0,i).filter(s=>s.approved).map((s,n)=>`Cena ${n+1}: ${s.title || ''} — ${s.summary || 'sem resumo'}`).join('\n') || 'Nenhuma cena aprovada anterior registrada.';
+    return `Você é o COPILOT DE SALA DE ROTEIRISTAS V8.5 do Fruits Adventures: Tomate Hellipunk.\nUse uma lente crítica inspirada em: ${label}. Não copie cenas, falas ou personagens de obras existentes; use apenas princípios de direção e análise.\n\nFOCO DA ANÁLISE:\n${focus}.\n\nDNA OBRIGATÓRIO:\n${V85_DNA}\n\nCONTINUIDADE ANTERIOR:\n${prior}\n\nCENA PARA ANÁLISE (${sceneTitle(scene,i)}):\n${sceneText(scene)}\n\nENTREGUE:\n1. Diagnóstico brutal, mas útil, do que funciona.\n2. Falhas específicas de continuidade, câmera, emoção, som e ameaça.\n3. Duas alterações pesadas de direção, com câmera + som + ação.\n4. Uma versão curta de patch para aplicar na cena sem reescrever tudo.\n5. Observação para CapCut Motion Book: duração, corte, SFX/VFX e gancho.`;
+  }
+
+  window.directorCoverageV85 = function(label, focus, index){
+    const prompt = makeCoveragePrompt(label, focus, index);
+    if(!prompt){ alert("Gere ou escreva o roteiro da cena primeiro na aba 'Estúdio'."); return; }
+    if (typeof window.goNode === 'function') window.goNode('ai');
+    const input = $('aiInput');
+    if(input){ input.value = prompt; input.focus(); if(typeof window.sendAiMessage === 'function') window.sendAiMessage(); }
+    else shareText('Prompt Mesa de Diretores V8.5', prompt);
+  };
+  window.analyzeWithDirector = (name) => window.directorCoverageV85(name, 'leitura crítica de roteiro, tensão, ritmo e direção');
+  window.auditSceneV85 = function(index){ const text=buildSceneAudit(scenes()[index], index); openModal('Auditoria V8.5', text); };
+  window.auditCurrentSceneV85 = function(){
+    const text=buildSceneAudit();
+    const inline=$('v85AuditInline');
+    if(inline){ inline.style.display='block'; inline.textContent=text; }
+    openModal('Auditoria V8.5 — Cena Atual', text);
+  };
+  window.applyHellipunkDnaV85 = function(force){ applyDna(!!force); terminal('DNA Hellipunk V8.5 aplicado ao Setup e ao estado local.'); };
+
+  function ensureSceneButtons(){
+    const row = document.querySelector('#tab-scene .action-row');
+    if(!row || $('btnV85AuditScene')) return;
+    const audit=document.createElement('button'); audit.id='btnV85AuditScene'; audit.type='button'; audit.className='btn btn-purple'; audit.textContent='🔍 Auditar V8.5'; audit.onclick=()=>window.auditCurrentSceneV85();
+    const map=document.createElement('button'); map.id='btnV85Mindmap'; map.type='button'; map.className='btn btn-cyan'; map.textContent='🗺️ Mindmap'; map.onclick=()=>window.goNode && window.goNode('mindmap');
+    const dir=document.createElement('button'); dir.id='btnV85Director'; dir.type='button'; dir.className='btn btn-gold'; dir.textContent='🎬 Mesa'; dir.onclick=()=>window.directorCoverageV85('Continuísta Hellipunk','continuidade, tensão, câmera, emoção e gancho final');
+    row.append(audit,map,dir);
+  }
+
+  function buildProjectBrief(){
+    const list = scenes();
+    return `FRUITS ADVENTURES STUDIO — BRIEF TÉCNICO V8.5 HELLIPUNK\n\n${V85_DNA}\n\nMAPA DE CENAS:\n${list.map((s,i)=>{ const a=sceneAudit(s,i); return `\n--- ${sceneTitle(s,i)} ---\nStatus: ${s.approved?'Aprovada':'Rascunho'}\nScore: ${a.score}%\nResumo: ${s.summary || 'sem resumo'}\nFaltando: ${a.missing.join(', ') || 'nada crítico'}\nTexto-base:\n${sceneText(s).slice(0,1200) || 'sem roteiro'}`; }).join('\n')}\n\nCHECKLIST FINAL:\n- Confirmar visual do Tomate Hellipunk.\n- Confirmar câmera, emoção e som em cada cena.\n- Exportar SRT/CapCut e Motion Book cena por cena.\n- Separar texto limpo, roteiro emocional de voz e prompt de vídeo.`;
+  }
+  window.exportHellipunkBriefV85 = function(){ downloadText('fruits_adventures_v8_5_hellipunk_brief.txt', buildProjectBrief()); };
+  window.shareHellipunkBriefV85 = function(){ shareText('Brief V8.5 Hellipunk', buildProjectBrief()); };
+  function ensureExportCard(){
+    const grid = document.querySelector('#tab-export .export-grid');
+    if(!grid || $('exportCardHellipunkV85')) return;
+    const card=document.createElement('div'); card.className='export-card v85-export-card'; card.id='exportCardHellipunkV85';
+    card.innerHTML = `<h4>🧠 V8.5 Hellipunk Writer Room</h4><p>Brief técnico com DNA, auditoria de continuidade, mapa de cenas e checklist para CapCut Motion Book.</p><button class="btn btn-gold btn-sm" type="button" onclick="exportHellipunkBriefV85()">Baixar Brief</button> <button class="btn btn-cyan btn-sm" type="button" onclick="shareHellipunkBriefV85()">Compartilhar</button> <button class="btn btn-purple btn-sm" type="button" onclick="goNode('mindmap')">Abrir Mindmap</button>`;
+    grid.insertBefore(card, grid.firstChild);
+  }
+
+  const oldGoNodeV85 = window.goNode;
+  window.goNode = function(id){
+    ensureMindmapTab(); ensureDirectorsBoard(); ensureSceneButtons(); ensureExportCard();
+    document.body.classList.toggle('node-board-open', id === 'nodes');
+    if(id === 'mindmap'){
+      qa('.tab-panel').forEach(p=>p.classList.remove('active'));
+      const panel=$('tab-mindmap'); if(panel) panel.classList.add('active');
+      renderMindmap(); renderNodesV85(); return;
+    }
+    if(typeof oldGoNodeV85 === 'function') oldGoNodeV85(id);
+    setTimeout(()=>{ ensureDirectorsBoard(); ensureSceneButtons(); ensureExportCard(); if(id==='mindmap') renderMindmap(); renderNodesV85(); }, 80);
+  };
+
+  function renderNodesV85(){
+    const bar = $('nodesBar'); if(!bar) return;
+    const activePanel = document.querySelector('.tab-panel.active')?.id?.replace('tab-','') || 'setup';
+    const list = scenes();
+    const nodes = [
+      { id:'setup', icon:'🧬', label:'1. Setup', status:'DNA Hellipunk' },
+      { id:'storyboard', icon:'📚', label:'2. Storyboard', status:list.length + ' cenas' },
+      { id:'mindmap', icon:'🗺️', label:'3. Mindmap', status:'continuidade' },
+      { id:'nodes', icon:'🧠', label:'4. Nodes', status:'atalhos' },
+      { id:'scene', icon:'🎬', label:'5. Estúdio', status:'roteiro' },
+      { id:'capcut', icon:'🎞️', label:'6. CapCut', status:'motion book' },
+      { id:'ai', icon:'🤖', label:'7. Copilot', status:'mesa crítica' },
+      { id:'export', icon:'📦', label:'8. Exportar', status:list.every(s=>s.approved) && list.length ? 'pronto' : 'packs' }
+    ];
+    bar.innerHTML = nodes.map(n=>{
+      let active = n.id === activePanel;
+      if(n.id === 'capcut' && activePanel === 'export') active = false;
+      if(n.id === 'nodes' && activePanel === 'ai' && document.body.classList.contains('node-board-open')) active = true;
+      return `<div data-v85="true" class="node-btn ${active?'active node-punk-active':''}" onclick="goNode('${n.id}')"><strong>${n.icon} ${esc(n.label)}</strong><small>${esc(n.status)}</small></div>`;
+    }).join('');
+  }
+  window.renderNodes = renderNodesV85;
+  window.renderMindmap = renderMindmap;
+
+  function boot(){
+    applyMetadata(); applyDna(false); ensureMindmapTab(); ensureDirectorsBoard(); ensureSceneButtons(); ensureExportCard(); renderNodesV85();
+    if(document.querySelector('.tab-panel.active')?.id === 'tab-mindmap') renderMindmap();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  setTimeout(boot, 700);
 })();
 </script>
 
