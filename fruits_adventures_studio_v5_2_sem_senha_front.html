@@ -3173,7 +3173,7 @@ body::before {
 
 <div id="portal">
   <div class="portal-box portal-box-apoc portal-clean-card">
-    <div class="portal-issue">PORTAL ZOMBIE PUNK • ACESSO PROTEGIDO</div>
+    <div class="portal-issue">PORTAL HELLIPUNK • ACESSO DIRETO</div>
 
     <div class="portal-punk-hero">🍅🎸☠️</div>
 
@@ -3186,7 +3186,7 @@ body::before {
 
     <h2>Acesso do Portal</h2>
     <p class="portal-subtext">
-      Entre com seu login e sua senha para acessar o studio. O cartão de visita fica visual e limpo, sem expor a senha na tela.
+      Acesso direto ativado. Entre no Studio sem login e sem senha.
     </p>
 
     <div class="portal-services">
@@ -3206,11 +3206,11 @@ body::before {
         <input id="portalPassInput" class="portal-input" type="password" placeholder="Digite sua senha" autocomplete="current-password" onkeydown="if(event.key==='Enter') unlockPortal()"/>
       </div>
     </div>
-    <div id="portalErr" class="portal-err">Login ou senha inválidos.</div>
+    <div id="portalErr" class="portal-err">Acesso direto ativo.</div>
     <button class="btn btn-gold portal-enter-btn" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Studio</button>
 
     <div class="portal-footer-note">
-      Acesso protegido do Fruits Adventures Studio com visual zombie punk e entrada por login + senha.
+      Acesso direto do Fruits Adventures Studio com visual zombie punk.
     </div>
   </div>
 </div>
@@ -6591,17 +6591,17 @@ Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, v
     document.querySelectorAll('.portal-hint').forEach(el=>el.remove());
     const portal = document.querySelector('#portal .portal-box');
     if(portal && (portal.textContent.includes('Login padrão') || portal.textContent.includes('Acesso liberado'))) {
-      portal.innerHTML = `<div class="portal-issue">PORTAL ZOMBIE PUNK • ACESSO PROTEGIDO</div>
+      portal.innerHTML = `<div class="portal-issue">PORTAL HELLIPUNK • ACESSO DIRETO</div>
       <div class="portal-punk-hero">🍅🎸☠️</div>
       <div class="portal-creator-badge"><div><div class="portal-logo" style="text-align:center !important;">FRUITS ADVENTURES<br><span>ZOMBIE PUNK STUDIO</span></div><div class="portal-signature" style="text-align:center;">Tomate zombie • guitarra punk • storyboard • motion comic</div></div></div>
       <h2>Acesso do Portal</h2>
-      <p class="portal-subtext">Entre com seu login e sua senha para acessar o studio. O cartão de visita fica visual e limpo, sem expor a senha na tela.</p>
+      <p class="portal-subtext">Acesso direto ativado. Entre no Studio sem login e sem senha.</p>
       <div class="portal-services"><span>Tomate Zombie</span><span>Guitarra Punk</span><span>Storyboard</span><span>CapCut Book</span></div>
       <div class="portal-login-grid">
         <div><div class="portal-label">Login</div><input id="portalUserInput" class="portal-input" type="text" placeholder="Digite seu login" autocomplete="username" onkeydown="if(event.key==='Enter') document.getElementById('portalPassInput')?.focus()"/></div>
         <div><div class="portal-label">Senha</div><input id="portalPassInput" class="portal-input" type="password" placeholder="Digite sua senha" autocomplete="current-password" onkeydown="if(event.key==='Enter') unlockPortal()"/></div>
       </div>
-      <div id="portalErr" class="portal-err">Login ou senha inválidos.</div>
+      <div id="portalErr" class="portal-err">Acesso direto ativo.</div>
       <button class="btn btn-gold portal-enter-btn" style="width:100%;justify-content:center;padding:12px;" onclick="unlockPortal()">Entrar no Studio</button>`;
     }
   }
@@ -7024,7 +7024,7 @@ TÉCNICA DE DIREÇÃO:
     const brand = document.querySelector('.topbar-brand');
     if (brand) brand.innerHTML = '🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.5 Writer Room</span>';
     const issue = document.querySelector('.portal-issue');
-    if (issue) issue.textContent = 'PORTAL HELLIPUNK • ACESSO PROTEGIDO';
+    if (issue) issue.textContent = 'PORTAL HELLIPUNK • ACESSO DIRETO';
     const sig = document.querySelector('.portal-signature');
     if (sig) sig.textContent = 'Tomate Hellipunk • survival horror • storyboard • CapCut Motion Book';
     terminal('Engine V8.5 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.');
@@ -8608,6 +8608,58 @@ ${base}
     if(typeof log === 'function') log('V9.0.1 DNA Guard ativo: Vídeo IA e HQ protegidos contra mistura de saga.', 'ok');
     if(typeof setStatus === 'function') setStatus('V9.0.1 DNA Guard', 92, true);
   }catch(e){}
+})();
+</script>
+
+
+
+<!-- V9.0.3 URGENT PATCH — SEM SENHA / ACESSO DIRETO -->
+<style id="v903NoLoginCss">
+  #portal { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
+</style>
+<script id="v903NoLoginPatch">
+(function(){
+  function enterDirect(){
+    try { localStorage.setItem('mega_studio_github_login_ok','1'); } catch(e) {}
+    const portal = document.getElementById('portal');
+    if (portal) portal.classList.add('hidden');
+    try { document.body.classList.add('portal-bypass-v903'); } catch(e) {}
+  }
+
+  // Acesso direto: não exige login/senha e não exibe portal.
+  window.initPortal = function(){ enterDirect(); };
+  window.unlockPortal = function(){ enterDirect(); };
+
+  // O botão Sair não volta para a tela de senha. Ele apenas salva estado e fica no Studio.
+  window.lockPortal = function(){
+    enterDirect();
+    try { if (typeof saveState === 'function') saveState(); } catch(e) {}
+    try { if (typeof log === 'function') log('Acesso direto ativo: portal sem senha.', 'ok'); } catch(e) {}
+    try { if (typeof setStatus === 'function') setStatus('Acesso direto', 90, true); } catch(e) {}
+  };
+
+  function cleanPortalNoLogin(){
+    enterDirect();
+    const p = document.getElementById('portal');
+    if (p) p.style.display = 'none';
+    document.querySelectorAll('.topbar-lock').forEach(btn => {
+      btn.innerHTML = '💾 Salvar';
+      btn.title = 'Salvar estado local';
+      btn.onclick = function(){
+        try { if (typeof saveState === 'function') saveState(); } catch(e) {}
+        try { if (typeof log === 'function') log('Projeto salvo no navegador.', 'ok'); } catch(e) {}
+      };
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', cleanPortalNoLogin);
+  } else {
+    cleanPortalNoLogin();
+  }
+  setTimeout(cleanPortalNoLogin, 50);
+  setTimeout(cleanPortalNoLogin, 500);
+  setTimeout(cleanPortalNoLogin, 1500);
 })();
 </script>
 
