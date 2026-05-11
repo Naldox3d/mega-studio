@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V8.9 Production Dashboard — Visual Profissional</title>
+<title>Fruits Adventures Studio — V8.9.1 Production Dashboard — Visual Profissional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -3278,7 +3278,7 @@ body::before {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.9 Production Dashboard</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.9.1 Production Dashboard</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3290,7 +3290,7 @@ body::before {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.9 dashboard ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V8.9.1 dashboard ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -8030,9 +8030,9 @@ ${base}
   function boot(){
     ensureSchema(); ensureLensPanel();
     const terminal = byId('terminalStrip');
-    if(terminal) terminal.textContent = 'Engine V8.9 dashboard ativo: Premissa, Ação Dramática, Direção Cinematográfica, Lentes de Direção e leitura técnica.';
+    if(terminal) terminal.textContent = 'Engine V8.9.1 dashboard ativo: Premissa, Ação Dramática, Direção Cinematográfica, Lentes de Direção e leitura técnica.';
     const brand = document.querySelector('.topbar-brand span');
-    if(brand) brand.textContent = 'V8.9 Production Dashboard';
+    if(brand) brand.textContent = 'V8.9.1 Production Dashboard';
     const workflow = document.querySelector('#tab-storyboard .workflow-strip');
     if(workflow){
       workflow.innerHTML = `<div class="workflow-step"><strong>1. Premissa</strong>Ideia-mãe da cena: conflito, promessa e função narrativa.</div><div class="workflow-step"><strong>2. Ação Dramática</strong>O que vemos acontecer: começo, meio, virada e gancho.</div><div class="workflow-step"><strong>3. Direção Cinematográfica</strong>Enquadramento, lente, câmera, luz, movimento, arte e restrições.</div><div class="workflow-step"><strong>4. Leitura Técnica</strong>O site explica o que foi aplicado para virar estudo e produção.</div>`;
@@ -8040,7 +8040,7 @@ ${base}
     const notice = document.querySelector('#tab-storyboard .notice');
     if(notice) notice.innerHTML = '🎓 Monte a cena como dossiê técnico: <strong>Premissa</strong>, <strong>Ação Dramática</strong>, <strong>Direção Cinematográfica</strong>, imagem de referência, lente de direção e explicação do que foi aplicado.';
     if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
-    toast('V8.9 Production Dashboard carregado: fluxo visual profissional ativado sem remover funções.', 'ok');
+    toast('V8.9.1 Production Dashboard carregado: fluxo visual profissional ativado sem remover funções.', 'ok');
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 100);
 })();
@@ -8094,11 +8094,80 @@ ${base}
 .pd-v89-empty{color:#74809d;font-style:italic;}
 @media(max-width:1280px){.pd-v89-hero,.pd-v89-scene,.pd-v89-bottom{grid-template-columns:1fr}.pd-v89-flow{grid-template-columns:repeat(3,1fr)}.pd-v89-image{height:260px}.pd-v89-actions{display:grid;grid-template-columns:repeat(3,1fr)}}
 @media(max-width:760px){.pd-v89-wrap{padding:14px 12px 28px}.pd-v89-flow,.pd-v89-fields,.pd-v89-metrics,.pd-v89-actions{grid-template-columns:1fr}.pd-v89-title{font-size:25px}.pd-v89-image{height:210px}}
+
+
+/* =========================================================
+   V8.9.1 — SCROLL FIX / DASHBOARD + COPILOT
+   Corrige navegação em zoom 100%: Produção e Copilot agora têm
+   rolagem vertical própria como as outras abas, sem remover funções.
+   ========================================================= */
+#tab-dashboard.tab-panel.active,
+#tab-ai.tab-panel.active {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(214,173,104,.48) rgba(255,255,255,.04) !important;
+}
+
+#tab-dashboard.tab-panel.active::-webkit-scrollbar,
+#tab-ai.tab-panel.active::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+#tab-dashboard.tab-panel.active::-webkit-scrollbar-track,
+#tab-ai.tab-panel.active::-webkit-scrollbar-track {
+  background: rgba(255,255,255,.035) !important;
+}
+
+#tab-dashboard.tab-panel.active::-webkit-scrollbar-thumb,
+#tab-ai.tab-panel.active::-webkit-scrollbar-thumb {
+  background: rgba(214,173,104,.50) !important;
+  border-radius: 999px !important;
+  border: 2px solid rgba(7,10,18,.95) !important;
+}
+
+#tab-dashboard .pd-v89-wrap {
+  padding-bottom: 42px !important;
+}
+
+#tab-ai .ai-panel {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow: visible !important;
+}
+
+#tab-ai .ai-messages {
+  min-height: 380px !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+#tab-ai .ai-input-row {
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 20 !important;
+  border-top: 1px solid var(--desktop-border-soft, rgba(255,255,255,.08)) !important;
+  background: rgba(11,16,32,.96) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+@media (max-width: 900px) {
+  #tab-dashboard.tab-panel.active,
+  #tab-ai.tab-panel.active {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+}
 </style>
 <script>
 (function(){
   'use strict';
-  const V89='V8.9 Production Dashboard';
+  const V89='V8.9.1 Production Dashboard';
   const $=(id)=>document.getElementById(id);
   const q=(s,r=document)=>r.querySelector(s);
   const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -8119,12 +8188,12 @@ ${base}
   window.continueProductionV89=function(){const st=stageActive(), idx=currentIndex(); if(st==='setup'){window.goNode&&window.goNode('setup'); return;} if(st==='storyboard'){window.goNode&&window.goNode('storyboard'); setTimeout(()=>{ if(window.openSceneTextEditorV87){const s=currentScene(); window.openSceneTextEditorV87(idx, has(s&&s.premise)?'summary':'premise');}},150); return;} if(st==='direction'){window.goNode&&window.goNode('storyboard'); setTimeout(()=>{ if(window.openLensBoardV88) window.openLensBoardV88(idx);},150); return;} if(st==='script'){window.goNode&&window.goNode('scene'); return;} if(st==='capcut'){window.goNode&&window.goNode('capcut'); return;} window.goNode&&window.goNode('export');};
   function renderDashboard(){ensureDashboard(); const panel=$('tab-dashboard'); if(!panel) return; const list=scenes(); const s=currentScene(); const idx=currentIndex(); const approved=list.filter(x=>x.approved).length; const img=s&&s.image?`<img src="${esc(s.image)}" alt="Cena ${idx+1}">`:'Sem imagem da cena'; panel.innerHTML=`<div class="pd-v89-wrap"><div class="pd-v89-hero"><div class="pd-v89-card"><div class="pd-v89-kicker">🎬 Production Flow • V8.9 visual</div><h1 class="pd-v89-title">${esc(projectName())}</h1><div class="pd-v89-sub">Painel principal para produzir sem se perder: visão visual do progresso, cena atual, próxima ação e acesso rápido aos módulos técnicos. Esta é só uma camada de navegação; todas as abas antigas continuam preservadas.</div><div class="pd-v89-modebar"><button class="btn btn-gold" onclick="continueProductionV89()">▶ ${esc(nextLabel())}</button><button class="btn btn-cyan" onclick="goNode('storyboard')">📚 Storyboard Técnico</button><button class="btn btn-purple" onclick="goNode('scene')">🎬 Estúdio</button><button class="btn" onclick="goNode('export')">📦 Exportar</button></div></div><div class="pd-v89-card pd-v89-next"><div class="pd-v89-kicker">Próxima ação recomendada</div><h3 style="margin:0 0 8px;color:#e8c989;font-family:Syne,sans-serif;text-transform:uppercase;">${esc(nextLabel())}</h3><p class="pd-v89-sub">O dashboard olha os campos preenchidos da cena atual e indica o próximo passo do fluxo.</p><div class="pd-v89-checklist">${checksHtml(s)}</div></div></div><div class="pd-v89-flow">${stepCard('setup','🧬','Setup','DNA, API, regras e continuidade.','setup')}${stepCard('storyboard','📚','Storyboard','Premissa, ação dramática e guia técnico.','storyboard')}${stepCard('direction','🎥','Direção','Lentes, câmera, luz, tom e explicação.','storyboard')}${stepCard('script','📝','Roteiro','Geração da cena, falas, SRT e aprovação.','scene')}${stepCard('capcut','🎞️','CapCut','Motion Book, SFX, VFX e edição.','capcut')}${stepCard('export','📦','Exportar','Pacotes finais, backup e compartilhamento.','export')}</div><div class="pd-v89-metrics"><div class="pd-v89-metric"><b>${list.length}</b><span>Cenas</span></div><div class="pd-v89-metric"><b>${approved}</b><span>Aprovadas</span></div><div class="pd-v89-metric"><b>${pct()}%</b><span>Produção</span></div><div class="pd-v89-metric"><b>${esc(stageActive()).toUpperCase()}</b><span>Etapa atual</span></div></div><div class="pd-v89-card"><div class="pd-v89-kicker">Cena atual • ${esc('Cena '+(idx+1))}</div><div class="pd-v89-scene"><div class="pd-v89-image">${img}</div><div class="pd-v89-fields"><div class="pd-v89-field"><label>🧩 Premissa</label><div>${clip(s&&s.premise)}</div></div><div class="pd-v89-field"><label>🎭 Ação Dramática</label><div>${clip(s&&s.summary)}</div></div><div class="pd-v89-field wide"><label>🎥 Direção Cinematográfica</label><div>${clip(s&&s.visualPrompt,340)}</div></div><div class="pd-v89-field wide"><label>🎓 O que foi aplicado</label><div>${clip(s&&s.technicalNotes,260)}</div></div></div><div class="pd-v89-actions"><button class="btn btn-gold" onclick="continueProductionV89()">▶ Continuar produção</button><button class="btn btn-cyan" onclick="goNode('storyboard')">📚 Abrir Storyboard</button><button class="btn btn-purple" onclick="goNode('scene')">🎬 Abrir Estúdio</button><button class="btn" onclick="goNode('mindmap')">🗺️ Mindmap</button><button class="btn" onclick="goNode('nodes')">🧠 Nodes</button><button class="btn btn-green" onclick="goNode('export')">📦 Exportar</button></div></div></div><div class="pd-v89-bottom"><div class="pd-v89-card"><div class="pd-v89-kicker">Modo simples</div><h3 style="color:#e8c989;margin:0 0 8px;">Produção guiada</h3><p class="pd-v89-sub">Use quando quiser só avançar: o botão principal leva para o campo ou aba certa.</p></div><div class="pd-v89-card"><div class="pd-v89-kicker">Modo técnico</div><h3 style="color:#e8c989;margin:0 0 8px;">Todas as ferramentas intactas</h3><p class="pd-v89-sub">Setup, API, lentes, Copilot, CapCut, exportações e rádio continuam disponíveis nas abas originais.</p></div></div></div>`; }
   function ensureDashboard(){const content=q('.content'); if(!content) return; if(!$('tab-dashboard')){const panel=document.createElement('div'); panel.className='tab-panel'; panel.id='tab-dashboard'; content.insertBefore(panel, content.firstChild);} }
-  function showDashboard(){ensureDashboard(); qa('.tab-panel').forEach(p=>p.classList.remove('active')); const p=$('tab-dashboard'); if(p)p.classList.add('active'); renderDashboard(); renderNodesV89(); const strip=$('terminalStrip'); if(strip) strip.textContent='Engine V8.9 dashboard ativo: fluxo visual profissional carregado sem perder funções.';}
+  function showDashboard(){ensureDashboard(); qa('.tab-panel').forEach(p=>p.classList.remove('active')); const p=$('tab-dashboard'); if(p)p.classList.add('active'); renderDashboard(); renderNodesV89(); const strip=$('terminalStrip'); if(strip) strip.textContent='Engine V8.9.1 dashboard ativo: fluxo visual profissional carregado sem perder funções.';}
   const oldGo=window.goNode;
   window.goNode=function(id){ensureDashboard(); if(id==='dashboard'||id==='home'||id==='production'){showDashboard();return;} if(typeof oldGo==='function') oldGo(id); setTimeout(()=>{renderNodesV89(); if($('tab-dashboard')&&$('tab-dashboard').classList.contains('active')) renderDashboard();},100);};
   function renderNodesV89(){const bar=$('nodesBar'); if(!bar) return; const active=(q('.tab-panel.active')?.id||'tab-dashboard').replace('tab-',''); const list=scenes(); const nodes=[{id:'dashboard',icon:'🎛️',label:'0. Produção',status:'dashboard'},{id:'setup',icon:'🧬',label:'1. Setup',status:'DNA/API'},{id:'storyboard',icon:'📚',label:'2. Storyboard',status:list.length+' cenas'},{id:'mindmap',icon:'🗺️',label:'3. Mindmap',status:'continuidade'},{id:'nodes',icon:'🧠',label:'4. Nodes',status:'atalhos'},{id:'scene',icon:'🎬',label:'5. Estúdio',status:'roteiro'},{id:'capcut',icon:'🎞️',label:'6. CapCut',status:'motion book'},{id:'ai',icon:'🤖',label:'7. Copilot',status:'mesa crítica'},{id:'export',icon:'📦',label:'8. Exportar',status:list.every(s=>s.approved)&&list.length?'pronto':'packs'}]; bar.innerHTML=nodes.map(n=>`<div data-v89="true" class="node-btn ${n.id===active?'active node-punk-active':''}" onclick="goNode('${n.id}')"><strong>${n.icon} ${esc(n.label)}</strong><small>${esc(n.status)}</small></div>`).join('');}
   window.renderNodes=renderNodesV89;
-  function boot(){ensureDashboard(); const brand=q('.topbar-brand span'); if(brand) brand.textContent=V89; renderNodesV89(); const active=q('.tab-panel.active'); if(!active || active.id==='tab-setup') showDashboard(); else renderNodesV89(); try{ if(typeof window.log==='function') window.log('V8.9 Production Dashboard carregado: visual profissional adicionado sem remover módulos.','ok'); }catch(e){} }
+  function boot(){ensureDashboard(); const brand=q('.topbar-brand span'); if(brand) brand.textContent=V89; renderNodesV89(); const active=q('.tab-panel.active'); if(!active || active.id==='tab-setup') showDashboard(); else renderNodesV89(); try{ if(typeof window.log==='function') window.log('V8.9.1 Production Dashboard carregado: visual profissional adicionado sem remover módulos.','ok'); }catch(e){} }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,120)); else setTimeout(boot,120);
 })();
 </script>
