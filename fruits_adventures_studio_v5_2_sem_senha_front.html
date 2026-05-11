@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V8.8 Hellipunk Writer Room — Técnico Profissional</title>
+<title>Fruits Adventures Studio — V8.9 Production Dashboard — Visual Profissional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -3278,7 +3278,7 @@ body::before {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.8 Técnico Profissional</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.9 Production Dashboard</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3290,7 +3290,7 @@ body::before {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.8 técnico ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V8.9 dashboard ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -8030,9 +8030,9 @@ ${base}
   function boot(){
     ensureSchema(); ensureLensPanel();
     const terminal = byId('terminalStrip');
-    if(terminal) terminal.textContent = 'Engine V8.8 técnico ativo: Premissa, Ação Dramática, Direção Cinematográfica, Lentes de Direção e leitura técnica.';
+    if(terminal) terminal.textContent = 'Engine V8.9 dashboard ativo: Premissa, Ação Dramática, Direção Cinematográfica, Lentes de Direção e leitura técnica.';
     const brand = document.querySelector('.topbar-brand span');
-    if(brand) brand.textContent = 'V8.8 Técnico Profissional';
+    if(brand) brand.textContent = 'V8.9 Production Dashboard';
     const workflow = document.querySelector('#tab-storyboard .workflow-strip');
     if(workflow){
       workflow.innerHTML = `<div class="workflow-step"><strong>1. Premissa</strong>Ideia-mãe da cena: conflito, promessa e função narrativa.</div><div class="workflow-step"><strong>2. Ação Dramática</strong>O que vemos acontecer: começo, meio, virada e gancho.</div><div class="workflow-step"><strong>3. Direção Cinematográfica</strong>Enquadramento, lente, câmera, luz, movimento, arte e restrições.</div><div class="workflow-step"><strong>4. Leitura Técnica</strong>O site explica o que foi aplicado para virar estudo e produção.</div>`;
@@ -8040,9 +8040,92 @@ ${base}
     const notice = document.querySelector('#tab-storyboard .notice');
     if(notice) notice.innerHTML = '🎓 Monte a cena como dossiê técnico: <strong>Premissa</strong>, <strong>Ação Dramática</strong>, <strong>Direção Cinematográfica</strong>, imagem de referência, lente de direção e explicação do que foi aplicado.';
     if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
-    toast('V8.8 Técnico Profissional carregado: linguagem cinematográfica, lentes de direção e explicação técnica ativadas.', 'ok');
+    toast('V8.9 Production Dashboard carregado: fluxo visual profissional ativado sem remover funções.', 'ok');
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 100);
+})();
+</script>
+
+
+
+<!-- =========================================================
+     V8.9 — PRODUCTION DASHBOARD / FLUXO VISUAL PROFISSIONAL
+     Camada visual aditiva: preserva Setup, Storyboard, Mindmap,
+     Nodes, Estúdio, CapCut, Copilot e Exportar. Não remove funções.
+     ========================================================= -->
+<style>
+.pd-v89-wrap{padding:20px 22px 36px;max-width:1480px;color:var(--desktop-text,#e8ecf4);} 
+.pd-v89-hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.6fr);gap:16px;margin-bottom:16px;}
+.pd-v89-card{border:1px solid rgba(214,173,104,.18);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),#0d1220;padding:16px;box-shadow:0 18px 45px rgba(0,0,0,.18);} 
+.pd-v89-title{font-family:'Syne',sans-serif;font-size:clamp(25px,2.8vw,46px);line-height:1.05;letter-spacing:.06em;text-transform:uppercase;color:#eadfc9;margin:0 0 10px;}
+.pd-v89-sub{color:#aebbd3;font-size:13px;line-height:1.6;max-width:920px;}
+.pd-v89-kicker{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.06);color:#cafffb;border-radius:999px;padding:6px 10px;font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;}
+.pd-v89-flow{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:10px;margin:16px 0;}
+.pd-v89-step{position:relative;border:1px solid rgba(255,255,255,.10);border-radius:15px;background:#0b1020;padding:13px;min-height:112px;cursor:pointer;transition:.15s ease;overflow:hidden;}
+.pd-v89-step:hover{border-color:rgba(214,173,104,.42);transform:translateY(-1px);} 
+.pd-v89-step strong{display:block;color:#e8c989;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
+.pd-v89-step p{color:#9fb0cf;font-size:11px;line-height:1.45;margin:0;}
+.pd-v89-step .pd-v89-dot{width:10px;height:10px;border-radius:999px;background:#5c667d;position:absolute;right:12px;top:12px;}
+.pd-v89-step.done .pd-v89-dot{background:#74d99a;box-shadow:0 0 12px rgba(116,217,154,.4);} 
+.pd-v89-step.active .pd-v89-dot{background:#e8c989;box-shadow:0 0 12px rgba(232,201,137,.4);} 
+.pd-v89-step.done{border-color:rgba(116,217,154,.30);}
+.pd-v89-step.active{border-color:rgba(214,173,104,.48);background:linear-gradient(180deg,rgba(214,173,104,.10),rgba(255,255,255,.015)),#0b1020;}
+.pd-v89-scene{display:grid;grid-template-columns:240px minmax(0,1fr) 260px;gap:14px;align-items:stretch;}
+.pd-v89-image{height:220px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:#050812;overflow:hidden;display:grid;place-items:center;color:#74809d;font-size:12px;}
+.pd-v89-image img{width:100%;height:100%;object-fit:cover;display:block;}
+.pd-v89-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.pd-v89-field{border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#0b1020;padding:12px;min-height:100px;}
+.pd-v89-field.wide{grid-column:1/-1;}
+.pd-v89-field label{display:block;color:#e8c989;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;margin-bottom:7px;}
+.pd-v89-field div{font-size:12.5px;line-height:1.5;color:#e8ecf4;max-height:112px;overflow:hidden;white-space:pre-wrap;}
+.pd-v89-actions{display:flex;flex-direction:column;gap:8px;}
+.pd-v89-actions .btn{width:100%;justify-content:center;}
+.pd-v89-checklist{display:grid;gap:7px;margin-top:8px;}
+.pd-v89-check{display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:8px 10px;background:#0b1020;color:#aebbd3;font-size:11px;}
+.pd-v89-check.ok{border-color:rgba(116,217,154,.28);color:#caffdc;}
+.pd-v89-check.warn{border-color:rgba(214,173,104,.28);color:#f1d29c;}
+.pd-v89-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0;}
+.pd-v89-metric{border:1px solid rgba(255,255,255,.09);border-radius:15px;background:#0b1020;padding:12px;}
+.pd-v89-metric b{display:block;color:#e8c989;font-size:22px;font-family:'Syne',sans-serif;}
+.pd-v89-metric span{color:#91a0be;font-size:11px;text-transform:uppercase;letter-spacing:.08em;}
+.pd-v89-modebar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.pd-v89-bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;}
+.pd-v89-next{border-color:rgba(116,217,154,.34);background:linear-gradient(180deg,rgba(116,217,154,.10),rgba(255,255,255,.015)),#0d1220;}
+.pd-v89-empty{color:#74809d;font-style:italic;}
+@media(max-width:1280px){.pd-v89-hero,.pd-v89-scene,.pd-v89-bottom{grid-template-columns:1fr}.pd-v89-flow{grid-template-columns:repeat(3,1fr)}.pd-v89-image{height:260px}.pd-v89-actions{display:grid;grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.pd-v89-wrap{padding:14px 12px 28px}.pd-v89-flow,.pd-v89-fields,.pd-v89-metrics,.pd-v89-actions{grid-template-columns:1fr}.pd-v89-title{font-size:25px}.pd-v89-image{height:210px}}
+</style>
+<script>
+(function(){
+  'use strict';
+  const V89='V8.9 Production Dashboard';
+  const $=(id)=>document.getElementById(id);
+  const q=(s,r=document)=>r.querySelector(s);
+  const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function scenes(){return (window.state && Array.isArray(window.state.scenes)) ? window.state.scenes : [];}
+  function currentIndex(){return Math.max(0, Number(window.state && window.state.currentScene || 0));}
+  function currentScene(){const list=scenes(); return list[currentIndex()] || list[0] || null;}
+  function textOf(s){return String((s&&(s.text||s.script||s.current||s.finalScript))||'').trim();}
+  function has(v){return String(v||'').trim().length>0;}
+  function clip(v,n=220){v=String(v||'').trim();return v?esc(v.length>n?v.slice(0,n)+'...':v):'<span class="pd-v89-empty">Ainda vazio.</span>';}
+  function pct(){const list=scenes(); if(!list.length) return 0; let total=0; list.forEach(s=>{ total += has(s.premise)+has(s.summary)+has(s.visualPrompt)+has(textOf(s))+(s.approved?1:0); }); return Math.round(total/(list.length*5)*100);}
+  function projectName(){return (q('#projectName') && q('#projectName').value) || 'Fruits Adventures Mega Studio';}
+  function statusFor(stage){const list=scenes(), s=currentScene(); if(stage==='setup') return has(projectName()) && has(q('#continuityRules')&&q('#continuityRules').value); if(stage==='storyboard') return !!s && has(s.premise) && has(s.summary) && has(s.visualPrompt); if(stage==='direction') return !!s && (has(s.directionLens)||has(s.technicalNotes)); if(stage==='script') return !!s && has(textOf(s)); if(stage==='capcut') return !!s && (has(s.srt)||has(s.capcut)||has(s.motionBook)||has(s.videoia)); if(stage==='export') return list.length && list.every(x=>x.approved); return false; }
+  function stageActive(){const s=currentScene(); if(!s) return 'setup'; if(!has(s.premise)||!has(s.summary)) return 'storyboard'; if(!has(s.visualPrompt)||!has(s.directionLens)) return 'direction'; if(!has(textOf(s))) return 'script'; if(!s.approved) return 'script'; if(!statusFor('capcut')) return 'capcut'; return 'export';}
+  function stepCard(id, icon, title, desc, target){const done=statusFor(id), active=stageActive()===id; return `<div class="pd-v89-step ${done?'done':''} ${active?'active':''}" onclick="window.goNode&&window.goNode('${target||id}')"><span class="pd-v89-dot"></span><strong>${icon} ${title}</strong><p>${desc}</p></div>`;}
+  function checksHtml(s){const items=[['Imagem',!!(s&&s.image)],['Premissa',s&&has(s.premise)],['Ação dramática',s&&has(s.summary)],['Direção cinematográfica',s&&has(s.visualPrompt)],['Lente/explicação',s&&(has(s.directionLens)||has(s.technicalNotes))],['Roteiro final',s&&has(textOf(s))],['Cena aprovada',s&&s.approved]];return items.map(([label,ok])=>`<div class="pd-v89-check ${ok?'ok':'warn'}"><span>${ok?'✅':'○'}</span><span>${esc(label)}</span></div>`).join('');}
+  function nextLabel(){const st=stageActive(); return st==='setup'?'Finalizar Setup':st==='storyboard'?'Completar Storyboard Técnico':st==='direction'?'Aplicar Lente de Direção':st==='script'?'Gerar/Aprovar Roteiro':st==='capcut'?'Gerar CapCut Motion Book':'Exportar Pacote Final';}
+  window.continueProductionV89=function(){const st=stageActive(), idx=currentIndex(); if(st==='setup'){window.goNode&&window.goNode('setup'); return;} if(st==='storyboard'){window.goNode&&window.goNode('storyboard'); setTimeout(()=>{ if(window.openSceneTextEditorV87){const s=currentScene(); window.openSceneTextEditorV87(idx, has(s&&s.premise)?'summary':'premise');}},150); return;} if(st==='direction'){window.goNode&&window.goNode('storyboard'); setTimeout(()=>{ if(window.openLensBoardV88) window.openLensBoardV88(idx);},150); return;} if(st==='script'){window.goNode&&window.goNode('scene'); return;} if(st==='capcut'){window.goNode&&window.goNode('capcut'); return;} window.goNode&&window.goNode('export');};
+  function renderDashboard(){ensureDashboard(); const panel=$('tab-dashboard'); if(!panel) return; const list=scenes(); const s=currentScene(); const idx=currentIndex(); const approved=list.filter(x=>x.approved).length; const img=s&&s.image?`<img src="${esc(s.image)}" alt="Cena ${idx+1}">`:'Sem imagem da cena'; panel.innerHTML=`<div class="pd-v89-wrap"><div class="pd-v89-hero"><div class="pd-v89-card"><div class="pd-v89-kicker">🎬 Production Flow • V8.9 visual</div><h1 class="pd-v89-title">${esc(projectName())}</h1><div class="pd-v89-sub">Painel principal para produzir sem se perder: visão visual do progresso, cena atual, próxima ação e acesso rápido aos módulos técnicos. Esta é só uma camada de navegação; todas as abas antigas continuam preservadas.</div><div class="pd-v89-modebar"><button class="btn btn-gold" onclick="continueProductionV89()">▶ ${esc(nextLabel())}</button><button class="btn btn-cyan" onclick="goNode('storyboard')">📚 Storyboard Técnico</button><button class="btn btn-purple" onclick="goNode('scene')">🎬 Estúdio</button><button class="btn" onclick="goNode('export')">📦 Exportar</button></div></div><div class="pd-v89-card pd-v89-next"><div class="pd-v89-kicker">Próxima ação recomendada</div><h3 style="margin:0 0 8px;color:#e8c989;font-family:Syne,sans-serif;text-transform:uppercase;">${esc(nextLabel())}</h3><p class="pd-v89-sub">O dashboard olha os campos preenchidos da cena atual e indica o próximo passo do fluxo.</p><div class="pd-v89-checklist">${checksHtml(s)}</div></div></div><div class="pd-v89-flow">${stepCard('setup','🧬','Setup','DNA, API, regras e continuidade.','setup')}${stepCard('storyboard','📚','Storyboard','Premissa, ação dramática e guia técnico.','storyboard')}${stepCard('direction','🎥','Direção','Lentes, câmera, luz, tom e explicação.','storyboard')}${stepCard('script','📝','Roteiro','Geração da cena, falas, SRT e aprovação.','scene')}${stepCard('capcut','🎞️','CapCut','Motion Book, SFX, VFX e edição.','capcut')}${stepCard('export','📦','Exportar','Pacotes finais, backup e compartilhamento.','export')}</div><div class="pd-v89-metrics"><div class="pd-v89-metric"><b>${list.length}</b><span>Cenas</span></div><div class="pd-v89-metric"><b>${approved}</b><span>Aprovadas</span></div><div class="pd-v89-metric"><b>${pct()}%</b><span>Produção</span></div><div class="pd-v89-metric"><b>${esc(stageActive()).toUpperCase()}</b><span>Etapa atual</span></div></div><div class="pd-v89-card"><div class="pd-v89-kicker">Cena atual • ${esc('Cena '+(idx+1))}</div><div class="pd-v89-scene"><div class="pd-v89-image">${img}</div><div class="pd-v89-fields"><div class="pd-v89-field"><label>🧩 Premissa</label><div>${clip(s&&s.premise)}</div></div><div class="pd-v89-field"><label>🎭 Ação Dramática</label><div>${clip(s&&s.summary)}</div></div><div class="pd-v89-field wide"><label>🎥 Direção Cinematográfica</label><div>${clip(s&&s.visualPrompt,340)}</div></div><div class="pd-v89-field wide"><label>🎓 O que foi aplicado</label><div>${clip(s&&s.technicalNotes,260)}</div></div></div><div class="pd-v89-actions"><button class="btn btn-gold" onclick="continueProductionV89()">▶ Continuar produção</button><button class="btn btn-cyan" onclick="goNode('storyboard')">📚 Abrir Storyboard</button><button class="btn btn-purple" onclick="goNode('scene')">🎬 Abrir Estúdio</button><button class="btn" onclick="goNode('mindmap')">🗺️ Mindmap</button><button class="btn" onclick="goNode('nodes')">🧠 Nodes</button><button class="btn btn-green" onclick="goNode('export')">📦 Exportar</button></div></div></div><div class="pd-v89-bottom"><div class="pd-v89-card"><div class="pd-v89-kicker">Modo simples</div><h3 style="color:#e8c989;margin:0 0 8px;">Produção guiada</h3><p class="pd-v89-sub">Use quando quiser só avançar: o botão principal leva para o campo ou aba certa.</p></div><div class="pd-v89-card"><div class="pd-v89-kicker">Modo técnico</div><h3 style="color:#e8c989;margin:0 0 8px;">Todas as ferramentas intactas</h3><p class="pd-v89-sub">Setup, API, lentes, Copilot, CapCut, exportações e rádio continuam disponíveis nas abas originais.</p></div></div></div>`; }
+  function ensureDashboard(){const content=q('.content'); if(!content) return; if(!$('tab-dashboard')){const panel=document.createElement('div'); panel.className='tab-panel'; panel.id='tab-dashboard'; content.insertBefore(panel, content.firstChild);} }
+  function showDashboard(){ensureDashboard(); qa('.tab-panel').forEach(p=>p.classList.remove('active')); const p=$('tab-dashboard'); if(p)p.classList.add('active'); renderDashboard(); renderNodesV89(); const strip=$('terminalStrip'); if(strip) strip.textContent='Engine V8.9 dashboard ativo: fluxo visual profissional carregado sem perder funções.';}
+  const oldGo=window.goNode;
+  window.goNode=function(id){ensureDashboard(); if(id==='dashboard'||id==='home'||id==='production'){showDashboard();return;} if(typeof oldGo==='function') oldGo(id); setTimeout(()=>{renderNodesV89(); if($('tab-dashboard')&&$('tab-dashboard').classList.contains('active')) renderDashboard();},100);};
+  function renderNodesV89(){const bar=$('nodesBar'); if(!bar) return; const active=(q('.tab-panel.active')?.id||'tab-dashboard').replace('tab-',''); const list=scenes(); const nodes=[{id:'dashboard',icon:'🎛️',label:'0. Produção',status:'dashboard'},{id:'setup',icon:'🧬',label:'1. Setup',status:'DNA/API'},{id:'storyboard',icon:'📚',label:'2. Storyboard',status:list.length+' cenas'},{id:'mindmap',icon:'🗺️',label:'3. Mindmap',status:'continuidade'},{id:'nodes',icon:'🧠',label:'4. Nodes',status:'atalhos'},{id:'scene',icon:'🎬',label:'5. Estúdio',status:'roteiro'},{id:'capcut',icon:'🎞️',label:'6. CapCut',status:'motion book'},{id:'ai',icon:'🤖',label:'7. Copilot',status:'mesa crítica'},{id:'export',icon:'📦',label:'8. Exportar',status:list.every(s=>s.approved)&&list.length?'pronto':'packs'}]; bar.innerHTML=nodes.map(n=>`<div data-v89="true" class="node-btn ${n.id===active?'active node-punk-active':''}" onclick="goNode('${n.id}')"><strong>${n.icon} ${esc(n.label)}</strong><small>${esc(n.status)}</small></div>`).join('');}
+  window.renderNodes=renderNodesV89;
+  function boot(){ensureDashboard(); const brand=q('.topbar-brand span'); if(brand) brand.textContent=V89; renderNodesV89(); const active=q('.tab-panel.active'); if(!active || active.id==='tab-setup') showDashboard(); else renderNodesV89(); try{ if(typeof window.log==='function') window.log('V8.9 Production Dashboard carregado: visual profissional adicionado sem remover módulos.','ok'); }catch(e){} }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,120)); else setTimeout(boot,120);
 })();
 </script>
 
