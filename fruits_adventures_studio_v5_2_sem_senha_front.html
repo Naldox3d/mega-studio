@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V8.7 Hellipunk Writer Room — Storyboard Limpo</title>
+<title>Fruits Adventures Studio — V8.8 Hellipunk Writer Room — Técnico Profissional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -3278,7 +3278,7 @@ body::before {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.7 Storyboard Limpo</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.8 Técnico Profissional</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3290,7 +3290,7 @@ body::before {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.7 ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V8.8 técnico ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -7739,6 +7739,310 @@ ${base}
     toast('Storyboard Limpo V8.7 carregado: Descrição e Guia Visual agora abrem em editor expandido.', 'ok');
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 80);
+})();
+</script>
+
+
+
+<!-- =========================================================
+     V8.8 — STORYBOARD TÉCNICO PROFISSIONAL / CINEMA LANGUAGE
+     Adiciona Premissa, Ação Dramática, Direção Cinematográfica,
+     Lentes de Direção e explicação técnica do que foi aplicado.
+     Patch aditivo: preserva V8.7 e sobrescreve render/editor.
+     ========================================================= -->
+<style>
+.tech-v88-board-note{
+  margin:0 0 16px;
+  padding:13px 15px;
+  border:1px solid rgba(101,217,210,.24);
+  border-radius:14px;
+  background:linear-gradient(180deg, rgba(101,217,210,.08), rgba(255,255,255,.015)), #0d1220;
+  color:#c9fffb;
+  font-size:12px;
+  line-height:1.55;
+}
+.storyboard-card.tech-card-v88{
+  grid-template-columns:210px minmax(0,1fr) 210px !important;
+  gap:14px !important;
+  align-items:stretch !important;
+}
+.tech-main-v88{display:flex;flex-direction:column;gap:10px;min-width:0;}
+.tech-title-v88{display:flex;align-items:center;gap:10px;justify-content:space-between;}
+.tech-title-v88 strong{font-size:18px !important;color:#62efe8 !important;}
+.tech-pill-v88{font-size:10px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;padding:5px 9px;border-radius:999px;border:1px solid rgba(116,217,154,.32);color:#b8ffd8;background:rgba(116,217,154,.08);}
+.tech-grid-v88{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tech-box-v88{border:1px solid rgba(255,255,255,.10);border-radius:13px;background:#0b1020;padding:11px;min-height:98px;}
+.tech-box-v88.wide{grid-column:1/-1;}
+.tech-box-v88 label{display:flex;align-items:center;gap:6px;color:#e8c989;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;margin-bottom:7px;}
+.tech-box-v88 small{display:block;color:#8aa0c2;font-size:10px;line-height:1.35;margin-top:6px;}
+.tech-text-v88{font-size:12.5px;line-height:1.48;color:#e9edf8;max-height:82px;overflow:hidden;white-space:pre-wrap;}
+.tech-empty-v88{color:#74809d;font-style:italic;}
+.tech-buttons-v88{display:flex;gap:7px;flex-wrap:wrap;}
+.tech-actions-v88{display:flex;flex-direction:column;gap:8px;justify-content:center;}
+.tech-actions-v88 .btn{width:100%;justify-content:center;}
+.tech-lens-panel-v88{margin-top:10px;padding:10px;border:1px solid rgba(155,109,255,.22);border-radius:13px;background:rgba(155,109,255,.055);}
+.tech-lens-panel-v88 h4{font-family:'Syne',sans-serif;font-size:12px;color:#eadcff;margin:0 0 8px;text-transform:uppercase;letter-spacing:.10em;}
+.tech-lens-grid-v88{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.tech-lens-grid-v88 .btn{width:100%;justify-content:flex-start;text-align:left;white-space:normal;min-height:36px;}
+.scene-editor-side-v87 .tech-editor-meta-v88{font-size:11px;line-height:1.55;color:#aab8d8;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(255,255,255,.025);padding:10px;margin-top:8px;}
+.scene-editor-side-v87 .tech-editor-meta-v88 strong{color:#e8c989;}
+.tech-term-strip-v88{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.tech-term-strip-v88 span{font-size:9.5px;color:#c9fffb;border:1px solid rgba(101,217,210,.25);border-radius:999px;padding:4px 7px;background:rgba(101,217,210,.06);}
+@media(max-width:1220px){
+  .storyboard-card.tech-card-v88{grid-template-columns:180px minmax(0,1fr) !important;}
+  .tech-actions-v88{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+@media(max-width:760px){
+  .storyboard-card.tech-card-v88{grid-template-columns:1fr !important;}
+  .tech-grid-v88,.tech-actions-v88,.tech-lens-grid-v88{grid-template-columns:1fr;}
+}
+</style>
+
+<script>
+(function(){
+  const V88 = 'V8.8 Técnico Profissional';
+  const EDITOR88 = { idx:0, field:'summary' };
+  function byId(id){ return document.getElementById(id); }
+  function sceneAt(idx){ return (window.state && Array.isArray(window.state.scenes)) ? window.state.scenes[idx] : null; }
+  function esc(v){ return (typeof window.htmlEscape === 'function') ? window.htmlEscape(v || '') : String(v || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function toast(msg,type){ if(typeof window.log === 'function') window.log(msg,type||'ok'); else console.log(msg); if(typeof window.terminal === 'function') window.terminal(msg); }
+  function persist(){ if(typeof window.saveState === 'function') window.saveState(); }
+  function callTerminal(msg){ if(typeof window.terminal === 'function') window.terminal(msg); }
+  function clip(text, n){ text=String(text||'').trim(); return text.length>n ? text.slice(0,n)+'...' : text; }
+  function preview(text, empty){ text=String(text||'').trim(); return text ? esc(clip(text,210)) : '<span class="tech-empty-v88">'+esc(empty)+'</span>'; }
+  function sceneTitle(s,i){ return s.title || ('Cena '+(i+1)); }
+  function ensureSchema(){
+    if(!window.state || !Array.isArray(window.state.scenes)) return;
+    window.state.scenes.forEach((s,i)=>{
+      if(!s.title) s.title = 'Cena ' + (i+1);
+      if(typeof s.premise !== 'string') s.premise = '';
+      if(typeof s.summary !== 'string') s.summary = '';
+      if(typeof s.visualPrompt !== 'string') s.visualPrompt = '';
+      if(typeof s.technicalNotes !== 'string') s.technicalNotes = '';
+      if(typeof s.directionLens !== 'string') s.directionLens = '';
+      if(typeof s.visualAnalysis !== 'string') s.visualAnalysis = '';
+      if(typeof s.text !== 'string') s.text = '';
+    });
+  }
+
+  const FIELD_META = {
+    premise: {
+      title:'Premissa da Cena',
+      subtitle:'Ideia-mãe: sobre o que é a cena, qual promessa dramática ela entrega.',
+      help:'A premissa não é o roteiro. É a semente: conflito, situação e promessa. Ex.: “um ensaio punk em Caruaru vira terror cômico quando a própria câmera parece possuída”.',
+      placeholder:'Escreva a ideia-mãe da cena em 1 a 3 frases.'
+    },
+    summary: {
+      title:'Ação Dramática da Cena',
+      subtitle:'O que vemos acontecer: ações, ordem, personagens, tensão, virada e gancho.',
+      help:'Use linguagem prática: quem faz o quê, onde, o que muda, qual perigo cresce e onde a cena termina. Este campo alimenta roteiro, falas e continuidade.',
+      placeholder:'Descreva começo, meio, virada e gancho da cena.'
+    },
+    visualPrompt: {
+      title:'Direção Cinematográfica / Guia Visual',
+      subtitle:'Linguagem técnica: enquadramento, lente, câmera, luz, movimento, cenário, cor, textura e restrições.',
+      help:'Aqui entram termos de cinema. Use Lentes de Direção para transformar a cena em prompt técnico sem copiar obras, personagens ou falas.',
+      placeholder:'DIREÇÃO CINEMATOGRÁFICA — CENA\n\n1. ENQUADRAMENTO...\n2. CÂMERA...\n3. LENTE...'
+    },
+    technicalNotes: {
+      title:'O que foi aplicado / Leitura Técnica',
+      subtitle:'Explicação didática dos recursos cinematográficos usados na cena.',
+      help:'Este campo serve para você estudar enquanto produz: explica por que lente, câmera, luz, movimento e tom foram escolhidos.',
+      placeholder:'Explique quais técnicas foram aplicadas e por quê.'
+    }
+  };
+
+  const LENSES = {
+    base:{ emoji:'🎥', label:'Guia Técnico Base', tag:'Base Técnica', tone:'profissional, claro, cinematográfico', applied:'guia técnico base com linguagem de direção, sem exagerar uma assinatura específica' },
+    raimi:{ emoji:'🩸', label:'Raimi-Cam', tag:'Terror físico caótico', tone:'terror cômico adulto, câmera possuída, dutch angles, ambiente vivo, splatstick controlado', applied:'lente Raimi-Cam: POV da força, câmera nervosa, ângulos holandeses, objetos com vida e caos visual controlado' },
+    parody:{ emoji:'😂', label:'Paródia Horror', tag:'Comédia de terror', tone:'paródia de horror, susto quebrado por humor, reação exagerada, timing cômico, absurdo visual', applied:'lente de paródia horror: susto + quebra cômica, expressão exagerada e humor visual sem copiar obras específicas' },
+    kungfu:{ emoji:'🥋', label:'Kung Fu Comédia', tag:'Ação física absurda', tone:'ação física exagerada, coreografia cômica, pancada visual, corpo elástico, caos de rua, ritmo de luta cartunesca', applied:'lente kung fu comédia: movimento corporal exagerado, coreografia visual, quedas e reações físicas absurdas' },
+    socialgame:{ emoji:'🧠', label:'Jogo Social Coreano', tag:'Tensão psicológica', tone:'sobrevivência, regras cruéis, pressão de grupo, crítica social, escolhas morais, suspense de decisão', applied:'lente de jogo social: pressão coletiva, regras claras, risco crescente, tensão psicológica e crítica humana' },
+    secondchance:{ emoji:'💀', label:'Segunda Chance', tag:'Drama existencial', tone:'morte, consequência, culpa, punição simbólica, rodada de sofrimento, renascimento emocional, suspense existencial', applied:'lente segunda chance: consequência dramática, culpa, destino, punição simbólica e peso emocional' },
+    webtoon:{ emoji:'📱', label:'Webtoon Fight', tag:'Energia viral/luta', tone:'webtoon de luta, internet, humilhação pública, evolução do protagonista, golpes explicados, câmera dinâmica, impacto seco', applied:'lente webtoon fight: leitura de golpe, energia viral, evolução, humilhação pública e cortes de impacto' },
+    dorama:{ emoji:'💔', label:'Dorama Suspense', tag:'Melodrama seriado', tone:'silêncio emocional, olhar sustentado, segredo revelado, tensão romântica/dramática, virada melodramática, suspense humano', applied:'lente dorama suspense: pausa emocional, olhar, segredo, melodrama e tensão humana seriada' },
+    fruits:{ emoji:'🍅', label:'Fruits Autoral', tag:'DNA Fruits', tone:'punk de Caruaru, fruta com alma humana, humor ácido, terror sujo, gambiarra poética, storyboard e CapCut Motion Book', applied:'lente Fruits Autoral: DNA próprio, punk nordestino, humor ácido, fruta/personagem simbólico, produção prática para storyboard e CapCut' },
+    mix:{ emoji:'🧪', label:'Mix de Lentes', tag:'Híbrido autoral', tone:'Raimi-Cam + Paródia Horror + Fruits Autoral, com pitadas de webtoon fight quando houver ação', applied:'mix de lentes: terror caótico, paródia, DNA Fruits e energia de storyboard vertical' }
+  };
+
+  function buildTechnicalGuide(s, i, key){
+    const lens = LENSES[key] || LENSES.base;
+    const title = sceneTitle(s,i);
+    const premise = (s.premise || '').trim() || 'Premissa ainda não preenchida; deduzir a partir da ação dramática.';
+    const action = (s.summary || '').trim() || 'Ação dramática ainda não preenchida; usar a imagem/referência como ponto de partida.';
+    const current = (s.visualPrompt || '').trim();
+    return `DIREÇÃO CINEMATOGRÁFICA — ${title}\nLENTE APLICADA: ${lens.emoji} ${lens.label} (${lens.tag})\n\nPREMISSA DA CENA:\n${premise}\n\nAÇÃO DRAMÁTICA:\n${action}\n\n1. ENQUADRAMENTO\nComposição vertical 9:16 pensada para Shorts/Reels/TikTok. Priorizar leitura clara dos personagens, profundidade do cenário e ponto focal no conflito principal. Usar primeiro plano com objetos de produção e fundo carregado de textura para reforçar o universo Hellipunk.\n\n2. CÂMERA\nCâmera com intenção narrativa: começa observacional e ganha instabilidade conforme a tensão aumenta. Usar variação entre plano médio, close de reação, detalhe de objeto e plano baixo para dar poder ao ambiente.\n\n3. LENTE / DISTORÇÃO\nLente grande angular moderada quando houver caos, para aumentar profundidade, aproximar objetos e deformar levemente o espaço sem perder leitura dos personagens.\n\n4. LUZ\nContraste alto, luz prática visível no cenário, fluorescente falhando, sombras duras e recortes quentes/frios. A luz deve contar a virada emocional da cena, não apenas iluminar.\n\n5. MOVIMENTO / RITMO\n${lens.tone}. O movimento deve ter começo, aceleração e impacto final. Cada microação precisa sugerir uma futura edição no CapCut: zoom, pan, tremor, corte seco, pausa ou impacto sonoro.\n\n6. ARTE / CENÁRIO\nGaragem punk underground em Caruaru, cabos, fita gaffer, instrumentos, claquete, câmera Sony HD100, cartazes rasgados, poeira, objetos de bastidor e textura de produção independente.\n\n7. COR / TEXTURA\nPaleta suja e adulta: amarelo envelhecido, sombras azuladas, vermelho queimado, metal gasto, parede manchada, granulação leve, aparência de motion comic e storyboard finalizável.\n\n8. RESTRIÇÕES\nSem texto na imagem, sem logos, sem copiar personagens, cenas, figurinos, falas ou franquias. Usar referências apenas como linguagem de direção, ritmo e atmosfera.\n\n9. O QUE FOI APLICADO\nFoi aplicada a ${lens.applied}.\n\nPROMPT LIMPO PARA IMAGEM:\n${current ? current + '\n' : ''}Cena ${title} em estética zombie punk comic adulta, Caruaru, produção independente, alta tensão visual, composição vertical 9:16, motion comic, textura suja, alto contraste, personagens originais Fruits Adventures, sem texto na imagem, sem logos, sem cópia de obras existentes.`;
+  }
+
+  function buildTechnicalNotes(s, i, key){
+    const lens = LENSES[key] || LENSES.base;
+    return `LEITURA TÉCNICA — ${sceneTitle(s,i)}\n\nLente aplicada: ${lens.emoji} ${lens.label}\nFunção dramática: transformar a premissa em linguagem visual clara para storyboard, imagem, roteiro e CapCut Motion Book.\n\nO que foi aplicado:\n- Premissa separada da ação: a ideia-mãe fica limpa antes do roteiro.\n- Ação dramática: descreve o que acontece na cena, em ordem prática.\n- Direção cinematográfica: traduz a cena em enquadramento, câmera, lente, luz, movimento, arte, cor e restrições.\n- Lente de direção: ${lens.applied}.\n\nPor que isso é profissional:\nA IA deixa de receber apenas um prompt solto e passa a receber uma decupagem visual. Isso melhora consistência, continuidade, imagem, roteiro, SRT, falas e plano técnico de edição.`;
+  }
+
+  function ensureLensPanel(){
+    const side = document.querySelector('.scene-editor-side-v87');
+    if(!side || byId('techLensPanelV88')) return;
+    const panel = document.createElement('div');
+    panel.id = 'techLensPanelV88';
+    panel.className = 'tech-lens-panel-v88';
+    panel.innerHTML = `<h4>🎬 Lentes de Direção</h4><div class="tech-lens-grid-v88">${Object.keys(LENSES).map(k=>`<button class="btn btn-sm ${k==='raimi'?'btn-purple':k==='fruits'?'btn-gold':'btn-cyan'}" onclick="applyDirectorLensV88('${k}')">${LENSES[k].emoji} ${LENSES[k].label}</button>`).join('')}</div><div class="tech-editor-meta-v88"><strong>Uso correto:</strong> lente não copia filme/diretor; ela traduz ritmo, câmera, luz, tom e estrutura para uma linguagem autoral Fruits.</div>`;
+    side.appendChild(panel);
+  }
+
+  window.renderStoryboard = function(){
+    ensureSchema();
+    const container = byId('storyboardContainer');
+    if(!container) return;
+    if(!window.state || !window.state.scenes || !window.state.scenes.length){ container.innerHTML = '<p>Nenhuma cena adicionada.</p>'; return; }
+    const note = '<div class="tech-v88-board-note">🎓 <strong>Storyboard Técnico:</strong> Premissa = ideia-mãe. Ação Dramática = o que acontece. Direção Cinematográfica = como a câmera, luz, lente e composição contam a cena. Use as Lentes de Direção para estudar e produzir ao mesmo tempo.</div>';
+    container.innerHTML = note + window.state.scenes.map(function(s,i){
+      const img = s.image ? '<img src="'+s.image.data+'"> <button class="btn btn-sm btn-pink" style="position:absolute;top:4px;right:4px;" onclick="removeImage('+i+')">X</button>' : '<div class="sb-image-placeholder">+ Imagem de Referência<br>Clique aqui para subir<br>um frame da cena</div><input type="file" accept="image/*" onchange="handleImageUpload(event, '+i+')">';
+      const approved = s.approved ? 'APROVADA' : 'EM PRODUÇÃO';
+      return `<div class="storyboard-card tech-card-v88">
+        <div class="sb-image-box">${img}</div>
+        <div class="tech-main-v88">
+          <div class="tech-title-v88"><strong>${esc(sceneTitle(s,i))}</strong><span class="tech-pill-v88">${approved}</span></div>
+          <div class="tech-grid-v88">
+            <div class="tech-box-v88"><label>🧩 Premissa</label><div class="tech-text-v88">${preview(s.premise,'Ideia-mãe ainda vazia.')}</div><small>Sobre o que é a cena.</small></div>
+            <div class="tech-box-v88"><label>🎭 Ação Dramática</label><div class="tech-text-v88">${preview(s.summary,'Descreva o que acontece, em ordem.')}</div><small>O que vemos acontecer.</small></div>
+            <div class="tech-box-v88 wide"><label>🎥 Direção Cinematográfica</label><div class="tech-text-v88">${preview(s.visualPrompt,'Sem guia técnico. Aplique uma lente ou escreva a direção visual.')}</div><small>${esc(s.directionLens || 'Lente ainda não aplicada.')}</small></div>
+          </div>
+          ${s.technicalNotes ? '<div class="notice notice-info" style="margin:0;"><strong>Leitura técnica:</strong><br>'+esc(clip(s.technicalNotes,260))+'</div>' : ''}
+          <div class="tech-buttons-v88">
+            <button class="btn btn-sm btn-gold" onclick="openSceneTextEditorV87(${i}, 'premise')">🧩 Premissa</button>
+            <button class="btn btn-sm" onclick="openSceneTextEditorV87(${i}, 'summary')">🎭 Ação Dramática</button>
+            <button class="btn btn-sm btn-purple" onclick="openSceneTextEditorV87(${i}, 'visualPrompt')">🎥 Direção Cinematográfica</button>
+            <button class="btn btn-sm btn-cyan" onclick="openSceneTextEditorV87(${i}, 'technicalNotes')">🎓 O que foi aplicado</button>
+            <button class="btn btn-sm" onclick="openSceneFullPreviewV88(${i})">👁️ Dossiê</button>
+          </div>
+        </div>
+        <div class="tech-actions-v88">
+          <button class="btn btn-sm btn-purple" onclick="openLensBoardV88(${i})">🎬 Lentes de Direção</button>
+          <button class="btn btn-sm btn-cyan" onclick="generateVisualBlueprint(${i})">🎨 Guia IA</button>
+          <button class="btn btn-sm" onclick="analyzeSceneImage(${i})">👁️ Analisar imagem</button>
+          <button class="btn btn-sm btn-green" onclick="selectScene(${i})">🎬 Ir pro Estúdio</button>
+          <button class="btn btn-sm" onclick="copySceneDossierV88(${i})">📋 Copiar dossiê</button>
+          <button class="btn btn-sm btn-pink" onclick="deleteScene(${i})">🗑️ Excluir</button>
+        </div>
+      </div>`;
+    }).join('');
+  };
+
+  window.openSceneTextEditorV87 = function(idx, field){
+    ensureSchema(); ensureLensPanel();
+    const s = sceneAt(idx); if(!s) return;
+    EDITOR88.idx = idx; EDITOR88.field = field || 'summary';
+    if(window.EDITOR) { window.EDITOR.idx = idx; window.EDITOR.field = EDITOR88.field; }
+    const meta = FIELD_META[EDITOR88.field] || FIELD_META.summary;
+    const title = byId('sceneTextEditorTitleV87');
+    const sub = byId('sceneTextEditorSubV87');
+    const help = byId('sceneTextEditorHelpV87');
+    const area = byId('sceneTextEditorAreaV87');
+    if(title) title.textContent = meta.title + ' — ' + sceneTitle(s, idx);
+    if(sub) sub.textContent = meta.subtitle;
+    if(help) help.innerHTML = meta.help + '<div class="tech-term-strip-v88"><span>enquadramento</span><span>lente</span><span>câmera</span><span>luz</span><span>movimento</span><span>tom</span><span>restrições</span></div>';
+    if(area){ area.placeholder = meta.placeholder; area.value = s[EDITOR88.field] || ''; }
+    const overlay = byId('sceneTextEditorOverlayV87');
+    if(overlay) overlay.classList.add('open');
+    const lensPanel = byId('techLensPanelV88');
+    if(lensPanel) lensPanel.style.display = (EDITOR88.field === 'visualPrompt' || EDITOR88.field === 'technicalNotes') ? 'block' : 'none';
+    setTimeout(()=>{ if(area) area.focus(); }, 60);
+  };
+
+  window.saveSceneTextEditorV87 = function(){
+    const s = sceneAt(EDITOR88.idx); if(!s) return;
+    const area = byId('sceneTextEditorAreaV87');
+    s[EDITOR88.field] = area ? area.value : '';
+    persist();
+    if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
+    if(typeof window.loadStudioView === 'function' && window.state.currentScene === EDITOR88.idx) window.loadStudioView();
+    const meta = FIELD_META[EDITOR88.field] || FIELD_META.summary;
+    toast(meta.title + ' salva na ' + sceneTitle(s, EDITOR88.idx) + '.', 'ok');
+  };
+
+  window.applyDirectorLensV88 = function(key){
+    ensureSchema();
+    const s = sceneAt(EDITOR88.idx); if(!s) return;
+    const lens = LENSES[key] || LENSES.base;
+    const guide = buildTechnicalGuide(s, EDITOR88.idx, key);
+    const notes = buildTechnicalNotes(s, EDITOR88.idx, key);
+    s.visualPrompt = guide;
+    s.technicalNotes = notes;
+    s.directionLens = lens.emoji + ' ' + lens.label + ' — ' + lens.tag;
+    EDITOR88.field = 'visualPrompt';
+    const area = byId('sceneTextEditorAreaV87');
+    if(area) area.value = guide;
+    const title = byId('sceneTextEditorTitleV87');
+    if(title) title.textContent = 'Direção Cinematográfica / Guia Visual — ' + sceneTitle(s, EDITOR88.idx);
+    persist();
+    if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
+    callTerminal('🎬 '+lens.label+' aplicada: guia cinematográfico e leitura técnica atualizados.');
+    toast(lens.label + ' aplicada como lente técnica profissional.', 'ok');
+  };
+
+  window.openLensBoardV88 = function(idx){
+    window.openSceneTextEditorV87(idx, 'visualPrompt');
+    setTimeout(()=>{ const p=byId('techLensPanelV88'); if(p) p.scrollIntoView({block:'nearest'}); }, 80);
+  };
+
+  window.openSceneFullPreviewV88 = function(idx){
+    const s = sceneAt(idx); if(!s) return;
+    const out = `=== DOSSIÊ TÉCNICO — ${sceneTitle(s,idx)} ===\n\nPREMISSA DA CENA:\n${s.premise || '—'}\n\nAÇÃO DRAMÁTICA:\n${s.summary || '—'}\n\nDIREÇÃO CINEMATOGRÁFICA / GUIA VISUAL:\n${s.visualPrompt || '—'}\n\nLENTE DE DIREÇÃO:\n${s.directionLens || '—'}\n\nO QUE FOI APLICADO:\n${s.technicalNotes || '—'}\n\nANÁLISE DA IMAGEM:\n${s.visualAnalysis || '—'}`;
+    if(typeof window.openModal === 'function') window.openModal('Dossiê técnico — '+sceneTitle(s,idx), 'Premissa, ação, direção cinematográfica e leitura técnica.', out, 'dossie_tecnico_cena_'+(idx+1)+'.txt');
+    else alert(out);
+  };
+
+  window.copySceneDossierV88 = function(idx){
+    const s = sceneAt(idx); if(!s) return;
+    const txt = `DOSSIÊ TÉCNICO — ${sceneTitle(s,idx)}\n\nPREMISSA:\n${s.premise || ''}\n\nAÇÃO DRAMÁTICA:\n${s.summary || ''}\n\nDIREÇÃO CINEMATOGRÁFICA:\n${s.visualPrompt || ''}\n\nO QUE FOI APLICADO:\n${s.technicalNotes || ''}`;
+    if(navigator.clipboard) navigator.clipboard.writeText(txt);
+    toast('Dossiê técnico copiado.', 'ok');
+  };
+
+  window.generateRaimiVisualPromptForSceneV87 = function(idx){
+    ensureSchema();
+    EDITOR88.idx = idx;
+    window.openSceneTextEditorV87(idx, 'visualPrompt');
+    window.applyDirectorLensV88('raimi');
+  };
+  window.generateRaimiVisualPromptV87 = function(){ window.applyDirectorLensV88('raimi'); };
+
+  const oldImprove = window.improveSceneTextWithAI_V87;
+  window.improveSceneTextWithAI_V87 = async function(){
+    const s = sceneAt(EDITOR88.idx); if(!s) return;
+    if(!window.state.api || (!window.state.api.apiKey && window.state.api.callMode !== 'backend')){
+      toast('Configure API ou Backend para usar Melhorar com IA.', 'warn'); return;
+    }
+    const area = byId('sceneTextEditorAreaV87'); const original = (area && area.value || '').trim();
+    const field = EDITOR88.field;
+    if(field === 'visualPrompt'){
+      area.value = '🤖 Transformando em direção cinematográfica profissional...';
+      try{
+        const prompt = `Reescreva como DIREÇÃO CINEMATOGRÁFICA profissional para storyboard/imagem/render.\nUse seções: ENQUADRAMENTO, CÂMERA, LENTE, LUZ, MOVIMENTO, ARTE/CENÁRIO, COR/TEXTURA, RESTRIÇÕES, O QUE FOI APLICADO, PROMPT LIMPO PARA IMAGEM.\nNão copie obras, personagens, cenas ou falas protegidas. Use referências só como linguagem.\n\nPREMISSA:\n${s.premise||''}\n\nAÇÃO DRAMÁTICA:\n${s.summary||''}\n\nGUIA ATUAL:\n${original}`;
+        area.value = await window.callApi(prompt, 'Você é diretor de fotografia, diretor de arte e supervisor de storyboard técnico.');
+        toast('Guia visual transformado em direção cinematográfica técnica.', 'ok');
+      }catch(e){ area.value = original; toast('Erro na IA: '+e.message, 'err'); }
+      return;
+    }
+    if(typeof oldImprove === 'function') return oldImprove();
+  };
+
+  function boot(){
+    ensureSchema(); ensureLensPanel();
+    const terminal = byId('terminalStrip');
+    if(terminal) terminal.textContent = 'Engine V8.8 técnico ativo: Premissa, Ação Dramática, Direção Cinematográfica, Lentes de Direção e leitura técnica.';
+    const brand = document.querySelector('.topbar-brand span');
+    if(brand) brand.textContent = 'V8.8 Técnico Profissional';
+    const workflow = document.querySelector('#tab-storyboard .workflow-strip');
+    if(workflow){
+      workflow.innerHTML = `<div class="workflow-step"><strong>1. Premissa</strong>Ideia-mãe da cena: conflito, promessa e função narrativa.</div><div class="workflow-step"><strong>2. Ação Dramática</strong>O que vemos acontecer: começo, meio, virada e gancho.</div><div class="workflow-step"><strong>3. Direção Cinematográfica</strong>Enquadramento, lente, câmera, luz, movimento, arte e restrições.</div><div class="workflow-step"><strong>4. Leitura Técnica</strong>O site explica o que foi aplicado para virar estudo e produção.</div>`;
+    }
+    const notice = document.querySelector('#tab-storyboard .notice');
+    if(notice) notice.innerHTML = '🎓 Monte a cena como dossiê técnico: <strong>Premissa</strong>, <strong>Ação Dramática</strong>, <strong>Direção Cinematográfica</strong>, imagem de referência, lente de direção e explicação do que foi aplicado.';
+    if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
+    toast('V8.8 Técnico Profissional carregado: linguagem cinematográfica, lentes de direção e explicação técnica ativadas.', 'ok');
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 100);
 })();
 </script>
 
