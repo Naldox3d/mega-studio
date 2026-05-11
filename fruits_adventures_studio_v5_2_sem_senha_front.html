@@ -7101,5 +7101,198 @@ TÉCNICA DE DIREÇÃO:
 })();
 </script>
 
+
+<!-- V8.6 — RAIMI-CAM / A LENTE DE RAIMI
+     Patch autoral: injeta uma lente de direção inspirada em terror físico, câmera POV, splatstick e ambiente vivo.
+     Não copia cenas, falas ou personagens; aplica princípios de linguagem ao roteiro atual. -->
+<script>
+(function(){
+  'use strict';
+  const RAIMI_PATCH_VERSION = 'V8.6 Raimi-Cam';
+
+  function byId(id){ return document.getElementById(id); }
+  function safeText(value){ return String(value || '').trim(); }
+  function getStateSafe(){ return window.state || null; }
+  function getScenesSafe(){
+    const s = getStateSafe();
+    if(!s.scenes) s.scenes = [];
+    return s.scenes;
+  }
+  function getCurrentIndex(){
+    const s = getStateSafe();
+    return Math.max(0, Number(s && s.currentScene || 0));
+  }
+  function getCurrentSceneSafe(){
+    const list = getScenesSafe();
+    const idx = getCurrentIndex();
+    if(!list[idx]) list[idx] = { title:'Cena ' + (idx + 1), summary:'', image:null, visualPrompt:'', visualAnalysis:'', text:'', approved:false };
+    return list[idx];
+  }
+  function callSave(){
+    try { if(typeof window.saveState === 'function') window.saveState(); }
+    catch(e) { try { localStorage.setItem('mega_studio_claude_director_state_v6', JSON.stringify(window.state)); } catch(_){} }
+  }
+  function callTerminal(msg){
+    try { if(typeof window.terminal === 'function') window.terminal(msg); else if(byId('terminalStrip')) byId('terminalStrip').textContent = msg; }
+    catch(e) { if(byId('terminalStrip')) byId('terminalStrip').textContent = msg; }
+  }
+  function appendLog(msg){
+    try { if(typeof window.log === 'function') window.log(msg, 'warn'); }
+    catch(e) {}
+  }
+  function currentBaseText(scene){
+    const editor = byId('smartEditor');
+    return safeText(editor && editor.value) || safeText(scene.text) || safeText(scene.summary) || 'Cena ainda sem texto-base. Use este bloco como lente de direção para reescrever a cena com mais tensão física, câmera nervosa e humor ácido.';
+  }
+
+  function buildRaimiTwist(base, scene, index){
+    const title = safeText(scene.title) || ('Cena ' + (index + 1));
+    const summary = safeText(scene.summary) || 'sem resumo registrado';
+    return `=== 🎥 A LENTE DE RAIMI / RAIMI-CAM ATIVADA ===
+VERSÃO: ${RAIMI_PATCH_VERSION}
+CENA-ALVO: ${title}
+RESUMO-BASE: ${summary}
+
+REGRA AUTORAL:
+Aplicar linguagem de direção inspirada em câmera possuída, terror físico exagerado, ambiente agressivo e humor negro visual, sem copiar cenas, falas, personagens ou situações protegidas. A cena continua sendo Fruits Adventures / Hellipunk.
+
+1) EVIL FORCE POV — CÂMERA POSSUÍDA
+A câmera deixa de observar e passa a atacar. Ela nasce baixa, quase no chão, corre pelo cenário como uma força invisível, raspa em objetos, empurra portas, atravessa frestas, balança como se respirasse e termina encarando o protagonista de frente.
+
+2) SPLATSTICK — GORE + SLAPSTICK
+O horror vira pancada visual exagerada: líquido, sujeira, tropeços, objeto quebrando, susto seco e reação absurda. O grotesco não é realista; é cartunesco adulto, punk, sujo e fisicamente engraçado.
+
+3) O AMBIENTE ENLOUQUECE
+O cenário ganha vontade própria. Luz falha em ritmo, ferramenta vibra sozinha, porta bate para isolar personagem, objeto-símbolo responde à emoção da cena e algum detalhe do mundo Fruits parece rir sem boca.
+
+4) DUTCH ANGLES / VERTIGEM
+Inserir ângulos tortos, câmera baixa agressiva, aproximações rápidas, zoom súbito no olhar e cortes secos alternando entre medo, objeto, mão, chão e rosto.
+
+5) PATCH PARA COLAR NA CENA
+Depois do momento principal da cena, inserir esta sequência:
+- Um silêncio curto e errado toma o ambiente.
+- A câmera vira POV da força invisível e dispara pelo cenário.
+- O primeiro impacto não é no corpo: é no mundo. Porta, lâmpada, objeto ou parede reage como se estivesse vivo.
+- O personagem tenta manter a pose, mas o próprio ambiente o ridiculariza com uma pancada física absurda.
+- A tensão sobe com som metálico, respiração distorcida e cortes tortos.
+- No auge, a câmera quase bate no rosto do protagonista e corta seco para uma imagem congelada estilo comic panel.
+
+6) CAPCUT MOTION BOOK
+Duração sugerida: 8 a 14 segundos.
+Cortes: 0.3s a 0.8s nos impactos, 1.5s no silêncio inicial, freeze frame final de 0.5s.
+SFX: whoosh sujo, madeira estalando, metal vibrando, lâmpada estourando, respiração grave e batida seca.
+VFX: tremor leve, vinheta escura, blur de movimento na POV, zoom punch e frame torto final.
+Legenda/SRT: frases curtas, pausas com reticências, grito ou reação seca no impacto.
+
+7) TEXTO ORIGINAL DA CENA PARA REESCRITA/REFERÊNCIA
+${base}
+
+===================================`;
+  }
+
+  window.injectRaimiV86 = function(btn){
+    const button = btn || byId('btnRaimiV86');
+    const oldLabel = button ? button.textContent : '';
+    try {
+      if(button) button.textContent = '🎥 Possuindo cena...';
+      const scene = getCurrentSceneSafe();
+      const index = getCurrentIndex();
+      const editor = byId('smartEditor');
+      const base = currentBaseText(scene);
+      const raimiBlock = '\n\n' + buildRaimiTwist(base, scene, index) + '\n';
+      const merged = base + raimiBlock;
+
+      if(editor){
+        editor.value = merged;
+        editor.scrollTop = editor.scrollHeight;
+      }
+      scene.text = merged;
+      scene.raimiCamV86 = {
+        active: true,
+        appliedAt: new Date().toISOString(),
+        version: RAIMI_PATCH_VERSION
+      };
+      callSave();
+      appendLog('Raimi-Cam V8.6 aplicada na cena atual.');
+      callTerminal('🎥 Raimi-Cam V8.6: câmera possuída, splatstick e ambiente vivo aplicados à cena atual.');
+      if(button) button.textContent = '🎥 Modo Sam Raimi';
+    } catch(e) {
+      if(button) button.textContent = oldLabel || '🎥 Modo Sam Raimi';
+      alert('Raimi-Cam não pôde dirigir agora: ' + (e && e.message ? e.message : e));
+    }
+  };
+
+  window.buildRaimiPromptV86 = function(){
+    const scene = getCurrentSceneSafe();
+    const index = getCurrentIndex();
+    const base = currentBaseText(scene);
+    return buildRaimiTwist(base, scene, index) + `\n\nTAREFA PARA A IA:\nReescreva a cena mantendo o DNA Fruits/Hellipunk, aumentando ritmo, câmera, SFX, tensão física e humor negro visual. Entregue também: narração, falas, SRT limpo e notas de CapCut.`;
+  };
+
+  window.sendRaimiToCopilotV86 = function(){
+    const prompt = window.buildRaimiPromptV86();
+    if(typeof window.goNode === 'function') window.goNode('ai');
+    setTimeout(function(){
+      const input = byId('aiInput');
+      if(input){
+        input.value = prompt;
+        input.focus();
+        if(typeof window.sendAiMessage === 'function') window.sendAiMessage();
+      } else if(navigator.clipboard) {
+        navigator.clipboard.writeText(prompt);
+        callTerminal('Prompt Raimi-Cam copiado. Cole no Copilot para reescrever a cena.');
+      }
+    }, 120);
+  };
+
+  function ensureRaimiButton(){
+    const actionRow = document.querySelector('#tab-scene .action-row');
+    if(!actionRow || byId('btnRaimiV86')) return;
+
+    const raimiBtn = document.createElement('button');
+    raimiBtn.id = 'btnRaimiV86';
+    raimiBtn.type = 'button';
+    raimiBtn.className = 'btn btn-pink';
+    raimiBtn.style.background = 'linear-gradient(180deg, rgba(153,51,0,.92), rgba(77,26,0,.92))';
+    raimiBtn.style.borderColor = 'rgba(255,102,0,.72)';
+    raimiBtn.style.color = '#ffcc99';
+    raimiBtn.style.fontWeight = '900';
+    raimiBtn.textContent = '🎥 Modo Sam Raimi';
+    raimiBtn.title = 'Injeta Raimi-Cam: POV da força, splatstick, ambiente vivo e ângulos tortos na cena atual.';
+    raimiBtn.onclick = function(){ window.injectRaimiV86(raimiBtn); };
+
+    const copilotBtn = document.createElement('button');
+    copilotBtn.id = 'btnRaimiCopilotV86';
+    copilotBtn.type = 'button';
+    copilotBtn.className = 'btn btn-purple';
+    copilotBtn.textContent = '🤖 Raimi → Claude';
+    copilotBtn.title = 'Envia um prompt Raimi-Cam completo para o Copilot/Claude reescrever a cena.';
+    copilotBtn.onclick = window.sendRaimiToCopilotV86;
+
+    const fineTuneBtn = Array.from(actionRow.children).find(function(b){ return String(b.textContent || '').includes('Ajuste Fino IA'); });
+    if(fineTuneBtn && fineTuneBtn.nextSibling){
+      actionRow.insertBefore(raimiBtn, fineTuneBtn.nextSibling);
+      actionRow.insertBefore(copilotBtn, raimiBtn.nextSibling);
+    } else {
+      actionRow.appendChild(raimiBtn);
+      actionRow.appendChild(copilotBtn);
+    }
+  }
+
+  const previousGoNode = window.goNode;
+  window.goNode = function(id){
+    if(typeof previousGoNode === 'function') previousGoNode(id);
+    if(id === 'scene') setTimeout(ensureRaimiButton, 120);
+  };
+
+  function bootRaimi(){
+    ensureRaimiButton();
+    callTerminal('Raimi-Cam V8.6 carregada: botão 🎥 Modo Sam Raimi disponível no Estúdio.');
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootRaimi); else bootRaimi();
+  setTimeout(bootRaimi, 900);
+})();
+</script>
+
 </body>
 </html>
