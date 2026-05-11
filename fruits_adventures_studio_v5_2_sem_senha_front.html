@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V9.0.2 Copilot Guia Criativo — Banco de Fórmulas</title>
+<title>Fruits Adventures Studio — V9.0.4 Sem Senha + Navegação Corrigida</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -4242,9 +4242,7 @@ function buildSceneVoicePack(s, i) {
   const eleven = extractBlock(s.text||'', 'ELEVENLABS') || '';
   const narracao = extractBlock(s.text||'', 'NARRAÇÃO') || '';
   const suggested = buildSuggestedDialoguePack(s, i);
-  const fallback = [falas, eleven, suggested].filter(Boolean).join('
-
-') || (s.text||'');
+  const fallback = [falas, eleven, suggested].filter(Boolean).join('\n\n') || (s.text||'');
   return `🎙️ PACOTE DE VOZ — ${sceneLabel(i)}
 
 DESIGNER DE VOZ / DNA:
@@ -4280,8 +4278,7 @@ ${fallback}
 ---
 
 VERSÃO LIMPA PARA APP DE VOZ / VOZ DA ZUEIRA:
-${extractPublicLines(s.text || s.summary || '').slice(0, 10).join('
-')}
+${extractPublicLines(s.text || s.summary || '').slice(0, 10).join('\n')}
 
 ---
 
@@ -5088,9 +5085,7 @@ function buildVideoIaPromptForScene(s, i) {
   const narr = (typeof buildNarrationText === 'function' ? buildNarrationText(s) : '').trim();
   const falas = (typeof buildDialoguesText === 'function' ? buildDialoguesText(s, i || 0) : '').trim();
   const dna = (state && state.setup && state.setup.continuityRules) ? state.setup.continuityRules : '';
-  const sceneBase = [base, visual, slices, roteiro].filter(Boolean).join('
-
-').slice(0, 4200);
+  const sceneBase = [base, visual, slices, roteiro].filter(Boolean).join('\n\n').slice(0, 4200);
   const actionHint = base || (typeof extractBlock === 'function' ? extractBlock(roteiro, 'AÇÃO') : '') || 'a equipe precisa resolver uma ameaça técnica sobrenatural dentro da garagem punk antes que a gravação saia do controle';
   const visualHint = visual || 'garagem punk underground de Caruaru, concreto sujo, pôsteres rasgados, cabos emaranhados, claquete, guitarra, câmera Sony HD100, luz amarela piscando e clima DIY pós-apocalíptico';
   const castHint = 'Elenco permitido: Eli/Elinaldo, Taciano, Bruno, César e Tomate Hellipunk/Tomate Elinaldo. Não adicionar personagens externos.';
@@ -8660,6 +8655,181 @@ ${base}
   setTimeout(cleanPortalNoLogin, 50);
   setTimeout(cleanPortalNoLogin, 500);
   setTimeout(cleanPortalNoLogin, 1500);
+})();
+</script>
+
+
+<!-- V9.0.4 FIX FINAL — SEM SENHA + NAVEGAÇÃO 0-8 CORRIGIDA -->
+<style id="v904NavigationFixCss">
+  #portal { display:none !important; visibility:hidden !important; opacity:0 !important; pointer-events:none !important; }
+  #tab-nodes .v904-wrap,
+  #tab-capcut .v904-wrap {
+    padding: 22px;
+    max-width: 1380px;
+  }
+  .v904-card {
+    border: 1px solid rgba(214,173,104,.18);
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)), #0d1220;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .v904-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .v904-card h3,
+  .v904-card h4 {
+    color: #e8c989;
+    font-family: 'Syne', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin: 0 0 8px;
+  }
+  .v904-card p {
+    color: #aebbd3;
+    font-size: 12px;
+    line-height: 1.55;
+    margin: 0 0 10px;
+  }
+  @media(max-width: 1100px){ .v904-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  @media(max-width: 700px){ .v904-grid{grid-template-columns:1fr;} }
+</style>
+<script id="v904NavigationFix">
+(function(){
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const qa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  function scenes(){ return Array.isArray(window.state?.scenes) ? window.state.scenes : []; }
+
+  function hidePortalForever(){
+    try { localStorage.setItem('mega_studio_github_login_ok','1'); } catch(e) {}
+    const portal = $('portal');
+    if (portal) {
+      portal.classList.add('hidden');
+      portal.style.display = 'none';
+      portal.setAttribute('aria-hidden','true');
+    }
+    qa('.topbar-lock').forEach(btn => {
+      btn.innerHTML = '💾 Salvar';
+      btn.title = 'Salvar estado local';
+      btn.onclick = function(){
+        try { if (typeof window.saveState === 'function') window.saveState(); } catch(e) {}
+        try { if (typeof window.log === 'function') window.log('Projeto salvo no navegador. Acesso direto sem senha ativo.', 'ok'); } catch(e) {}
+      };
+    });
+  }
+
+  function ensurePanel(id, html){
+    const panelId = 'tab-' + id;
+    let panel = $(panelId);
+    const content = document.querySelector('.content');
+    if (!panel && content) {
+      panel = document.createElement('div');
+      panel.className = 'tab-panel';
+      panel.id = panelId;
+      content.appendChild(panel);
+    }
+    if (panel && html != null) panel.innerHTML = html;
+    return panel;
+  }
+
+  function ensureDashboard(){
+    let panel = $('tab-dashboard');
+    if (!panel) panel = ensurePanel('dashboard', '');
+    if (panel && !panel.innerHTML.trim()) {
+      const list = scenes();
+      const current = list[window.state?.currentScene || 0] || {};
+      const approved = list.filter(s => s.approved).length;
+      panel.innerHTML = `<div class="pd-v89-wrap"><div class="pd-v89-hero"><div class="pd-v89-card"><div class="pd-v89-kicker">🎬 Production Flow • V9.0.4</div><h1 class="pd-v89-title">${esc($('projectName')?.value || 'Fruits Adventures Mega Studio')}</h1><div class="pd-v89-sub">Dashboard principal corrigido: abre direto, sem senha, e os botões 0 a 8 chamam seus próprios módulos sem pular para o Copilot.</div><div class="pd-v89-modebar"><button class="btn btn-gold" onclick="goNode('setup')">Finalizar Setup</button><button class="btn btn-cyan" onclick="goNode('storyboard')">Storyboard Técnico</button><button class="btn btn-purple" onclick="goNode('scene')">Estúdio</button><button class="btn" onclick="goNode('export')">Exportar</button></div></div><div class="pd-v89-card"><div class="pd-v89-kicker">Status</div><div class="pd-v89-checklist"><div class="pd-v89-check ${list.length?'ok':'warn'}"><span>${list.length?'✅':'○'}</span><span>${list.length} cena(s)</span></div><div class="pd-v89-check ${approved?'ok':'warn'}"><span>${approved?'✅':'○'}</span><span>${approved} aprovada(s)</span></div></div></div></div><div class="pd-v89-flow"><div class="pd-v89-step" onclick="goNode('setup')"><span class="pd-v89-dot"></span><strong>🧬 Setup</strong><p>DNA, API e continuidade.</p></div><div class="pd-v89-step" onclick="goNode('storyboard')"><span class="pd-v89-dot"></span><strong>📚 Storyboard</strong><p>Premissa, ação e guia visual.</p></div><div class="pd-v89-step" onclick="goNode('mindmap')"><span class="pd-v89-dot"></span><strong>🗺️ Mindmap</strong><p>Continuidade global.</p></div><div class="pd-v89-step" onclick="goNode('nodes')"><span class="pd-v89-dot"></span><strong>🧠 Nodes</strong><p>Atalhos do fluxo.</p></div><div class="pd-v89-step" onclick="goNode('scene')"><span class="pd-v89-dot"></span><strong>🎬 Estúdio</strong><p>Roteiro, falas e SRT.</p></div><div class="pd-v89-step" onclick="goNode('capcut')"><span class="pd-v89-dot"></span><strong>🎞️ CapCut</strong><p>Motion Book e edição.</p></div></div><div class="pd-v89-card"><div class="pd-v89-kicker">Cena atual</div><div class="pd-v89-sub">${esc(current.premise || current.summary || 'Ainda sem dados na cena atual.')}</div></div></div>`;
+    }
+    return panel;
+  }
+
+  function renderNodesBoard(){
+    ensurePanel('nodes', `<div class="panel-scroll v904-wrap"><div class="section-title">🧠 Nodes do Fluxo <span class="badge">corrigido</span></div><div class="notice notice-info">Mapa de atalhos real. Esta aba agora é independente e não usa mais o Copilot como painel escondido.</div><div class="v904-grid"><div class="v904-card"><h4>0. Produção</h4><p>Dashboard visual e próxima ação.</p><button class="btn btn-gold" onclick="goNode('dashboard')">Abrir Produção</button></div><div class="v904-card"><h4>1. Setup</h4><p>DNA, API, regras e continuidade.</p><button class="btn btn-cyan" onclick="goNode('setup')">Abrir Setup</button></div><div class="v904-card"><h4>2. Storyboard</h4><p>Premissa, ação dramática e guia visual.</p><button class="btn btn-cyan" onclick="goNode('storyboard')">Abrir Storyboard</button></div><div class="v904-card"><h4>3. Mindmap</h4><p>Mapa global e auditoria de continuidade.</p><button class="btn" onclick="goNode('mindmap')">Abrir Mindmap</button></div><div class="v904-card"><h4>4. Nodes</h4><p>Você está aqui. Botão 4 corrigido.</p><button class="btn btn-green" onclick="goNode('nodes')">Recarregar Nodes</button></div><div class="v904-card"><h4>5. Estúdio</h4><p>Roteiro, narração, falas, SRT e vídeo IA.</p><button class="btn btn-purple" onclick="goNode('scene')">Abrir Estúdio</button></div><div class="v904-card"><h4>6. CapCut</h4><p>Motion Book, SFX, VFX e plano técnico.</p><button class="btn btn-gold" onclick="goNode('capcut')">Abrir CapCut</button></div><div class="v904-card"><h4>7. Copilot</h4><p>Mesa crítica, fórmulas e IA criativa.</p><button class="btn" onclick="goNode('ai')">Abrir Copilot</button></div><div class="v904-card"><h4>8. Exportar</h4><p>Pacotes finais, backup e compartilhamento.</p><button class="btn btn-green" onclick="goNode('export')">Abrir Exportar</button></div></div></div>`);
+  }
+
+  function renderCapcutPanel(){
+    ensurePanel('capcut', `<div class="panel-scroll v904-wrap"><div class="section-title">🎞️ CapCut Motion Book <span class="badge">módulo 6</span></div><div class="notice notice-info">Aba CapCut corrigida: o botão 6 agora abre este módulo, sem cair em Exportar ou Copilot.</div><div class="v904-grid"><div class="v904-card"><h4>CapCut 2D 100%</h4><p>Pacote econômico para animar storyboard, imagem, narração, SFX, zoom e keyframes no CapCut.</p><button class="btn btn-gold" onclick="if(typeof openCapCut2DScenePack==='function')openCapCut2DScenePack();else goNode('export')">Gerar pacote da cena</button></div><div class="v904-card"><h4>SRT CapCut</h4><p>Gerar legendas limpas para edição vertical.</p><button class="btn btn-cyan" onclick="if(typeof genSrt==='function')genSrt('clean');else goNode('scene')">Gerar SRT</button></div><div class="v904-card"><h4>Vídeo IA</h4><p>Prompt para CapCut AI, Seedance, Flow ou Veo.</p><button class="btn btn-purple" onclick="if(typeof openVideoIaPrompt==='function')openVideoIaPrompt();else goNode('scene')">Abrir Vídeo IA</button></div><div class="v904-card"><h4>Exportar packs</h4><p>Baixar ou compartilhar pacotes finais.</p><button class="btn btn-green" onclick="goNode('export')">Ir para Exportar</button></div></div></div>`);
+  }
+
+  function activatePanel(id){
+    qa('.tab-panel').forEach(p => p.classList.remove('active'));
+    const panel = $('tab-' + id);
+    if (panel) panel.classList.add('active');
+    return panel;
+  }
+
+  window.goNode = function(id){
+    hidePortalForever();
+    id = ({ home:'dashboard', production:'dashboard', producao:'dashboard', copilot:'ai', estudio:'scene' }[id] || id);
+
+    if (id === 'dashboard') ensureDashboard();
+    if (id === 'nodes') renderNodesBoard();
+    if (id === 'capcut') renderCapcutPanel();
+
+    // Garante que abas dinâmicas de versões anteriores existam quando chamadas.
+    try { if (id === 'mindmap' && typeof window.renderMindmap === 'function') window.renderMindmap(); } catch(e) {}
+
+    const panel = activatePanel(id);
+    if (!panel) {
+      activatePanel('dashboard');
+      id = 'dashboard';
+    }
+
+    try { if (id === 'storyboard' && typeof window.renderStoryboard === 'function') window.renderStoryboard(); } catch(e) {}
+    try { if (id === 'scene' && typeof window.loadStudioView === 'function') window.loadStudioView(); } catch(e) {}
+    try { if (id === 'export' && typeof window.updateExport === 'function') window.updateExport(); } catch(e) {}
+
+    renderNodesFixed();
+    const strip = $('terminalStrip');
+    if (strip) strip.textContent = 'V9.0.4 navegação corrigida: módulo ' + id + ' aberto sem pular abas.';
+  };
+
+  window.renderNodes = renderNodesFixed;
+  function renderNodesFixed(){
+    const bar = $('nodesBar');
+    if (!bar) return;
+    const active = (document.querySelector('.tab-panel.active')?.id || 'tab-dashboard').replace('tab-','');
+    const list = scenes();
+    const nodes = [
+      {id:'dashboard', icon:'🎛️', label:'0. Produção', status:'dashboard'},
+      {id:'setup', icon:'🧬', label:'1. Setup', status:'DNA/API'},
+      {id:'storyboard', icon:'📚', label:'2. Storyboard', status:list.length + ' cenas'},
+      {id:'mindmap', icon:'🗺️', label:'3. Mindmap', status:'continuidade'},
+      {id:'nodes', icon:'🧠', label:'4. Nodes', status:'atalhos'},
+      {id:'scene', icon:'🎬', label:'5. Estúdio', status:'roteiro'},
+      {id:'capcut', icon:'🎞️', label:'6. CapCut', status:'motion book'},
+      {id:'ai', icon:'🤖', label:'7. Copilot', status:'mesa crítica'},
+      {id:'export', icon:'📦', label:'8. Exportar', status:(list.length && list.every(s=>s.approved)) ? 'pronto' : 'packs'}
+    ];
+    bar.innerHTML = nodes.map(n => `<button type="button" data-v904="true" class="node-btn ${n.id===active?'active node-punk-active':''}" onclick="goNode('${n.id}')"><strong>${n.icon} ${esc(n.label)}</strong><small>${esc(n.status)}</small></button>`).join('');
+  }
+
+  window.initPortal = function(){ hidePortalForever(); };
+  window.unlockPortal = function(){ hidePortalForever(); };
+  window.lockPortal = function(){ hidePortalForever(); };
+
+  function boot(){
+    hidePortalForever();
+    ensureDashboard();
+    renderNodesBoard();
+    renderCapcutPanel();
+    const brand = document.querySelector('.topbar-brand span');
+    if (brand) brand.textContent = 'V9.0.4 Sem Senha + Navegação Corrigida';
+    renderNodesFixed();
+    // Mantém a aba atual, mas se nenhuma estiver ativa entra no dashboard.
+    if (!document.querySelector('.tab-panel.active')) window.goNode('dashboard');
+    try { if (typeof window.log === 'function') window.log('V9.0.4 aplicado: senha removida e botões 0-8 corrigidos.', 'ok'); } catch(e) {}
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 80));
+  else setTimeout(boot, 80);
+  setTimeout(boot, 600);
 })();
 </script>
 
