@@ -3915,7 +3915,7 @@ function renderStoryboard() {
       </div>
       <div class="sb-content">
         <strong>${s.title}</strong>
-        <textarea placeholder="Ex: Caio encontra a mão de zumbi. Vilão Policial aparece com a viatura. Caio quebra o farol e eles fogem." oninput="updateSummary(${i}, this.value)">${s.summary}</textarea>
+        <textarea placeholder="Ex: Eli encontra a claquete possuída. presença invisível aparece com a câmera Sony HD100. Eli quebra o farol e eles fogem." oninput="updateSummary(${i}, this.value)">${s.summary}</textarea>
       </div>
       <div class="sb-actions">
         <button class="btn btn-sm" onclick="deleteScene(${i})">🗑️ Excluir Cena</button>
@@ -4043,7 +4043,7 @@ async function reviewCurrentSceneWithAI() {
 
   if (!s || !s.text) { log('Gere a cena antes de ajustar.', 'warn'); return; }
 
-  const instrucao = prompt("🎬 DIREÇÃO DE CENA:\nO que você quer mudar neste roteiro?\n(Ex: 'Apague fulano e coloque o Caio' ou deixe em branco para melhorar o texto)");
+  const instrucao = prompt("🎬 DIREÇÃO DE CENA:\nO que você quer mudar neste roteiro?\n(Ex: 'Apague fulano e coloque o Eli' ou deixe em branco para melhorar o texto)");
   if (instrucao === null) return; // Cancelou
 
   editor.value = 'Reescrevendo a cena de acordo com a sua ordem...';
@@ -4181,7 +4181,7 @@ function isBadSrtLine(l) {
   const x = cleanSrtLine(l).toLowerCase();
   if (!x || x === '---' || /^\d+$/.test(x) || /^\[?\d{2}:\d{2}/.test(x)) return true;
   if (/^(cena\s*\d+|roteiro|int\.|ext\.|int\/ext|localizacao|localização)/i.test(x)) return true;
-  if (/^a mao no asfalto$|^a mão no asfalto$|^a viatura na neblina$/i.test(x)) return true;
+  if (/^a mao no cimento$|^a mão no cimento$|^a câmera Sony HD100 na neblina$/i.test(x)) return true;
   return x.includes('roteiro audiovisual final') || x.includes('roteiro final') || x.includes('fruits adventures') ||
     x.includes('objetivo') || x.includes('ação detalhada') || x.includes('acao detalhada') || x.includes('ação:') || x.includes('acao:') ||
     x.includes('câmera') || x.includes('camera') || x.includes('fotografia') || x.includes('emoção') || x.includes('emocao') ||
@@ -4219,20 +4219,70 @@ function buildProductionSrt(text) {
 function buildSuggestedDialoguePack(s, i) {
   const title = sceneLabel(i);
   const lower = ((s.summary||'') + ' ' + (s.text||'')).toLowerCase();
-  const isAmbush = lower.includes('armadilha') || lower.includes('viatura') || lower.includes('neblina');
-  const caio = isAmbush ? 'Armadilha.' : 'Fiquem atrás de mim.';
-  const tomate = isAmbush ? 'Minha lanterna... ela tá apagando.' : 'Eu não gostei disso, Caio.';
-  const sabrina = isAmbush ? 'Não olha pra mão. Olha pra neblina.' : 'Tem coisa se mexendo ao redor.';
-  const vilao = isAmbush ? 'Vocês entraram na minha estrada.' : 'Agora vocês pertencem a mim.';
-  return `DIÁLOGOS SUGERIDOS — ${title}\n\nCAIO [baixo, urgente]: "${caio}"\nTOMATE ELINALDO [tremendo, tentando manter coragem]: "${tomate}"\nSABRINA PITAYA [firme, cortante]: "${sabrina}"\nVILÃO POLICIAL [grave, arrastado, ameaçador]: "${vilao}"`;
+  const isGame = lower.includes('regra') || lower.includes('claquete') || lower.includes('cabo') || lower.includes('fase');
+  const eli = isGame ? 'O cabo certo não é o mais bonito. É o que sobrevive.' : 'Segura a calma. Eu resolvo essa gambiarra.';
+  const tomate = isGame ? 'A regra mudou... eu senti.' : 'Eu não gostei disso, Eli.';
+  const taciano = isGame ? 'Ninguém grita. Todo mundo presta atenção na claquete.' : 'Câmera pronta. Sem perder o ritmo.';
+  const bruno = isGame ? 'Se o som falhar, a gente vira o som.' : 'Eu entro no peso quando você mandar.';
+  const cesar = isGame ? 'A câmera pegou uma coisa que não era pra estar aqui.' : 'Estou enquadrando. Não mexam sem avisar.';
+  return `DIÁLOGOS SUGERIDOS — ${title}
+
+ELI [baixo, técnico, urgente]: "${eli}"
+TACIANO [diretor, controlando a pressão]: "${taciano}"
+BRUNO [seco, musical, atento]: "${bruno}"
+CÉSAR [grave, bastidor, alerta]: "${cesar}"
+TOMATE HELLIPUNK [assustado mas corajoso]: "${tomate}"`;
 }
 function buildSceneVoicePack(s, i) {
   const falas = extractBlock(s.text||'', 'FALAS') || '';
   const eleven = extractBlock(s.text||'', 'ELEVENLABS') || '';
   const narracao = extractBlock(s.text||'', 'NARRAÇÃO') || '';
   const suggested = buildSuggestedDialoguePack(s, i);
-  const fallback = [falas, eleven, suggested].filter(Boolean).join('\n\n') || (s.text||'');
-  return `🎙️ PACOTE DE VOZ — ${sceneLabel(i)}\n\nDESIGNER DE VOZ / DNA:\n\nCAIO: voz masculina jovem adulta, grave média, firme, protetora, cansada, respiração tensa. Fala pouco, com comando e urgência.\n\nTOMATE ELINALDO: voz masculina expressiva, um pouco aguda, nervosa, humana-cartunesca sem infantilizar. Medo visível na respiração, mas com coragem.\n\nSABRINA PITAYA: voz feminina rouca, firme, combatente, frases curtas, energia de guerreira.\n\nVILÃO POLICIAL INFECTADO: voz grave, arrastada, gutural, ameaçadora, com respiração quebrada e poucas palavras.\n\nNARRADOR: voz grave, documental sombria, ritmo lento, suspense.\n\n---\n\nNARRAÇÃO DA CENA:\n${narracao || 'Use uma narração curta e grave: a estrada não era saída; era uma armadilha.'}\n\n---\n\nFALAS / ELEVENLABS:\n${fallback}\n\n---\n\nVERSÃO LIMPA PARA APP DE VOZ / VOZ DA ZUEIRA:\n${extractPublicLines(s.text || s.summary || '').slice(0, 10).join('\n')}\n\n---\n\nREGRA DE GRAVAÇÃO:\nUma voz por personagem. Pausas curtas. Emoção clara. Exportar cada personagem em arquivo separado quando possível.`;
+  const fallback = [falas, eleven, suggested].filter(Boolean).join('
+
+') || (s.text||'');
+  return `🎙️ PACOTE DE VOZ — ${sceneLabel(i)}
+
+DESIGNER DE VOZ / DNA:
+
+ELI / ELINALDO:
+Voz masculina adulta, nordestina sutil, técnica, cansada, urgente e humana. É o criador que resolve a gambiarra sob pressão.
+
+TACIANO:
+Voz de diretor, firme, rouca, impaciente, autoridade tentando não perder o controle.
+
+BRUNO:
+Voz seca, musical, de banda punk, pouco texto e muita presença.
+
+CÉSAR:
+Voz mais grave, bastidor/editor, observador, câmera na mão, alerta constante.
+
+TOMATE HELLIPUNK / TOMATE ELINALDO:
+Voz expressiva, assustada mas corajosa, símbolo emocional da cena, sem infantilizar.
+
+NARRADOR:
+Voz grave, documental sombria, ritmo lento, suspense e humor seco.
+
+---
+
+NARRAÇÃO DA CENA:
+${narracao || 'Depois da queda de energia, o estúdio não era mais o mesmo.'}
+
+---
+
+FALAS / ELEVENLABS:
+${fallback}
+
+---
+
+VERSÃO LIMPA PARA APP DE VOZ / VOZ DA ZUEIRA:
+${extractPublicLines(s.text || s.summary || '').slice(0, 10).join('
+')}
+
+---
+
+REGRA DE GRAVAÇÃO:
+Uma voz por personagem. Pausas curtas. Emoção clara. Exportar cada personagem em arquivo separado quando possível. Não adicionar personagens de outra saga.`;
 }
 function genSrt(mode) { const s = state.scenes[state.currentScene]; if (!s) return; const title = mode === 'production' ? 'SRT Produção Comentado' : 'SRT CapCut Limpo'; const txt = mode === 'production' ? buildProductionSrt(s.text || '') : buildSrt(s.text || ''); openModal(title, 'Legenda da cena atual.', txt, sceneFileName(mode === 'production' ? 'srt_producao' : 'srt_capcut','srt')); }
 function genElevenText() { const s = state.scenes[state.currentScene]; if(!s) return; openModal('Vozes ElevenLabs', 'Designer de voz, narração e falas.', buildSceneVoicePack(s, state.currentScene), sceneFileName('vozes','txt')); }
@@ -4504,7 +4554,7 @@ function renderStoryboard() {
       </div>
       <div class="sb-content">
         <strong>${htmlEscape(s.title)}</strong>
-        <textarea placeholder="Ex: Caio encontra a mão de zumbi. O vilão policial aparece com a viatura. Caio quebra o farol e eles fogem." oninput="updateSummary(${i}, this.value)">${htmlEscape(s.summary)}</textarea>
+        <textarea placeholder="Ex: Eli encontra a claquete possuída. O presença invisível aparece com a câmera Sony HD100. Eli quebra o farol e eles fogem." oninput="updateSummary(${i}, this.value)">${htmlEscape(s.summary)}</textarea>
         <div class="visual-blueprint-box">
           <label>Guia visual / prompt de imagem-render</label>
           <textarea placeholder="Clique em 🎨 Guia Visual IA para criar um prompt cinematográfico profissional para Runway, Midjourney, Gemini, Leonardo, Blender, Unreal ou outro gerador/render." oninput="updateVisualPrompt(${i}, this.value)">${htmlEscape(s.visualPrompt)}</textarea>
@@ -4736,7 +4786,32 @@ function exportReelsCutPack() {
 }
 
 function exportVoiceDesigner() {
-  const text = `🎙️ DESIGNER DE VOZ — FRUITS ADVENTURES\n\nOBJETIVO:\nCriar vozes consistentes para ElevenLabs, CapCut ou dublagem manual. Use como direção vocal antes de gerar áudio.\n\nCAIO:\nVoz masculina jovem adulta, grave média, firme, protetora, cansada, respiração tensa. Fala pouco, com comando e urgência. Evitar exagero heroico.\n\nTOMATE ELINALDO:\nVoz masculina expressiva, um pouco aguda, nervosa, humana-cartunesca sem infantilizar. Medo visível na respiração, mas com coragem.\n\nSABRINA PITAYA:\nVoz feminina rouca, firme, combatente, frases curtas, energia de guerreira. Pouca hesitação, olhar frio, alerta constante.\n\nVILÃO POLICIAL INFECTADO:\nVoz grave, arrastada, gutural, ameaçadora, com respiração quebrada. Poucas palavras. Pode ter distorção leve e ruído orgânico.\n\nNARRADOR:\nVoz masculina grave ou feminina grave, tom documental sombrio, ritmo lento, suspense, sem teatralidade excessiva.\n\nREGRA DE MIXAGEM:\nVozes em -6dB a -3dB, música baixa, efeitos de ambiente e respiração dando tensão. Legendas sempre visíveis no CapCut.\n`;
+  const text = `🎙️ DESIGNER DE VOZ — FRUITS ADVENTURES / OS INICIANTES DO PUNK
+
+OBJETIVO:
+Criar vozes consistentes para ElevenLabs, CapCut ou dublagem manual. Use como direção vocal antes de gerar áudio.
+
+ELI / ELINALDO:
+Voz masculina adulta, nordestina sutil, técnica, cansada, urgente e humana.
+
+TACIANO:
+Voz de diretor, firme, rouca, impaciente, autoridade tentando não perder o controle.
+
+BRUNO:
+Voz seca, musical, de banda punk, pouco texto e muita presença.
+
+CÉSAR:
+Voz mais grave, bastidor/editor, observador, câmera na mão, alerta constante.
+
+TOMATE HELLIPUNK / TOMATE ELINALDO:
+Voz expressiva, assustada mas corajosa, símbolo emocional da cena, sem infantilizar.
+
+NARRADOR:
+Voz masculina grave ou feminina grave, tom documental sombrio, ritmo lento, suspense, sem teatralidade excessiva.
+
+REGRA DE MIXAGEM:
+Vozes em -6dB a -3dB, música baixa, efeitos de ambiente, cabo, claquete e respiração dando tensão. Legendas sempre visíveis no CapCut.
+`;
   openModal('Designer de Voz', 'Perfis vocais por personagem.', text, projectFileName('designer_de_voz','txt'));
 }
 
@@ -4923,7 +4998,7 @@ function isBadSrtLine(l) {
   const x = cleanSrtLine(l).toLowerCase();
   if (!x || x === '---' || /^\d+$/.test(x) || /^\[?\d{2}:\d{2}/.test(x)) return true;
   if (/^(cena\s*\d+|roteiro|int\.|ext\.|int\/ext|localizacao|localização)/i.test(x)) return true;
-  if (/^a mao no asfalto$|^a mão no asfalto$|^a viatura na neblina$|^hospital abandonado\s*\/\s*a confissao$|^hospital abandonado\s*\/\s*a confissão$/i.test(x)) return true;
+  if (/^a mao no cimento$|^a mão no cimento$|^a câmera Sony HD100 na neblina$|^garagem punk underground\s*\/\s*a confissao$|^garagem punk underground\s*\/\s*a confissão$/i.test(x)) return true;
   return x.includes('roteiro audiovisual final') || x.includes('roteiro final') || x.includes('fruits adventures') ||
     x.includes('objetivo') || x.includes('ação detalhada') || x.includes('acao detalhada') || x.includes('ação:') || x.includes('acao:') ||
     x.includes('câmera') || x.includes('camera') || x.includes('fotografia') || x.includes('emoção') || x.includes('emocao') ||
@@ -4999,20 +5074,72 @@ function loadEditor(mode) {
 // FINAL OVERRIDES V6.4.5 — VIDEO IA + SRT DRIVE SUAVE
 // ═══════════════════════════════════════════════
 function buildVideoIaPromptForScene(s, i) {
-  const title = sceneLabel(i);
+  s = s || {};
+  const title = (typeof sceneLabel === 'function') ? sceneLabel(i) : ('Cena ' + ((i || 0) + 1));
   const visual = (s.visualPrompt || '').trim();
   const analysis = (s.visualAnalysis || '').trim();
   const base = (s.summary || '').trim();
   const roteiro = (s.text || '').trim();
-  const narr = buildNarrationText(s).trim();
-  const falas = buildDialoguesText(s, i).trim();
-  const publicLines = extractPublicLines(roteiro || base).slice(0, 12).join(' ');
-  const isHospital = /hospital|corredor|emergency|radiology|confiss/i.test(base + ' ' + visual + ' ' + roteiro);
-  const locationHint = isHospital
-    ? 'corredor de hospital abandonado, azulejos verde-água rachados, macas enferrujadas, placas EMERGENCY e RADIOLOGY tortas, luz fluorescente fria piscando, fumaça no fundo'
-    : 'cenário pós-apocalíptico sujo, névoa volumétrica, asfalto rachado, carros destruídos, luz dramática natural, atmosfera de sobrevivência';
-  const actionHint = base || publicLines || 'os personagens percebem uma ameaça escondida e precisam decidir se fogem ou enfrentam o perigo';
-  return `🎬 PROMPT DE VÍDEO IA — ${title}\nCapCut AI / Seedance / Flow / Veo / gerador de vídeo\n\nFORMATO:\nVertical 9:16, duração sugerida 8 a 12 segundos, estilo trailer cinematográfico sombrio, realista, pós-apocalíptico, suspense de sobrevivência.\n\nIMAGEM DE REFERÊNCIA:\nUse a imagem anexada como base principal de composição, personagem, figurino, pose, cenário, iluminação e atmosfera. Preserve o DNA visual dos personagens.\n\nCENA / AÇÃO PRINCIPAL:\n${actionHint}\n\nDESCRIÇÃO CINEMATOGRÁFICA:\n${locationHint}. Caio, humano negro com dreads curtos, camisa branca suja e pé de cabra, mantém postura protetora. Tomate Elinaldo, tomate antropomórfico com touca laranja, jaqueta jeans velha e lanterna, demonstra medo e culpa sem virar caricatura infantil. Sabrina Pitaya, pitaya antropomórfica rosa-magenta com pequenas asas de dragão, roupa de combate e bastão com pregos, observa com atitude de guerreira.\n\nMOVIMENTO DE CÂMERA:\nComece com travelling lento para dentro da cena. Use leve handheld de tensão. Faça foco alternar entre o rosto assustado de Tomate, o olhar desconfiado de Caio e a postura alerta de Sabrina. Termine com micro aproximação no detalhe mais ameaçador ou no silêncio do corredor.\n\nAÇÃO EM 3 BATIDAS:\n1. Estabelecer o ambiente e a ameaça invisível.\n2. Tomate hesita, segura a lanterna e parece esconder algo.\n3. Caio e Sabrina percebem que algo está errado; cortar antes da revelação total.\n\nSOM / AMBIENTE:\nZumbido de lâmpada fluorescente, vento distante, metal rangendo, passos ecoando, respiração tensa, ruído grave crescente. Sem música alegre.\n\nFALAS OPCIONAIS (somente se o gerador aceitar voz):\n${falas}\n\nNARRAÇÃO OPCIONAL:\n${narr || 'A estrada não era saída; era uma armadilha.'}\n\nVERSÃO CURTA PARA COLAR NO CAPCUT/SEEDANCE:\nCrie um vídeo vertical 9:16 cinematográfico de sobrevivência pós-apocalíptica usando a imagem de referência. ${actionHint} Atmosfera realista, suja, tensa, com névoa, luz dramática, câmera lenta com leve handheld, foco em expressões de medo, culpa e desconfiança. Som de ambiente sombrio, respiração, metal rangendo e suspense crescente. Final com corte seco antes da revelação.\n\nNEGATIVO:\nSem texto na tela, sem logo, sem marca d'água, sem visual infantil, sem transformar Caio em fruta, sem adicionar personagens fora do DNA, sem comédia, sem cores limpas demais, sem copiar cenas de filmes ou séries existentes.\n\nREFERÊNCIA DO GUIA VISUAL:\n${visual ? visual.slice(0, 1800) : 'Use o guia visual da cena e a imagem anexada como referência.'}\n\nANÁLISE DA IMAGEM, SE EXISTIR:\n${analysis ? analysis.slice(0, 1200) : 'Após gerar/subir a imagem, use Analisar Imagem para refinar câmera, blocking, iluminação e emoção.'}`;
+  const slices = (s.storyboardSlices || '').trim();
+  const narr = (typeof buildNarrationText === 'function' ? buildNarrationText(s) : '').trim();
+  const falas = (typeof buildDialoguesText === 'function' ? buildDialoguesText(s, i || 0) : '').trim();
+  const dna = (state && state.setup && state.setup.continuityRules) ? state.setup.continuityRules : '';
+  const sceneBase = [base, visual, slices, roteiro].filter(Boolean).join('
+
+').slice(0, 4200);
+  const actionHint = base || (typeof extractBlock === 'function' ? extractBlock(roteiro, 'AÇÃO') : '') || 'a equipe precisa resolver uma ameaça técnica sobrenatural dentro da garagem punk antes que a gravação saia do controle';
+  const visualHint = visual || 'garagem punk underground de Caruaru, concreto sujo, pôsteres rasgados, cabos emaranhados, claquete, guitarra, câmera Sony HD100, luz amarela piscando e clima DIY pós-apocalíptico';
+  const castHint = 'Elenco permitido: Eli/Elinaldo, Taciano, Bruno, César e Tomate Hellipunk/Tomate Elinaldo. Não adicionar personagens externos.';
+
+  return sanitizeFruitsContamination(`🎬 PROMPT DE VÍDEO IA — ${title}
+CapCut AI / Seedance / Flow / Veo / gerador de vídeo
+
+FORMATO:
+Vertical 9:16, duração sugerida 8 a 12 segundos, estilo motion comic / trailer punk sombrio, 2D ou semi-realista controlado, leitura rápida para redes sociais.
+
+REGRA DE CONTINUIDADE OBRIGATÓRIA:
+${castHint}
+Cenário permitido: garagem/estúdio punk underground de Caruaru.
+Objeto central permitido: cabos, claquete, guitarra, câmera Sony HD100, placa de HD, fita gaffer, luz falhando.
+Bloqueio: não criar hospital, viatura, estrada, policial, personagens externos ou cenário de outra saga.
+
+IMAGEM DE REFERÊNCIA:
+Use a imagem anexada como base principal de composição, figurino, pose, cenário, iluminação e atmosfera. Preserve roupas, corpo, rosto, proporção e DNA visual.
+
+CENA / AÇÃO PRINCIPAL:
+${actionHint}
+
+DESCRIÇÃO CINEMATOGRÁFICA:
+${visualHint}
+
+MOVIMENTO DE CÂMERA:
+Comece com push-in lento ou travelling curto dentro do estúdio. Use handheld leve, close em mãos/cabos/claquete/câmera, rack focus entre objeto ameaçador e reação da equipe. Finalize com corte seco ou zoom no detalhe que anuncia a próxima fase.
+
+AÇÃO EM 3 BATIDAS:
+1. Estabelecer a garagem punk, a queda de energia e a regra sobrenatural.
+2. Mostrar o personagem/objeto central tentando resolver o problema sob pressão.
+3. Revelar que a gravação virou jogo/ameaça e cortar no gancho.
+
+SOM / AMBIENTE:
+Zumbido elétrico, lâmpada falhando, metal rangendo, cabo arrastando, clique de claquete, guitarra grave distante, respiração tensa e silêncio antes do susto.
+
+FALAS OPCIONAIS:
+${falas || 'Use falas curtas do elenco permitido, mantendo tensão, humor seco e DNA punk.'}
+
+NARRAÇÃO OPCIONAL:
+${narr || 'Depois da queda de energia, o estúdio não era mais o mesmo.'}
+
+VERSÃO CURTA PARA COLAR NO CAPCUT/SEEDANCE:
+Vídeo vertical 9:16, 8 a 12 segundos, garagem punk underground de Caruaru, cabos vivos, claquete possuída, equipe sob pressão, câmera nervosa controlada, luz amarela piscando, humor sombrio e gancho final. Preservar elenco permitido e DNA visual.
+
+NEGATIVO:
+Sem texto na tela, sem logo, sem marca d’água, sem visual infantil, sem personagens extras, sem cenário externo, sem hospital, sem viatura, sem policial, sem trocar roupas, sem mudar rosto, sem copiar cenas de filmes/séries/jogos.
+
+BASE DA CENA USADA PELO GERADOR:
+${sceneBase || 'Use a cena atual aprovada e as regras de continuidade.'}
+
+ANÁLISE DA IMAGEM, SE EXISTIR:
+${analysis ? analysis.slice(0, 1200) : 'Use Analisar Imagem para refinar blocking, câmera, luz e emoção.'}`);
 }
 
 function exportVideoIaCurrent() {
@@ -6031,7 +6158,7 @@ ${analysis || 'Sem análise visual ainda. Use Analisar Imagem para refinar luz, 
     const text = safeTxt(s.text || '', 2200);
     const visual = safeTxt(s.visualPrompt || '', 1600);
     const analysis = safeTxt(s.visualAnalysis || '', 1200);
-    const action = (typeof extractBlock === 'function' ? extractBlock(s.text || '', 'AÇÃO') : '') || summary || 'personagens descobrem uma ameaca em uma estrada destruida e precisam reagir antes que o perigo domine a pagina';
+    const action = (typeof extractBlock === 'function' ? extractBlock(s.text || '', 'AÇÃO') : '') || summary || 'personagens descobrem uma ameaca em uma garagem underground e precisam reagir antes que o perigo domine a pagina';
     const narration = (typeof buildNarrationText === 'function' ? buildNarrationText(s) : '') || '';
     const dialogues = (typeof buildDialoguesText === 'function' ? buildDialoguesText(s, i || 0) : '') || '';
     return { title, summary, slices, text, visual, analysis, action: safeTxt(action, 1000), narration: safeTxt(narration, 1000), dialogues: safeTxt(dialogues, 1200) };
@@ -6063,22 +6190,22 @@ Alternativas virais para testar:
 1. Fruits Adventures: Pagina Viva
 2. Fruits Comic Book Adventures
 3. Fruits Adventures Motion Comics
-4. Eli & Sabrina: Estrada dos Infectados
+4. Eli & Bruno: Garagem dos Cabos
 5. Fruits Adventures: Panels of Fear
 
 DIRECAO DA PAGINA DE QUADRINHOS:
 - Criar uma pagina com 5 ou 6 quadros grandes.
 - Bordas grossas, alto contraste, clima de terror 2D, composicao clara.
-- Cada quadro deve representar uma fatia da cena: abertura, perigo, reacao de ${alias}, acao de Sabrina, revelacao e gancho.
+- Cada quadro deve representar uma fatia da cena: abertura, perigo, reacao de ${alias}, acao de Bruno, revelacao e gancho.
 - Usar baloes grandes, poucas palavras e leitura facil em celular.
 - ${textRule}
 - Evitar texto pequeno de rodape, "panel", "warning", "alert", "technical failure" e qualquer chamada tecnica.
 
 PERSONAGENS / DNA:
-- Caio: humano negro, dreads curtos, camisa branca suja, jeans, pe de cabra, postura protetora.
+- Eli: humano negro, rosto concentrado, roupa punk suja, jeans, chave de fenda, postura protetora.
 - ${alias}: tomate antropomorfico, touca, jaqueta jeans, lanterna, olhar assustado mas corajoso.
-- Sabrina Pitaya: pitaya antropomorfica magenta/rosa, pequenas asas, roupa de combate, bastao com pregos, postura firme.
-- Vilao policial: silhueta brutal em neblina vermelha, farois/sirene, presenca ameacadora.
+- Bruno: pitaya antropomorfica magenta/rosa, pequenas asas, roupa de combate, bastao com pregos, postura firme.
+- presença invisível: silhueta brutal em luz vermelha de estúdio, farois/sirene, presenca ameacadora.
 
 BASE DA CENA:
 ${b.summary || b.action}
@@ -6087,15 +6214,15 @@ FATIAS / STORYBOARD, SE EXISTIR:
 ${b.slices || 'Ainda sem fatias aprovadas. O sistema deve dividir a cena em abertura, ameaca, reacao, decisao e gancho final.'}
 
 PROMPT PARA GERAR A PAGINA DE QUADRINHOS:
-Crie uma pagina de quadrinhos cinematografica, ${brand}, terror 2D pos-apocaliptico, formato 16:9 ou 4:5, 5 quadros grandes, bordas brancas grossas, atmosfera de neblina, asfalto rachado, luz dramatica, personagens do universo Fruits Adventures. A pagina deve contar uma unica cena completa em fatias visuais. Mantenha personagens consistentes, pose forte, leitura clara, composicao de motion comic, estilo HQ autoral, sem copiar obras existentes.
+Crie uma pagina de quadrinhos cinematografica, ${brand}, terror 2D pos-apocaliptico, formato 16:9 ou 4:5, 5 quadros grandes, bordas brancas grossas, atmosfera de neblina, cimento manchado, luz dramatica, personagens do universo Fruits Adventures. A pagina deve contar uma unica cena completa em fatias visuais. Mantenha personagens consistentes, pose forte, leitura clara, composicao de motion comic, estilo HQ autoral, sem copiar obras existentes.
 
 PROMPT COM BALOES EM PORTUGUES:
-Titulo no topo: "${brand}: O Caminho dos Infectados".
-Quadro 1: Caio na estrada destruida, fala: "Todo mundo para."
-Quadro 2: mao infectada rompendo o asfalto, onomatopeia: "CRACK!"
+Titulo no topo: "${brand}: O Jogo dos Cabos".
+Quadro 1: Eli na garagem underground, fala: "Todo mundo para."
+Quadro 2: cabo vivo rompendo o cimento, onomatopeia: "CRACK!"
 Quadro 3: ${alias} com lanterna falhando, fala: "Minha lanterna... esta apagando."
-Quadro 4: Sabrina Pitaya segura o bastao e encara a nevoa, fala: "Nao olhem para a mao. Olhem para a nevoa."
-Quadro 5: vilao policial em silhueta vermelha, fala: "Voces cruzaram o meu caminho."
+Quadro 4: Bruno segura o bastao e encara a nevoa, fala: "Nao olhem para a mao. Olhem para a nevoa."
+Quadro 5: presença invisível em silhueta vermelha, fala: "Voces cruzaram o meu caminho."
 Todos os textos em portugues do Brasil, baloes grandes, sem ingles, sem letras pequenas.
 
 PROMPT SEM TEXTO PARA PRODUCAO PROFISSIONAL:
@@ -6104,10 +6231,10 @@ Crie a mesma pagina de quadrinhos, mas sem nenhum texto dentro da arte. Use apen
 PROMPT FLOW 8s — PAGINA INTEIRA ANIMADA:
 Animate this exact comic-book page as an 8-second 2D motion comic sequence. Keep the original page layout, panel borders, characters, colors, speech bubbles, composition, and comic style unchanged. The camera starts on the full comic page, then travels panel by panel like a living comic book.
 0-1s: full page appears, subtle paper texture, dark horror mood.
-1-2.4s: camera enters Panel 1, fog drifts, Caio blinks and breathes subtly.
+1-2.4s: camera enters Panel 1, fog drifts, Eli blinks and breathes subtly.
 2.4-3.7s: cut to Panel 2, asphalt cracks, infected hand rises slightly, debris shakes, impact text pops if present.
 3.7-5.1s: move to Panel 3, ${alias} trembles slightly, lantern flickers, eyes remain scared.
-5.1-6.5s: slide to Panel 4, Sabrina grips her weapon, hair/wings move subtly, fog passes behind her.
+5.1-6.5s: slide to Panel 4, Bruno grips her weapon, hair/wings move subtly, fog passes behind her.
 6.5-8s: enter Panel 5, villain silhouette in red fog, red lights pulse, slow zoom-in, suspense freeze frame.
 Style: 2D motion comic, limited animation, page-reading camera, panel-to-panel movement, 90s comic action game energy, horror suspense, subtle parallax. Do not change characters, text, faces, outfits, panel borders, or composition.
 
@@ -6122,7 +6249,7 @@ ROTEIRO DE ANIMACAO PARA CAPCUT:
 2. Zoom no Quadro 1 com som de vento.
 3. Corte de impacto para a mao e "CRACK".
 4. Pan para ${alias} com lanterna piscando.
-5. Deslize para Sabrina com vento/nevoa.
+5. Deslize para Bruno com vento/nevoa.
 6. Corte vermelho para o vilao.
 7. Voltar para pagina completa ou cortar para preto.
 
@@ -6801,7 +6928,7 @@ ELENCO BASE:
 1. Eli / Elinaldo: humano faz-tudo, chave de fenda, placa de HD, olhar cansado de quem resolve problema no limite.
 2. Taciano: o Diretor, impaciente, atitude punk, segura a claquete como se fosse arma e decide sob pressão.
 3. Tomate Hellipunk: tomate antropomórfico sobrevivente, olhar invocado, camisa preta rasgada com símbolo de anarquia, guitarra quebrada, presença de mascote oficial da resistência.
-4. Sabrina Pitaya: pitaya rosa/magenta, pequenas asas de dragão, roupa de combate, bastão com pregos, guerreira fria e protetora.
+4. Bruno: pitaya rosa/magenta, pequenas asas de dragão, roupa de combate, bastão com pregos, guerreira fria e protetora.
 5. Figurantes / Extras: zumbis, punks, sobreviventes famintos, técnicos de sucata, crianças escondidas, sombras de fundo e ameaças sem nome.
 
 TÉCNICA DE DIREÇÃO:
@@ -8362,6 +8489,121 @@ ${base}
   document.addEventListener('DOMContentLoaded',()=>setTimeout(renderGuide,300));
   setTimeout(renderGuide,800);
   const term=$('terminalStrip'); if(term) term.textContent='Engine V9.0 ativo: Copilot Guia Criativo com banco de fórmulas e pacotes completos.';
+})();
+</script>
+
+
+
+<!-- V9.0.1 URGENT PATCH — DNA GUARD / VIDEO IA SEM CONTAMINAÇÃO -->
+<script id="v901DnaGuardVideoIaPatch">
+(function(){
+  const BAD_PATTERNS = [
+    /\bCaio\b/gi, /\bSabrina(?:\s+Pitaya)?\b/gi, /vil[aã]o\s+policial/gi,
+    /hospital(?:\s+abandonado)?/gi, /corredor\s+de\s+hospital/gi, /EMERGENCY/gi, /RADIOLOGY/gi,
+    /viatura/gi, /estrada\s+(?:destru[ií]da|dos\s+infectados)/gi, /m[aã]o\s+(?:de\s+zumbi|infectada)/gi,
+    /asfalto\s+rachado/gi, /p[eé]\s+de\s+cabra/gi
+  ];
+  const REPLACE_MAP = [
+    [/\bCaio\b/gi, 'Eli'],
+    [/\bSabrina(?:\s+Pitaya)?\b/gi, 'Bruno'],
+    [/vil[aã]o\s+policial/gi, 'presença invisível'],
+    [/hospital(?:\s+abandonado)?/gi, 'garagem punk underground'],
+    [/corredor\s+de\s+hospital/gi, 'entrada do estúdio'],
+    [/EMERGENCY/gi, 'DIY PUNK'],
+    [/RADIOLOGY/gi, 'CLANDESTINO'],
+    [/viatura/gi, 'câmera Sony HD100'],
+    [/estrada\s+(?:destru[ií]da|dos\s+infectados)/gi, 'garagem underground'],
+    [/m[aã]o\s+(?:de\s+zumbi|infectada)/gi, 'claquete possuída'],
+    [/asfalto\s+rachado/gi, 'cimento manchado'],
+    [/p[eé]\s+de\s+cabra/gi, 'chave de fenda']
+  ];
+
+  window.sanitizeFruitsContamination = function(txt){
+    let out = String(txt || '');
+    for (const [rx, rep] of REPLACE_MAP) out = out.replace(rx, rep);
+    return out;
+  };
+  window.hasFruitsContamination = function(txt){
+    txt = String(txt || '');
+    return BAD_PATTERNS.some(rx => { rx.lastIndex = 0; return rx.test(txt); });
+  };
+  window.guardCurrentSceneText = function(){
+    try{
+      const s = state && state.scenes && state.scenes[state.currentScene || 0];
+      if(!s) return;
+      ['text','summary','visualPrompt','visualAnalysis','storyboardSlices','technicalNotes','videoia','motionBook','capcut','srt'].forEach(k => {
+        if(typeof s[k] === 'string') s[k] = sanitizeFruitsContamination(s[k]);
+      });
+      if(typeof saveState === 'function') saveState();
+    }catch(e){}
+  };
+
+  const oldOpenModal = window.openModal;
+  if (typeof oldOpenModal === 'function') {
+    window.openModal = function(title, subtitle, content, filename){
+      const clean = sanitizeFruitsContamination(content);
+      return oldOpenModal.call(this, title, subtitle, clean, filename);
+    };
+  }
+
+  const oldCallApi = window.callApi;
+  if (typeof oldCallApi === 'function') {
+    window.callApi = async function(){
+      const res = await oldCallApi.apply(this, arguments);
+      const clean = sanitizeFruitsContamination(res);
+      if (clean !== res && typeof log === 'function') log('DNA Guard corrigiu termos de outra saga na resposta da IA.', 'warn');
+      return clean;
+    };
+  }
+
+  const oldApprove = window.approveCurrentScene;
+  if (typeof oldApprove === 'function') {
+    window.approveCurrentScene = function(){
+      const ed = document.getElementById('smartEditor');
+      if(ed) ed.value = sanitizeFruitsContamination(ed.value);
+      guardCurrentSceneText();
+      return oldApprove.apply(this, arguments);
+    };
+  }
+
+  const oldLoadEditor = window.loadEditor;
+  if (typeof oldLoadEditor === 'function') {
+    window.loadEditor = function(mode){
+      const ret = oldLoadEditor.apply(this, arguments);
+      const ed = document.getElementById('smartEditor');
+      if(ed) ed.value = sanitizeFruitsContamination(ed.value);
+      return ret;
+    };
+  }
+
+  window.buildVideoIaPromptForScene = function(s, i){
+    s = s || {};
+    const title = (typeof sceneLabel === 'function') ? sceneLabel(i || 0) : ('Cena ' + ((i || 0) + 1));
+    const visual = (s.visualPrompt || '').trim();
+    const analysis = (s.visualAnalysis || '').trim();
+    const base = (s.summary || '').trim();
+    const roteiro = (s.text || '').trim();
+    const slices = (s.storyboardSlices || '').trim();
+    const narr = (typeof buildNarrationText === 'function' ? buildNarrationText(s) : '').trim();
+    const falas = (typeof buildDialoguesText === 'function' ? buildDialoguesText(s, i || 0) : '').trim();
+    const sceneBase = [base, visual, slices, roteiro].filter(Boolean).join('\n\n').slice(0, 4200);
+    const actionHint = base || (typeof extractBlock === 'function' ? extractBlock(roteiro, 'AÇÃO') : '') || 'a equipe precisa resolver uma ameaça técnica sobrenatural dentro da garagem punk antes que a gravação saia do controle';
+    const visualHint = visual || 'garagem punk underground de Caruaru, concreto sujo, pôsteres rasgados, cabos emaranhados, claquete, guitarra, câmera Sony HD100, luz amarela piscando e clima DIY pós-apocalíptico';
+    return sanitizeFruitsContamination(`🎬 PROMPT DE VÍDEO IA — ${title}\nCapCut AI / Seedance / Flow / Veo / gerador de vídeo\n\nFORMATO:\nVertical 9:16, duração sugerida 8 a 12 segundos, estilo motion comic / trailer punk sombrio, 2D ou semi-realista controlado, leitura rápida para redes sociais.\n\nREGRA DE CONTINUIDADE OBRIGATÓRIA:\nElenco permitido: Eli/Elinaldo, Taciano, Bruno, César e Tomate Hellipunk/Tomate Elinaldo. Não adicionar personagens externos.\nCenário permitido: garagem/estúdio punk underground de Caruaru.\nObjetos permitidos: cabos, claquete, guitarra, câmera Sony HD100, placa de HD, fita gaffer e luz falhando.\nBloqueio: não criar cenário de outra saga.\n\nIMAGEM DE REFERÊNCIA:\nUse a imagem anexada como base principal de composição, figurino, pose, cenário, iluminação e atmosfera. Preserve roupas, corpo, rosto, proporção e DNA visual.\n\nCENA / AÇÃO PRINCIPAL:\n${actionHint}\n\nDESCRIÇÃO CINEMATOGRÁFICA:\n${visualHint}\n\nMOVIMENTO DE CÂMERA:\nPush-in lento ou travelling curto dentro do estúdio. Handheld leve, close em mãos/cabos/claquete/câmera, rack focus entre objeto ameaçador e reação da equipe. Final com corte seco ou zoom no detalhe que anuncia a próxima fase.\n\nAÇÃO EM 3 BATIDAS:\n1. Estabelecer a garagem punk, a queda de energia e a regra sobrenatural.\n2. Mostrar o personagem/objeto central tentando resolver o problema sob pressão.\n3. Revelar que a gravação virou jogo/ameaça e cortar no gancho.\n\nSOM / AMBIENTE:\nZumbido elétrico, lâmpada falhando, metal rangendo, cabo arrastando, clique de claquete, guitarra grave distante, respiração tensa e silêncio antes do susto.\n\nFALAS OPCIONAIS:\n${falas || 'Use falas curtas do elenco permitido, mantendo tensão, humor seco e DNA punk.'}\n\nNARRAÇÃO OPCIONAL:\n${narr || 'Depois da queda de energia, o estúdio não era mais o mesmo.'}\n\nVERSÃO CURTA:\nVídeo vertical 9:16, 8 a 12 segundos, garagem punk underground de Caruaru, cabos vivos, claquete possuída, equipe sob pressão, câmera nervosa controlada, luz amarela piscando, humor sombrio e gancho final. Preservar elenco permitido e DNA visual.\n\nNEGATIVO:\nSem texto na tela, sem logo, sem marca d’água, sem visual infantil, sem personagens extras, sem cenário externo, sem trocar roupas, sem mudar rosto, sem copiar cenas de filmes/séries/jogos.\n\nBASE DA CENA USADA PELO GERADOR:\n${sceneBase || 'Use a cena atual aprovada e as regras de continuidade.'}\n\nANÁLISE DA IMAGEM, SE EXISTIR:\n${analysis ? analysis.slice(0, 1200) : 'Use Analisar Imagem para refinar blocking, câmera, luz e emoção.'}`);
+  };
+
+  window.buildFruitsComicsBookPromptForScene = function(s, i){
+    s = s || {};
+    const title = (typeof sceneLabel === 'function') ? sceneLabel(i || 0) : (s.title || 'Cena');
+    const base = [s.summary, s.storyboardSlices, s.text, s.visualPrompt].filter(Boolean).join('\n\n').slice(0, 5200);
+    return sanitizeFruitsContamination(`📚 OS INICIANTES DO PUNK — ${title}\nModo: página viva / comic book vivo / storyboard fatiado / Flow 8s\n\nREGRA DE DNA:\nElenco permitido: Eli/Elinaldo, Taciano, Bruno, César e Tomate Hellipunk/Tomate Elinaldo.\nCenário permitido: estúdio/garagem punk underground de Caruaru.\nNão adicionar personagens externos nem cenário de outra saga.\n\nCONCEITO VIRAL:\nTransformar a cena em uma página de quadrinhos viva, com leitura de painel em painel, suspense, impacto visual, onomatopeias e microanimações. A página deve parecer uma HQ autoral do universo Fruits Adventures.\n\nDIREÇÃO DA PÁGINA:\n- 5 ou 6 quadros grandes.\n- Bordas grossas, alto contraste, clima de terror 2D, composição clara.\n- Cada quadro representa uma fatia: abertura, regra, reação, decisão e gancho.\n- Balões grandes, poucas palavras e leitura fácil em celular.\n\nPROMPT PRINCIPAL:\nCrie uma página de quadrinhos cinematográfica de terror punk 2D pós-apocalíptico dentro de uma garagem underground em Caruaru; cabos emaranhados, claquete possuída, guitarra, câmera Sony HD100, luz amarela piscando, pôsteres rasgados, cimento manchado, estética DIY, equipe sob pressão, Tomate Hellipunk como símbolo visual. Manter personagens consistentes e não copiar obras existentes.\n\nFLOW 8s:\nAnime a página como motion comic por 8 segundos. Comece na página completa, viaje por painel em painel, adicione parallax sutil, luz piscando, respiração, poeira, cabos se mexendo pouco e corte final no gancho. Não mude personagens, roupas, texto, rosto, proporção, bordas ou composição.\n\nBASE DA CENA:\n${base || 'Use a cena atual aprovada.'}\n\nNEGATIVO:\nSem texto em inglês, sem letras pequenas ilegíveis, sem personagens extras, sem cenário externo, sem 3D realista, sem copiar Comix Zone, Marvel, DC, manga, filme, série ou jogo específico.`);
+  };
+
+  try{
+    guardCurrentSceneText();
+    if(typeof log === 'function') log('V9.0.1 DNA Guard ativo: Vídeo IA e HQ protegidos contra mistura de saga.', 'ok');
+    if(typeof setStatus === 'function') setStatus('V9.0.1 DNA Guard', 92, true);
+  }catch(e){}
 })();
 </script>
 
