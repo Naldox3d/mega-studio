@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V9.0 Copilot Guia Criativo — Banco de Fórmulas</title>
+<title>Fruits Adventures Studio — V9.0.2 Copilot Guia Criativo — Banco de Fórmulas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -3278,7 +3278,7 @@ body::before {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V9.0 Copilot Guia Criativo</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V9.0.2 Copilot Guia Criativo</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3290,7 +3290,7 @@ body::before {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V9.0 ativo: Copilot Guia Criativo, Banco de Fórmulas, Projeto Piloto, Radar e pacotes completos.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V9.0.2 ativo: Copilot Guia Criativo, Banco de Fórmulas, Projeto Piloto, Radar e pacotes completos.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -3611,7 +3611,11 @@ async function unlockPortal() {
       window.parent.postMessage({ type: 'studio-portal-login-attempt' }, '*');
     }
   } catch(e) {}
-  const ok = typedUser && typedPass && (await sha256Text(typedUser) === PORTAL_USER_HASH) && (await sha256Text(typedPass) === PORTAL_PASS_HASH);
+  // V9.0.2 HOTFIX LOGIN: mantém o hash antigo, mas aceita o acesso emergencial do projeto.
+  // Login: fruits | Senha: hellipunk
+  const emergencyLoginOk = typedUser.toLowerCase() === 'fruits' && typedPass === 'hellipunk';
+  const legacyHashOk = typedUser && typedPass && (await sha256Text(typedUser) === PORTAL_USER_HASH) && (await sha256Text(typedPass) === PORTAL_PASS_HASH);
+  const ok = emergencyLoginOk || legacyHashOk;
   if (ok) {
     try { localStorage.setItem('mega_studio_github_login_ok', '1'); } catch(e) {}
     if (err) err.classList.remove('show');
