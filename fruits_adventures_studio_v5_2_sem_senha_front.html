@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Fruits Adventures Studio — V8.9.1 Production Dashboard — Visual Profissional</title>
+<title>Fruits Adventures Studio — V9.0 Copilot Guia Criativo — Banco de Fórmulas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -3278,7 +3278,7 @@ body::before {
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V8.9.1 Production Dashboard</span></div>
+    <div class="topbar-brand">🍅🎸 Fruits Adventures: Tomate Hellipunk <span>V9.0 Copilot Guia Criativo</span></div>
     <div class="topbar-status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusLabel">Setup</span>
@@ -3290,7 +3290,7 @@ body::before {
 
   <div class="nodes-bar" id="nodesBar"></div>
 
-  <div class="terminal-strip" id="terminalStrip">Engine V8.9.1 dashboard ativo: Sala de Roteiristas Hellipunk, Mindmap Global, Mesa de Diretores e auditoria de continuidade.</div>
+  <div class="terminal-strip" id="terminalStrip">Engine V9.0 ativo: Copilot Guia Criativo, Banco de Fórmulas, Projeto Piloto, Radar e pacotes completos.</div>
 
   <div class="main">
     <div class="sidebar">
@@ -8032,7 +8032,7 @@ ${base}
     const terminal = byId('terminalStrip');
     if(terminal) terminal.textContent = 'Engine V8.9.1 dashboard ativo: Premissa, Ação Dramática, Direção Cinematográfica, Lentes de Direção e leitura técnica.';
     const brand = document.querySelector('.topbar-brand span');
-    if(brand) brand.textContent = 'V8.9.1 Production Dashboard';
+    if(brand) brand.textContent = 'V9.0 Copilot Guia Criativo';
     const workflow = document.querySelector('#tab-storyboard .workflow-strip');
     if(workflow){
       workflow.innerHTML = `<div class="workflow-step"><strong>1. Premissa</strong>Ideia-mãe da cena: conflito, promessa e função narrativa.</div><div class="workflow-step"><strong>2. Ação Dramática</strong>O que vemos acontecer: começo, meio, virada e gancho.</div><div class="workflow-step"><strong>3. Direção Cinematográfica</strong>Enquadramento, lente, câmera, luz, movimento, arte e restrições.</div><div class="workflow-step"><strong>4. Leitura Técnica</strong>O site explica o que foi aplicado para virar estudo e produção.</div>`;
@@ -8040,7 +8040,7 @@ ${base}
     const notice = document.querySelector('#tab-storyboard .notice');
     if(notice) notice.innerHTML = '🎓 Monte a cena como dossiê técnico: <strong>Premissa</strong>, <strong>Ação Dramática</strong>, <strong>Direção Cinematográfica</strong>, imagem de referência, lente de direção e explicação do que foi aplicado.';
     if(typeof window.renderStoryboard === 'function') window.renderStoryboard();
-    toast('V8.9.1 Production Dashboard carregado: fluxo visual profissional ativado sem remover funções.', 'ok');
+    toast('V9.0 Copilot Guia Criativo carregado: fluxo visual profissional ativado sem remover funções.', 'ok');
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 100);
 })();
@@ -8167,7 +8167,7 @@ ${base}
 <script>
 (function(){
   'use strict';
-  const V89='V8.9.1 Production Dashboard';
+  const V89='V9.0 Copilot Guia Criativo';
   const $=(id)=>document.getElementById(id);
   const q=(s,r=document)=>r.querySelector(s);
   const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -8193,8 +8193,175 @@ ${base}
   window.goNode=function(id){ensureDashboard(); if(id==='dashboard'||id==='home'||id==='production'){showDashboard();return;} if(typeof oldGo==='function') oldGo(id); setTimeout(()=>{renderNodesV89(); if($('tab-dashboard')&&$('tab-dashboard').classList.contains('active')) renderDashboard();},100);};
   function renderNodesV89(){const bar=$('nodesBar'); if(!bar) return; const active=(q('.tab-panel.active')?.id||'tab-dashboard').replace('tab-',''); const list=scenes(); const nodes=[{id:'dashboard',icon:'🎛️',label:'0. Produção',status:'dashboard'},{id:'setup',icon:'🧬',label:'1. Setup',status:'DNA/API'},{id:'storyboard',icon:'📚',label:'2. Storyboard',status:list.length+' cenas'},{id:'mindmap',icon:'🗺️',label:'3. Mindmap',status:'continuidade'},{id:'nodes',icon:'🧠',label:'4. Nodes',status:'atalhos'},{id:'scene',icon:'🎬',label:'5. Estúdio',status:'roteiro'},{id:'capcut',icon:'🎞️',label:'6. CapCut',status:'motion book'},{id:'ai',icon:'🤖',label:'7. Copilot',status:'mesa crítica'},{id:'export',icon:'📦',label:'8. Exportar',status:list.every(s=>s.approved)&&list.length?'pronto':'packs'}]; bar.innerHTML=nodes.map(n=>`<div data-v89="true" class="node-btn ${n.id===active?'active node-punk-active':''}" onclick="goNode('${n.id}')"><strong>${n.icon} ${esc(n.label)}</strong><small>${esc(n.status)}</small></div>`).join('');}
   window.renderNodes=renderNodesV89;
-  function boot(){ensureDashboard(); const brand=q('.topbar-brand span'); if(brand) brand.textContent=V89; renderNodesV89(); const active=q('.tab-panel.active'); if(!active || active.id==='tab-setup') showDashboard(); else renderNodesV89(); try{ if(typeof window.log==='function') window.log('V8.9.1 Production Dashboard carregado: visual profissional adicionado sem remover módulos.','ok'); }catch(e){} }
+  function boot(){ensureDashboard(); const brand=q('.topbar-brand span'); if(brand) brand.textContent=V89; renderNodesV89(); const active=q('.tab-panel.active'); if(!active || active.id==='tab-setup') showDashboard(); else renderNodesV89(); try{ if(typeof window.log==='function') window.log('V9.0 Copilot Guia Criativo carregado: visual profissional adicionado sem remover módulos.','ok'); }catch(e){} }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,120)); else setTimeout(boot,120);
+})();
+</script>
+
+
+
+<!-- =========================================================
+     V9.0 — COPILOT GUIA CRIATIVO / BANCO DE FÓRMULAS
+     Camada nova: modelos completos, quiz, radar de tendências e aplicação direta.
+     Não remove módulos antigos.
+     ========================================================= -->
+<style id="copilotGuideV90Style">
+  .cp-v90-wrap{padding:16px 18px 12px;border-bottom:1px solid rgba(214,173,104,.18);background:linear-gradient(180deg,rgba(214,173,104,.055),rgba(101,217,210,.025));overflow:auto;max-height:54vh;}
+  .cp-v90-hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);gap:12px;margin-bottom:12px;}
+  .cp-v90-card{border:1px solid rgba(214,173,104,.20);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.014)),#0b1020;border-radius:16px;padding:14px;}
+  .cp-v90-kicker{display:inline-flex;gap:7px;align-items:center;border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.08);color:#baf7f2;border-radius:999px;padding:5px 9px;font:700 10px 'Space Mono',monospace;letter-spacing:.11em;text-transform:uppercase;margin-bottom:9px;}
+  .cp-v90-title{font-family:'Syne',sans-serif;color:#efe4cc;font-size:clamp(21px,2vw,34px);line-height:1.05;margin:0 0 8px;text-transform:uppercase;letter-spacing:.055em;}
+  .cp-v90-sub{color:#b6bfd3;font-size:12px;line-height:1.58;margin:0 0 12px;}
+  .cp-v90-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .cp-v90-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 12px;}
+  .cp-v90-template{border:1px solid rgba(255,255,255,.10);background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.012)),#0d1324;border-radius:14px;padding:12px;min-height:150px;display:flex;flex-direction:column;gap:8px;}
+  .cp-v90-template:hover{border-color:rgba(214,173,104,.42);filter:brightness(1.04);}
+  .cp-v90-template h4{font-family:'Syne',sans-serif;color:#e8c989;font-size:14px;line-height:1.2;margin:0;text-transform:uppercase;letter-spacing:.05em;}
+  .cp-v90-template p{color:#b4bed4;font-size:11px;line-height:1.45;margin:0;}
+  .cp-v90-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;}
+  .cp-v90-tags span{font-size:9.5px;color:#baf7f2;border:1px solid rgba(101,217,210,.22);background:rgba(101,217,210,.06);border-radius:999px;padding:3px 6px;}
+  .cp-v90-template .cp-v90-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+  .cp-v90-template .btn{min-height:28px!important;font-size:9.5px!important;padding:5px 7px!important;}
+  .cp-v90-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px;}
+  .cp-v90-step{border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.18);border-radius:12px;padding:9px;color:#aeb8ce;font-size:11px;line-height:1.4;}
+  .cp-v90-step b{display:block;color:#e8c989;margin-bottom:4px;font-size:11px;}
+  .cp-v90-side-list{display:flex;flex-direction:column;gap:8px;}
+  .cp-v90-side-item{border:1px solid rgba(101,217,210,.18);background:rgba(101,217,210,.055);border-radius:12px;padding:9px;color:#d9fffb;font-size:11px;line-height:1.45;}
+  .cp-v90-side-item b{display:block;color:#e8c989;margin-bottom:4px;}
+  .quick-prompts{display:flex;gap:8px;flex-wrap:wrap;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,.07);background:#0b1020;}
+  .quick-prompts .qp{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.08);color:#cafffb;border-radius:999px;padding:6px 10px;font-size:11px;cursor:pointer;}
+  .quick-prompts .qp:hover{filter:brightness(1.12);}
+  .cp-v90-modal-body{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:14px;}
+  .cp-v90-preview{white-space:pre-wrap;font-family:'Space Mono',monospace;font-size:11.5px;line-height:1.62;color:#dbe6ff;background:#080c17;border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:12px;max-height:56vh;overflow:auto;}
+  .cp-v90-modal-actions{display:flex;flex-direction:column;gap:8px;}
+  .cp-v90-note{border:1px solid rgba(214,173,104,.20);background:rgba(214,173,104,.07);border-radius:12px;padding:10px;color:#f1d9ab;font-size:11px;line-height:1.5;}
+  @media(max-width:1100px){.cp-v90-hero{grid-template-columns:1fr}.cp-v90-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.cp-v90-steps{grid-template-columns:repeat(2,minmax(0,1fr));}.cp-v90-modal-body{grid-template-columns:1fr;}}
+  @media(max-width:700px){.cp-v90-grid{grid-template-columns:1fr}.cp-v90-steps{grid-template-columns:1fr}.cp-v90-wrap{max-height:none;}}
+</style>
+<script id="copilotGuideV90Script">
+(function(){
+  const V90_VERSION = 'V9.0 Copilot Guia Criativo';
+  const V90_TEMPLATES = [
+    {
+      id:'gambiarra-viva', emoji:'🎥', title:'A Gambiarra Viva', theme:'Terror cômico de garagem',
+      desc:'Um objeto técnico ganha vida e transforma uma gravação simples em caos visual com gancho para redes.',
+      tags:['terror cômico','piloto','CapCut','Raimi/Fruits'],
+      premise:'Uma equipe punk underground em Caruaru tenta gravar um curta sem orçamento, mas uma gambiarra com cabos, fita gaffer e uma câmera Sony HD100 abre uma falha sobrenatural no set. O ensaio vira terror cômico quando os objetos de produção começam a agir sozinhos.',
+      action:'Eli improvisa uma conexão técnica com cabos de áudio e fita gaffer dentro de uma garagem punk. Taciano segura a claquete, Bruno testa a guitarra, Cesar prepara a Sony HD100 e Tomate Elinaldo observa inquieto. A energia falha, a claquete bate sozinha e a câmera liga sem bateria. Aos poucos, o ambiente ganha vida: cabos se mexem, a guitarra toca sozinha e a câmera parece enxergar uma presença invisível. Eli tenta terminar a conexão antes que o set inteiro saia do controle. No final, tudo para e a câmera registra sozinha: “Cena 1 aprovada.”',
+      visual:'DIREÇÃO CINEMATOGRÁFICA — PILOTO “A GAMBIARRA”\n\nENQUADRAMENTO: plano médio sujo da garagem punk, personagens comprimidos em cenário cheio de cabos, fita gaffer, claquete, guitarra e Sony HD100.\n\nCÂMERA: começa como bastidor documental; depois assume POV agressivo, baixo, rápido e instável, como se a força atravessasse o set.\n\nLENTE: grande angular moderada para aumentar profundidade e transformar cabos/objetos em ameaça visual.\n\nLUZ: fluorescente piscando, contraste alto, sombras duras, lâmpadas velhas e pontos quentes no fundo.\n\nMOVIMENTO: travelling em POV pelo chão, entre cabos, subindo pela parede e avançando nos personagens; cortes secos para reação e humor físico.\n\nTEXTURA: motion comic vertical 9:16, granulado, sujo, adulto, sem aparência infantil.',
+      applied:'Foi aplicado um modelo de piloto vertical com gancho nos 3 primeiros segundos, objeto comum virando ameaça, escalada visual rápida, humor de terror e payoff curto. A linguagem mistura Fruits Autoral com Raimi-Cam: punk brasileiro, gambiarra, câmera possuída, objetos vivos e caos controlado sem copiar franquias.',
+      script:'ROTEIRO BASE — A GAMBIARRA\n\n0-3s: Close nos cabos tremendo. Eli aperta fita gaffer ao redor da conexão.\nNARRADOR: “Quando o orçamento é zero, a gambiarra vira arte.”\n\n3-8s: Taciano bate a claquete antes da hora. A claquete responde sozinha com uma segunda batida.\nTACIANO: “Eu ainda nem falei ação.”\n\n8-18s: A Sony HD100 liga sem bateria. Cesar vê no visor um ângulo impossível da garagem.\nCESAR: “Essa câmera tá filmando de onde?”\n\n18-32s: POV da força atravessa o chão, passa por cabos, derruba o amplificador e faz a guitarra de Bruno tocar sozinha. Tomate Elinaldo percebe primeiro.\nTOMATE ELINALDO: “Não mexe nesse cabo.”\n\n32-45s: Eli encaixa o último cabo. Silêncio absoluto. Todos congelam.\n\n45-52s: No visor da câmera aparece: “Cena 1 aprovada.” Corte seco para preto.',
+      srt:'1\n00:00:00,000 --> 00:00:03,000\nQuando o orçamento é zero, a gambiarra vira arte.\n\n2\n00:00:03,000 --> 00:00:08,000\nEu ainda nem falei ação.\n\n3\n00:00:08,000 --> 00:00:18,000\nEssa câmera tá filmando de onde?\n\n4\n00:00:18,000 --> 00:00:32,000\nNão mexe nesse cabo.\n\n5\n00:00:45,000 --> 00:00:52,000\nCena 1 aprovada.',
+      sound:'SOM/SFX: chiado de cabo, fita gaffer puxando, hum elétrico baixo, claquete seca, estalo de lâmpada, guitarra distorcida curta, whoosh de POV, silêncio brusco antes do payoff.\nMÚSICA: punk lento e sujo no começo, aceleração com bateria seca na possessão visual, corte mudo no final.',
+      video:'PROMPT VÍDEO IA: vídeo vertical 9:16, garagem punk underground em Caruaru, equipe de curta independente, cabos se mexendo como tentáculos, claquete batendo sozinha, Sony HD100 ligando sem bateria, POV baixo e rápido atravessando o chão, luz fluorescente piscando, motion comic adulto, terror cômico, sem texto legível, sem logos, sem copiar franquias.',
+      capcut:'CAPCUT MOTION BOOK: 0-3s close nos cabos com zoom lento; 3-8s corte seco na claquete com SFX; 8-18s tremor leve no visor da câmera; 18-32s sequência POV com speed ramp, blur leve, whoosh e flashes de luz; 32-45s pausa longa com ruído baixo; 45-52s tela escura + impacto sonoro + legenda final.'
+    },
+    {
+      id:'jogo-cabos', emoji:'🧠', title:'O Jogo dos Cabos', theme:'Jogo social punk',
+      desc:'O grupo precisa seguir regras absurdas dentro da garagem para não perder a própria cena.',
+      tags:['jogo social','suspense','grupo','regras'],
+      premise:'A garagem vira uma arena invisível: cada cabo conectado cria uma regra nova, e a equipe precisa descobrir a lógica do jogo antes que a gravação apague todos da cena.',
+      action:'Depois de uma queda de energia, a claquete mostra regras escritas por conta própria. Cada personagem precisa executar uma tarefa de produção: Eli reconectar o cabo certo, Taciano dirigir sem gritar, Bruno tocar no ritmo exato, Cesar enquadrar o perigo e Tomate Elinaldo avisar quando a regra muda. A tensão cresce porque cada erro altera o cenário. No fim, eles vencem a primeira rodada, mas a câmera revela “Fase 2”.',
+      visual:'DIREÇÃO CINEMATOGRÁFICA — O JOGO DOS CABOS\n\nComposição simétrica e claustrofóbica, luz fria, regras visuais claras, close em mãos, cabos e olhares. Câmera mais controlada no início e cortes secos a cada nova regra. Usar sombras duras e espaço negativo para sugerir julgamento invisível.',
+      applied:'Foi aplicado modelo de jogo social: regras claras, risco crescente, pressão de grupo, objeto simbólico e cliffhanger de fase. A estrutura cria entendimento rápido para redes sem copiar obras específicas.',
+      script:'ROTEIRO BASE — O JOGO DOS CABOS\nComeço: a claquete cai e mostra “Regra 1: ninguém larga o próprio objeto”.\nMeio: cada personagem falha quase por impulso; a garagem muda.\nVirada: Tomate percebe que a câmera só mostra a saída quando todos trabalham juntos.\nFinal: eles cumprem a regra e o visor mostra “Fase 2”.',
+      srt:'1\n00:00:00,000 --> 00:00:04,000\nRegra 1: ninguém larga o próprio objeto.\n\n2\n00:00:04,000 --> 00:00:10,000\nIsso não é gravação. É teste.\n\n3\n00:00:10,000 --> 00:00:18,000\nTodo mundo no ritmo... agora!\n\n4\n00:00:18,000 --> 00:00:25,000\nFase 2.',
+      sound:'SOM/SFX: bip seco de regra, batida de claquete, pulso grave, respiração coletiva, silêncio após erro. Música minimalista com tensão crescente.',
+      video:'PROMPT VÍDEO IA: garagem punk como arena, cabos formando linhas no chão, claquete com aura ameaçadora sem texto legível, grupo pressionado, câmera simétrica, suspense social, luz fria, cortes secos, vertical 9:16.',
+      capcut:'CAPCUT MOTION BOOK: usar cards de ritmo com SFX de regra, zoom em objeto de cada personagem, corte seco a cada erro, pausa dramática antes da “Fase 2”.'
+    },
+    {
+      id:'humilhacao-viral', emoji:'📱', title:'A Revanche do Tomate', theme:'Webtoon fight viral',
+      desc:'Tomate Elinaldo vira símbolo de revanche quando a banda subestima sua importância no set.',
+      tags:['webtoon','revanche','viral','luta visual'],
+      premise:'Tomate Elinaldo é tratado como mascote pequeno demais para ajudar, mas quando a garagem entra em colapso, ele descobre o padrão dos ataques e salva a equipe com uma manobra improvável.',
+      action:'Bruno brinca que Tomate só serve para aparecer no poster. A câmera começa a falhar, cabos atacam e a guitarra voa. Tomate observa o ritmo dos objetos e percebe que tudo responde ao som. Ele usa uma batida seca na claquete para criar uma brecha, guia Eli até o cabo certo e prova que o menor personagem entendeu o caos primeiro.',
+      visual:'DIREÇÃO CINEMATOGRÁFICA — REVANCHE WEBTOON\n\nCâmera dinâmica, close em reação, cortes de impacto, linhas de movimento, leitura clara de golpe/ação. Usar composição vertical com Tomate em primeiro plano no momento de virada e personagens grandes ao fundo.',
+      applied:'Foi aplicada fórmula webtoon fight: subestimação, humilhação leve, leitura de padrão, virada tática e vitória visual. O objetivo é gerar empatia e momento compartilhável.',
+      script:'ROTEIRO BASE — A REVANCHE DO TOMATE\nComeço: alguém subestima Tomate.\nMeio: caos técnico derruba os humanos.\nVirada: Tomate entende o ritmo dos ataques.\nFinal: ele salva a cena e encara a câmera como herói improvável.',
+      srt:'1\n00:00:00,000 --> 00:00:04,000\nEle só parece pequeno.\n\n2\n00:00:04,000 --> 00:00:12,000\nOs cabos estão seguindo o som.\n\n3\n00:00:12,000 --> 00:00:20,000\nBate a claquete... agora!\n\n4\n00:00:20,000 --> 00:00:28,000\nMascote nada. Produtor de caos.',
+      sound:'SOM/SFX: hit marker leve, impacto seco, whoosh de movimento, guitarra curta, clap de claquete como golpe.',
+      video:'PROMPT VÍDEO IA: Tomate Elinaldo em primeiro plano, garagem punk, cabos atacando, linhas de movimento estilo motion comic, virada heroica, câmera dinâmica, vertical 9:16.',
+      capcut:'CAPCUT MOTION BOOK: cortes rápidos, freeze frame curto em Tomate, zoom punch, SFX de impacto, legenda grande no payoff.'
+    },
+    {
+      id:'radio-dorama', emoji:'💔', title:'O Rádio que Lembra', theme:'Dorama suspense emocional',
+      desc:'Um rádio antigo toca uma memória que muda o tom da cena e revela o custo emocional da saga.',
+      tags:['dorama','suspense','memória','emoção'],
+      premise:'Durante a gravação, um rádio velho toca uma voz que ninguém gravou. A cena deixa de ser só caos punk e revela que a garagem guarda uma memória ligada ao passado de Eli e ao nascimento do universo Fruits.',
+      action:'A equipe discute por causa da pressão do curta. O rádio chiado liga sozinho. Uma voz antiga chama Eli pelo nome. Todos param. Tomate Elinaldo fica sério. A luz baixa, a câmera aproxima em silêncio e Eli percebe que aquela gambiarra está puxando algo que ele tentou esquecer. O gancho final é a frase: “Você já filmou isso antes.”',
+      visual:'DIREÇÃO CINEMATOGRÁFICA — DORAMA SUSPENSE\n\nRitmo mais lento, close sustentado, luz lateral baixa, silêncio dramático, foco no olhar e no objeto. Cores frias com ponto quente no rádio. Movimento mínimo até a revelação.',
+      applied:'Foi aplicada lente dorama suspense: pausa emocional, memória, segredo, olhar sustentado e virada íntima. Serve para dar profundidade entre cenas de caos.',
+      script:'ROTEIRO BASE — O RÁDIO QUE LEMBRA\nComeço: discussão no set.\nMeio: rádio liga sozinho com voz impossível.\nVirada: Eli reconhece a frase.\nFinal: “Você já filmou isso antes.”',
+      srt:'1\n00:00:00,000 --> 00:00:05,000\nDesliga esse rádio.\n\n2\n00:00:05,000 --> 00:00:12,000\nEle não tá ligado.\n\n3\n00:00:12,000 --> 00:00:20,000\nEli... você já filmou isso antes.',
+      sound:'SOM/SFX: rádio chiado, grave baixo, silêncio longo, respiração, clique analógico. Música emocional mínima, quase imperceptível.',
+      video:'PROMPT VÍDEO IA: rádio antigo em garagem punk, luz baixa, close emocional, Tomate Elinaldo sério, Eli paralisado, clima de suspense dramático, vertical 9:16, motion comic adulto.',
+      capcut:'CAPCUT MOTION BOOK: desacelerar ritmo, usar close longo, ruído de rádio, fade curto, legenda limpa e pausa antes da frase final.'
+    },
+    {
+      id:'kungfu-cabos', emoji:'🥋', title:'Kung Fu dos Cabos', theme:'Kung fu comédia',
+      desc:'Cabos viram inimigos físicos e a equipe transforma gambiarra em coreografia absurda.',
+      tags:['ação','comédia física','coreografia','curto'],
+      premise:'Os cabos da garagem ganham vida como se fossem adversários de luta. A equipe precisa sobreviver usando objetos de produção como armas improvisadas sem quebrar a gravação.',
+      action:'Um cabo derruba Bruno, outro prende Taciano pela claquete, a câmera escorrega para Cesar e Eli usa a chave de fenda como se fosse instrumento de coreografia. Tomate Elinaldo dá o comando de ritmo. Cada golpe vira gag visual até todos criarem uma coreografia punk improvisada para domar os cabos.',
+      visual:'DIREÇÃO CINEMATOGRÁFICA — KUNG FU COMÉDIA\n\nPlanos abertos para leitura corporal, cortes em ritmo de pancada, exagero físico, objetos em trajetória clara, humor visual sem gore pesado. Grande angular leve e câmera baixa nos impactos.',
+      applied:'Foi aplicada lente kung fu comédia: coreografia física absurda, quedas, reação exagerada, objetos como armas cômicas e resolução por ritmo coletivo.',
+      script:'ROTEIRO BASE — KUNG FU DOS CABOS\nComeço: cabo tropeça Bruno.\nMeio: todos tentam lutar contra objetos.\nVirada: Tomate percebe o ritmo.\nFinal: a banda domestica os cabos como uma coreografia punk.',
+      srt:'1\n00:00:00,000 --> 00:00:04,000\nO cabo me atacou!\n\n2\n00:00:04,000 --> 00:00:10,000\nNão luta contra ele. Entra no ritmo.\n\n3\n00:00:10,000 --> 00:00:22,000\nUm, dois, claquete!\n\n4\n00:00:22,000 --> 00:00:30,000\nAgora sim... gambiarra coreografada.',
+      sound:'SOM/SFX: pancada seca cartunesca, slap, guitarra curta, claquete como percussão, whoosh leve. Música punk com batida marcial engraçada.',
+      video:'PROMPT VÍDEO IA: garagem punk, cabos vivos, luta cômica com objetos de produção, câmera baixa, movimento físico exagerado, humor de ação, vertical 9:16, motion comic.',
+      capcut:'CAPCUT MOTION BOOK: usar beat marcado, speed ramp em quedas, zoom punch, repetição cômica, corte final com freeze pose.'
+    }
+  ];
+  function $(id){return document.getElementById(id)}
+  function escV90(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function sceneV90(){try{return state.scenes[state.currentScene||0]||state.scenes[0];}catch(e){return null;}}
+  function fullPackageV90(t){return `PACOTE COMPLETO — ${t.title}\nTEMA: ${t.theme}\n\n1. PREMISSA\n${t.premise}\n\n2. AÇÃO DRAMÁTICA\n${t.action}\n\n3. DIREÇÃO CINEMATOGRÁFICA\n${t.visual}\n\n4. O QUE FOI APLICADO\n${t.applied}\n\n5. ROTEIRO BASE\n${t.script}\n\n6. SRT CAPCUT\n${t.srt}\n\n7. SOM / SFX / MÚSICA\n${t.sound}\n\n8. PROMPT DE VÍDEO IA\n${t.video}\n\n9. CAPCUT MOTION BOOK\n${t.capcut}\n\n10. COMO EDITAR\nTroque personagens, objeto central, local, emoção principal e frase final. Preserve: gancho rápido, conflito visual claro, virada no meio, payoff curto e continuidade do universo Fruits.`;}
+  function promptPilotV90(){return `Você é o Copilot Guia Criativo do Fruits Adventures Mega Studio. Crie comigo um PROJETO PILOTO viral, técnico e autoral.\n\nFaça primeiro um quiz curto com 7 perguntas:\n1) gênero principal, 2) personagem principal, 3) objeto-símbolo, 4) local, 5) emoção, 6) lente de direção, 7) final desejado.\n\nDepois entregue um pacote completo com: Premissa, Ação Dramática, Direção Cinematográfica, O Que Foi Aplicado, roteiro com começo/meio/fim, falas, narração, SRT, som/SFX, prompt de imagem, prompt de vídeo IA, CapCut Motion Book e checklist de exportação.\n\nRegras: não copiar obras, personagens, cenas ou falas protegidas. Usar apenas estrutura, ritmo, linguagem visual e técnica. Adaptar tudo para o DNA Fruits.`;}
+  function promptRadarV90(){return `Modo Radar Criativo: analise padrões de histórias curtas que costumam funcionar em redes sociais e em obras de impacto, sem copiar nenhuma obra específica.\n\nQuero fórmulas seguras e adaptáveis para Fruits Adventures. Entregue:\n- 5 fórmulas de gancho de 3 segundos\n- 5 estruturas com começo, meio, virada e payoff\n- 5 finais com frase curta/memeável\n- 5 riscos de clichê a evitar\n- 3 modelos completos que possam virar Premissa, Ação Dramática, Direção Cinematográfica, O Que Foi Aplicado, SRT, Vídeo IA e CapCut Motion Book.\n\nSe não houver acesso à internet neste ambiente, use padrões gerais e diga que são sugestões offline.`;}
+  function promptAdaptV90(){const s=sceneV90()||{}; return `Adapte a cena atual para um pacote completo de produção, preservando continuidade e DNA Fruits.\n\nPREMISSA ATUAL:\n${s.premise||''}\n\nAÇÃO ATUAL:\n${s.summary||s.text||''}\n\nDIREÇÃO ATUAL:\n${s.visualPrompt||''}\n\nEntregue versão melhorada com: Premissa, Ação Dramática, Direção Cinematográfica, O Que Foi Aplicado, roteiro, falas, narração, SRT, som/SFX, prompt de imagem, prompt de vídeo IA e CapCut Motion Book.`;}
+  function sendPromptV90(prompt){const input=$('aiInput'); if(!input) return; input.value=prompt; if(typeof window.sendAiMessage==='function') window.sendAiMessage();}
+  function copyV90(txt){ if(navigator.clipboard) navigator.clipboard.writeText(txt); if(typeof log==='function') log('Texto do Copilot Guia Criativo copiado.', 'ok'); }
+  window.applyTemplateV90 = function(id, mode){
+    const t=V90_TEMPLATES.find(x=>x.id===id); const s=sceneV90(); if(!t||!s) return;
+    if(mode==='fields' || mode==='full'){
+      s.premise=t.premise; s.summary=t.action; s.visualPrompt=t.visual; s.technicalNotes=t.applied;
+      if(mode==='full') s.text=fullPackageV90(t);
+      if(typeof saveState==='function') saveState();
+      if(typeof renderStoryboard==='function') renderStoryboard();
+      if(typeof renderDashboard==='function') renderDashboard();
+      if(typeof log==='function') log('Pacote '+t.title+' aplicado na Cena '+((state.currentScene||0)+1)+'.', 'ok');
+      const term=$('terminalStrip'); if(term) term.textContent='V9.0: pacote completo aplicado na cena atual.';
+    }
+  };
+  window.previewTemplateV90 = function(id){
+    const t=V90_TEMPLATES.find(x=>x.id===id); if(!t) return;
+    const body=`<div class="cp-v90-modal-body"><div class="cp-v90-preview">${escV90(fullPackageV90(t))}</div><div class="cp-v90-modal-actions"><div class="cp-v90-note"><b>Como usar:</b><br>Você pode aplicar só os campos técnicos no Storyboard ou aplicar o pacote completo no roteiro da cena. Depois edite os personagens e salve como sua base.</div><button class="btn btn-green" onclick="applyTemplateV90('${t.id}','fields');closeModal()">✓ Aplicar campos técnicos</button><button class="btn btn-gold" onclick="applyTemplateV90('${t.id}','full');closeModal()">📦 Aplicar pacote completo</button><button class="btn btn-cyan" onclick="copyTemplateV90('${t.id}')">📋 Copiar pacote</button><button class="btn btn-purple" onclick="sendTemplateToCopilotV90('${t.id}')">🤖 Pedir variação à IA</button></div></div>`;
+    if(typeof openModal==='function') { openModal('📚 '+t.title+' — pacote completo', '', fullPackageV90(t), 'pacote_'+t.id+'.txt'); const out=document.getElementById('modalOutput'); if(out) out.innerHTML=body; }
+  };
+  window.copyTemplateV90=function(id){const t=V90_TEMPLATES.find(x=>x.id===id); if(t) copyV90(fullPackageV90(t));};
+  window.sendTemplateToCopilotV90=function(id){const t=V90_TEMPLATES.find(x=>x.id===id); if(t){ closeModal&&closeModal(); sendPromptV90('Pegue este pacote e crie uma variação autoral para Fruits Adventures, mantendo começo, meio, fim, ritmo viral e sem copiar obras.\n\n'+fullPackageV90(t)); }};
+  window.openQuizV90=function(){sendPromptV90(promptPilotV90());};
+  window.openRadarV90=function(){sendPromptV90(promptRadarV90());};
+  window.adaptCurrentV90=function(){sendPromptV90(promptAdaptV90());};
+  window.copyPromptV90=function(kind){ const map={pilot:promptPilotV90(), radar:promptRadarV90(), adapt:promptAdaptV90()}; copyV90(map[kind]||promptPilotV90()); };
+  function templateCards(){return V90_TEMPLATES.map(t=>`<div class="cp-v90-template"><h4>${t.emoji} ${escV90(t.title)}</h4><p><b>${escV90(t.theme)}</b><br>${escV90(t.desc)}</p><div class="cp-v90-tags">${t.tags.map(x=>`<span>${escV90(x)}</span>`).join('')}</div><div class="cp-v90-buttons"><button class="btn btn-gold" onclick="previewTemplateV90('${t.id}')">Ver pacote</button><button class="btn btn-green" onclick="applyTemplateV90('${t.id}','fields')">Aplicar campos</button><button class="btn btn-cyan" onclick="sendTemplateToCopilotV90('${t.id}')">Variação IA</button></div></div>`).join('');}
+  function renderGuide(){
+    const qp=$('quickPrompts'); if(!qp) return;
+    if(!$('copilotGuideV90')){
+      const guide=document.createElement('div'); guide.id='copilotGuideV90'; guide.className='cp-v90-wrap';
+      qp.parentNode.insertBefore(guide, qp);
+    }
+    $('copilotGuideV90').innerHTML=`<div class="cp-v90-hero"><div class="cp-v90-card"><div class="cp-v90-kicker">🧠 Copilot Guia Criativo • V9.0</div><h2 class="cp-v90-title">Canivete suíço criativo</h2><p class="cp-v90-sub">Escolha um modelo completo, faça quiz guiado, peça radar de tendências ou aplique direto na Cena atual. O modo básico funciona como escola e template; o modo IA/API cria variações e adapta ao DNA Fruits.</p><div class="cp-v90-actions"><button class="btn btn-gold" onclick="openQuizV90()">🎬 Criar Piloto Viral</button><button class="btn btn-purple" onclick="openRadarV90()">📈 Radar / Atualizar Tendências</button><button class="btn btn-cyan" onclick="adaptCurrentV90()">🍅 Adaptar Cena Atual</button><button class="btn" onclick="copyPromptV90('pilot')">📋 Copiar prompt piloto</button></div><div class="cp-v90-steps"><div class="cp-v90-step"><b>1. Escolha fórmula</b>Modelo pronto ou radar IA.</div><div class="cp-v90-step"><b>2. Adapte</b>Troque personagens, objeto e emoção.</div><div class="cp-v90-step"><b>3. Aplique</b>Preenche Premissa, Ação, Direção e Técnica.</div><div class="cp-v90-step"><b>4. Produza</b>Roteiro, SRT, Vídeo IA e CapCut Book.</div></div></div><div class="cp-v90-card"><div class="cp-v90-kicker">⚡ Modo de uso</div><div class="cp-v90-side-list"><div class="cp-v90-side-item"><b>Básico forte/offline</b>Modelos completos com história, falas, SRT, som, vídeo IA e CapCut.</div><div class="cp-v90-side-item"><b>IA/API</b>Claude/Gemini/OpenRouter cria variações, faz quiz e atualiza fórmulas quando houver acesso.</div><div class="cp-v90-side-item"><b>Regra de ouro</b>Estudar ritmo e estrutura; nunca copiar obra, personagem, cena ou fala protegida.</div></div></div></div><div class="cp-v90-kicker">📚 Banco de fórmulas completas</div><div class="cp-v90-grid">${templateCards()}</div>`;
+    qp.innerHTML=`<span class="qp" onclick="openQuizV90()">🎬 Projeto piloto passo a passo</span><span class="qp" onclick="openRadarV90()">📈 Atualizar tendências / fórmulas</span><span class="qp" onclick="adaptCurrentV90()">🍅 Adaptar cena atual</span><span class="qp" onclick="copyPromptV90('radar')">📋 Copiar prompt radar</span>`;
+  }
+  const oldGo=window.goNode;
+  window.goNode=function(id){ if(typeof oldGo==='function') oldGo(id); if(id==='ai') setTimeout(renderGuide,50); };
+  const oldRenderQuick=window.renderQuickPrompts;
+  window.renderQuickPrompts=function(){ if(typeof oldRenderQuick==='function') oldRenderQuick(); renderGuide(); };
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(renderGuide,300));
+  setTimeout(renderGuide,800);
+  const term=$('terminalStrip'); if(term) term.textContent='Engine V9.0 ativo: Copilot Guia Criativo com banco de fórmulas e pacotes completos.';
 })();
 </script>
 
