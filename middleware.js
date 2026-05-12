@@ -1,9 +1,18 @@
-const COOKIE_NAME = 'mega_studio_session';
+ const COOKIE_NAME = 'mega_studio_session';
+
+function toBase64Url(text) {
+  let base64;
+  if (typeof btoa === 'function') {
+    base64 = btoa(text);
+  } else {
+    base64 = Buffer.from(text).toString('base64');
+  }
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
 
 function makeSessionToken(username) {
   const secret = process.env.SESSION_SECRET || 'dev-secret';
-  const payload = `${username}:${secret}`;
-  return Buffer.from(payload).toString('base64url');
+  return toBase64Url(`${username}:${secret}`);
 }
 
 export function middleware(request) {
@@ -30,17 +39,13 @@ export function middleware(request) {
     pathname.endsWith('.svg') ||
     pathname.endsWith('.ico');
 
-  if (isPublic || isStaticAsset) {
-    return;
-  }
+  if (isPublic || isStaticAsset) return;
 
   const adminUser = process.env.ADMIN_USER || 'admin';
   const expected = makeSessionToken(adminUser);
   const token = request.cookies.get(COOKIE_NAME)?.value;
 
-  if (token === expected) {
-    return;
-  }
+  if (token === expected) return;
 
   const url = request.nextUrl.clone();
   url.pathname = '/';
@@ -49,7 +54,11 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    '/fruits_adventures_studio_v5_2_sem_senha_front.html',
-    '/grafica_ia_studio_claude_v1.html'
+    '/studio/:path*',
+    '/client/:path*',
+    '/print/:path*',
+    '/api/generate-studio',
+    '/api/generate-client',
+    '/api/generate-print'
   ]
 };
