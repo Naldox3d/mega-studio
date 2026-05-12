@@ -8833,5 +8833,282 @@ ${base}
 })();
 </script>
 
+
+
+<!-- =========================================================
+ V9.1.6 — AUTORIA 100% / NOVO PROJETO LIMPO + CLAQUETES + MOTION 2D UNIVERSAL
+ Atualização: projetos rápidos viram presets opcionais; novo projeto não carrega história, elenco, cena ou vestígio anterior.
+ ========================================================= -->
+<style id="v916-clean-authoring-style">
+  :root{
+    --v916-gold:#e8c989; --v916-cyan:#65d9d2; --v916-green:#74d99a; --v916-red:#d98080;
+    --v916-purple:#a98bff; --v916-panel:#0d1220; --v916-panel2:#111827; --v916-border:rgba(255,255,255,.10);
+  }
+  .v916-clapperbar{display:flex;gap:8px;align-items:stretch;padding:10px 14px;overflow-x:auto;background:#070b15;border-bottom:1px solid var(--v916-border)}
+  .v916-clapper-node{position:relative;min-width:132px;min-height:62px;border:1px solid var(--v916-border);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--v916-panel2);color:#e8ecf4;cursor:pointer;overflow:hidden;text-align:left;padding:8px 10px;display:grid;grid-template-columns:28px 1fr;gap:7px;align-items:center}
+  .v916-clapper-node:before{content:'';position:absolute;left:0;top:0;right:0;height:11px;background:repeating-linear-gradient(135deg,rgba(232,201,137,.75) 0 12px,rgba(255,255,255,.12) 12px 24px)}
+  .v916-open{border-color:rgba(232,201,137,.62);box-shadow:0 0 0 1px rgba(232,201,137,.13) inset}.v916-closed{border-color:rgba(116,217,154,.38);opacity:.88}.v916-locked{opacity:.58}
+  .v916-clapper-mark{font-size:18px}.v916-clapper-title{font-size:11px;font-weight:800;color:#e6d8bf;line-height:1.15}.v916-clapper-status{font-size:9.5px;color:#9aa4b8;line-height:1.35;margin-top:2px}
+  .v916-hero,.v916-author-card{background:radial-gradient(circle at 8% 0%,rgba(101,217,210,.10),transparent 26%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--v916-panel);border:1px solid var(--v916-border);border-radius:18px;padding:18px;margin:0 0 14px}
+  .v916-hero h2{font-family:'Syne',sans-serif;font-size:clamp(22px,2vw,34px);line-height:1.05;margin:6px 0 8px;color:#f0e4cc;text-transform:uppercase;letter-spacing:.04em}.v916-hero p,.v916-author-card p{color:#aeb8ca;font-size:13px;line-height:1.65}
+  .v916-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(232,201,137,.28);border-radius:999px;padding:5px 9px;color:#e8c989;background:rgba(232,201,137,.08);font-size:10px;font-family:'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase}.v916-pill.clean{border-color:rgba(116,217,154,.32);color:#b8ffd3;background:rgba(116,217,154,.08)}
+  .v916-stage-banner{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#0b1020;border:1px solid var(--v916-border);border-radius:14px;padding:12px 14px;margin:12px 0;color:#dfe7f5}.v916-stage-banner span{color:#9aa4b8;font-size:12px;line-height:1.45}.v916-progress-mini{height:6px;min-width:130px;flex:0 0 160px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.v916-progress-mini span{display:block;height:100%;background:linear-gradient(90deg,var(--v916-gold),var(--v916-cyan));border-radius:999px}
+  .v916-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.v916-card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--v916-panel);border:1px solid var(--v916-border);border-radius:16px;padding:14px;margin-bottom:12px}.v916-card h4{font-size:13px;color:#e8c989;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}.v916-card p{font-size:12px;color:#aeb8ca;line-height:1.55;margin-bottom:10px}.v916-card textarea{width:100%;min-height:230px;background:#090f1d;border:1px solid var(--v916-border);border-radius:12px;color:#e8ecf4;padding:12px;font-family:'Space Mono',monospace;font-size:11.5px;line-height:1.6;resize:vertical}.v916-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.v916-warning{border-color:rgba(217,128,128,.32)!important;background:linear-gradient(180deg,rgba(217,128,128,.10),rgba(255,255,255,.012)),var(--v916-panel)!important}.v916-clean-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}.v916-mini{border:1px solid var(--v916-border);border-radius:12px;padding:10px;background:rgba(0,0,0,.14)}.v916-mini strong{display:block;color:#f0e4cc;font-size:12px;margin-bottom:4px}.v916-mini span{display:block;color:#9aa4b8;font-size:11px;line-height:1.45}
+  @media(max-width:900px){.v916-grid,.v916-clean-list{grid-template-columns:1fr}.v916-stage-banner{align-items:flex-start;flex-direction:column}.v916-progress-mini{width:100%;flex:auto}.v916-clapper-node{min-width:116px}.v916-actions .btn{width:auto!important}}
+</style>
+<script id="v916-clean-authoring-script">
+(function(){
+  'use strict';
+  const STORAGE_KEY='mega_studio_claude_director_state_v6';
+  const $=id=>document.getElementById(id);
+  const qa=(sel,root=document)=>Array.from(root.querySelectorAll(sel));
+  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const slug=s=>String(s||'projeto').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,70)||'projeto';
+  const now=()=>new Date().toISOString();
+  const cleanContinuity=`MODO NOVO PROJETO LIMPO — AUTORIA 100% COM IA.
+
+Regra principal: não carregar histórias, personagens, cenas, nomes, objetos, lugares ou conflitos de projetos anteriores.
+Este Studio deve começar do zero quando o usuário criar um novo projeto.
+A API escolhida (Claude, Gemini, Groq ou OpenRouter) decide a estrutura criativa com base apenas no que o usuário preencher neste projeto.
+
+O site fornece ferramentas, etapas, templates neutros, claquetes, storyboard, prompts, SRT, Vídeo IA, Motion Comic 2D e CapCut Motion Book.
+O site não impõe narrativa.
+O usuário e a IA decidem personagens, mundo, gênero, cenas, tom, continuidade e estilo.
+
+Projetos rápidos/presets podem existir, mas devem ser opcionais e carregados somente quando o usuário clicar em “Carregar preset”.
+Nenhum preset pode contaminar um novo projeto vazio.`;
+  const cleanState=()=>({
+    setup:{projectName:'',projectMode:'blank',continuityRules:cleanContinuity,cleanAuthoring:true,lastCleanReset:now()},
+    api:{provider:'claude',model:'claude-sonnet-4-5',apiKey:'',endpoint:'/api/fruits-generate',callMode:'backend',maxTokens:4000,temperature:0.62},
+    scenes:[{title:'Cena 1',summary:'',image:null,visualPrompt:'',visualAnalysis:'',text:'',approved:false,videoia:'',srt:'',motion2d:'',motionBook:''}],
+    currentScene:0,status:'Novo projeto limpo',score:0,clappers:{},presetsLoaded:false
+  });
+  function getState(){try{return window.state || JSON.parse(localStorage.getItem(STORAGE_KEY)) || cleanState();}catch(e){return cleanState();}}
+  function setState(s){window.state=s;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s));}catch(e){} return s;}
+  function save(){try{if(typeof window.saveState==='function') window.saveState(); else setState(getState());}catch(e){setState(getState());}}
+  function hasUserContent(s){
+    const sc=(s.scenes||[]).some(x=>String(x.summary||x.text||x.visualPrompt||x.visualAnalysis||x.videoia||x.srt||x.motionBook||'').trim() || x.image);
+    const name=String(s.setup?.projectName||'').trim();
+    const custom=name && !/Fruits Adventures: Os Iniciantes do Punk/i.test(name);
+    return sc || custom || s.presetsLoaded===true;
+  }
+  function looksContaminated(s){
+    const blob=JSON.stringify({setup:s.setup,scenes:s.scenes}).toLowerCase();
+    return /elinaldo|tomate hellipunk|iniciantes do punk|bruno|cesar|césar|taciano|sony hd100|placa de hd|garagem punk|caruaru/.test(blob);
+  }
+  function enforceCleanOnEmpty(){
+    let s=getState();
+    if(!hasUserContent(s) && looksContaminated(s)){ s=cleanState(); setState(s); }
+    if(!s.setup) s.setup=cleanState().setup;
+    if(!s.setup.cleanAuthoring && !hasUserContent(s) && looksContaminated(s)){ Object.assign(s.setup,{projectName:'',projectMode:'blank',continuityRules:cleanContinuity,cleanAuthoring:true,lastCleanReset:now()}); setState(s); }
+    return getState();
+  }
+  function currentScene(){const s=getState(); if(!s.scenes||!s.scenes.length)s.scenes=cleanState().scenes; const i=Math.max(0,Math.min(Number(s.currentScene||0),s.scenes.length-1)); s.currentScene=i; return s.scenes[i];}
+  function currentIndex(){return getState().currentScene||0;}
+  function projectName(){return getState().setup?.projectName || 'Novo projeto autoral';}
+  function toast(msg,type='ok'){try{if(typeof window.toast==='function') window.toast(msg,type); else {const t=$('terminalStrip'); if(t)t.textContent=msg;}}catch(e){}}
+  function copyText(txt,msg='Copiado.'){navigator.clipboard?.writeText(txt).then(()=>toast(msg,'ok')).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast(msg,'ok');});}
+  function downloadText(txt,name){const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);}
+
+  const presets={
+    blank:{label:'Projeto em branco',desc:'Sem história, sem elenco e sem cena fixa.',name:'',rules:cleanContinuity,summary:'',visual:''},
+    pilot:{label:'Piloto autoral neutro',desc:'Estrutura de curta sem personagem fixo.',name:'Projeto piloto autoral',rules:cleanContinuity+'\n\nPreset neutro: criar um piloto original com começo, meio, fim, gancho e continuidade própria definida pela IA a partir da premissa do usuário.',summary:'Crie uma primeira cena original a partir da premissa do usuário. Não use personagens, lugares ou objetos de projetos anteriores.',visual:'Estilo visual definido pelo usuário ou pela IA a partir da premissa atual.'},
+    horror:{label:'Terror motion comic',desc:'Modelo de tensão e som seco, sem elenco fixo.',name:'Terror Motion Comic Autoral',rules:cleanContinuity+'\n\nPreset opcional: horror/motion comic com tensão sonora, câmera seca e atmosfera definida pela premissa atual. Não importar personagens antigos.',summary:'Uma cena de terror autoral em arte 2D/motion comic. A ameaça, personagens e cenário devem nascer da premissa deste projeto.',visual:'2D motion comic, tensão, som seco, câmera controlada, sem copiar obras e sem importar personagens antigos.'},
+    action:{label:'Ação anime 2D',desc:'Modelo para luta/movimento, sem história fixa.',name:'Ação Anime 2D Autoral',rules:cleanContinuity+'\n\nPreset opcional: ação/anime 2D com coreografia, câmera dinâmica e impacto. Personagens e mundo devem ser criados do zero pelo projeto atual.',summary:'Uma cena de ação autoral com movimento claro, câmera dinâmica e virada final criada pela IA a partir dos dados do usuário.',visual:'Anime 2D/cel-shading/motion comic, câmera dinâmica, impacto físico, sem live action e sem personagens antigos.'},
+    fruitsOptional:{label:'Preset Fruits opcional',desc:'Carrega DNA Fruits só se o usuário escolher.',name:'Fruits Adventures — Projeto salvo/preset',rules:'PRESET OPCIONAL FRUITS ADVENTURES. Use apenas porque o usuário escolheu carregar este preset. A partir daqui, seguir a bíblia e continuidade fornecidas pelo usuário neste projeto salvo. Não aplicar este preset em projetos novos em branco.',summary:'Cena inicial a definir pelo usuário dentro do universo Fruits. Nada deve ser assumido sem o briefing ou projeto salvo.',visual:'Visual Fruits a definir conforme projeto salvo, model sheets e continuidade carregada pelo usuário.'}
+  };
+
+  function setField(id,value,placeholder){const el=$(id); if(!el)return; if(value!==undefined)el.value=value; if(placeholder)el.placeholder=placeholder;}
+  function applyCleanUI(){
+    const s=enforceCleanOnEmpty();
+    document.title='Fruits Adventures Studio — V9.1.6 Autoria 100% + Motion 2D Universal';
+    const brand=document.querySelector('.topbar-brand'); if(brand) brand.innerHTML='🎬 Fruits Adventures Mega Studio <span>V9.1.6 Autoria 100% / Novo Projeto Limpo</span>';
+    const strip=$('terminalStrip'); if(strip) strip.textContent='V9.1.6: novo projeto começa limpo. Presets são opcionais. Claude/API decide a história com base no briefing atual.';
+    setField('projectName', s.setup.projectName||'', 'Novo projeto autoral — deixe vazio ou nomeie aqui');
+    setField('continuityRules', s.setup.continuityRules||cleanContinuity);
+    const mode=$('projectMode'); if(mode){
+      if(!Array.from(mode.options).some(o=>o.value==='blank')) mode.insertAdjacentHTML('afterbegin','<option value="blank">Novo projeto limpo — autoria 100%</option>');
+      mode.value=s.setup.projectMode||'blank';
+    }
+    const card=document.querySelector('.punk-dna-card'); if(card){
+      card.className='v916-author-card';
+      card.innerHTML=`<span class="v916-pill clean">Autoria 100%</span><h3 style="font-family:Syne,sans-serif;color:#f0e4cc;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.05em">Novo projeto limpo</h3><p>O Studio não injeta história antiga. Ele oferece ferramentas e inteligência: setup, storyboard, claquetes, Motion Comic 2D, SRT, CapCut Motion Book e exportação. Quem decide a narrativa é o usuário com a API.</p><div class="v916-clean-list"><div class="v916-mini"><strong>Sem vestígios</strong><span>Nada de personagens, cenas ou objetos antigos em novo projeto.</span></div><div class="v916-mini"><strong>Presets opcionais</strong><span>Projetos rápidos só entram quando você clicar para carregar.</span></div><div class="v916-mini"><strong>IA no comando</strong><span>Claude/Gemini/OpenRouter criam a estrutura com base no briefing atual.</span></div></div><div class="v916-actions"><button class="btn btn-green" onclick="newCleanProjectV916()">🧼 Novo projeto limpo</button><button class="btn btn-cyan" onclick="showQuickProjectsV916()">⚡ Projetos rápidos</button><button class="btn btn-purple" onclick="goNode('motion2d')">🎞️ Módulo 6 universal</button></div>`;
+    }
+    const label=$('scenePill'); if(label) label.textContent='Cena atual';
+  }
+
+  function clapperStages(){
+    const s=getState(), c=s.clappers||{}, scene=currentScene();
+    const setupDone=!!c.setup || !!String(s.setup?.projectName||'').trim() || s.setup?.cleanAuthoring;
+    const storyboardDone=!!c.storyboard || !!String(scene.summary||scene.visualPrompt||scene.image||'').trim();
+    const sceneDone=!!c.scene || !!String(scene.text||'').trim();
+    const motionDone=!!c.motion2d || !!String(scene.motion2d||scene.seedance2dPrompt||scene.videoia||'').trim();
+    const srtDone=!!c.srt || !!String(scene.srt||'').trim();
+    const capcutDone=!!c.capcut || !!String(scene.motionBook||scene.capcut||'').trim();
+    const exportDone=!!c.export || !!scene.approved;
+    const arr=[
+      {id:'setup',panel:'setup',icon:'🧼',title:'Setup limpo',done:setupDone,status:'autoria e briefing'},
+      {id:'storyboard',panel:'storyboard',icon:'📚',title:'Storyboard',done:storyboardDone,status:'cenas/imagens'},
+      {id:'scene',panel:'scene',icon:'🎬',title:'Cena',done:sceneDone,status:'roteiro aprovado'},
+      {id:'motion2d',panel:'motion2d',icon:'🎞️',title:'Motion 2D',done:motionDone,status:'Seedance/Luma/Kling'},
+      {id:'srt',panel:'scene',icon:'🔊',title:'SRT/Som',done:srtDone,status:'legenda e áudio'},
+      {id:'capcut',panel:'capcut',icon:'📘',title:'CapCut Book',done:capcutDone,status:'plano técnico'},
+      {id:'export',panel:'export',icon:'📦',title:'Exportar',done:exportDone,status:'pacote final'}
+    ];
+    let first=arr.findIndex(x=>!x.done); if(first<0) first=arr.length-1; arr.forEach((x,i)=>x.open=i===first); return arr;
+  }
+  function pct(){const a=clapperStages(); return Math.round(a.filter(x=>x.done).length/a.length*100);}
+  function renderClappers(){
+    let bar=$('nodesBar'); if(!bar)return; bar.className='nodes-bar v916-clapperbar';
+    bar.innerHTML=clapperStages().map(x=>`<button type="button" class="v916-clapper-node ${x.done?'v916-closed':x.open?'v916-open':'v916-locked'}" onclick="goNode('${esc(x.panel)}')"><span class="v916-clapper-mark">${x.done?'✅':x.open?'🟡':'🔒'}</span><div><div class="v916-clapper-title">${x.icon} ${esc(x.title)}</div><div class="v916-clapper-status">${x.done?'fechada':x.open?'aberta':'aguardando'} • ${esc(x.status)}</div></div></button>`).join('');
+    const pf=$('progressFill'); if(pf) pf.style.width=pct()+'%'; const score=$('scoreBadge'); if(score) score.textContent='Progresso: '+pct()+'%'; const open=clapperStages().find(x=>x.open); const st=$('statusLabel'); if(st&&open) st.textContent=open.title;
+  }
+  function stageBanner(){const open=clapperStages().find(x=>x.open)||clapperStages()[0]; return `<div class="v916-stage-banner"><div><strong>🎬 Claquete aberta: ${esc(open.title)}</strong><br><span>Novo projeto limpo: nada entra automaticamente. Fechar uma fase apenas salva o que existe no projeto atual.</span></div><div class="v916-progress-mini"><span style="width:${pct()}%"></span></div><button class="btn btn-gold" onclick="closeCurrentClapperV916()">🎬 Fechar claquete e avançar</button></div>`;}
+  function ensurePanel(id){let p=$('tab-'+id); const content=document.querySelector('.content'); if(!p&&content){p=document.createElement('div'); p.className='tab-panel'; p.id='tab-'+id; content.appendChild(p);} return p;}
+  function activate(id){qa('.tab-panel').forEach(p=>p.classList.remove('active')); const p=$('tab-'+id); if(p)p.classList.add('active'); return p;}
+
+  function sceneBrief(){const sc=currentScene(); const title=sc.title||`Cena ${currentIndex()+1}`; const summary=String(sc.summary||sc.text||'').trim(); const visual=String(sc.visualPrompt||sc.visualAnalysis||'').trim(); return {title,summary,visual};}
+  function motionPrompt(compact=false){
+    const b=sceneBrief();
+    const base=b.summary||'Use a descrição da cena atual, a imagem/storyboard carregado e o briefing deste projeto. Se faltar informação, peça/infira apenas o mínimo a partir do projeto atual, sem importar histórias antigas.';
+    const visual=b.visual||'Manter a arte base enviada pelo usuário como referência estrita.';
+    if(compact) return `Use the uploaded/current reference image as strict reference. 2D cel-shaded anime motion comic, not live action, not photorealistic, not 3D. Animate only the current project scene: ${base}. Keep composition, characters, costumes, colors and drawing style from the current reference. Add controlled camera motion, subtle particles/atmosphere, dry tension cuts, 5 seconds, vertical 9:16.`;
+    return `PROMPT UNIVERSAL — MÓDULO 6 MOTION COMIC / ANIME 2D
+
+PROJETO ATUAL: ${projectName()}
+CENA ATUAL: ${b.title}
+
+BRIEFING DA CENA
+${base}
+
+REFERÊNCIA VISUAL / ARTE BASE
+${visual}
+
+DIREÇÃO PARA SEEDANCE / LUMA / KLING / GEN-3 / CAPCUT AI
+Use the uploaded/current image as a strict reference. Keep the exact drawing style, characters, silhouettes, costumes, colors, composition and 2D illustrated look from THIS project only.
+
+Animation style: 2D cel-shaded anime, motion comic, illustrated frame, high-production comic animation. Do not convert into live action. Do not make it photorealistic. Do not turn characters into 3D. Do not invent characters from older projects. Do not import names, locations, objects or story elements not present in the current briefing/reference.
+
+Camera direction: controlled cinematic motion chosen for the current scene: slow push-in, short handheld shake, dry impact cut, rack focus, panel slide or subtle parallax when useful.
+
+Motion direction: animate only elements that belong to the current image/scene: atmosphere, smoke, dust, light flicker, clothing, hair, props, eyes, breathing, particles or background movement. Preserve composition and identity.
+
+Sound intention for CapCut: generate a sound plan that fits the current genre, using dry camera tension, short impacts, ambience, breathing/foley/SFX when appropriate.
+
+Output target: 5 to 8 seconds, vertical 9:16, motion comic/anime 2D, ready for CapCut.
+
+NEGATIVE / PROTECTION
+No live action, no photorealism, no plastic 3D, no Pixar look, no changing faces, no changing costumes, no changing composition, no extra characters, no old project contamination, no copied franchises, no logos, no readable text unless the user explicitly requested it.`;
+  }
+  function shotPrompts(){const b=sceneBrief(); return `PROMPTS POR TOMADA — UNIVERSAL / SEM CONTAMINAÇÃO
+Projeto: ${projectName()}
+Cena: ${b.title}
+
+TOMADA 01 — ESTABELECER A CENA
+${motionPrompt(true)}
+Camera: movimento inicial suave para revelar o foco dramático da cena atual.
+SFX: ambiente coerente com o projeto atual.
+
+TOMADA 02 — FOCO EM PERSONAGEM / OBJETO CENTRAL
+Strict current reference image. 2D cel-shaded motion comic, not live action. Animate the main character or central object described in the current scene only. Preserve the drawing style and composition.
+Camera: close/push-in controlado.
+SFX: foley curto + textura de tensão.
+
+TOMADA 03 — REAÇÃO / VIRADA
+Strict current reference image. 2D anime motion comic. Animate a small reaction, light change, atmosphere movement or emotional beat from the current scene. No old characters or objects.
+Camera: tremor seco ou corte de impacto se o gênero pedir.
+SFX: impacto curto, pausa ou respiração conforme a cena.
+
+TOMADA 04 — GANCHO FINAL
+Strict current reference image. Keep 2D comic/anime style. Create a final cliffhanger using only the elements present in the current project. Do not add legacy lore.
+Camera: zoom mínimo, congelamento, sombra, luz, detalhe ou silêncio final conforme o briefing.
+SFX: sting seco ou corte para silêncio.`;}
+  function capcutBook(){const b=sceneBrief(); return `CAPCUT MOTION BOOK — UNIVERSAL
+Projeto: ${projectName()}
+Cena: ${b.title}
+
+REGRA DE AUTORIA
+Este plano usa apenas o briefing, imagem, personagens e continuidade do projeto atual. Não importar vestígios de projetos anteriores.
+
+OBJETIVO
+Transformar a arte base/storyboard da cena atual em Motion Comic / Anime 2D animado, preservando desenho, composição e identidade visual.
+
+ORDEM DE EDIÇÃO
+1. Importar a imagem/storyboard do projeto atual.
+2. Gerar 3 a 5 vídeos curtos com o prompt universal 2D.
+3. Importar no CapCut em 9:16.
+4. Cortar cada tomada em 3 a 8 segundos.
+5. Adicionar SFX coerentes com o gênero atual.
+6. Adicionar SRT limpo se houver fala/narração.
+7. Ajustar keyframes: push-in, pan, tremor seco, corte, pausa ou impacto.
+8. Exportar a cena aprovada.
+
+PROMPT BASE DA CENA
+${b.summary||'Aguardando briefing da cena atual.'}
+
+SFX / SOM
+- Ambiente conforme cenário atual.
+- Impactos secos em viradas visuais.
+- Pausas curtas para tensão.
+- Foleys de personagem/objeto apenas se existirem na cena atual.
+
+SRT BASE
+Gerar SRT somente a partir de narração/falas aprovadas no projeto atual.
+
+CHECKLIST
+[ ] O vídeo manteve 2D/cel-shading/motion comic.
+[ ] Não virou live action.
+[ ] Não trouxe personagens antigos.
+[ ] Não trouxe objetos/cenários antigos.
+[ ] A cena segue somente o briefing atual.
+[ ] Som/SFX reforçam a emoção sem confundir a história.
+[ ] Claquete Motion 2D pode ser fechada.`;}
+  function fullPack(){return `FRUITS ADVENTURES MEGA STUDIO — V9.1.6
+AUTORIA 100% / MÓDULO 6 UNIVERSAL
+Projeto: ${projectName()}
+
+====================
+1. PROMPT PRINCIPAL
+====================
+${motionPrompt(false)}
+
+====================
+2. PROMPT CURTO
+====================
+${motionPrompt(true)}
+
+====================
+3. PROMPTS POR TOMADA
+====================
+${shotPrompts()}
+
+====================
+4. CAPCUT MOTION BOOK
+====================
+${capcutBook()}`;}
+
+  function renderMotion(){const p=ensurePanel('motion2d'); p.innerHTML=`<div class="panel-scroll"><div class="v916-hero"><span class="v916-pill clean">Módulo 6 universal</span><h2>Motion Comic / Anime 2D</h2><p>Este módulo anima qualquer projeto/cena usando somente o briefing atual. Não há Eli, Bruno, Cesar, HD, garagem ou qualquer vestígio fixo. Presets rápidos são opcionais e só entram quando carregados.</p></div>${stageBanner()}<div class="v916-grid"><div class="v916-card"><h4>Prompt principal universal</h4><p>Direção completa para Seedance, Luma, Kling, Gen-3 ou CapCut AI.</p><textarea id="v916MainPrompt">${esc(motionPrompt(false))}</textarea><div class="v916-actions"><button class="btn btn-gold" onclick="copyV916('v916MainPrompt')">📋 Copiar</button><button class="btn btn-cyan" onclick="downloadV916('v916MainPrompt','prompt_motion2d_universal')">⬇️ Baixar</button><button class="btn btn-green" onclick="saveV916('v916MainPrompt','seedance2dPrompt')">✅ Salvar na cena</button></div></div><div class="v916-card"><h4>Prompt curto</h4><p>Versão rápida sem contaminação de projeto antigo.</p><textarea id="v916ShortPrompt">${esc(motionPrompt(true))}</textarea><div class="v916-actions"><button class="btn btn-gold" onclick="copyV916('v916ShortPrompt')">📋 Copiar</button><button class="btn btn-green" onclick="saveV916('v916ShortPrompt','motion2d')">✅ Salvar</button></div></div><div class="v916-card"><h4>Prompts por tomada</h4><p>Fatiamento universal: estabelecer, foco, reação e gancho final.</p><textarea id="v916Shots">${esc(shotPrompts())}</textarea><div class="v916-actions"><button class="btn btn-gold" onclick="copyV916('v916Shots')">📋 Copiar</button><button class="btn btn-cyan" onclick="downloadV916('v916Shots','tomadas_motion2d')">⬇️ Baixar</button><button class="btn btn-green" onclick="saveV916('v916Shots','motion2dShots')">✅ Salvar</button></div></div><div class="v916-card"><h4>CapCut Motion Book</h4><p>Plano técnico universal para edição final.</p><textarea id="v916Capcut">${esc(capcutBook())}</textarea><div class="v916-actions"><button class="btn btn-gold" onclick="copyV916('v916Capcut')">📋 Copiar</button><button class="btn btn-cyan" onclick="downloadV916('v916Capcut','capcut_motion_book')">⬇️ Baixar</button><button class="btn btn-green" onclick="saveV916('v916Capcut','motionBook')">✅ Salvar</button></div></div></div><div class="v916-card"><h4>Pacote completo limpo</h4><p>Exporta tudo com a regra de autoria 100% para testar com Claude/API e geradores de vídeo.</p><div class="v916-actions"><button class="btn btn-gold" onclick="openPackV916()">🎬 Abrir pacote completo</button><button class="btn btn-cyan" onclick="downloadTextV916(fullPackV916(),'${slug(projectName())}_v916_motion2d_universal.txt')">⬇️ Baixar pacote completo</button><button class="btn btn-green" onclick="approveMotionV916()">🎬 Fechar claquete Motion 2D</button></div></div></div>`;}
+  function renderDashboard(){const p=ensurePanel('dashboard'); const s=getState(), sc=currentScene(); p.innerHTML=`<div class="panel-scroll"><div class="v916-hero"><span class="v916-pill clean">Autoria 100%</span><h2>${esc(projectName())}</h2><p>Dashboard limpo: o projeto novo não herda história anterior. Use os campos, a API e os módulos para construir tudo do zero. Presets rápidos ficam separados.</p></div>${stageBanner()}<div class="v916-grid"><div class="v916-card"><h4>Novo projeto</h4><p>Comece limpo, sem personagens nem cena pré-carregada.</p><div class="v916-actions"><button class="btn btn-green" onclick="newCleanProjectV916()">🧼 Novo projeto limpo</button><button class="btn btn-cyan" onclick="showQuickProjectsV916()">⚡ Projetos rápidos</button></div></div><div class="v916-card"><h4>Cena atual</h4><p>${esc(sc.summary||sc.text||'Aguardando briefing da cena atual.')}</p><div class="v916-actions"><button class="btn btn-purple" onclick="goNode('storyboard')">📚 Storyboard</button><button class="btn btn-gold" onclick="goNode('motion2d')">🎞️ Motion 2D</button></div></div></div><div class="v916-card"><h4>Regra anti-vestígio</h4><p>Nomes, objetos e cenas de projetos anteriores só entram se estiverem no briefing atual ou se você carregar um preset/projeto salvo.</p></div></div>`;}
+  function renderQuickProjects(){const p=ensurePanel('quickprojects'); p.innerHTML=`<div class="panel-scroll"><div class="section-title">⚡ Projetos rápidos <span class="badge">opcionais</span></div>${stageBanner()}<div class="v916-card v916-warning"><h4>Aviso</h4><p>Projetos rápidos são atalhos. Eles não entram em novo projeto automaticamente. Clique apenas se quiser carregar um modelo.</p></div><div class="v916-grid">${Object.entries(presets).filter(([id])=>id!=='blank').map(([id,t])=>`<div class="v916-card"><h4>${esc(t.label)}</h4><p>${esc(t.desc)}</p><button class="btn btn-gold" onclick="loadPresetV916('${id}')">Carregar preset</button></div>`).join('')}</div></div>`;}
+  function renderCapcut(){const p=ensurePanel('capcut'); p.innerHTML=`<div class="panel-scroll"><div class="section-title">📘 CapCut Motion Book <span class="badge">universal</span></div>${stageBanner()}<div class="v916-card"><h4>Plano técnico da cena atual</h4><textarea id="v916CapcutDirect">${esc(capcutBook())}</textarea><div class="v916-actions"><button class="btn btn-gold" onclick="copyV916('v916CapcutDirect')">📋 Copiar</button><button class="btn btn-cyan" onclick="downloadV916('v916CapcutDirect','capcut_motion_book')">⬇️ Baixar</button><button class="btn btn-green" onclick="saveV916('v916CapcutDirect','motionBook')">✅ Salvar</button></div></div></div>`;}
+
+  const oldGo=window.goNode;
+  window.goNode=function(id){id=({videoia:'motion2d',modulo6:'motion2d',seedance:'motion2d',motion:'motion2d',quick:'quickprojects',capcutbook:'capcut'}[id]||id); if(id==='motion2d')renderMotion(); if(id==='dashboard')renderDashboard(); if(id==='quickprojects')renderQuickProjects(); if(id==='capcut')renderCapcut(); let p=activate(id); if(!p && typeof oldGo==='function'){try{oldGo(id)}catch(e){} p=$('tab-'+id);} renderClappers(); const strip=$('terminalStrip'); if(strip)strip.textContent='V9.1.6: claquete '+id+' aberta. Novo projeto segue sem vestígios automáticos.';};
+  window.newCleanProjectV916=function(){if(!confirm('Criar NOVO PROJETO LIMPO? Isso apaga o estado salvo deste Studio neste navegador.'))return; setState(cleanState()); applyCleanUI(); renderClappers(); renderDashboard(); if(typeof window.renderStoryboard==='function')try{window.renderStoryboard()}catch(e){} toast('Novo projeto limpo criado: sem vestígios anteriores.','ok'); window.goNode('setup');};
+  window.showQuickProjectsV916=function(){renderQuickProjects(); window.goNode('quickprojects');};
+  window.loadPresetV916=function(id){const t=presets[id]; if(!t)return; const s=cleanState(); s.setup.projectName=t.name; s.setup.projectMode=id==='fruitsOptional'?'fruits':'director'; s.setup.continuityRules=t.rules; s.presetsLoaded=true; s.loadedPreset=id; s.scenes=[{title:'Cena 1',summary:t.summary,image:null,visualPrompt:t.visual,visualAnalysis:'',text:'',approved:false,videoia:'',srt:'',motion2d:'',motionBook:''}]; setState(s); applyCleanUI(); if(typeof window.renderStoryboard==='function')try{window.renderStoryboard()}catch(e){} renderClappers(); toast('Preset opcional carregado: '+t.label+'.','ok'); window.goNode('storyboard');};
+  window.closeCurrentClapperV916=function(){const s=getState(); s.clappers=s.clappers||{}; const open=clapperStages().find(x=>x.open); if(open){s.clappers[open.id]=true; setState(s); save(); toast('Claquete fechada: '+open.title+'.','ok'); renderClappers(); const next=clapperStages().find(x=>x.open); if(next) window.goNode(next.panel);} };
+  window.copyV916=id=>copyText($(id)?.value||'','Texto copiado.');
+  window.downloadV916=(id,kind)=>downloadText($(id)?.value||'',`${slug(projectName())}_${slug(kind)}.txt`);
+  window.downloadTextV916=downloadText; window.fullPackV916=fullPack;
+  window.saveV916=function(id,key){const s=getState(), sc=currentScene(); sc[key]=$(id)?.value||''; if(key==='seedance2dPrompt')sc.videoia=sc[key]; if(key==='motionBook')sc.capcut=sc[key]; setState(s); save(); renderClappers(); toast('Salvo na cena atual: '+key+'.','ok');};
+  window.openPackV916=function(){const txt=fullPack(); if(typeof window.openModal==='function')window.openModal('Pacote V9.1.6 — Motion 2D Universal','Sem vestígios de projeto anterior.',txt,`${slug(projectName())}_v916_motion2d_universal.txt`); else copyText(txt,'Pacote copiado.');};
+  window.approveMotionV916=function(){const s=getState(), sc=currentScene(); sc.motion2d=sc.motion2d||motionPrompt(true); sc.seedance2dPrompt=sc.seedance2dPrompt||motionPrompt(false); sc.videoia=sc.seedance2dPrompt; s.clappers=s.clappers||{}; s.clappers.motion2d=true; setState(s); save(); renderClappers(); toast('Motion 2D aprovado sem contaminação de projeto antigo.','ok'); window.goNode('capcut');};
+  const oldClear=window.clearProject; window.clearProject=function(){window.newCleanProjectV916();};
+  function boot(){enforceCleanOnEmpty(); applyCleanUI(); ensurePanel('motion2d'); ensurePanel('dashboard'); ensurePanel('quickprojects'); ensurePanel('capcut'); renderMotion(); renderDashboard(); renderQuickProjects(); renderCapcut(); renderClappers();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,140)); else setTimeout(boot,140); setTimeout(boot,900);
+})();
+</script>
+
 </body>
 </html>
