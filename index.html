@@ -2,299 +2,50 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Mega Studio — GitHub Pages</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Studio Platform — Portal Profissional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#05070f;
-  --surface:#0c0f1e;
-  --surface2:#111628;
-  --border:rgba(255,255,255,.08);
-  --text:#e8ecff;
-  --muted:#7b83a8;
-  --gold:#ffb932;
-  --cyan:#00e5c8;
-  --pink:#ff4d7e;
-  --green:#4dff9a;
-  --radius:16px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  min-height:100vh;
-  background:radial-gradient(circle at top,#11183a 0%,#05070f 52%,#02030a 100%);
-  color:var(--text);
-  font-family:Inter,sans-serif;
-}
-.hidden{display:none!important}
-.login-wrap{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:22px;
-}
-.login-card{
-  width:min(460px,94vw);
-  background:rgba(12,15,30,.94);
-  border:1px solid rgba(255,185,50,.38);
-  border-radius:24px;
-  padding:34px;
-  box-shadow:0 30px 90px rgba(0,0,0,.55);
-}
-.brand{
-  font-family:Syne,sans-serif;
-  color:var(--gold);
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-size:14px;
-  margin-bottom:22px;
-  text-align:center;
-}
-.login-card h1{
-  font-family:Syne,sans-serif;
-  font-size:28px;
-  margin-bottom:8px;
-  text-align:center;
-}
-.login-card p{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.6;
-  text-align:center;
-  margin-bottom:22px;
-}
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-  margin-bottom:13px;
-}
-.field label{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1.6px;
-  color:var(--gold);
-  font-weight:700;
-}
-.field input{
-  background:#080b17;
-  border:1px solid var(--border);
-  border-radius:12px;
-  color:var(--text);
-  padding:13px 14px;
-  font-size:15px;
-  outline:none;
-}
-.field input:focus{border-color:var(--gold)}
-.btn{
-  border:1px solid var(--border);
-  background:var(--surface2);
-  color:var(--text);
-  border-radius:12px;
-  padding:11px 15px;
-  font-weight:700;
-  cursor:pointer;
-  font-family:Inter,sans-serif;
-}
-.btn:hover{filter:brightness(1.08)}
-.btn-gold{
-  background:var(--gold);
-  border-color:var(--gold);
-  color:#1b1000;
-  width:100%;
-  justify-content:center;
-}
-.err{
-  display:none;
-  color:#ff9ab8;
-  font-size:13px;
-  background:rgba(255,77,126,.1);
-  border:1px solid rgba(255,77,126,.25);
-  padding:10px 12px;
-  border-radius:12px;
-  margin:12px 0;
-}
-.err.show{display:block}
-.app{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-.top{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  padding:13px 18px;
-  border-bottom:1px solid var(--border);
-  background:rgba(5,7,15,.92);
-  backdrop-filter:blur(12px);
-}
-.top .title{
-  font-family:Syne,sans-serif;
-  font-weight:900;
-  color:var(--gold);
-  margin-right:auto;
-}
-.tab{
-  border:1px solid var(--border);
-  background:var(--surface2);
-  color:var(--muted);
-  border-radius:999px;
-  padding:8px 14px;
-  cursor:pointer;
-  font-weight:700;
-}
-.tab.active{
-  border-color:var(--gold);
-  background:rgba(255,185,50,.14);
-  color:var(--gold);
-}
-.status{
-  font-family:Space Mono,monospace;
-  font-size:11px;
-  color:var(--cyan);
-  padding:8px 18px;
-  border-bottom:1px solid var(--border);
-  background:rgba(0,0,0,.22);
-}
-.frame-wrap{flex:1;min-height:0}
-.frame{
-  width:100%;
-  height:calc(100vh - 91px);
-  border:0;
-  display:none;
-  background:#05070f;
-}
-.frame.active{display:block}
-.note{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:12px;
-  line-height:1.5;
-}
-.logout{
-  color:var(--pink);
-  border-color:rgba(255,77,126,.35);
-  background:rgba(255,77,126,.08);
-}
-@media(max-width:700px){
-  .top{flex-wrap:wrap}
-  .top .title{width:100%}
-  .frame{height:calc(100vh - 136px)}
-}
+:root{--bg:#070a12;--panel:#0d1322;--panel2:#111a2d;--line:rgba(255,255,255,.1);--text:#eef3ff;--muted:#9aa7c3;--gold:#d8b46f;--cyan:#6ee7df;--red:#ef7d8d;--green:#78e2a2;--radius:18px}*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:radial-gradient(circle at 15% 0,rgba(110,231,223,.12),transparent 32%),radial-gradient(circle at 88% 10%,rgba(216,180,111,.12),transparent 28%),linear-gradient(180deg,#070a12,#090d18 58%,#05070d);color:var(--text);font-family:Inter,system-ui,sans-serif}.hidden{display:none!important}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.card{width:min(460px,94vw);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);border:1px solid rgba(216,180,111,.28);border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.45);padding:30px}.brand{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;text-align:center;margin-bottom:18px}.card h1{font-size:28px;text-align:center;margin-bottom:8px}.card p{font-size:13px;line-height:1.6;color:var(--muted);text-align:center;margin-bottom:22px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);font-weight:800}.field input{width:100%;border:1px solid var(--line);background:#090f1d;color:var(--text);border-radius:12px;padding:12px 13px;outline:none}.field input:focus{border-color:rgba(216,180,111,.55)}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}.btn:hover{filter:brightness(1.08)}.btn.primary{width:100%;background:linear-gradient(180deg,#e2bf7d,#c79a53);color:#110c03;border-color:#e2bf7d}.err{display:none;margin:12px 0;padding:10px 12px;border-radius:12px;border:1px solid rgba(239,125,141,.28);background:rgba(239,125,141,.1);color:#ffd7dc;font-size:13px}.err.show{display:block}.app{min-height:100vh;display:flex;flex-direction:column}.top{height:62px;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line);background:rgba(7,10,18,.86);backdrop-filter:blur(10px)}.title{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);margin-right:auto}.tab{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}.tab.active{border-color:rgba(216,180,111,.48);background:rgba(216,180,111,.1);color:#f3d69f}.logout{border-color:rgba(239,125,141,.28);background:rgba(239,125,141,.08);color:#ffd7dc}.status{min-height:32px;padding:8px 16px;border-bottom:1px solid var(--line);font-size:12px;color:var(--cyan);background:rgba(0,0,0,.18)}.frames{flex:1;min-height:0}.frame{display:none;width:100%;height:calc(100vh - 94px);border:0;background:#070a12}.frame.active{display:block}.note{font-size:11px;color:var(--muted);line-height:1.45;margin-top:13px}@media(max-width:760px){.top{height:auto;flex-wrap:wrap;padding:12px}.title{width:100%}.tab{flex:1}.frame{height:calc(100vh - 148px)}}
 </style>
 </head>
 <body>
-
-<section id="login" class="login-wrap">
-  <div class="login-card">
-    <div class="brand">🍅 Fruits + 🖨️ Gráfica Studio</div>
-    <h1>Mega Studio</h1>
-    <p>Versão simples para GitHub Pages. Esta senha é apenas visual, porque GitHub Pages é site estático.</p>
-
-    <div class="field">
-      <label>Usuário</label>
-      <input id="user" autocomplete="username" placeholder="admin" />
-    </div>
-
-    <div class="field">
-      <label>Senha</label>
-      <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••" />
-    </div>
-
-    <div id="err" class="err">Usuário ou senha incorretos.</div>
-
-    <button class="btn btn-gold" onclick="login()">Entrar no Portal</button>
-
-    <div class="note">
-      Login padrão:<br>
-      <b>Usuário:</b> admin<br>
-      <b>Senha:</b> fruits2026<br><br>
-      Para Claude API no GitHub Pages, use o modo “Teste rápido no navegador” dentro do app. Para esconder a chave da API, depois use Vercel.
-    </div>
+<section id="login" class="login">
+  <div class="card">
+    <div class="brand">Studio Platform</div>
+    <h1>Portal Profissional</h1>
+    <p>Área de trabalho separada: Studio interno, Client para roteiristas e Print para gráfica. A API roda por trás, sem aparecer como produto.</p>
+    <div class="field"><label>Usuário</label><input id="user" autocomplete="username" placeholder="admin"></div>
+    <div class="field"><label>Senha</label><input id="pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+    <div id="err" class="err">Login inválido ou API de autenticação indisponível.</div>
+    <button class="btn primary" onclick="login()">Entrar</button>
+    <div class="note">Configure ADMIN_USER, ADMIN_PASS, SESSION_SECRET e ANTHROPIC_API_KEY na Vercel. Em ambiente local use <b>vercel dev</b>.</div>
   </div>
 </section>
-
 <section id="app" class="app hidden">
-  <div class="top">
-    <div class="title">Mega Studio — GitHub Pages</div>
-    <button id="tab-fruits" class="tab active" onclick="showTab('fruits')">🍅 Fruits Studio</button>
-    <button id="tab-grafica" class="tab" onclick="showTab('grafica')">🖨️ Gráfica IA</button>
+  <header class="top">
+    <div class="title">Studio Platform</div>
+    <button id="tab-studio" class="tab active" onclick="showTab('studio')">Studio</button>
+    <button id="tab-client" class="tab" onclick="showTab('client')">Client</button>
+    <button id="tab-print" class="tab" onclick="showTab('print')">Print</button>
     <button class="btn logout" onclick="logout()">Sair</button>
-  </div>
-
-  <div class="status" id="status">
-    Portal GitHub ativo. Escolha Fruits Studio ou Gráfica IA.
-  </div>
-
-  <div class="frame-wrap">
-    <iframe id="frame-fruits" class="frame active" src="./fruits_adventures_studio_v5_2_sem_senha_front.html"></iframe>
-    <iframe id="frame-grafica" class="frame" src="./grafica_ia_studio_claude_v1.html"></iframe>
-  </div>
+  </header>
+  <div id="status" class="status">Studio ativo.</div>
+  <main class="frames">
+    <iframe id="frame-studio" class="frame active" src="./studio/"></iframe>
+    <iframe id="frame-client" class="frame" src="./client/"></iframe>
+    <iframe id="frame-print" class="frame" src="./print/"></iframe>
+  </main>
 </section>
-
 <script>
-const $ = id => document.getElementById(id);
-
-// Versão GitHub Pages: login simples no navegador.
-// Atenção: isso não é segurança real. É apenas uma trava visual.
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'fruits2026';
-const LOGIN_KEY = 'mega_studio_github_login_ok';
-
-function checkSession(){
-  if(localStorage.getItem(LOGIN_KEY) === 'ok'){
-    $('login').classList.add('hidden');
-    $('app').classList.remove('hidden');
-  }
-}
-
-function login(){
-  $('err').classList.remove('show');
-  const username = $('user').value.trim();
-  const password = $('pass').value;
-
-  if(username === ADMIN_USER && password === ADMIN_PASS){
-    localStorage.setItem(LOGIN_KEY, 'ok');
-    $('login').classList.add('hidden');
-    $('app').classList.remove('hidden');
-    $('status').textContent = 'Login aprovado. Versão GitHub Pages carregada.';
-  }else{
-    $('err').classList.add('show');
-  }
-}
-
-function logout(){
-  localStorage.removeItem(LOGIN_KEY);
-  $('app').classList.add('hidden');
-  $('login').classList.remove('hidden');
-  $('pass').value = '';
-}
-
-function showTab(name){
-  ['fruits','grafica'].forEach(n=>{
-    $('tab-'+n).classList.toggle('active', n===name);
-    $('frame-'+n).classList.toggle('active', n===name);
-  });
-
-  $('status').textContent = name === 'fruits'
-    ? 'Fruits Studio ativo: cenas, SRT, narrador, referência e Claude.'
-    : 'Gráfica IA ativa: briefing, orçamento, copy, layout e checklist.';
-}
-
-window.addEventListener('message', ev => {
-  if(ev.data && ev.data.type === 'studio-logout') logout();
-});
-
-document.addEventListener('keydown', ev => {
-  if(ev.key === 'Enter' && !$('login').classList.contains('hidden')) login();
-});
-
-checkSession();
+const $=id=>document.getElementById(id);
+async function verify(){try{const r=await fetch('/api/auth-verify'); if(r.ok){$('login').classList.add('hidden');$('app').classList.remove('hidden');}}catch(e){}}
+async function login(){ $('err').classList.remove('show'); try{const r=await fetch('/api/auth-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('user').value.trim(),password:$('pass').value})}); if(!r.ok) throw new Error('login'); $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('status').textContent='Login aprovado. Studio ativo.';}catch(e){$('err').classList.add('show');}}
+async function logout(){try{await fetch('/api/auth-logout',{method:'POST'});}catch(e){} $('app').classList.add('hidden'); $('login').classList.remove('hidden'); $('pass').value='';}
+function showTab(name){['studio','client','print'].forEach(n=>{ $('tab-'+n).classList.toggle('active',n===name); $('frame-'+n).classList.toggle('active',n===name);}); const labels={studio:'Studio interno ativo: testes, atualizações e produção avançada.',client:'Client ativo: produto neutro para roteiristas e usuários finais.',print:'Print ativo: gráfica, briefing e pré-impressão.'}; $('status').textContent=labels[name];}
+document.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!$('login').classList.contains('hidden')) login();});
+verify();
 </script>
 </body>
 </html>
