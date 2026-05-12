@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Gráfica IA Studio — Print Pro Mercado</title>
+<title>Gráfica IA Studio — Print Pro Mercado V3</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
@@ -14,7 +14,9 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}
 .brand{font-family:Syne,sans-serif;font-weight:900;font-size:18px;color:#eadcc1;letter-spacing:.04em}.brand small{font-family:Space Mono,monospace;color:var(--gold);font-size:10px;margin-left:8px}.nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
 .btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);padding:9px 13px;font-size:12px;font-weight:800;text-decoration:none;display:inline-flex;gap:6px;align-items:center;justify-content:center}
 .btn.gold{background:linear-gradient(180deg,#e1bc7b,#c89a55);color:#1a1203;border-color:rgba(214,173,104,.65)}.btn.green{background:linear-gradient(180deg,#83dda9,#61c78c);color:#07140d;border-color:rgba(116,217,154,.65)}.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.35);color:#cafffb}.btn.purple{background:rgba(185,156,255,.10);border-color:rgba(185,156,255,.35);color:#eadcff}.btn.red{background:rgba(225,138,138,.10);border-color:rgba(225,138,138,.35);color:#ffd5d5}
-.shell{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:calc(100vh - 64px)}.side{border-right:1px solid var(--line);background:#0b1020;padding:14px;overflow:auto}.side h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}.step{border:1px solid var(--line);border-radius:13px;padding:10px 11px;margin-bottom:8px;background:rgba(255,255,255,.025);font-size:12px}.step.active{border-color:rgba(214,173,104,.45);background:rgba(214,173,104,.08)}
+.shell{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:calc(100vh - 64px)}.side{border-right:1px solid var(--line);background:#0b1020;padding:14px;overflow:auto}.side h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}
+.step{width:100%;text-align:left;border:1px solid var(--line);border-radius:13px;padding:10px 11px;margin-bottom:8px;background:rgba(255,255,255,.025);font-size:12px;color:var(--text)}
+.step.active{border-color:rgba(214,173,104,.70);background:rgba(214,173,104,.10);box-shadow:0 0 0 1px rgba(214,173,104,.10) inset}.step:hover{filter:brightness(1.09)}
 .main{padding:22px;overflow:auto}.hero,.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),var(--panel);padding:18px;margin-bottom:14px}.kicker{display:inline-flex;padding:5px 9px;border:1px solid rgba(101,217,210,.32);border-radius:999px;color:#baf7f2;background:rgba(101,217,210,.08);font:10px Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
 h1,h2,h3{font-family:Syne,sans-serif;margin:0;color:#eadcc1;letter-spacing:.04em}h1{font-size:clamp(28px,3vw,44px);line-height:1}h2{font-size:22px;margin-bottom:12px}p{color:#bac3d8;line-height:1.6}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:10px 0 7px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#0b1020;color:var(--text);padding:10px 12px;outline:none}textarea{min-height:110px;resize:vertical;line-height:1.55}.output{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:230px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff;overflow:auto}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.notice{border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.07);color:#baf7f2;border-radius:14px;padding:11px 13px;font-size:12px;line-height:1.55;margin:12px 0}.provider{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.provider button.active{border-color:var(--gold);background:rgba(214,173,104,.10);color:#f0d29b}.mini{font-size:11px;color:var(--muted);font-family:Space Mono,monospace}.pill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:10px;color:var(--muted);margin:3px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#101729;color:#c9d4ee;font-size:12px;font-weight:900}.tab.active{background:rgba(214,173,104,.13);border-color:rgba(214,173,104,.55);color:#f1d49d}.screen{display:none}.screen.active{display:block}
@@ -23,7 +25,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">Gráfica IA Studio <small>Print Pro Mercado</small></div>
+  <div class="brand">Gráfica IA Studio <small>Print Pro Mercado V3</small></div>
   <nav class="nav">
     <a class="btn" href="/studio/">Studio</a>
     <a class="btn" href="/client/">Client</a>
@@ -34,13 +36,13 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 <div class="shell">
   <aside class="side">
     <h4>Fluxo gráfico</h4>
-    <div class="step active">1. Briefing</div>
-    <div class="step">2. Produto / formato</div>
-    <div class="step">3. Vendas / Radar</div>
-    <div class="step">4. Copy + roteiro gráfico</div>
-    <div class="step">5. Prompt visual</div>
-    <div class="step">6. Arte final / gráfica</div>
-    <div class="step">7. Exportação</div>
+    <button class="step active" data-step="briefing" onclick="showScreen('briefing')">1. Briefing</button>
+    <button class="step" data-step="produto" onclick="showScreen('produto')">2. Produto / formato</button>
+    <button class="step" data-step="vendas" onclick="showScreen('vendas')">3. Vendas / Radar</button>
+    <button class="step" data-step="copy" onclick="showScreen('copy')">4. Copy + roteiro gráfico</button>
+    <button class="step" data-step="prompt" onclick="showScreen('prompt')">5. Prompt visual</button>
+    <button class="step" data-step="producao" onclick="showScreen('producao')">6. Arte final / gráfica</button>
+    <button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportação</button>
     <h4>Modelos</h4>
     <span class="pill">Flyer</span><span class="pill">Poster</span><span class="pill">Banner YouTube</span><span class="pill">TikTok</span><span class="pill">Camiseta</span><span class="pill">Caneca</span><span class="pill">Adesivo</span><span class="pill">POD</span>
     <h4>Regra</h4>
@@ -56,10 +58,14 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
     </section>
 
     <div class="tabs">
-      <button class="tab active" onclick="showScreen('briefing',this)">Briefing</button>
-      <button class="tab" onclick="showScreen('vendas',this)">Vendas / Radar</button>
-      <button class="tab" onclick="showScreen('producao',this)">Arte final / Gráfica</button>
-      <button class="tab" onclick="showScreen('api',this)">API</button>
+      <button class="tab active" data-tab="briefing" onclick="showScreen('briefing')">Briefing</button>
+      <button class="tab" data-tab="produto" onclick="showScreen('produto')">Produto / formato</button>
+      <button class="tab" data-tab="vendas" onclick="showScreen('vendas')">Vendas / Radar</button>
+      <button class="tab" data-tab="copy" onclick="showScreen('copy')">Copy</button>
+      <button class="tab" data-tab="prompt" onclick="showScreen('prompt')">Prompt visual</button>
+      <button class="tab" data-tab="producao" onclick="showScreen('producao')">Arte final</button>
+      <button class="tab" data-tab="exportacao" onclick="showScreen('exportacao')">Exportação</button>
+      <button class="tab" data-tab="api" onclick="showScreen('api')">API</button>
     </div>
 
     <section id="briefing" class="screen active">
@@ -70,21 +76,35 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Nicho / segmento</label><input id="segment" value="Lanchonete, loja local, evento, criador ou produto personalizado">
           <label>Tipo de entrega</label>
           <select id="mode"><option>Serviço gráfico para cliente</option><option>Produto para vender / POD</option><option>Campanha completa: serviço + produto</option></select>
-          <label>Produto/formato</label>
-          <select id="product">
-            <option>Flyer / panfleto</option><option>Poster promocional</option><option>Poster decorativo / wall art</option><option>Banner / faixa</option><option>Banner YouTube</option><option>Thumbnail YouTube</option><option>Post Instagram</option><option>Story/Reels/TikTok vertical</option><option>Cardápio</option><option>Cartão de visita</option><option>Folder / brochure</option><option>Camiseta / estampa</option><option>Caneca</option><option>Adesivo / etiqueta</option><option>Tote bag</option><option>Phone case</option><option>Kit brinde corporativo</option>
-          </select>
           <label>Objetivo</label><select id="goal"><option>Vender mais</option><option>Divulgar promoção</option><option>Lançar produto</option><option>Captar leads</option><option>Chamar para WhatsApp</option><option>Criar produto vendável</option><option>Fortalecer marca</option></select>
           <label>Tom</label><select id="tone"><option>Profissional e moderno</option><option>Popular e direto</option><option>Luxo / premium</option><option>Divertido</option><option>Urgente / promocional</option><option>Minimalista</option><option>Streetwear / cultura pop</option><option>Fofo / presenteável</option></select>
           <label>Descrição</label><textarea id="desc">Criar uma peça/produto com visual chamativo, leitura rápida e potencial de venda.</textarea>
           <label>Texto obrigatório</label><textarea id="required">WhatsApp, endereço, Instagram, preço/oferta ou frase principal. Se for produto, informe frase, tema ou público.</textarea>
-          <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote completo</button><button class="btn purple" onclick="generate('campaign')">Roteiro gráfico de campanha</button><button class="btn cyan" onclick="localPackage()">Pacote local</button></div>
+          <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote completo</button><button class="btn purple" onclick="showScreen('copy')">Ir para roteiro gráfico</button><button class="btn cyan" onclick="localPackage()">Pacote local</button></div>
         </div>
         <div class="card">
           <h2>Resultado IA</h2>
           <div class="output" id="out">Preencha o briefing e escolha uma função.</div>
           <div class="actions"><button class="btn" onclick="copyOut()">Copiar</button><button class="btn green" onclick="downloadTxt('print-pro-mercado.txt')">Baixar TXT</button><button class="btn cyan" onclick="shareOut()">Compartilhar</button></div>
         </div>
+      </section>
+    </section>
+
+    <section id="produto" class="screen">
+      <section class="grid two">
+        <div class="card">
+          <h2>Produto / formato</h2>
+          <label>Produto/formato principal</label>
+          <select id="product">
+            <option>Flyer / panfleto</option><option>Poster promocional</option><option>Poster decorativo / wall art</option><option>Banner / faixa</option><option>Banner YouTube</option><option>Thumbnail YouTube</option><option>Post Instagram</option><option>Story/Reels/TikTok vertical</option><option>Cardápio</option><option>Cartão de visita</option><option>Folder / brochure</option><option>Camiseta / estampa</option><option>Caneca</option><option>Adesivo / etiqueta</option><option>Tote bag</option><option>Phone case</option><option>Kit brinde corporativo</option>
+          </select>
+          <label>Variações desejadas</label>
+          <textarea id="variants">Versão para post, story, flyer e produto físico quando fizer sentido.</textarea>
+          <label>Material / mídia</label>
+          <select id="material"><option>Papel couché / flyer</option><option>Digital social media</option><option>Tecido / camiseta</option><option>Cerâmica / caneca</option><option>Adesivo vinil</option><option>Banner lona</option><option>Poster / papel fotográfico</option><option>Produto sob demanda / POD</option></select>
+          <div class="actions"><button class="btn gold" onclick="generate('productPlan')">Gerar plano do produto</button><button class="btn purple" onclick="generate('productIdeas')">Produtos derivados</button><button class="btn cyan" onclick="showScreen('producao')">Ir para arte final</button></div>
+        </div>
+        <div class="card"><h2>Guia rápido por produto</h2><div class="output" id="productOut">Escolha um produto e gere o plano.</div></div>
       </section>
     </section>
 
@@ -118,6 +138,30 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       </section>
     </section>
 
+    <section id="copy" class="screen">
+      <section class="grid two">
+        <div class="card">
+          <h2>Copy + roteiro gráfico</h2>
+          <label>Tipo de copy</label><select id="copyType"><option>Campanha completa</option><option>Headline curta</option><option>Oferta direta WhatsApp</option><option>Produto premium</option><option>Produto popular</option><option>Roteiro para vídeo curto</option></select>
+          <label>Oferta / promessa</label><textarea id="offer">Transformar a peça em uma campanha clara, com gancho, benefício e CTA.</textarea>
+          <div class="actions"><button class="btn gold" onclick="generate('campaign')">Gerar roteiro gráfico</button><button class="btn purple" onclick="generate('copy')">Gerar copy/layout</button><button class="btn cyan" onclick="showScreen('prompt')">Ir para prompt visual</button></div>
+        </div>
+        <div class="card"><h2>Saída de copy</h2><div class="output" id="copyOut">Aguardando geração.</div></div>
+      </section>
+    </section>
+
+    <section id="prompt" class="screen">
+      <section class="grid two">
+        <div class="card">
+          <h2>Prompt visual</h2>
+          <label>Estilo visual</label><input id="visualStyle" value="Design gráfico profissional, alta legibilidade, hierarquia forte, visual comercial">
+          <label>Referência visual / restrições</label><textarea id="visualRef">Não inventar logo, endereço, preço, telefone ou selo. Usar placeholders quando faltar informação.</textarea>
+          <div class="actions"><button class="btn gold" onclick="generate('visual')">Gerar prompt visual</button><button class="btn purple" onclick="generate('mockup')">Gerar prompt de mockup</button><button class="btn cyan" onclick="showScreen('producao')">Ir para arte final</button></div>
+        </div>
+        <div class="card"><h2>Prompt / mockup</h2><div class="output" id="promptOut">Aguardando prompt.</div></div>
+      </section>
+    </section>
+
     <section id="producao" class="screen">
       <section class="grid two">
         <div class="card">
@@ -139,6 +183,17 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <div class="actions"><button class="btn green" onclick="localPrepress()">Checklist local</button><button class="btn" onclick="copyLocal()">Copiar checklist</button></div>
           <div class="output" id="localOut">Aguardando.</div>
         </div>
+      </section>
+    </section>
+
+    <section id="exportacao" class="screen">
+      <section class="grid two">
+        <div class="card">
+          <h2>Exportação final</h2>
+          <p>Gere o pacote de entrega com briefing, copy, prompt, checklist técnico e próximos passos.</p>
+          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote final</button><button class="btn green" onclick="downloadTxt('print-pro-pacote-final.txt')">Baixar pacote</button><button class="btn cyan" onclick="shareOut()">Compartilhar</button></div>
+        </div>
+        <div class="card"><h2>Pacote final</h2><div class="output" id="exportOut">Aguardando montagem.</div></div>
       </section>
     </section>
 
@@ -165,10 +220,10 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 </div>
 
 <script>
-let provider="claude";const STORAGE="printProMercadoV2";function $(id){return document.getElementById(id)}function val(id){return $(id)?.value?.trim()||""}
-function showScreen(id,btn){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));btn.classList.add("active")}
+let provider="claude";const STORAGE="printProMercadoV3";function $(id){return document.getElementById(id)}function val(id){return $(id)?.value?.trim()||""}
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id)?.classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));document.querySelectorAll(".step").forEach(s=>s.classList.toggle("active",s.dataset.step===id));window.scrollTo({top:0,behavior:"smooth"})}
 function selectProvider(p,btn){provider=p;document.querySelectorAll("[data-provider]").forEach(b=>b.classList.remove("active"));btn.classList.add("active")}
-function brief(){return `PRINT PRO MERCADO
+function brief(){return `PRINT PRO MERCADO V3
 
 REGRA ANTI-VESTÍGIO:
 Use somente o briefing atual. Não use Fruits, personagens antigos, cenas antigas ou projetos anteriores.
@@ -177,10 +232,15 @@ MODO: ${val("mode")}
 CLIENTE/MARCA: ${val("client")}
 NICHO/SEGMENTO: ${val("segment")}
 PRODUTO/FORMATO: ${val("product")}
+VARIAÇÕES: ${val("variants")}
+MATERIAL/MÍDIA: ${val("material")}
 OBJETIVO: ${val("goal")}
 TOM: ${val("tone")}
 DESCRIÇÃO: ${val("desc")}
 TEXTO OBRIGATÓRIO: ${val("required")}
+OFERTA/PROMESSA: ${val("offer")}
+ESTILO VISUAL: ${val("visualStyle")}
+REFERÊNCIA/RESTRIÇÕES: ${val("visualRef")}
 
 RADAR:
 Mercado: ${val("market")}
@@ -197,6 +257,7 @@ Notas técnicas: ${val("techNotes")}`}
 function task(type){const map={
 api:"Responda apenas: API Print funcionando.",
 complete:`Gere pacote completo: diagnóstico comercial, público, proposta, copy, roteiro gráfico, layout, prompt visual, variações por formato, checklist técnico, arquivos finais e próximos passos.`,
+productPlan:`Gere plano do produto/formato: objetivo, público, dimensões prováveis, material, adaptações, limitações, promessa, mockup, arquivo necessário e próximos passos.`,
 campaign:`Transforme o briefing em roteiro gráfico comercial: gancho, headline, subtítulo, benefício, prova, CTA, hierarquia visual, versão curta, média e completa, e adaptação para rede social.`,
 radar:`Atue como analista de mercado estilo Semrush/Google Trends/Etsy research. Se não tiver busca real, deixe claro que é pesquisa estratégica baseada no briefing. Gere: nichos promissores, palavras-chave, intenção de compra, sazonalidade, concorrentes a observar, produtos derivados, ângulos de anúncio, risco de saturação, próximos testes e lista de pesquisas manuais.`,
 productIdeas:`Gere produtos vendáveis a partir do briefing: camisetas, canecas, posters, adesivos, kits, brindes, variações de preço, público-alvo, frases, temas, mockups e canais de venda.`,
@@ -204,14 +265,16 @@ affiliate:`Gere ideias de ofertas afiliadas/complementares que combinem com o ni
 finalPrint:`Gere saída final para gráfica/impressora: tamanho final, sangria, margem de segurança, resolução, cor CMYK/RGB, formato de exportação, PDF/X, fontes, imagens, revisão, checklist e mensagem pronta para mandar à gráfica.`,
 stamp:`Gere saída final para estampa/produto personalizado: área de impressão, fundo transparente, vetor quando possível, DTF/sublimação/silk/UV, limitações de cor, mockup, embalagem, etiqueta e checklist para fornecedor.`,
 quote:`Gere brief de orçamento para enviar à gráfica/fornecedor: especificações, quantidade, papel/material, acabamento, prazo, arquivos necessários e perguntas que faltam.`,
-copy:"Gere copy/layout.",
-visual:"Gere prompt visual.",
+copy:"Gere copy/layout detalhado com headline, subtítulo, CTA e direção de composição.",
+visual:"Gere prompt visual profissional, com variações por formato e restrições para não inventar dados.",
+mockup:"Gere prompt de mockup para apresentar a peça/produto em contexto realista, sem distorcer marca ou texto.",
 prepress:"Gere checklist técnico."
 };return map[type]||type}
 
+function targetBox(type){if(type==="radar"||type==="productIdeas"||type==="affiliate")return "radarOut";if(type==="productPlan")return "productOut";if(type==="campaign"||type==="copy")return "copyOut";if(type==="visual"||type==="mockup")return "promptOut";return "out"}
 function payload(type){return {provider,model:val("model"),max_tokens:Number(val("maxTokens")||3800),temperature:Number(val("temperature")||0.55),prompt:brief()+"\n\nTAREFA:\n"+task(type)}}
 async function callAI(type){const res=await fetch(val("endpoint")||"/api/generate-print",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload(type))});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.error||data.details||"Erro na API Print");return data.text||data.output||data.message||JSON.stringify(data,null,2)}
-async function generate(type){$("out").textContent="Gerando...";try{const text=await callAI(type);$("out").textContent=text;if(type==="radar"||type==="productIdeas"||type==="affiliate")$("radarOut").textContent=text}catch(e){$("out").textContent="Erro: "+e.message}}
+async function generate(type){const box=targetBox(type);$(box).textContent="Gerando...";try{const text=await callAI(type);$(box).textContent=text;$("out").textContent=text}catch(e){$(box).textContent="Erro: "+e.message;$("out").textContent="Erro: "+e.message}}
 async function testAPI(){$("apiStatus").textContent="Testando...";try{$("apiStatus").textContent=await callAI("api")}catch(e){$("apiStatus").textContent="Erro: "+e.message}}
 function saveApi(){localStorage.setItem(STORAGE,JSON.stringify({provider,endpoint:val("endpoint"),model:val("model"),maxTokens:val("maxTokens"),temperature:val("temperature")}));$("apiStatus").textContent="API salva."}
 function loadApi(){try{const a=JSON.parse(localStorage.getItem(STORAGE)||"{}");if(a.endpoint)$("endpoint").value=a.endpoint;if(a.model)$("model").value=a.model;if(a.maxTokens)$("maxTokens").value=a.maxTokens;if(a.temperature)$("temperature").value=a.temperature;if(a.provider)provider=a.provider}catch(e){}}
@@ -225,7 +288,7 @@ ENTREGA:
 3. Layout: topo com promessa, centro com produto/oferta, rodapé com contato.
 4. Prompt visual: design gráfico profissional, alta legibilidade, hierarquia forte, sem texto falso.
 5. Saída: checar sangria, margem, resolução, cor, formato e fornecedor.`}
-function localPrepress(){const process=val("process");const isDigital=val("size").includes("px")||process==="Online RGB";$("localOut").textContent=`CHECKLIST TÉCNICO LOCAL
+function localPrepress(){const process=val("process");$("localOut").textContent=`CHECKLIST TÉCNICO LOCAL
 
 Produto/formato: ${val("product")}
 Tamanho: ${val("size")}
@@ -260,10 +323,31 @@ Processo: ${process}
 6. REVISÃO
 - Conferir telefone, preço, data, endereço, QR code, ortografia e permissões de imagem.
 - Não inventar logo, selo, marca ou informação que o cliente não mandou.`}
-function openSearch(kind){const q=encodeURIComponent(val("keywords")||val("product"));const urls={google:`https://www.google.com/search?q=${q}+tendencias+produto+personalizado`,trends:`https://trends.google.com/trends/explore?q=${q}`,etsy:`https://www.etsy.com/search?q=${q}`,amazon:`https://www.amazon.com/s?k=${q}`,tiktok:`https://www.tiktok.com/search?q=${q}`,youtube:`https://www.youtube.com/results?search_query=${q}`};window.open(urls[kind],"_blank");$("radarOut").textContent="Pesquisa aberta em nova aba: "+kind+"\\nTermo: "+decodeURIComponent(q)}
+function openSearch(kind){const q=encodeURIComponent(val("keywords")||val("product"));const urls={google:`https://www.google.com/search?q=${q}+tendencias+produto+personalizado`,trends:`https://trends.google.com/trends/explore?q=${q}`,etsy:`https://www.etsy.com/search?q=${q}`,amazon:`https://www.amazon.com/s?k=${q}`,tiktok:`https://www.tiktok.com/search?q=${q}`,youtube:`https://www.youtube.com/results?search_query=${q}`};window.open(urls[kind],"_blank");$("radarOut").textContent="Pesquisa aberta em nova aba: "+kind+"\nTermo: "+decodeURIComponent(q)}
+function buildExport(){const text=`PACOTE FINAL PRINT PRO MERCADO V3
+
+${brief()}
+
+RESULTADO PRINCIPAL:
+${$("out").textContent}
+
+RADAR:
+${$("radarOut").textContent}
+
+PRODUTO:
+${$("productOut").textContent}
+
+COPY:
+${$("copyOut").textContent}
+
+PROMPT:
+${$("promptOut").textContent}
+
+CHECKLIST:
+${$("localOut").textContent}`;$("exportOut").textContent=text;$("out").textContent=text}
 function copyOut(){navigator.clipboard.writeText($("out").textContent)}
 function copyLocal(){navigator.clipboard.writeText($("localOut").textContent)}
-function downloadTxt(name){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([$("out").textContent],{type:"text/plain"}));a.download=name||"print-pro.txt";a.click()}
+function downloadTxt(name){const content=$("out").textContent||$("exportOut").textContent||"";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/plain"}));a.download=name||"print-pro.txt";a.click()}
 async function shareOut(){const text=$("out").textContent;if(navigator.share){await navigator.share({title:"Print Pro Mercado",text}).catch(()=>{})}else{copyOut();alert("Copiado.")}}
 loadApi();
 </script>
