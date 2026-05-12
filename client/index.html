@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Studio Platform — Portal Profissional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a12;--panel:#0d1322;--panel2:#111a2d;--line:rgba(255,255,255,.1);--text:#eef3ff;--muted:#9aa7c3;--gold:#d8b46f;--cyan:#6ee7df;--red:#ef7d8d;--green:#78e2a2;--radius:18px}*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:radial-gradient(circle at 15% 0,rgba(110,231,223,.12),transparent 32%),radial-gradient(circle at 88% 10%,rgba(216,180,111,.12),transparent 28%),linear-gradient(180deg,#070a12,#090d18 58%,#05070d);color:var(--text);font-family:Inter,system-ui,sans-serif}.hidden{display:none!important}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.card{width:min(460px,94vw);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);border:1px solid rgba(216,180,111,.28);border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.45);padding:30px}.brand{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;text-align:center;margin-bottom:18px}.card h1{font-size:28px;text-align:center;margin-bottom:8px}.card p{font-size:13px;line-height:1.6;color:var(--muted);text-align:center;margin-bottom:22px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);font-weight:800}.field input{width:100%;border:1px solid var(--line);background:#090f1d;color:var(--text);border-radius:12px;padding:12px 13px;outline:none}.field input:focus{border-color:rgba(216,180,111,.55)}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}.btn:hover{filter:brightness(1.08)}.btn.primary{width:100%;background:linear-gradient(180deg,#e2bf7d,#c79a53);color:#110c03;border-color:#e2bf7d}.err{display:none;margin:12px 0;padding:10px 12px;border-radius:12px;border:1px solid rgba(239,125,141,.28);background:rgba(239,125,141,.1);color:#ffd7dc;font-size:13px}.err.show{display:block}.app{min-height:100vh;display:flex;flex-direction:column}.top{height:62px;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line);background:rgba(7,10,18,.86);backdrop-filter:blur(10px)}.title{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);margin-right:auto}.tab{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}.tab.active{border-color:rgba(216,180,111,.48);background:rgba(216,180,111,.1);color:#f3d69f}.logout{border-color:rgba(239,125,141,.28);background:rgba(239,125,141,.08);color:#ffd7dc}.status{min-height:32px;padding:8px 16px;border-bottom:1px solid var(--line);font-size:12px;color:var(--cyan);background:rgba(0,0,0,.18)}.frames{flex:1;min-height:0}.frame{display:none;width:100%;height:calc(100vh - 94px);border:0;background:#070a12}.frame.active{display:block}.note{font-size:11px;color:var(--muted);line-height:1.45;margin-top:13px}@media(max-width:760px){.top{height:auto;flex-wrap:wrap;padding:12px}.title{width:100%}.tab{flex:1}.frame{height:calc(100vh - 148px)}}
+</style>
+</head>
+<body>
+<section id="login" class="login">
+  <div class="card">
+    <div class="brand">Studio Platform</div>
+    <h1>Portal Profissional</h1>
+    <p>Área de trabalho separada: Studio interno, Client para roteiristas e Print para gráfica. A API roda por trás, sem aparecer como produto.</p>
+    <div class="field"><label>Usuário</label><input id="user" autocomplete="username" placeholder="admin"></div>
+    <div class="field"><label>Senha</label><input id="pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+    <div id="err" class="err">Login inválido ou API de autenticação indisponível.</div>
+    <button class="btn primary" onclick="login()">Entrar</button>
+    <div class="note">Configure ADMIN_USER, ADMIN_PASS, SESSION_SECRET e ANTHROPIC_API_KEY na Vercel. Em ambiente local use <b>vercel dev</b>.</div>
+  </div>
+</section>
+<section id="app" class="app hidden">
+  <header class="top">
+    <div class="title">Studio Platform</div>
+    <button id="tab-studio" class="tab active" onclick="showTab('studio')">Studio</button>
+    <button id="tab-client" class="tab" onclick="showTab('client')">Client</button>
+    <button id="tab-print" class="tab" onclick="showTab('print')">Print</button>
+    <button class="btn logout" onclick="logout()">Sair</button>
+  </header>
+  <div id="status" class="status">Studio ativo.</div>
+  <main class="frames">
+    <iframe id="frame-studio" class="frame active" src="./studio/"></iframe>
+    <iframe id="frame-client" class="frame" src="./client/"></iframe>
+    <iframe id="frame-print" class="frame" src="./print/"></iframe>
+  </main>
+</section>
+<script>
+const $=id=>document.getElementById(id);
+async function verify(){try{const r=await fetch('/api/auth-verify'); if(r.ok){$('login').classList.add('hidden');$('app').classList.remove('hidden');}}catch(e){}}
+async function login(){ $('err').classList.remove('show'); try{const r=await fetch('/api/auth-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('user').value.trim(),password:$('pass').value})}); if(!r.ok) throw new Error('login'); $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('status').textContent='Login aprovado. Studio ativo.';}catch(e){$('err').classList.add('show');}}
+async function logout(){try{await fetch('/api/auth-logout',{method:'POST'});}catch(e){} $('app').classList.add('hidden'); $('login').classList.remove('hidden'); $('pass').value='';}
+function showTab(name){['studio','client','print'].forEach(n=>{ $('tab-'+n).classList.toggle('active',n===name); $('frame-'+n).classList.toggle('active',n===name);}); const labels={studio:'Studio interno ativo: testes, atualizações e produção avançada.',client:'Client ativo: produto neutro para roteiristas e usuários finais.',print:'Print ativo: gráfica, briefing e pré-impressão.'}; $('status').textContent=labels[name];}
+document.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!$('login').classList.contains('hidden')) login();});
+verify();
+</script>
+</body>
+</html>
