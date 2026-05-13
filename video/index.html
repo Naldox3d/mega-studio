@@ -28,6 +28,16 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .stage .sub{position:absolute;left:22px;right:22px;top:54%;font-size:13px;color:#cde8ff;line-height:1.4}
 .stage .cta{position:absolute;left:22px;right:22px;bottom:38px;text-align:center;border-radius:999px;background:var(--gold);color:#1a1203;padding:10px;font-weight:900}
 @keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(55px,-20px) scale(1.12)}}@keyframes float2{from{transform:translate(0,0) scale(1)}to{transform:translate(-35px,30px) scale(1.12)}}@keyframes push{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.035)}}
+
+.resultHub{border-color:rgba(101,217,210,.20);background:linear-gradient(180deg,rgba(101,217,210,.045),rgba(255,255,255,.015)),var(--panel)}
+.hubHead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.section-card{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);padding:12px;min-height:170px}
+.section-head{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.section-head h3{font-size:15px;color:#eadcc1}
+.section-body{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:12px;padding:12px;min-height:120px;max-height:260px;overflow:auto;font:11px/1.6 Space Mono,monospace;color:#dbe5ff}
+.result-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.tiny{font-size:10px;padding:7px 9px;border-radius:10px}
+
 @media(max-width:980px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.two,.three,.provider{grid-template-columns:1fr}.topbar{flex-wrap:wrap}.nav{margin-left:0}.main{padding:14px}}
 </style>
 </head>
@@ -80,6 +90,23 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       <button class="tab" data-tab="api" onclick="showScreen('api')">API</button>
     </div>
 
+
+    <section id="centralHub" class="card resultHub">
+      <div class="hubHead">
+        <div>
+          <div class="kicker">Central de banners</div>
+          <h2>Pacote separado por função</h2>
+          <p>Quando a IA gerar um textão, o site divide em cards: roteiro, JSON, SRT, CapCut, IA vídeo, som, assets e checklist. Cada card tem copiar, baixar e aplicar ao pacote final.</p>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="copy('out')">Copiar principal</button>
+          <button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar principal</button>
+          <button class="btn gold" onclick="buildExport()">Atualizar pacote final</button>
+        </div>
+      </div>
+      <div id="hubCards" class="grid two"></div>
+    </section>
+
     <section id="briefing" class="screen active">
       <div class="grid two">
         <div class="card">
@@ -97,7 +124,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Material disponível</label><textarea id="assets" placeholder="Imagem base, logo, produto, personagem, cenas, áudio, SRT, fotos, cores, fontes, links de referência..."></textarea>
           <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote completo</button><button class="btn cyan" onclick="showScreen('modelo')">Avançar</button></div>
         </div>
-        <div class="card"><h2>Resultado principal</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar</button><button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar TXT</button></div></div>
+        <div class="card"><h2>Resultado principal</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar resultado</button><button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar TXT</button><button class="btn cyan" onclick="buildExport()">Aplicar no pacote final</button></div></div>
       </div>
     </section>
 
@@ -114,7 +141,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Estilo de movimento</label><select id="motionStyle"><option>Motion graphic limpo</option><option>Camera seca e tensão</option><option>Anime 2D / motion comic</option><option>Comercial premium</option><option>Popular rápido para TikTok</option><option>Luxo minimalista</option><option>Streetwear / cultura pop</option></select>
           <div class="actions"><button class="btn gold" onclick="generate('templatePlan')">Gerar plano do modelo</button><button class="btn cyan" onclick="showScreen('roteiro')">Ir para roteiro</button></div>
         </div>
-        <div class="card"><h2>Plano do modelo</h2><div class="output" id="templateOut">Aguardando.</div></div>
+        <div class="card"><h2>Plano do modelo</h2><div class="output" id="templateOut">Aguardando.</div><div class="actions"><button class="btn" onclick="copy('templateOut')">Copiar plano</button><button class="btn green" onclick="download('plano-do-modelo.txt','templateOut')">Baixar TXT</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO')">Aplicar no pacote</button></div></div>
       </div>
     </section>
 
@@ -127,7 +154,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Texto obrigatório</label><textarea id="requiredText" placeholder="CTA, preço, slogan, data, WhatsApp, frase principal, falas obrigatórias..."></textarea>
           <div class="actions"><button class="btn gold" onclick="generate('visualScript')">Gerar roteiro visual</button><button class="btn purple" onclick="generate('shotList')">Gerar shot list</button><button class="btn cyan" onclick="showScreen('json')">Ir para JSON</button></div>
         </div>
-        <div class="card"><h2>Roteiro / shot list</h2><div class="output" id="scriptOut">Aguardando.</div></div>
+        <div class="card"><h2>Roteiro / shot list</h2><div class="output" id="scriptOut">Aguardando.</div><div class="actions"><button class="btn" onclick="copy('scriptOut')">Copiar roteiro</button><button class="btn green" onclick="download('roteiro-shot-list.txt','scriptOut')">Baixar TXT</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO')">Aplicar no pacote</button></div></div>
       </div>
     </section>
 
@@ -139,7 +166,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Precisão do JSON</label><select id="jsonLevel"><option>Completo com cenas, layers e timing</option><option>Simples para CapCut</option><option>Remotion avançado</option><option>Motion Comic 2D</option></select>
           <div class="actions"><button class="btn gold" onclick="generate('remotionJson')">Gerar JSON Remotion</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn green" onclick="download('video-pack.json','jsonOut')">Baixar JSON/TXT</button></div>
         </div>
-        <div class="card"><h2>JSON / prompt técnico</h2><div class="output" id="jsonOut">Aguardando JSON.</div></div>
+        <div class="card"><h2>JSON / prompt técnico</h2><div class="output" id="jsonOut">Aguardando JSON.</div><div class="actions"><button class="btn" onclick="copy('jsonOut')">Copiar JSON/prompt</button><button class="btn green" onclick="download('json-remotion-capcut.txt','jsonOut')">Baixar JSON/TXT</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT')">Aplicar no pacote</button></div></div>
       </div>
     </section>
 
@@ -150,7 +177,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Tipo de áudio</label><select id="audioType"><option>Narração + SFX</option><option>Só texto animado</option><option>Falas + legenda</option><option>Trilha + impactos</option><option>Horror/tensão sonora</option><option>Comercial rápido</option></select>
           <div class="actions"><button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som/SFX</button><button class="btn green" onclick="download('video-pack-srt.srt','srtOut')">Baixar SRT</button></div>
         </div>
-        <div class="card"><h2>Legenda / som</h2><div class="output" id="srtOut">Aguardando.</div></div>
+        <div class="card"><h2>Legenda / som</h2><div class="output" id="srtOut">Aguardando.</div><div class="actions"><button class="btn" onclick="copy('srtOut')">Copiar SRT/som</button><button class="btn green" onclick="download('srt-som-video-pack.txt','srtOut')">Baixar TXT/SRT</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM')">Aplicar no pacote</button></div></div>
       </div>
     </section>
 
@@ -159,7 +186,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
         <div class="card">
           <h2>Preview leve no navegador</h2>
           <p>Prévia visual simples para validar ritmo/ideia sem render MP4.</p>
-          <div class="actions"><button class="btn gold" onclick="updatePreview()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Gerar guia de preview</button></div>
+          <div class="actions"><button class="btn gold" onclick="updatePreview()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Gerar guia de preview</button><button class="btn" onclick="copy('previewOut')">Copiar guia</button><button class="btn green" onclick="download('guia-preview.txt','previewOut')">Baixar TXT</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW')">Aplicar no pacote</button></div>
           <div class="output" id="previewOut">Aguardando guia.</div>
         </div>
         <div class="card">
@@ -169,7 +196,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
               <div class="orb"></div><div class="orb2"></div>
               <div class="title" id="pvTitle">Video Pack</div>
               <div class="sub" id="pvSub">Prévia sem render MP4</div>
-              <div class="cta" id="pvCta">GERAR PACOTE</div>
+              <div class="cta" id="pvCta">PRÉVIA VISUAL</div>
             </div>
           </div>
         </div>
@@ -181,7 +208,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
         <div class="card">
           <h2>Exportar pacote completo</h2>
           <p>Exporta tudo que o módulo gerou: briefing, modelo, roteiro, JSON, SRT, som, prompts, assets e instrução técnica.</p>
-          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote final</button><button class="btn green" onclick="download('video-pack-completo.txt','exportOut')">Baixar pacote</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button></div>
+          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote final</button><button class="btn" onclick="copy('exportOut')">Copiar pacote</button><button class="btn green" onclick="download('video-pack-completo.txt','exportOut')">Baixar pacote</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button></div>
         </div>
         <div class="card"><h2>Pacote final</h2><div class="output" id="exportOut">Aguardando montagem.</div></div>
       </div>
@@ -203,7 +230,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Temperatura</label><input id="temperature" type="number" step="0.05" value="0.58">
           <div class="actions"><button class="btn cyan" onclick="testAPI()">Testar API</button><button class="btn green" onclick="saveApi()">Salvar API</button></div>
         </div>
-        <div class="card"><h2>Status</h2><div class="output" id="apiStatus">Aguardando teste.</div></div>
+        <div class="card"><h2>Status</h2><div class="output" id="apiStatus">Aguardando teste.</div><div class="actions"><button class="btn" onclick="copy('apiStatus')">Copiar status</button><button class="btn green" onclick="download('status-api-video.txt','apiStatus')">Baixar TXT</button></div></div>
       </div>
     </section>
   </main>
@@ -251,7 +278,7 @@ previewGuide:"Gere guia de preview leve no navegador: quais textos, cores, anima
 function targetBox(type){if(type==="templatePlan")return"templateOut";if(type==="visualScript"||type==="shotList")return"scriptOut";if(type==="remotionJson"||type==="capcutPrompt")return"jsonOut";if(type==="srt"||type==="soundPlan")return"srtOut";if(type==="previewGuide")return"previewOut";return"out"}
 function payload(type){return {provider,model:val("model"),max_tokens:Number(val("maxTokens")||4200),temperature:Number(val("temperature")||0.58),prompt:context()+"\n\nTAREFA:\n"+task(type)}}
 async function callAI(type){const res=await fetch(val("endpoint")||"/api/generate-video",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload(type))});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.error||data.details||"Erro na API Video");return data.text||data.output||data.message||JSON.stringify(data,null,2)}
-async function generate(type){const box=targetBox(type);$(box).textContent="Gerando...";try{const text=await callAI(type);$(box).textContent=text;$("out").textContent=text}catch(e){$(box).textContent="Erro: "+e.message;$("out").textContent="Erro: "+e.message}}
+async function generate(type){const box=targetBox(type);$(box).textContent="Gerando...";try{const text=await callAI(type);$(box).textContent=text;$("out").textContent=text;renderHub(text,type)}catch(e){$(box).textContent="Erro: "+e.message;$("out").textContent="Erro: "+e.message;renderHub("Erro: "+e.message,type)}}
 async function testAPI(){$("apiStatus").textContent="Testando...";try{$("apiStatus").textContent=await callAI("api")}catch(e){$("apiStatus").textContent="Erro: "+e.message}}
 function saveApi(){localStorage.setItem(STORAGE,JSON.stringify({provider,endpoint:val("endpoint"),model:val("model"),maxTokens:val("maxTokens"),temperature:val("temperature")}));$("apiStatus").textContent="API salva."}
 function loadApi(){try{const a=JSON.parse(localStorage.getItem(STORAGE)||"{}");if(a.endpoint)$("endpoint").value=a.endpoint;if(a.model)$("model").value=a.model;if(a.maxTokens)$("maxTokens").value=a.maxTokens;if(a.temperature)$("temperature").value=a.temperature;if(a.provider)provider=a.provider}catch(e){}}
@@ -284,10 +311,53 @@ CHECKLIST:
 3. Validar roteiro visual.
 4. Copiar JSON/prompt para Remotion/CapCut/agente.
 5. Gerar vídeo em ferramenta externa somente se desejar.
-6. Sem render MP4 automático neste módulo.`;$("exportOut").textContent=text;$("out").textContent=text}
+6. Sem render MP4 automático neste módulo.`;$("exportOut").textContent=text;$("out").textContent=text;renderHub(text,"export")}
 function copy(id){navigator.clipboard.writeText($(id).textContent||$(id).value||"")}
 function download(name,id){const content=$(id).textContent||$(id).value||"";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/plain"}));a.download=name;a.click()}
 async function shareExport(){const text=$("exportOut").textContent||$("out").textContent;if(navigator.share){await navigator.share({title:"Video Pack",text}).catch(()=>{})}else{navigator.clipboard.writeText(text);alert("Copiado.")}}
+
+function cleanTitle(t){return String(t||"Bloco").replace(/^#+\s*/,"").replace(/[*_`]/g,"").trim().slice(0,70)||"Bloco"}
+function splitSections(text){
+  const raw=String(text||"").trim();
+  if(!raw)return [];
+  const lines=raw.split(/\n/);
+  const sections=[];let current={title:"Resultado principal",body:[]};
+  for(const line of lines){
+    if(/^#{1,4}\s+/.test(line) || /^[-=]{3,}\s*$/.test(line)){
+      if(current.body.join("\n").trim())sections.push(current);
+      current={title:cleanTitle(line),body:[]};
+    }else{
+      current.body.push(line);
+    }
+  }
+  if(current.body.join("\n").trim())sections.push(current);
+  return sections.slice(0,14);
+}
+function renderHub(text,type){
+  const hub=$("hubCards"); if(!hub)return;
+  const sections=splitSections(text);
+  hub.innerHTML="";
+  if(!sections.length){
+    hub.innerHTML='<div class="section-card"><div class="section-head"><h3>Aguardando geração</h3></div><div class="section-body">Gere um pacote para separar aqui em banners.</div></div>';
+    return;
+  }
+  sections.forEach((sec,i)=>{
+    const card=document.createElement("div");card.className="section-card";
+    const bodyId="hubBody"+i;
+    card.innerHTML=`<div class="section-head"><h3>${sec.title}</h3><span class="mini">${type||"pacote"}</span></div><div class="section-body" id="${bodyId}"></div><div class="result-tools"><button class="btn tiny" onclick="copy('${bodyId}')">Copiar</button><button class="btn tiny green" onclick="download('video-pack-${i+1}.txt','${bodyId}')">Baixar</button><button class="btn tiny cyan" onclick="appendToExport('${bodyId}','${sec.title.replace(/'/g,"")}')">Aplicar</button></div>`;
+    hub.appendChild(card);
+    $(bodyId).textContent=sec.body.join("\n").trim();
+  });
+}
+function appendToExport(id,title){
+  const content=$(id)?.textContent||$(id)?.value||"";
+  const current=$("exportOut").textContent||"";
+  const block=`\n\n---\n${title}\n---\n${content}`;
+  $("exportOut").textContent=(current&&current!=="Aguardando montagem.")?current+block:block.trim();
+  showScreen("exportacao");
+}
+
+renderHub('','');
 loadApi();
 </script>
 </body>
