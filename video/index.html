@@ -122,9 +122,30 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Nome do projeto</label><input id="projectName" placeholder="Ex.: Promoção de hambúrguer, poster vivo, motion comic, campanha de caneca..." />
           <label>Briefing geral</label><textarea id="brief" placeholder="Cole aqui o briefing, roteiro, copy, descrição da peça ou ideia do vídeo..."></textarea>
           <label>Material disponível</label><textarea id="assets" placeholder="Imagem base, logo, produto, personagem, cenas, áudio, SRT, fotos, cores, fontes, links de referência..."></textarea>
-          <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote completo</button><button class="btn cyan" onclick="showScreen('modelo')">Avançar</button></div>
+          <div class="notice">Modelo, formato, duração e movimento também ficam aqui no Briefing para gerar o pacote completo sem precisar ir na aba Modelo.</div>
+          <div class="grid two">
+            <div>
+              <label>Modelo de vídeo</label>
+              <select id="briefTemplate">
+                <option>Produto animado</option><option>Poster vivo</option><option>Flyer animado</option><option>Story/Reels/TikTok promocional</option><option>Motion Comic 2D</option><option>YouTube intro/banner</option><option>Slideshow comercial</option><option>Antes/depois</option><option>Top 5 / lista animada</option><option>Mockup de camiseta/caneca/poster</option>
+              </select>
+            </div>
+            <div>
+              <label>Formato</label>
+              <select id="briefFormat"><option>9:16 vertical</option><option>16:9 horizontal</option><option>1:1 quadrado</option><option>4:5 feed</option><option>21:9 cinematic</option></select>
+            </div>
+            <div>
+              <label>Duração</label>
+              <select id="briefDuration"><option>8 segundos</option><option>15 segundos</option><option>30 segundos</option><option>45 segundos</option><option>60 segundos</option></select>
+            </div>
+            <div>
+              <label>Estilo de movimento</label>
+              <select id="briefMotionStyle"><option>Motion graphic limpo</option><option>Camera seca e tensão</option><option>Anime 2D / motion comic</option><option>Comercial premium</option><option>Popular rápido para TikTok</option><option>Luxo minimalista</option><option>Streetwear / cultura pop</option></select>
+            </div>
+          </div>
+          <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote completo</button><button class="btn cyan" onclick="showScreen('modelo')">Avançar</button><button class="btn" onclick="clearBriefing()">Limpar briefing</button><button class="btn red" onclick="newCleanProject()">Novo projeto limpo</button></div>
         </div>
-        <div class="card"><h2>Resultado principal</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar resultado</button><button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar TXT</button><button class="btn cyan" onclick="buildExport()">Aplicar no pacote final</button></div></div>
+        <div class="card"><h2>Resultado principal</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar resultado</button><button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar TXT</button><button class="btn cyan" onclick="buildExport()">Aplicar no pacote final</button><button class="btn red" onclick="clearOutput('out')">Limpar resultado</button></div></div>
       </div>
     </section>
 
@@ -208,7 +229,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
         <div class="card">
           <h2>Exportar pacote completo</h2>
           <p>Exporta tudo que o módulo gerou: briefing, modelo, roteiro, JSON, SRT, som, prompts, assets e instrução técnica.</p>
-          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote final</button><button class="btn" onclick="copy('exportOut')">Copiar pacote</button><button class="btn green" onclick="download('video-pack-completo.txt','exportOut')">Baixar pacote</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button></div>
+          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote final</button><button class="btn" onclick="copy('exportOut')">Copiar pacote</button><button class="btn green" onclick="download('video-pack-completo.txt','exportOut')">Baixar pacote</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button><button class="btn red" onclick="clearOutput('exportOut')">Limpar pacote final</button></div>
         </div>
         <div class="card"><h2>Pacote final</h2><div class="output" id="exportOut">Aguardando montagem.</div></div>
       </div>
@@ -238,6 +259,15 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 
 <script>
 let provider="claude";const STORAGE="videoPackStudioV1";function $(id){return document.getElementById(id)}function val(id){return $(id)?.value?.trim()||""}
+function choice(primary,fallback){return val(primary)||val(fallback)}
+function syncBriefModelToModel(){
+  const pairs=[["briefTemplate","template"],["briefFormat","format"],["briefDuration","duration"],["briefMotionStyle","motionStyle"]];
+  pairs.forEach(([a,b])=>{if($(a)&&$(b))$(b).value=$(a).value});
+}
+function syncModelToBrief(){
+  const pairs=[["template","briefTemplate"],["format","briefFormat"],["duration","briefDuration"],["motionStyle","briefMotionStyle"]];
+  pairs.forEach(([a,b])=>{if($(a)&&$(b))$(b).value=$(a).value});
+}
 function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id)?.classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));document.querySelectorAll(".step").forEach(s=>s.classList.toggle("active",s.dataset.step===id));window.scrollTo({top:0,behavior:"smooth"})}
 function selectProvider(p,btn){provider=p;document.querySelectorAll("[data-provider]").forEach(b=>b.classList.remove("active"));btn.classList.add("active")}
 function context(){return `VIDEO PACK STUDIO — SEM RENDER MP4
@@ -251,10 +281,10 @@ PROJETO: ${val("projectName")}
 BRIEFING: ${val("brief")}
 MATERIAL DISPONÍVEL: ${val("assets")}
 
-MODELO: ${val("template")}
-FORMATO: ${val("format")}
-DURAÇÃO: ${val("duration")}
-ESTILO DE MOVIMENTO: ${val("motionStyle")}
+MODELO: ${choice("briefTemplate","template")}
+FORMATO: ${choice("briefFormat","format")}
+DURAÇÃO: ${choice("briefDuration","duration")}
+ESTILO DE MOVIMENTO: ${choice("briefMotionStyle","motionStyle")}
 
 OBJETIVO: ${val("goal")}
 TOM: ${val("tone")}
@@ -282,7 +312,7 @@ async function generate(type){const box=targetBox(type);$(box).textContent="Gera
 async function testAPI(){$("apiStatus").textContent="Testando...";try{$("apiStatus").textContent=await callAI("api")}catch(e){$("apiStatus").textContent="Erro: "+e.message}}
 function saveApi(){localStorage.setItem(STORAGE,JSON.stringify({provider,endpoint:val("endpoint"),model:val("model"),maxTokens:val("maxTokens"),temperature:val("temperature")}));$("apiStatus").textContent="API salva."}
 function loadApi(){try{const a=JSON.parse(localStorage.getItem(STORAGE)||"{}");if(a.endpoint)$("endpoint").value=a.endpoint;if(a.model)$("model").value=a.model;if(a.maxTokens)$("maxTokens").value=a.maxTokens;if(a.temperature)$("temperature").value=a.temperature;if(a.provider)provider=a.provider}catch(e){}}
-function updatePreview(){const name=val("projectName")||"Video Pack";const tpl=val("template")||"Produto animado";$("pvTitle").textContent=name.slice(0,42);$("pvSub").textContent=tpl+" · "+(val("duration")||"15 segundos");$("pvCta").textContent=(val("goal")||"Gerar pacote").toUpperCase().slice(0,22);$("previewOut").textContent="Preview leve atualizado. Isto é apenas simulação visual no navegador, sem render MP4."}
+function updatePreview(){const name=val("projectName")||"Video Pack";const tpl=choice("briefTemplate","template")||"Produto animado";$("pvTitle").textContent=name.slice(0,42);$("pvSub").textContent=tpl+" · "+(choice("briefDuration","duration")||"15 segundos");$("pvCta").textContent=(val("goal")||"Gerar pacote").toUpperCase().slice(0,22);$("previewOut").textContent="Preview leve atualizado. Isto é apenas simulação visual no navegador, sem render MP4."}
 function buildExport(){const text=`VIDEO PACK COMPLETO — SEM MP4
 
 ${context()}
@@ -357,6 +387,29 @@ function appendToExport(id,title){
   showScreen("exportacao");
 }
 
+function clearOutput(id){if($(id))$(id).textContent="";}
+function clearBriefing(){
+  ["source","projectName","brief","assets","requiredText"].forEach(id=>{if($(id)){if($(id).tagName==="SELECT")$(id).selectedIndex=0;else $(id).value=""}});
+  syncBriefModelToModel();
+  $("out").textContent="Briefing limpo. Preencha novamente para gerar o pacote.";
+  renderHub("","");
+}
+function newCleanProject(){
+  ["source","projectName","brief","assets","briefTemplate","briefFormat","briefDuration","briefMotionStyle","template","format","duration","motionStyle","goal","tone","requiredText","jsonLevel","audioType"].forEach(id=>{if($(id)){if($(id).tagName==="SELECT")$(id).selectedIndex=0;else $(id).value=""}});
+  ["out","templateOut","scriptOut","jsonOut","srtOut","previewOut","exportOut","apiStatus"].forEach(id=>{if($(id))$(id).textContent=id==="out"?"Novo projeto limpo. Preencha o briefing e gere o pacote.":"Aguardando."});
+  updatePreview();
+  renderHub("","");
+  showScreen("briefing");
+}
+function attachSync(){
+  [["briefTemplate","template"],["briefFormat","format"],["briefDuration","duration"],["briefMotionStyle","motionStyle"]].forEach(([a,b])=>{
+    if($(a))$(a).addEventListener("change",()=>{if($(b))$(b).value=$(a).value});
+    if($(b))$(b).addEventListener("change",()=>{if($(a))$(a).value=$(b).value});
+  });
+}
+
+attachSync();
+syncBriefModelToModel();
 renderHub('','');
 loadApi();
 </script>
