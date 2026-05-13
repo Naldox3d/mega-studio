@@ -3,98 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V2.0 Canvas Inteligente</title>
+<title>Video Pack Studio — Titan Colossal V1.8 Canvas Limpo Node Completo</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{
-    --bg:#070a12;
-    --panel:#0d1220;
-    --panel2:#111827;
-    --line:rgba(255,255,255,.10);
-    --gold:#d6ad68;
-    --cyan:#65d9d2;
-    --green:#74d99a;
-    --red:#e18a8a;
-    --purple:#b99cff;
-    --text:#e8ecf4;
-    --muted:#9aa4b8;
-    --blue:#5aa9ff;
-    --locked:#6b7280;
-    --orange:#e8b766;
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
-body{
-    background:radial-gradient(circle at 80% 8%,rgba(214,173,104,.10),transparent 25%),
-               radial-gradient(circle at 12% 18%,rgba(101,217,210,.07),transparent 25%),
-               linear-gradient(180deg,#070a12,#090d18 55%,#070a12);
-    overflow: hidden; /* Controlado pelo JS no modo canvas */
-}
+:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8;--blue:#5aa9ff;--locked:#6b7280;--orange:#e8b766}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body{background:radial-gradient(circle at 80% 8%,rgba(214,173,104,.10),transparent 25%),radial-gradient(circle at 12% 18%,rgba(101,217,210,.07),transparent 25%),linear-gradient(180deg,#070a12,#090d18 55%,#070a12)}
 button,input,textarea,select{font:inherit}button{cursor:pointer}
-
-/* Topbar */
-.topbar{
-    position:sticky;top:0;z-index:20;display:flex;gap:12px;align-items:center;
-    padding:14px 18px;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line);
-    backdrop-filter:blur(10px);
-    transition: transform 0.3s ease-out;
-}
-.brand{font-family:Syne,sans-serif;font-weight:900;font-size:18px;color:#eadcc1;letter-spacing:.04em}
-.brand small{font-family:Space Mono,monospace;color:var(--gold);font-size:10px;margin-left:8px}
-.nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-
-/* Buttons */
-.btn{
-    border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);
-    padding:9px 13px;font-size:12px;font-weight:800;text-decoration:none;display:inline-flex;
-    gap:6px;align-items:center;justify-content:center;
-    transition: all 0.2s ease;
-}
-.btn:hover{filter:brightness(1.15);transform:translateY(-1px);}
-.btn.gold{background:linear-gradient(180deg,#e1bc7b,#c89a55);color:#1a1203;border-color:rgba(214,173,104,.65)}
-.btn.green{background:linear-gradient(180deg,#83dda9,#61c78c);color:#07140d;border-color:rgba(116,217,154,.65)}
-.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.35);color:#cafffb}
-.btn.purple{background:rgba(185,156,255,.10);border-color:rgba(185,156,255,.35);color:#eadcff}
-.btn.red{background:rgba(225,138,138,.10);border-color:rgba(225,138,138,.35);color:#ffd5d5}
-
-/* Layout Geral */
-.shell{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:calc(100vh - 64px)}
-.side{border-right:1px solid var(--line);background:#0b1020;padding:14px;overflow:auto}
-.side h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}
+.topbar{position:sticky;top:0;z-index:20;display:flex;gap:12px;align-items:center;padding:14px 18px;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.brand{font-family:Syne,sans-serif;font-weight:900;font-size:18px;color:#eadcc1;letter-spacing:.04em}.brand small{font-family:Space Mono,monospace;color:var(--gold);font-size:10px;margin-left:8px}.nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);padding:9px 13px;font-size:12px;font-weight:800;text-decoration:none;display:inline-flex;gap:6px;align-items:center;justify-content:center}
+.btn.gold{background:linear-gradient(180deg,#e1bc7b,#c89a55);color:#1a1203;border-color:rgba(214,173,104,.65)}.btn.green{background:linear-gradient(180deg,#83dda9,#61c78c);color:#07140d;border-color:rgba(116,217,154,.65)}.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.35);color:#cafffb}.btn.purple{background:rgba(185,156,255,.10);border-color:rgba(185,156,255,.35);color:#eadcff}.btn.red{background:rgba(225,138,138,.10);border-color:rgba(225,138,138,.35);color:#ffd5d5}
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:calc(100vh - 64px)}.side{border-right:1px solid var(--line);background:#0b1020;padding:14px;overflow:auto}.side h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}
 .step{width:100%;text-align:left;border:1px solid var(--line);border-radius:13px;padding:10px 11px;margin-bottom:8px;background:rgba(255,255,255,.025);font-size:12px;color:var(--text)}
-.step.active{border-color:rgba(214,173,104,.70);background:rgba(214,173,104,.10);box-shadow:0 0 0 1px rgba(214,173,104,.10) inset}
-.step:hover{filter:brightness(1.09)}
-.main{padding:22px;overflow:auto}
-.hero,.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),var(--panel);padding:18px;margin-bottom:14px}
-.kicker{display:inline-flex;padding:5px 9px;border:1px solid rgba(101,217,210,.32);border-radius:999px;color:#baf7f2;background:rgba(101,217,210,.08);font:10px Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
-h1,h2,h3{font-family:Syne,sans-serif;margin:0;color:#eadcc1;letter-spacing:.04em}
-h1{font-size:clamp(28px,3vw,44px);line-height:1}
-h2{font-size:22px;margin-bottom:12px}
-p{color:#bac3d8;line-height:1.6}
-.grid{display:grid;gap:14px}
-.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:10px 0 7px}
-input,textarea,select{
-    width:100%;border:1px solid var(--line);border-radius:12px;background:#0b1020;
-    color:var(--text);padding:10px 12px;outline:none;
-    transition: border-color 0.2s ease;
-}
-input:focus,textarea:focus,select:focus{border-color:var(--gold);}
-textarea{min-height:110px;resize:vertical;line-height:1.55}
-.output{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:250px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff;overflow:auto}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.notice{border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.07);color:#baf7f2;border-radius:14px;padding:11px 13px;font-size:12px;line-height:1.55;margin:12px 0}
-.provider{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.provider button.active{border-color:var(--gold);background:rgba(214,173,104,.10);color:#f0d29b}
-.mini{font-size:11px;color:var(--muted);font-family:Space Mono,monospace}
-.pill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:10px;color:var(--muted);margin:3px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.tab{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#101729;color:#c9d4ee;font-size:12px;font-weight:900}
-.tab.active{background:rgba(214,173,104,.13);border-color:rgba(214,173,104,.55);color:#f1d49d}
-.screen{display:none}.screen.active{display:block}
-
-/* Preview Stage */
+.step.active{border-color:rgba(214,173,104,.70);background:rgba(214,173,104,.10);box-shadow:0 0 0 1px rgba(214,173,104,.10) inset}.step:hover{filter:brightness(1.09)}
+.main{padding:22px;overflow:auto}.hero,.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),var(--panel);padding:18px;margin-bottom:14px}.kicker{display:inline-flex;padding:5px 9px;border:1px solid rgba(101,217,210,.32);border-radius:999px;color:#baf7f2;background:rgba(101,217,210,.08);font:10px Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+h1,h2,h3{font-family:Syne,sans-serif;margin:0;color:#eadcc1;letter-spacing:.04em}h1{font-size:clamp(28px,3vw,44px);line-height:1}h2{font-size:22px;margin-bottom:12px}p{color:#bac3d8;line-height:1.6}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:10px 0 7px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#0b1020;color:var(--text);padding:10px 12px;outline:none}textarea{min-height:110px;resize:vertical;line-height:1.55}.output{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:250px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff;overflow:auto}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.notice{border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.07);color:#baf7f2;border-radius:14px;padding:11px 13px;font-size:12px;line-height:1.55;margin:12px 0}.provider{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.provider button.active{border-color:var(--gold);background:rgba(214,173,104,.10);color:#f0d29b}.mini{font-size:11px;color:var(--muted);font-family:Space Mono,monospace}.pill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:10px;color:var(--muted);margin:3px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#101729;color:#c9d4ee;font-size:12px;font-weight:900}.tab.active{background:rgba(214,173,104,.13);border-color:rgba(214,173,104,.55);color:#f1d49d}.screen{display:none}.screen.active{display:block}
 .preview{min-height:360px;border:1px solid var(--line);border-radius:18px;background:#050813;overflow:hidden;position:relative;display:grid;place-items:center}
 .stage{width:min(320px,75vw);aspect-ratio:9/16;border:1px solid rgba(255,255,255,.16);border-radius:22px;background:linear-gradient(160deg,#111827,#070a12);position:relative;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.35)}
 .stage .orb{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(101,217,210,.40),transparent 62%);left:-50px;top:70px;animation:float 5s infinite alternate ease-in-out}
@@ -102,11 +27,8 @@ textarea{min-height:110px;resize:vertical;line-height:1.55}
 .stage .title{position:absolute;left:22px;right:22px;top:34%;font-family:Syne,sans-serif;font-size:28px;line-height:1.05;color:#eadcc1;animation:push 3.5s infinite ease-in-out}
 .stage .sub{position:absolute;left:22px;right:22px;top:54%;font-size:13px;color:#cde8ff;line-height:1.4}
 .stage .cta{position:absolute;left:22px;right:22px;bottom:38px;text-align:center;border-radius:999px;background:var(--gold);color:#1a1203;padding:10px;font-weight:900}
-@keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(55px,-20px) scale(1.12)}}
-@keyframes float2{from{transform:translate(0,0) scale(1)}to{transform:translate(-35px,30px) scale(1.12)}}
-@keyframes push{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.035)}}
+@keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(55px,-20px) scale(1.12)}}@keyframes float2{from{transform:translate(0,0) scale(1)}to{transform:translate(-35px,30px) scale(1.12)}}@keyframes push{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.035)}}
 
-/* Result Hub */
 .resultHub{border-color:rgba(101,217,210,.20);background:linear-gradient(180deg,rgba(101,217,210,.045),rgba(255,255,255,.015)),var(--panel)}
 .hubHead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
 .section-card{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);padding:12px;min-height:170px}
@@ -116,1172 +38,2200 @@ textarea{min-height:110px;resize:vertical;line-height:1.55}
 .result-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
 .tiny{font-size:10px;padding:7px 9px;border-radius:10px}
 
+
 /* Titan Colossal V1 — Briefing Mestre + Árvore Real */
-.creatorLine{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;color:#cbd5e1;font-size:13px;line-height:1.55}
-.creatorLine strong{color:#eadcc1}
-.creatorSeal{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f4ddb2;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900}
-.authorLink{border-color:rgba(214,173,104,.45);background:rgba(214,173,104,.08);color:#f3d9a4}
-.modalBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;z-index:80;padding:20px}
-.modalBackdrop.open{display:flex}
-.authorModal{width:min(760px,96vw);max-height:90vh;overflow:auto;border:1px solid rgba(214,173,104,.35);border-radius:24px;background:linear-gradient(180deg,rgba(214,173,104,.08),rgba(255,255,255,.025)),#0d1220;box-shadow:0 30px 90px rgba(0,0,0,.55);padding:22px}
-.authorModal h2{font-size:28px;margin-bottom:8px}
-.authorGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-.authorCard{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035);padding:14px}
-.authorCard h3{font-size:14px;margin-bottom:8px}
-.authorCard p{font-size:13px;margin:0}
-.creditText{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:16px;padding:14px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff}
-.modalActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
-.masterMatrix{border:1px solid rgba(214,173,104,.24);background:rgba(214,173,104,.045);border-radius:16px;padding:12px;margin-top:12px}
-.masterMatrix h3{font-size:15px;margin-bottom:4px}
-.masterHint{font-size:12px;color:#cbd5e1;margin:0 0 8px}
-.masterBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(101,217,210,.35);background:rgba(101,217,210,.08);color:#cafffb;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;margin:3px 4px 0 0}
+.creatorLine{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;color:#cbd5e1;font-size:13px;line-height:1.55}.creatorLine strong{color:#eadcc1}.creatorSeal{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f4ddb2;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900}.authorLink{border-color:rgba(214,173,104,.45);background:rgba(214,173,104,.08);color:#f3d9a4}
+.modalBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;z-index:80;padding:20px}.modalBackdrop.open{display:flex}.authorModal{width:min(760px,96vw);max-height:90vh;overflow:auto;border:1px solid rgba(214,173,104,.35);border-radius:24px;background:linear-gradient(180deg,rgba(214,173,104,.08),rgba(255,255,255,.025)),#0d1220;box-shadow:0 30px 90px rgba(0,0,0,.55);padding:22px}.authorModal h2{font-size:28px;margin-bottom:8px}.authorGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.authorCard{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035);padding:14px}.authorCard h3{font-size:14px;margin-bottom:8px}.authorCard p{font-size:13px;margin:0}.creditText{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:16px;padding:14px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff}.modalActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
+.masterMatrix{border:1px solid rgba(214,173,104,.24);background:rgba(214,173,104,.045);border-radius:16px;padding:12px;margin-top:12px}.masterMatrix h3{font-size:15px;margin-bottom:4px}.masterHint{font-size:12px;color:#cbd5e1;margin:0 0 8px}.masterBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(101,217,210,.35);background:rgba(101,217,210,.08);color:#cafffb;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;margin:3px 4px 0 0}
+.mindShell{min-height:70vh}.mindHero{border-color:rgba(214,173,104,.28);background:linear-gradient(180deg,rgba(214,173,104,.075),rgba(101,217,210,.03)),var(--panel)}.mindTitleLine{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}.eggTerminal{display:flex;gap:12px;align-items:center;border:1px solid rgba(101,217,210,.30);background:rgba(5,8,19,.62);border-radius:18px;padding:12px;min-width:min(420px,100%)}.eggFace{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#fff6d9,#d6ad68 70%);font-size:30px;box-shadow:0 10px 40px rgba(214,173,104,.18)}.eggTerminal strong{color:#eadcc1;display:block}.eggTerminal span{font-size:12px;color:#b9c4da}.progressFlow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:14px 0}.progressStep{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);padding:10px;display:flex;gap:9px;align-items:center;min-height:58px}.progressStep .num{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;font-weight:900;font-size:12px;background:#182036;color:#dbe5ff;border:1px solid var(--line)}.progressStep.done{border-color:rgba(116,217,154,.45);background:rgba(116,217,154,.08)}.progressStep.done .num{background:var(--green);color:#07140d}.progressStep.activeFlow{border-color:rgba(214,173,104,.65);background:rgba(214,173,104,.10)}.progressStep.activeFlow .num{background:var(--gold);color:#1a1203}.progressStep.wait{opacity:.72}.progressStep strong{display:block;font-size:11px}.progressStep span{font-size:10px;color:var(--muted)}
+.nodeViewport{position:relative;min-height:620px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 22% 20%,rgba(101,217,210,.08),transparent 22%),radial-gradient(circle at 74% 35%,rgba(214,173,104,.07),transparent 25%),#050813;overflow:auto;padding:28px}.nodeMap{position:relative;min-width:1120px;min-height:560px}.node{position:absolute;width:245px;border:1px solid var(--line);border-radius:18px;background:rgba(13,18,32,.94);box-shadow:0 18px 45px rgba(0,0,0,.25);padding:12px;transition:.2s transform,.2s filter}.node:hover{transform:translateY(-2px);filter:brightness(1.08)}.nodeHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:8px}.nodeHeader h3{font-size:14px;line-height:1.25}.nodeStatus{border:1px solid var(--line);border-radius:999px;padding:4px 7px;font-size:9px;text-transform:uppercase;color:#dbe5ff}.nodeSummary{font-size:11px;color:#b9c4da;line-height:1.55;min-height:48px}.nodeActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.nodeActions .btn{font-size:10px;padding:7px 9px;border-radius:10px}.node.empty{border-color:rgba(154,164,184,.22)}.node.filled{border-color:rgba(101,217,210,.45);box-shadow:0 0 0 1px rgba(101,217,210,.08) inset}.node.review{border-color:rgba(185,156,255,.45);background:rgba(185,156,255,.06)}.node.done{border-color:rgba(116,217,154,.55);background:rgba(116,217,154,.06)}.node.exported{border-color:rgba(214,173,104,.65);background:rgba(214,173,104,.075)}.node.error{border-color:rgba(225,138,138,.65);background:rgba(225,138,138,.08)}.connectorSvg{position:absolute;inset:0;width:1120px;height:560px;pointer-events:none;opacity:.78}.connectorSvg path{fill:none;stroke:rgba(101,217,210,.35);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 9}.connectorSvg path.mainLine{stroke:rgba(214,173,104,.45);stroke-width:4;stroke-dasharray:none}.nodeLegend{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.legendItem{font-size:10px;color:#cbd5e1;border:1px solid var(--line);border-radius:999px;padding:5px 8px}.legendItem b{display:inline-block;width:8px;height:8px;border-radius:999px;margin-right:5px}.zoomTools{display:flex;gap:8px;flex-wrap:wrap}.mindMiniOutput{max-height:140px;min-height:90px}.statusDot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#64748b}.statusDot.filled{background:var(--cyan)}.statusDot.review{background:var(--purple)}.statusDot.done{background:var(--green)}.statusDot.exported{background:var(--gold)}.statusDot.error{background:var(--red)}
 
-/* Mind Shell (Canvas Mode) */
-.mindShell{min-height:70vh}
-.mindHero{
-    border-color:rgba(214,173,104,.28);
-    background:linear-gradient(180deg,rgba(214,173,104,.075),rgba(101,217,210,.03)),var(--panel);
-    transition: all 0.3s ease-out;
-}
-.mindTitleLine{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-.eggTerminal{display:flex;gap:12px;align-items:center;border:1px solid rgba(101,217,210,.30);background:rgba(5,8,19,.62);border-radius:18px;padding:12px;min-width:min(420px,100%)}
-.eggFace{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#fff6d9,#d6ad68 70%);font-size:30px;box-shadow:0 10px 40px rgba(214,173,104,.18)}
-.eggTerminal strong{color:#eadcc1;display:block}
-.eggTerminal span{font-size:12px;color:#b9c4da}
-.progressFlow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:14px 0}
-.progressStep{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);padding:10px;display:flex;gap:9px;align-items:center;min-height:58px}
-.progressStep .num{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;font-weight:900;font-size:12px;background:#182036;color:#dbe5ff;border:1px solid var(--line)}
-.progressStep.done{border-color:rgba(116,217,154,.45);background:rgba(116,217,154,.08)}
-.progressStep.done .num{background:var(--green);color:#07140d}
-.progressStep.activeFlow{border-color:rgba(214,173,104,.65);background:rgba(214,173,104,.10)}
-.progressStep.activeFlow .num{background:var(--gold);color:#1a1203}
-.progressStep.wait{opacity:.72}
-.progressStep strong{display:block;font-size:11px}
-.progressStep span{font-size:10px;color:var(--muted)}
 
-/* Node Viewport (Canvas) */
-.nodeViewport{
-    position:relative;
-    min-height:620px; /* Ajustado para ser mais flexível */
-    height: calc(100vh - 200px); /* Altura dinâmica */
-    border:1px solid var(--line);
-    border-radius:22px;
-    background:radial-gradient(circle at 22% 20%,rgba(101,217,210,.08),transparent 22%),
-               radial-gradient(circle at 74% 35%,rgba(214,173,104,.07),transparent 25%),#050813;
-    overflow:hidden; /* Essencial para o zoom/pan */
-    padding:28px;
-    cursor:grab;
-    touch-action:none;
-    transition: all 0.3s ease-out;
-}
-.nodeViewport.dragging{cursor:grabbing}
-.nodeMap{
-    position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform;
-    transition: transform 0.1s linear; /* Suaviza o pan */
-}
-.node{
-    position:absolute;width:245px;border:1px solid var(--line);border-radius:18px;
-    background:rgba(13,18,32,.94);box-shadow:0 18px 45px rgba(0,0,0,.25);padding:12px;
-    transition:.2s transform,.2s filter, .2s border-color, .2s background;
-    cursor:grab;user-select:none;
-}
-.node:hover{transform:translateY(-2px);filter:brightness(1.08)}
-.node:focus-within{outline:2px solid rgba(214,173,104,.55);outline-offset:2px}
-.node.nodeDragging{cursor:grabbing;z-index:12;box-shadow:0 25px 80px rgba(0,0,0,.45),0 0 0 2px rgba(214,173,104,.28)}
-.nodeHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:8px}
-.nodeHeader h3{font-size:14px;line-height:1.25}
-.nodeStatus{border:1px solid var(--line);border-radius:999px;padding:4px 7px;font-size:9px;text-transform:uppercase;color:#dbe5ff}
-.nodeSummary{font-size:11px;color:#b9c4da;line-height:1.55;min-height:48px}
-.nodeActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
-.nodeActions .btn{font-size:10px;padding:7px 9px;border-radius:10px}
-.node.empty{border-color:rgba(154,164,184,.22)}
-.node.filled{border-color:rgba(101,217,210,.45);box-shadow:0 0 0 1px rgba(101,217,210,.08) inset}
-.node.review{border-color:rgba(185,156,255,.45);background:rgba(185,156,255,.06)}
-.node.done{border-color:rgba(116,217,154,.55);background:rgba(116,217,154,.06)}
-.node.exported{border-color:rgba(214,173,104,.65);background:rgba(214,173,104,.075)}
-.node.error{border-color:rgba(225,138,138,.65);background:rgba(225,138,138,.08)}
-.node.locked{border-color:var(--locked);background:rgba(107,114,128,.08);opacity:0.6;cursor:not-allowed;}
-.connectorSvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.78;overflow:visible;}
-.connectorSvg path{fill:none;stroke:rgba(101,217,210,.35);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 9}
-.connectorSvg path.mainLine{stroke:rgba(214,173,104,.45);stroke-width:4;stroke-dasharray:none}
-.connectorSvg path.liveLine{stroke:rgba(101,217,210,.38);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:8 9;filter:drop-shadow(0 0 6px rgba(101,217,210,.06))}
-.connectorSvg path.liveLine.main{stroke:rgba(214,173,104,.52);stroke-width:4;stroke-dasharray:none}
-.connectorSvg path.liveLine.ready{stroke:rgba(116,217,154,.48)}
-.nodeLegend{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.legendItem{font-size:10px;color:#cbd5e1;border:1px solid var(--line);border-radius:999px;padding:5px 8px}
-.legendItem b{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:5px}
-.zoomTools{display:flex;gap:8px;flex-wrap:wrap}
-.mindMiniOutput{max-height:140px;min-height:90px}
-.statusDot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#64748b}
-.statusDot.filled{background:var(--cyan)}
-.statusDot.review{background:var(--purple)}
-.statusDot.done{background:var(--green)}
-.statusDot.exported{background:var(--gold)}
-.statusDot.error{background:var(--red)}
-.statusDot.locked{background:var(--locked)}
+/* Titan Colossal V1.2 — Árvore Focus + Zoom/Pan leve */
+.mindHero.compactMind{padding:14px 16px;position:relative;overflow:hidden}
+.mindHero.compactMind .mindTitleLine{align-items:center}
+.mindSubtitle{margin:2px 0 0;font-size:12px;color:#b8c4da;line-height:1.45}.mindSubtitle strong{color:#eadcc1}
+.compactMind .eggTerminal{min-width:320px;padding:9px 10px}.compactMind .eggFace{width:42px;height:42px;border-radius:14px;font-size:24px}
+.progressToggleRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.progressPanel{display:none}.progressPanel.open{display:block}.progressPanel .progressFlow{margin-top:10px}
+.mindControlBar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:8px}.mindControlBar .btn{padding:7px 10px;font-size:11px}.zoomReadout{border:1px solid var(--line);border-radius:999px;background:#080c17;color:#dbe5ff;padding:7px 10px;font:11px Space Mono,monospace;min-width:62px;text-align:center}
+.nodeViewport{height:72vh;min-height:540px;overflow:hidden;cursor:grab;touch-action:none;position:relative}.nodeViewport.dragging{cursor:grabbing}.nodeMap{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}.node:focus-within{outline:2px solid rgba(214,173,104,.55);outline-offset:2px}
+.mindFullscreen{position:fixed!important;inset:12px!important;z-index:90!important;background:#070a12!important;margin:0!important;padding:14px!important;display:flex;flex-direction:column}.mindFullscreen .nodeViewport{height:calc(100vh - 210px);min-height:0}.mindFullscreen .hubHead{flex:0 0 auto}.mindFullscreen .nodeLegend{display:none}.mindFullscreen::before{content:'Árvore da Criação — Focus Mode';font-family:Space Mono,monospace;color:#baf7f2;font-size:11px;text-transform:uppercase;letter-spacing:.16em;margin-bottom:8px}
+.mapHint{position:absolute;right:12px;bottom:12px;border:1px solid rgba(101,217,210,.25);background:rgba(5,8,19,.82);color:#baf7f2;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;pointer-events:none;z-index:4}
+.node.collapsed .nodeSummary,.node.collapsed .nodeActions{display:none}.node.collapsed{height:auto;min-height:70px}.nodeToggle{border:1px solid var(--line);background:rgba(255,255,255,.035);color:#dbe5ff;border-radius:999px;width:24px;height:24px;display:grid;place-items:center;font-size:11px;padding:0;flex:0 0 auto}
+.sideMindTools{margin-top:14px;border:1px solid rgba(101,217,210,.18);background:rgba(101,217,210,.04);border-radius:14px;padding:10px}.sideMindTools .btn{width:100%;margin:4px 0;padding:8px 9px;font-size:11px}.sideMindTools strong{display:block;color:#eadcc1;font-size:11px;margin-bottom:6px}
 
-/* Canvas Mode Specifics */
+
+/* Titan Colossal V1.2 — Árvore da Criação: nodes móveis e mapa vivo */
+.node{cursor:grab;user-select:none}.node.nodeDragging{cursor:grabbing;z-index:12;box-shadow:0 25px 80px rgba(0,0,0,.45),0 0 0 2px rgba(214,173,104,.28)}
+.nodeViewport.freeZoom{cursor:grab}.nodeViewport.freeZoom .mapHint{background:rgba(214,173,104,.12);border-color:rgba(214,173,104,.35);color:#f8e0b2}
+.connectorSvg{overflow:visible}.connectorSvg path.liveLine{stroke:rgba(101,217,210,.38);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:8 9;filter:drop-shadow(0 0 6px rgba(101,217,210,.06))}.connectorSvg path.liveLine.main{stroke:rgba(214,173,104,.52);stroke-width:4;stroke-dasharray:none}.connectorSvg path.liveLine.ready{stroke:rgba(116,217,154,.48)}
+.mapToolbarNote{font-size:10px;color:#baf7f2;font-family:Space Mono,monospace;border:1px solid rgba(101,217,210,.22);background:rgba(101,217,210,.055);padding:6px 9px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
+.nodeMiniHandle{position:absolute;right:10px;bottom:8px;color:#64748b;font-size:13px;pointer-events:none}.nodeDragging .nodeMiniHandle{color:#d6ad68}
+
+
+/* Titan Colossal V1.5 — Árvore da Criação aprovada: símbolos, progresso e estação de trabalho viva */
+.nodeViewport{height:78vh;min-height:650px;background:radial-gradient(circle at 18% 16%,rgba(101,217,210,.10),transparent 22%),radial-gradient(circle at 65% 15%,rgba(214,173,104,.08),transparent 26%),radial-gradient(circle at 78% 70%,rgba(90,169,255,.07),transparent 24%),#050813}
+.nodeMap{min-width:1600px;min-height:900px}.connectorSvg{width:1600px;height:900px}.node{width:270px;border-radius:22px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),rgba(13,18,32,.94);box-shadow:0 18px 55px rgba(0,0,0,.32)}
+.nodeHeader{align-items:center}.nodeTitleWrap{display:flex;gap:10px;align-items:center;min-width:0}.nodeIconBadge{width:44px;height:44px;display:grid;place-items:center;border-radius:16px;background:rgba(101,217,210,.09);border:1px solid rgba(101,217,210,.18);font-size:22px;box-shadow:inset 0 0 18px rgba(101,217,210,.04)}.node h3{margin:0;font-size:15px;line-height:1.18}.nodeControls{display:flex;align-items:center;gap:6px}.nodeStatus{display:flex;align-items:center;gap:5px;padding:5px 8px;background:rgba(255,255,255,.025)}.nodeStateFigure{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;font-size:11px;background:#111827;border:1px solid var(--line)}
+.node.empty .nodeIconBadge{background:rgba(100,116,139,.08);border-color:rgba(100,116,139,.22)}.node.editing{border-color:rgba(214,173,104,.68);box-shadow:0 0 0 1px rgba(214,173,104,.14) inset,0 20px 60px rgba(0,0,0,.35)}.node.generating{border-color:rgba(90,169,255,.68);box-shadow:0 0 0 1px rgba(90,169,255,.16) inset}.node.ready,.node.filled{border-color:rgba(101,217,210,.52);box-shadow:0 0 0 1px rgba(101,217,210,.10) inset}.node.done{border-color:rgba(116,217,154,.64);box-shadow:0 0 0 1px rgba(116,217,154,.12) inset}.node.exported{border-color:rgba(214,173,104,.72);box-shadow:0 0 0 1px rgba(214,173,104,.16) inset}.node.locked{opacity:.62;filter:saturate(.75);border-color:rgba(107,114,128,.35)}.node.error{border-color:rgba(225,138,138,.70)}
+.statusDot.editing{background:var(--gold)}.statusDot.generating{background:var(--blue)}.statusDot.ready{background:var(--cyan)}.statusDot.locked{background:var(--locked)}
+.nodeSummary{font-size:12px;line-height:1.55;color:#c4cee2}.nodeActions .btn{font-size:10px;padding:7px 10px}.node.activeNode{outline:2px solid rgba(214,173,104,.60);outline-offset:4px;box-shadow:0 22px 80px rgba(0,0,0,.43),0 0 0 1px rgba(214,173,104,.18) inset}
+.nodeWorkspace{position:absolute;width:560px;min-height:310px;border:1px solid rgba(101,217,210,.30);border-radius:22px;background:linear-gradient(180deg,rgba(101,217,210,.055),rgba(255,255,255,.018)),rgba(9,14,25,.96);box-shadow:0 25px 80px rgba(0,0,0,.42);padding:14px;z-index:5}.nodeWorkspace::before{content:'';position:absolute;width:2px;height:34px;left:52px;top:-34px;background:linear-gradient(var(--gold),transparent);box-shadow:0 0 20px rgba(214,173,104,.35)}.workHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px}.workHead h3{font-size:16px;margin:0}.workHead .mini{max-width:330px}.workBody{display:grid;gap:10px}.workGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.workBody textarea{min-height:84px}.workBody input,.workBody textarea,.workBody select{font-size:12px}.workOutput{white-space:pre-wrap;background:#070b15;border:1px solid var(--line);border-radius:14px;padding:12px;min-height:115px;max-height:210px;overflow:auto;font:11px/1.55 Space Mono,monospace;color:#dbe5ff}.workActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.workBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f7dfb3;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900}.progressLegendPro{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.progressLegendPro .legendItem{display:flex;gap:6px;align-items:center}.progressLegendPro .stateEmoji{font-size:14px}.node.locked .nodeActions button:not(:first-child){opacity:.55}.nodePulse{animation:nodePulse 1.8s infinite ease-in-out}@keyframes nodePulse{0%,100%{box-shadow:0 0 0 0 rgba(90,169,255,.22)}50%{box-shadow:0 0 0 8px rgba(90,169,255,0)}}
+
+.workResultHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;font-family:Inter,system-ui,sans-serif}.workResultTitle{font-weight:900;color:#f7dfb3;font-size:12px}.workResultStatus{font-size:10px;border:1px solid rgba(101,217,210,.35);background:rgba(101,217,210,.08);color:#9ff;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 8px}.workInfoGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 10px}.workInfoGrid span{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:10px;padding:7px 8px;color:#b9c7df;font-family:Inter,system-ui,sans-serif;font-size:10px}.workOutputInner{white-space:pre-wrap;margin:0;max-height:185px;overflow:auto;font:10.5px/1.55 Space Mono,monospace;color:#e8f0ff}.workHintBox{border:1px dashed rgba(214,173,104,.32);background:rgba(214,173,104,.06);color:#f7dfb3;border-radius:12px;padding:10px;font-family:Inter,system-ui,sans-serif;font-size:12px;line-height:1.45}.workHintBox b{color:#fff}.nodeReadyGlow{box-shadow:0 0 0 1px rgba(101,217,210,.22) inset}
+@media(max-width:980px){.nodeWorkspace{width:520px}.nodeMap{min-width:1180px}.node{width:245px}.nodeViewport{height:70vh}}
+
+
+@media(max-width:980px){.nodeViewport{height:68vh}.mindControlBar{justify-content:flex-start}.compactMind .eggTerminal{min-width:100%}.progressToggleRow{align-items:flex-start}.sideMindTools{display:none}}
+
+@media(max-width:980px){.progressFlow{grid-template-columns:1fr}.nodeViewport{padding:14px}.nodeMap{min-width:980px}.authorGrid{grid-template-columns:1fr}.eggTerminal{width:100%}}
+
+@media(max-width:980px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.two,.three,.provider{grid-template-columns:1fr}.topbar{flex-wrap:wrap}.nav{margin-left:0}.main{padding:14px}}
+
+
+/* Titan Colossal V1.5 — Canvas Vivo / painel recolhível */
+body.mind-canvas-mode .hero,
+body.mind-canvas-mode .tabs,
+body.mind-canvas-mode #centralHub{display:none!important}
+body.mind-canvas-mode .main{padding:10px 14px}
+body.mind-canvas-mode .mindShell{margin-bottom:0;min-height:calc(100vh - 100px)}
+body.mind-canvas-mode .nodeViewport{height:calc(100vh - 185px);min-height:620px}
+body.mind-canvas-mode .mindHero.compactMind{padding:8px 12px;margin-bottom:8px;position:sticky;top:64px;z-index:18;background:rgba(8,12,22,.92);backdrop-filter:blur(10px)}
+.mindHero.collapsedTop .mindTitleLine{display:none!important}
+.mindHero.collapsedTop .progressToggleRow{border-top:0;margin-top:0;padding-top:0}
+.mindHero.collapsedTop .progressPanel{display:none!important}
+.mindHero.collapsedTop .zoomTools .btn:not(.keepCompact){display:none!important}
+.mindHero.collapsedTop .zoomTools::before{content:'Árvore da Criação — painel superior recolhido';display:inline-flex;align-items:center;border:1px solid rgba(101,217,210,.28);background:rgba(101,217,210,.08);color:#baf7f2;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;letter-spacing:.08em;text-transform:uppercase}
+.mindHero.collapsedTop{box-shadow:0 10px 40px rgba(0,0,0,.22)}
+.canvasModeHint{position:absolute;left:16px;top:16px;z-index:6;display:inline-flex;gap:8px;align-items:center;border:1px solid rgba(214,173,104,.30);background:rgba(5,8,19,.82);color:#f2dcad;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;pointer-events:none}
+.nodeWorkspace{transition:left .05s linear,top .05s linear}
+.nodeWorkspace.linkedWorkspace{outline:1px solid rgba(214,173,104,.18);box-shadow:0 25px 80px rgba(0,0,0,.42),0 0 0 1px rgba(214,173,104,.10) inset}
+.workstationAttachLine{position:absolute;width:2px;height:42px;background:linear-gradient(var(--gold),rgba(214,173,104,.05));box-shadow:0 0 18px rgba(214,173,104,.24);z-index:4;pointer-events:none}
+@media(max-width:980px){body.mind-canvas-mode .nodeViewport{height:70vh}.mindHero.collapsedTop .zoomTools::before{width:100%;justify-content:center}.mindHero.collapsedTop .mindControlBar{justify-content:flex-start}}
+
+
+/* Titan Colossal V1.5 — Canvas Dominante / área máxima de trabalho */
+.canvasDock{display:none}
+body.mind-canvas-mode{overflow:hidden}
+body.mind-canvas-mode .topbar{display:none!important}
+body.mind-canvas-mode .shell{grid-template-columns:72px minmax(0,1fr);min-height:100vh}
+body.mind-canvas-mode .side{padding:8px 6px;overflow:hidden}
+body.mind-canvas-mode .side h4,
+body.mind-canvas-mode .side .pill,
+body.mind-canvas-mode .side p,
+body.mind-canvas-mode .sideMindTools{display:none!important}
+body.mind-canvas-mode .side .step{font-size:0;padding:10px 6px;text-align:center;margin-bottom:6px;border-radius:14px}
+body.mind-canvas-mode .side .step::before{content:attr(data-num);font-size:12px;font-weight:900;color:#dbe5ff}
+body.mind-canvas-mode .side .step.active::before{color:#1a1203}
+body.mind-canvas-mode .main{padding:6px;overflow:hidden}
+body.mind-canvas-mode .mindHero.compactMind{position:relative;top:0;padding:6px 8px;margin:0 0 6px 0;border-radius:14px}
+body.mind-canvas-mode .mindHero.compactMind:not(.collapsedTop){max-height:115px;overflow:hidden}
+body.mind-canvas-mode .mindHero.compactMind .mindTitleLine{display:none!important}
+body.mind-canvas-mode .mindHero.compactMind .progressToggleRow{margin:0;padding:0;border:0;gap:6px}
+body.mind-canvas-mode .mindHero.compactMind .zoomTools .btn:not(.keepCompact){display:none!important}
+body.mind-canvas-mode .mindHero.compactMind .mindControlBar{margin:0;justify-content:flex-end}
+body.mind-canvas-mode .mindShell{padding:0;margin:0;border-radius:16px;height:calc(100vh - 18px);display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+body.mind-canvas-mode .mindShell>.hubHead{padding:8px 12px;margin:0;border-bottom:1px solid rgba(255,255,255,.08);display:flex!important}
+body.mind-canvas-mode .mindShell>.hubHead h2{font-size:15px;margin:0}
+body.mind-canvas-mode .mindShell>.hubHead p,
+body.mind-canvas-mode .mindShell>.hubHead .kicker,
+body.mind-canvas-mode .mindShell>.hubHead .nodeLegend{display:none!important}
+body.mind-canvas-mode .mindShell>.hubHead .mindControlBar{margin:0}
+body.mind-canvas-mode .nodeViewport{height:auto!important;min-height:0!important;border-radius:0;border-left:0;border-right:0;border-bottom:0}
+body.mind-canvas-mode .canvasDock{display:flex;position:absolute;left:12px;top:12px;bottom:12px;width:228px;z-index:15;flex-direction:column;gap:10px;border:1px solid rgba(101,217,210,.25);border-radius:18px;background:linear-gradient(180deg,rgba(13,18,32,.92),rgba(5,8,19,.80));backdrop-filter:blur(10px);padding:12px;box-shadow:0 22px 70px rgba(0,0,0,.34)}
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock{width:52px;padding:8px;align-items:center}
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock .dockText,
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock .dockSection,
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock .dockActions{display:none!important}
+.canvasDockTitle{font-family:Syne,sans-serif;font-weight:900;color:#eadcc1;line-height:1.15;font-size:15px}
+.canvasDock .dockChip{display:inline-flex;align-items:center;border:1px solid rgba(101,217,210,.35);border-radius:999px;background:rgba(101,217,210,.08);color:#baf7f2;padding:5px 8px;font:10px Space Mono,monospace;text-transform:uppercase;letter-spacing:.10em}
+.canvasDock .dockSection{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025);padding:9px}
+.canvasDock .dockSection strong{display:block;color:#eadcc1;font-size:12px;margin-bottom:4px}
+.canvasDock .dockSection span{display:block;color:#aeb8cf;font-size:11px;line-height:1.45}
+.canvasDock .dockActions{display:grid;grid-template-columns:1fr;gap:6px;margin-top:auto}
+.canvasDock .btn{width:100%;padding:8px 9px;font-size:11px}
+.canvasDockToggle{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:#101729;color:#dbe5ff;display:grid;place-items:center;font-weight:900}
+body.mind-canvas-mode .mapHint{right:14px;bottom:14px}
+body.mind-canvas-mode .canvasModeHint{left:258px;top:14px}
+body.mind-canvas-mode.canvas-dock-collapsed .canvasModeHint{left:78px}
+body.mind-canvas-mode .nodeViewport::after{content:'Canvas dominante ativo — trabalhe direto na Árvore';position:absolute;right:14px;top:14px;z-index:5;border:1px solid rgba(214,173,104,.28);background:rgba(5,8,19,.82);color:#f2dcad;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;pointer-events:none}
+body.mind-canvas-mode .nodeWorkspace{max-height:calc(100vh - 120px);overflow:auto}
+body.mind-canvas-mode .nodeWorkspace.linkedWorkspace{box-shadow:0 30px 95px rgba(0,0,0,.55),0 0 0 1px rgba(214,173,104,.12) inset}
+@media(max-width:980px){
+ body.mind-canvas-mode .shell{grid-template-columns:1fr}
+ body.mind-canvas-mode .side{display:none}
+ body.mind-canvas-mode .canvasDock{width:190px}
+ body.mind-canvas-mode .canvasModeHint{left:210px}
+}
+
+
+/* Titan Colossal V1.6 — Node Inteligente / fluxo aplicado sem perder contexto */
+.cardFlowPanel{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0 14px;padding:10px;border:1px solid rgba(101,217,210,.24);border-radius:16px;background:rgba(101,217,210,.055)}
+.cardFlowPanel .flowText{font:11px Space Mono,monospace;color:#cafffb;margin-right:auto}
+.cardProgressBar{height:8px;min-width:180px;flex:1;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:#070b15;overflow:hidden}
+.cardProgressBar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .25s ease}
+.section-card{position:relative;transition:.18s ease;border-color:rgba(255,255,255,.10)}
+.section-card.card-applied{border-color:rgba(116,217,154,.55);background:linear-gradient(180deg,rgba(116,217,154,.075),rgba(255,255,255,.018)),rgba(13,18,32,.94)}
+.section-card.card-applied::before{content:"✓ APLICADO";position:absolute;right:12px;top:10px;border:1px solid rgba(116,217,154,.48);background:rgba(116,217,154,.12);color:#caffd9;border-radius:999px;padding:4px 8px;font:9px Space Mono,monospace;letter-spacing:.08em}
+.section-card.card-pending::before{content:"PENDENTE";position:absolute;right:12px;top:10px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f7dfb3;border-radius:999px;padding:4px 8px;font:9px Space Mono,monospace;letter-spacing:.08em}
+.section-card.card-collapsed .section-body,.section-card.card-collapsed .result-tools{display:none}
+.section-card.card-collapsed{min-height:76px}
+.section-card.card-current{outline:2px solid rgba(214,173,104,.55);outline-offset:3px}
+.btn.isApplied{background:rgba(116,217,154,.14);border-color:rgba(116,217,154,.45);color:#caffd9}
+.nodeSmartProgress{display:grid;gap:6px;margin:8px 0 10px}
+.nodeSmartProgressRow{display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:10px;padding:7px 8px;font:10px Space Mono,monospace;color:#cbd5e1}
+.nodeSmartProgressRow.done{border-color:rgba(116,217,154,.35);color:#caffd9}
+.nodeSmartProgressRow.active{border-color:rgba(214,173,104,.45);color:#f7dfb3}
+.nodeSmartProgressRow.wait{opacity:.70}
+.workResultMiniPanel{border:1px solid rgba(101,217,210,.18);background:rgba(101,217,210,.045);border-radius:14px;padding:10px;margin-top:8px}
+.workResultMiniPanel .workOutputInner{max-height:150px}
+.nextNodeHint{border:1px dashed rgba(214,173,104,.35);background:rgba(214,173,104,.055);color:#f4ddb2;border-radius:12px;padding:8px 10px;font-size:11px;line-height:1.45}
+@media(max-width:980px){.cardFlowPanel{align-items:stretch}.cardProgressBar{min-width:100%}.cardFlowPanel .btn{flex:1}.section-card.card-collapsed{min-height:90px}}
+
+
+
+/* Titan Colossal V1.7 — Canvas 99% + Briefing Mestre completo no node */
+body.mind-canvas-mode .mindShell>.hubHead,
+.mindFullscreen>.hubHead{display:none!important}
+.mindFullscreen::before{display:none!important;content:''!important}
+.mindFullscreen{inset:4px!important;padding:4px!important}
+.mindFullscreen .nodeViewport{height:calc(100vh - 12px)!important;min-height:0!important;border-radius:14px!important}
+body.mind-canvas-mode .shell{grid-template-columns:46px minmax(0,1fr)!important;min-height:100vh!important}
+body.mind-canvas-mode .side{width:46px!important;padding:6px 4px!important}
+body.mind-canvas-mode .main{padding:2px!important}
+body.mind-canvas-mode .mindShell{height:calc(100vh - 4px)!important;border-radius:12px!important;grid-template-rows:1fr!important}
+body.mind-canvas-mode .mindHero.compactMind{display:none!important}
+body.mind-canvas-mode .nodeViewport{height:calc(100vh - 4px)!important;min-height:0!important;border-radius:12px!important}
+body.mind-canvas-mode .nodeViewport::after{content:'Canvas 99% ativo — dock lateral minimizado';right:12px;top:12px}
+body.mind-canvas-mode .canvasModeHint{left:66px!important;top:12px!important}
+body.mind-canvas-mode .canvasDock{left:8px!important;top:8px!important;bottom:8px!important;width:50px!important;padding:7px!important;align-items:center!important}
+body.mind-canvas-mode .canvasDock .dockText,
+body.mind-canvas-mode .canvasDock .dockSection,
+body.mind-canvas-mode .canvasDock .dockActions{display:none!important}
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock{width:228px!important;padding:12px!important;align-items:stretch!important}
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockText,
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockSection,
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockActions{display:block!important}
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockActions{display:grid!important}
+.nodeWorkspace{width:min(760px,calc(100vw - 140px));max-height:calc(100vh - 80px);overflow:auto}
+body.mind-canvas-mode .nodeWorkspace{width:min(900px,calc(100vw - 118px));max-height:calc(100vh - 38px)}
+.briefNodeFull{display:grid;gap:10px}
+.briefNodeGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.briefNodeGrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.briefNodePanel{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025);padding:10px}
+.briefNodePanel summary{cursor:pointer;font-weight:900;color:#f7dfb3;font-size:12px;letter-spacing:.04em}
+.briefNodeResult{min-height:150px;max-height:260px;overflow:auto;margin-top:8px}
+.nodeMiniRail{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.nodeMiniRail .btn{font-size:10px;padding:7px 9px}
+.nextNodeHint.strong{border-color:rgba(116,217,154,.30);background:rgba(116,217,154,.06);color:#d9ffe6}
+@media(max-width:980px){.briefNodeGrid,.briefNodeGrid.three{grid-template-columns:1fr}.nodeWorkspace,body.mind-canvas-mode .nodeWorkspace{width:min(94vw,760px)}}
+
+
+
+/* Titan Colossal V1.8 — Canvas limpo sem barra lateral de rolagem */
+.canvasExitBtn{display:none}
 body.mind-canvas-mode{
-    overflow: hidden; /* Garante que o body não role no modo canvas */
+  overflow:hidden!important;
+  height:100vh!important;
 }
-body.mind-canvas-mode .topbar{
-    transform: translateY(-100%); /* Esconde a topbar no modo canvas */
-    position: fixed; /* Para que o translate funcione bem */
-}
+body.mind-canvas-mode .topbar{display:none!important}
 body.mind-canvas-mode .shell{
-    grid-template-columns: 1fr; /* Oculta a sidebar principal */
-    min-height: 100vh;
+  grid-template-columns:1fr!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  overflow:hidden!important;
 }
-body.mind-canvas-mode .side{
-    display: none; /* Oculta a sidebar */
-}
+body.mind-canvas-mode .side{display:none!important}
 body.mind-canvas-mode .main{
-    padding: 0; /* Remove padding do main para o canvas ocupar tudo */
-    overflow: hidden; /* Garante que o main não role */
+  height:100vh!important;
+  overflow:hidden!important;
+  padding:4px!important;
 }
-body.mind-canvas-mode .mindHero{
-    padding: 14px 16px;
-    position: sticky; /* Mantém o mindHero no topo do viewport do canvas */
-    top: 0;
-    z-index: 10;
-    background: rgba(7,10,18,.94); /* Fundo semi-transparente para o sticky */
-    border-bottom: 1px solid var(--line);
-    backdrop-filter: blur(10px);
+body.mind-canvas-mode #mindjob.screen.active{
+  display:block!important;
+  height:100vh!important;
+  overflow:hidden!important;
+}
+body.mind-canvas-mode .mindHero.compactMind,
+body.mind-canvas-mode .mindShell>.hubHead,
+body.mind-canvas-mode .canvasDock,
+body.mind-canvas-mode .canvasModeHint{
+  display:none!important;
+}
+body.mind-canvas-mode .mindShell{
+  height:calc(100vh - 8px)!important;
+  min-height:calc(100vh - 8px)!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:14px!important;
+  display:block!important;
+  overflow:hidden!important;
 }
 body.mind-canvas-mode .nodeViewport{
-    height: calc(100vh - 64px - 80px); /* Altura total - topbar (escondida) - mindHero */
-    padding: 14px; /* Ajusta o padding para o modo canvas */
-    border-radius: 0; /* Remove bordas arredondadas para ocupar mais espaço */
-    border: none; /* Remove borda */
-    background: #050813; /* Fundo mais escuro para o canvas */
+  height:calc(100vh - 10px)!important;
+  min-height:calc(100vh - 10px)!important;
+  border-radius:14px!important;
+  overflow:hidden!important;
 }
-.mindSubtitle{margin:2px 0 0;font-size:12px;color:#b8c4da;line-height:1.45}
-.mindSubtitle strong{color:#eadcc1}
-.compactMind .eggTerminal{min-width:320px;padding:9px 10px}
-.compactMind .eggFace{width:42px;height:42px;border-radius:14px;font-size:24px}
-.progressToggleRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
-.progressPanel{display:none}.progressPanel.open{display:block}
-.progressPanel .progressFlow{margin-top:10px}
-.mindControlBar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:8px}
-.mindControlBar .btn{padding:7px 10px;font-size:11px}
-.zoomReadout{border:1px solid var(--line);border-radius:999px;background:#080c17;color:#dbe5ff;padding:7px 10px;font:11px Space Mono,monospace;min-width:62px;text-align:center}
-.nodeViewport.freeZoom{cursor:grab}
-.nodeViewport.freeZoom .mapHint{background:rgba(214,173,104,.12);border-color:rgba(214,173,104,.35);color:#f8e0b2}
-.mapHint{position:absolute;right:12px;bottom:12px;border:1px solid rgba(101,217,210,.25);background:rgba(5,8,19,.82);color:#baf7f2;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;pointer-events:none;z-index:4}
-.node.collapsed .nodeSummary,.node.collapsed .nodeActions{display:none}
-.node.collapsed{height:auto;min-height:70px}
-.nodeToggle{border:1px solid var(--line);background:rgba(255,255,255,.035);color:#dbe5ff;border-radius:999px;width:24px;height:24px;display:grid;place-items:center;font-size:11px;padding:0;flex:0 0 auto}
-.sideMindTools{margin-top:14px;border:1px solid rgba(101,217,210,.18);background:rgba(101,217,210,.04);border-radius:14px;padding:10px}
-.sideMindTools .btn{width:100%;margin:4px 0;padding:8px 9px;font-size:11px}
-.sideMindTools strong{display:block;color:#eadcc1;font-size:11px;margin-bottom:6px}
-.mapToolbarNote{font-size:10px;color:#baf7f2;font-family:Space Mono,monospace;border:1px solid rgba(101,217,210,.22);background:rgba(101,217,210,.055);padding:6px 9px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
-.nodeMiniHandle{position:absolute;right:10px;bottom:8px;color:#64748b;font-size:13px;pointer-events:none}
-.nodeDragging .nodeMiniHandle{color:#d6ad68}
-
-/* Node Workspace (Estação de Trabalho do Node Ativo) */
-.nodeWorkspace{
-    position:absolute;
-    width:min(480px, 90vw); /* Largura responsiva */
-    max-height: calc(100vh - 180px); /* Altura máxima para caber na tela */
-    border:1px solid var(--line);
-    border-radius:18px;
-    background:var(--panel);
-    box-shadow:0 18px 45px rgba(0,0,0,.25);
-    padding:16px;
-    z-index:15; /* Acima dos outros nodes */
-    overflow-y: auto; /* A rolagem deve ser aqui, não no canvas */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: all 0.3s ease-out;
+body.mind-canvas-mode .nodeViewport::after{
+  content:'Canvas limpo — use zoom e arraste o mapa';
+  right:170px;
+  top:12px;
 }
-.nodeWorkspace .workHead{
-    display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
-    border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px;
+body.mind-canvas-mode .canvasExitBtn{
+  display:inline-flex;
+  position:absolute;
+  right:12px;
+  top:10px;
+  z-index:30;
+  border:1px solid rgba(214,173,104,.55);
+  background:linear-gradient(180deg,#e1bc7b,#c89a55);
+  color:#1a1203;
+  border-radius:999px;
+  padding:9px 13px;
+  font-size:11px;
+  font-weight:900;
+  box-shadow:0 12px 38px rgba(0,0,0,.35);
 }
-.nodeWorkspace .workHead h3{font-size:18px;line-height:1.2}
-.nodeWorkspace .workHead .workBadge{
-    display:inline-flex;padding:4px 8px;border:1px solid rgba(101,217,210,.32);
-    border-radius:999px;color:#baf7f2;background:rgba(101,217,210,.08);
-    font:10px Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;
+body.mind-canvas-mode .mapHint{
+  right:12px!important;
+  bottom:12px!important;
+  opacity:.82;
 }
-.nodeWorkspace .workHead .mini{font-size:11px;color:var(--muted);margin-top:4px;}
-.nodeWorkspace .workBody{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex-grow: 1; /* Permite que o corpo ocupe o espaço restante */
+body.mind-canvas-mode .nodeWorkspace{
+  max-height:calc(100vh - 58px)!important;
+  overflow:auto!important;
+  scrollbar-width:none;
 }
-.nodeWorkspace .workOutput{
-    white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:12px;
-    padding:12px;min-height:120px;max-height:260px;overflow:auto;
-    font:11px/1.6 Space Mono,monospace;color:#dbe5ff;
-    flex-grow: 1; /* Permite que o output cresça */
-}
-.nodeWorkspace .workActions{
-    display:flex;gap:8px;flex-wrap:wrap;margin-top:auto; /* Empurra para o final */
-    padding-top: 10px;
-    border-top: 1px solid var(--line);
-}
-.briefNodePanel{
-    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);
-    padding:10px 12px;
-}
-.briefNodePanel summary{
-    font-weight: 700;
-    color: var(--gold);
-    cursor: pointer;
-    padding: 4px 0;
-}
-.briefNodePanel summary:hover{filter:brightness(1.1);}
-.briefNodePanel label{margin-top:8px;margin-bottom:4px;}
-.briefNodeGrid{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:10px;}
-.briefNodeFull .workActions{border-top:none;padding-top:0;} /* Remove borda duplicada */
-.briefNodeFull .nodeMiniRail{
-    display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--line);
-}
-.briefNodeFull .workResultHead{
-    display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;
-}
-.briefNodeFull .workResultTitle{font-weight:700;color:var(--text);font-size:14px;}
-.briefNodeFull .workResultStatus{
-    font-size:11px;color:var(--muted);border:1px solid var(--line);
-    border-radius:999px;padding:4px 8px;
-}
-.briefNodeFull .briefNodeResult{min-height:100px;max-height:200px;}
-.briefNodeFull .nextNodeHint{
-    font-size:12px;color:var(--muted);margin-top:10px;
-    padding:8px 10px;border:1px solid rgba(101,217,210,.2);
-    background:rgba(101,217,210,.05);border-radius:10px;
+body.mind-canvas-mode .nodeWorkspace::-webkit-scrollbar,
+body.mind-canvas-mode .workOutput::-webkit-scrollbar,
+body.mind-canvas-mode .workOutputInner::-webkit-scrollbar,
+body.mind-canvas-mode .nodeViewport::-webkit-scrollbar,
+body.mind-canvas-mode .main::-webkit-scrollbar{
+  width:0!important;
+  height:0!important;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .shell{grid-template-columns: 1fr;}
-    .side{display:none;}
-    .topbar{padding:10px 14px;}
-    .brand{font-size:16px;}
-    .nav{justify-content: center;}
-    body.mind-canvas-mode .nodeViewport{
-        height: calc(100vh - 60px - 60px); /* Ajuste para telas menores */
-        padding: 8px;
-    }
-    .nodeWorkspace{
-        width: 95vw;
-        max-height: calc(100vh - 120px);
-        padding: 12px;
-    }
-    .nodeWorkspace .workHead h3{font-size:16px;}
-    .briefNodeGrid{grid-template-columns: 1fr;}
-}
 </style>
-
-<body class="mind-canvas-mode"> <!-- Adicionado para testar o modo canvas diretamente -->
-<div class="topbar">
-    <div class="brand">Video Pack Studio <small>V2.0</small></div>
-    <div class="nav">
-        <button class="btn gold" onclick="toggleCanvasMode()">Canvas</button>
-        <button class="btn" onclick="showScreen('home')">Home</button>
-        <button class="btn" onclick="showScreen('settings')">Settings</button>
-    </div>
-</div>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Video Pack Studio <small>V1.8 / Canvas limpo</small></div>
+  <nav class="nav">
+    <button class="btn authorLink" onclick="openAuthor()" type="button">Autoria</button>
+    <a class="btn" href="#" onclick="showScreen('briefing')">Briefing</a>
+    <a class="btn" href="#" onclick="showScreen('modelo')">Modelo</a>
+    <a class="btn" href="#" onclick="showScreen('roteiro')">Roteiro</a>
+    <a class="btn" href="#" onclick="showScreen('json')">JSON</a>
+    <a class="btn" href="#" onclick="showScreen('srt')">SRT</a>
+    <a class="btn" href="#" onclick="showScreen('preview')">Preview</a>
+    <a class="btn" href="#" onclick="showScreen('exportacao')">Exportar</a>
+    <a class="btn" href="#" onclick="showScreen('api')">API</a>
+    <a class="btn gold" href="#" onclick="v17OpenCanvas()">Árvore / Nodes</a>
+  </nav>
+</header>
 
 <div class="shell">
-    <div class="side">
-        <h4>Workflow</h4>
-        <button class="step active">Briefing Mestre</button>
-        <button class="step">Modelo / Formato</button>
-        <button class="step">Roteiro Visual</button>
-        <button class="step">JSON / Remotion</button>
-        <button class="step">SRT / Som</button>
-        <button class="step">Preview</button>
-        <button class="step">Pacote Final</button>
-        <button class="step">Ramificações</button>
+  <aside class="side">
+    <h4>Fluxo de vídeo</h4>
+    <button class="step" data-step="briefing" onclick="showScreen('briefing')">1. Briefing / origem</button>
+    <button class="step" data-step="modelo" onclick="showScreen('modelo')">2. Modelo / formato</button>
+    <button class="step" data-step="roteiro" onclick="showScreen('roteiro')">3. Roteiro visual</button>
+    <button class="step" data-step="json" onclick="showScreen('json')">4. JSON Remotion</button>
+    <button class="step" data-step="srt" onclick="showScreen('srt')">5. SRT / som</button>
+    <button class="step" data-step="preview" onclick="showScreen('preview')">6. Preview leve</button>
+    <button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportar pacote</button>
+    <button class="step" data-step="api" onclick="showScreen('api')">8. API</button>
+    <button class="step" data-step="mindjob" onclick="v17OpenCanvas()">9. Árvore / Nodes</button>
+
+    <h4>Modelos</h4>
+    <p class="pill">Produto animado</p><p class="pill">Poster vivo</p><p class="pill">Flyer animado</p><p class="pill">Motion Comic</p><p class="pill">Story/Reels</p><p class="pill">YouTube</p><p class="pill">Slideshow</p>
+
+    <h4>Regra</h4>
+    <p class="mini">Este módulo não renderiza MP4. Ele gera pacote avançado: roteiro visual, JSON, SRT, prompt CapCut, prompt Remotion, assets e instruções.</p>
+
+    <div class="sideMindTools">
+      <strong>Árvore rápida</strong>
+      <button class="btn tiny" onclick="toggleProgressPanel()">Painel progresso</button>
+      <button class="btn tiny" onclick="centerMind()">Centralizar nodes</button>
+      <button class="btn tiny" onclick="toggleFullscreen()">Tela cheia</button>
+      <button class="btn tiny" onclick="activeNodeId='brief';renderMindJob()">Abrir Briefing Mestre</button>
+      <button class="btn tiny gold" onclick="generate('complete')">Gerar pacote mestre</button>
+      <button class="btn tiny purple" onclick="reorganizeCards()">Revisar cards</button>
+      <button class="btn tiny" onclick="buildExport()">Montar pacote limpo</button>
     </div>
+  </aside>
 
-    <div class="main">
-        <div id="mindjob" class="screen active">
-            <div class="mindHero">
-                <div class="mindTitleLine">
-                    <div class="eggTerminal">
-                        <div class="eggFace" id="eggMood">🥚</div>
-                        <div>
-                            <strong id="eggTitle">Mister Egg aguardando</strong>
-                            <span id="eggText">Preencha o Briefing Mestre para liberar as ramificações.</span>
-                        </div>
-                    </div>
-                    <div class="mindControlBar">
-                        <button class="btn cyan" onclick="centerMind()">Centralizar</button>
-                        <button class="btn purple" onclick="resetZoom()">Zoom 100%</button>
-                        <span class="zoomReadout" id="zoomReadout">100%</span>
-                        <button class="btn" onclick="toggleFullscreen()">Tela Cheia</button>
-                    </div>
-                </div>
-                <div class="progressToggleRow">
-                    <div class="mindSubtitle"><strong>Progresso:</strong> Acompanhe o fluxo de trabalho da Árvore da Criação.</div>
-                    <button class="btn tiny" onclick="toggleProgressPanel()">Mostrar Progresso</button>
-                </div>
-                <div class="progressPanel" id="progressPanel">
-                    <div class="progressFlow" id="progressFlow"></div>
-                </div>
-            </div>
+  <main class="main">
+    <div id="briefing" class="screen active">
+      <div class="hero">
+        <div class="kicker">Video sem custo pesado</div>
+        <h1>Video Pack / Remotion Pack</h1>
+        <p>Trabalha com tudo: projeto do Studio, Print, Client ou briefing manual. Gera pacote avançado para vídeo, mas sem renderizar MP4.</p>
+        <p class="notice">Sem MP4 automático agora. O objetivo é economizar: IA gera o pacote técnico e criativo; você usa CapCut, Remotion, Seedance, Luma/Kling ou outro fluxo depois, se quiser.</p>
+      </div>
 
-            <div class="nodeViewport" id="nodeViewport">
-                <div class="nodeMap" id="mindCanvas">
-                    <!-- Nodes e Workspace serão renderizados aqui pelo JS -->
-                </div>
-                <svg class="connectorSvg" id="connectorSvg">
-                    <g id="connectorPaths"></g>
-                </svg>
-                <div class="mapHint">Arraste para mover o mapa, use a roda do mouse para zoom.</div>
-            </div>
-            <div class="nodeLegend">
-                <span class="legendItem"><b style="background:var(--locked);"></b> Bloqueado</span>
-                <span class="legendItem"><b style="background:#64748b;"></b> Vazio</span>
-                <span class="legendItem"><b style="background:var(--purple);"></b> Revisar</span>
-                <span class="legendItem"><b style="background:var(--cyan);"></b> Pronto</span>
-                <span class="legendItem"><b style="background:var(--green);"></b> Aplicado</span>
-                <span class="legendItem"><b style="background:var(--gold);"></b> Exportado</span>
-                <span class="legendItem"><b style="background:var(--red);"></b> Erro</span>
-            </div>
+      <div class="card">
+        <h2>Briefing Mestre</h2>
+        <div class="grid two">
+          <div>
+            <label>Origem</label>
+            <select id="source">
+              <option>Manual</option>
+              <option>Studio / roteiro / storyboard</option>
+              <option>Print / campanha / produto</option>
+              <option>Client / produto final</option>
+              <option>Referência externa</option>
+            </select>
+          </div>
+          <div>
+            <label>Nome do projeto</label>
+            <input id="projectName" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1">
+          </div>
         </div>
+        <label>Briefing geral</label>
+        <textarea id="brief" placeholder="Cole o briefing, roteiro, copy ou ideia..."></textarea>
+        <label>Material disponível</label>
+        <textarea id="assets" placeholder="Assets, fotos, som, SRT, cores, links..."></textarea>
+        <label>Texto obrigatório / regras de roteiro</label>
+        <textarea id="requiredTextMaster" placeholder="Frases obrigatórias, eventos que não podem faltar..."></textarea>
+        <p class="mini">O Briefing Mestre é o cérebro central. Tudo que você preencher aqui alimenta Modelo, Roteiro, JSON, SRT/Som, Preview, Árvore e Pacote Final.</p>
+
+        <div class="grid two">
+          <div>
+            <label>Modelo de vídeo</label>
+            <select id="briefTemplate">
+              <option>Produto animado</option>
+              <option>Poster vivo</option>
+              <option>Flyer animado</option>
+              <option>Story/Reels/TikTok promocional</option>
+              <option>Motion Comic 2D</option>
+              <option>YouTube intro/banner</option>
+              <option>Slideshow comercial</option>
+              <option>Antes/depois</option>
+              <option>Top 5 / lista animada</option>
+              <option>Mockup de camiseta/caneca/poster</option>
+            </select>
+          </div>
+          <div>
+            <label>Formato</label>
+            <select id="briefFormat">
+              <option>9:16 vertical</option>
+              <option>16:9 horizontal</option>
+              <option>1:1 quadrado</option>
+              <option>4:5 feed</option>
+              <option>21:9 cinematic</option>
+            </select>
+          </div>
+          <div>
+            <label>Duração</label>
+            <select id="briefDuration">
+              <option>8 segundos</option>
+              <option>15 segundos</option>
+              <option>30 segundos</option>
+              <option>45 segundos</option>
+              <option>60 segundos</option>
+            </select>
+          </div>
+          <div>
+            <label>Estilo de movimento</label>
+            <select id="briefMotionStyle">
+              <option>Motion graphic limpo</option>
+              <option>Camera seca e tensão</option>
+              <option>Anime 2D / motion comic</option>
+              <option>Comercial premium</option>
+              <option>Popular rápido para TikTok</option>
+              <option>Luxo minimalista</option>
+              <option>Streetwear / cultura pop</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="masterMatrix">
+          <h3>Cérebro central / herança automática</h3>
+          <p class="masterHint">Esses campos alimentam Roteiro, JSON, SRT/Som e Árvore da Criação. As outras abas viram ajuste fino.</p>
+          <div class="grid two">
+            <div>
+              <label>Objetivo do vídeo</label>
+              <select id="goalMaster">
+                <option>Vender produto</option>
+                <option>Explicar ideia</option>
+                <option>Gerar curiosidade</option>
+                <option>Promover marca</option>
+                <option>Transformar poster/flyer em vídeo</option>
+                <option>Cena narrativa / motion comic</option>
+              </select>
+            </div>
+            <div>
+              <label>Tom</label>
+              <select id="toneMaster">
+                <option>Profissional</option>
+                <option>Impactante</option>
+                <option>Emocional</option>
+                <option>Horror/tensão</option>
+                <option>Divertido</option>
+                <option>Premium</option>
+                <option>Popular direto</option>
+              </select>
+            </div>
+            <div>
+              <label>Precisão do JSON</label>
+              <select id="jsonLevelMaster">
+                <option>Completo com cenas, layers e timing</option>
+                <option>Simples para CapCut</option>
+                <option>Remotion avançado</option>
+                <option>Motion Comic 2D</option>
+              </select>
+            </div>
+            <div>
+              <label>Tipo de áudio</label>
+              <select id="audioTypeMaster">
+                <option>Narração + SFX</option>
+                <option>Só texto animado</option>
+                <option>Falas + legenda</option>
+                <option>Trilha + impactos</option>
+                <option>Horror/tensão sonora</option>
+                <option>Comercial rápido</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
+          <button class="btn" onclick="generate('visualScript')">Refinar roteiro</button>
+          <button class="btn" onclick="generate('remotionJson')">Gerar técnico</button>
+          <button class="btn red" onclick="clearBriefing()">Limpar briefing</button>
+          <button class="btn red" onclick="newCleanProject()">Novo projeto limpo</button>
+        </div>
+      </div>
+
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div>
+            <h2>Resultado mestre</h2>
+            <p class="mini">Preencha o briefing e gere o pacote.</p>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="copy('out')">Copiar</button>
+            <button class="btn green" onclick="download('video-pack-mestre.txt','out')">Baixar TXT</button>
+            <button class="btn cyan" onclick="appendToExport('out','PACOTE MESTRE')">Aplicar no pacote</button>
+            <button class="btn red" onclick="clearOutput('out')">Limpar</button>
+          </div>
+        </div>
+        <div class="output" id="out">Aguardando geração do pacote mestre.</div>
+      </div>
+
+      <div class="card" id="centralHub">
+        <h2>Central de banners</h2>
+        <p>Revise cada parte gerada em cards limpos. Use Copiar/Baixar por card e Aplicar para substituir a seção correta no pacote final, sem duplicar.</p>
+        <div class="actions">
+          <button class="btn purple" onclick="reorganizeCards()">Reorganizar cards</button>
+          <button class="btn gold" onclick="buildExport()">Gerar pacote limpo</button>
+        </div>
+        <div id="hubCards" class="grid two">
+          <div class="section-card">
+            <div class="section-head"><h3>Pacote separado por função</h3></div>
+            <div class="section-body">Aguardando geração do pacote mestre para separar aqui em banners.</div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div id="modelo" class="screen">
+      <div class="card">
+        <h2>Modelo / formato</h2>
+        <div class="grid two">
+          <div>
+            <label>Modelo de vídeo</label>
+            <select id="template">
+              <option>Produto animado</option>
+              <option>Poster vivo</option>
+              <option>Flyer animado</option>
+              <option>Story/Reels/TikTok promocional</option>
+              <option>Motion Comic 2D</option>
+              <option>YouTube intro/banner</option>
+              <option>Slideshow comercial</option>
+              <option>Antes/depois</option>
+              <option>Top 5 / lista animada</option>
+              <option>Mockup de camiseta/caneca/poster</option>
+            </select>
+          </div>
+          <div>
+            <label>Formato</label>
+            <select id="format">
+              <option>9:16 vertical</option>
+              <option>16:9 horizontal</option>
+              <option>1:1 quadrado</option>
+              <option>4:5 feed</option>
+              <option>21:9 cinematic</option>
+            </select>
+          </div>
+          <div>
+            <label>Duração</label>
+            <select id="duration">
+              <option>8 segundos</option>
+              <option>15 segundos</option>
+              <option>30 segundos</option>
+              <option>45 segundos</option>
+              <option>60 segundos</option>
+            </select>
+          </div>
+          <div>
+            <label>Estilo de movimento</label>
+            <select id="motionStyle">
+              <option>Motion graphic limpo</option>
+              <option>Camera seca e tensão</option>
+              <option>Anime 2D / motion comic</option>
+              <option>Comercial premium</option>
+              <option>Popular rápido para TikTok</option>
+              <option>Luxo minimalista</option>
+              <option>Streetwear / cultura pop</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn gold" onclick="generate('templatePlan')">Gerar plano do modelo</button>
+          <button class="btn" onclick="showScreen('roteiro')">Ir para roteiro</button>
+        </div>
+      </div>
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div><h2>Plano do modelo</h2></div>
+          <div class="actions">
+            <button class="btn" onclick="copy('templateOut')">Copiar plano</button>
+            <button class="btn green" onclick="download('plano-modelo.txt','templateOut')">Baixar TXT</button>
+            <button class="btn cyan" onclick="appendToExport('templateOut','MODELO')">Aplicar no pacote</button>
+          </div>
+        </div>
+        <div class="output" id="templateOut">Aguardando.</div>
+      </div>
+    </div>
+
+    <div id="roteiro" class="screen">
+      <div class="card">
+        <h2>Roteiro visual avançado</h2>
+        <div class="grid two">
+          <div>
+            <label>Objetivo do vídeo</label>
+            <select id="goal">
+              <option>Vender produto</option>
+              <option>Explicar ideia</option>
+              <option>Gerar curiosidade</option>
+              <option>Promover marca</option>
+              <option>Transformar poster/flyer em vídeo</option>
+              <option>Cena narrativa / motion comic</option>
+            </select>
+          </div>
+          <div>
+            <label>Tom</label>
+            <select id="tone">
+              <option>Profissional</option>
+              <option>Impactante</option>
+              <option>Emocional</option>
+              <option>Horror/tensão</option>
+              <option>Divertido</option>
+              <option>Premium</option>
+              <option>Popular direto</option>
+            </select>
+          </div>
+        </div>
+        <label>Texto obrigatório</label>
+        <textarea id="requiredText" placeholder="Frases obrigatórias, eventos que não podem faltar..."></textarea>
+        <div class="actions">
+          <button class="btn gold" onclick="generate('visualScript')">Gerar roteiro visual</button>
+          <button class="btn purple" onclick="generate('shotList')">Gerar shot list</button>
+          <button class="btn" onclick="showScreen('json')">Ir para JSON</button>
+        </div>
+      </div>
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div><h2>Roteiro / shot list</h2></div>
+          <div class="actions">
+            <button class="btn" onclick="copy('scriptOut')">Copiar roteiro</button>
+            <button class="btn green" onclick="download('roteiro.txt','scriptOut')">Baixar TXT</button>
+            <button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO')">Aplicar no pacote</button>
+          </div>
+        </div>
+        <div class="output" id="scriptOut">Aguardando.</div>
+      </div>
+    </div>
+
+    <div id="json" class="screen">
+      <div class="card">
+        <h2>JSON Remotion / animação</h2>
+        <p class="mini">Este JSON não renderiza MP4; ele vira instrução para um futuro template Remotion, Claude Code, CapCut ou agente de vídeo.</p>
+        <label>Precisão do JSON</label>
+        <select id="jsonLevel">
+          <option>Completo com cenas, layers e timing</option>
+          <option>Simples para CapCut</option>
+          <option>Remotion avançado</option>
+          <option>Motion Comic 2D</option>
+        </select>
+        <div class="actions">
+          <button class="btn gold" onclick="generate('remotionJson')">Gerar JSON Remotion</button>
+          <button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button>
+          <button class="btn" onclick="download('json.txt','jsonOut')">Baixar JSON/TXT</button>
+        </div>
+      </div>
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div><h2>JSON / prompt técnico</h2></div>
+          <div class="actions">
+            <button class="btn" onclick="copy('jsonOut')">Copiar JSON/prompt</button>
+            <button class="btn green" onclick="download('json.txt','jsonOut')">Baixar JSON/TXT</button>
+            <button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT')">Aplicar no pacote</button>
+          </div>
+        </div>
+        <div class="output" id="jsonOut">Aguardando JSON.</div>
+      </div>
+    </div>
+
+    <div id="srt" class="screen">
+      <div class="card">
+        <h2>SRT / som / SFX</h2>
+        <label>Tipo de áudio</label>
+        <select id="audioType">
+          <option>Narração + SFX</option>
+          <option>Só texto animado</option>
+          <option>Falas + legenda</option>
+          <option>Trilha + impactos</option>
+          <option>Horror/tensão sonora</option>
+          <option>Comercial rápido</option>
+        </select>
+        <div class="actions">
+          <button class="btn gold" onclick="generate('srt')">Gerar SRT</button>
+          <button class="btn purple" onclick="generate('soundPlan')">Plano de som/SFX</button>
+          <button class="btn" onclick="download('srt.srt','srtOut')">Baixar SRT</button>
+        </div>
+      </div>
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div><h2>Legenda / som</h2></div>
+          <div class="actions">
+            <button class="btn" onclick="copy('srtOut')">Copiar SRT/som</button>
+            <button class="btn green" onclick="download('srt.txt','srtOut')">Baixar TXT/SRT</button>
+            <button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM')">Aplicar no pacote</button>
+          </div>
+        </div>
+        <div class="output" id="srtOut">Aguardando.</div>
+      </div>
+    </div>
+
+    <div id="preview" class="screen">
+      <div class="card">
+        <h2>Preview leve no navegador</h2>
+        <p class="mini">Prévia visual simples para validar ritmo/ideia sem render MP4.</p>
+        <div class="actions">
+          <button class="btn gold" onclick="updatePreview();renderMindJob()">Atualizar preview</button>
+          <button class="btn purple" onclick="generate('previewGuide')">Gerar guia de preview</button>
+          <button class="btn" onclick="copy('previewOut')">Copiar guia</button>
+          <button class="btn green" onclick="download('preview-guide.txt','previewOut')">Baixar TXT</button>
+          <button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW')">Aplicar no pacote</button>
+        </div>
+      </div>
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div><h2>Simulação visual</h2></div>
+          <div class="actions">
+            <button class="btn" onclick="copy('previewOut')">Copiar</button>
+            <button class="btn green" onclick="download('preview.txt','previewOut')">Baixar TXT</button>
+            <button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW')">Aplicar no pacote</button>
+          </div>
+        </div>
+        <div class="output" id="previewOut">Aguardando guia.</div>
+      </div>
+      <div class="preview">
+        <div class="stage">
+          <div class="orb"></div>
+          <div class="orb2"></div>
+          <div class="title">Video Pack</div>
+          <div class="sub">Prévia sem render MP4</div>
+          <div class="cta">PRÉVIA VISUAL</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="exportacao" class="screen">
+      <div class="card">
+        <h2>Exportar pacote limpo</h2>
+        <p class="mini">Monta uma entrega final sem duplicação: briefing, roteiro, JSON/CapCut/Remotion, SRT/Som, preview, assets e checklist.</p>
+        <div class="actions">
+          <button class="btn gold" onclick="buildExport()">Montar pacote limpo</button>
+          <button class="btn" onclick="copy('exportOut')">Copiar pacote</button>
+          <button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar pacote</button>
+          <button class="btn cyan" onclick="shareExport()">Compartilhar</button>
+          <button class="btn red" onclick="clearExport()">Limpar pacote</button>
+        </div>
+      </div>
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div><h2>Pacote final</h2></div>
+          <div class="actions">
+            <button class="btn" onclick="copy('exportOut')">Copiar</button>
+            <button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar TXT</button>
+            <button class="btn cyan" onclick="shareExport()">Compartilhar</button>
+          </div>
+        </div>
+        <div class="output" id="exportOut">Aguardando montagem.</div>
+      </div>
+    </div>
+
+    <div id="api" class="screen">
+      <div class="card">
+        <h2>API / modelos</h2>
+        <div class="provider">
+          <button class="btn">Claude</button>
+          <button class="btn">Gemini</button>
+          <button class="btn">Groq</button>
+          <button class="btn">OpenRouter</button>
+        </div>
+        <label>Endpoint</label>
+        <input placeholder="https://api.openai.com/v1/chat/completions">
+        <label>Modelo</label>
+        <select>
+          <option>claude-sonnet-4-5</option>
+          <option>claude-3-5-sonnet-latest</option>
+          <option>gemini-2.5-pro</option>
+          <option>llama-3.3-70b-versatile</option>
+          <option>openrouter/auto</option>
+        </select>
+        <label>Tokens</label>
+        <input type="number" value="4000">
+        <label>Temperatura</label>
+        <input type="number" step="0.1" value="0.7">
+        <div class="actions">
+          <button class="btn gold">Testar API</button>
+          <button class="btn green">Salvar API</button>
+        </div>
+      </div>
+      <div class="card resultHub">
+        <div class="hubHead">
+          <div><h2>Status</h2></div>
+          <div class="actions">
+            <button class="btn" onclick="copy('apiOut')">Copiar status</button>
+            <button class="btn green" onclick="download('api-status.txt','apiOut')">Baixar TXT</button>
+          </div>
+        </div>
+        <div class="output" id="apiOut">Aguardando teste.</div>
+      </div>
+    </div>
+
+    <div id="mindjob" class="screen">
+      <button class="canvasExitBtn" onclick="toggleCanvasMode()">Sair do canvas</button>
+      <div class="mindShell">
+        <div class="mindHero compactMind">
+          <div class="mindTitleLine">
+            <div class="eggTerminal">
+              <div class="eggFace">🥚</div>
+              <div>
+                <strong>Mister Egg aguardando</strong>
+                <span>Preencha o Briefing Mestre para iniciar o fluxo.</span>
+              </div>
+            </div>
+            <div class="mindControlBar">
+              <button class="btn tiny" onclick="centerMind()">Centralizar</button>
+              <span class="zoomReadout" id="zoomReadout">100%</span>
+              <button class="btn tiny" onclick="toggleFullscreen()">Tela cheia</button>
+              <button class="btn tiny keepCompact" onclick="toggleMindPanel()">Recolher topo</button>
+            </div>
+          </div>
+          <div class="progressToggleRow">
+            <button class="btn tiny" onclick="toggleProgressPanel()">▸ Painel de progresso</button>
+            <div class="mindControlBar">
+              <button class="btn tiny" onclick="activeNodeId='brief';renderMindJob()">Abrir Briefing Mestre</button>
+              <button class="btn tiny gold" onclick="generate('complete')">Gerar pacote mestre</button>
+              <button class="btn tiny purple" onclick="reorganizeCards()">Revisar cards</button>
+              <button class="btn tiny" onclick="buildExport()">Montar pacote limpo</button>
+            </div>
+          </div>
+          <div class="progressPanel" id="progressPanel">
+            <div class="progressFlow" id="progressFlow">
+              <!-- Progress steps will be rendered here by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="hubHead">
+          <div>
+            <h2>Árvore da Criação</h2>
+            <p class="mini">O Briefing Mestre alimenta cada etapa. Arraste os nodes, mova o mapa, use zoom com a roda do mouse e organize a produção como uma árvore viva.</p>
+          </div>
+          <div class="mindControlBar">
+            <button class="btn tiny" onclick="centerMind()">Centralizar</button>
+            <span class="zoomReadout" id="zoomReadout2">100%</span>
+            <button class="btn tiny" onclick="toggleFullscreen()">Tela cheia</button>
+            <button class="btn tiny" onclick="reorganizeNodes()">Reorganizar</button>
+            <button class="btn tiny" onclick="resetLayout()">Reset layout</button>
+          </div>
+        </div>
+
+        <div class="nodeViewport" id="nodeViewport">
+          <div class="mapHint">Roda = zoom • arraste o mapa/nodes • clique no node para abrir estação • Ctrl + / − / 0</div>
+          <div class="nodeMap" id="mindCanvas">
+            <svg class="connectorSvg" id="connectorSvg"></svg>
+            <!-- Nodes and workspace will be rendered here by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="autoria" class="screen">
+      <div class="card">
+        <h2>Registro criativo / autoria</h2>
+        <div class="creatorLine">
+          <strong>Árvore da Criação</strong>
+          <span class="creatorSeal">Sistema vivo de produção criativa em nodes</span>
+        </div>
+        <p>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
+        <h3>Conceito original</h3>
+        <p>Organizar briefing, roteiro, JSON, SRT, som, prompts, cards e exportação em um fluxo visual de pré-produção audiovisual.</p>
+        <h3>Projeto</h3>
+        <p>Fruits Adventures Mega Studio / Video Pack Studio — módulo Árvore da Criação.</p>
+        <div class="actions">
+          <button class="btn" onclick="copy('autoriaText')">Copiar autoria</button>
+          <button class="btn green" onclick="download('autoria.txt','autoriaText')">Baixar TXT</button>
+          <button class="btn" onclick="closeAuthor()">Fechar</button>
+        </div>
+        <div class="output" id="autoriaText">
+AUTORIA DO SISTEMA
+Árvore da Criação — Sistema vivo de produção criativa em nodes
+Idealizado por Elinaldo Menezes de Medeiros
+Criador audiovisual e fundador do Iniciantes do Punk de Caruaru
+Projeto: Fruits Adventures Mega Studio / Video Pack Studio
+Módulo: Árvore da Criação
+Finalidade: criação audiovisual, pré-produção, roteiro técnico e organização de pacotes para vídeo.
+Observação: este crédito identifica a autoria conceitual e criativa do sistema dentro do projeto.
+        </div>
+      </div>
+    </div>
+
+  </main>
 </div>
 
 <script>
-// Variáveis globais (simuladas para o exemplo)
+// Helper function to get elements by ID
+const $ = id => document.getElementById(id);
+
+// Global state variables
 let activeNodeId = 'brief';
-let mindCanvasMode = true; // Inicia no modo canvas para demonstração
-let mindTopCollapsed = false; // Controla o estado do mindHero
-let mindDockCollapsed = true; // Controla o estado do dock (não usado nesta versão simplificada)
-let generatingType = ''; // Simula o tipo de geração ativa
-let appliedSections = {}; // Simula seções aplicadas
-let currentZoom = 1.0;
-let currentPan = { x: 0, y: 0 };
+let mindCanvasMode = false;
+let mindTopCollapsed = false;
+let mindDockCollapsed = false;
+let appliedSections = {};
+let mindTransform = { x: 0, y: 0, scale: 1 };
 let isDraggingMap = false;
-let startDragMap = { x: 0, y: 0 };
-let startPan = { x: 0, y: 0 };
+let dragStartX, dragStartY;
+let activeWorkspaceNodeId = null;
 let nodePositions = {
-    brief: { x: 50, y: 50 },
-    modelo: { x: 350, y: 50 },
-    roteiro: { x: 650, y: 50 },
-    json: { x: 950, y: 50 },
-    srt: { x: 650, y: 300 },
-    preview: { x: 350, y: 300 },
-    pacote: { x: 950, y: 300 },
-    ramo: { x: 50, y: 300 }
+  brief: { x: 100, y: 100 },
+  modelo: { x: 400, y: 100 },
+  roteiro: { x: 700, y: 100 },
+  json: { x: 400, y: 300 },
+  srt: { x: 700, y: 300 },
+  preview: { x: 1000, y: 100 },
+  pacote: { x: 1000, y: 300 },
+  ramo: { x: 100, y: 300 }
 };
 
-// Funções utilitárias (simuladas ou simplificadas)
-function $(id) { return document.getElementById(id); }
-function val(id) { return localStorage.getItem(id) || ''; }
-function setVal(id, value) { localStorage.setItem(id, value); }
-function getRealText(id) { return localStorage.getItem(id + 'Out') || ''; }
-function choice(key, fallback) { return localStorage.getItem(key) || fallback; }
-function masterChoice(key, fallback) { return localStorage.getItem(key) || fallback; }
-function appendToExport(sourceId, title, clear = false) {
-    const content = getRealText(sourceId);
-    if (content) {
-        let exportContent = getRealText('exportOut');
-        if (clear) exportContent = ''; // Se for para limpar antes de aplicar
-        exportContent += `\n\n--- ${title} ---\n${content}`;
-        setVal('exportOut', exportContent);
-        appliedSections[title] = content; // Marca como aplicado
-        renderMindJob();
-        alert(`"${title}" aplicado ao pacote final!`);
-    } else {
-        alert(`Não há conteúdo para aplicar de "${title}". Gere-o primeiro.`);
-    }
-}
-function download(filename, elementId) {
-    const text = getRealText(elementId);
-    if (!text) { alert('Não há conteúdo para baixar.'); return; }
-    const blob = new Blob([text], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(a.href);
-}
-function copy(elementId) {
-    const text = getRealText(elementId);
-    if (!text) { alert('Não há conteúdo para copiar.'); return; }
-    navigator.clipboard.writeText(text).then(() => {
-        alert('Conteúdo copiado para a área de transferência!');
-    }).catch(err => {
-        console.error('Erro ao copiar: ', err);
-        alert('Falha ao copiar o conteúdo.');
-    });
-}
-function generate(type) {
-    generatingType = type;
-    renderMindJob(); // Atualiza o status visual
-    setTimeout(() => {
-        let result = `Conteúdo gerado para ${type}.`;
-        if (type === 'complete') {
-            result = `Pacote Mestre Gerado:\n\nProjeto: ${val('projectName')}\nBriefing: ${val('brief')}\nModelo: ${choice('briefTemplate','template')}\nFormato: ${choice('briefFormat','format')}\n...`;
-            setVal('out', result);
-        } else if (type === 'templatePlan') {
-            result = `Plano de Modelo:\n\nTemplate: ${choice('briefTemplate','template')}\nFormato: ${choice('briefFormat','format')}\n...`;
-            setVal('templateOut', result);
-        } else if (type === 'visualScript') {
-            result = `Roteiro Visual:\n\nCena 1: [Descrição da cena]\nCena 2: [Descrição da cena]\n...`;
-            setVal('scriptOut', result);
-        } else if (type === 'remotionJson') {
-            result = `JSON Remotion:\n\n{\n  "scenes": [\n    { "id": "intro", "duration": 5, "layers": [] }\n  ]\n}`;
-            setVal('jsonOut', result);
-        } else if (type === 'srt') {
-            result = `SRT Gerado:\n\n1\n00:00:00,000 --> 00:00:05,000\nPrimeira linha de legenda.`;
-            setVal('srtOut', result);
-        } else if (type === 'previewGuide') {
-            result = `Guia de Preview:\n\nVerifique o ritmo e a transição das cenas.`;
-            setVal('previewOut', result);
-        } else if (type === 'capcutPrompt') {
-            result = `Prompt para CapCut:\n\nCrie um vídeo com o seguinte roteiro...`;
-            setVal('jsonOut', result); // CapCut prompt também vai para jsonOut
-        } else if (type === 'shotList') {
-            result = `Shot List:\n\n1. Plano Aberto: [Descrição]\n2. Close-up: [Descrição]\n...`;
-            setVal('scriptOut', result); // Shot list também vai para scriptOut
-        } else if (type === 'soundPlan') {
-            result = `Plano de Som:\n\nTrilha: [Nome da trilha]\nSFX: [Efeitos sonoros]\n...`;
-            setVal('srtOut', result); // Plano de som também vai para srtOut
-        }
-        generatingType = ''; // Limpa o status de geração
-        renderMindJob();
-        alert(`Geração de "${type}" concluída!`);
-    }, 1500); // Simula um tempo de processamento
-}
-function clearBriefing() {
-    if (confirm('Tem certeza que deseja limpar todo o briefing e outputs?')) {
-        localStorage.clear();
-        appliedSections = {};
-        renderMindJob();
-        alert('Briefing e outputs limpos!');
-    }
-}
-function buildExport(clean = false) {
-    let finalExport = '';
-    if (clean) {
-        finalExport = `--- PACOTE FINAL LIMPO ---\n\n`;
-        Object.keys(appliedSections).forEach(title => {
-            finalExport += `--- ${title} ---\n${appliedSections[title]}\n\n`;
-        });
-    } else {
-        finalExport = `--- PACOTE FINAL ---\n\n`;
-        finalExport += `Projeto: ${val('projectName')}\n`;
-        finalExport += `Briefing: ${val('brief')}\n`;
-        finalExport += `Material: ${val('assets')}\n`;
-        finalExport += `Regras: ${val('requiredTextMaster')}\n`;
-        finalExport += `Modelo: ${choice('briefTemplate','template')}\n`;
-        finalExport += `Formato: ${choice('briefFormat','format')}\n`;
-        finalExport += `Duração: ${choice('briefDuration','duration')}\n`;
-        finalExport += `Movimento: ${choice('briefMotionStyle','motionStyle')}\n`;
-        finalExport += `Objetivo: ${masterChoice('goalMaster','goal')}\n`;
-        finalExport += `Tom: ${masterChoice('toneMaster','tone')}\n`;
-        finalExport += `JSON Level: ${masterChoice('jsonLevelMaster','jsonLevel')}\n`;
-        finalExport += `Áudio: ${masterChoice('audioTypeMaster','audioType')}\n\n`;
-
-        Object.keys(appliedSections).forEach(title => {
-            finalExport += `--- ${title} ---\n${appliedSections[title]}\n\n`;
-        });
-    }
-    setVal('exportOut', finalExport);
-    renderMindJob();
-    alert('Pacote final montado!');
-}
-function shareExport() {
-    const text = getRealText('exportOut');
-    if (!text) { alert('Não há pacote para compartilhar.'); return; }
-    if (navigator.share) {
-        navigator.share({
-            title: 'Video Pack Studio - Pacote Final',
-            text: text,
-            url: window.location.href
-        }).catch(error => console.log('Erro ao compartilhar', error));
-    } else {
-        copy('exportOut');
-        alert('Seu navegador não suporta a API de compartilhamento. O pacote foi copiado para a área de transferência.');
-    }
-}
-function reorganizeCards() { alert('Funcionalidade de reorganizar cards (Central de Banners) não implementada neste exemplo.'); }
-function applyAllHubCards(force = false) { alert('Funcionalidade de aplicar todos os cards não implementada neste exemplo.'); }
-function showPendingCards() { alert('Funcionalidade de mostrar cards pendentes não implementada neste exemplo.'); }
-function goNextPendingCard() { alert('Funcionalidade de ir para o próximo card pendente não implementada neste exemplo.'); }
-function updatePreview() { alert('Funcionalidade de atualização de preview não implementada neste exemplo.'); }
-function loadApi() { console.log('API carregada.'); }
-function showScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-    $(screenId).classList.add('active');
-    if (screenId === 'mindjob') {
-        mindCanvasMode = true;
-        updateMindPanelState();
-        setTimeout(centerMind, 80);
-    } else {
-        mindCanvasMode = false;
-        updateMindPanelState();
-    }
+// Mock API call for demonstration. In a real app, this would fetch data.
+async function callApi(prompt, type) {
+  console.log(`API Call: ${type} with prompt:`, prompt);
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  return `Conteúdo gerado para ${type} com base no briefing: "${prompt}".`;
 }
 
-// Funções de sincronização (adaptadas para V1.8)
-function syncMasterToTabs() {
-    // Sincroniza os valores do master para os campos das abas (se existissem)
-    // Para este exemplo, apenas garante que os valores internos estão atualizados
-    // e que os selects do brief node refletem o estado.
-    const selects = ['treeSource', 'treeTemplate', 'treeFormat', 'treeDuration', 'treeMotion', 'treeGoal', 'treeTone', 'treeJsonLevel', 'treeAudio'];
-    selects.forEach(id => {
-        const targetId = id.replace('tree', '').toLowerCase().replace('template', 'briefTemplate').replace('format', 'briefFormat').replace('duration', 'briefDuration').replace('motion', 'briefMotionStyle').replace('goal', 'goalMaster').replace('tone', 'toneMaster').replace('jsonlevel', 'jsonLevelMaster').replace('audio', 'audioTypeMaster');
-        if ($(id) && val(targetId)) {
-            $(id).value = val(targetId);
-        }
-    });
-}
-function syncBriefModelToModel() {
-    // Esta função pode ser usada para preencher os campos do brief com valores padrão
-    // ou de um modelo pré-definido.
-    if (!val('briefTemplate')) setVal('briefTemplate', 'Motion Comic 2D');
-    if (!val('briefFormat')) setVal('briefFormat', '9:16 vertical');
-    if (!val('briefDuration')) setVal('briefDuration', '30 segundos');
-    if (!val('briefMotionStyle')) setVal('briefMotionStyle', 'Camera seca e tensão');
-    if (!val('goalMaster')) setVal('goalMaster', 'Cena narrativa / motion comic');
-    if (!val('toneMaster')) setVal('toneMaster', 'Horror/tensão');
-    if (!val('jsonLevelMaster')) setVal('jsonLevelMaster', 'Motion Comic 2D');
-    if (!val('audioTypeMaster')) setVal('audioTypeMaster', 'Narração + SFX');
+// Utility functions
+function val(id) {
+  const el = $(id);
+  if (!el) return '';
+  if (el.tagName === 'SELECT') return el.value;
+  if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return el.value;
+  return el.textContent;
 }
 
-// Funções do Canvas
-function getNodePos(id) { return nodePositions[id]; }
-function setNodePos(id, x, y) { nodePositions[id] = { x, y }; }
-
-function toggleCanvasMode() {
-    mindCanvasMode = !mindCanvasMode;
-    updateMindPanelState();
-    if (mindCanvasMode) {
-        document.body.classList.add('mind-canvas-mode');
-        setTimeout(centerMind, 80);
-    } else {
-        document.body.classList.remove('mind-canvas-mode');
-    }
+function escAttr(text) {
+  return (text || '').replace(/"/g, '&quot;');
 }
 
-function toggleFullscreen() {
-    const viewport = $('nodeViewport');
-    if (!document.fullscreenElement) {
-        viewport.requestFullscreen().catch(err => {
-            alert(`Erro ao ativar tela cheia: ${err.message}`);
-        });
-    } else {
-        document.exitFullscreen();
-    }
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(text));
+  return div.innerHTML;
 }
 
-function toggleProgressPanel() {
-    const panel = $('progressPanel');
-    panel.classList.toggle('open');
-    const button = panel.previousElementSibling.querySelector('.btn');
-    button.textContent = panel.classList.contains('open') ? 'Esconder Progresso' : 'Mostrar Progresso';
+function shortText(text, maxLength = 100) {
+  if (!text) return '';
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
 }
 
-function updateMindPanelState() {
-    document.body.classList.toggle('mind-canvas-mode', mindCanvasMode);
-    // Oculta/mostra a topbar
-    const topbar = document.querySelector('.topbar');
-    if (mindCanvasMode) {
-        topbar.style.transform = 'translateY(-100%)';
-    } else {
-        topbar.style.transform = 'translateY(0)';
-    }
-    // Ajusta a altura do viewport no modo canvas
-    const nodeViewport = $('nodeViewport');
-    if (mindCanvasMode) {
-        nodeViewport.style.height = `calc(100vh - ${$('mindHero').offsetHeight}px)`;
-    } else {
-        nodeViewport.style.height = `620px`; // Ou o valor padrão
-    }
-    // Garante que o body não tenha overflow no modo canvas
-    document.body.style.overflow = mindCanvasMode ? 'hidden' : 'auto';
+function isPlaceholderText(text) {
+  return text.includes('Aguardando') || text.includes('Nenhum card') || text.includes('Preencha o briefing');
 }
 
-function setMindTransform() {
-    const map = $('mindCanvas');
-    if (map) {
-        map.style.transform = `translate(${currentPan.x}px, ${currentPan.y}px) scale(${currentZoom})`;
-        $('zoomReadout').textContent = `${Math.round(currentZoom * 100)}%`;
-    }
+function sectionKey(title) {
+  return (title || '').toUpperCase().replace(/[^A-Z0-9]/g, '_');
 }
 
-function centerMind() {
-    const viewport = $('nodeViewport');
-    const map = $('mindCanvas');
-    if (!viewport || !map) return;
-
-    const viewportRect = viewport.getBoundingClientRect();
-    const mapRect = map.getBoundingClientRect();
-
-    // Calcula o centro do mapa (considerando o zoom atual)
-    let mapCenterX = (mapRect.width / currentZoom) / 2;
-    let mapCenterY = (mapRect.height / currentZoom) / 2;
-
-    // Calcula o deslocamento necessário para centralizar
-    currentPan.x = (viewportRect.width / 2) - mapCenterX * currentZoom;
-    currentPan.y = (viewportRect.height / 2) - mapCenterY * currentZoom;
-
-    // Ajusta para que o ponto (0,0) do mapa esteja no centro do viewport
-    // Isso é uma simplificação, o ideal seria centralizar os nodes existentes.
-    // Para centralizar os nodes, precisaríamos calcular o bounding box de todos os nodes.
-    // Por enquanto, vamos centralizar o ponto de origem do mapa.
-    currentPan.x = (viewportRect.width / 2) - (mapRect.width / 2);
-    currentPan.y = (viewportRect.height / 2) - (mapRect.height / 2);
-
-    // Uma abordagem mais robusta seria encontrar o centro geométrico de todos os nodes
-    // e centralizar esse ponto no viewport.
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    const nodes = document.querySelectorAll('.node');
-    if (nodes.length > 0) {
-        nodes.forEach(node => {
-            const rect = node.getBoundingClientRect();
-            minX = Math.min(minX, nodePositions[node.dataset.nodeId].x);
-            minY = Math.min(minY, nodePositions[node.dataset.nodeId].y);
-            maxX = Math.max(maxX, nodePositions[node.dataset.nodeId].x + node.offsetWidth);
-            maxY = Math.max(maxY, nodePositions[node.dataset.nodeId].y + node.offsetHeight);
-        });
-        const contentWidth = maxX - minX;
-        const contentHeight = maxY - minY;
-        const contentCenterX = minX + contentWidth / 2;
-        const contentCenterY = minY + contentHeight / 2;
-
-        currentPan.x = (viewportRect.width / 2) - (contentCenterX * currentZoom);
-        currentPan.y = (viewportRect.height / 2) - (contentCenterY * currentZoom);
-    } else {
-        // Se não há nodes, centraliza o ponto (0,0) do mapa
-        currentPan.x = viewportRect.width / 2;
-        currentPan.y = viewportRect.height / 2;
-    }
-
-
-    setMindTransform();
-    updateConnectors();
+function choice(id, fallbackId) {
+  return val(id) || val(fallbackId);
 }
 
-function resetZoom() {
-    currentZoom = 1.0;
-    centerMind(); // Centraliza após resetar o zoom
+function masterChoice(id, fallbackId) {
+  return val(id) || val(fallbackId);
 }
 
-function initMindInteractions() {
-    const viewport = $('nodeViewport');
-    const map = $('mindCanvas');
-    if (!viewport || !map) return;
-
-    // Dragging do mapa
-    viewport.onmousedown = (e) => {
-        if (e.button === 0 && !e.target.closest('.node')) { // Apenas se não clicar em um node
-            isDraggingMap = true;
-            viewport.classList.add('dragging');
-            startDragMap = { x: e.clientX, y: e.clientY };
-            startPan = { x: currentPan.x, y: currentPan.y };
-            e.preventDefault();
-        }
-    };
-    viewport.onmousemove = (e) => {
-        if (isDraggingMap) {
-            const dx = e.clientX - startDragMap.x;
-            const dy = e.clientY - startDragMap.y;
-            currentPan.x = startPan.x + dx;
-            currentPan.y = startPan.y + dy;
-            setMindTransform();
-            updateConnectors();
-        }
-    };
-    viewport.onmouseup = () => {
-        isDraggingMap = false;
-        viewport.classList.remove('dragging');
-    };
-    viewport.onmouseleave = () => {
-        isDraggingMap = false;
-        viewport.classList.remove('dragging');
-    };
-
-    // Zoom com roda do mouse
-    viewport.onwheel = (e) => {
-        e.preventDefault();
-        const scaleAmount = 0.1;
-        const mouseX = e.clientX - viewport.getBoundingClientRect().left;
-        const mouseY = e.clientY - viewport.getBoundingClientRect().top;
-
-        const worldX = (mouseX - currentPan.x) / currentZoom;
-        const worldY = (mouseY - currentPan.y) / currentZoom;
-
-        if (e.deltaY < 0) { // Zoom in
-            currentZoom += scaleAmount;
-        } else { // Zoom out
-            currentZoom -= scaleAmount;
-        }
-        currentZoom = Math.max(0.2, Math.min(2.0, currentZoom)); // Limita o zoom
-
-        currentPan.x = mouseX - worldX * currentZoom;
-        currentPan.y = mouseY - worldY * currentZoom;
-
-        setMindTransform();
-        updateConnectors();
-    };
-
-    // Dragging de nodes
-    document.querySelectorAll('.node').forEach(node => {
-        let isDraggingNode = false;
-        let offset = { x: 0, y: 0 };
-
-        node.onmousedown = (e) => {
-            if (e.button === 0) {
-                isDraggingNode = true;
-                node.classList.add('nodeDragging');
-                const nodeRect = node.getBoundingClientRect();
-                offset = {
-                    x: e.clientX - nodeRect.left,
-                    y: e.clientY - nodeRect.top
-                };
-                e.stopPropagation(); // Impede o dragging do mapa
-            }
-        };
-
-        viewport.onmousemove = (e) => {
-            if (isDraggingNode) {
-                const viewportRect = viewport.getBoundingClientRect();
-                let newX = (e.clientX - viewportRect.left - offset.x - currentPan.x) / currentZoom;
-                let newY = (e.clientY - viewportRect.top - offset.y - currentPan.y) / currentZoom;
-
-                // Limita o movimento dentro do viewport (opcional, pode ser removido)
-                newX = Math.max(0, newX);
-                newY = Math.max(0, newY);
-                newX = Math.min((viewportRect.width / currentZoom) - node.offsetWidth, newX);
-                newY = Math.min((viewportRect.height / currentZoom) - node.offsetHeight, newY);
-
-
-                node.style.left = `${newX}px`;
-                node.style.top = `${newY}px`;
-                setNodePos(node.dataset.nodeId, newX, newY);
-                updateConnectors();
-            }
-        };
-
-        node.onmouseup = () => {
-            isDraggingNode = false;
-            node.classList.remove('nodeDragging');
-        };
-        node.onmouseleave = () => {
-            if (isDraggingNode) { // Se o mouse sair enquanto arrasta, solta o node
-                isDraggingNode = false;
-                node.classList.remove('nodeDragging');
-            }
-        };
-    });
+function cleanGeneratedBlock(text) {
+  return (text || '').trim();
 }
 
-function drawPath(a, b, kind = '') {
-    const A = nodeCenter(a), B = nodeCenter(b);
-    if (!A || !B) return '';
-
-    // Ajusta as coordenadas para o zoom e pan atuais
-    const A_transformed = {
-        x: A.x * currentZoom + currentPan.x,
-        y: A.y * currentZoom + currentPan.y
-    };
-    const B_transformed = {
-        x: B.x * currentZoom + currentPan.x,
-        y: B.y * currentZoom + currentPan.y
-    };
-
-    const dx = Math.max(80 * currentZoom, Math.abs(B_transformed.x - A_transformed.x) * 0.45);
-    const c1x = A_transformed.x + dx;
-    const c1y = A_transformed.y;
-    const c2x = B_transformed.x - dx;
-    c2y = B_transformed.y; // Corrigido para usar B_transformed.y
-
-    const d = `M ${A_transformed.x} ${A_transformed.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${B_transformed.x} ${B_transformed.y}`;
-    return `<path class="liveLine ${kind}" d="${d}" />`;
-}
-
-function nodeCenter(nodeId) {
-    const nodeElement = $(`node-${nodeId}`);
-    if (!nodeElement) return null;
-    const rect = nodeElement.getBoundingClientRect();
-    const nodePos = nodePositions[nodeId]; // Posição original no mapa (sem zoom/pan)
-    return {
-        x: nodePos.x + rect.width / (2 * currentZoom), // Centro do node em coordenadas do mapa
-        y: nodePos.y + rect.height / (2 * currentZoom)
-    };
-}
-
-function updateConnectors() {
-    const g = $('connectorPaths');
-    const svg = $('connectorSvg');
-    if (!g || !svg) return;
-
-    // O SVG agora cobre 100% do viewport, então não precisamos ajustar viewBox dinamicamente
-    // A transformação dos paths é feita no drawPath com base no zoom/pan do mapa.
-
-    g.innerHTML = [
-        drawPath('brief', 'modelo', 'main'),
-        drawPath('modelo', 'roteiro', 'main'),
-        drawPath('roteiro', 'json', 'main'),
-        drawPath('json', 'srt', 'main'),
-        drawPath('srt', 'pacote', 'main'),
-        drawPath('brief', 'ramo'),
-        drawPath('ramo', 'preview'),
-        drawPath('preview', 'pacote'),
-        drawPath('modelo', 'preview'),
-        drawPath('roteiro', 'srt'),
-        drawPath('roteiro', 'pacote')
-    ].join('');
-}
-
-function nodeStatusFromText(id) {
-    const t = getRealText(id);
-    if (!t) return 'empty';
-    if (/
-^
-Erro/i.test(t)) return 'error';
-    return Object.values(appliedSections).some(v => String(v).trim() === String(t).trim()) ? 'done' : 'ready';
-}
-function exportStatus() {
-    const t = getRealText('exportOut');
-    if (t) return 'exported';
-    return Object.keys(appliedSections).length ? 'review' : 'empty';
-}
-function statusLabel(status) {
-    return {
-        empty: 'vazio', editing: 'em edição', generating: 'gerando', ready: 'pronto',
-        filled: 'pronto', review: 'revisar', done: 'aplicado', error: 'erro',
-        exported: 'exportado', locked: 'bloqueado'
-    }[status] || status;
-}
 function statusIcon(status) {
-    return {
-        empty: '○', editing: '✎', generating: '⟳', ready: '🌱',
-        filled: '🌱', review: '◆', done: '✓', error: '!',
-        exported: '🚀', locked: '🔒'
-    }[status] || '○';
+  switch (status) {
+    case 'empty': return '⚪';
+    case 'editing': return '✍️';
+    case 'generating': return '⚙️';
+    case 'ready': return '✨';
+    case 'filled': return '✅';
+    case 'done': return '🟢';
+    case 'exported': return '📦';
+    case 'review': return '👀';
+    case 'locked': return '🔒';
+    case 'error': return '❌';
+    default: return '⚪';
+  }
 }
-function statusFigure(status) { return `<span class="nodeStateFigure" title="${statusLabel(status)}">${statusIcon(status)}</span>`; }
-function shortText(text, n = 120) { const s = String(text || '').replace(/\s+/g, ' ').trim(); return s ? (s.length > n ? s.slice(0, n) + '...' : s) : ''; }
-function isGeneratingNode(id) {
-    const map = { complete: 'brief', templatePlan: 'modelo', visualScript: 'roteiro', shotList: 'roteiro', remotionJson: 'json', capcutPrompt: 'json', srt: 'srt', soundPlan: 'srt', previewGuide: 'preview' };
-    return map[generatingType] === id;
+
+function nodeStatusFromText(outputId) {
+  const text = getRealText(outputId);
+  if (!text) return 'empty';
+  if (isPlaceholderText(text)) return 'empty';
+  return 'filled';
 }
-function nodeVisualStatus(id, base, briefReady) {
-    if (isGeneratingNode(id)) return 'generating';
-    if (id !== 'brief' && !briefReady && ['roteiro', 'json', 'srt', 'preview', 'pacote', 'ramo'].includes(id)) return 'locked';
-    if (id === 'brief' && briefReady && !getRealText('out')) return 'editing';
-    return base;
+
+function getRealText(id) {
+  const el = $(id);
+  if (!el) return '';
+  const text = el.textContent || el.value;
+  return isPlaceholderText(text) ? '' : text;
 }
-function eggByStatus() {
-    const hasError = ['out', 'templateOut', 'scriptOut', 'jsonOut', 'srtOut', 'previewOut', 'exportOut'].some(id => /
-^
-Erro/i.test(getRealText(id)));
-    const exported = !!getRealText('exportOut');
-    const applied = Object.keys(appliedSections).length;
-    const briefReady = !!val('brief');
-    let mood = ['🥚', 'Mister Egg aguardando', 'Preencha o Briefing Mestre para liberar as ramificações.'];
-    if (briefReady) mood = ['🔎', 'Mister Egg revisando', 'Briefing vivo detectado. Gere o pacote mestre ou abra a estação do próximo node.'];
-    if (generatingType) mood = ['⚙️', 'Mister Egg gerando', 'Aguarde: a Árvore está criando a próxima parte do pacote.'];
-    if (applied) mood = ['😊', 'Mister Egg feliz', 'Conteúdo aplicado ao pacote. Agora monte o pacote limpo.'];
-    if (exported) mood = ['🎬', 'Mister Egg com claquete', 'Pacote final montado: pronto para baixar, compartilhar ou usar em outra ferramenta.'];
-    if (hasError) mood = ['⚠️', 'Mister Egg alerta', 'Existe erro em uma saída. Corrija antes de exportar.'];
-    if ($('eggMood')) { $('eggMood').textContent = mood[0]; $('eggTitle').textContent = mood[1]; $('eggText').textContent = mood[2]; }
-    if ($('dockEggText')) $('dockEggText').textContent = mood[2];
-}
-function nodeCard(n) {
-    const active = n.id === activeNodeId ? ' activeNode' : '';
-    const pulse = n.status === 'generating' ? ' nodePulse' : '';
-    return `<div class="node ${n.status}${active}${pulse}" data-node-id="${n.id}" style="left:${n.x}px;top:${n.y}px" id="node-${n.id}" onclick="activeNodeId='${n.id}';renderMindJob()" ondblclick="focusNode('${n.id}')">
-        <div class="nodeHeader">
-            <div class="nodeTitleWrap"><span class="nodeIconBadge">${n.icon || ''}</span><h3>${n.title}</h3></div>
-            <div class="nodeControls"><button class="nodeToggle" onclick="toggleNodeCollapse('${n.id}');event.stopPropagation()">▾</button><span class="nodeStatus">${statusFigure(n.status)}${statusLabel(n.status)}</span></div>
-        </div>
-        <div class="nodeSummary">${n.summary}</div>
-        <div class="nodeActions">${n.actions.map(a => `<button class="btn ${a.cls || ''}" onclick="${a.fn};event.stopPropagation()">${a.label}</button>`).join('')}</div>
-        <span class="nodeMiniHandle">↕</span>
-    </div>`;
-}
-function escAttr(v) { return String(v || '').replace(/&/g, '&').replace(/"/g, '&quot;').replace(/</g, '<'); }
-function v17Set(src, target) {
-    if ($(src) && $(target)) {
-        $(target).value = $(src).value;
-        setVal(target, $(src).value); // Salva no localStorage
-        syncMasterToTabs();
-        renderMindJob();
-    }
-}
-function v17Options(current, options) {
-    const seen = new Set();
-    const all = options.concat(String(current).split(',').map(v => v.trim())).filter(v => {
-        const k = String(v);
-        if (seen.has(k)) return false;
-        seen.add(k);
-        return true;
-    });
-    return all.map(v => `<option ${String(v) === String(current) ? 'selected' : ''}>${escAttr(v)}</option>`).join('');
-}
-function nextNode() {
-    const nodesOrder = ['brief', 'modelo', 'roteiro', 'json', 'srt', 'preview', 'pacote', 'ramo'];
-    const currentIndex = nodesOrder.indexOf(activeNodeId);
-    if (currentIndex < nodesOrder.length - 1) {
-        activeNodeId = nodesOrder[currentIndex + 1];
+
+function clearOutput(id) {
+  const el = $(id);
+  if (el) {
+    if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
+      el.value = '';
     } else {
-        activeNodeId = 'brief'; // Volta para o início se for o último
+      el.textContent = '';
     }
-    renderMindJob();
+    // Reset placeholder for specific outputs
+    if (id === 'out') el.textContent = 'Aguardando geração do pacote mestre.';
+    if (id === 'templateOut') el.textContent = 'Aguardando.';
+    if (id === 'scriptOut') el.textContent = 'Aguardando.';
+    if (id === 'jsonOut') el.textContent = 'Aguardando JSON.';
+    if (id === 'srtOut') el.textContent = 'Aguardando.';
+    if (id === 'previewOut') el.textContent = 'Aguardando guia.';
+    if (id === 'exportOut') el.textContent = 'Aguardando montagem.';
+    if (id === 'apiOut') el.textContent = 'Aguardando teste.';
+  }
+  renderMindJob();
 }
-function focusNode(nodeId) {
-    // Esta função pode ser usada para centralizar e talvez dar um zoom no node clicado
-    const nodeElement = $(`node-${nodeId}`);
-    if (!nodeElement) return;
 
-    const viewport = $('nodeViewport');
-    const viewportRect = viewport.getBoundingClientRect();
+function clearBriefing() {
+  ['source', 'projectName', 'brief', 'assets', 'requiredTextMaster', 'briefTemplate', 'briefFormat', 'briefDuration', 'briefMotionStyle', 'goalMaster', 'toneMaster', 'jsonLevelMaster', 'audioTypeMaster'].forEach(id => {
+    const el = $(id);
+    if (el) {
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    }
+  });
+  clearOutput('out');
+  appliedSections = {}; // Clear applied sections
+  renderHub('', ''); // Clear hub cards
+  renderMindJob();
+}
 
-    const nodeRect = nodeElement.getBoundingClientRect();
-    const nodeX = nodePositions[nodeId].x;
-    const nodeY = nodePositions[nodeId].y;
+function newCleanProject() {
+  clearBriefing();
+  clearOutput('templateOut');
+  clearOutput('scriptOut');
+  clearOutput('jsonOut');
+  clearOutput('srtOut');
+  clearOutput('previewOut');
+  clearOutput('exportOut');
+  appliedSections = {};
+  renderHub('', '');
+  renderMindJob();
+  showScreen('briefing');
+}
 
-    // Calcula o novo pan para centralizar o node
-    currentPan.x = (viewportRect.width / 2) - (nodeX + nodeRect.width / (2 * currentZoom)) * currentZoom;
-    currentPan.y = (viewportRect.height / 2) - (nodeY + nodeRect.height / (2 * currentZoom)) * currentZoom;
+function clearExport() {
+  appliedSections = {};
+  clearOutput('exportOut');
+  renderHub('', ''); // Re-render hub to show cards as pending
+  renderMindJob();
+}
 
-    setMindTransform();
-    updateConnectors();
+// Screen management
+let currentScreen = 'briefing';
+function showScreen(id) {
+  console.log('Showing screen:', id);
+  currentScreen = id;
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $(id)?.classList.add("active");
+  document.querySelectorAll(".step").forEach(s => s.classList.toggle("active", s.dataset.step === id));
+
+  if (id === "mindjob") {
+    document.body.classList.add("mind-canvas-mode");
+    updateMindPanelState();
+    renderMindJob();
+    setTimeout(centerMind, 100); // Center mind map when entering mindjob screen
+  } else {
+    document.body.classList.remove("mind-canvas-mode");
+    document.body.classList.remove("canvas-dock-collapsed");
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Author modal
+function openAuthor() {
+  const modal = document.createElement('div');
+  modal.className = 'modalBackdrop';
+  modal.id = 'authorModalBackdrop';
+  modal.innerHTML = `
+    <div class="authorModal">
+      <h2>Registro criativo / autoria</h2>
+      <div class="creatorLine">
+        <strong>Árvore da Criação</strong>
+        <span class="creatorSeal">Sistema vivo de produção criativa em nodes</span>
+      </div>
+      <p>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
+      <h3>Conceito original</h3>
+      <p>Organizar briefing, roteiro, JSON, SRT, som, prompts, cards e exportação em um fluxo visual de pré-produção audiovisual.</p>
+      <h3>Projeto</h3>
+      <p>Fruits Adventures Mega Studio / Video Pack Studio — módulo Árvore da Criação.</p>
+      <div class="creditText" id="autoriaTextModal">
+AUTORIA DO SISTEMA
+Árvore da Criação — Sistema vivo de produção criativa em nodes
+Idealizado por Elinaldo Menezes de Medeiros
+Criador audiovisual e fundador do Iniciantes do Punk de Caruaru
+Projeto: Fruits Adventures Mega Studio / Video Pack Studio
+Módulo: Árvore da Criação
+Finalidade: criação audiovisual, pré-produção, roteiro técnico e organização de pacotes para vídeo.
+Observação: este crédito identifica a autoria conceitual e criativa do sistema dentro do projeto.
+      </div>
+      <div class="modalActions">
+        <button class="btn" onclick="copy('autoriaTextModal')">Copiar autoria</button>
+        <button class="btn green" onclick="download('autoria.txt','autoriaTextModal')">Baixar TXT</button>
+        <button class="btn" onclick="closeAuthor()">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  setTimeout(() => modal.classList.add('open'), 10); // Add open class after a slight delay for CSS transition
+}
+
+function closeAuthor() {
+  const modal = $('authorModalBackdrop');
+  if (modal) {
+    modal.classList.remove('open');
+    setTimeout(() => modal.remove(), 300); // Remove after transition
+  }
+}
+
+// Mock generate function (replace with actual API calls)
+async function generate(type) {
+  let prompt = '';
+  let outputId = '';
+  let result = '';
+
+  switch (type) {
+    case 'complete':
+      prompt = `Projeto: ${val('projectName')}\nBriefing: ${val('brief')}\nAssets: ${val('assets')}\nRegras: ${val('requiredTextMaster')}\nModelo: ${val('briefTemplate')}\nFormato: ${val('briefFormat')}\nDuração: ${val('briefDuration')}\nEstilo: ${val('briefMotionStyle')}\nObjetivo: ${val('goalMaster')}\nTom: ${val('toneMaster')}\nJSON Nível: ${val('jsonLevelMaster')}\nÁudio Tipo: ${val('audioTypeMaster')}`;
+      outputId = 'out';
+      result = await callApi(prompt, 'Pacote Mestre');
+      break;
+    case 'templatePlan':
+      prompt = `Modelo: ${val('template')}\nFormato: ${val('format')}\nDuração: ${val('duration')}\nEstilo: ${val('motionStyle')}`;
+      outputId = 'templateOut';
+      result = await callApi(prompt, 'Plano de Modelo');
+      break;
+    case 'visualScript':
+      prompt = `Briefing: ${val('brief')}\nObjetivo: ${val('goal')}\nTom: ${val('tone')}\nTexto obrigatório: ${val('requiredText')}`;
+      outputId = 'scriptOut';
+      result = await callApi(prompt, 'Roteiro Visual');
+      break;
+    case 'shotList':
+      prompt = `Roteiro: ${getRealText('scriptOut')}`;
+      outputId = 'scriptOut'; // Append to scriptOut or create new output
+      result = await callApi(prompt, 'Shot List');
+      result = getRealText('scriptOut') + '\n\n--- SHOT LIST ---\n' + result;
+      break;
+    case 'remotionJson':
+      prompt = `Roteiro: ${getRealText('scriptOut')}\nNível JSON: ${val('jsonLevel')}\nFormato: ${val('format')}\nDuração: ${val('duration')}\nEstilo: ${val('motionStyle')}`;
+      outputId = 'jsonOut';
+      result = await callApi(prompt, 'JSON Remotion');
+      break;
+    case 'capcutPrompt':
+      prompt = `Roteiro: ${getRealText('scriptOut')}\nNível JSON: ${val('jsonLevel')}\nFormato: ${val('format')}\nDuração: ${val('duration')}\nEstilo: ${val('motionStyle')}`;
+      outputId = 'jsonOut'; // Append to jsonOut or create new output
+      result = await callApi(prompt, 'Prompt CapCut');
+      result = getRealText('jsonOut') + '\n\n--- PROMPT CAPCUT ---\n' + result;
+      break;
+    case 'srt':
+      prompt = `Roteiro: ${getRealText('scriptOut')}\nTipo de áudio: ${val('audioType')}\nDuração: ${val('duration')}`;
+      outputId = 'srtOut';
+      result = await callApi(prompt, 'SRT');
+      break;
+    case 'soundPlan':
+      prompt = `Roteiro: ${getRealText('scriptOut')}\nTipo de áudio: ${val('audioType')}\nDuração: ${val('duration')}`;
+      outputId = 'srtOut'; // Append to srtOut or create new output
+      result = await callApi(prompt, 'Plano de Som');
+      result = getRealText('srtOut') + '\n\n--- PLANO DE SOM ---\n' + result;
+      break;
+    case 'previewGuide':
+      prompt = `Roteiro: ${getRealText('scriptOut')}\nModelo: ${val('template')}\nFormato: ${val('format')}\nDuração: ${val('duration')}\nEstilo: ${val('motionStyle')}`;
+      outputId = 'previewOut';
+      result = await callApi(prompt, 'Guia de Preview');
+      break;
+    default:
+      console.warn('Unknown generation type:', type);
+      return;
+  }
+
+  if ($(outputId)) {
+    $(outputId).textContent = result;
+  }
+  if (type === 'complete') {
+    renderHub(result, 'complete');
+  }
+  renderMindJob(); // Update mind map after generation
+}
+
+// Download function
+function download(filename, elementId) {
+  const element = $(elementId);
+  if (!element) {
+    alert('Elemento não encontrado para download.');
+    return;
+  }
+  const text = element.textContent || element.value;
+  if (!text || isPlaceholderText(text)) {
+    alert('Não há conteúdo para baixar ainda.');
+    return;
+  }
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Copy function
+function copy(elementId) {
+  const element = $(elementId);
+  if (!element) {
+    alert('Elemento não encontrado para copiar.');
+    return;
+  }
+  const text = element.textContent || element.value;
+  if (!text || isPlaceholderText(text)) {
+    alert('Não há conteúdo para copiar ainda.');
+    return;
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Conteúdo copiado para a área de transferência!');
+  }).catch(err => {
+    console.error('Erro ao copiar:', err);
+    alert('Falha ao copiar o conteúdo.');
+  });
+}
+
+// Share function (basic example)
+function shareExport() {
+  const text = getRealText('exportOut');
+  if (!text) {
+    alert('Não há pacote para compartilhar ainda.');
+    return;
+  }
+  if (navigator.share) {
+    navigator.share({
+      title: 'Video Pack Studio - Pacote Final',
+      text: text,
+      url: window.location.href, // Or a link to a hosted version of the export
+    }).then(() => {
+      console.log('Conteúdo compartilhado com sucesso!');
+    }).catch((error) => {
+      console.error('Erro ao compartilhar:', error);
+    });
+  } else {
+    alert('Seu navegador não suporta a API de compartilhamento. Por favor, copie o texto manualmente.');
+    copy('exportOut');
+  }
+}
+
+// Sync briefing fields between tabs and mindjob workspace
+function syncMasterToTabs() {
+  const fields = [
+    ["briefTemplate", "template"], ["briefFormat", "format"], ["briefDuration", "duration"],
+    ["briefMotionStyle", "motionStyle"], ["goalMaster", "goal"], ["toneMaster", "tone"],
+    ["requiredTextMaster", "requiredText"], ["jsonLevelMaster", "jsonLevel"], ["audioTypeMaster", "audioType"]
+  ];
+  fields.forEach(([masterId, tabId]) => {
+    const masterEl = $(masterId);
+    const tabEl = $(tabId);
+    if (masterEl && tabEl) {
+      tabEl.value = masterEl.value;
+    }
+  });
+}
+
+function syncBriefModelToModel() {
+  // This function seems to be a duplicate of part of syncMasterToTabs,
+  // or intended for a specific one-way sync. Keeping it for now.
+  const fields = [
+    ["briefTemplate", "template"], ["briefFormat", "format"], ["briefDuration", "duration"],
+    ["briefMotionStyle", "motionStyle"]
+  ];
+  fields.forEach(([masterId, tabId]) => {
+    const masterEl = $(masterId);
+    const tabEl = $(tabId);
+    if (masterEl && tabEl) {
+      tabEl.value = masterEl.value;
+    }
+  });
+}
+
+// Mind Map / Node functions
+function getNodePos(id) {
+  return nodePositions[id] || { x: 0, y: 0 };
+}
+
+function nodeVisualStatus(nodeId, defaultStatus, briefReady) {
+  if (nodeId === 'brief') return briefReady ? (getRealText('out') ? 'done' : 'editing') : 'empty';
+  if (nodeId === 'ramo') return Object.keys(appliedSections).length ? 'review' : (briefReady ? 'ready' : 'empty');
+
+  const outputIdMap = {
+    modelo: 'templateOut',
+    roteiro: 'scriptOut',
+    json: 'jsonOut',
+    srt: 'srtOut',
+    preview: 'previewOut',
+    pacote: 'exportOut'
+  };
+  const outputText = getRealText(outputIdMap[nodeId]);
+  if (outputText) {
+    if (nodeId === 'pacote' && exportStatus() === 'exported') return 'exported';
+    return 'filled';
+  }
+  return defaultStatus;
+}
+
+function exportStatus() {
+  const exportText = getRealText('exportOut');
+  if (!exportText) return 'empty';
+  const requiredSections = ['PACOTE MESTRE', 'ROTEIRO VISUAL', 'JSON / CAPCUT / REMOTION', 'SRT / SOM / SFX', 'PREVIEW'];
+  const allApplied = requiredSections.every(key => appliedSections[key] || exportText.includes(`## ${key}`));
+  return allApplied ? 'exported' : 'filled';
+}
+
+function nodeCard(node) {
+  const { id, x, y, title, icon, status, summary, actions } = node;
+  const style = `left:${x}px;top:${y}px;`;
+  const statusClass = status; // Use the calculated status directly
+  const isActive = activeNodeId === id ? 'activeNode' : '';
+
+  const actionButtons = actions.map(action =>
+    `<button class="btn tiny ${action.cls || ''}" onclick="${action.fn}">${action.label}</button>`
+  ).join('');
+
+  return `
+    <div class="node ${statusClass} ${isActive}" id="node-${id}" style="${style}" data-node-id="${id}" onclick="activeNodeId='${id}';renderMindJob()">
+      <div class="nodeHeader">
+        <div class="nodeTitleWrap">
+          <div class="nodeIconBadge">${icon}</div>
+          <h3>${title}</h3>
+        </div>
+        <div class="nodeControls">
+          <span class="nodeStatus"><span class="statusDot ${statusClass}"></span>${status}</span>
+          <button class="nodeToggle" onclick="event.stopPropagation(); toggleNodeCollapse('node-${id}')">− </button>
+        </div>
+      </div>
+      <div class="nodeSummary">${summary}</div>
+      <div class="nodeActions">${actionButtons}</div>
+      <span class="nodeMiniHandle">⠿</span>
+    </div>
+  `;
+}
+
+function toggleNodeCollapse(nodeId) {
+  const node = $(nodeId);
+  if (node) {
+    node.classList.toggle('collapsed');
+    const toggleBtn = node.querySelector('.nodeToggle');
+    if (toggleBtn) {
+      toggleBtn.textContent = node.classList.contains('collapsed') ? '+ ' : '− ';
+    }
+  }
 }
 
 function workspacePosition(id) {
-    const p = getNodePos(id);
-    // Posição do workspace em relação ao viewport, não ao mapa
-    // Ajustado para aparecer à direita do node ativo ou centralizado
-    const viewport = $('nodeViewport');
-    const viewportRect = viewport.getBoundingClientRect();
-    const nodeElement = $(`node-${id}`);
-    if (!nodeElement) return { x: 50, y: 50 }; // Fallback
+  const nodeEl = $(`node-${id}`);
+  if (nodeEl) {
+    const nodeRect = nodeEl.getBoundingClientRect();
+    const viewportRect = $('nodeViewport').getBoundingClientRect();
+    const mapRect = $('mindCanvas').getBoundingClientRect();
 
-    const nodeRect = nodeElement.getBoundingClientRect();
+    // Calculate position relative to the nodeViewport, considering map's current transform
+    const nodeX = (nodeRect.left - mapRect.left) / mindTransform.scale;
+    const nodeY = (nodeRect.top - mapRect.top) / mindTransform.scale;
 
-    // Posição do node no viewport (já com zoom e pan aplicados)
-    const nodeViewportX = nodeRect.left - viewport.getBoundingClientRect().left;
-    const nodeViewportY = nodeRect.top - viewport.getBoundingClientRect().top;
+    // Position workspace to the right of the node, or adjust if it goes off screen
+    let wsX = nodeX + nodeRect.width / mindTransform.scale + 30; // 30px offset
+    let wsY = nodeY;
 
-    // Tenta posicionar à direita do node, com um pequeno offset
-    let wsX = nodeViewportX + nodeRect.width + 30;
-    let wsY = nodeViewportY;
+    // Simple bounds check (needs refinement for complex layouts)
+    const workspaceWidth = 560; // Approximate workspace width
+    const workspaceHeight = 310; // Approximate workspace height
 
-    // Se o workspace sair da tela à direita, move para a esquerda do node
-    const workspaceWidth = 480; // Largura aproximada do nodeWorkspace
-    if (wsX + workspaceWidth > viewportRect.width) {
-        wsX = nodeViewportX - workspaceWidth - 30;
-        if (wsX < 0) { // Se ainda sair da tela, centraliza
-            wsX = (viewportRect.width - workspaceWidth) / 2;
-        }
+    if (wsX + workspaceWidth > viewportRect.width / mindTransform.scale) {
+      wsX = nodeX - workspaceWidth - 30; // Position to the left
+      if (wsX < 0) wsX = (viewportRect.width / mindTransform.scale - workspaceWidth) / 2; // Fallback to center if no space on left
+    }
+    if (wsY + workspaceHeight > viewportRect.height / mindTransform.scale) {
+      wsY = viewportRect.height / mindTransform.scale - workspaceHeight - 20; // Adjust to fit bottom
+      if (wsY < 0) wsY = 20; // Fallback to top if no space
     }
 
-    // Ajusta para não sair do topo ou da base
-    const workspaceHeight = Math.min(400, viewportRect.height - 180); // Altura máxima aproximada
-    if (wsY + workspaceHeight > viewportRect.height) {
-        wsY = viewportRect.height - workspaceHeight - 20;
-    }
-    if (wsY < 0) wsY = 20;
+    return { x: wsX, y: wsY };
+  }
+  return { x: 50, y: 50 }; // Default if node not found
+}
 
-    // Converte as coordenadas do viewport de volta para as coordenadas do mapa
-    // para que o CSS 'left' e 'top' funcionem corretamente no nodeMap
-    const map = $('mindCanvas');
-    const mapRect = map.getBoundingClientRect();
-
-    const finalX = (wsX - currentPan.x) / currentZoom;
-    const finalY = (wsY - currentPan.y) / currentZoom;
-
-    return { x: finalX, y: finalY };
+function stationSubtitle(id) {
+  const subtitles = {
+    brief: 'Preencha, gere, revise o resultado e envie para as ramificações sem sair do node.',
+    modelo: 'Recebe modelo, formato, duração e estilo de movimento do Briefing Mestre.',
+    roteiro: 'Recebe objetivo, tom e texto obrigatório do Briefing Mestre.',
+    json: 'Recebe formato, duração, movimento e precisão do JSON.',
+    srt: 'Recebe duração, tom e tipo de áudio do Briefing Mestre.',
+    preview: 'Preview leve para validar ritmo sem MP4.',
+    pacote: 'Node final: montar, copiar, baixar e compartilhar pacote limpo.',
+    ramo: 'Conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist nascem do Briefing Mestre e dos cards.'
+  };
+  return subtitles[id] || '';
 }
 
 function workspaceText(id) {
-    const lookup = {
-        modelo: getRealText('templateOut') || 'Gere o plano do modelo para preencher esta estação.',
-        roteiro: getRealText('scriptOut') || 'Gere roteiro visual ou shot list para revisar aqui.',
-        json: getRealText('jsonOut') || 'Gere JSON Remotion ou Prompt CapCut.',
-        srt: getRealText('srtOut') || 'Gere SRT, narração ou plano de som/SFX.',
-        preview: getRealText('previewOut') || 'Atualize o preview leve e gere o guia.',
-        pacote: getRealText('exportOut') || 'Monte o pacote limpo para baixar/compartilhar.',
-        ramo: 'Ramificações disponíveis: conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist.'
-    };
-    return lookup[id] || '';
+  const outputs = {
+    modelo: getRealText('templateOut') || 'Aguardando plano do modelo.',
+    roteiro: getRealText('scriptOut') || 'Aguardando roteiro visual.',
+    json: getRealText('jsonOut') || 'Aguardando JSON.',
+    srt: getRealText('srtOut') || 'Aguardando SRT / plano de som.',
+    preview: getRealText('previewOut') || 'Aguardando guia de preview.',
+    pacote: getRealText('exportOut') || 'Aguardando montagem do pacote final.',
+    ramo: 'Aguardando cards do pacote mestre. Gere o pacote mestre no node "Briefing Mestre" para ver as ramificações aqui.'
+  };
+  return outputs[id] || '';
 }
 
 function renderNodeWorkspace(id) {
-    const p = workspacePosition(id);
-    const style = `left:${p.x}px;top:${p.y}px`;
-    const resultText = getRealText('out');
+  activeWorkspaceNodeId = id;
+  const p = workspacePosition(id);
+  const style = `left:${p.x}px;top:${p.y}px`;
+  const resultText = getRealText('out');
 
-    if (id === 'brief') {
-        return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
-            <div class="workHead">
-                <div>
-                    <span class="workBadge">🧠 Estação ativa completa</span>
-                    <h3>Node inteligente — Briefing Mestre</h3>
-                    <p class="mini">Mesma função das abas: preencher, configurar, gerar, ver resultado, aplicar, exportar e avançar sem sair do canvas.</p>
-                </div>
-                <button class="nodeToggle" onclick="nextNode()">›</button>
-            </div>
-            <div class="workBody briefNodeFull">
-                ${smartProgressHTML()}
-                <div class="nodeMiniRail">
-                    <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
-                    <button class="btn cyan" onclick="appendToExport('out','PACOTE MESTRE',true)">Aplicar resultado</button>
-                    <button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button>
-                    <button class="btn purple" onclick="reorganizeCards()">Revisar cards</button>
-                    <button class="btn" onclick="buildExport(true)">Montar limpo</button>
-                    <button class="btn" onclick="copy('out')">Copiar resultado</button>
-                    <button class="btn green" onclick="download('video-pack-mestre.txt','out')">Baixar TXT</button>
-                    <button class="btn red" onclick="clearBriefing()">Limpar</button>
-                </div>
-
-                <details class="briefNodePanel" open><summary>1. Origem e briefing</summary>
-                    <label>Origem</label><select id="treeSource" onchange="v17Set('treeSource','source')">${v17Options(val('source') || 'Manual', ['Manual', 'Studio / roteiro / storyboard', 'Print / campanha / produto', 'Client / produto final', 'Referência externa'])}</select>
-                    <label>Nome do projeto</label><input id="treeProjectName" value="${escAttr(val('projectName'))}" oninput="v17Set('treeProjectName','projectName')" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1">
-                    <label>Briefing geral</label><textarea id="treeBrief" oninput="v17Set('treeBrief','brief')" placeholder="Cole o briefing, roteiro, copy ou ideia...">${escAttr(val('brief'))}</textarea>
-                    <label>Material disponível</label><textarea id="treeAssets" oninput="v17Set('treeAssets','assets')" placeholder="Assets, fotos, som, SRT, cores, links...">${escAttr(val('assets'))}</textarea>
-                    <label>Texto obrigatório / regras</label><textarea id="treeRequired" oninput="v17Set('treeRequired','requiredTextMaster')" placeholder="Frases obrigatórias, eventos que não podem faltar...">${escAttr(val('requiredTextMaster'))}</textarea>
-                </details>
-
-                <details class="briefNodePanel" open><summary>2. Configurações completas do vídeo</summary>
-                    <div class="briefNodeGrid">
-                        <div><label>Modelo de vídeo</label><select id="treeTemplate" onchange="v17Set('treeTemplate','briefTemplate')">${v17Options(choice('briefTemplate', 'template') || 'Motion Comic 2D', ['Produto animado', 'Poster vivo', 'Flyer animado', 'Story/Reels/TikTok promocional', 'Motion Comic 2D', 'YouTube intro/banner', 'Slideshow comercial', 'Antes/depois', 'Top 5 / lista animada', 'Mockup de camiseta/caneca/poster'])}</select></div>
-                        <div><label>Formato</label><select id="treeFormat" onchange="v17Set('treeFormat','briefFormat')">${v17Options(choice('briefFormat', 'format') || '9:16 vertical', ['9:16 vertical', '16:9 horizontal', '1:1 quadrado', '4:5 feed', '21:9 cinematic'])}</select></div>
-                        <div><label>Duração</label><select id="treeDuration" onchange="v17Set('treeDuration','briefDuration')">${v17Options(choice('briefDuration', 'duration') || '30 segundos', ['8 segundos', '15 segundos', '30 segundos', '45 segundos', '60 segundos'])}</select></div>
-                        <div><label>Estilo de movimento</label><select id="treeMotion" onchange="v17Set('treeMotion','briefMotionStyle')">${v17Options(choice('briefMotionStyle', 'motionStyle') || 'Camera seca e tensão', ['Motion graphic limpo', 'Camera seca e tensão', 'Anime 2D / motion comic', 'Comercial premium', 'Popular rápido para TikTok', 'Luxo minimalista', 'Streetwear / cultura pop'])}</select></div>
-                    </div>
-                </details>
-
-                <details class="briefNodePanel" open><summary>3. Cérebro central / herança automática</summary>
-                    <div class="briefNodeGrid">
-                        <div><label>Objetivo do vídeo</label><select id="treeGoal" onchange="v17Set('treeGoal','goalMaster')">${v17Options(masterChoice('goalMaster', 'goal') || 'Cena narrativa / motion comic', ['Vender produto', 'Explicar ideia', 'Gerar curiosidade', 'Promover marca', 'Transformar poster/flyer em vídeo', 'Cena narrativa / motion comic'])}</select></div>
-                        <div><label>Tom</label><select id="treeTone" onchange="v17Set('treeTone','toneMaster')">${v17Options(masterChoice('toneMaster', 'tone') || 'Horror/tensão', ['Profissional', 'Impactante', 'Emocional', 'Horror/tensão', 'Divertido', 'Premium', 'Popular direto'])}</select></div>
-                        <div><label>Precisão do JSON</label><select id="treeJsonLevel" onchange="v17Set('treeJsonLevel','jsonLevelMaster')">${v17Options(masterChoice('jsonLevelMaster', 'jsonLevel') || 'Motion Comic 2D', ['Completo com cenas, layers e timing', 'Simples para CapCut', 'Remotion avançado', 'Motion Comic 2D'])}</select></div>
-                        <div><label>Tipo de áudio</label><select id="treeAudio" onchange="v17Set('treeAudio','audioTypeMaster')">${v17Options(masterChoice('audioTypeMaster', 'audioType') || 'Narração + SFX', ['Narração + SFX', 'Só texto animado', 'Falas + legenda', 'Trilha + impactos', 'Horror/tensão sonora', 'Comercial rápido'])}</select></div>
-                    </div>
-                </details>
-
-                <details class="briefNodePanel" open><summary>4. Resultado mestre dentro do próprio node</summary>
-                    <div class="workResultHead"><div class="workResultTitle">Resultado mestre / pacote gerado</div><div class="workResultStatus">${resultText ? 'gerado' : 'aguardando'}</div></div>
-                    <div class="workOutput briefNodeResult" id="treeMasterResult">${resultText ? escAttr(resultText) : '<div class="workHintBox"><b>Aguardando geração.</b><br>Quando clicar em Gerar pacote mestre, o resultado aparece aqui, cria cards/ramificações e pode ser aplicado sem voltar para as abas.</div>'}</div>
-                    <div class="workActions">
-                        <button class="btn" onclick="copy('out')">Copiar</button>
-                        <button class="btn green" onclick="download('video-pack-mestre.txt','out')">Baixar TXT</button>
-                        <button class="btn cyan" onclick="appendToExport('out','PACOTE MESTRE',true)">Aplicar no pacote</button>
-                        <button class="btn purple" onclick="reorganizeCards()">Criar/revisar cards</button>
-                    </div>
-                </details>
-
-                <div class="workActions">
-                    <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
-                    <button class="btn purple" onclick="activeNodeId='roteiro';renderMindJob()">Refinar roteiro</button>
-                    <button class="btn cyan" onclick="activeNodeId='json';renderMindJob()">Gerar técnico</button>
-                    <button class="btn green" onclick="buildExport(true);nextNode()">Aplicar e próximo node</button>
-                    <button class="btn red" onclick="clearBriefing()">Novo projeto limpo</button>
-                </div>
-                <div class="nextNodeHint strong">Ao clicar em Próximo node, o Briefing fica compacto e a próxima estação abre. O canvas fica livre e a produção segue progressiva.</div>
-            </div>
-        </div>`;
-    }
-
-    const titles = { modelo: 'Modelo / Formato', roteiro: 'Roteiro Visual', json: 'JSON / Remotion', srt: 'SRT / Som', preview: 'Preview', pacote: 'Pacote Final', ramo: 'Ramificações' };
-    const actions = {
-        modelo: `<button class="btn gold" onclick="generate('templatePlan')">Gerar plano</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO',true)">Aplicar</button>`,
-        roteiro: `<button class="btn gold" onclick="generate('visualScript')">Gerar roteiro</button><button class="btn purple" onclick="generate('shotList')">Shot list</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO',true)">Aplicar</button>`,
-        json: `<button class="btn gold" onclick="generate('remotionJson')">Gerar JSON</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT',true)">Aplicar</button>
-               <button class="btn" onclick="copy('jsonOut')">Copiar</button><button class="btn green" onclick="download('json-remotion.txt','jsonOut')">Baixar JSON</button>`,
-        srt: `<button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM',true)">Aplicar</button>
-              <button class="btn" onclick="copy('srtOut')">Copiar</button><button class="btn green" onclick="download('video-srt.txt','srtOut')">Baixar SRT</button>`,
-        preview: `<button class="btn gold" onclick="updatePreview();renderMindJob()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW',true)">Aplicar</button>`,
-        pacote: `<button class="btn gold" onclick="buildExport(false)">Montar limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button>`,
-        ramo: `<button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button><button class="btn" onclick="showPendingCards()">Mostrar pendentes</button><button class="btn purple" onclick="goNextPendingCard()">Próximo card</button>`
-    };
+  if (id === 'brief') {
     return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
-        <div class="workHead">
-            <div>
-                <span class="workBadge">${statusIcon($( 'node-'+id )?.classList?.[1]||'ready')} Estação ativa</span>
-                <h3>Node inteligente — ${titles[id] || id}</h3>
-                <p class="mini">Trabalhe neste node sem procurar abas. O resultado aplicado segue para o Pacote Final.</p>
-            </div>
-            <button class="nodeToggle" onclick="nextNode()">›</button>
+      <div class="workHead"><div><span class="workBadge">🧠 Estação ativa completa</span><h3>Node inteligente — Briefing Mestre</h3><p class="mini">Mesma função das abas: preencher, configurar, gerar, ver resultado, aplicar, exportar e avançar sem sair do canvas.</p></div><button class="nodeToggle" onclick="nextNode()">›</button></div>
+      <div class="workBody briefNodeFull">
+        ${smartProgressHTML()}
+        <div class="nodeMiniRail">
+          <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
+          <button class="btn cyan" onclick="v17ApplyMaster()">Aplicar resultado</button>
+          <button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button>
+          <button class="btn purple" onclick="reorganizeCards()">Revisar cards</button>
+          <button class="btn" onclick="buildExport(true)">Montar limpo</button>
+          <button class="btn" onclick="v17CopyOut()">Copiar resultado</button>
+          <button class="btn green" onclick="v17DownloadOut()">Baixar TXT</button>
+          <button class="btn red" onclick="clearBriefing()">Limpar</button>
         </div>
-        <div class="workBody">
-            <div class="workOutput">${workspaceText(id)}</div>
-            <div class="workActions">
-                ${actions[id] || ''}
-                <button class="btn purple" onclick="nextNode()">Próximo node</button>
-                <button class="btn" onclick="activeNodeId='brief';renderMindJob()">Voltar Briefing</button>
-            </div>
+
+        <details class="briefNodePanel" open><summary>1. Origem e briefing</summary>
+          <label>Origem</label><select id="treeSource" onchange="v17Set('treeSource','source')">${v17Options(val('source')||'Manual',['Manual','Studio / roteiro / storyboard','Print / campanha / produto','Client / produto final','Referência externa'])}</select>
+          <label>Nome do projeto</label><input id="treeProjectName" value="${escAttr(val('projectName'))}" oninput="v17Set('treeProjectName','projectName')" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1">
+          <label>Briefing geral</label><textarea id="treeBrief" oninput="v17Set('treeBrief','brief')" placeholder="Cole o briefing, roteiro, copy ou ideia...">${escapeHtml(val('brief'))}</textarea>
+          <label>Material disponível</label><textarea id="treeAssets" oninput="v17Set('treeAssets','assets')" placeholder="Assets, fotos, som, SRT, cores, links...">${escapeHtml(val('assets'))}</textarea>
+          <label>Texto obrigatório / regras</label><textarea id="treeRequired" oninput="v17Set('treeRequired','requiredTextMaster')" placeholder="Frases obrigatórias, eventos que não podem faltar...">${escapeHtml(val('requiredTextMaster'))}</textarea>
+        </details>
+
+        <details class="briefNodePanel" open><summary>2. Configurações completas do vídeo</summary>
+          <div class="briefNodeGrid">
+            <div><label>Modelo de vídeo</label><select id="treeTemplate" onchange="v17Set('treeTemplate','briefTemplate')">${v17Options(choice('briefTemplate','template')||'Motion Comic 2D',['Produto animado','Poster vivo','Flyer animado','Story/Reels/TikTok promocional','Motion Comic 2D','YouTube intro/banner','Slideshow comercial','Antes/depois','Top 5 / lista animada','Mockup de camiseta/caneca/poster'])}</select></div>
+            <div><label>Formato</label><select id="treeFormat" onchange="v17Set('treeFormat','briefFormat')">${v17Options(choice('briefFormat','format')||'9:16 vertical',['9:16 vertical','16:9 horizontal','1:1 quadrado','4:5 feed','21:9 cinematic'])}</select></div>
+            <div><label>Duração</label><select id="treeDuration" onchange="v17Set('treeDuration','briefDuration')">${v17Options(choice('briefDuration','duration')||'30 segundos',['8 segundos','15 segundos','30 segundos','45 segundos','60 segundos'])}</select></div>
+            <div><label>Estilo de movimento</label><select id="treeMotion" onchange="v17Set('treeMotion','briefMotionStyle')">${v17Options(choice('briefMotionStyle','motionStyle')||'Camera seca e tensão',['Motion graphic limpo','Camera seca e tensão','Anime 2D / motion comic','Comercial premium','Popular rápido para TikTok','Luxo minimalista','Streetwear / cultura pop'])}</select></div>
+          </div>
+        </details>
+
+        <details class="briefNodePanel" open><summary>3. Cérebro central / herança automática</summary>
+          <div class="briefNodeGrid">
+            <div><label>Objetivo do vídeo</label><select id="treeGoal" onchange="v17Set('treeGoal','goalMaster')">${v17Options(masterChoice('goalMaster','goal')||'Cena narrativa / motion comic',['Vender produto','Explicar ideia','Gerar curiosidade','Promover marca','Transformar poster/flyer em vídeo','Cena narrativa / motion comic'])}</select></div>
+            <div><label>Tom</label><select id="treeTone" onchange="v17Set('treeTone','toneMaster')">${v17Options(masterChoice('toneMaster','tone')||'Horror/tensão',['Profissional','Impactante','Emocional','Horror/tensão','Divertido','Premium','Popular direto'])}</select></div>
+            <div><label>Precisão do JSON</label><select id="treeJsonLevel" onchange="v17Set('treeJsonLevel','jsonLevelMaster')">${v17Options(masterChoice('jsonLevelMaster','jsonLevel')||'Motion Comic 2D',['Completo com cenas, layers e timing','Simples para CapCut','Remotion avançado','Motion Comic 2D'])}</select></div>
+            <div><label>Tipo de áudio</label><select id="treeAudio" onchange="v17Set('treeAudio','audioTypeMaster')">${v17Options(masterChoice('audioTypeMaster','audioType')||'Narração + SFX',['Narração + SFX','Só texto animado','Falas + legenda','Trilha + impactos','Horror/tensão sonora','Comercial rápido'])}</select></div>
+          </div>
+        </details>
+
+        <details class="briefNodePanel" open><summary>4. Resultado mestre dentro do próprio node</summary>
+          <div class="workResultHead"><div class="workResultTitle">Resultado mestre / pacote gerado</div><div class="workResultStatus">${resultText?'gerado':'aguardando'}</div></div>
+          <div class="workOutput briefNodeResult" id="treeMasterResult">${resultText?escapeHtml(resultText):'<div class="workHintBox"><b>Aguardando geração.</b><br>Quando clicar em Gerar pacote mestre, o resultado aparece aqui, cria cards/ramificações e pode ser aplicado sem voltar para as abas.</div>'}</div>
+          <div class="workActions">
+            <button class="btn" onclick="v17CopyOut()">Copiar</button>
+            <button class="btn green" onclick="v17DownloadOut()">Baixar TXT</button>
+            <button class="btn cyan" onclick="v17ApplyMaster()">Aplicar no pacote</button>
+            <button class="btn purple" onclick="reorganizeCards()">Criar/revisar cards</button>
+          </div>
+        </details>
+
+        <div class="workActions">
+          <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
+          <button class="btn purple" onclick="activeNodeId='roteiro';renderMindJob()">Refinar roteiro</button>
+          <button class="btn cyan" onclick="activeNodeId='json';renderMindJob()">Gerar técnico</button>
+          <button class="btn green" onclick="buildExport(true);nextNode()">Aplicar e próximo node</button>
+          <button class="btn red" onclick="newCleanProject()">Novo projeto limpo</button>
         </div>
+        <div class="nextNodeHint strong">Ao clicar em Próximo node, o Briefing fica compacto e a próxima estação abre. O canvas fica livre e a produção segue progressiva.</div>
+      </div>
     </div>`;
+  }
+
+  const titles = {
+    modelo: 'Modelo / Formato',
+    roteiro: 'Roteiro Visual',
+    json: 'JSON / Remotion',
+    srt: 'SRT / Som',
+    preview: 'Preview',
+    pacote: 'Pacote Final',
+    ramo: 'Ramificações'
+  };
+  const actions = {
+    modelo: `<button class="btn gold" onclick="generate('templatePlan')">Gerar plano</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO',true)">Aplicar</button>`,
+    roteiro: `<button class="btn gold" onclick="generate('visualScript')">Gerar roteiro</button><button class="btn purple" onclick="generate('shotList')">Shot list</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO',true)">Aplicar</button> `,
+    json: `<button class="btn gold" onclick="generate('remotionJson')">Gerar JSON</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT',true)">Aplicar</button>`,
+    srt: `<button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM',true)">Aplicar</button>`,
+    preview: `<button class="btn gold" onclick="updatePreview();renderMindJob()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW',true)">Aplicar</button>`,
+    pacote: `<button class="btn gold" onclick="buildExport(false)">Montar limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button>`,
+    ramo: `<button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button><button class="btn" onclick="showPendingCards()">Mostrar pendentes</button><button class="btn purple" onclick="goNextPendingCard()">Próximo card</button>`
+  };
+
+  return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
+    <div class="workHead"><div><span class="workBadge">${statusIcon('ready')} Estação ativa</span><h3>Node inteligente — ${titles[id] || id}</h3><p class="mini">${stationSubtitle(id)}</p></div><button class="nodeToggle" onclick="nextNode()">›</button></div>
+    <div class="workBody">
+      ${smartProgressHTML()}
+      <div class="workOutput">${workspaceText(id)}</div>
+      <div class="workActions">${actions[id] || ''}<button class="btn purple" onclick="nextNode()">Próximo node</button><button class="btn" onclick="activeNodeId='brief';renderMindJob()">Voltar Briefing</button></div>
+    </div>
+  </div>`;
+}
+
+// Mind Map Interactions (Drag, Zoom, Pan)
+let mindMap = null;
+let nodeViewport = null;
+let currentZoom = 1;
+
+function setMindTransform() {
+  if (mindMap) {
+    mindMap.style.transform = `translate(${mindTransform.x}px, ${mindTransform.y}px) scale(${mindTransform.scale})`;
+    const zoomReadout = $('zoomReadout');
+    const zoomReadout2 = $('zoomReadout2');
+    if (zoomReadout) zoomReadout.textContent = `${Math.round(mindTransform.scale * 100)}%`;
+    if (zoomReadout2) zoomReadout2.textContent = `${Math.round(mindTransform.scale * 100)}%`;
+  }
+}
+
+function initMindInteractions() {
+  nodeViewport = $('nodeViewport');
+  mindMap = $('mindCanvas');
+
+  if (!nodeViewport || !mindMap) {
+    console.error("Node viewport or mind canvas not found.");
+    return;
+  }
+
+  // Clear previous event listeners to prevent duplicates
+  nodeViewport.removeEventListener('mousedown', startMapDrag);
+  nodeViewport.removeEventListener('mousemove', doMapDrag);
+  nodeViewport.removeEventListener('mouseup', endMapDrag);
+  nodeViewport.removeEventListener('mouseleave', endMapDrag);
+  nodeViewport.removeEventListener('wheel', handleZoom);
+
+  nodeViewport.addEventListener('mousedown', startMapDrag);
+  nodeViewport.addEventListener('mousemove', doMapDrag);
+  nodeViewport.addEventListener('mouseup', endMapDrag);
+  nodeViewport.addEventListener('mouseleave', endMapDrag);
+  nodeViewport.addEventListener('wheel', handleZoom, { passive: false });
+
+  // Make nodes draggable
+  document.querySelectorAll('.node').forEach(nodeEl => {
+    nodeEl.removeEventListener('mousedown', startNodeDrag);
+    nodeEl.addEventListener('mousedown', startNodeDrag);
+  });
+}
+
+function startMapDrag(e) {
+  if (e.button === 0 && !e.target.closest('.node')) { // Only left click and not on a node
+    isDraggingMap = true;
+    nodeViewport.classList.add('dragging');
+    dragStartX = e.clientX - mindTransform.x;
+    dragStartY = e.clientY - mindTransform.y;
+    e.preventDefault(); // Prevent text selection
+  }
+}
+
+function doMapDrag(e) {
+  if (!isDraggingMap) return;
+  mindTransform.x = e.clientX - dragStartX;
+  mindTransform.y = e.clientY - dragStartY;
+  setMindTransform();
+  updateConnectors();
+}
+
+function endMapDrag() {
+  isDraggingMap = false;
+  nodeViewport.classList.remove('dragging');
+}
+
+let isDraggingNode = false;
+let activeNodeElement = null;
+let nodeDragOffsetX, nodeDragOffsetY;
+
+function startNodeDrag(e) {
+  if (e.button === 0) { // Only left click
+    isDraggingNode = true;
+    activeNodeElement = e.currentTarget;
+    activeNodeElement.classList.add('nodeDragging');
+    const nodeRect = activeNodeElement.getBoundingClientRect();
+    const mapRect = mindMap.getBoundingClientRect();
+
+    nodeDragOffsetX = e.clientX - (nodeRect.left - mapRect.left);
+    nodeDragOffsetY = e.clientY - (nodeRect.top - mapRect.top);
+
+    // Prevent map drag when node is dragged
+    e.stopPropagation();
+    e.preventDefault();
+  }
+}
+
+function doNodeDrag(e) {
+  if (!isDraggingNode || !activeNodeElement) return;
+
+  const mapRect = mindMap.getBoundingClientRect();
+  const newX = (e.clientX - mapRect.left - nodeDragOffsetX) / mindTransform.scale;
+  const newY = (e.clientY - mapRect.top - nodeDragOffsetY) / mindTransform.scale;
+
+  activeNodeElement.style.left = `${newX}px`;
+  activeNodeElement.style.top = `${newY}px`;
+
+  // Update stored position
+  const nodeId = activeNodeElement.dataset.nodeId;
+  if (nodeId) {
+    nodePositions[nodeId] = { x: newX, y: newY };
+  }
+
+  updateConnectors();
+  updateWorkspacePosition(); // Update workspace position if it's linked to this node
+}
+
+function endNodeDrag() {
+  isDraggingNode = false;
+  if (activeNodeElement) {
+    activeNodeElement.classList.remove('nodeDragging');
+    activeNodeElement = null;
+  }
+}
+
+function updateWorkspacePosition() {
+  if (activeWorkspaceNodeId && $(`nodeWorkspace`)) {
+    const p = workspacePosition(activeWorkspaceNodeId);
+    $(`nodeWorkspace`).style.left = `${p.x}px`;
+    $(`nodeWorkspace`).style.top = `${p.y}px`;
+  }
+}
+
+// Attach node drag listeners to document to allow dragging outside node bounds
+document.addEventListener('mousemove', (e) => {
+  if (isDraggingNode) doNodeDrag(e);
+});
+document.addEventListener('mouseup', (e) => {
+  if (isDraggingNode) endNodeDrag();
+});
+
+
+function handleZoom(e) {
+  e.preventDefault(); // Prevent page scrolling
+  const scaleAmount = 0.1;
+  const oldScale = mindTransform.scale;
+
+  if (e.ctrlKey) { // Ctrl + scroll for fine zoom
+    if (e.deltaY < 0) {
+      mindTransform.scale += scaleAmount / 2;
+    } else {
+      mindTransform.scale -= scaleAmount / 2;
+    }
+  } else { // Regular scroll for coarser zoom
+    if (e.deltaY < 0) {
+      mindTransform.scale += scaleAmount;
+    } else {
+      mindTransform.scale -= scaleAmount;
+    }
+  }
+
+  mindTransform.scale = Math.max(0.2, Math.min(3, mindTransform.scale)); // Clamp zoom level
+
+  // Adjust pan to zoom towards mouse cursor
+  const mouseX = e.clientX - nodeViewport.getBoundingClientRect().left;
+  const mouseY = e.clientY - nodeViewport.getBoundingClientRect().top;
+
+  mindTransform.x = mouseX - ((mouseX - mindTransform.x) / oldScale) * mindTransform.scale;
+  mindTransform.y = mouseY - ((mouseY - mindTransform.y) / oldScale) * mindTransform.scale;
+
+  setMindTransform();
+  updateConnectors();
+}
+
+function centerMind() {
+  if (!nodeViewport || !mindMap) return;
+
+  const viewportRect = nodeViewport.getBoundingClientRect();
+  const mapRect = mindMap.getBoundingClientRect();
+
+  // Calculate the center of the map content (assuming nodes are within mapRect)
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  document.querySelectorAll('.node').forEach(nodeEl => {
+    const nodeRect = nodeEl.getBoundingClientRect();
+    minX = Math.min(minX, nodeRect.left);
+    minY = Math.min(minY, nodeRect.top);
+    maxX = Math.max(maxX, nodeRect.right);
+    maxY = Math.max(maxY, nodeRect.bottom);
+  });
+
+  if (minX === Infinity) { // No nodes, center on map itself
+    minX = mapRect.left; maxX = mapRect.right;
+    minY = mapRect.top; maxY = mapRect.bottom;
+  }
+
+  const contentWidth = maxX - minX;
+  const contentHeight = maxY - minY;
+
+  // Calculate a scale that fits all nodes within the viewport
+  let scaleX = viewportRect.width / contentWidth * 0.8; // 80% of viewport width
+  let scaleY = viewportRect.height / contentHeight * 0.8; // 80% of viewport height
+  mindTransform.scale = Math.min(scaleX, scaleY, 1); // Don't zoom in too much, max 100%
+
+  // Calculate new center position
+  const contentCenterX = minX + contentWidth / 2;
+  const contentCenterY = minY + contentHeight / 2;
+
+  mindTransform.x = viewportRect.width / 2 - contentCenterX * mindTransform.scale;
+  mindTransform.y = viewportRect.height / 2 - contentCenterY * mindTransform.scale;
+
+  setMindTransform();
+  updateConnectors();
+}
+
+function updateConnectors() {
+  const svg = $('connectorSvg');
+  if (!svg) return;
+  svg.innerHTML = ''; // Clear existing lines
+
+  const connections = [
+    ['brief', 'modelo', 'main'],
+    ['brief', 'roteiro', 'main'],
+    ['brief', 'ramo', 'main'],
+    ['modelo', 'roteiro'],
+    ['roteiro', 'json', 'main'],
+    ['json', 'srt'],
+    ['srt', 'preview'],
+    ['preview', 'pacote', 'main'],
+    ['ramo', 'pacote']
+  ];
+
+  const mapRect = mindMap.getBoundingClientRect();
+
+  connections.forEach(([fromId, toId, type]) => {
+    const fromNode = $(`node-${fromId}`);
+    const toNode = $(`node-${toId}`);
+
+    if (fromNode && toNode) {
+      const fromRect = fromNode.getBoundingClientRect();
+      const toRect = toNode.getBoundingClientRect();
+
+      // Calculate center points relative to the SVG container (which is mindMap)
+      const x1 = (fromRect.left + fromRect.width / 2 - mapRect.left) / mindTransform.scale;
+      const y1 = (fromRect.top + fromRect.height / 2 - mapRect.top) / mindTransform.scale;
+      const x2 = (toRect.left + toRect.width / 2 - mapRect.left) / mindTransform.scale;
+      const y2 = (toRect.top + toRect.height / 2 - mapRect.top) / mindTransform.scale;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M${x1},${y1} L${x2},${y2}`);
+      path.classList.add('liveLine');
+      if (type === 'main') path.classList.add('main');
+      // Add status based on node status if needed
+      // if (nodeVisualStatus(fromId) === 'done' && nodeVisualStatus(toId) === 'done') path.classList.add('ready');
+      svg.appendChild(path);
+    }
+  });
+}
+
+// Mind Panel State (collapse/expand)
+function toggleMindPanel() {
+  mindTopCollapsed = !mindTopCollapsed;
+  const mindHero = document.querySelector('.mindHero.compactMind');
+  if (mindHero) {
+    mindHero.classList.toggle('collapsedTop', mindTopCollapsed);
+  }
+}
+
+function toggleProgressPanel() {
+  const panel = $('progressPanel');
+  if (panel) {
+    panel.classList.toggle('open');
+    const toggleBtn = document.querySelector('.progressToggleRow .btn');
+    if (toggleBtn) {
+      toggleBtn.textContent = panel.classList.contains('open') ? '▾ Painel de progresso' : '▸ Painel de progresso';
+    }
+  }
+}
+
+function updateMindPanelState() {
+  const body = document.body;
+  body.classList.toggle('mind-canvas-mode', mindCanvasMode);
+  body.classList.toggle('canvas-dock-collapsed', mindDockCollapsed);
+
+  const mindHero = document.querySelector('.mindHero.compactMind');
+  if (mindHero) {
+    mindHero.classList.toggle('collapsedTop', mindTopCollapsed);
+  }
+}
+
+function toggleFullscreen() {
+  const mindjobScreen = $('mindjob');
+  if (mindjobScreen) {
+    mindjobScreen.classList.toggle('mindFullscreen');
+  }
+}
+
+function reorganizeNodes() {
+  // Simple grid layout for demonstration
+  const nodeOrder = ['brief', 'modelo', 'roteiro', 'json', 'srt', 'preview', 'pacote', 'ramo'];
+  const colWidth = 300;
+  const rowHeight = 200;
+  let col = 0;
+  let row = 0;
+
+  nodeOrder.forEach((id, index) => {
+    nodePositions[id] = { x: 50 + col * colWidth, y: 50 + row * rowHeight };
+    col++;
+    if (col > 2) { // 3 columns
+      col = 0;
+      row++;
+    }
+  });
+  renderMindJob();
+  centerMind();
+}
+
+function resetLayout() {
+  // Reset to initial hardcoded positions
+  nodePositions = {
+    brief: { x: 100, y: 100 },
+    modelo: { x: 400, y: 100 },
+    roteiro: { x: 700, y: 100 },
+    json: { x: 400, y: 300 },
+    srt: { x: 700, y: 300 },
+    preview: { x: 1000, y: 100 },
+    pacote: { x: 1000, y: 300 },
+    ramo: { x: 100, y: 300 }
+  };
+  mindTransform = { x: 0, y: 0, scale: 1 }; // Reset zoom/pan
+  renderMindJob();
+  centerMind();
+}
+
+// Card management in Central de Banners
+let cardAutoCollapse = true;
+let lastHubSections = [];
+const NODE_ORDER = ['brief', 'modelo', 'roteiro', 'json', 'srt', 'preview', 'pacote'];
+
+function splitSections(text) {
+  const sections = [];
+  const lines = text.split('\n');
+  let currentSection = null;
+
+  lines.forEach(line => {
+    const trimmedLine = line.trim();
+    if (trimmedLine.startsWith('## ')) {
+      if (currentSection) {
+        sections.push(currentSection);
+      }
+      currentSection = {
+        title: trimmedLine.substring(3).trim(),
+        body: []
+      };
+    } else if (currentSection) {
+      currentSection.body.push(line);
+    }
+  });
+  if (currentSection) {
+    sections.push(currentSection);
+  }
+  return sections;
+}
+
+function updateCardFlowPanel() {
+  let panel = $('cardFlowPanel');
+  const hub = $('centralHub');
+  if (!hub) return;
+
+  if (!panel) {
+    const head = hub.querySelector('.hubHead');
+    panel = document.createElement('div');
+    panel.id = 'cardFlowPanel';
+    panel.className = 'cardFlowPanel';
+    panel.innerHTML = `<span class="flowText" id="cardFlowText">Cards: aguardando geração</span>
+      <div class="cardProgressBar"><span id="cardProgressFill"></span></div>
+      <button class="btn tiny green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button>
+      <button class="btn tiny" onclick="showPendingCards()">Mostrar pendentes</button>
+      <button class="btn tiny" onclick="collapseAppliedCards()">Recolher aplicados</button>
+      <button class="btn tiny purple" onclick="goNextPendingCard()">Próximo card</button>`;
+    if (head) head.insertAdjacentElement('afterend', panel);
+  }
+
+  const cards = [...document.querySelectorAll('#hubCards .section-card')];
+  const total = cards.length;
+  const applied = cards.filter(c => c.classList.contains('card-applied')).length;
+  const pending = Math.max(0, total - applied);
+
+  if ($('cardFlowText')) $('cardFlowText').textContent = total ? `${applied} de ${total} cards aplicados · ${pending} pendentes` : 'Cards: aguardando geração';
+  if ($('cardProgressFill')) $('cardProgressFill').style.width = total ? Math.round(applied / total * 100) + '%' : '0%';
+}
+
+function renderHub(text, type) {
+  const hub = $("hubCards");
+  if (!hub) return;
+
+  const sections = splitSections(text);
+  lastHubSections = sections.map((sec, i) => ({ title: sec.title, body: sec.body.join("\n").trim(), key: sectionKey(sec.title || ('CARD ' + i)) }));
+  hub.innerHTML = "";
+
+  if (!sections.length) {
+    hub.innerHTML = '<div class="section-card"><div class="section-head"><h3>Aguardando geração</h3></div><div class="section-body">Gere um pacote para separar aqui em banners.</div></div>';
+    updateCardFlowPanel();
+    return;
+  }
+
+  sections.forEach((sec, i) => {
+    const key = sectionKey(sec.title || ('Card ' + i));
+    const applied = !!appliedSections[key];
+    const card = document.createElement("div");
+    card.className = `section-card ${applied ? 'card-applied card-collapsed' : 'card-pending'}`;
+    card.dataset.cardKey = key;
+    card.dataset.cardIndex = i;
+    const bodyId = "hubBody" + i;
+    const safeTitle = String(sec.title || 'Card').replace(/'/g, "");
+
+    card.innerHTML = `<div class="section-head"><h3>${sec.title}</h3><span class="mini">${applied ? 'aplicado' : 'pendente'}</span></div>
+      <div class="section-body" id="${bodyId}">${escapeHtml(sec.body.join("\n").trim())}</div>
+      <div class="result-tools">
+        <button class="btn tiny" onclick="copy('${bodyId}')">Copiar</button>
+        <button class="btn tiny green" onclick="download('video-pack-${i + 1}.txt','${bodyId}')">Baixar</button>
+        <button class="btn tiny cyan ${applied ? 'isApplied' : ''}" onclick="appendToExport('${bodyId}','${safeTitle}',true)"> ${applied ? 'Reaplicar' : 'Aplicar'} </button>
+        <button class="btn tiny" onclick="toggleCardFold(this)"> ${applied ? 'Reabrir' : 'Minimizar'} </button>
+      </div>`;
+    hub.appendChild(card);
+  });
+  updateCardFlowPanel();
+}
+
+function toggleCardFold(btn) {
+  const card = btn.closest('.section-card');
+  if (!card) return;
+  card.classList.toggle('card-collapsed');
+  btn.textContent = card.classList.contains('card-collapsed') ? 'Reabrir' : 'Minimizar';
+}
+
+function markCardAppliedByKey(key) {
+  const card = document.querySelector(`#hubCards .section-card[data-card-key="${CSS.escape(key)}"]`);
+  if (!card) return;
+  card.classList.remove('card-pending', 'card-current');
+  card.classList.add('card-applied');
+  if (cardAutoCollapse) card.classList.add('card-collapsed');
+  const mini = card.querySelector('.section-head .mini');
+  if (mini) mini.textContent = 'aplicado';
+  const applyBtn = [...card.querySelectorAll('.btn')].find(b => /Aplicar|Reaplicar/.test(b.textContent));
+  if (applyBtn) {
+    applyBtn.textContent = 'Reaplicar';
+    applyBtn.classList.add('isApplied');
+  }
+  const foldBtn = [...card.querySelectorAll('.btn')].find(b => /Reabrir|Minimizar/.test(b.textContent));
+  if (foldBtn) foldBtn.textContent = card.classList.contains('card-collapsed') ? 'Reabrir' : 'Minimizar';
+}
+
+function appendToExport(id, title, stayHere = false) {
+  const content = cleanGeneratedBlock($(id)?.textContent || $(id)?.value || "");
+  if (!content || isPlaceholderText(content)) {
+    alert("Nada para aplicar ainda.");
+    return;
+  }
+  const key = sectionKey(title);
+  appliedSections[key] = content;
+  markCardAppliedByKey(key);
+  buildExport(true);
+  updateCardFlowPanel();
+  renderMindJob();
+  if (!stayHere) showScreen('exportacao');
+}
+
+function buildExport(silent = false) {
+  const sections = { ...appliedSections
+  };
+  const roteiro = getRealText("scriptOut");
+  const json = getRealText("jsonOut");
+  const srt = getRealText("srtOut");
+  const modelo = getRealText("templateOut");
+  const preview = getRealText("previewOut");
+  const mestre = getRealText("out");
+
+  if (modelo) sections["MODELO / FORMATO"] = modelo;
+  if (roteiro) sections["ROTEIRO VISUAL"] = roteiro;
+  if (json) sections["JSON / CAPCUT / REMOTION"] = json;
+  if (srt) sections["SRT / SOM / SFX"] = srt;
+  if (preview) sections["PREVIEW"] = preview;
+
+  const hasSpecific = ["MODELO / FORMATO", "ROTEIRO VISUAL", "JSON / CAPCUT / REMOTION", "SRT / SOM / SFX", "PREVIEW"].some(k => sections[k]);
+  if (mestre && !hasSpecific && !/
+^
+VIDEO PACK COMPLETO/i.test(mestre)) sections["PACOTE MESTRE"] = mestre;
+
+  let text = ''; // Start with empty string, context will be added by buildCleanContext if needed
+  const order = ["PACOTE MESTRE", "DIAGNÓSTICO CRIATIVO", "CONCEITO VISUAL", "PALETA DE CORES", "ESTILO GRÁFICO", "ESTRUTURA DE CENAS", "ASSETS NECESSÁRIOS", "DIREÇÃO DE ÁUDIO", "PROMPTS DE DIREÇÃO", "MODELO / FORMATO", "ROTEIRO VISUAL", "JSON / CAPCUT / REMOTION", "SRT / SOM / SFX", "PREVIEW", "CHECKLIST DE PRODUÇÃO", "PRÓXIMOS PASSOS"];
+  const used = new Set();
+
+  for (const key of order) {
+    if (sections[key]) {
+      text += `\n\n---\n\n## ${key}\n\n${cleanGeneratedBlock(sections[key])}`;
+      used.add(key);
+    }
+  }
+  Object.keys(sections).forEach(key => {
+    if (!used.has(key) && sections[key]) text += `\n\n---\n\n## ${key}\n\n${cleanGeneratedBlock(sections[key])}`;
+  });
+
+  text += `\n\n---\n\n## CHECKLIST FINAL INTELIGENTE\n\n1. Conferir cards aplicados e pendentes.\n2. Gerar roteiro visual se ainda estiver pendente.\n3. Gerar JSON/CapCut/Remotion se ainda estiver pendente.\n4. Gerar SRT/Som se ainda estiver pendente.\n5. Montar pacote limpo.\n6. Baixar ou compartilhar.\n7. Não há render MP4 automático neste módulo.`;
+  $("exportOut").textContent = text.trim(); // Trim to remove leading newlines if any
+  if (!silent) {
+    renderHub(text, "export");
+    showScreen("exportacao");
+  }
+  renderMindJob();
+}
+
+function applyAllHubCards(moveNext = true) {
+  const cards = [...document.querySelectorAll('#hubCards .section-card')];
+  if (!cards.length) {
+    alert('Nenhum card para aplicar ainda.');
+    return;
+  }
+  cards.forEach(card => {
+    const body = card.querySelector('.section-body');
+    const title = card.querySelector('.section-head h3')?.textContent || 'Card';
+    const content = cleanGeneratedBlock(body?.textContent || '');
+    if (content && !isPlaceholderText(content)) {
+      const key = sectionKey(title);
+      appliedSections[key] = content;
+      markCardAppliedByKey(key);
+    }
+  });
+  buildExport(true);
+  updateCardFlowPanel();
+  renderMindJob();
+  if (moveNext) goNextPendingCard();
+}
+
+function showPendingCards() {
+  [...document.querySelectorAll('#hubCards .section-card')].forEach(card => {
+    if (card.classList.contains('card-applied')) card.classList.add('card-collapsed');
+    else card.classList.remove('card-collapsed');
+  });
+  updateCardFlowPanel();
+}
+
+function collapseAppliedCards() {
+  [...document.querySelectorAll('#hubCards .section-card.card-applied')].forEach(card => card.classList.add('card-collapsed'));
+}
+
+function goNextPendingCard() {
+  const cards = [...document.querySelectorAll('#hubCards .section-card')];
+  cards.forEach(c => c.classList.remove('card-current'));
+  const next = cards.find(c => !c.classList.contains('card-applied'));
+  if (next) {
+    next.classList.add('card-current');
+    next.classList.remove('card-collapsed');
+    next.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  } else if ($('exportOut')) {
+    $('exportOut').scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+}
+
+function nextNode() {
+  const i = NODE_ORDER.indexOf(activeNodeId);
+  const next = NODE_ORDER[Math.min(NODE_ORDER.length - 1, Math.max(0, i + 1))] || 'brief';
+  activeNodeId = next;
+  renderMindJob();
+}
+
+function reorganizeCards() {
+  // This function would typically trigger a new generation of the master package
+  // or re-evaluate the existing one to re-split into cards.
+  // For now, it just re-renders the hub with existing sections.
+  renderHub(getRealText('out'), 'complete');
+  alert('Cards reorganizados com base no último pacote mestre gerado.');
 }
 
 function smartProgressHTML() {
-    // Retorna o HTML do progresso, se necessário dentro do brief node
-    const flow = [['1', 'Gerar pacote mestre', !!getRealText('out')], ['2', 'Revisar cards', !!document.querySelector('#hubCards .section-card')], ['3', 'Aplicar ao pacote', Object.keys(appliedSections).length > 0], ['4', 'Montar pacote limpo', !!getRealText('exportOut')], ['5', 'Baixar / Compartilhar', exportStatus() === 'exported']];
-    let active = flow.findIndex(f => !f[2]);
-    if (active < 0) active = 4;
-    return `<div class="progressFlow" style="margin-bottom: 12px;">${flow.map((f, i) => `<div class="progressStep ${f[2] ? 'done' : (i === active ? 'activeFlow' : 'wait')}"><div class="num">${f[0]}</div><div><strong>${f[1]}</strong><span>${f[2] ? 'concluído' : (i === active ? 'agora' : 'aguardando')}</span></div></div>`).join('')}</div>`;
+  const rows = [
+    ['Briefing Mestre', !!val('brief')],
+    ['Pacote mestre', !!getRealText('out')],
+    ['Cards aplicados', Object.keys(appliedSections).length > 0],
+    ['Roteiro', !!getRealText('scriptOut')],
+    ['JSON/CapCut', !!getRealText('jsonOut')],
+    ['SRT/Som', !!getRealText('srtOut')],
+    ['Pacote final', !!getRealText('exportOut')]
+  ];
+  const firstWait = rows.findIndex(r => !r[1]);
+  return `<div class="nodeSmartProgress">${rows.map((r, i) => `<div class="nodeSmartProgressRow ${r[1]?'done':(i===firstWait?'active':'wait')}">${r[1]?'✅':(i===firstWait?'▶':'○')} ${r[0]}</div>`).join('')}</div>`;
 }
 
-
-function renderMindJob() {
-    syncMasterToTabs();
-    const briefReady = !!val('brief');
-    const p = (id) => getNodePos(id);
-    const nodesBase = [
-        { id: 'brief', ...p('brief'), title: '1. Briefing Mestre', icon: '🧠', status: briefReady ? (getRealText('out') ? 'done' : 'editing') : 'empty', summary: briefReady ? shortText(val('brief')) : 'Cérebro central: história, modelo, objetivo, tom, áudio, JSON e texto obrigatório.', actions: [{ label: 'Editar', fn: "activeNodeId='brief';renderMindJob()" }, { label: 'Gerar mestre', cls: 'gold', fn: "generate('complete')" }, { label: 'Limpar', cls: 'red', fn: 'clearBriefing()' }] },
-        { id: 'modelo', ...p('modelo'), title: '2. Modelo / Formato', icon: '🎛️', status: choice('briefTemplate', 'template') ? 'ready' : 'empty', summary: `${choice('briefTemplate', 'template') || 'Sem modelo'} · ${choice('briefFormat', 'format') || ''} · ${choice('briefDuration', 'duration') || ''} · ${choice('briefMotionStyle', 'motionStyle') || ''}`, actions: [{ label: 'Abrir', fn: "activeNodeId='modelo';renderMindJob()" }, { label: 'Gerar plano', cls: 'gold', fn: "generate('templatePlan')" }, { label: 'Aplicar', cls: 'cyan', fn: "appendToExport('templateOut','MODELO',true)" }] },
-        { id: 'roteiro', ...p('roteiro'), title: '3. Roteiro Visual', icon: '🎞️', status: nodeStatusFromText('scriptOut'), summary: getRealText('scriptOut') ? shortText(getRealText('scriptOut')) : 'Recebe objetivo, tom e texto obrigatório do Briefing Mestre.', actions: [{ label: 'Abrir', fn: "activeNodeId='roteiro';renderMindJob()" }, { label: 'Gerar roteiro', cls: 'gold', fn: "generate('visualScript')" }, { label: 'Shot list', cls: 'purple', fn: "generate('shotList')" }, { label: 'Aplicar', cls: 'cyan', fn: "appendToExport('scriptOut','ROTEIRO',true)" }] },
-        { id: 'json', ...p('json'), title: '4. JSON / Remotion', icon: '</>', status: nodeStatusFromText('jsonOut'), summary: getRealText('jsonOut') ? shortText(getRealText('jsonOut')) : 'Recebe formato, duração, movimento e precisão do JSON.', actions: [{ label: 'Abrir', fn: "activeNodeId='json';renderMindJob()" }, { label: 'Gerar JSON', cls: 'gold', fn: "generate('remotionJson')" }, { label: 'CapCut', cls: 'purple', fn: "generate('capcutPrompt')" }, { label: 'Aplicar', cls: 'cyan', fn: "appendToExport('jsonOut','JSON / CAPCUT',true)" }] },
-        { id: 'srt', ...p('srt'), title: '5. SRT / Som', icon: '🎧', status: nodeStatusFromText('srtOut'), summary: getRealText('srtOut') ? shortText(getRealText('srtOut')) : 'Recebe duração, tom e tipo de áudio do Briefing Mestre.', actions: [{ label: 'Abrir', fn: "activeNodeId='srt';renderMindJob()" }, { label: 'Gerar SRT', cls: 'gold', fn: "generate('srt')" }, { label: 'Plano som', cls: 'purple', fn: "generate('soundPlan')" }, { label: 'Aplicar', cls: 'cyan', fn: "appendToExport('srtOut','SRT / SOM',true)" }] },
-        { id: 'preview', ...p('preview'), title: '6. Preview', icon: '🖥️', status: nodeStatusFromText('previewOut'), summary: getRealText('previewOut') ? shortText(getRealText('previewOut')) : 'Preview leve para validar ritmo sem MP4.', actions: [{ label: 'Abrir', fn: "activeNodeId='preview';renderMindJob()" }, { label: 'Atualizar', cls: 'gold', fn: 'updatePreview();renderMindJob()' }, { label: 'Guia', cls: 'purple', fn: "generate('previewGuide')" }, { label: 'Aplicar', cls: 'cyan', fn: "appendToExport('previewOut','PREVIEW',true)" }] },
-        { id: 'pacote', ...p('pacote'), title: '7. Pacote Final', icon: '📦', status: exportStatus(), summary: getRealText('exportOut') ? shortText(getRealText('exportOut')) : 'Node final: montar, copiar, baixar e compartilhar pacote limpo.', actions: [{ label: 'Abrir', fn: "activeNodeId='pacote';renderMindJob()" }, { label: 'Montar limpo', cls: 'gold', fn: 'buildExport(false)' }, { label: 'Copiar', fn: "copy('exportOut')" }, { label: 'Baixar', cls: 'green', fn: "download('video-pack-limpo.txt','exportOut')" }, { label: 'Compartilhar', cls: 'cyan', fn: 'shareExport()' }] },
-        { id: 'ramo', ...p('ramo'), title: 'Ramificações', icon: '🌳', status: Object.keys(appliedSections).length ? 'review' : (briefReady ? 'ready' : 'empty'), summary: 'Conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist nascem do Briefing Mestre e dos cards.', actions: [{ label: 'Revisar cards', cls: 'purple', fn: 'reorganizeCards()' }, { label: 'Aplicar cards', cls: 'cyan', fn: "alert('Use o botão Aplicar dentro de cada card da Central de Banners.')" }] }
-    ];
-    const nodes = nodesBase.map(n => ({ ...n, status: nodeVisualStatus(n.id, n.status, briefReady) }));
-    if (!nodes.some(n => n.id === activeNodeId)) activeNodeId = 'brief';
-
-    const canvas = $('mindCanvas');
-    if (canvas) {
-        // Renderiza todos os nodes e o workspace ativo
-        canvas.innerHTML = nodes.map(nodeCard).join('') + renderNodeWorkspace(activeNodeId);
-    }
-
-    initMindInteractions();
-    setMindTransform();
-    updateConnectors(); // Atualiza os conectores após renderizar e transformar
-
-    // Atualiza o progresso no mindHero
-    const flow = [['1', 'Gerar pacote mestre', !!getRealText('out')], ['2', 'Revisar cards', !!document.querySelector('#hubCards .section-card')], ['3', 'Aplicar ao pacote', Object.keys(appliedSections).length > 0], ['4', 'Montar pacote limpo', !!getRealText('exportOut')], ['5', 'Baixar / Compartilhar', exportStatus() === 'exported']];
-    let active = flow.findIndex(f => !f[2]);
-    if (active < 0) active = 4;
-    const pf = $('progressFlow');
-    if (pf) pf.innerHTML = flow.map((f, i) => `<div class="progressStep ${f[2] ? 'done' : (i === active ? 'activeFlow' : 'wait')}"><div class="num">${f[0]}</div><div><strong>${f[1]}</strong><span>${f[2] ? 'concluído' : (i === active ? 'agora' : 'aguardando')}</span></div></div>`).join('');
-
-    const leg = document.querySelector('.nodeLegend');
-    if (leg) leg.classList.add('progressLegendPro');
-    eggByStatus();
-    updateMindPanelState();
+// V17 specific functions for Briefing Node
+function v17Options(current, options) {
+  const seen = new Set();
+  const all = [current, ...options].filter(v => v !== undefined && v !== null && String(v).trim()).filter(v => {
+    const k = String(v);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+  return all.map(v => `<option ${String(v)===String(current)?'selected':''}>${escapeHtml(v)}</option>`).join('');
 }
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    syncBriefModelToModel();
+function v17Set(src, target) {
+  if ($(src) && $(target)) {
+    $(target).value = $(src).value;
     syncMasterToTabs();
-    // renderHub('', ''); // Se houver um hub de cards, precisa ser renderizado
     renderMindJob();
-    updateMindPanelState();
-    setTimeout(() => { centerMind(); updateConnectors(); }, 160); // Pequeno delay para garantir que todos os elementos estejam renderizados
-    loadApi();
+  }
+}
+
+function v17DownloadOut() {
+  download('video-pack-mestre.txt', 'out');
+}
+
+function v17CopyOut() {
+  copy('out');
+}
+
+function v17ApplyMaster() {
+  appendToExport('out', 'PACOTE MESTRE', true);
+}
+
+function v17OpenCanvas() {
+  mindCanvasMode = true;
+  mindTopCollapsed = true;
+  mindDockCollapsed = true;
+  showScreen('mindjob');
+  updateMindPanelState();
+  setTimeout(centerMind, 80);
+}
+
+function toggleCanvasMode() {
+  mindCanvasMode = !mindCanvasMode;
+  if (mindCanvasMode) {
+    mindTopCollapsed = true;
+    mindDockCollapsed = true;
+  }
+  updateMindPanelState();
+  setTimeout(() => {
+    centerMind();
+    updateConnectors();
+  }, 30);
+}
+
+function toggleCanvasDock() {
+  mindDockCollapsed = !mindDockCollapsed;
+  document.body.classList.toggle('canvas-dock-collapsed', mindDockCollapsed);
+  updateMindPanelState();
+  setTimeout(() => {
+    setMindTransform();
+    updateConnectors();
+  }, 30);
+}
+
+// Initial render and event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM Content Loaded. Initializing...');
+  showScreen('briefing'); // Start on the briefing screen
+  syncMasterToTabs();
+  syncBriefModelToModel(); // Ensure initial sync
+  renderHub('', ''); // Render empty hub initially
+  renderMindJob(); // Render mind map
+  updateMindPanelState(); // Set initial canvas mode state
+  setTimeout(() => {
+    centerMind();
+    updateConnectors();
+  }, 100); // Give a little time for elements to render before centering
+
+  // Attach event listeners for select changes to trigger renderMindJob
+  const selects = document.querySelectorAll('select');
+  selects.forEach(select => {
+    select.addEventListener('change', () => {
+      // Only re-render mind job if it's the active screen
+      if (currentScreen === 'mindjob') {
+        renderMindJob();
+      }
+    });
+  });
 });
+
+// Mock loadApi - not implemented in provided code, so leaving as a placeholder
+function loadApi() {
+  console.log('loadApi() called - API functionality not fully implemented in this example.');
+}
+
+// Mock buildCleanContext - not implemented in provided code, so returning empty string
+function buildCleanContext() {
+  console.log('buildCleanContext() called - returning empty string.');
+  return '';
+}
+
+// Update preview (simple placeholder)
+function updatePreview() {
+  console.log('Updating preview...');
+  const titleEl = document.querySelector('.preview .stage .title');
+  const subEl = document.querySelector('.preview .stage .sub');
+  if (titleEl) titleEl.textContent = val('projectName') || 'Video Pack';
+  if (subEl) subEl.textContent = getRealText('previewOut') ? shortText(getRealText('previewOut'), 50) : 'Prévia sem render MP4';
+}
 
 </script>
 </body>
