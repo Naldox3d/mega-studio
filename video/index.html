@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V1.4 Canvas Vivo</title>
+<title>Video Pack Studio — Titan Colossal V1.5 Canvas Dominante</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
@@ -70,7 +70,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .nodeMiniHandle{position:absolute;right:10px;bottom:8px;color:#64748b;font-size:13px;pointer-events:none}.nodeDragging .nodeMiniHandle{color:#d6ad68}
 
 
-/* Titan Colossal V1.4 — Árvore da Criação aprovada: símbolos, progresso e estação de trabalho viva */
+/* Titan Colossal V1.5 — Árvore da Criação aprovada: símbolos, progresso e estação de trabalho viva */
 :root{--blue:#5aa9ff;--locked:#6b7280;--orange:#e8b766}
 .nodeViewport{height:78vh;min-height:650px;background:radial-gradient(circle at 18% 16%,rgba(101,217,210,.10),transparent 22%),radial-gradient(circle at 65% 15%,rgba(214,173,104,.08),transparent 26%),radial-gradient(circle at 78% 70%,rgba(90,169,255,.07),transparent 24%),#050813}
 .nodeMap{min-width:1600px;min-height:900px}.connectorSvg{width:1600px;height:900px}.node{width:270px;border-radius:22px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),rgba(13,18,32,.94);box-shadow:0 18px 55px rgba(0,0,0,.32)}
@@ -89,7 +89,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 @media(max-width:980px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.two,.three,.provider{grid-template-columns:1fr}.topbar{flex-wrap:wrap}.nav{margin-left:0}.main{padding:14px}}
 
 
-/* Titan Colossal V1.4 — Canvas Vivo / painel recolhível */
+/* Titan Colossal V1.5 — Canvas Vivo / painel recolhível */
 body.mind-canvas-mode .hero,
 body.mind-canvas-mode .tabs,
 body.mind-canvas-mode #centralHub{display:none!important}
@@ -109,6 +109,61 @@ body.mind-canvas-mode .mindHero.compactMind{padding:8px 12px;margin-bottom:8px;p
 .workstationAttachLine{position:absolute;width:2px;height:42px;background:linear-gradient(var(--gold),rgba(214,173,104,.05));box-shadow:0 0 18px rgba(214,173,104,.24);z-index:4;pointer-events:none}
 @media(max-width:980px){body.mind-canvas-mode .nodeViewport{height:70vh}.mindHero.collapsedTop .zoomTools::before{width:100%;justify-content:center}.mindHero.collapsedTop .mindControlBar{justify-content:flex-start}}
 
+
+/* Titan Colossal V1.5 — Canvas Dominante / área máxima de trabalho */
+.canvasDock{display:none}
+body.mind-canvas-mode{overflow:hidden}
+body.mind-canvas-mode .topbar{display:none!important}
+body.mind-canvas-mode .shell{grid-template-columns:72px minmax(0,1fr);min-height:100vh}
+body.mind-canvas-mode .side{padding:8px 6px;overflow:hidden}
+body.mind-canvas-mode .side h4,
+body.mind-canvas-mode .side .pill,
+body.mind-canvas-mode .side p,
+body.mind-canvas-mode .sideMindTools{display:none!important}
+body.mind-canvas-mode .side .step{font-size:0;padding:10px 6px;text-align:center;margin-bottom:6px;border-radius:14px}
+body.mind-canvas-mode .side .step::before{content:attr(data-num);font-size:12px;font-weight:900;color:#dbe5ff}
+body.mind-canvas-mode .side .step.active::before{color:#1a1203}
+body.mind-canvas-mode .main{padding:6px;overflow:hidden}
+body.mind-canvas-mode .mindHero.compactMind{position:relative;top:0;padding:6px 8px;margin:0 0 6px 0;border-radius:14px}
+body.mind-canvas-mode .mindHero.compactMind:not(.collapsedTop){max-height:115px;overflow:hidden}
+body.mind-canvas-mode .mindHero.compactMind .mindTitleLine{display:none!important}
+body.mind-canvas-mode .mindHero.compactMind .progressToggleRow{margin:0;padding:0;border:0;gap:6px}
+body.mind-canvas-mode .mindHero.compactMind .zoomTools .btn:not(.keepCompact){display:none!important}
+body.mind-canvas-mode .mindHero.compactMind .mindControlBar{margin:0;justify-content:flex-end}
+body.mind-canvas-mode .mindShell{padding:0;margin:0;border-radius:16px;height:calc(100vh - 18px);display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+body.mind-canvas-mode .mindShell>.hubHead{padding:8px 12px;margin:0;border-bottom:1px solid rgba(255,255,255,.08);display:flex!important}
+body.mind-canvas-mode .mindShell>.hubHead h2{font-size:15px;margin:0}
+body.mind-canvas-mode .mindShell>.hubHead p,
+body.mind-canvas-mode .mindShell>.hubHead .kicker,
+body.mind-canvas-mode .mindShell>.hubHead .nodeLegend{display:none!important}
+body.mind-canvas-mode .mindShell>.hubHead .mindControlBar{margin:0}
+body.mind-canvas-mode .nodeViewport{height:auto!important;min-height:0!important;border-radius:0;border-left:0;border-right:0;border-bottom:0}
+body.mind-canvas-mode .canvasDock{display:flex;position:absolute;left:12px;top:12px;bottom:12px;width:228px;z-index:15;flex-direction:column;gap:10px;border:1px solid rgba(101,217,210,.25);border-radius:18px;background:linear-gradient(180deg,rgba(13,18,32,.92),rgba(5,8,19,.80));backdrop-filter:blur(10px);padding:12px;box-shadow:0 22px 70px rgba(0,0,0,.34)}
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock{width:52px;padding:8px;align-items:center}
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock .dockText,
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock .dockSection,
+body.mind-canvas-mode.canvas-dock-collapsed .canvasDock .dockActions{display:none!important}
+.canvasDockTitle{font-family:Syne,sans-serif;font-weight:900;color:#eadcc1;line-height:1.15;font-size:15px}
+.canvasDock .dockChip{display:inline-flex;align-items:center;border:1px solid rgba(101,217,210,.35);border-radius:999px;background:rgba(101,217,210,.08);color:#baf7f2;padding:5px 8px;font:10px Space Mono,monospace;text-transform:uppercase;letter-spacing:.10em}
+.canvasDock .dockSection{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025);padding:9px}
+.canvasDock .dockSection strong{display:block;color:#eadcc1;font-size:12px;margin-bottom:4px}
+.canvasDock .dockSection span{display:block;color:#aeb8cf;font-size:11px;line-height:1.45}
+.canvasDock .dockActions{display:grid;grid-template-columns:1fr;gap:6px;margin-top:auto}
+.canvasDock .btn{width:100%;padding:8px 9px;font-size:11px}
+.canvasDockToggle{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:#101729;color:#dbe5ff;display:grid;place-items:center;font-weight:900}
+body.mind-canvas-mode .mapHint{right:14px;bottom:14px}
+body.mind-canvas-mode .canvasModeHint{left:258px;top:14px}
+body.mind-canvas-mode.canvas-dock-collapsed .canvasModeHint{left:78px}
+body.mind-canvas-mode .nodeViewport::after{content:'Canvas dominante ativo — trabalhe direto na Árvore';position:absolute;right:14px;top:14px;z-index:5;border:1px solid rgba(214,173,104,.28);background:rgba(5,8,19,.82);color:#f2dcad;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;pointer-events:none}
+body.mind-canvas-mode .nodeWorkspace{max-height:calc(100vh - 120px);overflow:auto}
+body.mind-canvas-mode .nodeWorkspace.linkedWorkspace{box-shadow:0 30px 95px rgba(0,0,0,.55),0 0 0 1px rgba(214,173,104,.12) inset}
+@media(max-width:980px){
+ body.mind-canvas-mode .shell{grid-template-columns:1fr}
+ body.mind-canvas-mode .side{display:none}
+ body.mind-canvas-mode .canvasDock{width:190px}
+ body.mind-canvas-mode .canvasModeHint{left:210px}
+}
+
 </style>
 </head>
 <body>
@@ -126,15 +181,15 @@ body.mind-canvas-mode .mindHero.compactMind{padding:8px 12px;margin-bottom:8px;p
 <div class="shell">
   <aside class="side">
     <h4>Fluxo de vídeo</h4>
-    <button class="step active" data-step="briefing" onclick="showScreen('briefing')">1. Briefing / origem</button>
-    <button class="step" data-step="modelo" onclick="showScreen('modelo')">2. Modelo / formato</button>
-    <button class="step" data-step="roteiro" onclick="showScreen('roteiro')">3. Roteiro visual</button>
-    <button class="step" data-step="json" onclick="showScreen('json')">4. JSON Remotion</button>
-    <button class="step" data-step="srt" onclick="showScreen('srt')">5. SRT / som</button>
-    <button class="step" data-step="preview" onclick="showScreen('preview')">6. Preview leve</button>
-    <button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportar pacote</button>
-    <button class="step" data-step="api" onclick="showScreen('api')">8. API</button>
-    <button class="step" data-step="mindjob" onclick="showScreen('mindjob');renderMindJob()">9. Árvore / Nodes</button>
+    <button class="step active" data-step="briefing" data-num="1" onclick="showScreen('briefing')">1. Briefing / origem</button>
+    <button class="step" data-step="modelo" data-num="2" onclick="showScreen('modelo')">2. Modelo / formato</button>
+    <button class="step" data-step="roteiro" data-num="3" onclick="showScreen('roteiro')">3. Roteiro visual</button>
+    <button class="step" data-step="json" data-num="4" onclick="showScreen('json')">4. JSON Remotion</button>
+    <button class="step" data-step="srt" data-num="5" onclick="showScreen('srt')">5. SRT / som</button>
+    <button class="step" data-step="preview" data-num="6" onclick="showScreen('preview')">6. Preview leve</button>
+    <button class="step" data-step="exportacao" data-num="7" onclick="showScreen('exportacao')">7. Exportar pacote</button>
+    <button class="step" data-step="api" data-num="8" onclick="showScreen('api')">8. API</button>
+    <button class="step" data-step="mindjob" data-num="9" onclick="showScreen('mindjob');renderMindJob()">9. Árvore / Nodes</button>
 
     <h4>Modelos</h4>
     <span class="pill">Produto animado</span><span class="pill">Poster vivo</span><span class="pill">Flyer animado</span><span class="pill">Motion Comic</span><span class="pill">Story/Reels</span><span class="pill">YouTube</span><span class="pill">Slideshow</span>
@@ -332,7 +387,7 @@ body.mind-canvas-mode .mindHero.compactMind{padding:8px 12px;margin-bottom:8px;p
       <div class="card mindHero compactMind" id="mindHeroPanel">
         <div class="mindTitleLine">
           <div>
-            <div class="kicker">Titan Colossal V1.4</div>
+            <div class="kicker">Titan Colossal V1.5</div>
             <h2>Árvore da Criação</h2>
             <p class="mindSubtitle"><strong>Sistema vivo de produção criativa em nodes</strong><br>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
           </div>
@@ -343,8 +398,8 @@ body.mind-canvas-mode .mindHero.compactMind{padding:8px 12px;margin-bottom:8px;p
         </div>
         <div class="progressToggleRow">
           <div class="zoomTools">
-            <button class="btn gold keepCompact" id="mindCanvasBtn" onclick="toggleCanvasMode()" type="button">Modo canvas</button>
-            <button class="btn keepCompact" id="mindCollapseBtn" onclick="toggleMindTop()" type="button">Minimizar topo</button>
+            <button class="btn gold keepCompact" id="mindCanvasBtn" onclick="toggleCanvasMode()" type="button">Canvas dominante</button>
+            <button class="btn keepCompact" id="mindCollapseBtn" onclick="toggleMindTop()" type="button">Recolher topo</button>
             <button class="btn" onclick="toggleMindProgress()">▸ Painel de progresso</button>
             <button class="btn" onclick="showScreen('briefing')">Abrir Briefing Mestre</button>
             <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
@@ -378,7 +433,31 @@ body.mind-canvas-mode .mindHero.compactMind{padding:8px 12px;margin-bottom:8px;p
             </svg>
             <div id="mindCanvas"></div>
           </div>
-          <div class="canvasModeHint">Canvas vivo: recolha o topo para ganhar tela</div>
+
+          <div class="canvasDock" id="canvasDock">
+            <button class="canvasDockToggle" onclick="toggleCanvasDock()" title="Recolher/expandir dock">☰</button>
+            <div class="dockText">
+              <span class="dockChip">Canvas Dominante</span>
+              <div class="canvasDockTitle">Árvore da Criação</div>
+              <p class="mini">Cérebro visual: nodes, ramificações, estação ativa e pacote final sem se perder.</p>
+            </div>
+            <div class="dockSection">
+              <strong id="dockActiveTitle">Node ativo</strong>
+              <span id="dockActiveText">Clique em um node para abrir a estação de trabalho.</span>
+            </div>
+            <div class="dockSection">
+              <strong>Mister Egg</strong>
+              <span id="dockEggText">Preencha o Briefing Mestre para começar.</span>
+            </div>
+            <div class="dockActions">
+              <button class="btn gold" onclick="generate('complete')">Gerar mestre</button>
+              <button class="btn purple" onclick="reorganizeCards()">Revisar cards</button>
+              <button class="btn green" onclick="buildExport()">Montar limpo</button>
+              <button class="btn cyan" onclick="centerMind()">Centralizar</button>
+              <button class="btn red" onclick="toggleCanvasMode()">Sair do canvas</button>
+            </div>
+          </div>
+          <div class="canvasModeHint">Canvas dominante: topo recolhido, foco total na Árvore</div>
           <div class="mapHint">Roda = zoom • arraste o mapa/nodes • clique no node para abrir estação • Ctrl + / − / 0</div>
         </div>
       </div>
@@ -452,7 +531,7 @@ function syncModelToBrief(){
   const pairs=[["template","briefTemplate"],["format","briefFormat"],["duration","briefDuration"],["motionStyle","briefMotionStyle"]];
   pairs.forEach(([a,b])=>{if($(a)&&$(b))$(b).value=$(a).value});
 }
-function showScreen(id){if(id!=="briefing")syncMasterToTabs();document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id)?.classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));document.querySelectorAll(".step").forEach(s=>s.classList.toggle("active",s.dataset.step===id));if(id!=="mindjob")document.body.classList.remove("mind-canvas-mode");else{if(mindCanvasMode)document.body.classList.add("mind-canvas-mode");renderMindJob();updateMindPanelState()}window.scrollTo({top:0,behavior:"smooth"})}
+function showScreen(id){if(id!=="briefing")syncMasterToTabs();document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id)?.classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));document.querySelectorAll(".step").forEach(s=>s.classList.toggle("active",s.dataset.step===id));if(id!=="mindjob"){document.body.classList.remove("mind-canvas-mode");document.body.classList.remove("canvas-dock-collapsed");}else{if(mindCanvasMode)document.body.classList.add("mind-canvas-mode");renderMindJob();updateMindPanelState()}window.scrollTo({top:0,behavior:"smooth"})}
 function selectProvider(p,btn){provider=p;document.querySelectorAll("[data-provider]").forEach(b=>b.classList.remove("active"));btn.classList.add("active")}
 function context(){return `VIDEO PACK STUDIO — SEM RENDER MP4
 
@@ -726,6 +805,7 @@ let activeNodeId='brief';
 let generatingType='';
 let mindTopCollapsed=false;
 let mindCanvasMode=false;
+let mindDockCollapsed=false;
 const NODE_POS_KEY='arvoreCriacaoNodePositionsV13';
 const DEFAULT_NODE_POSITIONS={
   brief:{x:60,y:70}, modelo:{x:430,y:70}, roteiro:{x:760,y:70}, json:{x:1100,y:70},
@@ -740,14 +820,33 @@ const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 function updateMindPanelState(){
   const hero=$('mindHeroPanel');
   if(hero)hero.classList.toggle('collapsedTop',mindTopCollapsed);
-  document.body.classList.toggle('mind-canvas-mode',mindCanvasMode && document.getElementById('mindjob')?.classList.contains('active'));
+  const activeMind=mindCanvasMode && document.getElementById('mindjob')?.classList.contains('active');
+  document.body.classList.toggle('mind-canvas-mode',activeMind);
+  document.body.classList.toggle('canvas-dock-collapsed',activeMind && mindDockCollapsed);
   const collapseBtn=$('mindCollapseBtn');
-  if(collapseBtn)collapseBtn.textContent=mindTopCollapsed?'Expandir topo':'Minimizar topo';
+  if(collapseBtn)collapseBtn.textContent=mindTopCollapsed?'Expandir topo':'Recolher topo';
   const canvasBtn=$('mindCanvasBtn');
-  if(canvasBtn)canvasBtn.textContent=mindCanvasMode?'Sair do canvas':'Modo canvas';
+  if(canvasBtn)canvasBtn.textContent=mindCanvasMode?'Sair do canvas':'Canvas dominante';
+  const dockTitle=$('dockActiveTitle');
+  const dockText=$('dockActiveText');
+  if(dockTitle&&dockText){
+    const titles={brief:'Briefing Mestre',modelo:'Modelo / Formato',roteiro:'Roteiro Visual',json:'JSON / Remotion',srt:'SRT / Som',preview:'Preview',pacote:'Pacote Final',ramo:'Ramificações'};
+    dockTitle.textContent='Node ativo: '+(titles[activeNodeId]||activeNodeId);
+    dockText.textContent=activeNodeId==='brief'?'Preencha uma vez e libere as ramificações.':'A estação deste node abre no canvas e pode ser aplicada ao pacote final.';
+  }
 }
 function toggleMindTop(){mindTopCollapsed=!mindTopCollapsed;updateMindPanelState();setTimeout(centerMind,80)}
-function toggleCanvasMode(){mindCanvasMode=!mindCanvasMode;updateMindPanelState();setTimeout(centerMind,80)}
+function toggleCanvasMode(){
+  mindCanvasMode=!mindCanvasMode;
+  if(mindCanvasMode)mindTopCollapsed=true;
+  updateMindPanelState();
+  setTimeout(centerMind,80);
+}
+function toggleCanvasDock(){
+  mindDockCollapsed=!mindDockCollapsed;
+  document.body.classList.toggle('canvas-dock-collapsed',mindDockCollapsed);
+  setTimeout(()=>{setMindTransform();updateConnectors()},30);
+}
 function placeWorkspaceForNode(id){
   const ws=$('nodeWorkspace');
   if(!ws)return;
@@ -781,8 +880,9 @@ function resetMindZoom(){mindZoom=1;mindPan={x:0,y:0};setMindTransform()}
 function centerMind(){
   const vp=$('nodeViewport'); const map=$('nodeMap');
   if(!vp||!map)return;
-  mindZoom=clamp(vp.clientWidth/1180,0.65,1.15);
-  mindPan={x:Math.max(18,(vp.clientWidth-1120*mindZoom)/2),y:Math.max(18,(vp.clientHeight-560*mindZoom)/2)};
+  const dockOffset=(mindCanvasMode && !mindDockCollapsed)?245:0;
+  mindZoom=clamp((vp.clientWidth-dockOffset)/1180,0.65,1.15);
+  mindPan={x:Math.max(18+dockOffset,(vp.clientWidth-dockOffset-1120*mindZoom)/2+dockOffset),y:Math.max(18,(vp.clientHeight-560*mindZoom)/2)};
   setMindTransform();
 }
 function toggleMindFullscreen(){
@@ -924,6 +1024,7 @@ function eggByStatus(){
   if(exported)mood=['🎬','Mister Egg com claquete','Pacote final montado: pronto para baixar, compartilhar ou usar em outra ferramenta.'];
   if(hasError)mood=['⚠️','Mister Egg alerta','Existe erro em uma saída. Corrija antes de exportar.'];
   if($('eggMood')){$('eggMood').textContent=mood[0];$('eggTitle').textContent=mood[1];$('eggText').textContent=mood[2];}
+  if($('dockEggText'))$('dockEggText').textContent=mood[2];
 }
 function nodeCard(n){
   const active=n.id===activeNodeId?' activeNode':'';
