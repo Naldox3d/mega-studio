@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Video Pack Studio — Sem Render MP4</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body{background:radial-gradient(circle at 80% 8%,rgba(214,173,104,.10),transparent 25%),radial-gradient(circle at 12% 18%,rgba(101,217,210,.07),transparent 25%),linear-gradient(180deg,#070a12,#090d18 55%,#070a12)}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.topbar{position:sticky;top:0;z-index:20;display:flex;gap:12px;align-items:center;padding:14px 18px;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.brand{font-family:Syne,sans-serif;font-weight:900;font-size:18px;color:#eadcc1;letter-spacing:.04em}.brand small{font-family:Space Mono,monospace;color:var(--gold);font-size:10px;margin-left:8px}.nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);padding:9px 13px;font-size:12px;font-weight:800;text-decoration:none;display:inline-flex;gap:6px;align-items:center;justify-content:center}
+.btn.gold{background:linear-gradient(180deg,#e1bc7b,#c89a55);color:#1a1203;border-color:rgba(214,173,104,.65)}.btn.green{background:linear-gradient(180deg,#83dda9,#61c78c);color:#07140d;border-color:rgba(116,217,154,.65)}.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.35);color:#cafffb}.btn.purple{background:rgba(185,156,255,.10);border-color:rgba(185,156,255,.35);color:#eadcff}.btn.red{background:rgba(225,138,138,.10);border-color:rgba(225,138,138,.35);color:#ffd5d5}
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:calc(100vh - 64px)}.side{border-right:1px solid var(--line);background:#0b1020;padding:14px;overflow:auto}.side h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}
+.step{width:100%;text-align:left;border:1px solid var(--line);border-radius:13px;padding:10px 11px;margin-bottom:8px;background:rgba(255,255,255,.025);font-size:12px;color:var(--text)}
+.step.active{border-color:rgba(214,173,104,.70);background:rgba(214,173,104,.10);box-shadow:0 0 0 1px rgba(214,173,104,.10) inset}.step:hover{filter:brightness(1.09)}
+.main{padding:22px;overflow:auto}.hero,.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),var(--panel);padding:18px;margin-bottom:14px}.kicker{display:inline-flex;padding:5px 9px;border:1px solid rgba(101,217,210,.32);border-radius:999px;color:#baf7f2;background:rgba(101,217,210,.08);font:10px Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+h1,h2,h3{font-family:Syne,sans-serif;margin:0;color:#eadcc1;letter-spacing:.04em}h1{font-size:clamp(28px,3vw,44px);line-height:1}h2{font-size:22px;margin-bottom:12px}p{color:#bac3d8;line-height:1.6}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:10px 0 7px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#0b1020;color:var(--text);padding:10px 12px;outline:none}textarea{min-height:110px;resize:vertical;line-height:1.55}.output{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:250px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff;overflow:auto}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.notice{border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.07);color:#baf7f2;border-radius:14px;padding:11px 13px;font-size:12px;line-height:1.55;margin:12px 0}.provider{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.provider button.active{border-color:var(--gold);background:rgba(214,173,104,.10);color:#f0d29b}.mini{font-size:11px;color:var(--muted);font-family:Space Mono,monospace}.pill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:10px;color:var(--muted);margin:3px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#101729;color:#c9d4ee;font-size:12px;font-weight:900}.tab.active{background:rgba(214,173,104,.13);border-color:rgba(214,173,104,.55);color:#f1d49d}.screen{display:none}.screen.active{display:block}
+.preview{min-height:360px;border:1px solid var(--line);border-radius:18px;background:#050813;overflow:hidden;position:relative;display:grid;place-items:center}
+.stage{width:min(320px,75vw);aspect-ratio:9/16;border:1px solid rgba(255,255,255,.16);border-radius:22px;background:linear-gradient(160deg,#111827,#070a12);position:relative;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.35)}
+.stage .orb{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(101,217,210,.40),transparent 62%);left:-50px;top:70px;animation:float 5s infinite alternate ease-in-out}
+.stage .orb2{position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(214,173,104,.30),transparent 65%);right:-90px;bottom:90px;animation:float2 6s infinite alternate ease-in-out}
+.stage .title{position:absolute;left:22px;right:22px;top:34%;font-family:Syne,sans-serif;font-size:28px;line-height:1.05;color:#eadcc1;animation:push 3.5s infinite ease-in-out}
+.stage .sub{position:absolute;left:22px;right:22px;top:54%;font-size:13px;color:#cde8ff;line-height:1.4}
+.stage .cta{position:absolute;left:22px;right:22px;bottom:38px;text-align:center;border-radius:999px;background:var(--gold);color:#1a1203;padding:10px;font-weight:900}
+@keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(55px,-20px) scale(1.12)}}@keyframes float2{from{transform:translate(0,0) scale(1)}to{transform:translate(-35px,30px) scale(1.12)}}@keyframes push{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.035)}}
+@media(max-width:980px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.two,.three,.provider{grid-template-columns:1fr}.topbar{flex-wrap:wrap}.nav{margin-left:0}.main{padding:14px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Video Pack Studio <small>Sem MP4 / avançado</small></div>
+  <nav class="nav">
+    <a class="btn" href="/studio/">Studio</a>
+    <a class="btn" href="/client/">Client</a>
+    <a class="btn" href="/print/">Print</a>
+    <a class="btn gold" href="/video/">Video</a>
+  </nav>
+</header>
+
+<div class="shell">
+  <aside class="side">
+    <h4>Fluxo de vídeo</h4>
+    <button class="step active" data-step="briefing" onclick="showScreen('briefing')">1. Briefing / origem</button>
+    <button class="step" data-step="modelo" onclick="showScreen('modelo')">2. Modelo / formato</button>
+    <button class="step" data-step="roteiro" onclick="showScreen('roteiro')">3. Roteiro visual</button>
+    <button class="step" data-step="json" onclick="showScreen('json')">4. JSON Remotion</button>
+    <button class="step" data-step="srt" onclick="showScreen('srt')">5. SRT / som</button>
+    <button class="step" data-step="preview" onclick="showScreen('preview')">6. Preview leve</button>
+    <button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportar pacote</button>
+    <button class="step" data-step="api" onclick="showScreen('api')">8. API</button>
+
+    <h4>Modelos</h4>
+    <span class="pill">Produto animado</span><span class="pill">Poster vivo</span><span class="pill">Flyer animado</span><span class="pill">Motion Comic</span><span class="pill">Story/Reels</span><span class="pill">YouTube</span><span class="pill">Slideshow</span>
+
+    <h4>Regra</h4>
+    <p class="mini">Este módulo não renderiza MP4. Ele gera pacote avançado: roteiro visual, JSON, SRT, prompt CapCut, prompt Remotion, assets e instruções.</p>
+  </aside>
+
+  <main class="main">
+    <section class="hero">
+      <div class="kicker">Video sem custo pesado</div>
+      <h1>Video Pack / Remotion Pack</h1>
+      <p>Trabalha com tudo: projeto do Studio, Print, Client ou briefing manual. Gera pacote avançado para vídeo, mas sem renderizar MP4.</p>
+      <div class="notice">Sem MP4 automático agora. O objetivo é economizar: IA gera o pacote técnico e criativo; você usa CapCut, Remotion, Seedance, Luma/Kling ou outro fluxo depois, se quiser.</div>
+    </section>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="briefing" onclick="showScreen('briefing')">Briefing</button>
+      <button class="tab" data-tab="modelo" onclick="showScreen('modelo')">Modelo</button>
+      <button class="tab" data-tab="roteiro" onclick="showScreen('roteiro')">Roteiro</button>
+      <button class="tab" data-tab="json" onclick="showScreen('json')">JSON</button>
+      <button class="tab" data-tab="srt" onclick="showScreen('srt')">SRT/Som</button>
+      <button class="tab" data-tab="preview" onclick="showScreen('preview')">Preview</button>
+      <button class="tab" data-tab="exportacao" onclick="showScreen('exportacao')">Exportar</button>
+      <button class="tab" data-tab="api" onclick="showScreen('api')">API</button>
+    </div>
+
+    <section id="briefing" class="screen active">
+      <div class="grid two">
+        <div class="card">
+          <h2>Origem do projeto</h2>
+          <label>Origem</label>
+          <select id="source">
+            <option>Manual</option>
+            <option>Studio / roteiro / storyboard</option>
+            <option>Print / campanha / produto</option>
+            <option>Client / produto final</option>
+            <option>Referência externa</option>
+          </select>
+          <label>Nome do projeto</label><input id="projectName" placeholder="Ex.: Promoção de hambúrguer, poster vivo, motion comic, campanha de caneca..." />
+          <label>Briefing geral</label><textarea id="brief" placeholder="Cole aqui o briefing, roteiro, copy, descrição da peça ou ideia do vídeo..."></textarea>
+          <label>Material disponível</label><textarea id="assets" placeholder="Imagem base, logo, produto, personagem, cenas, áudio, SRT, fotos, cores, fontes, links de referência..."></textarea>
+          <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote completo</button><button class="btn cyan" onclick="showScreen('modelo')">Avançar</button></div>
+        </div>
+        <div class="card"><h2>Resultado principal</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar</button><button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar TXT</button></div></div>
+      </div>
+    </section>
+
+    <section id="modelo" class="screen">
+      <div class="grid two">
+        <div class="card">
+          <h2>Modelo / formato</h2>
+          <label>Modelo de vídeo</label>
+          <select id="template">
+            <option>Produto animado</option><option>Poster vivo</option><option>Flyer animado</option><option>Story/Reels/TikTok promocional</option><option>Motion Comic 2D</option><option>YouTube intro/banner</option><option>Slideshow comercial</option><option>Antes/depois</option><option>Top 5 / lista animada</option><option>Mockup de camiseta/caneca/poster</option>
+          </select>
+          <label>Formato</label><select id="format"><option>9:16 vertical</option><option>16:9 horizontal</option><option>1:1 quadrado</option><option>4:5 feed</option><option>21:9 cinematic</option></select>
+          <label>Duração</label><select id="duration"><option>8 segundos</option><option>15 segundos</option><option>30 segundos</option><option>45 segundos</option><option>60 segundos</option></select>
+          <label>Estilo de movimento</label><select id="motionStyle"><option>Motion graphic limpo</option><option>Camera seca e tensão</option><option>Anime 2D / motion comic</option><option>Comercial premium</option><option>Popular rápido para TikTok</option><option>Luxo minimalista</option><option>Streetwear / cultura pop</option></select>
+          <div class="actions"><button class="btn gold" onclick="generate('templatePlan')">Gerar plano do modelo</button><button class="btn cyan" onclick="showScreen('roteiro')">Ir para roteiro</button></div>
+        </div>
+        <div class="card"><h2>Plano do modelo</h2><div class="output" id="templateOut">Aguardando.</div></div>
+      </div>
+    </section>
+
+    <section id="roteiro" class="screen">
+      <div class="grid two">
+        <div class="card">
+          <h2>Roteiro visual avançado</h2>
+          <label>Objetivo do vídeo</label><select id="goal"><option>Vender produto</option><option>Explicar ideia</option><option>Gerar curiosidade</option><option>Promover marca</option><option>Transformar poster/flyer em vídeo</option><option>Cena narrativa / motion comic</option></select>
+          <label>Tom</label><select id="tone"><option>Profissional</option><option>Impactante</option><option>Emocional</option><option>Horror/tensão</option><option>Divertido</option><option>Premium</option><option>Popular direto</option></select>
+          <label>Texto obrigatório</label><textarea id="requiredText" placeholder="CTA, preço, slogan, data, WhatsApp, frase principal, falas obrigatórias..."></textarea>
+          <div class="actions"><button class="btn gold" onclick="generate('visualScript')">Gerar roteiro visual</button><button class="btn purple" onclick="generate('shotList')">Gerar shot list</button><button class="btn cyan" onclick="showScreen('json')">Ir para JSON</button></div>
+        </div>
+        <div class="card"><h2>Roteiro / shot list</h2><div class="output" id="scriptOut">Aguardando.</div></div>
+      </div>
+    </section>
+
+    <section id="json" class="screen">
+      <div class="grid two">
+        <div class="card">
+          <h2>JSON Remotion / animação</h2>
+          <p>Este JSON não renderiza MP4; ele vira instrução para um futuro template Remotion, Claude Code, CapCut ou agente de vídeo.</p>
+          <label>Precisão do JSON</label><select id="jsonLevel"><option>Completo com cenas, layers e timing</option><option>Simples para CapCut</option><option>Remotion avançado</option><option>Motion Comic 2D</option></select>
+          <div class="actions"><button class="btn gold" onclick="generate('remotionJson')">Gerar JSON Remotion</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn green" onclick="download('video-pack.json','jsonOut')">Baixar JSON/TXT</button></div>
+        </div>
+        <div class="card"><h2>JSON / prompt técnico</h2><div class="output" id="jsonOut">Aguardando JSON.</div></div>
+      </div>
+    </section>
+
+    <section id="srt" class="screen">
+      <div class="grid two">
+        <div class="card">
+          <h2>SRT / som / SFX</h2>
+          <label>Tipo de áudio</label><select id="audioType"><option>Narração + SFX</option><option>Só texto animado</option><option>Falas + legenda</option><option>Trilha + impactos</option><option>Horror/tensão sonora</option><option>Comercial rápido</option></select>
+          <div class="actions"><button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som/SFX</button><button class="btn green" onclick="download('video-pack-srt.srt','srtOut')">Baixar SRT</button></div>
+        </div>
+        <div class="card"><h2>Legenda / som</h2><div class="output" id="srtOut">Aguardando.</div></div>
+      </div>
+    </section>
+
+    <section id="preview" class="screen">
+      <div class="grid two">
+        <div class="card">
+          <h2>Preview leve no navegador</h2>
+          <p>Prévia visual simples para validar ritmo/ideia sem render MP4.</p>
+          <div class="actions"><button class="btn gold" onclick="updatePreview()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Gerar guia de preview</button></div>
+          <div class="output" id="previewOut">Aguardando guia.</div>
+        </div>
+        <div class="card">
+          <h2>Simulação visual</h2>
+          <div class="preview">
+            <div class="stage">
+              <div class="orb"></div><div class="orb2"></div>
+              <div class="title" id="pvTitle">Video Pack</div>
+              <div class="sub" id="pvSub">Prévia sem render MP4</div>
+              <div class="cta" id="pvCta">GERAR PACOTE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="exportacao" class="screen">
+      <div class="grid two">
+        <div class="card">
+          <h2>Exportar pacote completo</h2>
+          <p>Exporta tudo que o módulo gerou: briefing, modelo, roteiro, JSON, SRT, som, prompts, assets e instrução técnica.</p>
+          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote final</button><button class="btn green" onclick="download('video-pack-completo.txt','exportOut')">Baixar pacote</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button></div>
+        </div>
+        <div class="card"><h2>Pacote final</h2><div class="output" id="exportOut">Aguardando montagem.</div></div>
+      </div>
+    </section>
+
+    <section id="api" class="screen">
+      <div class="grid two">
+        <div class="card">
+          <h2>API / modelos</h2>
+          <div class="provider">
+            <button class="btn active" data-provider="claude" onclick="selectProvider('claude',this)">Claude</button>
+            <button class="btn" data-provider="gemini" onclick="selectProvider('gemini',this)">Gemini</button>
+            <button class="btn" data-provider="groq" onclick="selectProvider('groq',this)">Groq</button>
+            <button class="btn" data-provider="openrouter" onclick="selectProvider('openrouter',this)">OpenRouter</button>
+          </div>
+          <label>Endpoint</label><input id="endpoint" value="/api/generate-video">
+          <label>Modelo</label><select id="model"><option value="claude-sonnet-4-5">claude-sonnet-4-5</option><option value="claude-3-5-sonnet-latest">claude-3-5-sonnet-latest</option><option value="gemini-2.5-pro">gemini-2.5-pro</option><option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile</option><option value="openrouter/auto">openrouter/auto</option></select>
+          <label>Tokens</label><input id="maxTokens" type="number" value="4200">
+          <label>Temperatura</label><input id="temperature" type="number" step="0.05" value="0.58">
+          <div class="actions"><button class="btn cyan" onclick="testAPI()">Testar API</button><button class="btn green" onclick="saveApi()">Salvar API</button></div>
+        </div>
+        <div class="card"><h2>Status</h2><div class="output" id="apiStatus">Aguardando teste.</div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+let provider="claude";const STORAGE="videoPackStudioV1";function $(id){return document.getElementById(id)}function val(id){return $(id)?.value?.trim()||""}
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id)?.classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));document.querySelectorAll(".step").forEach(s=>s.classList.toggle("active",s.dataset.step===id));window.scrollTo({top:0,behavior:"smooth"})}
+function selectProvider(p,btn){provider=p;document.querySelectorAll("[data-provider]").forEach(b=>b.classList.remove("active"));btn.classList.add("active")}
+function context(){return `VIDEO PACK STUDIO — SEM RENDER MP4
+
+REGRA:
+Não renderizar MP4. Não prometer vídeo final. Gerar pacote avançado para Remotion/CapCut/IA de vídeo/edição.
+Use somente o briefing atual. Não importar projetos antigos, personagens antigos ou cenas antigas.
+
+ORIGEM: ${val("source")}
+PROJETO: ${val("projectName")}
+BRIEFING: ${val("brief")}
+MATERIAL DISPONÍVEL: ${val("assets")}
+
+MODELO: ${val("template")}
+FORMATO: ${val("format")}
+DURAÇÃO: ${val("duration")}
+ESTILO DE MOVIMENTO: ${val("motionStyle")}
+
+OBJETIVO: ${val("goal")}
+TOM: ${val("tone")}
+TEXTO OBRIGATÓRIO: ${val("requiredText")}
+
+JSON: ${val("jsonLevel")}
+ÁUDIO: ${val("audioType")}`}
+
+function task(type){const map={
+api:"Responda apenas: API Video Pack funcionando.",
+complete:"Gere pacote avançado completo com: diagnóstico, conceito, roteiro visual por cenas, shot list, JSON Remotion, SRT, plano de som/SFX, prompt CapCut, prompt para gerador de vídeo, lista de assets, checklist e próximos passos. Não renderize MP4.",
+templatePlan:"Gere plano do modelo escolhido: estrutura, duração, cenas, ritmo, animações, layout, assets necessários e como adaptar para CapCut/Remotion.",
+visualScript:"Gere roteiro visual profissional com cenas numeradas, duração, ação visual, texto em tela, narração/falas opcionais, transição, emoção, som e CTA.",
+shotList:"Gere shot list detalhada com tomada, duração, câmera, movimento, layers, texto, SFX, assets e observações de edição.",
+remotionJson:"Gere um JSON válido e bem estruturado para um template Remotion futuro. Inclua metadata, format, duration, fps, scenes, layers, text, animation, transitions, audio, captions, assets, colors e export notes. Não use comentários fora do JSON; depois do JSON, explique rapidamente como usar.",
+capcutPrompt:"Gere pacote para CapCut: ordem de edição, cortes, textos, keyframes, zoom/pan, SFX, legendas e checklist. Sem render MP4.",
+srt:"Gere legenda SRT limpa com timecodes coerentes para a duração escolhida. Se não houver fala, gerar texto de tela em SRT.",
+soundPlan:"Gere plano de som/SFX/trilha: ambiente, impactos, pausas, respiração, whoosh, risers, cortes e mixagem.",
+previewGuide:"Gere guia de preview leve no navegador: quais textos, cores, animações CSS, timing e layers usar para simular antes de renderizar.",
+};return map[type]||type}
+function targetBox(type){if(type==="templatePlan")return"templateOut";if(type==="visualScript"||type==="shotList")return"scriptOut";if(type==="remotionJson"||type==="capcutPrompt")return"jsonOut";if(type==="srt"||type==="soundPlan")return"srtOut";if(type==="previewGuide")return"previewOut";return"out"}
+function payload(type){return {provider,model:val("model"),max_tokens:Number(val("maxTokens")||4200),temperature:Number(val("temperature")||0.58),prompt:context()+"\n\nTAREFA:\n"+task(type)}}
+async function callAI(type){const res=await fetch(val("endpoint")||"/api/generate-video",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload(type))});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.error||data.details||"Erro na API Video");return data.text||data.output||data.message||JSON.stringify(data,null,2)}
+async function generate(type){const box=targetBox(type);$(box).textContent="Gerando...";try{const text=await callAI(type);$(box).textContent=text;$("out").textContent=text}catch(e){$(box).textContent="Erro: "+e.message;$("out").textContent="Erro: "+e.message}}
+async function testAPI(){$("apiStatus").textContent="Testando...";try{$("apiStatus").textContent=await callAI("api")}catch(e){$("apiStatus").textContent="Erro: "+e.message}}
+function saveApi(){localStorage.setItem(STORAGE,JSON.stringify({provider,endpoint:val("endpoint"),model:val("model"),maxTokens:val("maxTokens"),temperature:val("temperature")}));$("apiStatus").textContent="API salva."}
+function loadApi(){try{const a=JSON.parse(localStorage.getItem(STORAGE)||"{}");if(a.endpoint)$("endpoint").value=a.endpoint;if(a.model)$("model").value=a.model;if(a.maxTokens)$("maxTokens").value=a.maxTokens;if(a.temperature)$("temperature").value=a.temperature;if(a.provider)provider=a.provider}catch(e){}}
+function updatePreview(){const name=val("projectName")||"Video Pack";const tpl=val("template")||"Produto animado";$("pvTitle").textContent=name.slice(0,42);$("pvSub").textContent=tpl+" · "+(val("duration")||"15 segundos");$("pvCta").textContent=(val("goal")||"Gerar pacote").toUpperCase().slice(0,22);$("previewOut").textContent="Preview leve atualizado. Isto é apenas simulação visual no navegador, sem render MP4."}
+function buildExport(){const text=`VIDEO PACK COMPLETO — SEM MP4
+
+${context()}
+
+RESULTADO PRINCIPAL:
+${$("out").textContent}
+
+MODELO:
+${$("templateOut").textContent}
+
+ROTEIRO:
+${$("scriptOut").textContent}
+
+JSON / CAPCUT:
+${$("jsonOut").textContent}
+
+SRT / SOM:
+${$("srtOut").textContent}
+
+PREVIEW:
+${$("previewOut").textContent}
+
+CHECKLIST:
+1. Conferir briefing.
+2. Separar assets.
+3. Validar roteiro visual.
+4. Copiar JSON/prompt para Remotion/CapCut/agente.
+5. Gerar vídeo em ferramenta externa somente se desejar.
+6. Sem render MP4 automático neste módulo.`;$("exportOut").textContent=text;$("out").textContent=text}
+function copy(id){navigator.clipboard.writeText($(id).textContent||$(id).value||"")}
+function download(name,id){const content=$(id).textContent||$(id).value||"";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/plain"}));a.download=name;a.click()}
+async function shareExport(){const text=$("exportOut").textContent||$("out").textContent;if(navigator.share){await navigator.share({title:"Video Pack",text}).catch(()=>{})}else{navigator.clipboard.writeText(text);alert("Copiado.")}}
+loadApi();
+</script>
+</body>
+</html>
