@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V1.5 Canvas Dominante</title>
+<title>Video Pack Studio — Titan Colossal V1.6 Node Inteligente</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
@@ -165,6 +165,30 @@ body.mind-canvas-mode .nodeWorkspace.linkedWorkspace{box-shadow:0 30px 95px rgba
  body.mind-canvas-mode .canvasDock{width:190px}
  body.mind-canvas-mode .canvasModeHint{left:210px}
 }
+
+
+/* Titan Colossal V1.6 — Node Inteligente / fluxo aplicado sem perder contexto */
+.cardFlowPanel{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0 14px;padding:10px;border:1px solid rgba(101,217,210,.24);border-radius:16px;background:rgba(101,217,210,.055)}
+.cardFlowPanel .flowText{font:11px Space Mono,monospace;color:#cafffb;margin-right:auto}
+.cardProgressBar{height:8px;min-width:180px;flex:1;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:#070b15;overflow:hidden}
+.cardProgressBar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .25s ease}
+.section-card{position:relative;transition:.18s ease;border-color:rgba(255,255,255,.10)}
+.section-card.card-applied{border-color:rgba(116,217,154,.55);background:linear-gradient(180deg,rgba(116,217,154,.075),rgba(255,255,255,.018)),rgba(13,18,32,.94)}
+.section-card.card-applied::before{content:"✓ APLICADO";position:absolute;right:12px;top:10px;border:1px solid rgba(116,217,154,.48);background:rgba(116,217,154,.12);color:#caffd9;border-radius:999px;padding:4px 8px;font:9px Space Mono,monospace;letter-spacing:.08em}
+.section-card.card-pending::before{content:"PENDENTE";position:absolute;right:12px;top:10px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f7dfb3;border-radius:999px;padding:4px 8px;font:9px Space Mono,monospace;letter-spacing:.08em}
+.section-card.card-collapsed .section-body,.section-card.card-collapsed .result-tools{display:none}
+.section-card.card-collapsed{min-height:76px}
+.section-card.card-current{outline:2px solid rgba(214,173,104,.55);outline-offset:3px}
+.btn.isApplied{background:rgba(116,217,154,.14);border-color:rgba(116,217,154,.45);color:#caffd9}
+.nodeSmartProgress{display:grid;gap:6px;margin:8px 0 10px}
+.nodeSmartProgressRow{display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:10px;padding:7px 8px;font:10px Space Mono,monospace;color:#cbd5e1}
+.nodeSmartProgressRow.done{border-color:rgba(116,217,154,.35);color:#caffd9}
+.nodeSmartProgressRow.active{border-color:rgba(214,173,104,.45);color:#f7dfb3}
+.nodeSmartProgressRow.wait{opacity:.70}
+.workResultMiniPanel{border:1px solid rgba(101,217,210,.18);background:rgba(101,217,210,.045);border-radius:14px;padding:10px;margin-top:8px}
+.workResultMiniPanel .workOutputInner{max-height:150px}
+.nextNodeHint{border:1px dashed rgba(214,173,104,.35);background:rgba(214,173,104,.055);color:#f4ddb2;border-radius:12px;padding:8px 10px;font-size:11px;line-height:1.45}
+@media(max-width:980px){.cardFlowPanel{align-items:stretch}.cardProgressBar{min-width:100%}.cardFlowPanel .btn{flex:1}.section-card.card-collapsed{min-height:90px}}
 
 </style>
 </head>
@@ -1172,6 +1196,272 @@ renderMindJob();
 updateMindPanelState();
 setTimeout(()=>{centerMind();updateConnectors()},80);
 loadApi();
+
+/* Titan Colossal V1.6 — Função inteligente no node + cards aplicáveis */
+let cardAutoCollapse = true;
+let currentCardIndex = 0;
+let lastHubSections = [];
+const NODE_ORDER = ['brief','modelo','roteiro','json','srt','preview','pacote'];
+
+function safeKey(title, index){
+  return sectionKey(title || ('CARD '+index));
+}
+function updateCardFlowPanel(){
+  let panel = $('cardFlowPanel');
+  const hub = $('centralHub');
+  if(!hub) return;
+  if(!panel){
+    const head = hub.querySelector('.hubHead');
+    panel = document.createElement('div');
+    panel.id = 'cardFlowPanel';
+    panel.className = 'cardFlowPanel';
+    panel.innerHTML = `<span class="flowText" id="cardFlowText">Cards: aguardando geração</span>
+      <div class="cardProgressBar"><span id="cardProgressFill"></span></div>
+      <button class="btn tiny green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button>
+      <button class="btn tiny" onclick="showPendingCards()">Mostrar pendentes</button>
+      <button class="btn tiny" onclick="collapseAppliedCards()">Recolher aplicados</button>
+      <button class="btn tiny purple" onclick="goNextPendingCard()">Próximo card</button>`;
+    head.insertAdjacentElement('afterend', panel);
+  }
+  const cards = [...document.querySelectorAll('#hubCards .section-card')];
+  const total = cards.length;
+  const applied = cards.filter(c=>c.classList.contains('card-applied')).length;
+  const pending = Math.max(0,total-applied);
+  if($('cardFlowText')) $('cardFlowText').textContent = total ? `${applied} de ${total} cards aplicados · ${pending} pendentes` : 'Cards: aguardando geração';
+  if($('cardProgressFill')) $('cardProgressFill').style.width = total ? Math.round(applied/total*100)+'%' : '0%';
+}
+
+function renderHub(text,type){
+  const hub=$("hubCards"); if(!hub)return;
+  const sections=splitSections(text);
+  lastHubSections=sections.map((sec,i)=>({title:sec.title,body:sec.body.join("\n").trim(),key:safeKey(sec.title,i)}));
+  hub.innerHTML="";
+  if(!sections.length){
+    hub.innerHTML='<div class="section-card"><div class="section-head"><h3>Aguardando geração</h3></div><div class="section-body">Gere um pacote para separar aqui em banners.</div></div>';
+    updateCardFlowPanel();
+    return;
+  }
+  sections.forEach((sec,i)=>{
+    const key=safeKey(sec.title,i);
+    const applied=!!appliedSections[key];
+    const card=document.createElement("div");
+    card.className=`section-card ${applied?'card-applied card-collapsed':'card-pending'}`;
+    card.dataset.cardKey=key;
+    card.dataset.cardIndex=i;
+    const bodyId="hubBody"+i;
+    const safeTitle=String(sec.title||'Card').replace(/'/g,"");
+    card.innerHTML=`<div class="section-head"><h3>${sec.title}</h3><span class="mini">${applied?'aplicado':'pendente'}</span></div>
+      <div class="section-body" id="${bodyId}"></div>
+      <div class="result-tools">
+        <button class="btn tiny" onclick="copy('${bodyId}')">Copiar</button>
+        <button class="btn tiny green" onclick="download('video-pack-${i+1}.txt','${bodyId}')">Baixar</button>
+        <button class="btn tiny cyan ${applied?'isApplied':''}" onclick="appendToExport('${bodyId}','${safeTitle}',true)"> ${applied?'Reaplicar':'Aplicar'} </button>
+        <button class="btn tiny" onclick="toggleCardFold(this)"> ${applied?'Reabrir':'Minimizar'} </button>
+      </div>`;
+    hub.appendChild(card);
+    $(bodyId).textContent=sec.body.join("\n").trim();
+  });
+  updateCardFlowPanel();
+}
+
+function toggleCardFold(btn){
+  const card=btn.closest('.section-card'); if(!card)return;
+  card.classList.toggle('card-collapsed');
+  btn.textContent=card.classList.contains('card-collapsed')?'Reabrir':'Minimizar';
+}
+function markCardAppliedByKey(key){
+  const card=document.querySelector(`#hubCards .section-card[data-card-key="${CSS.escape(key)}"]`);
+  if(!card)return;
+  card.classList.remove('card-pending','card-current');
+  card.classList.add('card-applied');
+  if(cardAutoCollapse)card.classList.add('card-collapsed');
+  const mini=card.querySelector('.section-head .mini'); if(mini)mini.textContent='aplicado';
+  const applyBtn=[...card.querySelectorAll('.btn')].find(b=>/Aplicar|Reaplicar/.test(b.textContent));
+  if(applyBtn){applyBtn.textContent='Reaplicar';applyBtn.classList.add('isApplied')}
+  const foldBtn=[...card.querySelectorAll('.btn')].find(b=>/Reabrir|Minimizar/.test(b.textContent));
+  if(foldBtn)foldBtn.textContent=card.classList.contains('card-collapsed')?'Reabrir':'Minimizar';
+}
+
+function appendToExport(id,title,stayHere=false){
+  const content=cleanGeneratedBlock($(id)?.textContent||$(id)?.value||"");
+  if(!content || isPlaceholderText(content)){alert("Nada para aplicar ainda.");return;}
+  const key=sectionKey(title);
+  appliedSections[key]=content;
+  markCardAppliedByKey(key);
+  buildExport(true);
+  updateCardFlowPanel();
+  renderMindJob();
+  if(!stayHere)showScreen('exportacao');
+}
+
+function buildExport(silent=false){
+  const sections={...appliedSections};
+  const roteiro=getRealText("scriptOut");
+  const json=getRealText("jsonOut");
+  const srt=getRealText("srtOut");
+  const modelo=getRealText("templateOut");
+  const preview=getRealText("previewOut");
+  const mestre=getRealText("out");
+  if(modelo)sections["MODELO / FORMATO"]=modelo;
+  if(roteiro)sections["ROTEIRO VISUAL"]=roteiro;
+  if(json)sections["JSON / CAPCUT / REMOTION"]=json;
+  if(srt)sections["SRT / SOM / SFX"]=srt;
+  if(preview)sections["PREVIEW"]=preview;
+  const hasSpecific=["MODELO / FORMATO","ROTEIRO VISUAL","JSON / CAPCUT / REMOTION","SRT / SOM / SFX","PREVIEW"].some(k=>sections[k]);
+  if(mestre && !hasSpecific && !/^VIDEO PACK COMPLETO/i.test(mestre))sections["PACOTE MESTRE"]=mestre;
+  let text=buildCleanContext();
+  const order=["PACOTE MESTRE","DIAGNÓSTICO CRIATIVO","CONCEITO VISUAL","PALETA DE CORES","ESTILO GRÁFICO","ESTRUTURA DE CENAS","ASSETS NECESSÁRIOS","DIREÇÃO DE ÁUDIO","PROMPTS DE DIREÇÃO","MODELO / FORMATO","ROTEIRO VISUAL","JSON / CAPCUT / REMOTION","SRT / SOM / SFX","PREVIEW","CHECKLIST DE PRODUÇÃO","PRÓXIMOS PASSOS"];
+  const used=new Set();
+  for(const key of order){
+    if(sections[key]){text += `\n\n---\n\n## ${key}\n\n${cleanGeneratedBlock(sections[key])}`; used.add(key);}
+  }
+  Object.keys(sections).forEach(key=>{
+    if(!used.has(key) && sections[key]) text += `\n\n---\n\n## ${key}\n\n${cleanGeneratedBlock(sections[key])}`;
+  });
+  text += `\n\n---\n\n## CHECKLIST FINAL INTELIGENTE\n\n1. Conferir cards aplicados e pendentes.\n2. Gerar roteiro visual se ainda estiver pendente.\n3. Gerar JSON/CapCut/Remotion se ainda estiver pendente.\n4. Gerar SRT/Som se ainda estiver pendente.\n5. Montar pacote limpo.\n6. Baixar ou compartilhar.\n7. Não há render MP4 automático neste módulo.`;
+  $("exportOut").textContent=text;
+  if(!silent){
+    renderHub(text,"export");
+    showScreen("exportacao");
+  }
+  renderMindJob();
+}
+
+function applyAllHubCards(moveNext=true){
+  const cards=[...document.querySelectorAll('#hubCards .section-card')];
+  if(!cards.length){alert('Nenhum card para aplicar ainda.');return;}
+  cards.forEach(card=>{
+    const body=card.querySelector('.section-body');
+    const title=card.querySelector('.section-head h3')?.textContent||'Card';
+    const content=cleanGeneratedBlock(body?.textContent||'');
+    if(content && !isPlaceholderText(content)){
+      const key=sectionKey(title);
+      appliedSections[key]=content;
+      markCardAppliedByKey(key);
+    }
+  });
+  buildExport(true);
+  updateCardFlowPanel();
+  renderMindJob();
+  if(moveNext)goNextPendingCard();
+}
+function showPendingCards(){
+  [...document.querySelectorAll('#hubCards .section-card')].forEach(card=>{
+    if(card.classList.contains('card-applied')) card.classList.add('card-collapsed');
+    else card.classList.remove('card-collapsed');
+  });
+  updateCardFlowPanel();
+}
+function collapseAppliedCards(){
+  [...document.querySelectorAll('#hubCards .section-card.card-applied')].forEach(card=>card.classList.add('card-collapsed'));
+}
+function goNextPendingCard(){
+  const cards=[...document.querySelectorAll('#hubCards .section-card')];
+  cards.forEach(c=>c.classList.remove('card-current'));
+  const next=cards.find(c=>!c.classList.contains('card-applied'));
+  if(next){
+    next.classList.add('card-current');
+    next.classList.remove('card-collapsed');
+    next.scrollIntoView({behavior:'smooth',block:'center'});
+  }else if($('exportOut')){
+    $('exportOut').scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function nextNode(){
+  const i=NODE_ORDER.indexOf(activeNodeId);
+  const next=NODE_ORDER[Math.min(NODE_ORDER.length-1, Math.max(0,i+1))] || 'brief';
+  activeNodeId=next;
+  renderMindJob();
+}
+
+const oldShowScreen = showScreen;
+showScreen = function(id){
+  if(id!=="briefing")syncMasterToTabs();
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(id)?.classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));
+  document.querySelectorAll(".step").forEach(s=>s.classList.toggle("active",s.dataset.step===id));
+  if(id!=="mindjob"){
+    document.body.classList.remove("mind-canvas-mode");
+    document.body.classList.remove("canvas-dock-collapsed");
+  }else{
+    if(mindCanvasMode)document.body.classList.add("mind-canvas-mode");
+    renderMindJob();
+    updateMindPanelState();
+  }
+  if(!window.__keepScrollOnce){
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  window.__keepScrollOnce=false;
+}
+
+function smartProgressHTML(){
+  const rows=[
+    ['Briefing Mestre', !!val('brief')],
+    ['Pacote mestre', !!getRealText('out')],
+    ['Cards aplicados', Object.keys(appliedSections).length>0],
+    ['Roteiro', !!getRealText('scriptOut')],
+    ['JSON/CapCut', !!getRealText('jsonOut')],
+    ['SRT/Som', !!getRealText('srtOut')],
+    ['Pacote final', !!getRealText('exportOut')]
+  ];
+  const firstWait=rows.findIndex(r=>!r[1]);
+  return `<div class="nodeSmartProgress">${rows.map((r,i)=>`<div class="nodeSmartProgressRow ${r[1]?'done':(i===firstWait?'active':'wait')}">${r[1]?'✅':(i===firstWait?'▶':'○')} ${r[0]}</div>`).join('')}</div>`;
+}
+
+function renderNodeWorkspace(id){
+  const p=workspacePosition(id); const style=`left:${p.x}px;top:${p.y}px`;
+  const resultText=getRealText('out');
+  if(id==='brief'){
+    return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
+      <div class="workHead"><div><span class="workBadge">🧠 Estação ativa</span><h3>Estação inteligente — Briefing Mestre</h3><p class="mini">Preencha, gere, revise o resultado e envie para as ramificações sem sair do node.</p></div><button class="nodeToggle" onclick="nextNode()">›</button></div>
+      <div class="workBody">
+        ${smartProgressHTML()}
+        <label>Nome do projeto</label><input id="treeProjectName" value="${escAttr(val('projectName'))}" oninput="treeSet('treeProjectName','projectName')" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1">
+        <label>Briefing geral</label><textarea id="treeBrief" oninput="treeSet('treeBrief','brief')" placeholder="Cole o briefing, roteiro, copy ou ideia...">${val('brief')}</textarea>
+        <label>Material disponível</label><textarea id="treeAssets" oninput="treeSet('treeAssets','assets')" placeholder="Assets, fotos, som, SRT, cores, links...">${val('assets')}</textarea>
+        <label>Texto obrigatório / regras</label><textarea id="treeRequired" oninput="treeSet('treeRequired','requiredTextMaster')" placeholder="Frases obrigatórias, eventos que não podem faltar...">${val('requiredTextMaster')}</textarea>
+        <div class="workGrid">
+          <div><label>Modelo</label><select id="treeTemplate" onchange="treeSet('treeTemplate','briefTemplate')"><option>${choice('briefTemplate','template')||'Produto animado'}</option><option>Motion Comic 2D</option><option>Produto animado</option><option>Story/Reels/TikTok promocional</option></select></div>
+          <div><label>Formato</label><select id="treeFormat" onchange="treeSet('treeFormat','briefFormat')"><option>${choice('briefFormat','format')||'9:16 vertical'}</option><option>9:16 vertical</option><option>16:9 horizontal</option><option>1:1 quadrado</option></select></div>
+        </div>
+        <div class="workResultMiniPanel">
+          <div class="workResultHead"><div class="workResultTitle">Resultado mestre dentro do node</div><div class="workResultStatus">${resultText?'gerado':'aguardando'}</div></div>
+          ${resultText?`<pre class="workOutputInner">${escapeHtml(resultText)}</pre>`:`<div class="workHintBox"><b>Aguardando geração.</b><br>Quando gerar o pacote mestre, o resultado aparece aqui e cria ramificações/cards.</div>`}
+        </div>
+        <div class="workActions">
+          <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
+          <button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button>
+          <button class="btn purple" onclick="reorganizeCards()">Revisar cards</button>
+          <button class="btn cyan" onclick="buildExport(true);nextNode()">Aplicar e próximo node</button>
+          <button class="btn red" onclick="clearBriefing()">Limpar</button>
+        </div>
+        <div class="nextNodeHint">Fluxo ideal: gerar resultado → cards/ramificações → aplicar válidos → Próximo node. O Briefing fica compacto e a próxima estação abre.</div>
+      </div>
+    </div>`;
+  }
+  const titles={modelo:'Modelo / Formato',roteiro:'Roteiro Visual',json:'JSON / Remotion',srt:'SRT / Som',preview:'Preview',pacote:'Pacote Final',ramo:'Ramificações'};
+  const actions={
+    modelo:`<button class="btn gold" onclick="generate('templatePlan')">Gerar plano</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO',true)">Aplicar</button>`,
+    roteiro:`<button class="btn gold" onclick="generate('visualScript')">Gerar roteiro</button><button class="btn purple" onclick="generate('shotList')">Shot list</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO',true)">Aplicar</button>`,
+    json:`<button class="btn gold" onclick="generate('remotionJson')">Gerar JSON</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT',true)">Aplicar</button>`,
+    srt:`<button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM',true)">Aplicar</button>`,
+    preview:`<button class="btn gold" onclick="updatePreview();renderMindJob()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW',true)">Aplicar</button>`,
+    pacote:`<button class="btn gold" onclick="buildExport(false)">Montar limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button>`,
+    ramo:`<button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button><button class="btn" onclick="showPendingCards()">Mostrar pendentes</button><button class="btn purple" onclick="goNextPendingCard()">Próximo card</button>`
+  };
+  return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
+    <div class="workHead"><div><span class="workBadge">${statusIcon('ready')} Estação ativa</span><h3>Estação inteligente — ${titles[id]||id}</h3><p class="mini">${stationSubtitle(id)}</p></div><button class="nodeToggle" onclick="nextNode()">›</button></div>
+    <div class="workBody">
+      ${smartProgressHTML()}
+      <div class="workOutput">${workspaceText(id)}</div>
+      <div class="workActions">${actions[id]||''}<button class="btn purple" onclick="nextNode()">Próximo node</button></div>
+    </div>
+  </div>`;
+}
+
+setTimeout(()=>{updateCardFlowPanel();renderMindJob();},120);
+
 </script>
 </body>
 </html>
