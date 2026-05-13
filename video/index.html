@@ -96,12 +96,11 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
         <div>
           <div class="kicker">Central de banners</div>
           <h2>Pacote separado por função</h2>
-          <p>Quando a IA gerar um textão, o site divide em cards: roteiro, JSON, SRT, CapCut, IA vídeo, som, assets e checklist. Cada card tem copiar, baixar e aplicar ao pacote final.</p>
+          <p>Revise cada parte gerada em cards limpos. Use Copiar/Baixar por card e Aplicar para substituir a seção correta no pacote final, sem duplicar.</p>
         </div>
         <div class="actions">
-          <button class="btn" onclick="copy('out')">Copiar principal</button>
-          <button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar principal</button>
-          <button class="btn gold" onclick="buildExport()">Atualizar pacote final</button>
+          <button class="btn" onclick="reorganizeCards()">Reorganizar cards</button>
+          <button class="btn gold" onclick="buildExport()">Gerar pacote limpo</button>
         </div>
       </div>
       <div id="hubCards" class="grid two"></div>
@@ -143,9 +142,9 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
               <select id="briefMotionStyle"><option>Motion graphic limpo</option><option>Camera seca e tensão</option><option>Anime 2D / motion comic</option><option>Comercial premium</option><option>Popular rápido para TikTok</option><option>Luxo minimalista</option><option>Streetwear / cultura pop</option></select>
             </div>
           </div>
-          <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote completo</button><button class="btn cyan" onclick="showScreen('modelo')">Avançar</button><button class="btn" onclick="clearBriefing()">Limpar briefing</button><button class="btn red" onclick="newCleanProject()">Novo projeto limpo</button></div>
+          <div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button><button class="btn purple" onclick="showScreen('roteiro')">Refinar roteiro</button><button class="btn cyan" onclick="showScreen('json')">Gerar técnico</button><button class="btn" onclick="clearBriefing()">Limpar briefing</button><button class="btn red" onclick="newCleanProject()">Novo projeto limpo</button></div>
         </div>
-        <div class="card"><h2>Resultado principal</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar resultado</button><button class="btn green" onclick="download('video-pack-principal.txt','out')">Baixar TXT</button><button class="btn cyan" onclick="buildExport()">Aplicar no pacote final</button><button class="btn red" onclick="clearOutput('out')">Limpar resultado</button></div></div>
+        <div class="card"><h2>Resultado mestre</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar</button><button class="btn green" onclick="download('video-pack-mestre.txt','out')">Baixar TXT</button><button class="btn cyan" onclick="appendToExport('out','PACOTE MESTRE')">Aplicar no pacote</button><button class="btn red" onclick="clearOutput('out')">Limpar</button></div></div>
       </div>
     </section>
 
@@ -227,9 +226,9 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
     <section id="exportacao" class="screen">
       <div class="grid two">
         <div class="card">
-          <h2>Exportar pacote completo</h2>
-          <p>Exporta tudo que o módulo gerou: briefing, modelo, roteiro, JSON, SRT, som, prompts, assets e instrução técnica.</p>
-          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote final</button><button class="btn" onclick="copy('exportOut')">Copiar pacote</button><button class="btn green" onclick="download('video-pack-completo.txt','exportOut')">Baixar pacote</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button><button class="btn red" onclick="clearOutput('exportOut')">Limpar pacote final</button></div>
+          <h2>Exportar pacote limpo</h2>
+          <p>Monta uma entrega final sem duplicação: briefing, roteiro, JSON/CapCut/Remotion, SRT/Som, preview, assets e checklist.</p>
+          <div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote limpo</button><button class="btn" onclick="copy('exportOut')">Copiar pacote</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar pacote</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button><button class="btn red" onclick="clearExport()">Limpar pacote</button></div>
         </div>
         <div class="card"><h2>Pacote final</h2><div class="output" id="exportOut">Aguardando montagem.</div></div>
       </div>
@@ -295,57 +294,158 @@ JSON: ${val("jsonLevel")}
 
 function task(type){const map={
 api:"Responda apenas: API Video Pack funcionando.",
-complete:"Gere pacote avançado completo com: diagnóstico, conceito, roteiro visual por cenas, shot list, JSON Remotion, SRT, plano de som/SFX, prompt CapCut, prompt para gerador de vídeo, lista de assets, checklist e próximos passos. Não renderize MP4.",
+complete:"Gere um PACOTE MESTRE RESUMIDO e organizado. Não repita o briefing. Não gere JSON completo nem SRT completo aqui. Entregue: diagnóstico criativo, conceito, estrutura de cenas resumida, assets necessários, prompts de direção, checklist e próximos passos. Oriente que JSON/SRT completos sejam gerados nas abas específicas. Não renderize MP4.",
 templatePlan:"Gere plano do modelo escolhido: estrutura, duração, cenas, ritmo, animações, layout, assets necessários e como adaptar para CapCut/Remotion.",
-visualScript:"Gere roteiro visual profissional com cenas numeradas, duração, ação visual, texto em tela, narração/falas opcionais, transição, emoção, som e CTA.",
-shotList:"Gere shot list detalhada com tomada, duração, câmera, movimento, layers, texto, SFX, assets e observações de edição.",
-remotionJson:"Gere um JSON válido e bem estruturado para um template Remotion futuro. Inclua metadata, format, duration, fps, scenes, layers, text, animation, transitions, audio, captions, assets, colors e export notes. Não use comentários fora do JSON; depois do JSON, explique rapidamente como usar.",
-capcutPrompt:"Gere pacote para CapCut: ordem de edição, cortes, textos, keyframes, zoom/pan, SFX, legendas e checklist. Sem render MP4.",
-srt:"Gere legenda SRT limpa com timecodes coerentes para a duração escolhida. Se não houver fala, gerar texto de tela em SRT.",
-soundPlan:"Gere plano de som/SFX/trilha: ambiente, impactos, pausas, respiração, whoosh, risers, cortes e mixagem.",
+visualScript:"Gere SOMENTE o roteiro visual profissional e shot list narrativo. Não gere JSON, não gere SRT e não repita o briefing. Use cenas numeradas, duração, ação visual, texto em tela, narração/falas opcionais, transição, emoção, som e CTA.",
+shotList:"Gere SOMENTE o shot list técnico. Não gere JSON completo, não gere SRT e não repita o briefing. Inclua tomada, duração, câmera, movimento, layers, texto, SFX, assets e observações de edição.",
+remotionJson:"Gere SOMENTE um JSON válido e bem estruturado para um template Remotion futuro. Não repita o briefing, não gere roteiro narrativo longo e não gere SRT separado. Inclua metadata, format, duration, fps, scenes, layers, text, animation, transitions, audio, captions, assets, colors e export notes. Retorne o JSON em bloco único.",
+capcutPrompt:"Gere SOMENTE pacote para CapCut: ordem de edição, cortes, textos, keyframes, zoom/pan, SFX, legendas e checklist. Não repita briefing e não gere JSON Remotion completo. Sem render MP4.",
+srt:"Gere SOMENTE legenda SRT limpa com timecodes coerentes para a duração escolhida. Não gere roteiro completo, não gere JSON e não repita briefing. Se não houver fala, gerar texto de tela em SRT.",
+soundPlan:"Gere SOMENTE plano de som/SFX/trilha: ambiente, impactos, pausas, respiração, whoosh, risers, cortes e mixagem. Não gere roteiro completo, não gere JSON e não repita briefing.",
 previewGuide:"Gere guia de preview leve no navegador: quais textos, cores, animações CSS, timing e layers usar para simular antes de renderizar.",
 };return map[type]||type}
 function targetBox(type){if(type==="templatePlan")return"templateOut";if(type==="visualScript"||type==="shotList")return"scriptOut";if(type==="remotionJson"||type==="capcutPrompt")return"jsonOut";if(type==="srt"||type==="soundPlan")return"srtOut";if(type==="previewGuide")return"previewOut";return"out"}
 function payload(type){return {provider,model:val("model"),max_tokens:Number(val("maxTokens")||4200),temperature:Number(val("temperature")||0.58),prompt:context()+"\n\nTAREFA:\n"+task(type)}}
 async function callAI(type){const res=await fetch(val("endpoint")||"/api/generate-video",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload(type))});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.error||data.details||"Erro na API Video");return data.text||data.output||data.message||JSON.stringify(data,null,2)}
-async function generate(type){const box=targetBox(type);$(box).textContent="Gerando...";try{const text=await callAI(type);$(box).textContent=text;$("out").textContent=text;renderHub(text,type)}catch(e){$(box).textContent="Erro: "+e.message;$("out").textContent="Erro: "+e.message;renderHub("Erro: "+e.message,type)}}
+let appliedSections={};
+
+function isPlaceholderText(t){
+  const s=String(t||"").trim();
+  return !s || /^Aguardando/i.test(s) || /^Preencha o briefing/i.test(s) || /^Novo projeto limpo/i.test(s) || /^Briefing limpo/i.test(s) || /^Preview leve atualizado/i.test(s);
+}
+function cleanGeneratedBlock(text){
+  let s=String(text||"").trim();
+  if(!s)return "";
+  const markers=["# 📦 VIDEO PACK STUDIO","# VIDEO PACK STUDIO","## 📋 FICHA TÉCNICA","## 📋 1. ROTEIRO","## 🎬 ROTEIRO","## 📝 ROTEIRO","## 1. DIAGNÓSTICO"];
+  const lastResult=s.lastIndexOf("RESULTADO PRINCIPAL:");
+  if(lastResult>=0){
+    const after=s.slice(lastResult+"RESULTADO PRINCIPAL:".length).trim();
+    if(after.length>80)s=after;
+  }
+  for(const m of markers){
+    const idx=s.indexOf(m);
+    if(idx>0 && idx<3500){s=s.slice(idx).trim();break;}
+  }
+  s=s.replace(/^(VIDEO PACK COMPLETO — SEM MP4\s*){2,}/g,"VIDEO PACK COMPLETO — SEM MP4\n\n");
+  return s.trim();
+}
+function getRealText(id){
+  const el=$(id); if(!el)return "";
+  const text=cleanGeneratedBlock(el.textContent||el.value||"");
+  return isPlaceholderText(text) ? "" : text;
+}
+function sectionKey(title){
+  const t=String(title||"").toUpperCase();
+  if(t.includes("MODELO"))return "MODELO";
+  if(t.includes("ROTEIRO")||t.includes("SHOT"))return "ROTEIRO VISUAL";
+  if(t.includes("JSON")||t.includes("CAPCUT")||t.includes("REMOTION"))return "JSON / CAPCUT / REMOTION";
+  if(t.includes("SRT")||t.includes("SOM")||t.includes("SFX")||t.includes("LEGENDA"))return "SRT / SOM / SFX";
+  if(t.includes("PREVIEW"))return "PREVIEW";
+  if(t.includes("MESTRE")||t.includes("RESULTADO")||t.includes("PACOTE"))return "PACOTE MESTRE";
+  return cleanTitle(title).toUpperCase();
+}
+async function generate(type){
+  const box=targetBox(type);
+  $(box).textContent="Gerando...";
+  try{
+    const text=await callAI(type);
+    $(box).textContent=text;
+    if(box==="out")$("out").textContent=text;
+    renderHub(text,type);
+  }catch(e){
+    $(box).textContent="Erro: "+e.message;
+    if(box==="out")$("out").textContent="Erro: "+e.message;
+    renderHub("Erro: "+e.message,type);
+  }
+}
 async function testAPI(){$("apiStatus").textContent="Testando...";try{$("apiStatus").textContent=await callAI("api")}catch(e){$("apiStatus").textContent="Erro: "+e.message}}
 function saveApi(){localStorage.setItem(STORAGE,JSON.stringify({provider,endpoint:val("endpoint"),model:val("model"),maxTokens:val("maxTokens"),temperature:val("temperature")}));$("apiStatus").textContent="API salva."}
 function loadApi(){try{const a=JSON.parse(localStorage.getItem(STORAGE)||"{}");if(a.endpoint)$("endpoint").value=a.endpoint;if(a.model)$("model").value=a.model;if(a.maxTokens)$("maxTokens").value=a.maxTokens;if(a.temperature)$("temperature").value=a.temperature;if(a.provider)provider=a.provider}catch(e){}}
 function updatePreview(){const name=val("projectName")||"Video Pack";const tpl=choice("briefTemplate","template")||"Produto animado";$("pvTitle").textContent=name.slice(0,42);$("pvSub").textContent=tpl+" · "+(choice("briefDuration","duration")||"15 segundos");$("pvCta").textContent=(val("goal")||"Gerar pacote").toUpperCase().slice(0,22);$("previewOut").textContent="Preview leve atualizado. Isto é apenas simulação visual no navegador, sem render MP4."}
-function buildExport(){const text=`VIDEO PACK COMPLETO — SEM MP4
+function buildCleanContext(){
+  return `VIDEO PACK STUDIO — PACOTE LIMPO / SEM MP4
 
-${context()}
+PROJETO:
+${val("projectName")||"Sem título"}
 
-RESULTADO PRINCIPAL:
-${$("out").textContent}
+REGRA:
+Este pacote não renderiza MP4 e não promete vídeo final. Ele organiza roteiro visual, JSON, SRT, som, prompts, assets e checklist para CapCut, Remotion, IA de vídeo ou edição manual.
 
-MODELO:
-${$("templateOut").textContent}
+ORIGEM:
+${val("source")}
 
-ROTEIRO:
-${$("scriptOut").textContent}
+BRIEFING:
+${val("brief")}
 
-JSON / CAPCUT:
-${$("jsonOut").textContent}
+MATERIAL DISPONÍVEL:
+${val("assets")}
 
-SRT / SOM:
-${$("srtOut").textContent}
+MODELO E FORMATO:
+- Modelo: ${choice("briefTemplate","template")}
+- Formato: ${choice("briefFormat","format")}
+- Duração: ${choice("briefDuration","duration")}
+- Movimento: ${choice("briefMotionStyle","motionStyle")}
+- Objetivo: ${val("goal")}
+- Tom: ${val("tone")}
+- Texto obrigatório: ${val("requiredText")}
+- JSON: ${val("jsonLevel")}
+- Áudio: ${val("audioType")}`;
+}
+function buildExport(){
+  const sections={...appliedSections};
 
-PREVIEW:
-${$("previewOut").textContent}
+  const roteiro=getRealText("scriptOut");
+  const json=getRealText("jsonOut");
+  const srt=getRealText("srtOut");
+  const modelo=getRealText("templateOut");
+  const preview=getRealText("previewOut");
+  const mestre=getRealText("out");
 
-CHECKLIST:
-1. Conferir briefing.
-2. Separar assets.
-3. Validar roteiro visual.
-4. Copiar JSON/prompt para Remotion/CapCut/agente.
-5. Gerar vídeo em ferramenta externa somente se desejar.
-6. Sem render MP4 automático neste módulo.`;$("exportOut").textContent=text;$("out").textContent=text;renderHub(text,"export")}
+  if(modelo)sections["MODELO / FORMATO"]=modelo;
+  if(roteiro)sections["ROTEIRO VISUAL"]=roteiro;
+  if(json)sections["JSON / CAPCUT / REMOTION"]=json;
+  if(srt)sections["SRT / SOM / SFX"]=srt;
+  if(preview)sections["PREVIEW"]=preview;
+
+  const hasSpecific=["MODELO / FORMATO","ROTEIRO VISUAL","JSON / CAPCUT / REMOTION","SRT / SOM / SFX","PREVIEW"].some(k=>sections[k]);
+  if(mestre && !hasSpecific && !/^VIDEO PACK COMPLETO/i.test(mestre))sections["PACOTE MESTRE"]=mestre;
+
+  let text=buildCleanContext();
+
+  const order=["PACOTE MESTRE","MODELO / FORMATO","ROTEIRO VISUAL","JSON / CAPCUT / REMOTION","SRT / SOM / SFX","PREVIEW"];
+  for(const key of order){
+    if(sections[key]){
+      text += `\n\n---\n\n## ${key}\n\n${cleanGeneratedBlock(sections[key])}`;
+    }
+  }
+
+  text += `\n\n---\n\n## ASSETS NECESSÁRIOS\n\n${val("assets") || "- Adicione assets, imagens, som, logo, personagens e materiais do projeto."}
+
+---
+
+## CHECKLIST FINAL
+
+1. Conferir briefing e duração.
+2. Conferir formato vertical/horizontal.
+3. Separar assets visuais.
+4. Copiar roteiro visual para edição.
+5. Copiar JSON/prompt para Remotion, CapCut ou agente.
+6. Usar SRT e plano de som no CapCut ou editor.
+7. Gerar vídeo em ferramenta externa somente se desejar.
+8. Salvar este pacote limpo como versão final.
+9. Não há render MP4 automático neste módulo.`;
+
+  $("exportOut").textContent=text;
+  renderHub(text,"export");
+  showScreen("exportacao");
+}
 function copy(id){navigator.clipboard.writeText($(id).textContent||$(id).value||"")}
 function download(name,id){const content=$(id).textContent||$(id).value||"";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/plain"}));a.download=name;a.click()}
 async function shareExport(){const text=$("exportOut").textContent||$("out").textContent;if(navigator.share){await navigator.share({title:"Video Pack",text}).catch(()=>{})}else{navigator.clipboard.writeText(text);alert("Copiado.")}}
-
+function reorganizeCards(){
+  const text=getRealText("exportOut") || getRealText("out") || getRealText("scriptOut") || getRealText("jsonOut") || getRealText("srtOut");
+  renderHub(text,"cards");
+}
 function cleanTitle(t){return String(t||"Bloco").replace(/^#+\s*/,"").replace(/[*_`]/g,"").trim().slice(0,70)||"Bloco"}
 function splitSections(text){
   const raw=String(text||"").trim();
@@ -380,21 +480,29 @@ function renderHub(text,type){
   });
 }
 function appendToExport(id,title){
-  const content=$(id)?.textContent||$(id)?.value||"";
-  const current=$("exportOut").textContent||"";
-  const block=`\n\n---\n${title}\n---\n${content}`;
-  $("exportOut").textContent=(current&&current!=="Aguardando montagem.")?current+block:block.trim();
-  showScreen("exportacao");
+  const content=cleanGeneratedBlock($(id)?.textContent||$(id)?.value||"");
+  if(!content || isPlaceholderText(content)){alert("Nada para aplicar ainda.");return;}
+  const key=sectionKey(title);
+  appliedSections[key]=content;
+  buildExport();
+}
+
+function clearExport(){
+  appliedSections={};
+  if($("exportOut"))$("exportOut").textContent="Aguardando montagem.";
+  renderHub("","");
 }
 
 function clearOutput(id){if($(id))$(id).textContent="";}
 function clearBriefing(){
+  appliedSections={};
   ["source","projectName","brief","assets","requiredText"].forEach(id=>{if($(id)){if($(id).tagName==="SELECT")$(id).selectedIndex=0;else $(id).value=""}});
   syncBriefModelToModel();
   $("out").textContent="Briefing limpo. Preencha novamente para gerar o pacote.";
   renderHub("","");
 }
 function newCleanProject(){
+  appliedSections={};
   ["source","projectName","brief","assets","briefTemplate","briefFormat","briefDuration","briefMotionStyle","template","format","duration","motionStyle","goal","tone","requiredText","jsonLevel","audioType"].forEach(id=>{if($(id)){if($(id).tagName==="SELECT")$(id).selectedIndex=0;else $(id).value=""}});
   ["out","templateOut","scriptOut","jsonOut","srtOut","previewOut","exportOut","apiStatus"].forEach(id=>{if($(id))$(id).textContent=id==="out"?"Novo projeto limpo. Preencha o briefing e gere o pacote.":"Aguardando."});
   updatePreview();
