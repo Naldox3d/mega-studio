@@ -79,6 +79,8 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .statusDot.editing{background:var(--gold)}.statusDot.generating{background:var(--blue)}.statusDot.ready{background:var(--cyan)}.statusDot.locked{background:var(--locked)}
 .nodeSummary{font-size:12px;line-height:1.55;color:#c4cee2}.nodeActions .btn{font-size:10px;padding:7px 10px}.node.activeNode{outline:2px solid rgba(214,173,104,.60);outline-offset:4px;box-shadow:0 22px 80px rgba(0,0,0,.43),0 0 0 1px rgba(214,173,104,.18) inset}
 .nodeWorkspace{position:absolute;width:560px;min-height:310px;border:1px solid rgba(101,217,210,.30);border-radius:22px;background:linear-gradient(180deg,rgba(101,217,210,.055),rgba(255,255,255,.018)),rgba(9,14,25,.96);box-shadow:0 25px 80px rgba(0,0,0,.42);padding:14px;z-index:5}.nodeWorkspace::before{content:'';position:absolute;width:2px;height:34px;left:52px;top:-34px;background:linear-gradient(var(--gold),transparent);box-shadow:0 0 20px rgba(214,173,104,.35)}.workHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px}.workHead h3{font-size:16px;margin:0}.workHead .mini{max-width:330px}.workBody{display:grid;gap:10px}.workGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.workBody textarea{min-height:84px}.workBody input,.workBody textarea,.workBody select{font-size:12px}.workOutput{white-space:pre-wrap;background:#070b15;border:1px solid var(--line);border-radius:14px;padding:12px;min-height:115px;max-height:210px;overflow:auto;font:11px/1.55 Space Mono,monospace;color:#dbe5ff}.workActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.workBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f7dfb3;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900}.progressLegendPro{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.progressLegendPro .legendItem{display:flex;gap:6px;align-items:center}.progressLegendPro .stateEmoji{font-size:14px}.node.locked .nodeActions button:not(:first-child){opacity:.55}.nodePulse{animation:nodePulse 1.8s infinite ease-in-out}@keyframes nodePulse{0%,100%{box-shadow:0 0 0 0 rgba(90,169,255,.22)}50%{box-shadow:0 0 0 8px rgba(90,169,255,0)}}
+
+.workResultHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;font-family:Inter,system-ui,sans-serif}.workResultTitle{font-weight:900;color:#f7dfb3;font-size:12px}.workResultStatus{font-size:10px;border:1px solid rgba(101,217,210,.35);background:rgba(101,217,210,.08);color:#9ff;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 8px}.workInfoGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 10px}.workInfoGrid span{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:10px;padding:7px 8px;color:#b9c7df;font-family:Inter,system-ui,sans-serif;font-size:10px}.workOutputInner{white-space:pre-wrap;margin:0;max-height:185px;overflow:auto;font:10.5px/1.55 Space Mono,monospace;color:#e8f0ff}.workHintBox{border:1px dashed rgba(214,173,104,.32);background:rgba(214,173,104,.06);color:#f7dfb3;border-radius:12px;padding:10px;font-family:Inter,system-ui,sans-serif;font-size:12px;line-height:1.45}.workHintBox b{color:#fff}.nodeReadyGlow{box-shadow:0 0 0 1px rgba(101,217,210,.22) inset}
 @media(max-width:980px){.nodeWorkspace{width:520px}.nodeMap{min-width:1180px}.node{width:245px}.nodeViewport{height:70vh}}
 
 
@@ -575,7 +577,7 @@ let appliedSections={};
 
 function isPlaceholderText(t){
   const s=String(t||"").trim();
-  return !s || /^Aguardando/i.test(s) || /^Preencha o briefing/i.test(s) || /^Novo projeto limpo/i.test(s) || /^Briefing limpo/i.test(s) || /^Preview leve atualizado/i.test(s);
+  return !s || /^Aguardando/i.test(s) || /^Preencha o briefing/i.test(s) || /^Novo projeto limpo/i.test(s) || /^Briefing limpo/i.test(s) || /^Gerando\.\.\./i.test(s);
 }
 function cleanGeneratedBlock(text){
   let s=String(text||"").trim();
@@ -610,6 +612,8 @@ function sectionKey(title){
 }
 async function generate(type){
   const box=targetBox(type);
+  const nodeMap={complete:'brief',templatePlan:'modelo',visualScript:'roteiro',shotList:'roteiro',remotionJson:'json',capcutPrompt:'json',srt:'srt',soundPlan:'srt',previewGuide:'preview'};
+  if(nodeMap[type])activeNodeId=nodeMap[type];
   generatingType=type;
   $(box).textContent="Gerando...";
   renderMindJob();
@@ -619,12 +623,14 @@ async function generate(type){
     if(box==="out")$("out").textContent=text;
     renderHub(text,type);
     generatingType='';
+    if(nodeMap[type])activeNodeId=nodeMap[type];
     renderMindJob();
   }catch(e){
     $(box).textContent="Erro: "+e.message;
     if(box==="out")$("out").textContent="Erro: "+e.message;
     renderHub("Erro: "+e.message,type);
     generatingType='';
+    if(nodeMap[type])activeNodeId=nodeMap[type];
     renderMindJob();
   }
 }
@@ -1046,9 +1052,50 @@ function workspacePosition(id){
   const map={brief:{x:p.x,y:p.y+185},modelo:below,roteiro:{x:p.x-80,y:p.y+175},json:{x:p.x-120,y:p.y+175},srt:{x:p.x-160,y:p.y+160},preview:{x:p.x-180,y:p.y+160},pacote:{x:p.x-230,y:p.y+160},ramo:below};
   return map[id]||below;
 }
+function escapeHtml(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function outputIdForNode(id){return {modelo:'templateOut',roteiro:'scriptOut',json:'jsonOut',srt:'srtOut',preview:'previewOut',pacote:'exportOut'}[id]||''}
+function isAppliedOutput(t){return Object.values(appliedSections).some(v=>String(v).trim()===String(t).trim())}
+function roughJsonStats(t){
+  const txt=String(t||'');
+  const scenes=(txt.match(/"(?:scene|id|title)"\s*:/gi)||[]).length || (txt.match(/Cena\s+\d+/gi)||[]).length;
+  const hasAudio=/audio|sfx|sound|narra/i.test(txt);
+  const hasTiming=/duration|time|start|end|timing|segundos|fps/i.test(txt);
+  const hasLayers=/layer|layers|asset|image|text/i.test(txt);
+  const bits=[]; if(scenes)bits.push(`${Math.min(scenes,99)} blocos/cenas`); if(hasTiming)bits.push('timing'); if(hasLayers)bits.push('layers/assets'); if(hasAudio)bits.push('áudio');
+  return bits.join(' · ') || `${txt.length} caracteres`;
+}
+function workspaceEmptyHint(id){
+  const hints={
+    modelo:'Gere o plano do modelo para preencher esta estação.',
+    roteiro:'Gere roteiro visual ou shot list para revisar aqui.',
+    json:'Gere JSON Remotion ou Prompt CapCut. Depois o resultado aparecerá aqui dentro da própria estação.',
+    srt:'Gere SRT, narração ou plano de som/SFX. Depois aplique ao Pacote Final.',
+    preview:'Atualize o preview leve e gere o guia.',
+    pacote:'Monte o pacote limpo para baixar/compartilhar.',
+    ramo:'Ramificações disponíveis: conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist.'
+  };
+  return `<div class="workHintBox"><b>Aguardando conteúdo.</b><br>${hints[id]||'Gere ou aplique o resultado deste node.'}</div>`;
+}
+function workspaceResultHTML(id,t){
+  const names={modelo:'Plano do modelo',roteiro:'Roteiro / shot list',json:'JSON / Prompt técnico',srt:'SRT / Som / SFX',preview:'Preview / Guia',pacote:'Pacote final'};
+  const meta=id==='json'?roughJsonStats(t):`${String(t).length} caracteres`;
+  const applied=isAppliedOutput(t);
+  return `<div class="workResultHead"><div class="workResultTitle">${statusIcon(applied?'done':'ready')} ${names[id]||'Resultado'} pronto</div><div class="workResultStatus">${applied?'aplicado':'revisar/aplicar'}</div></div>
+  <div class="workInfoGrid"><span>Fonte: ${outputIdForNode(id)}</span><span>Status: ${applied?'Aplicado':'Gerado'}</span><span>${escapeHtml(meta)}</span></div>
+  <pre class="workOutputInner">${escapeHtml(t)}</pre>`;
+}
 function workspaceText(id){
-  const lookup={modelo:getRealText('templateOut')||'Gere o plano do modelo para preencher esta estação.',roteiro:getRealText('scriptOut')||'Gere roteiro visual ou shot list para revisar aqui.',json:getRealText('jsonOut')||'Gere JSON Remotion ou Prompt CapCut.',srt:getRealText('srtOut')||'Gere SRT, narração ou plano de som/SFX.',preview:getRealText('previewOut')||'Atualize o preview leve e gere o guia.',pacote:getRealText('exportOut')||'Monte o pacote limpo para baixar/compartilhar.',ramo:'Ramificações disponíveis: conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist.'};
-  return lookup[id]||'';
+  const outId=outputIdForNode(id);
+  if(id==='ramo')return workspaceEmptyHint(id);
+  const t=outId?getRealText(outId):'';
+  if(!outId || isPlaceholderText(t))return workspaceEmptyHint(id);
+  return workspaceResultHTML(id,t);
+}
+function stationSubtitle(id){
+  const outId=outputIdForNode(id);
+  const t=outId?getRealText(outId):'';
+  if(outId && !isPlaceholderText(t))return 'Resultado gerado dentro deste node. Revise, aplique ao Pacote Final ou gere outra versão.';
+  return 'Trabalhe neste node sem procurar abas. O resultado aplicado segue para o Pacote Final.';
 }
 function renderNodeWorkspace(id){
   const p=workspacePosition(id); const style=`left:${p.x}px;top:${p.y}px`;
@@ -1076,7 +1123,7 @@ function renderNodeWorkspace(id){
     ramo:`<button class="btn purple" onclick="reorganizeCards()">Revisar cards</button><button class="btn cyan" onclick="alert('Aplique cada card no botão Aplicar para montar pacote limpo.')">Aplicar cards</button>`
   };
   return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
-    <div class="workHead"><div><span class="workBadge">${statusIcon($( 'node-'+id )?.classList?.[1]||'ready')} Estação ativa</span><h3>Estação de trabalho — ${titles[id]||id}</h3><p class="mini">Trabalhe neste node sem procurar abas. O resultado aplicado segue para o Pacote Final.</p></div><button class="nodeToggle" onclick="activeNodeId='brief';renderMindJob()">⌂</button></div>
+    <div class="workHead"><div><span class="workBadge">${statusIcon($( 'node-'+id )?.classList?.[1]||'ready')} Estação ativa</span><h3>Estação de trabalho — ${titles[id]||id}</h3><p class="mini">${stationSubtitle(id)}</p></div><button class="nodeToggle" onclick="activeNodeId='brief';renderMindJob()">⌂</button></div>
     <div class="workBody"><div class="workOutput">${workspaceText(id)}</div><div class="workActions">${actions[id]||''}</div></div>
   </div>`;
 }
