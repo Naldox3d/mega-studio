@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V1.2</title>
+<title>Video Pack Studio — Titan Colossal V1.3</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
@@ -68,6 +68,19 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .connectorSvg{overflow:visible}.connectorSvg path.liveLine{stroke:rgba(101,217,210,.38);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:8 9;filter:drop-shadow(0 0 6px rgba(101,217,210,.06))}.connectorSvg path.liveLine.main{stroke:rgba(214,173,104,.52);stroke-width:4;stroke-dasharray:none}.connectorSvg path.liveLine.ready{stroke:rgba(116,217,154,.48)}
 .mapToolbarNote{font-size:10px;color:#baf7f2;font-family:Space Mono,monospace;border:1px solid rgba(101,217,210,.22);background:rgba(101,217,210,.055);padding:6px 9px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
 .nodeMiniHandle{position:absolute;right:10px;bottom:8px;color:#64748b;font-size:13px;pointer-events:none}.nodeDragging .nodeMiniHandle{color:#d6ad68}
+
+
+/* Titan Colossal V1.3 — Árvore da Criação aprovada: símbolos, progresso e estação de trabalho viva */
+:root{--blue:#5aa9ff;--locked:#6b7280;--orange:#e8b766}
+.nodeViewport{height:78vh;min-height:650px;background:radial-gradient(circle at 18% 16%,rgba(101,217,210,.10),transparent 22%),radial-gradient(circle at 65% 15%,rgba(214,173,104,.08),transparent 26%),radial-gradient(circle at 78% 70%,rgba(90,169,255,.07),transparent 24%),#050813}
+.nodeMap{min-width:1600px;min-height:900px}.connectorSvg{width:1600px;height:900px}.node{width:270px;border-radius:22px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),rgba(13,18,32,.94);box-shadow:0 18px 55px rgba(0,0,0,.32)}
+.nodeHeader{align-items:center}.nodeTitleWrap{display:flex;gap:10px;align-items:center;min-width:0}.nodeIconBadge{width:44px;height:44px;display:grid;place-items:center;border-radius:16px;background:rgba(101,217,210,.09);border:1px solid rgba(101,217,210,.18);font-size:22px;box-shadow:inset 0 0 18px rgba(101,217,210,.04)}.node h3{margin:0;font-size:15px;line-height:1.18}.nodeControls{display:flex;align-items:center;gap:6px}.nodeStatus{display:flex;align-items:center;gap:5px;padding:5px 8px;background:rgba(255,255,255,.025)}.nodeStateFigure{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;font-size:11px;background:#111827;border:1px solid var(--line)}
+.node.empty .nodeIconBadge{background:rgba(100,116,139,.08);border-color:rgba(100,116,139,.22)}.node.editing{border-color:rgba(214,173,104,.68);box-shadow:0 0 0 1px rgba(214,173,104,.14) inset,0 20px 60px rgba(0,0,0,.35)}.node.generating{border-color:rgba(90,169,255,.68);box-shadow:0 0 0 1px rgba(90,169,255,.16) inset}.node.ready,.node.filled{border-color:rgba(101,217,210,.52);box-shadow:0 0 0 1px rgba(101,217,210,.10) inset}.node.done{border-color:rgba(116,217,154,.64);box-shadow:0 0 0 1px rgba(116,217,154,.12) inset}.node.exported{border-color:rgba(214,173,104,.72);box-shadow:0 0 0 1px rgba(214,173,104,.16) inset}.node.locked{opacity:.62;filter:saturate(.75);border-color:rgba(107,114,128,.35)}.node.error{border-color:rgba(225,138,138,.70)}
+.statusDot.editing{background:var(--gold)}.statusDot.generating{background:var(--blue)}.statusDot.ready{background:var(--cyan)}.statusDot.locked{background:var(--locked)}
+.nodeSummary{font-size:12px;line-height:1.55;color:#c4cee2}.nodeActions .btn{font-size:10px;padding:7px 10px}.node.activeNode{outline:2px solid rgba(214,173,104,.60);outline-offset:4px;box-shadow:0 22px 80px rgba(0,0,0,.43),0 0 0 1px rgba(214,173,104,.18) inset}
+.nodeWorkspace{position:absolute;width:560px;min-height:310px;border:1px solid rgba(101,217,210,.30);border-radius:22px;background:linear-gradient(180deg,rgba(101,217,210,.055),rgba(255,255,255,.018)),rgba(9,14,25,.96);box-shadow:0 25px 80px rgba(0,0,0,.42);padding:14px;z-index:5}.nodeWorkspace::before{content:'';position:absolute;width:2px;height:34px;left:52px;top:-34px;background:linear-gradient(var(--gold),transparent);box-shadow:0 0 20px rgba(214,173,104,.35)}.workHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px}.workHead h3{font-size:16px;margin:0}.workHead .mini{max-width:330px}.workBody{display:grid;gap:10px}.workGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.workBody textarea{min-height:84px}.workBody input,.workBody textarea,.workBody select{font-size:12px}.workOutput{white-space:pre-wrap;background:#070b15;border:1px solid var(--line);border-radius:14px;padding:12px;min-height:115px;max-height:210px;overflow:auto;font:11px/1.55 Space Mono,monospace;color:#dbe5ff}.workActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.workBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f7dfb3;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900}.progressLegendPro{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.progressLegendPro .legendItem{display:flex;gap:6px;align-items:center}.progressLegendPro .stateEmoji{font-size:14px}.node.locked .nodeActions button:not(:first-child){opacity:.55}.nodePulse{animation:nodePulse 1.8s infinite ease-in-out}@keyframes nodePulse{0%,100%{box-shadow:0 0 0 0 rgba(90,169,255,.22)}50%{box-shadow:0 0 0 8px rgba(90,169,255,0)}}
+@media(max-width:980px){.nodeWorkspace{width:520px}.nodeMap{min-width:1180px}.node{width:245px}.nodeViewport{height:70vh}}
+
 
 @media(max-width:980px){.nodeViewport{height:68vh}.mindControlBar{justify-content:flex-start}.compactMind .eggTerminal{min-width:100%}.progressToggleRow{align-items:flex-start}.sideMindTools{display:none}}
 
@@ -297,7 +310,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       <div class="card mindHero compactMind" id="mindHeroPanel">
         <div class="mindTitleLine">
           <div>
-            <div class="kicker">Titan Colossal V1.2</div>
+            <div class="kicker">Titan Colossal V1.3</div>
             <h2>Árvore da Criação</h2>
             <p class="mindSubtitle"><strong>Sistema vivo de produção criativa em nodes</strong><br>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
           </div>
@@ -341,7 +354,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
             </svg>
             <div id="mindCanvas"></div>
           </div>
-          <div class="mapHint">Roda = zoom • arraste o mapa • arraste nodes • Ctrl + / − / 0</div>
+          <div class="mapHint">Roda = zoom • arraste o mapa/nodes • clique no node para abrir estação • Ctrl + / − / 0</div>
         </div>
       </div>
     </section>
@@ -493,17 +506,22 @@ function sectionKey(title){
 }
 async function generate(type){
   const box=targetBox(type);
+  generatingType=type;
   $(box).textContent="Gerando...";
+  renderMindJob();
   try{
     const text=await callAI(type);
     $(box).textContent=text;
     if(box==="out")$("out").textContent=text;
     renderHub(text,type);
+    generatingType='';
     renderMindJob();
   }catch(e){
     $(box).textContent="Erro: "+e.message;
     if(box==="out")$("out").textContent="Erro: "+e.message;
     renderHub("Erro: "+e.message,type);
+    generatingType='';
+    renderMindJob();
   }
 }
 async function testAPI(){$("apiStatus").textContent="Testando...";try{$("apiStatus").textContent=await callAI("api")}catch(e){$("apiStatus").textContent="Erro: "+e.message}}
@@ -679,10 +697,12 @@ let mindDrag=null;
 let nodeDrag=null;
 let mindInitDone=false;
 let freeWheelZoom=true;
-const NODE_POS_KEY='arvoreCriacaoNodePositionsV12';
+let activeNodeId='brief';
+let generatingType='';
+const NODE_POS_KEY='arvoreCriacaoNodePositionsV13';
 const DEFAULT_NODE_POSITIONS={
-  brief:{x:30,y:45}, modelo:{x:300,y:45}, roteiro:{x:570,y:45}, json:{x:840,y:45},
-  srt:{x:840,y:250}, preview:{x:570,y:420}, pacote:{x:840,y:420}, ramo:{x:300,y:300}
+  brief:{x:60,y:70}, modelo:{x:430,y:70}, roteiro:{x:760,y:70}, json:{x:1100,y:70},
+  srt:{x:1120,y:300}, preview:{x:820,y:520}, pacote:{x:1120,y:560}, ramo:{x:430,y:350}
 };
 let nodePositions={...DEFAULT_NODE_POSITIONS};
 try{nodePositions={...DEFAULT_NODE_POSITIONS,...JSON.parse(localStorage.getItem(NODE_POS_KEY)||'{}')}}catch(e){nodePositions={...DEFAULT_NODE_POSITIONS}}
@@ -736,11 +756,13 @@ function toggleNodeCollapse(id){
   const b=n.querySelector('.nodeToggle'); if(b)b.textContent=n.classList.contains('collapsed')?'▸':'▾';
 }
 function focusNode(id){
+  activeNodeId=id;
   const vp=$('nodeViewport'); const n=$('node-'+id);
   if(!vp||!n)return;
   const x=parseFloat(n.style.left||0), y=parseFloat(n.style.top||0);
   mindZoom=1.18;
-  mindPan={x:vp.clientWidth/2-(x+122)*mindZoom,y:vp.clientHeight/2-(y+80)*mindZoom};
+  const w=n.offsetWidth||270, h=n.offsetHeight||120;
+  mindPan={x:vp.clientWidth/2-(x+w/2)*mindZoom,y:vp.clientHeight/2-(y+h/2)*mindZoom};
   setMindTransform();
 }
 function initMindInteractions(){
@@ -756,7 +778,7 @@ function initMindInteractions(){
     if(e.target.closest('button,input,textarea,select'))return;
     const node=e.target.closest('.node');
     if(node){
-      const id=node.dataset.nodeId;
+      const id=node.dataset.nodeId; activeNodeId=id;
       const pos=getNodePos(id);
       nodeDrag={id,x:e.clientX,y:e.clientY,startX:pos.x,startY:pos.y,el:node};
       node.classList.add('nodeDragging');
@@ -828,46 +850,117 @@ function updateConnectors(){
 }
 
 
-function nodeStatusFromText(id){const t=getRealText(id);if(!t)return 'empty';if(/^Erro/i.test(t))return 'error';return Object.values(appliedSections).some(v=>String(v).trim()===String(t).trim())?'done':'filled'}
+function nodeStatusFromText(id){const t=getRealText(id);if(!t)return 'empty';if(/^Erro/i.test(t))return 'error';return Object.values(appliedSections).some(v=>String(v).trim()===String(t).trim())?'done':'ready'}
 function exportStatus(){const t=getRealText('exportOut');if(t)return 'exported';return Object.keys(appliedSections).length?'review':'empty'}
-function statusLabel(status){return {empty:'vazio',filled:'gerado',review:'revisar',done:'aplicado',error:'corrigir',exported:'exportado'}[status]||status}
+function statusLabel(status){return {empty:'vazio',editing:'em edição',generating:'gerando',ready:'pronto',filled:'pronto',review:'revisar',done:'aplicado',error:'erro',exported:'exportado',locked:'bloqueado'}[status]||status}
+function statusIcon(status){return {empty:'○',editing:'✎',generating:'⟳',ready:'🌱',filled:'🌱',review:'◆',done:'✓',error:'!',exported:'🚀',locked:'🔒'}[status]||'○'}
+function statusFigure(status){return `<span class="nodeStateFigure" title="${statusLabel(status)}">${statusIcon(status)}</span>`}
 function shortText(text,n=120){const s=String(text||'').replace(/\s+/g,' ').trim();return s? (s.length>n?s.slice(0,n)+'...':s):''}
+function isGeneratingNode(id){
+  const map={complete:'brief',templatePlan:'modelo',visualScript:'roteiro',shotList:'roteiro',remotionJson:'json',capcutPrompt:'json',srt:'srt',soundPlan:'srt',previewGuide:'preview'};
+  return map[generatingType]===id;
+}
+function nodeVisualStatus(id,base,briefReady){
+  if(isGeneratingNode(id))return 'generating';
+  if(id!=='brief' && !briefReady && ['roteiro','json','srt','preview','pacote','ramo'].includes(id))return 'locked';
+  if(id==='brief' && briefReady && !getRealText('out'))return 'editing';
+  return base;
+}
 function eggByStatus(){
   const hasError=['out','templateOut','scriptOut','jsonOut','srtOut','previewOut','exportOut'].some(id=>/^Erro/i.test($(id)?.textContent||''));
   const exported=!!getRealText('exportOut');
   const applied=Object.keys(appliedSections).length;
-  const filled=!!(val('brief')||getRealText('out')||getRealText('scriptOut')||getRealText('jsonOut')||getRealText('srtOut'));
-  let mood=['🥚','Mister Egg aguardando','Preencha o Briefing Mestre para começar.'];
-  if(filled)mood=['🔎','Mister Egg revisando','Revise os cards e aplique apenas o que deve entrar no pacote final.'];
+  const briefReady=!!val('brief');
+  let mood=['🥚','Mister Egg aguardando','Preencha o Briefing Mestre para liberar as ramificações.'];
+  if(briefReady)mood=['🔎','Mister Egg revisando','Briefing vivo detectado. Gere o pacote mestre ou abra a estação do próximo node.'];
+  if(generatingType)mood=['⚙️','Mister Egg gerando','Aguarde: a Árvore está criando a próxima parte do pacote.'];
   if(applied)mood=['😊','Mister Egg feliz','Conteúdo aplicado ao pacote. Agora monte o pacote limpo.'];
   if(exported)mood=['🎬','Mister Egg com claquete','Pacote final montado: pronto para baixar, compartilhar ou usar em outra ferramenta.'];
-  if(hasError)mood=['😱','Mister Egg assustado','Existe erro em uma saída. Corrija antes de exportar.'];
+  if(hasError)mood=['⚠️','Mister Egg alerta','Existe erro em uma saída. Corrija antes de exportar.'];
   if($('eggMood')){$('eggMood').textContent=mood[0];$('eggTitle').textContent=mood[1];$('eggText').textContent=mood[2];}
 }
-function nodeCard(n){return `<div class="node ${n.status}" data-node-id="${n.id}" style="left:${n.x}px;top:${n.y}px" id="node-${n.id}" ondblclick="focusNode('${n.id}')"><div class="nodeHeader"><h3>${n.icon||''} ${n.title}</h3><button class="nodeToggle" onclick="toggleNodeCollapse('${n.id}');event.stopPropagation()">▾</button><span class="nodeStatus"><span class="statusDot ${n.status}"></span>${statusLabel(n.status)}</span></div><div class="nodeSummary">${n.summary}</div><div class="nodeActions">${n.actions.map(a=>`<button class="btn ${a.cls||''}" onclick="${a.fn}">${a.label}</button>`).join('')}</div><span class="nodeMiniHandle">↕</span></div>`}
+function nodeCard(n){
+  const active=n.id===activeNodeId?' activeNode':'';
+  const pulse=n.status==='generating'?' nodePulse':'';
+  return `<div class="node ${n.status}${active}${pulse}" data-node-id="${n.id}" style="left:${n.x}px;top:${n.y}px" id="node-${n.id}" onclick="activeNodeId='${n.id}';renderMindJob()" ondblclick="focusNode('${n.id}')">
+    <div class="nodeHeader">
+      <div class="nodeTitleWrap"><span class="nodeIconBadge">${n.icon||''}</span><h3>${n.title}</h3></div>
+      <div class="nodeControls"><button class="nodeToggle" onclick="toggleNodeCollapse('${n.id}');event.stopPropagation()">▾</button><span class="nodeStatus">${statusFigure(n.status)}${statusLabel(n.status)}</span></div>
+    </div>
+    <div class="nodeSummary">${n.summary}</div>
+    <div class="nodeActions">${n.actions.map(a=>`<button class="btn ${a.cls||''}" onclick="${a.fn};event.stopPropagation()">${a.label}</button>`).join('')}</div>
+    <span class="nodeMiniHandle">↕</span>
+  </div>`
+}
+function escAttr(v){return String(v||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function treeSet(src,target){if($(src)&&$(target)){$(target).value=$(src).value; syncMasterToTabs(); renderMindJob();}}
+function workspacePosition(id){
+  const p=getNodePos(id); const below={x:p.x,y:p.y+170};
+  const map={brief:{x:p.x,y:p.y+185},modelo:below,roteiro:{x:p.x-80,y:p.y+175},json:{x:p.x-120,y:p.y+175},srt:{x:p.x-160,y:p.y+160},preview:{x:p.x-180,y:p.y+160},pacote:{x:p.x-230,y:p.y+160},ramo:below};
+  return map[id]||below;
+}
+function workspaceText(id){
+  const lookup={modelo:getRealText('templateOut')||'Gere o plano do modelo para preencher esta estação.',roteiro:getRealText('scriptOut')||'Gere roteiro visual ou shot list para revisar aqui.',json:getRealText('jsonOut')||'Gere JSON Remotion ou Prompt CapCut.',srt:getRealText('srtOut')||'Gere SRT, narração ou plano de som/SFX.',preview:getRealText('previewOut')||'Atualize o preview leve e gere o guia.',pacote:getRealText('exportOut')||'Monte o pacote limpo para baixar/compartilhar.',ramo:'Ramificações disponíveis: conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist.'};
+  return lookup[id]||'';
+}
+function renderNodeWorkspace(id){
+  const p=workspacePosition(id); const style=`left:${p.x}px;top:${p.y}px`;
+  if(id==='brief'){
+    return `<div class="nodeWorkspace" id="nodeWorkspace" style="${style}">
+      <div class="workHead"><div><span class="workBadge">🧠 Estação ativa</span><h3>Estação de trabalho — Briefing Mestre</h3><p class="mini">Preencha uma vez. A Árvore distribui para roteiro, JSON, SRT, preview e pacote final.</p></div><button class="nodeToggle" onclick="activeNodeId='modelo';renderMindJob()">›</button></div>
+      <div class="workBody">
+        <label>Nome do projeto</label><input id="treeProjectName" value="${escAttr(val('projectName'))}" oninput="treeSet('treeProjectName','projectName')" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1">
+        <label>Briefing geral</label><textarea id="treeBrief" oninput="treeSet('treeBrief','brief')" placeholder="Cole o briefing, roteiro, copy ou ideia...">${val('brief')}</textarea>
+        <label>Material disponível</label><textarea id="treeAssets" oninput="treeSet('treeAssets','assets')" placeholder="Assets, fotos, som, SRT, cores, links...">${val('assets')}</textarea>
+        <label>Texto obrigatório / regras</label><textarea id="treeRequired" oninput="treeSet('treeRequired','requiredTextMaster')" placeholder="Frases obrigatórias, eventos que não podem faltar...">${val('requiredTextMaster')}</textarea>
+        <div class="workGrid"><div><label>Modelo</label><select id="treeTemplate" onchange="treeSet('treeTemplate','briefTemplate')"><option>${choice('briefTemplate','template')||'Produto animado'}</option><option>Motion Comic 2D</option><option>Produto animado</option><option>Story/Reels/TikTok promocional</option></select></div><div><label>Formato</label><select id="treeFormat" onchange="treeSet('treeFormat','briefFormat')"><option>${choice('briefFormat','format')||'9:16 vertical'}</option><option>9:16 vertical</option><option>16:9 horizontal</option><option>1:1 quadrado</option></select></div></div>
+        <div class="workActions"><button class="btn gold" onclick="generate('complete')">Salvar e gerar mestre</button><button class="btn purple" onclick="activeNodeId='modelo';renderMindJob()">Próximo node</button><button class="btn red" onclick="clearBriefing()">Limpar</button></div>
+      </div>
+    </div>`;
+  }
+  const titles={modelo:'Modelo / Formato',roteiro:'Roteiro Visual',json:'JSON / Remotion',srt:'SRT / Som',preview:'Preview',pacote:'Pacote Final',ramo:'Ramificações'};
+  const actions={
+    modelo:`<button class="btn gold" onclick="generate('templatePlan')">Gerar plano</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO')">Aplicar</button>`,
+    roteiro:`<button class="btn gold" onclick="generate('visualScript')">Gerar roteiro</button><button class="btn purple" onclick="generate('shotList')">Shot list</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO')">Aplicar</button>`,
+    json:`<button class="btn gold" onclick="generate('remotionJson')">Gerar JSON</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT')">Aplicar</button>`,
+    srt:`<button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM')">Aplicar</button>`,
+    preview:`<button class="btn gold" onclick="updatePreview();renderMindJob()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW')">Aplicar</button>`,
+    pacote:`<button class="btn gold" onclick="buildExport()">Montar limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button>`,
+    ramo:`<button class="btn purple" onclick="reorganizeCards()">Revisar cards</button><button class="btn cyan" onclick="alert('Aplique cada card no botão Aplicar para montar pacote limpo.')">Aplicar cards</button>`
+  };
+  return `<div class="nodeWorkspace" id="nodeWorkspace" style="${style}">
+    <div class="workHead"><div><span class="workBadge">${statusIcon($( 'node-'+id )?.classList?.[1]||'ready')} Estação ativa</span><h3>Estação de trabalho — ${titles[id]||id}</h3><p class="mini">Trabalhe neste node sem procurar abas. O resultado aplicado segue para o Pacote Final.</p></div><button class="nodeToggle" onclick="activeNodeId='brief';renderMindJob()">⌂</button></div>
+    <div class="workBody"><div class="workOutput">${workspaceText(id)}</div><div class="workActions">${actions[id]||''}</div></div>
+  </div>`;
+}
 function renderMindJob(){
   syncMasterToTabs();
   const briefReady=!!val('brief');
   const p=(id)=>getNodePos(id);
-  const nodes=[
-    {id:'brief',...p('brief'),title:'1. Briefing Mestre',icon:'🧠',status:briefReady?'filled':'empty',summary:briefReady?shortText(val('brief')):'Cérebro central: história, modelo, objetivo, tom, áudio, JSON e texto obrigatório.',actions:[{label:'Editar',fn:"showScreen('briefing')"},{label:'Gerar mestre',cls:'gold',fn:"generate('complete')"},{label:'Limpar',cls:'red',fn:'clearBriefing()'}]},
-    {id:'modelo',...p('modelo'),title:'2. Modelo / Formato',icon:'🎛️',status:choice('briefTemplate','template')?'filled':'empty',summary:`${choice('briefTemplate','template')||'Sem modelo'} · ${choice('briefFormat','format')||''} · ${choice('briefDuration','duration')||''} · ${choice('briefMotionStyle','motionStyle')||''}`,actions:[{label:'Editar',fn:"showScreen('modelo')"},{label:'Gerar plano',cls:'gold',fn:"generate('templatePlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('templateOut','MODELO')"}]},
-    {id:'roteiro',...p('roteiro'),title:'3. Roteiro Visual',icon:'🎞️',status:nodeStatusFromText('scriptOut'),summary:getRealText('scriptOut')?shortText(getRealText('scriptOut')):'Recebe objetivo, tom e texto obrigatório do Briefing Mestre.',actions:[{label:'Abrir',fn:"showScreen('roteiro')"},{label:'Gerar roteiro',cls:'gold',fn:"generate('visualScript')"},{label:'Shot list',cls:'purple',fn:"generate('shotList')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('scriptOut','ROTEIRO')"}]},
-    {id:'json',...p('json'),title:'4. JSON / Remotion',icon:'🧩',status:nodeStatusFromText('jsonOut'),summary:getRealText('jsonOut')?shortText(getRealText('jsonOut')):'Recebe formato, duração, movimento e precisão do JSON.',actions:[{label:'Abrir',fn:"showScreen('json')"},{label:'Gerar JSON',cls:'gold',fn:"generate('remotionJson')"},{label:'CapCut',cls:'purple',fn:"generate('capcutPrompt')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('jsonOut','JSON / CAPCUT')"}]},
-    {id:'srt',...p('srt'),title:'5. SRT / Som',icon:'🎧',status:nodeStatusFromText('srtOut'),summary:getRealText('srtOut')?shortText(getRealText('srtOut')):'Recebe duração, tom e tipo de áudio do Briefing Mestre.',actions:[{label:'Abrir',fn:"showScreen('srt')"},{label:'Gerar SRT',cls:'gold',fn:"generate('srt')"},{label:'Plano som',cls:'purple',fn:"generate('soundPlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('srtOut','SRT / SOM')"}]},
-    {id:'preview',...p('preview'),title:'6. Preview',icon:'📱',status:nodeStatusFromText('previewOut'),summary:getRealText('previewOut')?shortText(getRealText('previewOut')):'Preview leve para validar ritmo sem MP4.',actions:[{label:'Abrir',fn:"showScreen('preview')"},{label:'Atualizar',cls:'gold',fn:'updatePreview();renderMindJob()'},{label:'Guia',cls:'purple',fn:"generate('previewGuide')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('previewOut','PREVIEW')"}]},
-    {id:'pacote',...p('pacote'),title:'7. Pacote Final',icon:'📦',status:exportStatus(),summary:getRealText('exportOut')?shortText(getRealText('exportOut')):'Node final: montar, copiar, baixar e compartilhar pacote limpo.',actions:[{label:'Abrir',fn:"showScreen('exportacao')"},{label:'Montar limpo',cls:'gold',fn:'buildExport()'},{label:'Copiar',fn:"copy('exportOut')"},{label:'Baixar',cls:'green',fn:"download('video-pack-limpo.txt','exportOut')"},{label:'Compartilhar',cls:'cyan',fn:'shareExport()'}]},
-    {id:'ramo',...p('ramo'),title:'Ramificações',icon:'🌳',status:Object.keys(appliedSections).length?'review':'empty',summary:'Conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist nascem do Briefing Mestre e dos cards.',actions:[{label:'Revisar cards',cls:'purple',fn:'reorganizeCards()'},{label:'Aplicar cards',cls:'cyan',fn:"alert('Use o botão Aplicar dentro de cada card da Central de Banners.')"}]}
+  const nodesBase=[
+    {id:'brief',...p('brief'),title:'1. Briefing Mestre',icon:'🧠',status:briefReady?(getRealText('out')?'done':'editing'):'empty',summary:briefReady?shortText(val('brief')):'Cérebro central: história, modelo, objetivo, tom, áudio, JSON e texto obrigatório.',actions:[{label:'Editar',fn:"activeNodeId='brief';renderMindJob()"},{label:'Gerar mestre',cls:'gold',fn:"generate('complete')"},{label:'Limpar',cls:'red',fn:'clearBriefing()'}]},
+    {id:'modelo',...p('modelo'),title:'2. Modelo / Formato',icon:'🎛️',status:choice('briefTemplate','template')?'ready':'empty',summary:`${choice('briefTemplate','template')||'Sem modelo'} · ${choice('briefFormat','format')||''} · ${choice('briefDuration','duration')||''} · ${choice('briefMotionStyle','motionStyle')||''}`,actions:[{label:'Abrir',fn:"activeNodeId='modelo';renderMindJob()"},{label:'Gerar plano',cls:'gold',fn:"generate('templatePlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('templateOut','MODELO')"}]},
+    {id:'roteiro',...p('roteiro'),title:'3. Roteiro Visual',icon:'🎞️',status:nodeStatusFromText('scriptOut'),summary:getRealText('scriptOut')?shortText(getRealText('scriptOut')):'Recebe objetivo, tom e texto obrigatório do Briefing Mestre.',actions:[{label:'Abrir',fn:"activeNodeId='roteiro';renderMindJob()"},{label:'Gerar roteiro',cls:'gold',fn:"generate('visualScript')"},{label:'Shot list',cls:'purple',fn:"generate('shotList')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('scriptOut','ROTEIRO')"}]},
+    {id:'json',...p('json'),title:'4. JSON / Remotion',icon:'</>',status:nodeStatusFromText('jsonOut'),summary:getRealText('jsonOut')?shortText(getRealText('jsonOut')):'Recebe formato, duração, movimento e precisão do JSON.',actions:[{label:'Abrir',fn:"activeNodeId='json';renderMindJob()"},{label:'Gerar JSON',cls:'gold',fn:"generate('remotionJson')"},{label:'CapCut',cls:'purple',fn:"generate('capcutPrompt')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('jsonOut','JSON / CAPCUT')"}]},
+    {id:'srt',...p('srt'),title:'5. SRT / Som',icon:'🎧',status:nodeStatusFromText('srtOut'),summary:getRealText('srtOut')?shortText(getRealText('srtOut')):'Recebe duração, tom e tipo de áudio do Briefing Mestre.',actions:[{label:'Abrir',fn:"activeNodeId='srt';renderMindJob()"},{label:'Gerar SRT',cls:'gold',fn:"generate('srt')"},{label:'Plano som',cls:'purple',fn:"generate('soundPlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('srtOut','SRT / SOM')"}]},
+    {id:'preview',...p('preview'),title:'6. Preview',icon:'🖥️',status:nodeStatusFromText('previewOut'),summary:getRealText('previewOut')?shortText(getRealText('previewOut')):'Preview leve para validar ritmo sem MP4.',actions:[{label:'Abrir',fn:"activeNodeId='preview';renderMindJob()"},{label:'Atualizar',cls:'gold',fn:'updatePreview();renderMindJob()'},{label:'Guia',cls:'purple',fn:"generate('previewGuide')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('previewOut','PREVIEW')"}]},
+    {id:'pacote',...p('pacote'),title:'7. Pacote Final',icon:'📦',status:exportStatus(),summary:getRealText('exportOut')?shortText(getRealText('exportOut')):'Node final: montar, copiar, baixar e compartilhar pacote limpo.',actions:[{label:'Abrir',fn:"activeNodeId='pacote';renderMindJob()"},{label:'Montar limpo',cls:'gold',fn:'buildExport()'},{label:'Copiar',fn:"copy('exportOut')"},{label:'Baixar',cls:'green',fn:"download('video-pack-limpo.txt','exportOut')"},{label:'Compartilhar',cls:'cyan',fn:'shareExport()'}]},
+    {id:'ramo',...p('ramo'),title:'Ramificações',icon:'🌳',status:Object.keys(appliedSections).length?'review':(briefReady?'ready':'empty'),summary:'Conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist nascem do Briefing Mestre e dos cards.',actions:[{label:'Revisar cards',cls:'purple',fn:'reorganizeCards()'},{label:'Aplicar cards',cls:'cyan',fn:"alert('Use o botão Aplicar dentro de cada card da Central de Banners.')"}]}
   ];
-  const canvas=$('mindCanvas');if(canvas)canvas.innerHTML=nodes.map(nodeCard).join('');
+  const nodes=nodesBase.map(n=>({...n,status:nodeVisualStatus(n.id,n.status,briefReady)}));
+  if(!nodes.some(n=>n.id===activeNodeId))activeNodeId='brief';
+  const canvas=$('mindCanvas');if(canvas)canvas.innerHTML=nodes.map(nodeCard).join('')+renderNodeWorkspace(activeNodeId);
   initMindInteractions();
   setMindTransform();
   setTimeout(updateConnectors,0);
   const flow=[['1','Gerar pacote mestre',!!getRealText('out')],['2','Revisar cards',!!document.querySelector('#hubCards .section-card')],['3','Aplicar ao pacote',Object.keys(appliedSections).length>0],['4','Montar pacote limpo',!!getRealText('exportOut')],['5','Baixar / Compartilhar',exportStatus()==='exported']];
   let active=flow.findIndex(f=>!f[2]);if(active<0)active=4;
   const pf=$('progressFlow');if(pf)pf.innerHTML=flow.map((f,i)=>`<div class="progressStep ${f[2]?'done':(i===active?'activeFlow':'wait')}"><div class="num">${f[0]}</div><div><strong>${f[1]}</strong><span>${f[2]?'concluído':(i===active?'agora':'aguardando')}</span></div></div>`).join('');
+  const leg=document.querySelector('.nodeLegend');
+  if(leg)leg.classList.add('progressLegendPro');
   eggByStatus();
 }
+
 
 function attachSync(){
   [["briefTemplate","template"],["briefFormat","format"],["briefDuration","duration"],["briefMotionStyle","motionStyle"],["goalMaster","goal"],["toneMaster","tone"],["requiredTextMaster","requiredText"],["jsonLevelMaster","jsonLevel"],["audioTypeMaster","audioType"]].forEach(([a,b])=>{
