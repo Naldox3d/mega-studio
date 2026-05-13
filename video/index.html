@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V1.7 Canvas 99 Node Completo</title>
+<title>Video Pack Studio — Titan Colossal V1.8 Canvas Limpo Node Completo</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
@@ -227,11 +227,97 @@ body.mind-canvas-mode .nodeWorkspace{width:min(900px,calc(100vw - 118px));max-he
 .nextNodeHint.strong{border-color:rgba(116,217,154,.30);background:rgba(116,217,154,.06);color:#d9ffe6}
 @media(max-width:980px){.briefNodeGrid,.briefNodeGrid.three{grid-template-columns:1fr}.nodeWorkspace,body.mind-canvas-mode .nodeWorkspace{width:min(94vw,760px)}}
 
+
+
+/* Titan Colossal V1.8 — Canvas limpo sem barra lateral de rolagem */
+.canvasExitBtn{display:none}
+body.mind-canvas-mode{
+  overflow:hidden!important;
+  height:100vh!important;
+}
+body.mind-canvas-mode .topbar{display:none!important}
+body.mind-canvas-mode .shell{
+  grid-template-columns:1fr!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  overflow:hidden!important;
+}
+body.mind-canvas-mode .side{display:none!important}
+body.mind-canvas-mode .main{
+  height:100vh!important;
+  overflow:hidden!important;
+  padding:4px!important;
+}
+body.mind-canvas-mode #mindjob.screen.active{
+  display:block!important;
+  height:100vh!important;
+  overflow:hidden!important;
+}
+body.mind-canvas-mode .mindHero.compactMind,
+body.mind-canvas-mode .mindShell>.hubHead,
+body.mind-canvas-mode .canvasDock,
+body.mind-canvas-mode .canvasModeHint{
+  display:none!important;
+}
+body.mind-canvas-mode .mindShell{
+  height:calc(100vh - 8px)!important;
+  min-height:calc(100vh - 8px)!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:14px!important;
+  display:block!important;
+  overflow:hidden!important;
+}
+body.mind-canvas-mode .nodeViewport{
+  height:calc(100vh - 10px)!important;
+  min-height:calc(100vh - 10px)!important;
+  border-radius:14px!important;
+  overflow:hidden!important;
+}
+body.mind-canvas-mode .nodeViewport::after{
+  content:'Canvas limpo — use zoom e arraste o mapa';
+  right:170px;
+  top:12px;
+}
+body.mind-canvas-mode .canvasExitBtn{
+  display:inline-flex;
+  position:absolute;
+  right:12px;
+  top:10px;
+  z-index:30;
+  border:1px solid rgba(214,173,104,.55);
+  background:linear-gradient(180deg,#e1bc7b,#c89a55);
+  color:#1a1203;
+  border-radius:999px;
+  padding:9px 13px;
+  font-size:11px;
+  font-weight:900;
+  box-shadow:0 12px 38px rgba(0,0,0,.35);
+}
+body.mind-canvas-mode .mapHint{
+  right:12px!important;
+  bottom:12px!important;
+  opacity:.82;
+}
+body.mind-canvas-mode .nodeWorkspace{
+  max-height:calc(100vh - 58px)!important;
+  overflow:auto!important;
+  scrollbar-width:none;
+}
+body.mind-canvas-mode .nodeWorkspace::-webkit-scrollbar,
+body.mind-canvas-mode .workOutput::-webkit-scrollbar,
+body.mind-canvas-mode .workOutputInner::-webkit-scrollbar,
+body.mind-canvas-mode .nodeViewport::-webkit-scrollbar,
+body.mind-canvas-mode .main::-webkit-scrollbar{
+  width:0!important;
+  height:0!important;
+}
+
 </style>
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">Video Pack Studio <small>Sem MP4 / avançado</small></div>
+  <div class="brand">Video Pack Studio <small>V1.8 / Canvas limpo</small></div>
   <nav class="nav">
     <button class="btn authorLink" onclick="openAuthor()" type="button">Autoria</button>
     <a class="btn" href="/studio/">Studio</a>
@@ -521,6 +607,7 @@ body.mind-canvas-mode .nodeWorkspace{width:min(900px,calc(100vw - 118px));max-he
             </div>
           </div>
           <div class="canvasModeHint">Canvas dominante: topo recolhido, foco total na Árvore</div>
+          <button class="canvasExitBtn" onclick="toggleCanvasMode()" type="button">Voltar tela normal</button>
           <div class="mapHint">Roda = zoom • arraste o mapa/nodes • clique no node para abrir estação • Ctrl + / − / 0</div>
         </div>
       </div>
@@ -905,7 +992,12 @@ function updateMindPanelState(){
 function toggleMindTop(){mindTopCollapsed=!mindTopCollapsed;updateMindPanelState();setTimeout(centerMind,80)}
 function toggleCanvasMode(){
   mindCanvasMode=!mindCanvasMode;
-  if(mindCanvasMode)mindTopCollapsed=true;
+  if(mindCanvasMode){
+    mindTopCollapsed=true;
+    mindDockCollapsed=true;
+  }else{
+    mindTopCollapsed=false;
+  }
   updateMindPanelState();
   setTimeout(centerMind,80);
 }
