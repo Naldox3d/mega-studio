@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V1.6 Node Inteligente</title>
+<title>Video Pack Studio — Titan Colossal V1.7 Canvas 99 Node Completo</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
@@ -189,6 +189,43 @@ body.mind-canvas-mode .nodeWorkspace.linkedWorkspace{box-shadow:0 30px 95px rgba
 .workResultMiniPanel .workOutputInner{max-height:150px}
 .nextNodeHint{border:1px dashed rgba(214,173,104,.35);background:rgba(214,173,104,.055);color:#f4ddb2;border-radius:12px;padding:8px 10px;font-size:11px;line-height:1.45}
 @media(max-width:980px){.cardFlowPanel{align-items:stretch}.cardProgressBar{min-width:100%}.cardFlowPanel .btn{flex:1}.section-card.card-collapsed{min-height:90px}}
+
+
+
+/* Titan Colossal V1.7 — Canvas 99% + Briefing Mestre completo no node */
+body.mind-canvas-mode .mindShell>.hubHead,
+.mindFullscreen>.hubHead{display:none!important}
+.mindFullscreen::before{display:none!important;content:''!important}
+.mindFullscreen{inset:4px!important;padding:4px!important}
+.mindFullscreen .nodeViewport{height:calc(100vh - 12px)!important;min-height:0!important;border-radius:14px!important}
+body.mind-canvas-mode .shell{grid-template-columns:46px minmax(0,1fr)!important;min-height:100vh!important}
+body.mind-canvas-mode .side{width:46px!important;padding:6px 4px!important}
+body.mind-canvas-mode .main{padding:2px!important}
+body.mind-canvas-mode .mindShell{height:calc(100vh - 4px)!important;border-radius:12px!important;grid-template-rows:1fr!important}
+body.mind-canvas-mode .mindHero.compactMind{display:none!important}
+body.mind-canvas-mode .nodeViewport{height:calc(100vh - 4px)!important;min-height:0!important;border-radius:12px!important}
+body.mind-canvas-mode .nodeViewport::after{content:'Canvas 99% ativo — dock lateral minimizado';right:12px;top:12px}
+body.mind-canvas-mode .canvasModeHint{left:66px!important;top:12px!important}
+body.mind-canvas-mode .canvasDock{left:8px!important;top:8px!important;bottom:8px!important;width:50px!important;padding:7px!important;align-items:center!important}
+body.mind-canvas-mode .canvasDock .dockText,
+body.mind-canvas-mode .canvasDock .dockSection,
+body.mind-canvas-mode .canvasDock .dockActions{display:none!important}
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock{width:228px!important;padding:12px!important;align-items:stretch!important}
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockText,
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockSection,
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockActions{display:block!important}
+body.mind-canvas-mode:not(.canvas-dock-collapsed) .canvasDock .dockActions{display:grid!important}
+.nodeWorkspace{width:min(760px,calc(100vw - 140px));max-height:calc(100vh - 80px);overflow:auto}
+body.mind-canvas-mode .nodeWorkspace{width:min(900px,calc(100vw - 118px));max-height:calc(100vh - 38px)}
+.briefNodeFull{display:grid;gap:10px}
+.briefNodeGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.briefNodeGrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.briefNodePanel{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025);padding:10px}
+.briefNodePanel summary{cursor:pointer;font-weight:900;color:#f7dfb3;font-size:12px;letter-spacing:.04em}
+.briefNodeResult{min-height:150px;max-height:260px;overflow:auto;margin-top:8px}
+.nodeMiniRail{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.nodeMiniRail .btn{font-size:10px;padding:7px 9px}
+.nextNodeHint.strong{border-color:rgba(116,217,154,.30);background:rgba(116,217,154,.06);color:#d9ffe6}
+@media(max-width:980px){.briefNodeGrid,.briefNodeGrid.three{grid-template-columns:1fr}.nodeWorkspace,body.mind-canvas-mode .nodeWorkspace{width:min(94vw,760px)}}
 
 </style>
 </head>
@@ -1461,6 +1498,144 @@ function renderNodeWorkspace(id){
 }
 
 setTimeout(()=>{updateCardFlowPanel();renderMindJob();},120);
+
+
+
+/* Titan Colossal V1.7 — sobrescrita: node completo + canvas lateral esquerdo minimizado */
+function v17Options(current, options){
+  const seen=new Set();
+  const all=[current,...options].filter(v=>v!==undefined && v!==null && String(v).trim()).filter(v=>{const k=String(v); if(seen.has(k))return false; seen.add(k); return true;});
+  return all.map(v=>`<option ${String(v)===String(current)?'selected':''}>${escapeHtml(v)}</option>`).join('');
+}
+function v17Set(src,target){
+  if($(src)&&$(target)){
+    $(target).value=$(src).value;
+    syncMasterToTabs();
+    renderMindJob();
+  }
+}
+function v17DownloadOut(){ download('video-pack-mestre.txt','out'); }
+function v17CopyOut(){ copy('out'); }
+function v17ApplyMaster(){ window.__keepScrollOnce=true; appendToExport('out','PACOTE MESTRE',true); }
+function v17OpenCanvas(){
+  mindCanvasMode=true;
+  mindTopCollapsed=true;
+  mindDockCollapsed=true;
+  showScreen('mindjob');
+  updateMindPanelState();
+  setTimeout(centerMind,80);
+}
+
+toggleCanvasMode = function(){
+  mindCanvasMode=!mindCanvasMode;
+  if(mindCanvasMode){mindTopCollapsed=true;mindDockCollapsed=true;}
+  updateMindPanelState();
+  setTimeout(centerMind,80);
+};
+
+toggleCanvasDock = function(){
+  mindDockCollapsed=!mindDockCollapsed;
+  document.body.classList.toggle('canvas-dock-collapsed',mindDockCollapsed);
+  updateMindPanelState();
+  setTimeout(()=>{setMindTransform();updateConnectors()},30);
+};
+
+function renderNodeWorkspace(id){
+  const p=workspacePosition(id); const style=`left:${p.x}px;top:${p.y}px`;
+  const resultText=getRealText('out');
+  if(id==='brief'){
+    return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
+      <div class="workHead"><div><span class="workBadge">🧠 Estação ativa completa</span><h3>Node inteligente — Briefing Mestre</h3><p class="mini">Mesma função das abas: preencher, configurar, gerar, ver resultado, aplicar, exportar e avançar sem sair do canvas.</p></div><button class="nodeToggle" onclick="nextNode()">›</button></div>
+      <div class="workBody briefNodeFull">
+        ${smartProgressHTML()}
+        <div class="nodeMiniRail">
+          <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
+          <button class="btn cyan" onclick="v17ApplyMaster()">Aplicar resultado</button>
+          <button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button>
+          <button class="btn purple" onclick="reorganizeCards()">Revisar cards</button>
+          <button class="btn" onclick="buildExport(true)">Montar limpo</button>
+          <button class="btn" onclick="v17CopyOut()">Copiar resultado</button>
+          <button class="btn green" onclick="v17DownloadOut()">Baixar TXT</button>
+          <button class="btn red" onclick="clearBriefing()">Limpar</button>
+        </div>
+
+        <details class="briefNodePanel" open><summary>1. Origem e briefing</summary>
+          <label>Origem</label><select id="treeSource" onchange="v17Set('treeSource','source')">${v17Options(val('source')||'Manual',['Manual','Studio / roteiro / storyboard','Print / campanha / produto','Client / produto final','Referência externa'])}</select>
+          <label>Nome do projeto</label><input id="treeProjectName" value="${escAttr(val('projectName'))}" oninput="v17Set('treeProjectName','projectName')" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1">
+          <label>Briefing geral</label><textarea id="treeBrief" oninput="v17Set('treeBrief','brief')" placeholder="Cole o briefing, roteiro, copy ou ideia...">${escapeHtml(val('brief'))}</textarea>
+          <label>Material disponível</label><textarea id="treeAssets" oninput="v17Set('treeAssets','assets')" placeholder="Assets, fotos, som, SRT, cores, links...">${escapeHtml(val('assets'))}</textarea>
+          <label>Texto obrigatório / regras</label><textarea id="treeRequired" oninput="v17Set('treeRequired','requiredTextMaster')" placeholder="Frases obrigatórias, eventos que não podem faltar...">${escapeHtml(val('requiredTextMaster'))}</textarea>
+        </details>
+
+        <details class="briefNodePanel" open><summary>2. Configurações completas do vídeo</summary>
+          <div class="briefNodeGrid">
+            <div><label>Modelo de vídeo</label><select id="treeTemplate" onchange="v17Set('treeTemplate','briefTemplate')">${v17Options(choice('briefTemplate','template')||'Motion Comic 2D',['Produto animado','Poster vivo','Flyer animado','Story/Reels/TikTok promocional','Motion Comic 2D','YouTube intro/banner','Slideshow comercial','Antes/depois','Top 5 / lista animada','Mockup de camiseta/caneca/poster'])}</select></div>
+            <div><label>Formato</label><select id="treeFormat" onchange="v17Set('treeFormat','briefFormat')">${v17Options(choice('briefFormat','format')||'9:16 vertical',['9:16 vertical','16:9 horizontal','1:1 quadrado','4:5 feed','21:9 cinematic'])}</select></div>
+            <div><label>Duração</label><select id="treeDuration" onchange="v17Set('treeDuration','briefDuration')">${v17Options(choice('briefDuration','duration')||'30 segundos',['8 segundos','15 segundos','30 segundos','45 segundos','60 segundos'])}</select></div>
+            <div><label>Estilo de movimento</label><select id="treeMotion" onchange="v17Set('treeMotion','briefMotionStyle')">${v17Options(choice('briefMotionStyle','motionStyle')||'Camera seca e tensão',['Motion graphic limpo','Camera seca e tensão','Anime 2D / motion comic','Comercial premium','Popular rápido para TikTok','Luxo minimalista','Streetwear / cultura pop'])}</select></div>
+          </div>
+        </details>
+
+        <details class="briefNodePanel" open><summary>3. Cérebro central / herança automática</summary>
+          <div class="briefNodeGrid">
+            <div><label>Objetivo do vídeo</label><select id="treeGoal" onchange="v17Set('treeGoal','goalMaster')">${v17Options(masterChoice('goalMaster','goal')||'Cena narrativa / motion comic',['Vender produto','Explicar ideia','Gerar curiosidade','Promover marca','Transformar poster/flyer em vídeo','Cena narrativa / motion comic'])}</select></div>
+            <div><label>Tom</label><select id="treeTone" onchange="v17Set('treeTone','toneMaster')">${v17Options(masterChoice('toneMaster','tone')||'Horror/tensão',['Profissional','Impactante','Emocional','Horror/tensão','Divertido','Premium','Popular direto'])}</select></div>
+            <div><label>Precisão do JSON</label><select id="treeJsonLevel" onchange="v17Set('treeJsonLevel','jsonLevelMaster')">${v17Options(masterChoice('jsonLevelMaster','jsonLevel')||'Motion Comic 2D',['Completo com cenas, layers e timing','Simples para CapCut','Remotion avançado','Motion Comic 2D'])}</select></div>
+            <div><label>Tipo de áudio</label><select id="treeAudio" onchange="v17Set('treeAudio','audioTypeMaster')">${v17Options(masterChoice('audioTypeMaster','audioType')||'Narração + SFX',['Narração + SFX','Só texto animado','Falas + legenda','Trilha + impactos','Horror/tensão sonora','Comercial rápido'])}</select></div>
+          </div>
+        </details>
+
+        <details class="briefNodePanel" open><summary>4. Resultado mestre dentro do próprio node</summary>
+          <div class="workResultHead"><div class="workResultTitle">Resultado mestre / pacote gerado</div><div class="workResultStatus">${resultText?'gerado':'aguardando'}</div></div>
+          <div class="workOutput briefNodeResult" id="treeMasterResult">${resultText?escapeHtml(resultText):'<div class="workHintBox"><b>Aguardando geração.</b><br>Quando clicar em Gerar pacote mestre, o resultado aparece aqui, cria cards/ramificações e pode ser aplicado sem voltar para as abas.</div>'}</div>
+          <div class="workActions">
+            <button class="btn" onclick="v17CopyOut()">Copiar</button>
+            <button class="btn green" onclick="v17DownloadOut()">Baixar TXT</button>
+            <button class="btn cyan" onclick="v17ApplyMaster()">Aplicar no pacote</button>
+            <button class="btn purple" onclick="reorganizeCards()">Criar/revisar cards</button>
+          </div>
+        </details>
+
+        <div class="workActions">
+          <button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button>
+          <button class="btn purple" onclick="activeNodeId='roteiro';renderMindJob()">Refinar roteiro</button>
+          <button class="btn cyan" onclick="activeNodeId='json';renderMindJob()">Gerar técnico</button>
+          <button class="btn green" onclick="buildExport(true);nextNode()">Aplicar e próximo node</button>
+          <button class="btn red" onclick="newCleanProject()">Novo projeto limpo</button>
+        </div>
+        <div class="nextNodeHint strong">Ao clicar em Próximo node, o Briefing fica compacto e a próxima estação abre. O canvas fica livre e a produção segue progressiva.</div>
+      </div>
+    </div>`;
+  }
+  const titles={modelo:'Modelo / Formato',roteiro:'Roteiro Visual',json:'JSON / Remotion',srt:'SRT / Som',preview:'Preview',pacote:'Pacote Final',ramo:'Ramificações'};
+  const actions={
+    modelo:`<button class="btn gold" onclick="generate('templatePlan')">Gerar plano</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO',true)">Aplicar</button>`,
+    roteiro:`<button class="btn gold" onclick="generate('visualScript')">Gerar roteiro</button><button class="btn purple" onclick="generate('shotList')">Shot list</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO',true)">Aplicar</button>`,
+    json:`<button class="btn gold" onclick="generate('remotionJson')">Gerar JSON</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT',true)">Aplicar</button>`,
+    srt:`<button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM',true)">Aplicar</button>`,
+    preview:`<button class="btn gold" onclick="updatePreview();renderMindJob()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW',true)">Aplicar</button>`,
+    pacote:`<button class="btn gold" onclick="buildExport(false)">Montar limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button>`,
+    ramo:`<button class="btn green" onclick="applyAllHubCards(false)">Aplicar todos válidos</button><button class="btn" onclick="showPendingCards()">Mostrar pendentes</button><button class="btn purple" onclick="goNextPendingCard()">Próximo card</button>`
+  };
+  return `<div class="nodeWorkspace linkedWorkspace" id="nodeWorkspace" data-linked-node="${id}" style="${style}">
+    <div class="workHead"><div><span class="workBadge">${statusIcon('ready')} Estação ativa</span><h3>Node inteligente — ${titles[id]||id}</h3><p class="mini">${stationSubtitle(id)}</p></div><button class="nodeToggle" onclick="nextNode()">›</button></div>
+    <div class="workBody">
+      ${smartProgressHTML()}
+      <div class="workOutput">${workspaceText(id)}</div>
+      <div class="workActions">${actions[id]||''}<button class="btn purple" onclick="nextNode()">Próximo node</button><button class="btn" onclick="activeNodeId='brief';renderMindJob()">Voltar Briefing</button></div>
+    </div>
+  </div>`;
+}
+
+const oldUpdateMindPanelStateV17 = updateMindPanelState;
+updateMindPanelState = function(){
+  oldUpdateMindPanelStateV17();
+  if(mindCanvasMode && document.getElementById('mindjob')?.classList.contains('active')){
+    document.body.classList.add('mind-canvas-mode','canvas-dock-collapsed');
+  }
+};
+
+setTimeout(()=>{renderMindJob();updateMindPanelState();centerMind();},160);
 
 </script>
 </body>
