@@ -39,6 +39,8 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .tiny{font-size:10px;padding:7px 9px;border-radius:10px}
 
 
+.creatorLine{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;color:#cbd5e1;font-size:13px;line-height:1.55}.creatorLine strong{color:#eadcc1}.creatorSeal{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f4ddb2;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900}.authorLink{border-color:rgba(214,173,104,.45);background:rgba(214,173,104,.08);color:#f3d9a4}.modalBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;z-index:80;padding:20px}.modalBackdrop.open{display:flex}.authorModal{width:min(760px,96vw);max-height:90vh;overflow:auto;border:1px solid rgba(214,173,104,.35);border-radius:24px;background:linear-gradient(180deg,rgba(214,173,104,.08),rgba(255,255,255,.025)),#0d1220;box-shadow:0 30px 90px rgba(0,0,0,.55);padding:22px}.authorModal h2{font-size:28px;margin-bottom:8px}.authorGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.authorCard{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035);padding:14px}.authorCard h3{font-size:14px;margin-bottom:8px}.authorCard p{font-size:13px;margin:0}.creditText{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:16px;padding:14px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff}.modalActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}@media(max-width:720px){.authorGrid{grid-template-columns:1fr}.authorModal{padding:16px}.creatorLine{font-size:12px}}
+
 /* Mind Job Final — nodes */
 .progressFlow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:12px 0 16px}
 .progressStep{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);padding:10px;display:flex;gap:9px;align-items:center;min-height:58px}
@@ -66,6 +68,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
     <a class="btn" href="/studio/">Studio</a>
     <a class="btn" href="/client/">Client</a>
     <a class="btn" href="/print/">Print</a>
+    <button class="btn authorLink" onclick="openAuthor()" type="button">Autoria</button>
     <a class="btn gold" href="/video/">Video</a>
   </nav>
 </header>
@@ -260,7 +263,11 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
         <div class="mindToolbar">
           <div>
             <div class="kicker">Item 9 / visão global</div>
-            <h2>Mind Job Final — by Patente Elinaldo Menezes</h2>
+            <h2>Mind Job Final</h2>
+            <div class="creatorLine">
+              <span class="creatorSeal">Sistema de produção criativa em nodes</span>
+              <span>Idealizado por <strong>Elinaldo Menezes</strong> — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</span>
+            </div>
             <p>Mapa lógico em nodes estilo Blender para ver o projeto inteiro, revisar ramificações, aplicar partes no pacote e exportar sem botão duplicado.</p>
           </div>
           <div class="eggBox">
@@ -300,8 +307,53 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
   </main>
 </div>
 
+<div class="modalBackdrop" id="authorModal" onclick="closeAuthor(event)">
+  <div class="authorModal" role="dialog" aria-modal="true" aria-labelledby="authorTitle" onclick="event.stopPropagation()">
+    <div class="kicker">Registro criativo / autoria</div>
+    <h2 id="authorTitle">Mind Job Final</h2>
+    <p><strong>Sistema de produção criativa em nodes</strong></p>
+    <p>Idealizado por <strong>Elinaldo Menezes de Medeiros</strong> — criador audiovisual, fundador do <strong>Iniciantes do Punk de Caruaru</strong>.</p>
+    <div class="authorGrid">
+      <div class="authorCard">
+        <h3>Conceito original</h3>
+        <p>Organizar briefing, roteiro, storyboard, JSON, SRT, som, prompts de vídeo, assets, checklist e exportação em um fluxo visual de pré-produção audiovisual.</p>
+      </div>
+      <div class="authorCard">
+        <h3>Finalidade</h3>
+        <p>Pré-produção técnica e criativa para CapCut, Remotion, IA de vídeo, edição manual e pacote final limpo, sem renderizar MP4 automaticamente.</p>
+      </div>
+    </div>
+    <div class="creditText" id="authorCreditText">AUTORIA DO SISTEMA
+Mind Job Final — Sistema de produção criativa em nodes
+Idealizado por Elinaldo Menezes de Medeiros
+Criador audiovisual e fundador do Iniciantes do Punk de Caruaru
+
+Projeto: Fruits Adventures Mega Studio / Video Pack Studio
+Módulo: Mind Job Final
+Finalidade: criação audiovisual, pré-produção, roteiro técnico e organização de pacotes para vídeo.
+
+Observação: este crédito identifica a autoria conceitual e criativa do sistema dentro do projeto.</div>
+    <div class="modalActions">
+      <button class="btn" onclick="copy('authorCreditText')">Copiar crédito</button>
+      <button class="btn green" onclick="download('autoria-mind-job-final.txt','authorCreditText')">Baixar TXT</button>
+      <button class="btn gold" onclick="closeAuthor()">Fechar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 let provider="claude";const STORAGE="videoPackStudioV1";function $(id){return document.getElementById(id)}function val(id){return $(id)?.value?.trim()||""}
+function creatorCreditBlock(){return `AUTORIA DO SISTEMA
+Mind Job Final — Sistema de produção criativa em nodes
+Idealizado por Elinaldo Menezes de Medeiros
+Criador audiovisual e fundador do Iniciantes do Punk de Caruaru
+
+Projeto: Fruits Adventures Mega Studio / Video Pack Studio
+Módulo: Mind Job Final
+Finalidade: criação audiovisual, pré-produção, roteiro técnico e organização de pacotes para vídeo.`}
+function openAuthor(){const m=$("authorModal");if(m)m.classList.add("open")}
+function closeAuthor(ev){if(ev&&ev.target&&ev.currentTarget&&ev.target!==ev.currentTarget)return;const m=$("authorModal");if(m)m.classList.remove("open")}
+
 function choice(primary,fallback){return val(primary)||val(fallback)}
 function syncBriefModelToModel(){
   const pairs=[["briefTemplate","template"],["briefFormat","format"],["briefDuration","duration"],["briefMotionStyle","motionStyle"]];
@@ -466,6 +518,12 @@ function buildExport(){
   }
 
   text += `\n\n---\n\n## ASSETS NECESSÁRIOS\n\n${val("assets") || "- Adicione assets, imagens, som, logo, personagens e materiais do projeto."}
+
+---
+
+## REGISTRO CRIATIVO DO SISTEMA
+
+${creatorCreditBlock()}
 
 ---
 
