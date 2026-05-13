@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V1.1</title>
+<title>Video Pack Studio — Titan Colossal V1.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--text:#e8ecf4;--muted:#9aa4b8}
@@ -39,7 +39,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .tiny{font-size:10px;padding:7px 9px;border-radius:10px}
 
 
-/* Titan Colossal V1 — Briefing Mestre + Mind Job Real */
+/* Titan Colossal V1 — Briefing Mestre + Árvore Real */
 .creatorLine{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;color:#cbd5e1;font-size:13px;line-height:1.55}.creatorLine strong{color:#eadcc1}.creatorSeal{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f4ddb2;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900}.authorLink{border-color:rgba(214,173,104,.45);background:rgba(214,173,104,.08);color:#f3d9a4}
 .modalBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;z-index:80;padding:20px}.modalBackdrop.open{display:flex}.authorModal{width:min(760px,96vw);max-height:90vh;overflow:auto;border:1px solid rgba(214,173,104,.35);border-radius:24px;background:linear-gradient(180deg,rgba(214,173,104,.08),rgba(255,255,255,.025)),#0d1220;box-shadow:0 30px 90px rgba(0,0,0,.55);padding:22px}.authorModal h2{font-size:28px;margin-bottom:8px}.authorGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.authorCard{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035);padding:14px}.authorCard h3{font-size:14px;margin-bottom:8px}.authorCard p{font-size:13px;margin:0}.creditText{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:16px;padding:14px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff}.modalActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
 .masterMatrix{border:1px solid rgba(214,173,104,.24);background:rgba(214,173,104,.045);border-radius:16px;padding:12px;margin-top:12px}.masterMatrix h3{font-size:15px;margin-bottom:4px}.masterHint{font-size:12px;color:#cbd5e1;margin:0 0 8px}.masterBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(101,217,210,.35);background:rgba(101,217,210,.08);color:#cafffb;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;margin:3px 4px 0 0}
@@ -47,7 +47,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .nodeViewport{position:relative;min-height:620px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 22% 20%,rgba(101,217,210,.08),transparent 22%),radial-gradient(circle at 74% 35%,rgba(214,173,104,.07),transparent 25%),#050813;overflow:auto;padding:28px}.nodeMap{position:relative;min-width:1120px;min-height:560px}.node{position:absolute;width:245px;border:1px solid var(--line);border-radius:18px;background:rgba(13,18,32,.94);box-shadow:0 18px 45px rgba(0,0,0,.25);padding:12px;transition:.2s transform,.2s filter}.node:hover{transform:translateY(-2px);filter:brightness(1.08)}.nodeHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:8px}.nodeHeader h3{font-size:14px;line-height:1.25}.nodeStatus{border:1px solid var(--line);border-radius:999px;padding:4px 7px;font-size:9px;text-transform:uppercase;color:#dbe5ff}.nodeSummary{font-size:11px;color:#b9c4da;line-height:1.55;min-height:48px}.nodeActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.nodeActions .btn{font-size:10px;padding:7px 9px;border-radius:10px}.node.empty{border-color:rgba(154,164,184,.22)}.node.filled{border-color:rgba(101,217,210,.45);box-shadow:0 0 0 1px rgba(101,217,210,.08) inset}.node.review{border-color:rgba(185,156,255,.45);background:rgba(185,156,255,.06)}.node.done{border-color:rgba(116,217,154,.55);background:rgba(116,217,154,.06)}.node.exported{border-color:rgba(214,173,104,.65);background:rgba(214,173,104,.075)}.node.error{border-color:rgba(225,138,138,.65);background:rgba(225,138,138,.08)}.connectorSvg{position:absolute;inset:0;width:1120px;height:560px;pointer-events:none;opacity:.78}.connectorSvg path{fill:none;stroke:rgba(101,217,210,.35);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 9}.connectorSvg path.mainLine{stroke:rgba(214,173,104,.45);stroke-width:4;stroke-dasharray:none}.nodeLegend{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.legendItem{font-size:10px;color:#cbd5e1;border:1px solid var(--line);border-radius:999px;padding:5px 8px}.legendItem b{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:5px}.zoomTools{display:flex;gap:8px;flex-wrap:wrap}.mindMiniOutput{max-height:140px;min-height:90px}.statusDot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#64748b}.statusDot.filled{background:var(--cyan)}.statusDot.review{background:var(--purple)}.statusDot.done{background:var(--green)}.statusDot.exported{background:var(--gold)}.statusDot.error{background:var(--red)}
 
 
-/* Titan Colossal V1.1 — Mind Job Focus + Zoom/Pan leve */
+/* Titan Colossal V1.2 — Árvore Focus + Zoom/Pan leve */
 .mindHero.compactMind{padding:14px 16px;position:relative;overflow:hidden}
 .mindHero.compactMind .mindTitleLine{align-items:center}
 .mindSubtitle{margin:2px 0 0;font-size:12px;color:#b8c4da;line-height:1.45}.mindSubtitle strong{color:#eadcc1}
@@ -56,10 +56,19 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .progressPanel{display:none}.progressPanel.open{display:block}.progressPanel .progressFlow{margin-top:10px}
 .mindControlBar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:8px}.mindControlBar .btn{padding:7px 10px;font-size:11px}.zoomReadout{border:1px solid var(--line);border-radius:999px;background:#080c17;color:#dbe5ff;padding:7px 10px;font:11px Space Mono,monospace;min-width:62px;text-align:center}
 .nodeViewport{height:72vh;min-height:540px;overflow:hidden;cursor:grab;touch-action:none;position:relative}.nodeViewport.dragging{cursor:grabbing}.nodeMap{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}.node:focus-within{outline:2px solid rgba(214,173,104,.55);outline-offset:2px}
-.mindFullscreen{position:fixed!important;inset:12px!important;z-index:90!important;background:#070a12!important;margin:0!important;padding:14px!important;display:flex;flex-direction:column}.mindFullscreen .nodeViewport{height:calc(100vh - 210px);min-height:0}.mindFullscreen .hubHead{flex:0 0 auto}.mindFullscreen .nodeLegend{display:none}.mindFullscreen::before{content:'Mind Job Focus Mode';font-family:Space Mono,monospace;color:#baf7f2;font-size:11px;text-transform:uppercase;letter-spacing:.16em;margin-bottom:8px}
+.mindFullscreen{position:fixed!important;inset:12px!important;z-index:90!important;background:#070a12!important;margin:0!important;padding:14px!important;display:flex;flex-direction:column}.mindFullscreen .nodeViewport{height:calc(100vh - 210px);min-height:0}.mindFullscreen .hubHead{flex:0 0 auto}.mindFullscreen .nodeLegend{display:none}.mindFullscreen::before{content:'Árvore da Criação — Focus Mode';font-family:Space Mono,monospace;color:#baf7f2;font-size:11px;text-transform:uppercase;letter-spacing:.16em;margin-bottom:8px}
 .mapHint{position:absolute;right:12px;bottom:12px;border:1px solid rgba(101,217,210,.25);background:rgba(5,8,19,.82);color:#baf7f2;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;pointer-events:none;z-index:4}
 .node.collapsed .nodeSummary,.node.collapsed .nodeActions{display:none}.node.collapsed{height:auto;min-height:70px}.nodeToggle{border:1px solid var(--line);background:rgba(255,255,255,.035);color:#dbe5ff;border-radius:999px;width:24px;height:24px;display:grid;place-items:center;font-size:11px;padding:0;flex:0 0 auto}
 .sideMindTools{margin-top:14px;border:1px solid rgba(101,217,210,.18);background:rgba(101,217,210,.04);border-radius:14px;padding:10px}.sideMindTools .btn{width:100%;margin:4px 0;padding:8px 9px;font-size:11px}.sideMindTools strong{display:block;color:#eadcc1;font-size:11px;margin-bottom:6px}
+
+
+/* Titan Colossal V1.2 — Árvore da Criação: nodes móveis e mapa vivo */
+.node{cursor:grab;user-select:none}.node.nodeDragging{cursor:grabbing;z-index:12;box-shadow:0 25px 80px rgba(0,0,0,.45),0 0 0 2px rgba(214,173,104,.28)}
+.nodeViewport.freeZoom{cursor:grab}.nodeViewport.freeZoom .mapHint{background:rgba(214,173,104,.12);border-color:rgba(214,173,104,.35);color:#f8e0b2}
+.connectorSvg{overflow:visible}.connectorSvg path.liveLine{stroke:rgba(101,217,210,.38);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:8 9;filter:drop-shadow(0 0 6px rgba(101,217,210,.06))}.connectorSvg path.liveLine.main{stroke:rgba(214,173,104,.52);stroke-width:4;stroke-dasharray:none}.connectorSvg path.liveLine.ready{stroke:rgba(116,217,154,.48)}
+.mapToolbarNote{font-size:10px;color:#baf7f2;font-family:Space Mono,monospace;border:1px solid rgba(101,217,210,.22);background:rgba(101,217,210,.055);padding:6px 9px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
+.nodeMiniHandle{position:absolute;right:10px;bottom:8px;color:#64748b;font-size:13px;pointer-events:none}.nodeDragging .nodeMiniHandle{color:#d6ad68}
+
 @media(max-width:980px){.nodeViewport{height:68vh}.mindControlBar{justify-content:flex-start}.compactMind .eggTerminal{min-width:100%}.progressToggleRow{align-items:flex-start}.sideMindTools{display:none}}
 
 @media(max-width:980px){.progressFlow{grid-template-columns:1fr}.nodeViewport{padding:14px}.nodeMap{min-width:980px}.authorGrid{grid-template-columns:1fr}.eggTerminal{width:100%}}
@@ -90,7 +99,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
     <button class="step" data-step="preview" onclick="showScreen('preview')">6. Preview leve</button>
     <button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportar pacote</button>
     <button class="step" data-step="api" onclick="showScreen('api')">8. API</button>
-    <button class="step" data-step="mindjob" onclick="showScreen('mindjob');renderMindJob()">9. Mind Job / Nodes</button>
+    <button class="step" data-step="mindjob" onclick="showScreen('mindjob');renderMindJob()">9. Árvore / Nodes</button>
 
     <h4>Modelos</h4>
     <span class="pill">Produto animado</span><span class="pill">Poster vivo</span><span class="pill">Flyer animado</span><span class="pill">Motion Comic</span><span class="pill">Story/Reels</span><span class="pill">YouTube</span><span class="pill">Slideshow</span>
@@ -98,7 +107,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
     <h4>Regra</h4>
     <p class="mini">Este módulo não renderiza MP4. Ele gera pacote avançado: roteiro visual, JSON, SRT, prompt CapCut, prompt Remotion, assets e instruções.</p>
     <div class="sideMindTools">
-      <strong>Mind Job rápido</strong>
+      <strong>Árvore rápida</strong>
       <button class="btn" onclick="showScreen('mindjob');toggleMindProgress()">Painel progresso</button>
       <button class="btn cyan" onclick="showScreen('mindjob');centerMind()">Centralizar nodes</button>
       <button class="btn gold" onclick="showScreen('mindjob');toggleMindFullscreen()">Tela cheia</button>
@@ -111,7 +120,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       <h1>Video Pack / Remotion Pack</h1>
       <p>Trabalha com tudo: projeto do Studio, Print, Client ou briefing manual. Gera pacote avançado para vídeo, mas sem renderizar MP4.</p>
       <div class="notice">Sem MP4 automático agora. O objetivo é economizar: IA gera o pacote técnico e criativo; você usa CapCut, Remotion, Seedance, Luma/Kling ou outro fluxo depois, se quiser.</div>
-      <div class="creatorLine"><span class="creatorSeal">Mind Job Final</span><strong>Sistema de produção criativa em nodes</strong><span>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</span></div>
+      <div class="creatorLine"><span class="creatorSeal">Árvore da Criação</span><strong>Sistema vivo de produção criativa em nodes</strong><span>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</span></div>
     </section>
 
     <div class="tabs">
@@ -123,7 +132,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       <button class="tab" data-tab="preview" onclick="showScreen('preview')">Preview</button>
       <button class="tab" data-tab="exportacao" onclick="showScreen('exportacao')">Exportar</button>
       <button class="tab" data-tab="api" onclick="showScreen('api')">API</button>
-      <button class="tab" data-tab="mindjob" onclick="showScreen('mindjob');renderMindJob()">Mind Job</button>
+      <button class="tab" data-tab="mindjob" onclick="showScreen('mindjob');renderMindJob()">Árvore</button>
     </div>
 
 
@@ -158,7 +167,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           <label>Briefing geral</label><textarea id="brief" placeholder="Cole aqui o briefing, roteiro, copy, descrição da peça ou ideia do vídeo..."></textarea>
           <label>Material disponível</label><textarea id="assets" placeholder="Imagem base, logo, produto, personagem, cenas, áudio, SRT, fotos, cores, fontes, links de referência..."></textarea>
           <label>Texto obrigatório / regras de roteiro</label><textarea id="requiredTextMaster" placeholder="Frases obrigatórias, CTA, eventos que não podem faltar, falas, moral da história..."></textarea>
-          <div class="notice">O Briefing Mestre é o cérebro central. Tudo que você preencher aqui alimenta Modelo, Roteiro, JSON, SRT/Som, Preview, Mind Job e Pacote Final.</div>
+          <div class="notice">O Briefing Mestre é o cérebro central. Tudo que você preencher aqui alimenta Modelo, Roteiro, JSON, SRT/Som, Preview, Árvore e Pacote Final.</div>
           <div class="grid two">
             <div>
               <label>Modelo de vídeo</label>
@@ -181,7 +190,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
           </div>
           <div class="masterMatrix">
             <h3>Cérebro central / herança automática</h3>
-            <p class="masterHint">Esses campos alimentam Roteiro, JSON, SRT/Som e Mind Job. As outras abas viram ajuste fino.</p>
+            <p class="masterHint">Esses campos alimentam Roteiro, JSON, SRT/Som e Árvore da Criação. As outras abas viram ajuste fino.</p>
             <div class="grid two">
               <div><label>Objetivo do vídeo</label><select id="goalMaster"><option>Vender produto</option><option>Explicar ideia</option><option>Gerar curiosidade</option><option>Promover marca</option><option>Transformar poster/flyer em vídeo</option><option>Cena narrativa / motion comic</option></select></div>
               <div><label>Tom</label><select id="toneMaster"><option>Profissional</option><option>Impactante</option><option>Emocional</option><option>Horror/tensão</option><option>Divertido</option><option>Premium</option><option>Popular direto</option></select></div>
@@ -288,9 +297,9 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       <div class="card mindHero compactMind" id="mindHeroPanel">
         <div class="mindTitleLine">
           <div>
-            <div class="kicker">Titan Colossal V1.1</div>
-            <h2>Mind Job Final</h2>
-            <p class="mindSubtitle"><strong>Sistema de produção criativa em nodes</strong><br>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
+            <div class="kicker">Titan Colossal V1.2</div>
+            <h2>Árvore da Criação</h2>
+            <p class="mindSubtitle"><strong>Sistema vivo de produção criativa em nodes</strong><br>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
           </div>
           <div class="eggTerminal">
             <div class="eggFace" id="eggMood">🥚</div>
@@ -312,33 +321,27 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
             <button class="btn cyan" onclick="centerMind()">Centralizar</button>
             <button class="btn" onclick="resetMindZoom()">100%</button>
             <button class="btn gold" onclick="toggleMindFullscreen()">Tela cheia</button>
-            <button class="btn purple" onclick="renderMindJob();centerMind()">Reorganizar</button>
+            <button class="btn purple" onclick="autoOrganizeNodes()">Reorganizar</button><button class="btn red" onclick="resetNodeLayout()">Reset layout</button>
           </div>
         </div>
         <div class="progressPanel" id="mindProgressPanel"><div class="progressFlow" id="progressFlow"></div></div>
       </div>
       <div class="card mindShell">
         <div class="hubHead">
-          <div><div class="kicker">Mapa global / nodes</div><h2>Cérebro central e ramificações</h2><p>O Briefing Mestre alimenta cada etapa. Dê zoom, arraste o mapa e expanda/recolha nodes como painel de produção.</p></div>
+          <div><div class="kicker">Mapa vivo / nodes</div><h2>Árvore central e ramificações</h2><p>O Briefing Mestre alimenta cada etapa. Arraste os nodes, mova o mapa, use zoom com a roda do mouse e organize a produção como uma árvore viva.</p></div>
           <div>
             <div class="nodeLegend"><span class="legendItem"><b style="background:#64748b"></b>vazio</span><span class="legendItem"><b style="background:#65d9d2"></b>preenchido</span><span class="legendItem"><b style="background:#b99cff"></b>revisar</span><span class="legendItem"><b style="background:#74d99a"></b>aplicado</span><span class="legendItem"><b style="background:#d6ad68"></b>exportado</span><span class="legendItem"><b style="background:#e18a8a"></b>erro</span></div>
-            <div class="mindControlBar"><button class="btn" onclick="zoomMind(-0.1)">− Zoom</button><button class="btn" onclick="zoomMind(0.1)">+ Zoom</button><button class="btn cyan" onclick="centerMind()">Centralizar</button><button class="btn gold" onclick="toggleMindFullscreen()">Tela cheia</button></div>
+            <div class="mindControlBar"><button class="btn" onclick="zoomMind(-0.1)">− Zoom</button><button class="btn" onclick="zoomMind(0.1)">+ Zoom</button><button class="btn cyan" onclick="centerMind()">Centralizar</button><button class="btn gold" onclick="toggleMindFullscreen()">Tela cheia</button><button class="btn red" onclick="resetNodeLayout()">Reset layout</button></div>
           </div>
         </div>
         <div class="nodeViewport" id="nodeViewport">
           <div class="nodeMap" id="nodeMap">
-            <svg class="connectorSvg" viewBox="0 0 1120 560" preserveAspectRatio="none">
-              <path class="mainLine" d="M160 110 C250 110 250 110 340 110 C430 110 430 110 520 110 C610 110 610 110 700 110 C790 110 790 110 880 110" />
-              <path class="mainLine" d="M880 110 C960 160 960 255 880 310" />
-              <path class="mainLine" d="M880 310 C960 360 960 455 880 480" />
-              <path d="M160 110 C210 210 250 280 340 310" />
-              <path d="M160 110 C235 340 420 460 700 480" />
-              <path d="M520 110 C550 235 650 280 700 310" />
-              <path d="M520 110 C540 360 625 430 700 480" />
+            <svg class="connectorSvg" id="connectorSvg" viewBox="0 0 1600 900" preserveAspectRatio="none">
+              <g id="connectorPaths"></g>
             </svg>
             <div id="mindCanvas"></div>
           </div>
-          <div class="mapHint">Ctrl + roda = zoom • arraste para mover • Ctrl + / − / 0</div>
+          <div class="mapHint">Roda = zoom • arraste o mapa • arraste nodes • Ctrl + / − / 0</div>
         </div>
       </div>
     </section>
@@ -369,19 +372,19 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 <div class="modalBackdrop" id="authorModal" onclick="closeAuthor(event)">
   <div class="authorModal" role="dialog" aria-modal="true" aria-labelledby="authorTitle" onclick="event.stopPropagation()">
     <div class="kicker">Registro criativo / autoria</div>
-    <h2 id="authorTitle">Mind Job Final</h2>
-    <p>Sistema de produção criativa em nodes, idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
+    <h2 id="authorTitle">Árvore da Criação</h2>
+    <p>Sistema vivo de produção criativa em nodes, idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</p>
     <div class="authorGrid">
       <div class="authorCard"><h3>Conceito original</h3><p>Organizar briefing, roteiro, JSON, SRT, som, prompts, cards e exportação em um fluxo visual de pré-produção audiovisual.</p></div>
-      <div class="authorCard"><h3>Projeto</h3><p>Fruits Adventures Mega Studio / Video Pack Studio — módulo Mind Job Final.</p></div>
+      <div class="authorCard"><h3>Projeto</h3><p>Fruits Adventures Mega Studio / Video Pack Studio — módulo Árvore da Criação.</p></div>
     </div>
     <div class="creditText" id="authorCreditText">AUTORIA DO SISTEMA
-Mind Job Final — Sistema de produção criativa em nodes
+Árvore da Criação — Sistema vivo de produção criativa em nodes
 Idealizado por Elinaldo Menezes de Medeiros
 Criador audiovisual e fundador do Iniciantes do Punk de Caruaru
 
 Projeto: Fruits Adventures Mega Studio / Video Pack Studio
-Módulo: Mind Job Final
+Módulo: Árvore da Criação
 Finalidade: criação audiovisual, pré-produção, roteiro técnico e organização de pacotes para vídeo.
 
 Observação: este crédito identifica a autoria conceitual e criativa do sistema dentro do projeto.</div>
@@ -541,12 +544,12 @@ MODELO E FORMATO:
 ## REGISTRO CRIATIVO DO SISTEMA
 
 AUTORIA DO SISTEMA
-Mind Job Final — Sistema de produção criativa em nodes
+Árvore da Criação — Sistema vivo de produção criativa em nodes
 Idealizado por Elinaldo Menezes de Medeiros
 Criador audiovisual e fundador do Iniciantes do Punk de Caruaru
 
 Projeto: Fruits Adventures Mega Studio / Video Pack Studio
-Módulo: Mind Job Final
+Módulo: Árvore da Criação
 Finalidade: criação audiovisual, pré-produção, roteiro técnico e organização de pacotes para vídeo.`;
 }
 function buildExport(){
@@ -673,7 +676,19 @@ function newCleanProject(){
 let mindZoom=1;
 let mindPan={x:0,y:0};
 let mindDrag=null;
+let nodeDrag=null;
 let mindInitDone=false;
+let freeWheelZoom=true;
+const NODE_POS_KEY='arvoreCriacaoNodePositionsV12';
+const DEFAULT_NODE_POSITIONS={
+  brief:{x:30,y:45}, modelo:{x:300,y:45}, roteiro:{x:570,y:45}, json:{x:840,y:45},
+  srt:{x:840,y:250}, preview:{x:570,y:420}, pacote:{x:840,y:420}, ramo:{x:300,y:300}
+};
+let nodePositions={...DEFAULT_NODE_POSITIONS};
+try{nodePositions={...DEFAULT_NODE_POSITIONS,...JSON.parse(localStorage.getItem(NODE_POS_KEY)||'{}')}}catch(e){nodePositions={...DEFAULT_NODE_POSITIONS}}
+function saveNodePositions(){try{localStorage.setItem(NODE_POS_KEY,JSON.stringify(nodePositions))}catch(e){}}
+function getNodePos(id){return nodePositions[id]||DEFAULT_NODE_POSITIONS[id]||{x:0,y:0}}
+function setNodePos(id,x,y){nodePositions[id]={x:Math.round(x),y:Math.round(y)}}
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 function setMindTransform(){
   const map=$('nodeMap');
@@ -731,23 +746,45 @@ function focusNode(id){
 function initMindInteractions(){
   if(mindInitDone)return; mindInitDone=true;
   const vp=$('nodeViewport'); if(!vp)return;
+  vp.classList.add('freeZoom');
   vp.addEventListener('wheel',e=>{
-    if(!e.ctrlKey)return;
+    if(!(freeWheelZoom||e.ctrlKey))return;
     e.preventDefault();
     zoomMind(e.deltaY>0?-0.08:0.08,e);
   },{passive:false});
   vp.addEventListener('mousedown',e=>{
     if(e.target.closest('button,input,textarea,select'))return;
+    const node=e.target.closest('.node');
+    if(node){
+      const id=node.dataset.nodeId;
+      const pos=getNodePos(id);
+      nodeDrag={id,x:e.clientX,y:e.clientY,startX:pos.x,startY:pos.y,el:node};
+      node.classList.add('nodeDragging');
+      e.preventDefault();
+      return;
+    }
     mindDrag={x:e.clientX,y:e.clientY,startX:mindPan.x,startY:mindPan.y};
     vp.classList.add('dragging');
   });
   window.addEventListener('mousemove',e=>{
+    if(nodeDrag){
+      const nx=nodeDrag.startX+(e.clientX-nodeDrag.x)/mindZoom;
+      const ny=nodeDrag.startY+(e.clientY-nodeDrag.y)/mindZoom;
+      setNodePos(nodeDrag.id,nx,ny);
+      nodeDrag.el.style.left=Math.round(nx)+'px';
+      nodeDrag.el.style.top=Math.round(ny)+'px';
+      updateConnectors();
+      return;
+    }
     if(!mindDrag)return;
     mindPan.x=mindDrag.startX+(e.clientX-mindDrag.x);
     mindPan.y=mindDrag.startY+(e.clientY-mindDrag.y);
     setMindTransform();
   });
-  window.addEventListener('mouseup',()=>{mindDrag=null;vp.classList.remove('dragging')});
+  window.addEventListener('mouseup',()=>{
+    if(nodeDrag){nodeDrag.el.classList.remove('nodeDragging');nodeDrag=null;saveNodePositions();updateConnectors()}
+    mindDrag=null;vp.classList.remove('dragging')
+  });
   window.addEventListener('keydown',e=>{
     if(!document.getElementById('mindjob')?.classList.contains('active'))return;
     if(!e.ctrlKey)return;
@@ -756,6 +793,40 @@ function initMindInteractions(){
     if(e.key==='0'){e.preventDefault();resetMindZoom()}
   });
 }
+function resetNodeLayout(){nodePositions={...DEFAULT_NODE_POSITIONS};saveNodePositions();renderMindJob();centerMind()}
+function autoOrganizeNodes(){
+  nodePositions={
+    brief:{x:40,y:90}, modelo:{x:325,y:90}, roteiro:{x:610,y:90}, json:{x:895,y:90},
+    ramo:{x:325,y:335}, preview:{x:610,y:500}, srt:{x:895,y:335}, pacote:{x:895,y:545}
+  };
+  saveNodePositions();renderMindJob();centerMind();
+}
+function nodeCenter(id){
+  const el=$('node-'+id); if(!el)return null;
+  const p=getNodePos(id);
+  return {x:p.x+el.offsetWidth/2,y:p.y+el.offsetHeight/2,w:el.offsetWidth,h:el.offsetHeight};
+}
+function drawPath(a,b,kind=''){
+  const A=nodeCenter(a), B=nodeCenter(b); if(!A||!B)return '';
+  const dx=Math.max(80,Math.abs(B.x-A.x)*0.45);
+  const c1x=A.x+dx, c1y=A.y;
+  const c2x=B.x-dx, c2y=B.y;
+  const d=`M ${A.x} ${A.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${B.x} ${B.y}`;
+  return `<path class="liveLine ${kind}" d="${d}" />`;
+}
+function updateConnectors(){
+  const g=$('connectorPaths'); const svg=$('connectorSvg'); if(!g||!svg)return;
+  const ids=['brief','modelo','roteiro','json','srt','preview','pacote','ramo'];
+  let maxX=1120,maxY=700;
+  ids.forEach(id=>{const p=getNodePos(id);maxX=Math.max(maxX,p.x+330);maxY=Math.max(maxY,p.y+260)});
+  svg.setAttribute('viewBox',`0 0 ${maxX} ${maxY}`);svg.style.width=maxX+'px';svg.style.height=maxY+'px';
+  g.innerHTML=[
+    drawPath('brief','modelo','main'),drawPath('modelo','roteiro','main'),drawPath('roteiro','json','main'),
+    drawPath('json','srt','main'),drawPath('srt','pacote','main'),drawPath('brief','ramo'),
+    drawPath('ramo','preview'),drawPath('preview','pacote'),drawPath('modelo','preview'),drawPath('roteiro','srt'),drawPath('roteiro','pacote')
+  ].join('');
+}
+
 
 function nodeStatusFromText(id){const t=getRealText(id);if(!t)return 'empty';if(/^Erro/i.test(t))return 'error';return Object.values(appliedSections).some(v=>String(v).trim()===String(t).trim())?'done':'filled'}
 function exportStatus(){const t=getRealText('exportOut');if(t)return 'exported';return Object.keys(appliedSections).length?'review':'empty'}
@@ -773,23 +844,25 @@ function eggByStatus(){
   if(hasError)mood=['😱','Mister Egg assustado','Existe erro em uma saída. Corrija antes de exportar.'];
   if($('eggMood')){$('eggMood').textContent=mood[0];$('eggTitle').textContent=mood[1];$('eggText').textContent=mood[2];}
 }
-function nodeCard(n){return `<div class="node ${n.status}" style="left:${n.x}px;top:${n.y}px" id="node-${n.id}" ondblclick="focusNode('${n.id}')"><div class="nodeHeader"><h3>${n.icon||''} ${n.title}</h3><button class="nodeToggle" onclick="toggleNodeCollapse('${n.id}');event.stopPropagation()">▾</button><span class="nodeStatus"><span class="statusDot ${n.status}"></span>${statusLabel(n.status)}</span></div><div class="nodeSummary">${n.summary}</div><div class="nodeActions">${n.actions.map(a=>`<button class="btn ${a.cls||''}" onclick="${a.fn}">${a.label}</button>`).join('')}</div></div>`}
+function nodeCard(n){return `<div class="node ${n.status}" data-node-id="${n.id}" style="left:${n.x}px;top:${n.y}px" id="node-${n.id}" ondblclick="focusNode('${n.id}')"><div class="nodeHeader"><h3>${n.icon||''} ${n.title}</h3><button class="nodeToggle" onclick="toggleNodeCollapse('${n.id}');event.stopPropagation()">▾</button><span class="nodeStatus"><span class="statusDot ${n.status}"></span>${statusLabel(n.status)}</span></div><div class="nodeSummary">${n.summary}</div><div class="nodeActions">${n.actions.map(a=>`<button class="btn ${a.cls||''}" onclick="${a.fn}">${a.label}</button>`).join('')}</div><span class="nodeMiniHandle">↕</span></div>`}
 function renderMindJob(){
   syncMasterToTabs();
   const briefReady=!!val('brief');
+  const p=(id)=>getNodePos(id);
   const nodes=[
-    {id:'brief',x:30,y:45,title:'1. Briefing Mestre',icon:'🧠',status:briefReady?'filled':'empty',summary:briefReady?shortText(val('brief')):'Cérebro central: história, modelo, objetivo, tom, áudio, JSON e texto obrigatório.',actions:[{label:'Editar',fn:"showScreen('briefing')"},{label:'Gerar mestre',cls:'gold',fn:"generate('complete')"},{label:'Limpar',cls:'red',fn:'clearBriefing()'}]},
-    {id:'modelo',x:300,y:45,title:'2. Modelo / Formato',icon:'🎛️',status:choice('briefTemplate','template')?'filled':'empty',summary:`${choice('briefTemplate','template')||'Sem modelo'} · ${choice('briefFormat','format')||''} · ${choice('briefDuration','duration')||''} · ${choice('briefMotionStyle','motionStyle')||''}`,actions:[{label:'Editar',fn:"showScreen('modelo')"},{label:'Gerar plano',cls:'gold',fn:"generate('templatePlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('templateOut','MODELO')"}]},
-    {id:'roteiro',x:570,y:45,title:'3. Roteiro Visual',icon:'🎞️',status:nodeStatusFromText('scriptOut'),summary:getRealText('scriptOut')?shortText(getRealText('scriptOut')):'Recebe objetivo, tom e texto obrigatório do Briefing Mestre.',actions:[{label:'Abrir',fn:"showScreen('roteiro')"},{label:'Gerar roteiro',cls:'gold',fn:"generate('visualScript')"},{label:'Shot list',cls:'purple',fn:"generate('shotList')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('scriptOut','ROTEIRO')"}]},
-    {id:'json',x:840,y:45,title:'4. JSON / Remotion',icon:'🧩',status:nodeStatusFromText('jsonOut'),summary:getRealText('jsonOut')?shortText(getRealText('jsonOut')):'Recebe formato, duração, movimento e precisão do JSON.',actions:[{label:'Abrir',fn:"showScreen('json')"},{label:'Gerar JSON',cls:'gold',fn:"generate('remotionJson')"},{label:'CapCut',cls:'purple',fn:"generate('capcutPrompt')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('jsonOut','JSON / CAPCUT')"}]},
-    {id:'srt',x:840,y:250,title:'5. SRT / Som',icon:'🎧',status:nodeStatusFromText('srtOut'),summary:getRealText('srtOut')?shortText(getRealText('srtOut')):'Recebe duração, tom e tipo de áudio do Briefing Mestre.',actions:[{label:'Abrir',fn:"showScreen('srt')"},{label:'Gerar SRT',cls:'gold',fn:"generate('srt')"},{label:'Plano som',cls:'purple',fn:"generate('soundPlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('srtOut','SRT / SOM')"}]},
-    {id:'preview',x:570,y:420,title:'6. Preview',icon:'📱',status:nodeStatusFromText('previewOut'),summary:getRealText('previewOut')?shortText(getRealText('previewOut')):'Preview leve para validar ritmo sem MP4.',actions:[{label:'Abrir',fn:"showScreen('preview')"},{label:'Atualizar',cls:'gold',fn:'updatePreview();renderMindJob()'},{label:'Guia',cls:'purple',fn:"generate('previewGuide')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('previewOut','PREVIEW')"}]},
-    {id:'pacote',x:840,y:420,title:'7. Pacote Final',icon:'📦',status:exportStatus(),summary:getRealText('exportOut')?shortText(getRealText('exportOut')):'Node final: montar, copiar, baixar e compartilhar pacote limpo.',actions:[{label:'Abrir',fn:"showScreen('exportacao')"},{label:'Montar limpo',cls:'gold',fn:'buildExport()'},{label:'Copiar',fn:"copy('exportOut')"},{label:'Baixar',cls:'green',fn:"download('video-pack-limpo.txt','exportOut')"},{label:'Compartilhar',cls:'cyan',fn:'shareExport()'}]},
-    {id:'ramo',x:300,y:300,title:'Ramificações',icon:'🌳',status:Object.keys(appliedSections).length?'review':'empty',summary:'Conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist nascem do Briefing Mestre e dos cards.',actions:[{label:'Revisar cards',cls:'purple',fn:'reorganizeCards()'},{label:'Aplicar cards',cls:'cyan',fn:"alert('Use o botão Aplicar dentro de cada card da Central de Banners.')"}]}
+    {id:'brief',...p('brief'),title:'1. Briefing Mestre',icon:'🧠',status:briefReady?'filled':'empty',summary:briefReady?shortText(val('brief')):'Cérebro central: história, modelo, objetivo, tom, áudio, JSON e texto obrigatório.',actions:[{label:'Editar',fn:"showScreen('briefing')"},{label:'Gerar mestre',cls:'gold',fn:"generate('complete')"},{label:'Limpar',cls:'red',fn:'clearBriefing()'}]},
+    {id:'modelo',...p('modelo'),title:'2. Modelo / Formato',icon:'🎛️',status:choice('briefTemplate','template')?'filled':'empty',summary:`${choice('briefTemplate','template')||'Sem modelo'} · ${choice('briefFormat','format')||''} · ${choice('briefDuration','duration')||''} · ${choice('briefMotionStyle','motionStyle')||''}`,actions:[{label:'Editar',fn:"showScreen('modelo')"},{label:'Gerar plano',cls:'gold',fn:"generate('templatePlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('templateOut','MODELO')"}]},
+    {id:'roteiro',...p('roteiro'),title:'3. Roteiro Visual',icon:'🎞️',status:nodeStatusFromText('scriptOut'),summary:getRealText('scriptOut')?shortText(getRealText('scriptOut')):'Recebe objetivo, tom e texto obrigatório do Briefing Mestre.',actions:[{label:'Abrir',fn:"showScreen('roteiro')"},{label:'Gerar roteiro',cls:'gold',fn:"generate('visualScript')"},{label:'Shot list',cls:'purple',fn:"generate('shotList')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('scriptOut','ROTEIRO')"}]},
+    {id:'json',...p('json'),title:'4. JSON / Remotion',icon:'🧩',status:nodeStatusFromText('jsonOut'),summary:getRealText('jsonOut')?shortText(getRealText('jsonOut')):'Recebe formato, duração, movimento e precisão do JSON.',actions:[{label:'Abrir',fn:"showScreen('json')"},{label:'Gerar JSON',cls:'gold',fn:"generate('remotionJson')"},{label:'CapCut',cls:'purple',fn:"generate('capcutPrompt')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('jsonOut','JSON / CAPCUT')"}]},
+    {id:'srt',...p('srt'),title:'5. SRT / Som',icon:'🎧',status:nodeStatusFromText('srtOut'),summary:getRealText('srtOut')?shortText(getRealText('srtOut')):'Recebe duração, tom e tipo de áudio do Briefing Mestre.',actions:[{label:'Abrir',fn:"showScreen('srt')"},{label:'Gerar SRT',cls:'gold',fn:"generate('srt')"},{label:'Plano som',cls:'purple',fn:"generate('soundPlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('srtOut','SRT / SOM')"}]},
+    {id:'preview',...p('preview'),title:'6. Preview',icon:'📱',status:nodeStatusFromText('previewOut'),summary:getRealText('previewOut')?shortText(getRealText('previewOut')):'Preview leve para validar ritmo sem MP4.',actions:[{label:'Abrir',fn:"showScreen('preview')"},{label:'Atualizar',cls:'gold',fn:'updatePreview();renderMindJob()'},{label:'Guia',cls:'purple',fn:"generate('previewGuide')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('previewOut','PREVIEW')"}]},
+    {id:'pacote',...p('pacote'),title:'7. Pacote Final',icon:'📦',status:exportStatus(),summary:getRealText('exportOut')?shortText(getRealText('exportOut')):'Node final: montar, copiar, baixar e compartilhar pacote limpo.',actions:[{label:'Abrir',fn:"showScreen('exportacao')"},{label:'Montar limpo',cls:'gold',fn:'buildExport()'},{label:'Copiar',fn:"copy('exportOut')"},{label:'Baixar',cls:'green',fn:"download('video-pack-limpo.txt','exportOut')"},{label:'Compartilhar',cls:'cyan',fn:'shareExport()'}]},
+    {id:'ramo',...p('ramo'),title:'Ramificações',icon:'🌳',status:Object.keys(appliedSections).length?'review':'empty',summary:'Conceito visual, diagnóstico criativo, atos narrativos, assets, áudio, CapCut e checklist nascem do Briefing Mestre e dos cards.',actions:[{label:'Revisar cards',cls:'purple',fn:'reorganizeCards()'},{label:'Aplicar cards',cls:'cyan',fn:"alert('Use o botão Aplicar dentro de cada card da Central de Banners.')"}]}
   ];
   const canvas=$('mindCanvas');if(canvas)canvas.innerHTML=nodes.map(nodeCard).join('');
   initMindInteractions();
   setMindTransform();
+  setTimeout(updateConnectors,0);
   const flow=[['1','Gerar pacote mestre',!!getRealText('out')],['2','Revisar cards',!!document.querySelector('#hubCards .section-card')],['3','Aplicar ao pacote',Object.keys(appliedSections).length>0],['4','Montar pacote limpo',!!getRealText('exportOut')],['5','Baixar / Compartilhar',exportStatus()==='exported']];
   let active=flow.findIndex(f=>!f[2]);if(active<0)active=4;
   const pf=$('progressFlow');if(pf)pf.innerHTML=flow.map((f,i)=>`<div class="progressStep ${f[2]?'done':(i===active?'activeFlow':'wait')}"><div class="num">${f[0]}</div><div><strong>${f[1]}</strong><span>${f[2]?'concluído':(i===active?'agora':'aguardando')}</span></div></div>`).join('');
@@ -808,7 +881,7 @@ syncBriefModelToModel();
 syncMasterToTabs();
 renderHub('','');
 renderMindJob();
-setTimeout(centerMind,80);
+setTimeout(()=>{centerMind();updateConnectors()},80);
 loadApi();
 </script>
 </body>
