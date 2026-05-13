@@ -38,6 +38,24 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
 .result-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
 .tiny{font-size:10px;padding:7px 9px;border-radius:10px}
 
+
+/* Mind Job Final — nodes */
+.progressFlow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:12px 0 16px}
+.progressStep{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);padding:10px;display:flex;gap:9px;align-items:center;min-height:58px}
+.progressStep .num{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;font-weight:900;font-size:12px;background:#182036;color:#dbe5ff;border:1px solid var(--line)}
+.progressStep.done{border-color:rgba(116,217,154,.45);background:rgba(116,217,154,.08)}.progressStep.done .num{background:var(--green);color:#07140d}
+.progressStep.activeFlow{border-color:rgba(214,173,104,.65);background:rgba(214,173,104,.10)}.progressStep.activeFlow .num{background:var(--gold);color:#1a1203}
+.progressStep.wait{opacity:.74}.progressStep strong{display:block;font-size:12px}.progressStep span{font-size:10px;color:var(--muted)}
+.mindToolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.mindStage{min-height:70vh;border:1px solid rgba(101,217,210,.22);border-radius:22px;background:radial-gradient(circle at 50% 10%,rgba(101,217,210,.08),transparent 26%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));padding:18px;overflow:auto;position:relative}
+.mindCanvas{display:grid;grid-template-columns:repeat(4,minmax(230px,1fr));gap:16px;align-items:start;min-width:min(100%,980px)}
+.node{border:1px solid var(--line);border-radius:18px;background:#0d1322;box-shadow:0 10px 40px rgba(0,0,0,.18);overflow:hidden;position:relative}
+.node:before{content:'';position:absolute;left:12px;right:12px;top:0;height:3px;border-radius:999px;background:var(--muted)}
+.node.empty:before{background:#6b7280}.node.filled:before{background:#6aa4ff}.node.generating:before{background:#e1bc7b}.node.review:before{background:#b99cff}.node.done:before{background:#74d99a}.node.error:before{background:#e18a8a}.node.exported:before{background:#d6ad68}
+.nodeHeader{padding:13px 13px 8px;display:flex;justify-content:space-between;gap:8px;align-items:center}.nodeHeader h3{font-size:15px}.nodeStatus{font:10px Space Mono,monospace;color:var(--muted);text-transform:uppercase}.nodeBody{padding:0 13px 13px}.nodeSummary{font-size:12px;color:#bac3d8;line-height:1.45;min-height:38px}.nodeActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.nodeActions .btn{padding:7px 9px;border-radius:10px;font-size:10px}.node.collapsed .nodeBody{display:none}
+.nodeLine{height:2px;background:linear-gradient(90deg,transparent,rgba(101,217,210,.35),transparent);align-self:center;border-radius:999px;min-height:2px}.mindLegend{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.legendItem{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:10px;color:#cbd5e1}.egg{font-size:38px;line-height:1;filter:drop-shadow(0 0 12px rgba(214,173,104,.25));animation:eggPulse 2.5s infinite ease-in-out}.eggBox{display:flex;gap:12px;align-items:center;border:1px solid rgba(214,173,104,.25);background:rgba(214,173,104,.07);border-radius:18px;padding:12px}.eggBox strong{color:#eadcc1}.eggBox small{color:#bac3d8;display:block;line-height:1.4}@keyframes eggPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media(max-width:980px){.progressFlow{grid-template-columns:1fr}.mindCanvas{grid-template-columns:1fr}.mindStage{min-height:65vh;padding:12px}.nodeLine{display:none}}
+
 @media(max-width:980px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.two,.three,.provider{grid-template-columns:1fr}.topbar{flex-wrap:wrap}.nav{margin-left:0}.main{padding:14px}}
 </style>
 </head>
@@ -63,6 +81,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
     <button class="step" data-step="preview" onclick="showScreen('preview')">6. Preview leve</button>
     <button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportar pacote</button>
     <button class="step" data-step="api" onclick="showScreen('api')">8. API</button>
+    <button class="step" data-step="mindjob" onclick="showScreen('mindjob');renderMindJob()">9. Mind Job / Nodes</button>
 
     <h4>Modelos</h4>
     <span class="pill">Produto animado</span><span class="pill">Poster vivo</span><span class="pill">Flyer animado</span><span class="pill">Motion Comic</span><span class="pill">Story/Reels</span><span class="pill">YouTube</span><span class="pill">Slideshow</span>
@@ -88,6 +107,7 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       <button class="tab" data-tab="preview" onclick="showScreen('preview')">Preview</button>
       <button class="tab" data-tab="exportacao" onclick="showScreen('exportacao')">Exportar</button>
       <button class="tab" data-tab="api" onclick="showScreen('api')">API</button>
+      <button class="tab" data-tab="mindjob" onclick="showScreen('mindjob');renderMindJob()">Mind Job</button>
     </div>
 
 
@@ -234,6 +254,30 @@ label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spac
       </div>
     </section>
 
+
+    <section id="mindjob" class="screen">
+      <div class="card">
+        <div class="mindToolbar">
+          <div>
+            <div class="kicker">Item 9 / visão global</div>
+            <h2>Mind Job Final — by Patente Elinaldo Menezes</h2>
+            <p>Mapa lógico em nodes estilo Blender para ver o projeto inteiro, revisar ramificações, aplicar partes no pacote e exportar sem botão duplicado.</p>
+          </div>
+          <div class="eggBox">
+            <div class="egg" id="eggMood">🥚</div>
+            <div><strong id="eggTitle">Mister Egg aguardando</strong><small id="eggText">Gere o briefing ou abra uma etapa para começar.</small></div>
+          </div>
+        </div>
+        <div class="progressFlow" id="progressFlow"></div>
+        <div class="mindStage">
+          <div class="mindCanvas" id="mindCanvas"></div>
+        </div>
+        <div class="mindLegend">
+          <span class="legendItem">Cinza: vazio</span><span class="legendItem">Azul: preenchido</span><span class="legendItem">Amarelo: gerando</span><span class="legendItem">Roxo: revisar</span><span class="legendItem">Verde: aplicado</span><span class="legendItem">Vermelho: corrigir</span><span class="legendItem">Dourado: exportado</span>
+        </div>
+      </div>
+    </section>
+
     <section id="api" class="screen">
       <div class="grid two">
         <div class="card">
@@ -352,10 +396,12 @@ async function generate(type){
     $(box).textContent=text;
     if(box==="out")$("out").textContent=text;
     renderHub(text,type);
+    renderMindJob();
   }catch(e){
     $(box).textContent="Erro: "+e.message;
     if(box==="out")$("out").textContent="Erro: "+e.message;
     renderHub("Erro: "+e.message,type);
+    renderMindJob();
   }
 }
 async function testAPI(){$("apiStatus").textContent="Testando...";try{$("apiStatus").textContent=await callAI("api")}catch(e){$("apiStatus").textContent="Erro: "+e.message}}
@@ -437,6 +483,7 @@ function buildExport(){
 
   $("exportOut").textContent=text;
   renderHub(text,"export");
+  renderMindJob();
   showScreen("exportacao");
 }
 function copy(id){navigator.clipboard.writeText($(id).textContent||$(id).value||"")}
@@ -516,9 +563,60 @@ function attachSync(){
   });
 }
 
+
+function nodeStatusFromText(id){
+  const t=getRealText(id);
+  if(!t)return 'empty';
+  if(/^Erro/i.test(t))return 'error';
+  return 'filled';
+}
+function exportStatus(){
+  const t=getRealText('exportOut');
+  if(t)return 'exported';
+  return Object.keys(appliedSections).length?'review':'empty';
+}
+function statusLabel(status){return {empty:'vazio',filled:'preenchido',generating:'gerando',review:'revisar',done:'aplicado',error:'corrigir',exported:'exportado'}[status]||status}
+function eggByStatus(){
+  const hasError=['out','templateOut','scriptOut','jsonOut','srtOut','previewOut','exportOut'].some(id=>/^Erro/i.test($(id)?.textContent||''));
+  const exported=!!getRealText('exportOut');
+  const applied=Object.keys(appliedSections).length;
+  const filled=!!(val('brief')||getRealText('out')||getRealText('scriptOut')||getRealText('jsonOut')||getRealText('srtOut'));
+  let mood=['🥚','Mister Egg aguardando','Projeto vazio ou em briefing inicial.'];
+  if(filled)mood=['🔎','Mister Egg revisando','Revise os cards e aplique só o que entrar no pacote final.'];
+  if(applied)mood=['😊','Mister Egg feliz','Já existe conteúdo aplicado no pacote.'];
+  if(exported)mood=['🎬','Mister Egg com claquete','Pacote final montado: pronto para baixar, compartilhar ou usar em outra ferramenta.'];
+  if(hasError)mood=['😱','Mister Egg assustado','Existe erro em uma saída. Corrija antes de exportar.'];
+  if($('eggMood')){$('eggMood').textContent=mood[0];$('eggTitle').textContent=mood[1];$('eggText').textContent=mood[2];}
+}
+function nodeCard(n){
+  return `<div class="node ${n.status}" id="node-${n.id}"><div class="nodeHeader"><h3>${n.icon||''} ${n.title}</h3><span class="nodeStatus">${statusLabel(n.status)}</span></div><div class="nodeBody"><div class="nodeSummary">${n.summary}</div><div class="nodeActions">${n.actions.map(a=>`<button class="btn ${a.cls||''}" onclick="${a.fn}">${a.label}</button>`).join('')}</div></div></div>`;
+}
+function renderMindJob(){
+  const nodes=[
+    {id:'brief',title:'1. Briefing',icon:'📝',status:val('brief')?'filled':'empty',summary:val('brief')?('Briefing preenchido: '+val('brief').slice(0,95)+'...'):'Preencha origem, briefing, material, modelo, formato, duração e movimento.',actions:[{label:'Editar',fn:"showScreen('briefing')"},{label:'Gerar pacote mestre',cls:'gold',fn:"generate('complete')"},{label:'Limpar',cls:'red',fn:'clearBriefing()'}]},
+    {id:'modelo',title:'2. Modelo',icon:'🎛️',status:choice('briefTemplate','template')?'filled':'empty',summary:`${choice('briefTemplate','template')||'Sem modelo'} · ${choice('briefFormat','format')||''} · ${choice('briefDuration','duration')||''}`,actions:[{label:'Editar modelo',fn:"showScreen('modelo')"},{label:'Gerar plano',cls:'gold',fn:"generate('templatePlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('templateOut','MODELO')"}]},
+    {id:'roteiro',title:'3. Roteiro visual',icon:'🎞️',status:nodeStatusFromText('scriptOut'),summary:getRealText('scriptOut')?getRealText('scriptOut').slice(0,120)+'...':'Gere roteiro visual ou shot list narrativo.',actions:[{label:'Abrir',fn:"showScreen('roteiro')"},{label:'Gerar roteiro',cls:'gold',fn:"generate('visualScript')"},{label:'Gerar shot list',cls:'purple',fn:"generate('shotList')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('scriptOut','ROTEIRO')"}]},
+    {id:'json',title:'4. JSON / Remotion',icon:'🧩',status:nodeStatusFromText('jsonOut'),summary:getRealText('jsonOut')?getRealText('jsonOut').slice(0,120)+'...':'Gere JSON Remotion ou prompt técnico para CapCut.',actions:[{label:'Abrir',fn:"showScreen('json')"},{label:'Gerar JSON',cls:'gold',fn:"generate('remotionJson')"},{label:'Prompt CapCut',cls:'purple',fn:"generate('capcutPrompt')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('jsonOut','JSON / CAPCUT')"}]},
+    {id:'srt',title:'5. SRT / Som',icon:'🎧',status:nodeStatusFromText('srtOut'),summary:getRealText('srtOut')?getRealText('srtOut').slice(0,120)+'...':'Gere legenda, narração e plano de SFX.',actions:[{label:'Abrir',fn:"showScreen('srt')"},{label:'Gerar SRT',cls:'gold',fn:"generate('srt')"},{label:'Plano som',cls:'purple',fn:"generate('soundPlan')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('srtOut','SRT / SOM')"}]},
+    {id:'preview',title:'6. Preview',icon:'📱',status:nodeStatusFromText('previewOut'),summary:getRealText('previewOut')?getRealText('previewOut').slice(0,120)+'...':'Simulação leve sem renderizar MP4.',actions:[{label:'Abrir',fn:"showScreen('preview')"},{label:'Atualizar',cls:'gold',fn:'updatePreview()'},{label:'Guia',cls:'purple',fn:"generate('previewGuide')"},{label:'Aplicar',cls:'cyan',fn:"appendToExport('previewOut','PREVIEW')"}]},
+    {id:'export',title:'7. Pacote final',icon:'📦',status:exportStatus(),summary:getRealText('exportOut')?getRealText('exportOut').slice(0,120)+'...':'Monte o pacote limpo, sem duplicar as partes.',actions:[{label:'Abrir exportar',fn:"showScreen('exportacao')"},{label:'Montar limpo',cls:'gold',fn:'buildExport()'},{label:'Copiar',fn:"copy('exportOut')"},{label:'Baixar',cls:'green',fn:"download('video-pack-limpo.txt','exportOut')"},{label:'Compartilhar',cls:'cyan',fn:'shareExport()'}]},
+    {id:'api',title:'8. API',icon:'🔌',status:provider?'filled':'empty',summary:`Provedor: ${provider}. Modelo: ${val('model')||'não definido'}`,actions:[{label:'Configurar',fn:"showScreen('api')"},{label:'Testar API',cls:'cyan',fn:'testAPI()'}]}
+  ];
+  const canvas=$('mindCanvas'); if(canvas)canvas.innerHTML=nodes.map(nodeCard).join('');
+  const done=n=>['filled','done','exported'].includes(n.status);
+  const flow=[
+    ['1','Gerar pacote mestre',done(nodes[0])],['2','Revisar cards',nodes.slice(2,6).some(done)],['3','Aplicar ao pacote',Object.keys(appliedSections).length>0],['4','Montar pacote limpo',!!getRealText('exportOut')],['5','Baixar / Compartilhar',exportStatus()==='exported']
+  ];
+  let active=flow.findIndex(f=>!f[2]); if(active<0)active=4;
+  const pf=$('progressFlow'); if(pf)pf.innerHTML=flow.map((f,i)=>`<div class="progressStep ${f[2]?'done':(i===active?'activeFlow':'wait')}"><div class="num">${f[0]}</div><div><strong>${f[1]}</strong><span>${f[2]?'concluído':(i===active?'agora':'aguardando')}</span></div></div>`).join('');
+  eggByStatus();
+}
+function toggleNode(id){const el=$('node-'+id); if(el)el.classList.toggle('collapsed')}
+
 attachSync();
 syncBriefModelToModel();
 renderHub('','');
+renderMindJob();
 loadApi();
 </script>
 </body>
