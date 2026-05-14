@@ -3,327 +3,520 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V2.7 Nodes Fix Visual</title>
+<title>Video Pack Studio — Árvore da Criação (Nodes OS)</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--blue:#5aa9ff;--text:#e8ecf4;--muted:#9aa4b8;--dark:#050813}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}body{background:radial-gradient(circle at 80% 8%,rgba(214,173,104,.10),transparent 25%),radial-gradient(circle at 12% 18%,rgba(101,217,210,.07),transparent 25%),linear-gradient(180deg,#070a12,#090d18 55%,#070a12)}button,input,textarea,select{font:inherit}button{cursor:pointer}.topbar{position:sticky;top:0;z-index:20;display:flex;gap:12px;align-items:center;padding:14px 18px;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}.brand{font-family:Syne,sans-serif;font-weight:900;font-size:18px;color:#eadcc1;letter-spacing:.04em}.brand small{font-family:Space Mono,monospace;color:var(--gold);font-size:10px;margin-left:8px}.nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);padding:9px 13px;font-size:12px;font-weight:800;text-decoration:none;display:inline-flex;gap:6px;align-items:center;justify-content:center}.btn:hover{filter:brightness(1.08)}.btn.gold{background:linear-gradient(180deg,#e1bc7b,#c89a55);color:#1a1203;border-color:rgba(214,173,104,.65)}.btn.green{background:linear-gradient(180deg,#83dda9,#61c78c);color:#07140d;border-color:rgba(116,217,154,.65)}.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.35);color:#cafffb}.btn.purple{background:rgba(185,156,255,.10);border-color:rgba(185,156,255,.35);color:#eadcff}.btn.red{background:rgba(225,138,138,.10);border-color:rgba(225,138,138,.35);color:#ffd5d5}.tiny{font-size:10px;padding:7px 9px;border-radius:10px}.shell{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:calc(100vh - 64px)}.side{border-right:1px solid var(--line);background:#0b1020;padding:14px;overflow:auto}.side h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}.step{width:100%;text-align:left;border:1px solid var(--line);border-radius:13px;padding:10px 11px;margin-bottom:8px;background:rgba(255,255,255,.025);font-size:12px;color:var(--text)}.step.active{border-color:rgba(214,173,104,.70);background:rgba(214,173,104,.10);box-shadow:0 0 0 1px rgba(214,173,104,.10) inset}.main{padding:22px;overflow:auto}.hero,.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),var(--panel);padding:18px;margin-bottom:14px}.kicker{display:inline-flex;padding:5px 9px;border:1px solid rgba(101,217,210,.32);border-radius:999px;color:#baf7f2;background:rgba(101,217,210,.08);font:10px Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}h1,h2,h3{font-family:Syne,sans-serif;margin:0;color:#eadcc1;letter-spacing:.04em}h1{font-size:clamp(28px,3vw,44px);line-height:1}h2{font-size:22px;margin-bottom:12px}h3{font-size:16px}p{color:#bac3d8;line-height:1.6}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:10px 0 7px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#0b1020;color:var(--text);padding:10px 12px;outline:none}textarea{min-height:105px;resize:vertical;line-height:1.55}.output{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:220px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff;overflow:auto}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.notice{border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.07);color:#baf7f2;border-radius:14px;padding:11px 13px;font-size:12px;line-height:1.55;margin:12px 0}.mini{font-size:11px;color:var(--muted);font-family:Space Mono,monospace}.pill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:10px;color:var(--muted);margin:3px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#101729;color:#c9d4ee;font-size:12px;font-weight:900}.tab.active{background:rgba(214,173,104,.13);border-color:rgba(214,173,104,.55);color:#f1d49d}.screen{display:none}.screen.active{display:block}.resultHub{border-color:rgba(101,217,210,.20);background:linear-gradient(180deg,rgba(101,217,210,.045),rgba(255,255,255,.015)),var(--panel)}.hubHead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}.section-card{position:relative;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);padding:12px;min-height:170px;transition:.18s}.section-card.card-applied{border-color:rgba(116,217,154,.55);background:linear-gradient(180deg,rgba(116,217,154,.075),rgba(255,255,255,.018)),rgba(13,18,32,.94)}.section-card.card-applied:before{content:"✓ APLICADO";position:absolute;right:12px;top:10px;border:1px solid rgba(116,217,154,.48);background:rgba(116,217,154,.12);color:#caffd9;border-radius:999px;padding:4px 8px;font:9px Space Mono,monospace;letter-spacing:.08em}.section-card.card-collapsed .section-body,.section-card.card-collapsed .result-tools{display:none}.section-head{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:8px}.section-head h3{font-size:15px;color:#eadcc1}.section-body{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:12px;padding:12px;min-height:120px;max-height:260px;overflow:auto;font:11px/1.6 Space Mono,monospace;color:#dbe5ff}.result-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.cardFlowPanel{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0 14px;padding:10px;border:1px solid rgba(101,217,210,.24);border-radius:16px;background:rgba(101,217,210,.055)}.cardFlowPanel .flowText{font:11px Space Mono,monospace;color:#cafffb;margin-right:auto}.cardProgressBar{height:8px;min-width:180px;flex:1;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:#070b15;overflow:hidden}.cardProgressBar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .25s ease}.previewBox{min-height:360px;border:1px solid var(--line);border-radius:18px;background:#050813;overflow:hidden;position:relative;display:grid;place-items:center}.stage{width:min(320px,75vw);aspect-ratio:9/16;border:1px solid rgba(255,255,255,.16);border-radius:22px;background:linear-gradient(160deg,#111827,#070a12);position:relative;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.35)}.orb{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(101,217,210,.40),transparent 62%);left:-50px;top:70px;animation:float 5s infinite alternate ease-in-out}.orb2{position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(214,173,104,.30),transparent 65%);right:-90px;bottom:90px;animation:float2 6s infinite alternate ease-in-out}.stageTitle{position:absolute;left:22px;right:22px;top:34%;font-family:Syne,sans-serif;font-size:28px;line-height:1.05;color:#eadcc1;animation:push 3.5s infinite ease-in-out}.stageSub{position:absolute;left:22px;right:22px;top:54%;font-size:13px;color:#cde8ff;line-height:1.4}.stageCta{position:absolute;left:22px;right:22px;bottom:38px;text-align:center;border-radius:999px;background:var(--gold);color:#1a1203;padding:10px;font-weight:900}@keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(55px,-20px) scale(1.12)}}@keyframes float2{from{transform:translate(0,0) scale(1)}to{transform:translate(-35px,30px) scale(1.12)}}@keyframes push{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.035)}}.creatorLine{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;color:#cbd5e1;font-size:13px}.creatorSeal{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f4ddb2;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900}.masterMatrix{border:1px solid rgba(214,173,104,.24);background:rgba(214,173,104,.045);border-radius:16px;padding:12px;margin-top:12px}.masterBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(101,217,210,.35);background:rgba(101,217,210,.08);color:#cafffb;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;margin:3px 4px 0 0}
-/* arvore */.mindHero{border-color:rgba(214,173,104,.28);background:linear-gradient(180deg,rgba(214,173,104,.075),rgba(101,217,210,.03)),var(--panel)}.mindTitleLine{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.eggTerminal{display:flex;gap:12px;align-items:center;border:1px solid rgba(101,217,210,.30);background:rgba(5,8,19,.62);border-radius:18px;padding:10px 12px;min-width:min(420px,100%)}.eggFace{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#fff6d9,#d6ad68 70%);font-size:25px}.eggTerminal strong{color:#eadcc1;display:block}.eggTerminal span{font-size:12px;color:#b9c4da}.mindControlBar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:flex-end}.zoomReadout{border:1px solid var(--line);border-radius:999px;background:#080c17;color:#dbe5ff;padding:7px 10px;font:11px Space Mono,monospace;min-width:62px;text-align:center}.nodeViewport{position:relative;height:78vh;min-height:650px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 18% 16%,rgba(101,217,210,.10),transparent 22%),radial-gradient(circle at 65% 15%,rgba(214,173,104,.08),transparent 26%),#050813;overflow:hidden;cursor:grab;touch-action:none}.nodeViewport.dragging{cursor:grabbing}.nodeMap{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform;min-width:2400px;min-height:1800px}.connectorSvg{position:absolute;left:0;top:0;width:2400px;height:1800px;overflow:visible;pointer-events:none}.connectorSvg path{fill:none;stroke:rgba(101,217,210,.38);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 9;filter:drop-shadow(0 0 6px rgba(101,217,210,.08))}.connectorSvg path.main{stroke:rgba(214,173,104,.52);stroke-width:4;stroke-dasharray:none}.node{position:absolute;width:270px;border:1px solid var(--line);border-radius:22px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),rgba(13,18,32,.94);box-shadow:0 18px 55px rgba(0,0,0,.32);cursor:grab;user-select:none;transition:filter .15s, outline .15s}.node:hover{filter:brightness(1.08)}.node.nodeDragging{cursor:grabbing;z-index:12;box-shadow:0 25px 80px rgba(0,0,0,.45),0 0 0 2px rgba(214,173,104,.28)}.node.activeNode{outline:2px solid rgba(214,173,104,.60);outline-offset:4px;z-index:6}.nodeHeader{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:8px}.nodeTitleWrap{display:flex;gap:10px;align-items:center;min-width:0}.nodeIconBadge{width:44px;height:44px;display:grid;place-items:center;border-radius:16px;background:rgba(101,217,210,.09);border:1px solid rgba(101,217,210,.18);font-size:22px}.node h3{margin:0;font-size:15px;line-height:1.18}.nodeControls{display:flex;align-items:center;gap:6px}.nodeStatus{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 8px;background:rgba(255,255,255,.025);font-size:9px;text-transform:uppercase}.stateEmoji{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;font-size:11px;background:#111827;border:1px solid var(--line)}.nodeSummary{font-size:12px;line-height:1.55;color:#c4cee2;min-height:48px}.nodeActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.nodeActions .btn{font-size:10px;padding:7px 10px}.node.empty{opacity:.82}.node.editing{border-color:rgba(214,173,104,.68)}.node.generating{border-color:rgba(90,169,255,.68)}.node.ready,.node.filled{border-color:rgba(101,217,210,.52)}.node.done{border-color:rgba(116,217,154,.64)}.node.exported{border-color:rgba(214,173,104,.72)}.node.locked{opacity:.50;filter:saturate(.75)}.node.error{border-color:rgba(225,138,138,.70)}.nodeMiniHandle{position:absolute;right:10px;bottom:8px;color:#64748b;font-size:13px;pointer-events:none}.nodeWorkspace{position:absolute;width:min(860px,calc(100vw - 120px));max-height:none;overflow:visible;border:1px solid rgba(101,217,210,.30);border-radius:22px;background:linear-gradient(180deg,rgba(101,217,210,.055),rgba(255,255,255,.018)),rgba(9,14,25,.97);box-shadow:0 25px 80px rgba(0,0,0,.42);padding:14px;z-index:8}.workHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px}.workHead h3{font-size:18px;margin:4px 0}.workBadge{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(214,173,104,.35);background:rgba(214,173,104,.08);color:#f7dfb3;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900}.workBody{display:grid;gap:10px}.stationMainFields{display:grid;gap:10px}.briefNodeGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.briefNodePanel{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025);padding:10px}.briefNodePanel summary{cursor:pointer;font-weight:900;color:#f7dfb3;font-size:12px;letter-spacing:.04em}.workOutput{white-space:pre-wrap;background:#070b15;border:1px solid var(--line);border-radius:14px;padding:12px;min-height:115px;max-height:none;overflow:visible;font:11px/1.55 Space Mono,monospace;color:#dbe5ff}.workResultHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.workResultTitle{font-weight:900;color:#f7dfb3;font-size:12px}.workResultStatus{font-size:10px;border:1px solid rgba(101,217,210,.35);background:rgba(101,217,210,.08);color:#9ff;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 8px}.workInfoGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 10px}.workInfoGrid span{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:10px;padding:7px 8px;color:#b9c7df;font-size:10px}.workHintBox{border:1px dashed rgba(214,173,104,.32);background:rgba(214,173,104,.06);color:#f7dfb3;border-radius:12px;padding:10px;font-size:12px;line-height:1.45}.stationActions{display:flex;gap:8px;flex-wrap:wrap}.nodeSmartProgress{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0 0 10px}.nodeSmartProgressRow{display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:10px;padding:7px 8px;font:10px Space Mono,monospace;color:#cbd5e1}.nodeSmartProgressRow.done{border-color:rgba(116,217,154,.35);color:#caffd9}.nodeSmartProgressRow.active{border-color:rgba(214,173,104,.45);color:#f7dfb3}.mapHint{position:absolute;right:12px;bottom:12px;border:1px solid rgba(101,217,210,.25);background:rgba(5,8,19,.82);color:#baf7f2;border-radius:999px;padding:7px 10px;font:10px Space Mono,monospace;pointer-events:none;z-index:9}.canvasExitBtn{display:none}.mindFullscreen{position:fixed!important;inset:6px!important;z-index:90!important;background:#070a12!important;margin:0!important;padding:4px!important;border-radius:14px}.mindFullscreen .nodeViewport{height:calc(100vh - 14px)!important;min-height:0!important}body.canvas-mode{overflow:hidden!important;height:100vh!important}body.canvas-mode .topbar,body.canvas-mode .side,body.canvas-mode .hero,body.canvas-mode .tabs,body.canvas-mode #centralHub{display:none!important}body.canvas-mode .shell{display:block;height:100vh;overflow:hidden}body.canvas-mode .main{height:100vh;overflow:hidden;padding:4px!important}body.canvas-mode #mindjob{height:100vh!important;overflow:hidden!important;display:block!important}body.canvas-mode .mindHero{display:none!important}body.canvas-mode .mindShell{height:calc(100vh - 8px)!important;margin:0!important;padding:0!important;overflow:hidden!important}body.canvas-mode .mindShell>.hubHead{display:none!important}body.canvas-mode .nodeViewport{height:calc(100vh - 10px)!important;min-height:0!important;border-radius:14px}body.canvas-mode .canvasExitBtn{display:inline-flex;position:absolute;right:12px;top:10px;z-index:40}body.canvas-mode .nodeWorkspace{max-height:none!important;overflow:visible!important;scrollbar-width:auto}body.canvas-mode .nodeWorkspace::-webkit-scrollbar{width:auto;height:auto}.nodeWorkspace textarea{overflow:hidden;resize:none}.nodeWorkspace input,.nodeWorkspace textarea,.nodeWorkspace select{font-size:13px}.nodeWorkspace details[open]{overflow:visible}.nodeWorkspace .briefNodePanel{overflow:visible}.nodeWorkspace.expandedStation{box-shadow:0 26px 90px rgba(0,0,0,.46),0 0 0 1px rgba(101,217,210,.12)}@media(max-width:980px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.two,.three,.briefNodeGrid,.nodeSmartProgress{grid-template-columns:1fr}.nodeWorkspace{width:min(94vw,760px)}.nodeViewport{height:70vh}.main{padding:14px}.topbar{flex-wrap:wrap}.nav{margin-left:0}}
+:root {
+  --bg: #070a12; --panel: #0d1220; --panel2: #111827; --line: rgba(255,255,255,0.1);
+  --gold: #d6ad68; --cyan: #65d9d2; --green: #74d99a; --red: #e18a8a; --purple: #b99cff;
+  --text: #e8ecf4; --muted: #9aa4b8; --dark: #050813;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+body { background: radial-gradient(circle at 80% 8%, rgba(214,173,104,.08), transparent 25%), radial-gradient(circle at 12% 18%, rgba(101,217,210,.05), transparent 25%), linear-gradient(180deg, #070a12, #090d18 55%, #070a12); }
+button, input, textarea, select { font: inherit; outline: none; }
+button { cursor: pointer; }
 
-/* ===== V2.6 PATCH — CANVAS FOCUS + VISUAL CONTEXT ===== */
-body.canvas-mode .node{width:210px;opacity:.88}
-body.canvas-mode .node.activeNode{opacity:1;outline:2px solid rgba(214,173,104,.78)}
-body.canvas-mode .nodeViewport{background:linear-gradient(90deg,rgba(101,217,210,.07),transparent 28%),radial-gradient(circle at 54% 22%,rgba(214,173,104,.055),transparent 22%),#050813!important}
-body.canvas-mode .nodeWorkspace.focusStation{left:300px!important;top:58px!important;width:min(1180px,calc(100vw - 360px))!important;max-height:calc(100vh - 96px)!important;overflow:auto!important;display:grid!important;grid-template-columns:minmax(520px,1fr) 340px;gap:14px;align-items:start;padding:16px!important;border-color:rgba(214,173,104,.42);box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 0 1px rgba(214,173,104,.12)}
-.focusMain{min-width:0}.focusVisualPanel{border:1px solid rgba(101,217,210,.26);border-radius:18px;background:linear-gradient(180deg,rgba(101,217,210,.065),rgba(255,255,255,.018));padding:12px;position:sticky;top:0}.focusVisualPanel h3{font-size:14px;margin:0 0 6px}.focusVisualPanel p{font-size:11px;margin:0 0 10px;color:#b9c7df}.visualDrop{border:1px dashed rgba(214,173,104,.45);border-radius:14px;background:rgba(214,173,104,.06);padding:12px;text-align:center;color:#f7dfb3;font-size:12px;font-weight:900;cursor:pointer;display:block}.visualDrop input{display:none}.visualGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.visualThumb{border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;background:#060914;min-height:94px;display:grid;place-items:center;position:relative}.visualThumb img{width:100%;height:100%;object-fit:cover;display:block}.visualThumb span{font:10px Space Mono,monospace;color:#8ea0bd;padding:8px}.visualMemory{min-height:130px!important;font:11px/1.55 Space Mono,monospace;margin-top:10px}.focusTabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}.focusChip{border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);border-radius:999px;padding:6px 9px;font-size:10px;color:#cbd5e1;font-weight:900}.focusChip.active{border-color:rgba(214,173,104,.55);color:#f7dfb3;background:rgba(214,173,104,.08)}.nodeWorkspace.focusStation .workHead,.nodeWorkspace.focusStation .nodeSmartProgress,.nodeWorkspace.focusStation .stationMainFields,.nodeWorkspace.focusStation .briefNodePanel,.nodeWorkspace.focusStation .workResultHead,.nodeWorkspace.focusStation .workInfoGrid,.nodeWorkspace.focusStation .workOutput,.nodeWorkspace.focusStation .workHintBox,.nodeWorkspace.focusStation .stationActions{grid-column:1}.nodeWorkspace.focusStation .workOutput{max-height:42vh;overflow:auto}.mapHint{max-width:min(720px,calc(100vw - 30px));white-space:normal}
-@media(max-width:980px){body.canvas-mode .nodeWorkspace.focusStation{left:12px!important;top:82px!important;width:calc(100vw - 24px)!important;grid-template-columns:1fr!important;max-height:calc(100vh - 110px)!important}.focusVisualPanel{position:relative}.visualGrid{grid-template-columns:repeat(3,minmax(0,1fr))}body.canvas-mode .node{width:190px}.canvasExitBtn{right:10px!important;top:8px!important}}
+/* === TYPOGRAPHY & BUTTONS === */
+h1, h2, h3 { font-family: 'Syne', sans-serif; margin: 0; color: #eadcc1; letter-spacing: 0.02em; }
+h2 { font-size: 20px; margin-bottom: 12px; }
+h3 { font-size: 16px; }
+p { color: #bac3d8; line-height: 1.6; }
+.mini { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; }
+.kicker { display: inline-flex; padding: 4px 10px; border: 1px solid rgba(101,217,210,.3); border-radius: 999px; color: #baf7f2; background: rgba(101,217,210,.08); font: 10px 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
 
+.btn { border: 1px solid var(--line); border-radius: 10px; background: var(--panel2); color: var(--text); padding: 8px 14px; font-size: 12px; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn:hover { filter: brightness(1.2); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn.gold { background: linear-gradient(180deg, #e1bc7b, #c89a55); color: #1a1203; border-color: rgba(214,173,104,.65); }
+.btn.cyan { background: rgba(101,217,210,.1); border-color: rgba(101,217,210,.35); color: #cafffb; }
+.btn.green { background: linear-gradient(180deg, #83dda9, #61c78c); color: #07140d; border-color: rgba(116,217,154,.65); }
+.btn.purple { background: rgba(185,156,255,.1); border-color: rgba(185,156,255,.35); color: #eadcff; }
+.btn.tiny { font-size: 10px; padding: 6px 10px; border-radius: 8px; }
+
+/* === FORMS === */
+label { display: block; color: var(--gold); font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin: 12px 0 6px; }
+input, textarea, select { width: 100%; border: 1px solid var(--line); border-radius: 12px; background: #0b1020; color: var(--text); padding: 12px; font-size: 13px; transition: border 0.2s; }
+input:focus, textarea:focus, select:focus { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(101,217,210,0.1); }
+textarea { min-height: 100px; resize: vertical; line-height: 1.5; font-family: 'Space Mono', monospace; font-size: 12px; }
+
+.output-box { white-space: pre-wrap; background: #060912; border: 1px solid var(--line); border-radius: 12px; padding: 14px; font: 11px/1.6 'Space Mono', monospace; color: #dbe5ff; max-height: 350px; overflow-y: auto; }
+
+/* === LAYOUT === */
+.topbar { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: rgba(7,10,18,0.85); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+.brand { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 18px; color: #eadcc1; }
+.brand small { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 10px; margin-left: 8px; vertical-align: middle; }
+.shell { height: calc(100vh - 53px); display: flex; overflow: hidden; }
+
+/* === CANVAS (NODES) MODE - THE CORE === */
+.nodeViewport { flex: 1; position: relative; background: #050813; overflow: hidden; cursor: grab; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; }
+.nodeViewport.dragging { cursor: grabbing; }
+.nodeMap { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; width: 4000px; height: 3000px; }
+.connectorSvg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 1; }
+.connectorSvg path { fill: none; stroke: rgba(101,217,210,0.25); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 6 6; transition: stroke 0.3s; }
+.connectorSvg path.active-link { stroke: rgba(214,173,104,0.6); stroke-dasharray: none; stroke-width: 4; filter: drop-shadow(0 0 6px rgba(214,173,104,0.3)); }
+
+/* === NODE COMPONENT === */
+.node { position: absolute; width: 240px; border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: rgba(13,18,32,0.9); backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); cursor: pointer; user-select: none; transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s; z-index: 5; }
+.node:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.3); }
+.node.nodeDragging { cursor: grabbing; z-index: 50; transform: scale(1.02); box-shadow: 0 20px 50px rgba(214,173,104,0.15); border-color: var(--gold); }
+.node.activeNode { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 15px 40px rgba(0,0,0,0.6); z-index: 10; background: rgba(18,24,40,0.95); }
+
+.nodeHeader { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 10px; }
+.nodeIcon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,255,255,0.05); font-size: 16px; border: 1px solid var(--line); }
+.node h3 { font-size: 14px; margin: 0; line-height: 1.2; }
+.nodeStatus { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); display: block; margin-top: 4px; }
+.nodeSummary { font-size: 11px; color: var(--muted); line-height: 1.5; min-height: 34px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Node States */
+.node.state-done .nodeIcon { background: rgba(116,217,154,0.1); border-color: rgba(116,217,154,0.3); color: var(--green); }
+.node.state-done .nodeStatus { color: var(--green); }
+.node.state-ready .nodeIcon { background: rgba(101,217,210,0.1); border-color: rgba(101,217,210,0.3); color: var(--cyan); }
+.node.state-ready .nodeStatus { color: var(--cyan); }
+
+/* === FOCUS STATION (THE "BLENDER" WORKSPACE) === */
+.focusOverlay { position: absolute; inset: 0; background: rgba(3,5,10,0.6); backdrop-filter: blur(4px); z-index: 90; display: none; opacity: 0; transition: opacity 0.3s; }
+.focusOverlay.active { display: block; opacity: 1; }
+
+.focusStation { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); width: 90vw; max-width: 1100px; max-height: 85vh; background: #0b101d; border: 1px solid rgba(214,173,104,0.3); border-radius: 20px; box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(214,173,104,0.1); z-index: 100; display: none; opacity: 0; flex-direction: column; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.focusStation.active { display: flex; transform: translate(-50%, -50%) scale(1); opacity: 1; }
+
+.fs-header { padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); }
+.fs-header-title { display: flex; align-items: center; gap: 12px; }
+.fs-badge { font-size: 10px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--gold); color: var(--gold); background: rgba(214,173,104,0.1); text-transform: uppercase; font-weight: 800; letter-spacing: 0.1em; }
+
+.fs-body { display: flex; flex: 1; overflow: hidden; }
+.fs-main { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+.fs-sidebar { width: 340px; border-left: 1px solid var(--line); background: rgba(7,10,18,0.5); padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+
+/* Grid forms */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Visual Memory Panel */
+.visualDrop { border: 1px dashed rgba(101,217,210,0.4); border-radius: 12px; background: rgba(101,217,210,0.05); padding: 24px 16px; text-align: center; color: var(--cyan); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.visualDrop:hover { background: rgba(101,217,210,0.1); border-color: var(--cyan); }
+.visualDrop input { display: none; }
+.visualGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
+.visualThumb { aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; background: #000; border: 1px solid var(--line); position: relative; }
+.visualThumb img { width: 100%; height: 100%; object-fit: cover; }
+.visualThumb span { font-size: 10px; color: var(--muted); display: grid; place-items: center; height: 100%; padding: 8px; text-align: center; font-family: 'Space Mono'; }
+
+/* Floating Controls */
+.controls-panel { position: absolute; bottom: 24px; right: 24px; display: flex; gap: 8px; z-index: 80; background: rgba(11,16,29,0.8); padding: 8px; border-radius: 14px; border: 1px solid var(--line); backdrop-filter: blur(10px); }
+.zoom-readout { display: grid; place-items: center; padding: 0 12px; font: 12px 'Space Mono', monospace; color: var(--gold); }
+
+@media(max-width: 900px) {
+  .fs-body { flex-direction: column; }
+  .fs-sidebar { width: 100%; border-left: none; border-top: 1px solid var(--line); max-height: 40vh; }
+  .node { width: 200px; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="brand">Video Pack Studio <small>V2.7 / nodes fix visual</small></div><nav class="nav"><button class="btn" onclick="showScreen('briefing')">Briefing</button><button class="btn" onclick="showScreen('roteiro')">Roteiro</button><button class="btn" onclick="showScreen('json')">JSON</button><button class="btn" onclick="showScreen('srt')">SRT</button><button class="btn" onclick="showScreen('exportacao')">Exportar</button><button class="btn gold" onclick="openCanvas()">Árvore / Nodes</button></nav></header>
-<div class="shell"><aside class="side"><h4>Fluxo de vídeo</h4><button class="step active" data-step="briefing" onclick="showScreen('briefing')">1. Briefing Mestre</button><button class="step" data-step="modelo" onclick="showScreen('modelo')">2. Modelo / formato</button><button class="step" data-step="roteiro" onclick="showScreen('roteiro')">3. Roteiro visual</button><button class="step" data-step="json" onclick="showScreen('json')">4. JSON Remotion</button><button class="step" data-step="srt" onclick="showScreen('srt')">5. SRT / som</button><button class="step" data-step="preview" onclick="showScreen('preview')">6. Preview leve</button><button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportar pacote</button><button class="step" data-step="api" onclick="showScreen('api')">8. API</button><button class="step" data-step="mindjob" onclick="openCanvas()">9. Árvore / Nodes</button><h4>Modelos</h4><span class="pill">Produto animado</span><span class="pill">Poster vivo</span><span class="pill">Motion Comic</span><span class="pill">Story/Reels</span><h4>Regra</h4><p class="mini">Não renderiza MP4. Organiza briefing, roteiro, JSON, SRT, som, prompts, assets e checklist.</p><div class="actions"><button class="btn tiny gold" onclick="generate('complete')">Gerar mestre</button><button class="btn tiny cyan" onclick="openCanvas()">Canvas</button><button class="btn tiny green" onclick="buildExport()">Montar limpo</button></div></aside>
-<main class="main">
-<section class="hero"><div class="kicker">sem mp4 automático</div><h1>Video Pack / Remotion Pack</h1><p>Ferramenta de pré-produção audiovisual: gera roteiro visual, JSON, SRT, som, prompts e pacote final limpo para CapCut, Remotion, IA de vídeo ou edição manual.</p><div class="notice">Fórmula: preencher uma vez, gerar tudo, revisar por cards/nodes, aplicar sem duplicar e exportar limpo.</div><div class="creatorLine"><span class="creatorSeal">Árvore da Criação</span><strong>Sistema vivo de produção criativa em nodes</strong><span>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</span></div></section>
-<div class="tabs"><button class="tab active" data-tab="briefing" onclick="showScreen('briefing')">Briefing</button><button class="tab" data-tab="modelo" onclick="showScreen('modelo')">Modelo</button><button class="tab" data-tab="roteiro" onclick="showScreen('roteiro')">Roteiro</button><button class="tab" data-tab="json" onclick="showScreen('json')">JSON</button><button class="tab" data-tab="srt" onclick="showScreen('srt')">SRT/Som</button><button class="tab" data-tab="preview" onclick="showScreen('preview')">Preview</button><button class="tab" data-tab="exportacao" onclick="showScreen('exportacao')">Exportar</button><button class="tab" data-tab="api" onclick="showScreen('api')">API</button><button class="tab" data-tab="mindjob" onclick="openCanvas()">Árvore</button></div>
-<section id="centralHub" class="card resultHub"><div class="hubHead"><div><div class="kicker">Central de banners</div><h2>Pacote separado por função</h2><p>Revise cards limpos. Aplicar substitui a seção correta no pacote final, sem duplicar.</p></div><div class="actions"><button class="btn purple" onclick="reorganizeCards()">Reorganizar cards</button><button class="btn gold" onclick="buildExport()">Gerar pacote limpo</button></div></div><div id="cardFlowPanel" class="cardFlowPanel"><span class="flowText" id="cardFlowText">Cards: aguardando geração</span><div class="cardProgressBar"><span id="cardProgressFill"></span></div><button class="btn tiny green" onclick="applyAllCards()">Aplicar cards do Mestre</button><button class="btn tiny" onclick="showPendingCards()">Mostrar pendentes</button><button class="btn tiny" onclick="collapseAppliedCards()">Recolher aplicados</button></div><div id="hubCards" class="grid two"><div class="section-card"><div class="section-head"><h3>Aguardando geração</h3></div><div class="section-body">Gere um pacote para separar aqui em banners.</div></div></div></section>
-<section id="briefing" class="screen active"><div class="grid two"><div class="card"><h2>Briefing Mestre</h2><label>Origem</label><select id="source"><option>Manual</option><option>Studio / roteiro / storyboard</option><option>Print / campanha / produto</option><option>Client / produto final</option><option>Referência externa</option></select><label>Nome do projeto</label><input id="projectName" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1"><label>Briefing geral</label><textarea id="brief" placeholder="Cole aqui o briefing, roteiro, copy, descrição da peça ou ideia do vídeo..."></textarea><label>Material disponível</label><textarea id="assets" placeholder="Imagem base, logo, produto, personagem, cenas, áudio, SRT, fotos, cores, fontes..."></textarea><label>Texto obrigatório / regras</label><textarea id="requiredTextMaster" placeholder="Frases obrigatórias, eventos que não podem faltar..."></textarea><div class="grid two"><div><label>Modelo</label><select id="briefTemplate"><option>Produto animado</option><option>Motion Comic 2D</option><option>Poster vivo</option><option>Story/Reels/TikTok promocional</option><option>Comercial premium</option></select></div><div><label>Formato</label><select id="briefFormat"><option>9:16 vertical</option><option>16:9 horizontal</option><option>1:1 quadrado</option><option>4:5 feed</option></select></div><div><label>Duração</label><select id="briefDuration"><option>8 segundos</option><option>15 segundos</option><option>30 segundos</option><option>45 segundos</option><option>60 segundos</option></select></div><div><label>Movimento</label><select id="briefMotionStyle"><option>Motion graphic limpo</option><option>Camera seca e tensão</option><option>Anime 2D / motion comic</option><option>Popular rápido para TikTok</option></select></div></div><div class="masterMatrix"><h3>Cérebro central</h3><div class="grid two"><div><label>Objetivo</label><select id="goalMaster"><option>Vender produto</option><option>Cena narrativa / motion comic</option><option>Gerar curiosidade</option><option>Promover marca</option></select></div><div><label>Tom</label><select id="toneMaster"><option>Profissional</option><option>Horror/tensão</option><option>Impactante</option><option>Emocional</option></select></div><div><label>JSON</label><select id="jsonLevelMaster"><option>Completo com cenas, layers e timing</option><option>Motion Comic 2D</option><option>Simples para CapCut</option><option>Remotion avançado</option></select></div><div><label>Áudio</label><select id="audioTypeMaster"><option>Narração + SFX</option><option>Horror/tensão sonora</option><option>Falas + legenda</option><option>Trilha + impactos</option></select></div></div><span class="masterBadge">Preencher uma vez</span><span class="masterBadge">Gerar tudo</span><span class="masterBadge">Exportar limpo</span></div><div class="actions"><button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button><button class="btn purple" onclick="showScreen('roteiro')">Refinar roteiro</button><button class="btn cyan" onclick="openCanvas()">Abrir Árvore</button><button class="btn red" onclick="newCleanProject()">Novo limpo</button></div></div><div class="card"><h2>Resultado mestre</h2><div class="output" id="out">Preencha o briefing e gere o pacote.</div><div class="actions"><button class="btn" onclick="copy('out')">Copiar</button><button class="btn green" onclick="download('video-pack-mestre.txt','out')">Baixar TXT</button><button class="btn cyan" onclick="appendToExport('out','PACOTE MESTRE')">Aplicar no pacote</button><button class="btn red" onclick="clearOutput('out')">Limpar</button></div></div></div></section>
-<section id="modelo" class="screen"><div class="grid two"><div class="card"><h2>Modelo / formato</h2><label>Modelo</label><select id="template"><option>Produto animado</option><option>Motion Comic 2D</option><option>Poster vivo</option><option>Story/Reels/TikTok promocional</option></select><label>Formato</label><select id="format"><option>9:16 vertical</option><option>16:9 horizontal</option><option>1:1 quadrado</option></select><label>Duração</label><select id="duration"><option>8 segundos</option><option>15 segundos</option><option>30 segundos</option><option>45 segundos</option></select><label>Movimento</label><select id="motionStyle"><option>Motion graphic limpo</option><option>Camera seca e tensão</option><option>Anime 2D / motion comic</option></select><div class="actions"><button class="btn gold" onclick="generate('templatePlan')">Gerar plano</button><button class="btn cyan" onclick="showScreen('roteiro')">Ir para roteiro</button></div></div><div class="card"><h2>Plano do modelo</h2><div class="output" id="templateOut">Aguardando.</div><div class="actions"><button class="btn" onclick="copy('templateOut')">Copiar</button><button class="btn green" onclick="download('plano-modelo.txt','templateOut')">Baixar</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO / FORMATO')">Aplicar</button></div></div></div></section>
-<section id="roteiro" class="screen"><div class="grid two"><div class="card"><h2>Roteiro visual avançado</h2><label>Objetivo</label><select id="goal"><option>Vender produto</option><option>Cena narrativa / motion comic</option><option>Gerar curiosidade</option></select><label>Tom</label><select id="tone"><option>Profissional</option><option>Horror/tensão</option><option>Impactante</option></select><label>Texto obrigatório</label><textarea id="requiredText" placeholder="Frases obrigatórias, CTA, eventos..."></textarea><div class="actions"><button class="btn gold" onclick="generate('visualScript')">Gerar roteiro visual</button><button class="btn purple" onclick="generate('shotList')">Gerar shot list</button><button class="btn cyan" onclick="openCanvas('roteiro')">Abrir no node</button></div></div><div class="card"><h2>Roteiro / shot list</h2><div class="output" id="scriptOut">Aguardando.</div><div class="actions"><button class="btn" onclick="copy('scriptOut')">Copiar</button><button class="btn green" onclick="download('roteiro-shot-list.txt','scriptOut')">Baixar</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO VISUAL')">Aplicar</button></div></div></div></section>
-<section id="json" class="screen"><div class="grid two"><div class="card"><h2>JSON Remotion / animação</h2><p>Não renderiza MP4; vira instrução para Remotion, CapCut ou agente de vídeo.</p><label>Precisão</label><select id="jsonLevel"><option>Completo com cenas, layers e timing</option><option>Motion Comic 2D</option><option>Simples para CapCut</option><option>Remotion avançado</option></select><div class="actions"><button class="btn gold" onclick="generate('remotionJson')">Gerar JSON</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn green" onclick="download('json-remotion.txt','jsonOut')">Baixar</button></div></div><div class="card"><h2>JSON / prompt técnico</h2><div class="output" id="jsonOut">Aguardando JSON.</div><div class="actions"><button class="btn" onclick="copy('jsonOut')">Copiar</button><button class="btn green" onclick="download('json-remotion.txt','jsonOut')">Baixar</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT / REMOTION')">Aplicar</button></div></div></div></section>
-<section id="srt" class="screen"><div class="grid two"><div class="card"><h2>SRT / som / SFX</h2><label>Tipo de áudio</label><select id="audioType"><option>Narração + SFX</option><option>Horror/tensão sonora</option><option>Falas + legenda</option><option>Trilha + impactos</option></select><div class="actions"><button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano de som</button><button class="btn green" onclick="download('video-pack-srt.srt','srtOut')">Baixar SRT</button></div></div><div class="card"><h2>Legenda / som</h2><div class="output" id="srtOut">Aguardando.</div><div class="actions"><button class="btn" onclick="copy('srtOut')">Copiar</button><button class="btn green" onclick="download('srt-som.txt','srtOut')">Baixar</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM / SFX')">Aplicar</button></div></div></div></section>
-<section id="preview" class="screen"><div class="grid two"><div class="card"><h2>Preview leve</h2><p>Prévia simples para validar ritmo sem MP4.</p><div class="actions"><button class="btn gold" onclick="updatePreview()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Gerar guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW')">Aplicar</button></div><div class="output" id="previewOut">Aguardando guia.</div></div><div class="card"><h2>Simulação visual</h2><div class="previewBox"><div class="stage"><div class="orb"></div><div class="orb2"></div><div class="stageTitle" id="pvTitle">Video Pack</div><div class="stageSub" id="pvSub">Prévia sem render MP4</div><div class="stageCta" id="pvCta">PRÉVIA VISUAL</div></div></div></div></div></section>
-<section id="exportacao" class="screen"><div class="grid two"><div class="card"><h2>Exportar pacote limpo</h2><p>Monta entrega sem duplicação: briefing, roteiro, JSON, SRT/Som, preview, assets e checklist.</p><div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button><button class="btn red" onclick="clearExport()">Limpar</button></div></div><div class="card"><h2>Pacote final</h2><div class="output" id="exportOut">Aguardando montagem.</div></div></div></section>
-<section id="api" class="screen"><div class="grid two"><div class="card"><h2>API / modo local</h2><p class="mini">Por padrão o teste usa gerador local. Marque API real quando seu backend estiver pronto.</p><label><input id="useApi" type="checkbox" style="width:auto"> Usar API real</label><label>Endpoint</label><input id="endpoint" value="/api/generate-video"><label>Modelo</label><input id="model" value="claude-sonnet-4-5"><label>Tokens</label><input id="maxTokens" type="number" value="4200"><label>Temperatura</label><input id="temperature" type="number" step="0.05" value="0.58"><div class="actions"><button class="btn cyan" onclick="testAPI()">Testar</button><button class="btn green" onclick="saveApi()">Salvar</button></div></div><div class="card"><h2>Status</h2><div class="output" id="apiStatus">Modo local pronto.</div></div></div></section>
-<section id="mindjob" class="screen"><button class="btn gold canvasExitBtn" onclick="toggleCanvasMode()">Voltar tela normal</button><div class="card mindHero" id="mindHero"><div class="mindTitleLine"><div><div class="kicker">TITAN COLOSSAL V2.7</div><h2>Árvore da Criação</h2><p class="mini"><strong>Sistema vivo de produção criativa em nodes</strong> — idealizado por Elinaldo Menezes.</p></div><div class="eggTerminal"><div class="eggFace" id="eggMood">🥚</div><div><strong id="eggTitle">Mister Egg aguardando</strong><span id="eggText">Preencha o Briefing Mestre para começar.</span></div></div></div><div class="actions"><button class="btn gold" onclick="toggleCanvasMode()">Canvas limpo</button><button class="btn" onclick="zoomMind(-.1)">− Zoom</button><span class="zoomReadout" id="zoomReadout">100%</span><button class="btn" onclick="zoomMind(.1)">+ Zoom</button><button class="btn cyan" onclick="centerMind()">Centralizar</button><button class="btn purple" onclick="autoOrganize()">Reorganizar</button><button class="btn red" onclick="resetLayout()">Reset</button></div></div><div class="card mindShell"><div class="hubHead"><div><div class="kicker">Mapa vivo / nodes — mobile ajustado</div><h2>Árvore central e ramificações</h2><p>PC: roda do mouse para zoom. Celular: pinça para zoom e 1 dedo para arrastar mapa/nodes.</p></div></div><div class="nodeViewport" id="nodeViewport"><div class="nodeMap" id="nodeMap"><svg class="connectorSvg" id="connectorSvg"></svg><div id="mindCanvas"></div></div><div class="mapHint">PC: roda = zoom • Celular: pinça = zoom • 1 dedo = arrastar</div></div></div></section>
-</main></div>
+
+<header class="topbar">
+  <div class="brand">Video Pack Studio <small>Titan OS V3.0 (Nodes Only)</small></div>
+  <div>
+    <button class="btn gold" onclick="reorganizeMind()">Organizar Mapa</button>
+    <button class="btn cyan" onclick="exportFinal()">Exportar Pacote</button>
+  </div>
+</header>
+
+<div class="shell">
+  <!-- Core Canvas Area -->
+  <div class="nodeViewport" id="viewport">
+    <div class="nodeMap" id="nodeMap">
+      <svg class="connectorSvg" id="svgLayer"></svg>
+      <div id="nodesContainer"></div>
+    </div>
+  </div>
+
+  <!-- Focus Overlay & Station -->
+  <div class="focusOverlay" id="focusOverlay" onclick="closeFocusStation()"></div>
+  
+  <div class="focusStation" id="focusStation">
+    <div class="fs-header">
+      <div class="fs-header-title">
+        <span class="fs-badge" id="fsStatus">Editando</span>
+        <h2 id="fsTitle" style="margin:0;">Briefing Mestre</h2>
+      </div>
+      <button class="btn" onclick="closeFocusStation()">✕ Fechar (Voltar ao Mapa)</button>
+    </div>
+    <div class="fs-body">
+      <div class="fs-main" id="fsMainContent">
+        <!-- Injected via JS based on active node -->
+      </div>
+      <aside class="fs-sidebar">
+        <h3>🖼️ Contexto Visual / IA</h3>
+        <p class="mini">Faça upload de referências visuais (storyboard, animes, frames) para guiar a direção de arte e os prompts da IA.</p>
+        <label class="visualDrop">
+          + Adicionar Referências Visuais
+          <input type="file" accept="image/*" multiple onchange="handleImageUpload(this)">
+        </label>
+        <div class="visualGrid" id="visualGrid"></div>
+        
+        <label style="margin-top:20px;">Memória Estética Extraída</label>
+        <textarea id="visualMemory" placeholder="A IA vai analisar as imagens e definir o moodboard aqui..." oninput="appState.visualMemory = this.value"></textarea>
+        <button class="btn tiny cyan" style="width:100%" onclick="analyzeVisuals()">Analisar com IA</button>
+      </aside>
+    </div>
+  </div>
+  
+  <!-- Floating Canvas Controls -->
+  <div class="controls-panel">
+    <button class="btn tiny" onclick="zoomMap(-0.1)">- Zoom</button>
+    <span class="zoom-readout" id="zoomReadout">100%</span>
+    <button class="btn tiny" onclick="zoomMap(0.1)">+ Zoom</button>
+    <button class="btn tiny" onclick="centerMap()">Centralizar</button>
+  </div>
+</div>
+
 <script>
-const $=id=>document.getElementById(id);const val=id=>{const el=$(id);return el?(el.value!==undefined?String(el.value).trim():String(el.textContent).trim()):''};let activeNodeId='brief',appliedSections={},mindZoom=1,mindPan={x:0,y:0},mapDrag=null,nodeDrag=null,mindInit=false,generatingType='',canvasMode=false,ramoReviewText='',packageDelivered=false;const NODE_POS_KEY='arvore_v22_positions';const DEFAULT_POS={brief:{x:70,y:90},mestre:{x:410,y:90},modelo:{x:750,y:90},roteiro:{x:1090,y:90},json:{x:1430,y:90},srt:{x:1430,y:330},preview:{x:1090,y:540},pacote:{x:1430,y:570},ramo:{x:750,y:360}};let nodePositions={...DEFAULT_POS};try{nodePositions={...DEFAULT_POS,...JSON.parse(localStorage.getItem(NODE_POS_KEY)||'{}')}}catch(e){}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}function escAttr(s){return esc(s).replace(/"/g,'&quot;')}function choice(a,b){return val(a)||val(b)}function masterChoice(a,b){return val(a)||val(b)}function isPlaceholder(t){return !String(t||'').trim()||/^(Aguardando|Preencha|Modo local|Gerando)/i.test(String(t||'').trim())}function getRealText(id){const t=$(id)?.textContent||$(id)?.value||'';return isPlaceholder(t)?'':String(t).trim()}function sectionKey(title){const t=String(title||'').toUpperCase();if(t.includes('ROTEIRO'))return 'ROTEIRO VISUAL';if(t.includes('JSON')||t.includes('CAPCUT')||t.includes('REMOTION'))return 'JSON / CAPCUT / REMOTION';if(t.includes('SRT')||t.includes('SOM')||t.includes('SFX'))return 'SRT / SOM / SFX';if(t.includes('MODELO'))return 'MODELO / FORMATO';if(t.includes('PREVIEW'))return 'PREVIEW';if(t.includes('MESTRE'))return 'PACOTE MESTRE';return String(title||'CARD').toUpperCase().replace(/[^A-Z0-9ÁÉÍÓÚÃÕÇ\s/]/g,'').trim()}
-function syncMasterToTabs(){[['briefTemplate','template'],['briefFormat','format'],['briefDuration','duration'],['briefMotionStyle','motionStyle'],['goalMaster','goal'],['toneMaster','tone'],['requiredTextMaster','requiredText'],['jsonLevelMaster','jsonLevel'],['audioTypeMaster','audioType']].forEach(([a,b])=>{if($(a)&&$(b))$(b).value=$(a).value})}
-function showScreen(id){if(id!=='briefing')syncMasterToTabs();document.body.classList.remove('canvas-mode');canvasMode=false;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id)?.classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s.dataset.step===id));if(id==='mindjob'){renderMindJob();setTimeout(centerMind,80)}window.scrollTo({top:0,behavior:'smooth'})}
-function openCanvas(node){activeNodeId=node||activeNodeId||'brief';showScreen('mindjob');if(!canvasMode)toggleCanvasMode()}
-function toggleCanvasMode(){canvasMode=!canvasMode;document.body.classList.toggle('canvas-mode',canvasMode);renderMindJob();setTimeout(centerMind,60)}
-function context(){return `VIDEO PACK STUDIO — SEM RENDER MP4\n\nPROJETO: ${val('projectName')||'Sem título'}\nORIGEM: ${val('source')}\nBRIEFING: ${val('brief')}\nMATERIAL: ${val('assets')}\nTEXTO OBRIGATÓRIO: ${masterChoice('requiredTextMaster','requiredText')}\nMODELO: ${choice('briefTemplate','template')}\nFORMATO: ${choice('briefFormat','format')}\nDURAÇÃO: ${choice('briefDuration','duration')}\nMOVIMENTO: ${choice('briefMotionStyle','motionStyle')}\nOBJETIVO: ${masterChoice('goalMaster','goal')}\nTOM: ${masterChoice('toneMaster','tone')}\nJSON: ${masterChoice('jsonLevelMaster','jsonLevel')}\nÁUDIO: ${masterChoice('audioTypeMaster','audioType')}`}
-function localGenerate(type){const name=val('projectName')||'Projeto sem título',brief=val('brief')||'Briefing vazio',assets=val('assets')||'Assets não informados',req=masterChoice('requiredTextMaster','requiredText')||'Sem texto obrigatório',dur=choice('briefDuration','duration')||'30 segundos',fmt=choice('briefFormat','format')||'9:16 vertical',model=choice('briefTemplate','template')||'Motion Comic 2D',tone=masterChoice('toneMaster','tone')||'Profissional';if(type==='complete')return `# VIDEO PACK STUDIO — PACOTE MESTRE\n\n## DIAGNÓSTICO CRIATIVO\n- Projeto: ${name}\n- Formato: ${fmt}\n- Duração: ${dur}\n- Estilo: ${model}\n- Tom: ${tone}\n- Desafio: transformar o briefing em pacote técnico sem renderizar MP4.\n\n## CONCEITO VISUAL\n${brief}\n\n## ESTRUTURA DE CENAS\n1. Abertura forte nos primeiros 3 segundos.\n2. Apresentação do ambiente/produto/personagem.\n3. Virada visual ou promessa principal.\n4. Clímax visual com movimento de câmera.\n5. Gancho/CTA final.\n\n## ASSETS NECESSÁRIOS\n${assets}\n\n## TEXTO OBRIGATÓRIO\n${req}\n\n## PRÓXIMOS PASSOS\nGerar Roteiro Visual, JSON/CapCut, SRT/Som e montar Pacote Final limpo.`;if(type==='templatePlan')return `## MODELO / FORMATO\n- Modelo: ${model}\n- Formato: ${fmt}\n- Duração: ${dur}\n- Movimento: ${choice('briefMotionStyle','motionStyle')}\n- Estrutura sugerida: abertura, desenvolvimento, virada, payoff e CTA.`;if(type==='visualScript'||type==='shotList')return `## ROTEIRO VISUAL\nProjeto: ${name}\n\n### Cena 1 — Abertura (0–3s)\nVisual: impacto imediato ligado ao briefing.\nMovimento: zoom curto / corte seco.\nSom: impacto grave.\n\n### Cena 2 — Desenvolvimento\nVisual: mostrar material principal e criar tensão/interesse.\nTexto: ${req}\n\n### Cena 3 — Virada / payoff\nVisual: transformação, surpresa ou revelação.\nCTA: gancho final para continuação ou venda.\n\n## SHOT LIST\n- Close de detalhe.\n- Plano médio do contexto.\n- Push-in no elemento principal.\n- Corte final com texto.`;if(type==='remotionJson')return JSON.stringify({project:{title:name,engine:'remotion-or-capcut',format:fmt,duration:dur,style:model},scenes:[{id:1,time:'0-3s',action:'abertura forte',layers:['background','subject','text','sfx']},{id:2,time:'3-15s',action:'desenvolvimento visual',layers:['camera','asset','caption']},{id:3,time:'15-final',action:'payoff e CTA',layers:['shadow/effect','final text']}],audio:{type:masterChoice('audioTypeMaster','audioType'),sfx:['impact','ambience','transition']},notes:'JSON instrucional, não renderiza MP4.'},null,2);if(type==='capcutPrompt')return `## PROMPT CAPCUT\nEditar em ${fmt}, duração ${dur}. Usar cortes secos, zoom/pan, texto em tela, SFX e gancho final. Preservar briefing: ${brief}`;if(type==='srt')return `1\n00:00:00,000 --> 00:00:03,000\n[SUSPENSE VISUAL]\n\n2\n00:00:03,000 --> 00:00:08,000\n${req.split('\n')[0]||'Atenção ao detalhe principal.'}\n\n3\n00:00:08,000 --> 00:00:15,000\nA virada começa agora.\n\n4\n00:00:15,000 --> 00:00:30,000\nVocê continuaria assistindo?`;if(type==='soundPlan')return `## SRT / SOM / SFX\n- Ambiente base: drone leve.\n- Impactos: batida grave nas viradas.\n- SFX: whoosh, respiração/ruído, stinger final.\n- Mix: narração ou texto curto sem poluir.`;if(type==='previewGuide')return `## PREVIEW\nSimular no navegador: fundo escuro, dois orbs animados, título central, legenda curta e CTA final. Não renderiza MP4.`;return 'Conteúdo gerado.'}
-async function callAI(type){if(!$('useApi')?.checked)return localGenerate(type);const res=await fetch(val('endpoint')||'/api/generate-video',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:val('model'),max_tokens:Number(val('maxTokens')||4200),temperature:Number(val('temperature')||.58),prompt:context()+'\n\nTAREFA: '+type})});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.error||data.details||'Erro na API');return data.text||data.output||data.message||JSON.stringify(data,null,2)}
-function targetBox(type){if(type==='templatePlan')return'templateOut';if(type==='visualScript'||type==='shotList')return'scriptOut';if(type==='remotionJson'||type==='capcutPrompt')return'jsonOut';if(type==='srt'||type==='soundPlan')return'srtOut';if(type==='previewGuide')return'previewOut';return'out'}
-async function generate(type){syncMasterToTabs();const box=targetBox(type);generatingType=type;if($(box))$(box).textContent='Gerando...';renderMindJob();try{const text=await callAI(type);$(box).textContent=text;if(type==='complete'){renderHub(text,'complete');activeNodeId='mestre';}if(type==='capcutPrompt'||type==='shotList'||type==='soundPlan'){} }catch(e){$(box).textContent='Erro: '+e.message}generatingType='';renderMindJob()}
-function splitSections(text){const raw=String(text||'').trim();if(!raw)return[];const lines=raw.split(/\n/);let cur={title:'Resultado principal',body:[]};const out=[];for(const line of lines){if(/^#{1,4}\s+/.test(line)||/^[-=]{3,}\s*$/.test(line)){if(cur.body.join('\n').trim())out.push(cur);cur={title:line.replace(/^#+\s*/,'').replace(/[-=]/g,'').trim()||'Bloco',body:[]}}else cur.body.push(line)}if(cur.body.join('\n').trim())out.push(cur);return out.slice(0,14)}
-function renderHub(text,type){const hub=$('hubCards');if(!hub)return;const secs=splitSections(text);hub.innerHTML='';if(!secs.length){hub.innerHTML='<div class="section-card"><div class="section-head"><h3>Aguardando geração</h3></div><div class="section-body">Gere um pacote para separar aqui em banners.</div></div>';updateCardFlow();return}secs.forEach((sec,i)=>{const key=sectionKey(sec.title),applied=!!appliedSections[key],bodyId='hubBody'+i;const card=document.createElement('div');card.className='section-card '+(applied?'card-applied card-collapsed':'card-pending');card.dataset.key=key;card.innerHTML=`<div class="section-head"><h3>${esc(sec.title)}</h3><span class="mini">${applied?'aplicado':type||'card'}</span></div><div class="section-body" id="${bodyId}">${esc(sec.body.join('\n').trim())}</div><div class="result-tools"><button class="btn tiny" onclick="copy('${bodyId}')">Copiar</button><button class="btn tiny green" onclick="download('video-pack-${i+1}.txt','${bodyId}')">Baixar</button><button class="btn tiny cyan" onclick="appendToExport('${bodyId}','${escAttr(sec.title)}',true)">${applied?'Reaplicar':'Aplicar'}</button><button class="btn tiny" onclick="toggleCard(this)">${applied?'Reabrir':'Minimizar'}</button></div>`;hub.appendChild(card)});updateCardFlow()}
-function updateCardFlow(){const cards=[...document.querySelectorAll('#hubCards .section-card')],total=cards.length,ap=cards.filter(c=>c.classList.contains('card-applied')).length;if($('cardFlowText'))$('cardFlowText').textContent=total?`${ap} de ${total} cards aplicados · ${total-ap} pendentes`:'Cards: aguardando';if($('cardProgressFill'))$('cardProgressFill').style.width=total?Math.round(ap/total*100)+'%':'0%'}
-function toggleCard(btn){const c=btn.closest('.section-card');c.classList.toggle('card-collapsed');btn.textContent=c.classList.contains('card-collapsed')?'Reabrir':'Minimizar'}function markApplied(key){document.querySelectorAll('#hubCards .section-card').forEach(c=>{if(c.dataset.key===key){c.classList.remove('card-pending');c.classList.add('card-applied','card-collapsed');c.querySelector('.mini').textContent='aplicado'}});updateCardFlow()}
-function appendToExport(id,title,stay=false){const content=getRealText(id)||($(id)?.textContent||'').trim();if(!content||isPlaceholder(content)){alert('Nada para aplicar ainda.');return}const key=sectionKey(title);appliedSections[key]=content;packageDelivered=false;markApplied(key);buildExport(true);renderMindJob();if(!stay)showScreen('exportacao')}
-function applyAllCards(){document.querySelectorAll('#hubCards .section-card').forEach(c=>{const body=c.querySelector('.section-body')?.textContent||'',title=c.querySelector('h3')?.textContent||'Card';if(body&&!isPlaceholder(body)){appliedSections[sectionKey(title)]=body;markApplied(sectionKey(title))}});packageDelivered=false;ramoReviewText=buildBranchReviewText(true);buildExport(true);activeNodeId='ramo';renderMindJob()}
-function showPendingCards(){document.querySelectorAll('#hubCards .section-card').forEach(c=>{if(c.classList.contains('card-applied'))c.classList.add('card-collapsed');else c.classList.remove('card-collapsed')})}function collapseAppliedCards(){document.querySelectorAll('#hubCards .card-applied').forEach(c=>c.classList.add('card-collapsed'))}function reorganizeCards(){renderHub(getRealText('out')||getRealText('exportOut'),'revisar');ramoReviewText=buildBranchReviewText(false);activeNodeId='ramo';renderMindJob()}
-function buildBranchReviewText(appliedNow=false){
- const cards=[...document.querySelectorAll('#hubCards .section-card')];
- let lines=['## CARDS DO MESTRE — REVISÃO','','Etapa de revisão antes do Pacote Final.'];
- if(appliedNow)lines.push('Status: cards válidos aplicados ao pacote.');
- else lines.push('Status: revisão aberta. Confira e aplique o que estiver válido.');
- lines.push('');
- const items=[];
- cards.forEach(c=>{
-  const title=(c.querySelector('h3')?.textContent||'Card').trim();
-  const body=(c.querySelector('.section-body')?.textContent||'').trim();
-  if(body&&!isPlaceholder(body))items.push({title,body});
- });
- if(!items.length){
-  const master=getRealText('out')||getRealText('exportOut');
-  splitSections(master).forEach(s=>items.push({title:s.title,body:s.body.join('\n').trim()}));
- }
- if(!items.length){lines.push('- Aguardando Pacote Mestre ou cards revisáveis.');return lines.join('\n')}
- items.forEach((it,i)=>{
-  const key=sectionKey(it.title);
-  const ok=appliedSections[key]?'✓ aplicado':'○ revisar';
-  lines.push(`${i+1}. ${it.title} — ${ok}`);
-  lines.push('   '+shortText(it.body,180));
- });
- lines.push('');
- lines.push('Ações recomendadas: Revisar cards → Aplicar cards do Mestre → Próximo node → Pacote Final.');
- return lines.join('\n');
+/**
+ * TITAN OS - CORE LOGIC
+ * Reescrito para ser uma Single Page Application baseada inteiramente em Nodes/Canvas.
+ */
+
+const $ = id => document.getElementById(id);
+
+// --- GLOBAL STATE ---
+const appState = {
+  zoom: 1,
+  panX: 0,
+  panY: 0,
+  activeNode: null,
+  visualRefs: [],
+  visualMemory: '',
+  // Node Data Store
+  data: {
+    brief: { title: '', desc: '', assets: '', req: '', goal: 'Vender', tone: 'Impactante' },
+    modelo: { template: 'Motion Comic 2D', format: '9:16 vertical', duration: '30s', motion: 'Câmera seca' },
+    roteiro: { content: '' },
+    json: { content: '' },
+    srt: { content: '' },
+    preview: { content: '' },
+    pacote: { content: '' }
+  },
+  // Map configuration
+  nodesDef: [
+    { id: 'brief', title: '1. Briefing Mestre', icon: '🧠', x: 50, y: 50, dependsOn: null },
+    { id: 'modelo', title: '2. Modelo / Formato', icon: '🎛️', x: 380, y: 50, dependsOn: 'brief' },
+    { id: 'roteiro', title: '3. Roteiro Visual', icon: '🎞️', x: 710, y: 50, dependsOn: 'modelo' },
+    { id: 'json', title: '4. JSON / Remotion', icon: '</>', x: 1040, y: 50, dependsOn: 'roteiro' },
+    { id: 'srt', title: '5. SRT / Som / SFX', icon: '🎧', x: 1040, y: 250, dependsOn: 'roteiro' },
+    { id: 'preview', title: '6. Preview Viewer', icon: '🖥️', x: 710, y: 250, dependsOn: 'json' },
+    { id: 'pacote', title: '7. Pacote Final', icon: '📦', x: 1040, y: 450, dependsOn: ['srt', 'preview'] }
+  ]
+};
+
+// --- DRAG & DROP CANVAS ---
+let isDraggingMap = false, isDraggingNode = false, draggedNodeId = null;
+let startX, startY;
+
+const viewport = $('viewport');
+const nodeMap = $('nodeMap');
+
+viewport.addEventListener('mousedown', e => {
+  if (e.target.closest('button, input, textarea, select')) return;
+  const node = e.target.closest('.node');
+  if (node) {
+    isDraggingNode = true;
+    draggedNodeId = node.dataset.id;
+    const n = appState.nodesDef.find(x => x.id === draggedNodeId);
+    startX = e.clientX - (n.x * appState.zoom);
+    startY = e.clientY - (n.y * appState.zoom);
+    node.classList.add('nodeDragging');
+  } else {
+    isDraggingMap = true;
+    startX = e.clientX - appState.panX;
+    startY = e.clientY - appState.panY;
+    viewport.classList.add('dragging');
+  }
+});
+
+window.addEventListener('mousemove', e => {
+  if (isDraggingMap) {
+    appState.panX = e.clientX - startX;
+    appState.panY = e.clientY - startY;
+    updateTransform();
+  } else if (isDraggingNode && draggedNodeId) {
+    const n = appState.nodesDef.find(x => x.id === draggedNodeId);
+    n.x = (e.clientX - startX) / appState.zoom;
+    n.y = (e.clientY - startY) / appState.zoom;
+    $(`node-${n.id}`).style.left = `${n.x}px`;
+    $(`node-${n.id}`).style.top = `${n.y}px`;
+    drawConnectors();
+  }
+});
+
+window.addEventListener('mouseup', () => {
+  isDraggingMap = false;
+  isDraggingNode = false;
+  draggedNodeId = null;
+  viewport.classList.remove('dragging');
+  document.querySelectorAll('.node').forEach(n => n.classList.remove('nodeDragging'));
+});
+
+viewport.addEventListener('wheel', e => {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? -0.05 : 0.05;
+  zoomMap(delta, e.clientX, e.clientY);
+}, { passive: false });
+
+function zoomMap(delta, cx = viewport.clientWidth/2, cy = viewport.clientHeight/2) {
+  const oldZoom = appState.zoom;
+  appState.zoom = Math.max(0.3, Math.min(2.5, appState.zoom + delta));
+  // Adjust pan to zoom towards mouse/center
+  const rect = viewport.getBoundingClientRect();
+  const ox = cx - rect.left;
+  const oy = cy - rect.top;
+  appState.panX = ox - (ox - appState.panX) * (appState.zoom / oldZoom);
+  appState.panY = oy - (oy - appState.panY) * (appState.zoom / oldZoom);
+  updateTransform();
 }
 
-function buildCleanContext(){return `VIDEO PACK STUDIO — PACOTE LIMPO / SEM MP4\n\nPROJETO:\n${val('projectName')||'Sem título'}\n\nREGRA:\nEste pacote não renderiza MP4. Ele organiza roteiro visual, JSON, SRT, som, prompts, assets e checklist para CapCut, Remotion, IA de vídeo ou edição manual.\n\nORIGEM:\n${val('source')}\n\nBRIEFING:\n${val('brief')}\n\nMATERIAL DISPONÍVEL:\n${val('assets')}\n\nMODELO E FORMATO:\n- Modelo: ${choice('briefTemplate','template')}\n- Formato: ${choice('briefFormat','format')}\n- Duração: ${choice('briefDuration','duration')}\n- Movimento: ${choice('briefMotionStyle','motionStyle')}\n- Objetivo: ${masterChoice('goalMaster','goal')}\n- Tom: ${masterChoice('toneMaster','tone')}\n- JSON: ${masterChoice('jsonLevelMaster','jsonLevel')}\n- Áudio: ${masterChoice('audioTypeMaster','audioType')}`}
-function buildExport(silent=false){packageDelivered=false;const sections={...appliedSections};[['MODELO / FORMATO','templateOut'],['ROTEIRO VISUAL','scriptOut'],['JSON / CAPCUT / REMOTION','jsonOut'],['SRT / SOM / SFX','srtOut'],['PREVIEW','previewOut']].forEach(([k,id])=>{const t=getRealText(id);if(t)sections[k]=t});if(getRealText('out')&&!Object.keys(sections).length)sections['PACOTE MESTRE']=getRealText('out');let text=buildCleanContext();['PACOTE MESTRE','DIAGNÓSTICO CRIATIVO','CONCEITO VISUAL','MODELO / FORMATO','ROTEIRO VISUAL','JSON / CAPCUT / REMOTION','SRT / SOM / SFX','PREVIEW','ASSETS NECESSÁRIOS','PRÓXIMOS PASSOS'].forEach(k=>{if(sections[k])text+=`\n\n---\n\n## ${k}\n\n${sections[k].trim()}`});Object.keys(sections).forEach(k=>{if(!text.includes(`## ${k}\n`))text+=`\n\n---\n\n## ${k}\n\n${sections[k].trim()}`});text+=`\n\n---\n\n## CHECKLIST FINAL\n\n1. Conferir briefing e duração.\n2. Conferir cards aplicados.\n3. Separar assets.\n4. Usar JSON/CapCut/Remotion em ferramenta externa.\n5. Usar SRT/Som no CapCut ou editor.\n6. Baixar/compartilhar este pacote limpo.\n7. Não há render MP4 automático neste módulo.`;$('exportOut').textContent=text.trim();if(!silent)showScreen('exportacao');renderMindJob()}
-function copy(id){const text=$(id)?.textContent||$(id)?.value||'';if(!text||isPlaceholder(text)){alert('Nada para copiar.');return}navigator.clipboard.writeText(text).then(()=>alert('Copiado.')).catch(()=>alert('Não foi possível copiar.'))}function download(name,id){const text=$(id)?.textContent||$(id)?.value||'';if(!text||isPlaceholder(text)){alert('Nada para baixar.');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download=name;a.click();URL.revokeObjectURL(a.href);if(id==='exportOut'){packageDelivered=true;renderMindJob()}}async function shareExport(){const text=getRealText('exportOut');if(!text){alert('Monte o pacote primeiro.');return}if(navigator.share)await navigator.share({title:'Video Pack',text}).catch(()=>{});else copy('exportOut');packageDelivered=true;renderMindJob()}function clearOutput(id){if($(id))$(id).textContent=id==='out'?'Preencha o briefing e gere o pacote.':'Aguardando.'}function clearExport(){appliedSections={};packageDelivered=false;ramoReviewText='';clearOutput('exportOut');updateCardFlow();renderMindJob()}function newCleanProject(){['projectName','brief','assets','requiredTextMaster','requiredText'].forEach(id=>{if($(id))$(id).value=''});['out','templateOut','scriptOut','jsonOut','srtOut','previewOut','exportOut'].forEach(clearOutput);appliedSections={};packageDelivered=false;ramoReviewText='';renderHub('','');showScreen('briefing')}function saveApi(){localStorage.setItem('videoPackApiV2',JSON.stringify({endpoint:val('endpoint'),model:val('model'),maxTokens:val('maxTokens'),temperature:val('temperature'),useApi:$('useApi')?.checked}));$('apiStatus').textContent='Configuração salva.'}function loadApi(){try{const a=JSON.parse(localStorage.getItem('videoPackApiV2')||'{}');['endpoint','model','maxTokens','temperature'].forEach(id=>{if(a[id]&&$(id))$(id).value=a[id]});if($('useApi'))$('useApi').checked=!!a.useApi}catch(e){}}async function testAPI(){try{$('apiStatus').textContent=await callAI('api')}catch(e){$('apiStatus').textContent='Erro: '+e.message}}function updatePreview(){$('pvTitle').textContent=(val('projectName')||'Video Pack').slice(0,42);$('pvSub').textContent=(choice('briefTemplate','template')||'Modelo')+' · '+(choice('briefDuration','duration')||'30s');$('pvCta').textContent=(masterChoice('goalMaster','goal')||'Prévia').toUpperCase().slice(0,22);$('previewOut').textContent=localGenerate('previewGuide');renderMindJob()}
-function statusIcon(s){return{empty:'○',editing:'✎',generating:'⟳',ready:'🌱',filled:'🌱',done:'✓',exported:'🚀',error:'!',locked:'🔒',review:'◆'}[s]||'○'}function statusLabel(s){return{empty:'vazio',editing:'editando',generating:'gerando',ready:'pronto',filled:'gerado',done:'aplicado',exported:'exportado',error:'erro',locked:'bloqueado',review:'revisar'}[s]||s}function nodeStatusFromText(id){const t=getRealText(id);if(!t)return'empty';if(/^Erro/i.test(t))return'error';return Object.values(appliedSections).some(v=>String(v).trim()===t.trim())?'done':'filled'}function exportStatus(){return packageDelivered?'exported':(getRealText('exportOut')?'filled':'empty')}function isGeneratingNode(id){const m={complete:'mestre',templatePlan:'modelo',visualScript:'roteiro',shotList:'roteiro',remotionJson:'json',capcutPrompt:'json',srt:'srt',soundPlan:'srt',previewGuide:'preview'};return m[generatingType]===id}function shortText(t,n=115){const s=String(t||'').replace(/\s+/g,' ').trim();return s.length>n?s.slice(0,n)+'...':s}
-function getPos(id){return nodePositions[id]||DEFAULT_POS[id]}function savePositions(){localStorage.setItem(NODE_POS_KEY,JSON.stringify(nodePositions))}function setTransform(){const m=$('nodeMap');if(m)m.style.transform=`translate(${mindPan.x}px,${mindPan.y}px) scale(${mindZoom})`;if($('zoomReadout'))$('zoomReadout').textContent=Math.round(mindZoom*100)+'%'}function zoomMind(d,ev){const vp=$('nodeViewport'),old=mindZoom,next=Math.max(.35,Math.min(2.5,+(mindZoom+d).toFixed(2)));if(next===old)return;if(ev&&vp){const r=vp.getBoundingClientRect(),ox=ev.clientX-r.left,oy=ev.clientY-r.top;mindPan.x=ox-(ox-mindPan.x)*(next/old);mindPan.y=oy-(oy-mindPan.y)*(next/old)}mindZoom=next;setTransform()}function centerMind(){const vp=$('nodeViewport');if(!vp)return;mindZoom=Math.min(1,Math.max(.55,vp.clientWidth/1350));mindPan={x:(vp.clientWidth-1300*mindZoom)/2,y:Math.max(20,(vp.clientHeight-760*mindZoom)/2)};setTransform()}function autoOrganize(){nodePositions={...DEFAULT_POS};savePositions();renderMindJob();centerMind()}function resetLayout(){nodePositions={...DEFAULT_POS};mindZoom=1;mindPan={x:0,y:0};savePositions();renderMindJob();setTransform()}
-function drawLine(a,b,main=false){const A=$('node-'+a),B=$('node-'+b);if(!A||!B)return'';const pa=getPos(a),pb=getPos(b),x1=pa.x+A.offsetWidth/2,y1=pa.y+A.offsetHeight/2,x2=pb.x+B.offsetWidth/2,y2=pb.y+B.offsetHeight/2,dx=Math.max(90,Math.abs(x2-x1)*.45);return `<path class="${main?'main':''}" d="M ${x1} ${y1} C ${x1+dx} ${y1}, ${x2-dx} ${y2}, ${x2} ${y2}"/>`}function updateConnectors(){const svg=$('connectorSvg');if(!svg)return;const hasMaster=!!getRealText('out')||activeNodeId==='mestre'||isGeneratingNode('mestre');const mainLinks=hasMaster?[drawLine('brief','mestre',true),drawLine('mestre','modelo',true)]:[drawLine('brief','modelo',true)];svg.innerHTML=[...mainLinks,drawLine('modelo','roteiro',true),drawLine('roteiro','json',true),drawLine('json','srt',true),drawLine('srt','pacote',true),drawLine('brief','ramo'),drawLine('mestre','ramo'),drawLine('ramo','preview'),drawLine('preview','pacote'),drawLine('roteiro','srt'),drawLine('roteiro','pacote')].join('')}
-function options(current,arr){return arr.map(o=>`<option ${o===current?'selected':''}>${esc(o)}</option>`).join('')}function treeSet(src,target){if($(src)&&$(target))$(target).value=$(src).value;syncMasterToTabs();renderMindJob()}function nextNode(){const order=['brief','mestre','modelo','roteiro','json','srt','preview','ramo','pacote'],i=order.indexOf(activeNodeId);activeNodeId=order[Math.min(order.length-1,Math.max(0,i+1))]||'brief';renderMindJob()}function smartProgressHTML(){const rows=[['Briefing',!!val('brief')],['Pacote mestre',!!getRealText('out')],['Cards',Object.keys(appliedSections).length>0],['Final',!!getRealText('exportOut')]];let active=rows.findIndex(r=>!r[1]);if(active<0)active=rows.length-1;return `<div class="nodeSmartProgress">${rows.map((r,i)=>`<div class="nodeSmartProgressRow ${r[1]?'done':i===active?'active':''}">${r[1]?'✓':'○'} ${r[0]}</div>`).join('')}</div>`}
-function resultHTML(id){if(id==='ramo'){const t=ramoReviewText||buildBranchReviewText(false);return `<div class="workResultHead"><div class="workResultTitle">🌳 Revisão dos cards do mestre</div><div class="workResultStatus">${Object.keys(appliedSections).length?'aplicado':'revisar'}</div></div><pre class="workOutput">${esc(t)}</pre>`}const map={mestre:'out',modelo:'templateOut',roteiro:'scriptOut',json:'jsonOut',srt:'srtOut',preview:'previewOut',pacote:'exportOut'},out=map[id],t=out?getRealText(out):'';if(!t)return `<div class="workHintBox"><b>Aguardando conteúdo.</b><br>Gere ou aplique o resultado deste node. O resultado aparecerá aqui, dentro da estação.</div>`;return `<div class="workResultHead"><div class="workResultTitle">${statusIcon('filled')} Resultado do node</div><div class="workResultStatus">${Object.values(appliedSections).includes(t)?'aplicado':'gerado'}</div></div><div class="workInfoGrid"><span>Fonte: ${out}</span><span>${t.length} caracteres</span><span>${id}</span></div><pre class="workOutput">${esc(t)}</pre>`}
-function renderWorkspace(id){const p=getPos(id),style=`left:${p.x}px;top:${p.y+175}px`;if(id==='brief')return `<div class="nodeWorkspace" id="nodeWorkspace" style="${style}"><div class="workHead"><div><span class="workBadge">🧠 Estação ativa</span><h3>Briefing Mestre</h3><p class="mini">Entrada central. Preencha uma vez e distribua para todos os nodes.</p></div><button class="btn tiny" onclick="nextNode()">Próximo ›</button></div>${smartProgressHTML()}<div class="stationMainFields"><label>Nome do projeto</label><input id="treeProjectName" value="${escAttr(val('projectName'))}" oninput="treeSet('treeProjectName','projectName')" placeholder="Ex.: O Hambúrguer da Meia-Noite — Parte 1"><label>Briefing geral</label><textarea id="treeBrief" oninput="treeSet('treeBrief','brief')" placeholder="Cole o briefing, roteiro, copy ou ideia...">${esc(val('brief'))}</textarea><label>Material disponível</label><textarea id="treeAssets" oninput="treeSet('treeAssets','assets')" placeholder="Assets, fotos, som, cores, links...">${esc(val('assets'))}</textarea><label>Texto obrigatório / regras</label><textarea id="treeReq" oninput="treeSet('treeReq','requiredTextMaster')" placeholder="Frases obrigatórias, eventos...">${esc(val('requiredTextMaster'))}</textarea></div><details class="briefNodePanel"><summary>Configurações avançadas</summary><div class="briefNodeGrid"><div><label>Origem</label><select id="treeSource" onchange="treeSet('treeSource','source')">${options(val('source')||'Manual',['Manual','Studio / roteiro / storyboard','Print / campanha / produto','Client / produto final','Referência externa'])}</select></div><div><label>Modelo</label><select id="treeTemplate" onchange="treeSet('treeTemplate','briefTemplate')">${options(choice('briefTemplate','template')||'Motion Comic 2D',['Produto animado','Motion Comic 2D','Poster vivo','Story/Reels/TikTok promocional'])}</select></div><div><label>Formato</label><select id="treeFormat" onchange="treeSet('treeFormat','briefFormat')">${options(choice('briefFormat','format')||'9:16 vertical',['9:16 vertical','16:9 horizontal','1:1 quadrado','4:5 feed'])}</select></div><div><label>Duração</label><select id="treeDuration" onchange="treeSet('treeDuration','briefDuration')">${options(choice('briefDuration','duration')||'30 segundos',['8 segundos','15 segundos','30 segundos','45 segundos','60 segundos'])}</select></div><div><label>Movimento</label><select id="treeMotion" onchange="treeSet('treeMotion','briefMotionStyle')">${options(choice('briefMotionStyle','motionStyle')||'Camera seca e tensão',['Motion graphic limpo','Camera seca e tensão','Anime 2D / motion comic'])}</select></div><div><label>Tom</label><select id="treeTone" onchange="treeSet('treeTone','toneMaster')">${options(masterChoice('toneMaster','tone')||'Horror/tensão',['Profissional','Horror/tensão','Impactante','Emocional'])}</select></div></div></details><details class="briefNodePanel" ${getRealText('out')?'open':''}><summary>Resultado mestre</summary>${resultHTML('brief').replace('Aguardando conteúdo.','Aguardando pacote mestre.')}</details><div class="stationActions"><button class="btn gold" onclick="generate('complete')">Gerar pacote mestre</button><button class="btn cyan" onclick="appendToExport('out','PACOTE MESTRE',true)">Aplicar resultado</button><button class="btn green" onclick="buildExport(true)">Montar limpo</button><button class="btn purple" onclick="nextNode()">Próximo node</button><button class="btn red" onclick="newCleanProject()">Novo limpo</button></div></div>`;if(id==='mestre')return `<div class="nodeWorkspace expandedStation" id="nodeWorkspace" style="${style}"><div class="workHead"><div><span class="workBadge">📦 Estação ativa</span><h3>Pacote Mestre</h3><p class="mini">Resultado central gerado pelo Briefing. Revise, aplique cards e libere o próximo node.</p></div><button class="btn tiny" onclick="activeNodeId='modelo';renderMindJob()">Próximo ›</button></div>${smartProgressHTML()}${resultHTML('mestre')}<div class="workInfoGrid"><span>Briefing recolhido</span><span>Cards: ${document.querySelectorAll('#hubCards .section-card').length||0}</span><span>Fluxo: Mestre → Modelo</span></div><div class="stationActions"><button class="btn green" onclick="appendToExport('out','PACOTE MESTRE',true)">Aplicar pacote mestre</button><button class="btn purple" onclick="reorganizeCards()">Revisar cards</button><button class="btn cyan" onclick="applyAllCards()">Aplicar cards do Mestre</button><button class="btn gold" onclick="activeNodeId='modelo';renderMindJob()">Ir para Modelo</button><button class="btn" onclick="activeNodeId='brief';renderMindJob()">Editar Briefing</button></div></div>`;const titles={modelo:'Modelo / Formato',roteiro:'Roteiro Visual',json:'JSON / Remotion',srt:'SRT / Som',preview:'Preview',pacote:'Pacote Final',ramo:'Cards do Mestre'};const actions={modelo:`<button class="btn gold" onclick="generate('templatePlan')">Gerar plano</button><button class="btn cyan" onclick="appendToExport('templateOut','MODELO / FORMATO',true)">Aplicar</button>`,roteiro:`<button class="btn gold" onclick="generate('visualScript')">Gerar roteiro</button><button class="btn purple" onclick="generate('shotList')">Shot list</button><button class="btn cyan" onclick="appendToExport('scriptOut','ROTEIRO VISUAL',true)">Aplicar</button>`,json:`<button class="btn gold" onclick="generate('remotionJson')">Gerar JSON</button><button class="btn purple" onclick="generate('capcutPrompt')">Prompt CapCut</button><button class="btn cyan" onclick="appendToExport('jsonOut','JSON / CAPCUT / REMOTION',true)">Aplicar</button>`,srt:`<button class="btn gold" onclick="generate('srt')">Gerar SRT</button><button class="btn purple" onclick="generate('soundPlan')">Plano som</button><button class="btn cyan" onclick="appendToExport('srtOut','SRT / SOM / SFX',true)">Aplicar</button>`,preview:`<button class="btn gold" onclick="updatePreview()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW',true)">Aplicar</button>`,pacote:`<button class="btn gold" onclick="buildExport(true)">Montar limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button>`,ramo:`<button class="btn purple" onclick="reorganizeCards()">Revisar cards</button><button class="btn green" onclick="applyAllCards()">Aplicar cards do Mestre</button><button class="btn cyan" onclick="generateTechAll()">Gerar nodes técnicos</button><button class="btn gold" onclick="activeNodeId='pacote';renderMindJob()">Ir para Pacote Final</button>`};return `<div class="nodeWorkspace" id="nodeWorkspace" style="${style}"><div class="workHead"><div><span class="workBadge">${statusIcon('ready')} Estação ativa</span><h3>${titles[id]||id}</h3><p class="mini">Trabalhe aqui sem voltar para as abas. O resultado aplicado segue para o pacote final.</p></div><button class="btn tiny" onclick="nextNode()">Próximo ›</button></div>${smartProgressHTML()}${resultHTML(id)}<div class="stationActions">${actions[id]||''}<button class="btn purple" onclick="nextNode()">Próximo node</button><button class="btn" onclick="activeNodeId='brief';renderMindJob()">Voltar Briefing</button></div></div>`}
-function autoGrowNodeWorkspace(){document.querySelectorAll("#nodeWorkspace textarea").forEach(t=>{t.style.height="auto";t.style.height=(t.scrollHeight+4)+"px"});const ws=$("nodeWorkspace");if(ws)ws.classList.add("expandedStation")}document.addEventListener("input",e=>{if(e.target&&e.target.closest&&e.target.closest("#nodeWorkspace"))setTimeout(autoGrowNodeWorkspace,0)});
-function nodeCard(n){return `<div class="node ${n.status} ${n.id===activeNodeId?'activeNode':''}" id="node-${n.id}" data-id="${n.id}" style="left:${n.x}px;top:${n.y}px" onclick="activeNodeId='${n.id}';renderMindJob()"><div class="nodeHeader"><div class="nodeTitleWrap"><div class="nodeIconBadge">${n.icon}</div><h3>${n.title}</h3></div><div class="nodeControls"><span class="nodeStatus"><span class="stateEmoji">${statusIcon(n.status)}</span>${statusLabel(n.status)}</span></div></div><div class="nodeSummary">${esc(n.summary)}</div><div class="nodeActions">${n.actions.map(a=>`<button class="btn ${a.cls||''}" onclick="event.stopPropagation();${a.fn}">${a.label}</button>`).join('')}</div><span class="nodeMiniHandle">⠿</span></div>`}
-function renderMindJob(){syncMasterToTabs();const briefReady=!!val('brief'),masterReady=!!getRealText('out');const n=(id,title,icon,status,summary,actions)=>({id,title,icon,status:isGeneratingNode(id)?'generating':((!briefReady&&id!=='brief')||(!masterReady&&['modelo','roteiro','json','srt','preview','pacote','ramo'].includes(id))?'locked':status),summary,...getPos(id),actions});const nodes=[n('brief','1. Briefing Mestre','🧠',briefReady?(masterReady?'done':'editing'):'empty',briefReady?(masterReady?'Briefing recolhido. Pacote Mestre gerado.':shortText(val('brief'))):'Cérebro central: história, modelo, objetivo, tom, áudio e regras.',[{label:masterReady?'Editar':'Editar',fn:"activeNodeId='brief';renderMindJob()"},{label:'Gerar mestre',cls:'gold',fn:"generate('complete')"}])];if(masterReady||activeNodeId==='mestre'||isGeneratingNode('mestre'))nodes.push(n('mestre','2. Pacote Mestre','📦',masterReady?'filled':'generating',masterReady?shortText(getRealText('out')):'Gerando pacote mestre a partir do Briefing.',[{label:'Abrir',fn:"activeNodeId='mestre';renderMindJob()"},{label:'Aplicar',cls:'green',fn:"appendToExport('out','PACOTE MESTRE',true)"},{label:'Próximo',cls:'gold',fn:"activeNodeId='modelo';renderMindJob()"}]));nodes.push(n('modelo',masterReady?'3. Modelo / Formato':'2. Modelo / Formato','🎛️',choice('briefTemplate','template')?'ready':'empty',`${choice('briefTemplate','template')||'Sem modelo'} · ${choice('briefFormat','format')||''} · ${choice('briefDuration','duration')||''}`,[{label:'Abrir',fn:"activeNodeId='modelo';renderMindJob()"},{label:'Gerar plano',cls:'gold',fn:"generate('templatePlan')"}]),n('roteiro',masterReady?'4. Roteiro Visual':'3. Roteiro Visual','🎞️',nodeStatusFromText('scriptOut'),getRealText('scriptOut')?shortText(getRealText('scriptOut')):'Recebe objetivo, tom e texto obrigatório.',[{label:'Abrir',fn:"activeNodeId='roteiro';renderMindJob()"},{label:'Gerar roteiro',cls:'gold',fn:"generate('visualScript')"}]),n('json',masterReady?'5. JSON / Remotion':'4. JSON / Remotion','</>',nodeStatusFromText('jsonOut'),getRealText('jsonOut')?shortText(getRealText('jsonOut')):'Recebe formato, duração e precisão do JSON.',[{label:'Abrir',fn:"activeNodeId='json';renderMindJob()"},{label:'Gerar JSON',cls:'gold',fn:"generate('remotionJson')"}]),n('srt',masterReady?'6. SRT / Som':'5. SRT / Som','🎧',nodeStatusFromText('srtOut'),getRealText('srtOut')?shortText(getRealText('srtOut')):'Recebe duração, tom e tipo de áudio.',[{label:'Abrir',fn:"activeNodeId='srt';renderMindJob()"},{label:'Gerar SRT',cls:'gold',fn:"generate('srt')"}]),n('preview',masterReady?'7. Preview':'6. Preview','🖥️',nodeStatusFromText('previewOut'),getRealText('previewOut')?shortText(getRealText('previewOut')):'Valida ritmo sem MP4.',[{label:'Abrir',fn:"activeNodeId='preview';renderMindJob()"},{label:'Atualizar',cls:'gold',fn:'updatePreview()'}]),n('pacote',masterReady?'8. Pacote Final':'7. Pacote Final','📦',exportStatus(),getRealText('exportOut')?shortText(getRealText('exportOut')):'Node final: montar, baixar e compartilhar pacote limpo.',[{label:'Abrir',fn:"activeNodeId='pacote';renderMindJob()"},{label:'Montar limpo',cls:'gold',fn:'buildExport(true)'}]),n('ramo','Cards do Mestre','🌳',Object.keys(appliedSections).length?'review':(masterReady?'ready':'empty'),'Revisa e aplica os cards que nasceram do Pacote Mestre, sem gerar nodes técnicos automaticamente.',[{label:'Revisar cards',cls:'purple',fn:'reorganizeCards()'}]));$('mindCanvas').innerHTML=nodes.map(nodeCard).join('')+renderWorkspace(activeNodeId);initMind();setTransform();setTimeout(updateConnectors,0);setTimeout(autoGrowNodeWorkspace,0);updateEgg()}
-function updateEgg(){const egg=$('eggText');if(!egg)return;const hasBrief=!!val('brief'),hasMaster=!!getRealText('out'),hasFinal=!!getRealText('exportOut');let msg='Preencha o Briefing Mestre para começar.';if(hasBrief&&!hasMaster)msg='Clique em Gerar pacote mestre. O Briefing vai recolher e abrir o node Pacote Mestre.';if(hasMaster&&!hasFinal)msg='Pacote Mestre criado. Revise cards, aplique o que aprovar e avance pelos nodes.';if(hasFinal)msg='Pacote final montado. Revise, baixe ou compartilhe.';egg.textContent=msg}
-function initMind(){if(mindInit)return;mindInit=true;const vp=$('nodeViewport');let touchMode=null,touchStart=null,pinchStart=null;
- function pointFromTouch(t){return{clientX:t.clientX,clientY:t.clientY}}
- function touchDistance(touches){const dx=touches[0].clientX-touches[1].clientX,dy=touches[0].clientY-touches[1].clientY;return Math.hypot(dx,dy)}
- function touchCenter(touches){return{clientX:(touches[0].clientX+touches[1].clientX)/2,clientY:(touches[0].clientY+touches[1].clientY)/2}}
- function applyNodeDrag(clientX,clientY){if(!nodeDrag)return;const nx=nodeDrag.startX+(clientX-nodeDrag.x)/mindZoom,ny=nodeDrag.startY+(clientY-nodeDrag.y)/mindZoom;nodePositions[nodeDrag.id]={x:Math.round(nx),y:Math.round(ny)};nodeDrag.el.style.left=Math.round(nx)+'px';nodeDrag.el.style.top=Math.round(ny)+'px';const ws=$('nodeWorkspace');if(ws&&activeNodeId===nodeDrag.id){ws.style.top=Math.round(ny+175)+'px';ws.style.left=Math.round(nx)+'px'}updateConnectors()}
- function endTouch(){if(nodeDrag){nodeDrag.el.classList.remove('nodeDragging');savePositions();updateConnectors()}nodeDrag=null;mapDrag=null;touchMode=null;touchStart=null;pinchStart=null;vp.classList.remove('dragging')}
- vp.addEventListener('wheel',e=>{e.preventDefault();zoomMind(e.deltaY>0?-0.08:0.08,e)},{passive:false});
- vp.addEventListener('mousedown',e=>{if(e.target.closest('button,input,textarea,select,summary,details'))return;const node=e.target.closest('.node');if(node){const id=node.dataset.id,pos=getPos(id);activeNodeId=id;nodeDrag={id,el:node,x:e.clientX,y:e.clientY,startX:pos.x,startY:pos.y};node.classList.add('nodeDragging');e.preventDefault();return}mapDrag={x:e.clientX,y:e.clientY,startX:mindPan.x,startY:mindPan.y};vp.classList.add('dragging')});
- vp.addEventListener('touchstart',e=>{if(e.target.closest('button,input,textarea,select,summary,details'))return;if(e.touches.length===2){const center=touchCenter(e.touches);pinchStart={distance:touchDistance(e.touches),zoom:mindZoom,panX:mindPan.x,panY:mindPan.y,center};touchMode='pinch';nodeDrag=null;mapDrag=null;vp.classList.add('dragging');e.preventDefault();return}if(e.touches.length===1){const p=pointFromTouch(e.touches[0]),node=e.target.closest('.node');touchStart=p;if(node){const id=node.dataset.id,pos=getPos(id);activeNodeId=id;nodeDrag={id,el:node,x:p.clientX,y:p.clientY,startX:pos.x,startY:pos.y};node.classList.add('nodeDragging');touchMode='node'}else{mapDrag={x:p.clientX,y:p.clientY,startX:mindPan.x,startY:mindPan.y};touchMode='map'}vp.classList.add('dragging');e.preventDefault()}},{passive:false});
- vp.addEventListener('touchmove',e=>{if(e.touches.length===2&&pinchStart){const center=touchCenter(e.touches),old=mindZoom,next=Math.max(.35,Math.min(2.5,pinchStart.zoom*(touchDistance(e.touches)/pinchStart.distance)));const r=vp.getBoundingClientRect(),ox=center.clientX-r.left,oy=center.clientY-r.top;mindPan.x=ox-(ox-pinchStart.panX)*(next/pinchStart.zoom);mindPan.y=oy-(oy-pinchStart.panY)*(next/pinchStart.zoom);mindZoom=next;setTransform();e.preventDefault();return}if(e.touches.length===1){const p=pointFromTouch(e.touches[0]);if(touchMode==='node'&&nodeDrag){applyNodeDrag(p.clientX,p.clientY);e.preventDefault();return}if(touchMode==='map'&&mapDrag){mindPan.x=mapDrag.startX+(p.clientX-mapDrag.x);mindPan.y=mapDrag.startY+(p.clientY-mapDrag.y);setTransform();e.preventDefault();return}}},{passive:false});
- vp.addEventListener('touchend',e=>{if(e.touches.length===0)endTouch();else if(e.touches.length===1&&touchMode==='pinch'){const p=pointFromTouch(e.touches[0]);mapDrag={x:p.clientX,y:p.clientY,startX:mindPan.x,startY:mindPan.y};touchMode='map';pinchStart=null}},{passive:false});
- vp.addEventListener('touchcancel',endTouch,{passive:false});
- window.addEventListener('mousemove',e=>{if(nodeDrag){applyNodeDrag(e.clientX,e.clientY);return}if(mapDrag){mindPan.x=mapDrag.startX+(e.clientX-mapDrag.x);mindPan.y=mapDrag.startY+(e.clientY-mapDrag.y);setTransform()}});
- window.addEventListener('mouseup',()=>{if(nodeDrag){nodeDrag.el.classList.remove('nodeDragging');nodeDrag=null;savePositions();updateConnectors()}mapDrag=null;vp.classList.remove('dragging')});
- window.addEventListener('keydown',e=>{if(!document.getElementById('mindjob')?.classList.contains('active')||!e.ctrlKey)return;if(e.key==='+'||e.key==='='){e.preventDefault();zoomMind(.1)}if(e.key==='-'||e.key==='_'){e.preventDefault();zoomMind(-.1)}if(e.key==='0'){e.preventDefault();mindZoom=1;mindPan={x:0,y:0};setTransform()}})}
-
-/* ===== V2.5 PATCH — pendências fechadas =====
-   - duração inteligente a partir do briefing
-   - pacote final sem duplicar Pacote Mestre + cards
-   - SRT separado de Plano de Som/SFX
-   - botão Gerar nodes técnicos
-   - progresso mais claro
-*/
-function ensurePatchDom(){
-  if(!$('soundOut')){
-    const d=document.createElement('div');
-    d.id='soundOut';
-    d.className='output';
-    d.style.display='none';
-    d.textContent='Aguardando plano de som.';
-    document.body.appendChild(d);
-  }
-}
-function detectDurationFromText(){
-  const txt=(val('brief')+'\n'+val('requiredTextMaster')+'\n'+val('requiredText')).toLowerCase();
-  const m=txt.match(/(\d{1,3})\s*(segundos|segundo|s\b|minutos|minuto|min\b)/i);
-  if(!m)return '';
-  let n=parseInt(m[1],10),unit=m[2].toLowerCase();
-  if(unit.startsWith('min'))return (n===1?'1 minuto':n+' minutos');
-  return n+' segundos';
-}
-function effectiveDuration(){
-  const detected=detectDurationFromText();
-  return detected || choice('briefDuration','duration') || '30 segundos';
-}
-function durationConflictNote(){
-  const detected=detectDurationFromText(), selected=choice('briefDuration','duration');
-  if(detected && selected && detected!==selected){
-    return `\n\nAVISO DE DURAÇÃO:\nO briefing menciona ${detected}, mas o seletor estava em ${selected}. Nesta versão V2.5, o pacote priorizou ${detected} para evitar conflito.`;
-  }
-  return '';
-}
-function sectionKey(title){
-  const t=String(title||'').toUpperCase();
-  if(t.includes('DIAGN'))return 'DIAGNÓSTICO CRIATIVO';
-  if(t.includes('CONCEITO'))return 'CONCEITO VISUAL';
-  if(t.includes('ESTRUTURA'))return 'ESTRUTURA DE CENAS';
-  if(t.includes('ASSETS'))return 'ASSETS NECESSÁRIOS';
-  if(t.includes('TEXTO OBRIG'))return 'TEXTO OBRIGATÓRIO';
-  if(t.includes('PRÓXIMOS'))return 'PRÓXIMOS PASSOS';
-  if(t.includes('ROTEIRO'))return 'ROTEIRO VISUAL';
-  if(t.includes('JSON')||t.includes('CAPCUT')||t.includes('REMOTION'))return 'JSON / CAPCUT / REMOTION';
-  if(t.includes('SRT')||t.includes('LEGENDA'))return 'SRT / LEGENDAS';
-  if(t.includes('PLANO')||t.includes('SOM')||t.includes('SFX'))return 'PLANO DE SOM / SFX';
-  if(t.includes('MODELO'))return 'MODELO / FORMATO';
-  if(t.includes('PREVIEW'))return 'PREVIEW';
-  if(t.includes('MESTRE'))return 'PACOTE MESTRE';
-  return String(title||'CARD').toUpperCase().replace(/[^A-Z0-9ÁÉÍÓÚÃÕÇ\s/]/g,'').trim();
-}
-function targetBox(type){
-  ensurePatchDom();
-  if(type==='templatePlan')return'templateOut';
-  if(type==='visualScript'||type==='shotList')return'scriptOut';
-  if(type==='remotionJson'||type==='capcutPrompt')return'jsonOut';
-  if(type==='srt')return'srtOut';
-  if(type==='soundPlan')return'soundOut';
-  if(type==='previewGuide')return'previewOut';
-  return'out';
-}
-function context(){
-  const dur=effectiveDuration();
-  return `VIDEO PACK STUDIO — SEM RENDER MP4\n\nPROJETO: ${val('projectName')||'Sem título'}\nORIGEM: ${val('source')}\nBRIEFING: ${val('brief')}\nMATERIAL: ${val('assets')}\nTEXTO OBRIGATÓRIO: ${masterChoice('requiredTextMaster','requiredText')}\nMODELO: ${choice('briefTemplate','template')}\nFORMATO: ${choice('briefFormat','format')}\nDURAÇÃO: ${dur}\nMOVIMENTO: ${choice('briefMotionStyle','motionStyle')}\nOBJETIVO: ${masterChoice('goalMaster','goal')}\nTOM: ${masterChoice('toneMaster','tone')}\nJSON: ${masterChoice('jsonLevelMaster','jsonLevel')}\nÁUDIO: ${masterChoice('audioTypeMaster','audioType')}${durationConflictNote()}`;
-}
-function localGenerate(type){
-  const name=val('projectName')||'Projeto sem título',brief=val('brief')||'Briefing vazio',assets=val('assets')||'Assets não informados',req=masterChoice('requiredTextMaster','requiredText')||'Sem texto obrigatório',dur=effectiveDuration(),fmt=choice('briefFormat','format')||'9:16 vertical',model=choice('briefTemplate','template')||'Motion Comic 2D',tone=masterChoice('toneMaster','tone')||'Profissional',motion=choice('briefMotionStyle','motionStyle')||'Camera seca e tensão';
-  const totalSec=(parseInt(dur,10)||30);
-  const mid=Math.max(5,Math.round(totalSec*0.55));
-  if(type==='complete')return `# VIDEO PACK STUDIO — PACOTE MESTRE\n\n## DIAGNÓSTICO CRIATIVO\n- Projeto: ${name}\n- Formato: ${fmt}\n- Duração usada: ${dur}\n- Estilo: ${model}\n- Tom: ${tone}\n- Movimento: ${motion}\n- Desafio: transformar o briefing em pacote técnico sem renderizar MP4.${durationConflictNote()}\n\n## CONCEITO VISUAL\n${brief}\n\n## ESTRUTURA DE CENAS\n1. Abertura forte nos primeiros 3 segundos.\n2. Apresentação do ambiente/produto/personagem.\n3. Virada visual ou promessa principal.\n4. Clímax visual com movimento de câmera.\n5. Gancho/CTA final.\n\n## ASSETS NECESSÁRIOS\n${assets}\n\n## TEXTO OBRIGATÓRIO\n${req}\n\n## PRÓXIMOS PASSOS\nGerar Modelo, Roteiro Visual, JSON/CapCut, SRT, Plano de Som, Preview e montar Pacote Final limpo.`;
-  if(type==='templatePlan')return `- Modelo: ${model}\n- Formato: ${fmt}\n- Duração: ${dur}\n- Movimento: ${motion}\n- Estrutura sugerida: abertura, desenvolvimento, virada, payoff e CTA.\n- Observação: pacote técnico sem render MP4.`;
-  if(type==='visualScript'||type==='shotList')return `Projeto: ${name}\n\n### Cena 1 — Abertura (0–3s)\nVisual: rua escura, chuva leve e reflexo de neon.\nMovimento: zoom curto / corte seco.\nSom: impacto grave + chuva.\n\n### Cena 2 — Desejo e tensão (3–${mid}s)\nVisual: aproximação da hamburgueria e close no hambúrguer. Queijo derretendo, fumaça e molho escorrendo.\nTexto: ${req}\n\n### Cena 3 — Payoff (${mid}–${totalSec}s)\nVisual: push-in no hambúrguer e logo Meia-Noite Burger.\nCTA: gancho final de curiosidade e fome.\n\n## SHOT LIST\n- Close no neon/chuva.\n- Plano externo da hamburgueria.\n- Close do pão, queijo e carne.\n- Push-in final no produto e logo.`;
-  if(type==='remotionJson')return JSON.stringify({project:{title:name,engine:'remotion-or-capcut',format:fmt,duration:dur,style:model,motion},scenes:[{id:1,time:'0-3s',action:'abertura forte com rua escura, chuva e neon',layers:['background','rain','neon','title','sfx']},{id:2,time:`3-${mid}s`,action:'hambúrguer em close com queijo, fumaça e molho',layers:['camera','burger_asset','steam','caption','sizzle_sfx']},{id:3,time:`${mid}-${totalSec}s`,action:'payoff e CTA final',layers:['push_in','logo','final_text','impact_sfx']}],audio:{type:masterChoice('audioTypeMaster','audioType'),sfx:['rain','sizzle','impact','whoosh','stinger']},notes:'JSON instrucional, não renderiza MP4.'},null,2);
-  if(type==='capcutPrompt')return `Editar em ${fmt}, duração ${dur}. Usar câmera seca, tensão, zoom/pan, texto em tela, chuva, fumaça, queijo derretendo, sizzling de carne, impacto grave e CTA final. Preservar briefing: ${brief}`;
-  if(type==='srt')return `1\n00:00:00,000 --> 00:00:03,000\n[Chuva leve. Neon acende na rua vazia.]\n\n2\n00:00:03,000 --> 00:00:${String(Math.min(8,totalSec)).padStart(2,'0')},000\nSó aparece depois da meia-noite.\n\n3\n00:00:${String(Math.min(8,totalSec)).padStart(2,'0')},000 --> 00:00:${String(mid).padStart(2,'0')},000\n[Queijo derrete. A fumaça sobe. Som de chapa quente.]\n\n4\n00:00:${String(mid).padStart(2,'0')},000 --> 00:00:${String(totalSec).padStart(2,'0')},000\nMeia-Noite Burger — você teria coragem?`;
-  if(type==='soundPlan')return `- Ambiente base: chuva leve + drone grave discreto.\n- SFX 0–3s: impacto grave no neon.\n- SFX 3–${mid}s: sizzling de carne, fumaça e whoosh curto.\n- SFX ${mid}–${totalSec}s: stinger final + silêncio curto antes do CTA.\n- Mix: manter a narração baixa e íntima, sem poluir o texto em tela.`;
-  if(type==='previewGuide')return `Simular no navegador em ${fmt}, ${dur}: fundo escuro, neon, chuva leve, fumaça, título central, close do hambúrguer, legenda curta e CTA final. Não renderiza MP4.`;
-  return 'Conteúdo gerado.';
-}
-function cleanSectionContent(key,txt){
-  let t=String(txt||'').trim();
-  if(!t)return '';
-  const re=new RegExp('^#\\s*'+key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*\\n+','i');
-  t=t.replace(re,'').trim();
-  t=t.replace(/^##\s+MODELO \/ FORMATO\s*\n+/i,'').trim();
-  t=t.replace(/^##\s+ROTEIRO VISUAL\s*\n+/i,'').trim();
-  t=t.replace(/^##\s+SRT \/ SOM \/ SFX\s*\n+/i,'').trim();
-  t=t.replace(/^##\s+PREVIEW\s*\n+/i,'').trim();
-  return t;
-}
-function hasCardSections(sections){
-  return ['DIAGNÓSTICO CRIATIVO','CONCEITO VISUAL','ESTRUTURA DE CENAS','ASSETS NECESSÁRIOS','TEXTO OBRIGATÓRIO','PRÓXIMOS PASSOS'].some(k=>sections[k]);
-}
-function buildCleanContext(){
-  return `VIDEO PACK STUDIO — PACOTE LIMPO / SEM MP4\n\nPROJETO:\n${val('projectName')||'Sem título'}\n\nREGRA:\nEste pacote não renderiza MP4. Ele organiza roteiro visual, JSON, SRT, som, prompts, assets e checklist para CapCut, Remotion, IA de vídeo ou edição manual.\n\nORIGEM:\n${val('source')}\n\nBRIEFING:\n${val('brief')}\n\nMATERIAL DISPONÍVEL:\n${val('assets')}\n\nMODELO E FORMATO:\n- Modelo: ${choice('briefTemplate','template')}\n- Formato: ${choice('briefFormat','format')}\n- Duração: ${effectiveDuration()}\n- Movimento: ${choice('briefMotionStyle','motionStyle')}\n- Objetivo: ${masterChoice('goalMaster','goal')}\n- Tom: ${masterChoice('toneMaster','tone')}\n- JSON: ${masterChoice('jsonLevelMaster','jsonLevel')}\n- Áudio: ${masterChoice('audioTypeMaster','audioType')}${durationConflictNote()}`;
-}
-function buildExport(silent=false){
-  ensurePatchDom();
-  packageDelivered=false;
-  const sections={...appliedSections};
-  [['MODELO / FORMATO','templateOut'],['ROTEIRO VISUAL','scriptOut'],['JSON / CAPCUT / REMOTION','jsonOut'],['SRT / LEGENDAS','srtOut'],['PLANO DE SOM / SFX','soundOut'],['PREVIEW','previewOut']].forEach(([k,id])=>{const t=getRealText(id);if(t)sections[k]=t});
-  if(getRealText('out')&&!Object.keys(sections).length)sections['PACOTE MESTRE']=getRealText('out');
-  if(hasCardSections(sections))delete sections['PACOTE MESTRE'];
-  let text=buildCleanContext();
-  const order=['DIAGNÓSTICO CRIATIVO','CONCEITO VISUAL','ESTRUTURA DE CENAS','ASSETS NECESSÁRIOS','TEXTO OBRIGATÓRIO','MODELO / FORMATO','ROTEIRO VISUAL','JSON / CAPCUT / REMOTION','SRT / LEGENDAS','PLANO DE SOM / SFX','PREVIEW','PRÓXIMOS PASSOS','PACOTE MESTRE'];
-  order.forEach(k=>{if(sections[k])text+=`\n\n---\n\n## ${k}\n\n${cleanSectionContent(k,sections[k])}`});
-  Object.keys(sections).forEach(k=>{if(!order.includes(k))text+=`\n\n---\n\n## ${k}\n\n${cleanSectionContent(k,sections[k])}`});
-  text+=`\n\n---\n\n## CHECKLIST FINAL\n\n1. Conferir briefing e duração efetiva.\n2. Conferir cards do mestre aplicados.\n3. Conferir Roteiro Visual, JSON, SRT, Plano de Som e Preview.\n4. Separar assets.\n5. Usar JSON/CapCut/Remotion em ferramenta externa.\n6. Usar SRT e Plano de Som no CapCut ou editor.\n7. Baixar/compartilhar este pacote limpo.\n8. Não há render MP4 automático neste módulo.`;
-  $('exportOut').textContent=text.trim();
-  if(!silent)showScreen('exportacao');
-  renderMindJob();
-}
-function resultHTML(id){
-  ensurePatchDom();
-  if(id==='ramo'){
-    const t=ramoReviewText||buildBranchReviewText(false);
-    return `<div class="workResultHead"><div class="workResultTitle">🌳 Revisão dos cards do mestre</div><div class="workResultStatus">${Object.keys(appliedSections).length?'aplicado':'revisar'}</div></div><pre class="workOutput">${esc(t)}</pre>`;
-  }
-  if(id==='srt'){
-    const srt=getRealText('srtOut'),snd=getRealText('soundOut');
-    if(!srt&&!snd)return `<div class="workHintBox"><b>Aguardando conteúdo.</b><br>Gere SRT e/ou Plano de Som. Um não apaga o outro nesta V2.5.</div>`;
-    return `<div class="workResultHead"><div class="workResultTitle">${statusIcon('filled')} SRT + Plano de Som</div><div class="workResultStatus">gerado</div></div><div class="workInfoGrid"><span>SRT: ${srt?srt.length:0} caracteres</span><span>Som: ${snd?snd.length:0} caracteres</span><span>srt/som</span></div>${srt?`<pre class="workOutput">## SRT / LEGENDAS\n${esc(srt)}</pre>`:''}${snd?`<pre class="workOutput">## PLANO DE SOM / SFX\n${esc(snd)}</pre>`:''}`;
-  }
-  const map={mestre:'out',modelo:'templateOut',roteiro:'scriptOut',json:'jsonOut',preview:'previewOut',pacote:'exportOut'},out=map[id],t=out?getRealText(out):'';
-  if(!t)return `<div class="workHintBox"><b>Aguardando conteúdo.</b><br>Gere ou aplique o resultado deste node. O resultado aparecerá aqui, dentro da estação.</div>`;
-  return `<div class="workResultHead"><div class="workResultTitle">${statusIcon('filled')} Resultado do node</div><div class="workResultStatus">${Object.values(appliedSections).includes(t)?'aplicado':'gerado'}</div></div><div class="workInfoGrid"><span>Fonte: ${out}</span><span>${t.length} caracteres</span><span>${id}</span></div><pre class="workOutput">${esc(t)}</pre>`;
-}
-function smartProgressHTML(){
-  const rows=[['Briefing',!!val('brief')],['Mestre',!!getRealText('out')],['Cards',Object.keys(appliedSections).length>0],['Modelo',!!getRealText('templateOut')],['Roteiro',!!getRealText('scriptOut')],['JSON',!!getRealText('jsonOut')],['SRT',!!getRealText('srtOut')],['Som',!!getRealText('soundOut')],['Preview',!!getRealText('previewOut')],['Final',!!getRealText('exportOut')]];
-  let active=rows.findIndex(r=>!r[1]);if(active<0)active=rows.length-1;
-  return `<div class="nodeSmartProgress">${rows.map((r,i)=>`<div class="nodeSmartProgressRow ${r[1]?'done':i===active?'active':''}">${r[1]?'✓':'○'} ${r[0]}</div>`).join('')}</div>`;
-}
-async function generateTechAll(){
-  syncMasterToTabs();
-  const old=activeNodeId;
-  try{
-    for(const t of ['templatePlan','visualScript','remotionJson','srt','soundPlan','previewGuide']){
-      await generate(t);
-    }
-    buildExport(true);
-    activeNodeId='pacote';
-    renderMindJob();
-    alert('Nodes técnicos gerados: Modelo, Roteiro, JSON, SRT, Som e Preview. Pacote final montado.');
-  }catch(e){
-    activeNodeId=old;
-    renderMindJob();
-    alert('Erro ao gerar nodes técnicos: '+e.message);
-  }
+function updateTransform() {
+  nodeMap.style.transform = `translate(${appState.panX}px, ${appState.panY}px) scale(${appState.zoom})`;
+  $('zoomReadout').innerText = `${Math.round(appState.zoom * 100)}%`;
 }
 
-/* ===== V2.6 PATCH — focus station and visual memory ===== */
-function visualRefs(){try{return JSON.parse(localStorage.getItem('v26_visual_refs')||'[]')}catch(e){return[]}}
-function saveVisualRefs(arr){localStorage.setItem('v26_visual_refs',JSON.stringify(arr.slice(-8)))}
-function visualMemory(){return localStorage.getItem('v26_visual_memory')||''}
-function saveVisualMemory(t){localStorage.setItem('v26_visual_memory',String(t||'')); const a=$('assets'); if(a && t && !a.value.includes('UNIVERSO VISUAL')){a.value=(a.value ? a.value + '\\n\\n' : '') + t; syncMasterToTabs();}}
-function renderVisualGrid(){const g=$('visualGridV26'); if(!g)return; const refs=visualRefs(); g.innerHTML=refs.length?refs.map((r,i)=>`<div class="visualThumb"><img src="${r}" alt="ref ${i+1}"></div>`).join(''):'<div class="visualThumb"><span>Nenhuma imagem ainda</span></div><div class="visualThumb"><span>Upload ajuda a IA</span></div>'; const m=$('visualMemoryV26'); if(m)m.value=visualMemory();}
-function handleVisualUploadV26(input){const files=[...(input.files||[])].slice(0,6); if(!files.length)return; const refs=visualRefs(); let pending=files.length; files.forEach(f=>{const reader=new FileReader(); reader.onload=()=>{refs.push(reader.result); pending--; if(!pending){saveVisualRefs(refs); renderVisualGrid();}}; reader.readAsDataURL(f);});}
-function analyzeVisualRefsV26(){const refs=visualRefs(); const base=`UNIVERSO VISUAL / REFERÊNCIAS:
-- Usar as imagens anexadas como moodboard visual do projeto.
-- Manter coerência de cor, composição, luz, textura e atmosfera entre Briefing, Storyboard, Motion 2D, SRT e Prompts.
-- Preferir estética 2D motion comic / terror gráfico quando o modelo pedir Motion Comic 2D.
-- Destacar linhas de desenho, cel-shading, sombras fortes, contraste cinematográfico, neon, chuva/fumaça e atmosfera autoral.
-- Evitar realismo fotográfico quando o pedido for 2D/comics; reforçar: ink lines, graphic novel, cel shaded, illustrated frame.
-- Referências carregadas: ${refs.length} imagem(ns).`;
- saveVisualMemory(base); const m=$('visualMemoryV26'); if(m)m.value=base; alert('Memória visual criada e aplicada ao campo Material disponível.');}
-function clearVisualRefsV26(){saveVisualRefs([]); saveVisualMemory(''); renderVisualGrid();}
-function visualPanelV26(id){return `<aside class="focusVisualPanel"><h3>🖼️ Contexto visual / IA</h3><p>Use este painel para dar universo visual ao node ativo. As imagens viram memória para prompt, storyboard e motion.</p><label class="visualDrop">+ Upload de referência<input type="file" accept="image/*" multiple onchange="handleVisualUploadV26(this)"></label><div class="visualGrid" id="visualGridV26"></div><textarea class="visualMemory" id="visualMemoryV26" placeholder="Memória visual analisada pela IA..." oninput="saveVisualMemory(this.value)"></textarea><div class="actions"><button class="btn tiny cyan" onclick="analyzeVisualRefsV26()">Analisar visual</button><button class="btn tiny" onclick="renderVisualGrid()">Atualizar</button><button class="btn tiny red" onclick="clearVisualRefsV26()">Limpar refs</button></div><div class="focusTabs"><span class="focusChip active">${id}</span><span class="focusChip">Universo</span><span class="focusChip">Assets</span><span class="focusChip">Prompt IA</span></div><p class="mini">Dica: carregue frames, estilo 2D, personagem, cenário, textura ou storyboard. Isso reduz prompt genérico.</p></aside>`}
-const renderWorkspaceV25=renderWorkspace;
-renderWorkspace=function(id){let html=renderWorkspaceV25(id); html=html.replace('<div class="nodeWorkspace"','<div class="nodeWorkspace focusStation"'); html=html.replace('<div class="nodeWorkspace expandedStation"','<div class="nodeWorkspace expandedStation focusStation"'); html=html.replace(/<div class="workHead">/,'<div class="focusMain"><div class="workHead">'); html=html.replace(/<div class="stationActions">([\s\S]*?)<\/div><\/div>$/,(m,actions)=>`<div class="stationActions">${actions}</div></div>${visualPanelV26(id)}</div>`); setTimeout(renderVisualGrid,0); return html;}
-const centerMindV25=centerMind;
-centerMind=function(){const vp=$('nodeViewport'); if(!vp)return; if(document.body.classList.contains('canvas-mode')){mindZoom=Math.min(1,Math.max(.62,vp.clientWidth/1700)); mindPan={x:10,y:18}; setTransform(); return;} centerMindV25();}
-const autoOrganizeV25=autoOrganize;
-autoOrganize=function(){nodePositions={brief:{x:26,y:42},mestre:{x:26,y:190},modelo:{x:26,y:338},roteiro:{x:26,y:486},json:{x:26,y:634},srt:{x:26,y:782},preview:{x:26,y:930},pacote:{x:26,y:1078},ramo:{x:26,y:1226}};savePositions();renderMindJob();centerMind();}
-function openFocusStation(id){activeNodeId=id||activeNodeId||'brief';renderMindJob();setTimeout(centerMind,40)}
-
-
-/* ===== V2.7 PATCH — BOTAO NODES ROBUSTO ===== */
-function openNodesMode(node){
-  try{
-    activeNodeId = node || activeNodeId || 'brief';
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    const mj=$('mindjob'); if(mj) mj.classList.add('active');
-    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='mindjob'));
-    document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s.dataset.step==='mindjob'));
-    document.body.classList.add('canvas-mode');
-    canvasMode=true;
-    renderMindJob();
-    setTimeout(()=>{autoOrganize(); centerMind(); renderVisualGrid();},60);
-  }catch(e){
-    alert('Erro ao abrir Nodes: '+e.message);
-    console.error(e);
-  }
+function centerMap() {
+  appState.zoom = 1;
+  appState.panX = 50;
+  appState.panY = 50;
+  updateTransform();
 }
-openCanvas=function(node){openNodesMode(node)};
-function bindNodesButtonsV27(){
-  document.querySelectorAll('button').forEach(btn=>{
-    const txt=(btn.textContent||'').toLowerCase();
-    const oc=btn.getAttribute('onclick')||'';
-    if(txt.includes('árvore')||txt.includes('nodes')||txt.trim()==='canvas'||oc.includes('openCanvas')||oc.includes('toggleCanvasMode')){
-      if(txt.includes('voltar tela normal')) return;
-      btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();openNodesMode(activeNodeId||'brief');};
-    }
+
+function reorganizeMind() {
+  const baseDef = [
+    { id: 'brief', x: 50, y: 50 }, { id: 'modelo', x: 380, y: 50 }, { id: 'roteiro', x: 710, y: 50 },
+    { id: 'json', x: 1040, y: 50 }, { id: 'srt', x: 1040, y: 250 }, { id: 'preview', x: 710, y: 250 },
+    { id: 'pacote', x: 1040, y: 450 }
+  ];
+  baseDef.forEach(b => {
+    const n = appState.nodesDef.find(x => x.id === b.id);
+    if(n) { n.x = b.x; n.y = b.y; }
+  });
+  renderNodes();
+  centerMap();
+}
+
+// --- RENDER PIPELINE ---
+function getNodeStatus(id) {
+  const d = appState.data[id];
+  if (id === 'brief') return d.desc ? 'state-done' : 'state-empty';
+  if (id === 'modelo') return 'state-done'; // default values exist
+  if (id === 'pacote') return d.content ? 'state-done' : 'state-empty';
+  return d.content ? 'state-done' : 'state-empty';
+}
+
+function getNodeSummary(id) {
+  const d = appState.data[id];
+  if (id === 'brief') return d.desc ? d.desc.substring(0, 60) + '...' : 'Defina a história, universo e objetivo central.';
+  if (id === 'modelo') return `${d.template} • ${d.format} • ${d.duration}`;
+  return d.content ? 'Gerado com sucesso.' : 'Aguardando geração.';
+}
+
+function renderNodes() {
+  const container = $('nodesContainer');
+  container.innerHTML = appState.nodesDef.map(n => {
+    const status = getNodeStatus(n.id);
+    const summary = getNodeSummary(n.id);
+    const isActive = appState.activeNode === n.id ? 'activeNode' : '';
+    return `
+      <div class="node ${status} ${isActive}" id="node-${n.id}" data-id="${n.id}" style="left:${n.x}px; top:${n.y}px" ondblclick="openFocusStation('${n.id}')">
+        <div class="nodeHeader">
+          <div class="nodeIcon">${n.icon}</div>
+          <div>
+            <h3>${n.title}</h3>
+            <span class="nodeStatus">${status === 'state-done' ? '✓ Preenchido' : '○ Aguardando'}</span>
+          </div>
+        </div>
+        <div class="nodeSummary">${summary}</div>
+        <div style="margin-top: 10px; display: flex; gap: 6px;">
+          <button class="btn tiny" style="width:100%" onclick="openFocusStation('${n.id}')">Abrir Estação</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  drawConnectors();
+}
+
+function drawConnectors() {
+  const svg = $('svgLayer');
+  let paths = '';
+  appState.nodesDef.forEach(target => {
+    if (!target.dependsOn) return;
+    const deps = Array.isArray(target.dependsOn) ? target.dependsOn : [target.dependsOn];
+    deps.forEach(depId => {
+      const source = appState.nodesDef.find(n => n.id === depId);
+      if (!source) return;
+      
+      // Calculate centers
+      const sx = source.x + 120; // half of node width (240)
+      const sy = source.y + 70;  // approx half height
+      const tx = target.x + 120;
+      const ty = target.y + 70;
+      
+      // Bézier curve logic for a smooth "Nuke/Unreal" feel
+      const dist = Math.abs(tx - sx);
+      const cx1 = sx + (dist * 0.5);
+      const cy1 = sy;
+      const cx2 = tx - (dist * 0.5);
+      const cy2 = ty;
+      
+      // Highlight link if both nodes are done
+      const sDone = getNodeStatus(source.id) === 'state-done';
+      const tDone = getNodeStatus(target.id) === 'state-done';
+      const cssClass = sDone && tDone ? 'active-link' : '';
+
+      paths += `<path class="${cssClass}" d="M ${sx} ${sy} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${tx} ${ty}" />`;
+    });
+  });
+  svg.innerHTML = paths;
+}
+
+// --- FOCUS STATION (BLENDER WORKSPACE) ---
+function openFocusStation(id) {
+  appState.activeNode = id;
+  const n = appState.nodesDef.find(x => x.id === id);
+  $('fsTitle').innerText = n.title;
+  $('fsStatus').innerText = getNodeStatus(id) === 'state-done' ? 'Aprovado' : 'Editando';
+  
+  const main = $('fsMainContent');
+  const d = appState.data;
+  
+  // Dynamic Forms based on Node ID
+  if (id === 'brief') {
+    main.innerHTML = `
+      <div class="grid-2">
+        <div>
+          <label>Título do Projeto</label>
+          <input type="text" id="in_title" value="${d.brief.title}" placeholder="Ex: O Hambúrguer da Meia-Noite" oninput="appState.data.brief.title=this.value">
+        </div>
+        <div>
+          <label>Objetivo Principal</label>
+          <select id="in_goal" onchange="appState.data.brief.goal=this.value">
+            <option ${d.brief.goal==='Vender'?'selected':''}>Vender / Promoção</option>
+            <option ${d.brief.goal==='Narrativa'?'selected':''}>Cena Narrativa / Motion Comic</option>
+            <option ${d.brief.goal==='Curiosidade'?'selected':''}>Gerar Curiosidade Viral</option>
+          </select>
+        </div>
+      </div>
+      <label>Briefing / Roteiro Bruto</label>
+      <textarea id="in_desc" placeholder="Cole a ideia, roteiro bruto ou referências textuais aqui..." oninput="appState.data.brief.desc=this.value">${d.brief.desc}</textarea>
+      <label>Assets & Textos Obrigatórios</label>
+      <textarea id="in_req" placeholder="Logos, frases obrigatórias, CTA final..." oninput="appState.data.brief.req=this.value">${d.brief.req}</textarea>
+      <div style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1);">
+        <button class="btn gold" onclick="closeFocusStation(); openFocusStation('modelo');">Salvar & Próximo ›</button>
+      </div>
+    `;
+  } else if (id === 'modelo') {
+    main.innerHTML = `
+      <div class="grid-2">
+        <div><label>Estilo Visual</label><select onchange="appState.data.modelo.template=this.value"><option>Motion Comic 2D</option><option>Produto Animado</option><option>Cinematic Reels</option></select></div>
+        <div><label>Formato</label><select onchange="appState.data.modelo.format=this.value"><option>9:16 Vertical</option><option>16:9 Horizontal</option></select></div>
+        <div><label>Duração</label><select onchange="appState.data.modelo.duration=this.value"><option>15s</option><option>30s</option><option>60s</option></select></div>
+        <div><label>Movimento / Câmera</label><select onchange="appState.data.modelo.motion=this.value"><option>Câmera seca / Tensão</option><option>Motion Graphic Fluido</option><option>Anime Snap Cuts</option></select></div>
+      </div>
+      <div style="margin-top:auto; padding-top:20px;">
+        <button class="btn gold" onclick="closeFocusStation(); openFocusStation('roteiro');">Salvar & Próximo ›</button>
+      </div>
+    `;
+  } else if (['roteiro', 'json', 'srt'].includes(id)) {
+    main.innerHTML = `
+      <p class="mini">Esta estação herda o Briefing Mestre e a Memória Visual para gerar os artefatos técnicos.</p>
+      <button class="btn gold" style="width:max-content; margin-bottom:12px;" onclick="mockGenerate('${id}')">✨ Gerar com IA Sênior</button>
+      <div class="output-box" id="out_${id}">${d[id].content || 'Aguardando geração da IA...'}</div>
+    `;
+  } else if (id === 'pacote') {
+    main.innerHTML = `
+      <p class="mini">Revisão final de todos os nodes e montagem do pacote de exportação.</p>
+      <button class="btn green" style="width:max-content; margin-bottom:12px;" onclick="exportFinal()">Montar Pacote Limpo</button>
+      <div class="output-box" id="out_pacote">${d.pacote.content || 'Nenhum pacote gerado.'}</div>
+    `;
+  }
+
+  $('focusOverlay').classList.add('active');
+  $('focusStation').classList.add('active');
+  renderNodes(); // Update highlight
+  renderVisualMemory();
+}
+
+function closeFocusStation() {
+  $('focusOverlay').classList.remove('active');
+  $('focusStation').classList.remove('active');
+  appState.activeNode = null;
+  renderNodes();
+}
+
+// --- VISUAL MEMORY (IMAGE UPLOAD) ---
+function handleImageUpload(input) {
+  const files = Array.from(input.files).slice(0, 4); // Max 4 for demo
+  files.forEach(f => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      appState.visualRefs.push(e.target.result);
+      renderVisualMemory();
+    };
+    reader.readAsDataURL(f);
   });
 }
-document.addEventListener('DOMContentLoaded',bindNodesButtonsV27);
-setTimeout(bindNodesButtonsV27,200);
 
-ensurePatchDom();
-['briefTemplate','briefFormat','briefDuration','briefMotionStyle','goalMaster','toneMaster','requiredTextMaster','jsonLevelMaster','audioTypeMaster'].forEach(id=>$(id)?.addEventListener('change',syncMasterToTabs));loadApi();syncMasterToTabs();renderMindJob();updateCardFlow();
+function renderVisualMemory() {
+  const grid = $('visualGrid');
+  if (appState.visualRefs.length === 0) {
+    grid.innerHTML = `<div class="visualThumb"><span>Sem Refs</span></div>`;
+  } else {
+    grid.innerHTML = appState.visualRefs.map(src => `<div class="visualThumb"><img src="${src}"></div>`).join('');
+  }
+  $('visualMemory').value = appState.visualMemory;
+}
+
+function analyzeVisuals() {
+  $('visualMemory').value = "Analisando imagens...\n- Estilo predominante: Alto contraste, iluminação neon dramática.\n- Composição: Planos fechados (close-ups), texturas densas.\n- Paleta sugerida: Cyan profundo, Laranja industrial, Sombras em pitch black.\n\n-> Regra aplicada ao Prompt Mestre: Evitar iluminação flat. Focar em cinematografia sci-fi / horror urbano.";
+  appState.visualMemory = $('visualMemory').value;
+}
+
+// --- MOCK AI GENERATION ---
+function mockGenerate(targetId) {
+  const box = $(`out_${targetId}`);
+  box.innerText = "Sintetizando contexto visual e briefing...";
+  
+  setTimeout(() => {
+    let result = '';
+    const title = appState.data.brief.title || "Projeto Sem Título";
+    
+    if (targetId === 'roteiro') {
+      result = `## ROTEIRO VISUAL - ${title}\n\n[00:00 - 00:03] ABERTURA HOOK\nVisual: Plano detalhe extremo. Ambiente escuro, chuva leve cortando o neon.\nCâmera: Corte seco.\nTexto: "A regra é clara..."\n\n[00:03 - 00:10] TENSÃO\nVisual: Foco no produto com iluminação dramática. Sombras densas.\nCâmera: Slow push-in.\nTexto: "...nunca olhe para trás."`;
+    } else if (targetId === 'json') {
+      result = `{\n  "project": "${title}",\n  "engine": "remotion",\n  "duration": "${appState.data.modelo.duration}",\n  "layers": [\n    { "id": "bg", "type": "video", "mood": "dark neon" },\n    { "id": "subject", "type": "asset", "fx": "drop-shadow" },\n    { "id": "caption", "type": "text", "animation": "typewriter" }\n  ]\n}`;
+    } else if (targetId === 'srt') {
+      result = `1\n00:00:00,000 --> 00:00:03,000\n[Chuva intensa]\nA regra é clara...\n\n2\n00:00:03,500 --> 00:00:08,000\n...nunca olhe para trás.`;
+    }
+    
+    appState.data[targetId].content = result;
+    box.innerText = result;
+  }, 800);
+}
+
+function exportFinal() {
+  const d = appState.data;
+  const pkg = `=== VIDEO PACK STUDIO: PACOTE FINAL LIMPO ===\nProjeto: ${d.brief.title || 'Sem título'}\nFormato: ${d.modelo.format} | ${d.modelo.duration}\n\n=== MEMÓRIA VISUAL ===\n${appState.visualMemory || 'Nenhuma regra estética definida.'}\n\n=== ROTEIRO ===\n${d.roteiro.content || 'Pendente'}\n\n=== JSON / REMOTION ===\n${d.json.content || 'Pendente'}\n\n=== SRT ===\n${d.srt.content || 'Pendente'}\n\n[!] Entrega pronta para CapCut, Remotion ou Editor Manual.`;
+  
+  appState.data.pacote.content = pkg;
+  
+  if (appState.activeNode === 'pacote') {
+    $('out_pacote').innerText = pkg;
+  } else {
+    openFocusStation('pacote');
+  }
+}
+
+// Init
+centerMap();
+renderNodes();
+
 </script>
 </body>
 </html>
