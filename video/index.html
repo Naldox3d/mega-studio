@@ -1,196 +1,1637 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Video Pack Studio — Titan Nodes OS Independente</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Pack Studio Titan OS V4 - Completo</title>
 <style>
 :root{
-  --bg:#05070d;--bg2:#080c16;--panel:#0c1220;--panel2:#111827;--panel3:#151d2d;--line:rgba(255,255,255,.10);
-  --line2:rgba(255,255,255,.16);--text:#eaf0ff;--muted:#91a0ba;--muted2:#64748b;--gold:#d6ad68;--gold2:#f0d39d;
-  --cyan:#65d9d2;--blue:#5aa9ff;--green:#76e0a0;--red:#ef8e8e;--purple:#b99cff;--dark:#03050a;
-  --shadow:0 24px 80px rgba(0,0,0,.48);--radius:18px;
+  --bg:#05070d;
+  --bg2:#08101d;
+  --panel:#0d1424;
+  --panel2:#121b2f;
+  --panel3:#18233a;
+  --line:rgba(255,255,255,.12);
+  --line2:rgba(255,255,255,.22);
+  --text:#eef4ff;
+  --muted:#9aa9c3;
+  --muted2:#6d7b92;
+  --gold:#d8ad62;
+  --gold2:#f2d69a;
+  --cyan:#65d9d2;
+  --green:#74df9c;
+  --red:#ef8e8e;
+  --blue:#76aeff;
+  --purple:#b99cff;
+  --shadow:0 26px 90px rgba(0,0,0,.55);
+  --radius:18px;
 }
-*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden}
-body{background:radial-gradient(circle at 80% 10%,rgba(214,173,104,.10),transparent 26%),radial-gradient(circle at 12% 15%,rgba(101,217,210,.08),transparent 25%),linear-gradient(180deg,#070a12,#05070d)}
-button,input,textarea,select{font:inherit}button{cursor:pointer}textarea{resize:vertical;line-height:1.55}h1,h2,h3,p{margin:0}h1,h2,h3{font-family:Syne,Inter,Segoe UI,sans-serif;letter-spacing:.02em;color:#eadcc1}p{color:#b8c3d7;line-height:1.6}.mono{font-family:"Space Mono",Consolas,monospace}.mini{font:11px/1.5 Consolas,"Space Mono",monospace;color:var(--muted)}
-.btn{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.045);color:var(--text);padding:9px 12px;font-size:12px;font-weight:800;display:inline-flex;gap:7px;align-items:center;justify-content:center;transition:.16s;text-decoration:none;white-space:nowrap}.btn:hover{filter:brightness(1.15);transform:translateY(-1px);border-color:rgba(255,255,255,.24)}.btn:active{transform:translateY(0)}.btn.gold{background:linear-gradient(180deg,#e4c27f,#c7964b);border-color:rgba(214,173,104,.75);color:#171004}.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.35);color:#cafffb}.btn.green{background:linear-gradient(180deg,#84e5aa,#5fc685);border-color:rgba(118,224,160,.70);color:#06130b}.btn.red{background:rgba(239,142,142,.12);border-color:rgba(239,142,142,.35);color:#ffd0d0}.btn.purple{background:rgba(185,156,255,.11);border-color:rgba(185,156,255,.36);color:#ecdfff}.btn.tiny{font-size:10px;padding:6px 9px;border-radius:10px}.btn.ghost{background:transparent}.btn.block{width:100%}
-input,textarea,select{width:100%;border:1px solid var(--line);border-radius:13px;background:#080d19;color:var(--text);padding:11px 12px;outline:none;font-size:13px}input:focus,textarea:focus,select:focus{border-color:rgba(101,217,210,.65);box-shadow:0 0 0 3px rgba(101,217,210,.08)}label{display:block;margin:11px 0 6px;color:var(--gold2);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.14em}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.app{height:100vh;display:grid;grid-template-rows:58px 1fr}.topbar{height:58px;display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(7,10,18,.86);backdrop-filter:blur(14px);z-index:80}.brand{display:flex;align-items:center;gap:10px;min-width:285px}.brandMark{width:38px;height:38px;border-radius:14px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#fff1c7,#d6ad68 55%,#7a5422);color:#120b02;font-weight:950;box-shadow:0 0 30px rgba(214,173,104,.16)}.brandText strong{display:block;font-family:Syne,Inter,sans-serif;color:#eadcc1;font-size:16px;line-height:1}.brandText span{display:block;color:var(--gold);font:10px Consolas,monospace;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}.topActions{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.statusStrip{display:flex;gap:8px;align-items:center;min-width:0;flex-wrap:wrap}.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.035);color:#cbd6ea;font-size:10px;font-weight:800}.chip.good{border-color:rgba(118,224,160,.35);color:#d7ffe3;background:rgba(118,224,160,.08)}.chip.gold{border-color:rgba(214,173,104,.35);color:#f4dbab;background:rgba(214,173,104,.08)}
-.workspace{height:calc(100vh - 58px);display:grid;grid-template-columns:248px minmax(0,1fr) 300px;min-height:0}.rail{border-right:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),#080d19;overflow:auto;padding:14px}.railHead{border:1px solid rgba(214,173,104,.22);background:rgba(214,173,104,.06);border-radius:16px;padding:12px;margin-bottom:12px}.railHead h2{font-size:15px;margin-bottom:6px}.rail h4,.inspector h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}.step{width:100%;display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:center;text-align:left;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);color:#d8e0f2;padding:9px;margin-bottom:8px;transition:.16s}.step:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.045)}.step.active{border-color:rgba(214,173,104,.62);background:rgba(214,173,104,.10);box-shadow:0 0 0 1px rgba(214,173,104,.12) inset}.stepIcon{width:26px;height:26px;border-radius:10px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:14px}.stepText strong{display:block;font-size:12px}.stepText span{display:block;font:10px Consolas,monospace;color:var(--muted);margin-top:2px}.dot{width:10px;height:10px;border-radius:999px;border:1px solid var(--line2);background:#1b2433}.dot.done{background:var(--green);border-color:rgba(118,224,160,.8);box-shadow:0 0 10px rgba(118,224,160,.35)}.dot.ready{background:var(--cyan);border-color:rgba(101,217,210,.8)}.dot.active{background:var(--gold);border-color:rgba(214,173,104,.9);box-shadow:0 0 10px rgba(214,173,104,.35)}
-.canvasShell{position:relative;min-width:0;min-height:0;background:#050813}.nodeViewport{position:absolute;inset:0;overflow:hidden;cursor:grab;background-color:#050813;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px),radial-gradient(circle at 35% 20%,rgba(101,217,210,.10),transparent 22%),radial-gradient(circle at 70% 35%,rgba(214,173,104,.07),transparent 24%);background-size:40px 40px,40px 40px,100% 100%,100% 100%}.nodeViewport.dragging{cursor:grabbing}.nodeMap{position:absolute;left:0;top:0;width:2800px;height:1800px;transform-origin:0 0;will-change:transform}.connectorSvg{position:absolute;left:0;top:0;width:2800px;height:1800px;pointer-events:none;overflow:visible;z-index:1}.connectorSvg path{fill:none;stroke:rgba(101,217,210,.28);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 8;filter:drop-shadow(0 0 5px rgba(101,217,210,.08))}.connectorSvg path.main{stroke:rgba(214,173,104,.55);stroke-width:4;stroke-dasharray:none;filter:drop-shadow(0 0 8px rgba(214,173,104,.18))}.connectorSvg path.blocked{stroke:rgba(100,116,139,.24);stroke-width:2;stroke-dasharray:5 8}
-.node{position:absolute;width:260px;min-height:142px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.062),rgba(255,255,255,.018)),rgba(13,18,32,.92);box-shadow:0 14px 44px rgba(0,0,0,.38);backdrop-filter:blur(8px);z-index:5;user-select:none;cursor:pointer;transition:border-color .16s, box-shadow .16s, transform .16s, opacity .16s}.node:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.26);box-shadow:0 20px 60px rgba(0,0,0,.45)}.node.active{border-color:rgba(214,173,104,.82);box-shadow:0 0 0 1px rgba(214,173,104,.75),0 22px 70px rgba(0,0,0,.55);z-index:12}.node.dragging{cursor:grabbing;transform:scale(1.025);z-index:18}.node.locked{opacity:.55;filter:saturate(.65)}.node.done{border-color:rgba(118,224,160,.48)}.node.ready{border-color:rgba(101,217,210,.42)}.node.generating{border-color:rgba(90,169,255,.65);animation:pulse 1.2s infinite ease-in-out}@keyframes pulse{0%,100%{box-shadow:0 14px 44px rgba(0,0,0,.38)}50%{box-shadow:0 14px 44px rgba(90,169,255,.20)}}.nodeTop{display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px}.nodeIcon{width:40px;height:40px;border-radius:14px;background:rgba(101,217,210,.08);border:1px solid rgba(101,217,210,.18);display:grid;place-items:center;font-size:19px}.node.done .nodeIcon{background:rgba(118,224,160,.10);border-color:rgba(118,224,160,.25)}.node.active .nodeIcon{background:rgba(214,173,104,.12);border-color:rgba(214,173,104,.35)}.nodeTitle{min-width:0}.nodeTitle strong{display:block;color:#eadcc1;font-weight:900;font-size:13px;line-height:1.12}.nodeTitle span{display:block;color:var(--muted);font:9px Consolas,monospace;text-transform:uppercase;letter-spacing:.10em;margin-top:4px}.nodeBody{padding:11px 12px 12px}.nodeSummary{font-size:11px;line-height:1.45;color:#bdc7dd;min-height:44px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.nodeActions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.port{position:absolute;width:12px;height:12px;border-radius:999px;background:#0b1020;border:2px solid rgba(101,217,210,.55);top:62px}.port.in{left:-7px}.port.out{right:-7px}.node.done .port.out{border-color:rgba(118,224,160,.75)}.node.active .port{border-color:rgba(214,173,104,.85)}.nodeHandle{position:absolute;right:9px;bottom:6px;color:#64748b;font-size:14px}.badgeSmall{display:inline-flex;gap:5px;align-items:center;font:9px Consolas,monospace;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:4px 7px;background:rgba(255,255,255,.03)}
-.inspector{border-left:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),#080d19;overflow:auto;padding:14px}.panel{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.026);padding:12px;margin-bottom:12px}.panel h3{font-size:14px;margin-bottom:8px}.progressWrap{height:9px;border:1px solid var(--line);background:#050813;border-radius:999px;overflow:hidden}.progressFill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green),var(--gold));transition:.25s}.kv{display:grid;gap:6px;margin-top:10px}.kv div{display:flex;justify-content:space-between;gap:8px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:10px;padding:7px 8px;font-size:11px;color:#c9d3e7}.previewCard{aspect-ratio:9/16;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:linear-gradient(155deg,#111827,#060914);overflow:hidden;position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}.previewGlow{position:absolute;width:160px;height:160px;border-radius:999px;background:radial-gradient(circle,rgba(101,217,210,.33),transparent 65%);left:-60px;top:80px;animation:float 4.5s infinite alternate ease-in-out}.previewGlow.b{background:radial-gradient(circle,rgba(214,173,104,.28),transparent 65%);left:auto;right:-80px;top:auto;bottom:100px;animation-duration:5.8s}.previewTitle{position:absolute;left:18px;right:18px;top:34%;font-family:Syne,Inter,sans-serif;font-size:23px;line-height:1.05;color:#eadcc1}.previewSub{position:absolute;left:18px;right:18px;top:52%;font-size:11px;color:#cae7ff;line-height:1.4}.previewCta{position:absolute;left:18px;right:18px;bottom:26px;text-align:center;border-radius:999px;background:var(--gold);color:#191004;padding:9px;font-weight:950;font-size:11px}@keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(34px,-18px) scale(1.12)}}
-.floatingTools{position:absolute;left:16px;bottom:16px;z-index:55;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);background:rgba(8,13,25,.78);backdrop-filter:blur(10px);border-radius:16px;padding:8px}.zoomReadout{min-width:58px;text-align:center;color:#f1d6a3;font:11px Consolas,monospace}.minimap{position:absolute;right:16px;bottom:16px;width:190px;height:120px;border:1px solid rgba(255,255,255,.14);background:rgba(3,5,10,.70);backdrop-filter:blur(10px);border-radius:16px;z-index:55;overflow:hidden}.minimapTitle{position:absolute;left:10px;top:7px;font:9px Consolas,monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}.miniNode{position:absolute;width:10px;height:7px;border-radius:2px;background:rgba(101,217,210,.55)}.miniNode.done{background:rgba(118,224,160,.8)}.miniNode.active{background:rgba(214,173,104,.95);box-shadow:0 0 9px rgba(214,173,104,.45)}.toast{position:absolute;left:50%;top:18px;transform:translateX(-50%) translateY(-10px);opacity:0;pointer-events:none;border:1px solid rgba(118,224,160,.28);background:rgba(8,13,25,.92);color:#d9ffe5;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;z-index:120;box-shadow:var(--shadow);transition:.22s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.stationOverlay{position:absolute;inset:0;background:rgba(2,4,9,.62);backdrop-filter:blur(5px);z-index:90;display:none}.stationOverlay.active{display:block}.station{position:absolute;left:50%;top:50%;width:min(1180px,calc(100vw - 44px));height:min(780px,calc(100vh - 98px));transform:translate(-50%,-50%) scale(.965);opacity:0;display:none;z-index:100;border:1px solid rgba(214,173,104,.36);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.016)),#0a0f1b;box-shadow:0 38px 120px rgba(0,0,0,.72);overflow:hidden;transition:.18s}.station.active{display:grid;grid-template-rows:64px 1fr;opacity:1;transform:translate(-50%,-50%) scale(1)}.stationHead{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}.stationTitle{display:flex;align-items:center;gap:12px;min-width:0}.stationTitleIcon{width:40px;height:40px;border-radius:14px;background:rgba(214,173,104,.10);border:1px solid rgba(214,173,104,.25);display:grid;place-items:center;font-size:20px}.stationTitle h2{font-size:20px}.stationTitle p{font:10px Consolas,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.10em}.stationBody{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 360px}.stationMain{padding:18px;overflow:auto;min-width:0}.stationSide{border-left:1px solid var(--line);background:rgba(5,8,19,.55);padding:16px;overflow:auto}.stationSection{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.024);padding:14px;margin-bottom:12px}.stationSection h3{font-size:15px;margin-bottom:8px}.output{white-space:pre-wrap;background:#050914;border:1px solid var(--line);border-radius:15px;padding:13px;min-height:180px;max-height:430px;overflow:auto;font:11px/1.62 Consolas,"Space Mono",monospace;color:#dbe7ff}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.visualDrop{display:block;border:1px dashed rgba(101,217,210,.42);border-radius:15px;background:rgba(101,217,210,.055);color:#cafffb;text-align:center;padding:18px 12px;font-size:12px;font-weight:900;cursor:pointer}.visualDrop:hover{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.72)}.visualDrop input{display:none}.thumbGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.thumb{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#050813}.thumb img{width:100%;height:100%;object-fit:cover;display:block}.thumb button{position:absolute;right:5px;top:5px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.65);color:#fff;border-radius:8px;font-size:10px;padding:3px 6px}.emptyThumb{display:grid;place-items:center;color:var(--muted);font:10px Consolas,monospace;text-align:center;padding:10px;height:86px;border:1px solid var(--line);border-radius:12px;background:#050813}.historyList{display:grid;gap:8px;max-height:190px;overflow:auto}.historyItem{border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.025);padding:8px}.historyItem strong{display:block;font-size:11px;color:#e6d7b7}.historyItem span{display:block;font:10px Consolas,monospace;color:var(--muted);margin-top:3px}.pillRow{display:flex;gap:6px;flex-wrap:wrap}.tag{display:inline-flex;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:5px 8px;font-size:10px;color:#cbd6ea}.smartGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}.smartCell{border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.024);padding:9px;min-height:58px}.smartCell strong{display:block;font-size:11px;color:#e9d6b6}.smartCell span{display:block;font:10px Consolas,monospace;color:var(--muted);margin-top:5px}.hidden{display:none!important}
-@media(max-width:1100px){.workspace{grid-template-columns:210px minmax(0,1fr)}.inspector{display:none}.stationBody{grid-template-columns:1fr}.stationSide{border-left:0;border-top:1px solid var(--line);max-height:330px}.station{height:min(850px,calc(100vh - 80px))}.grid3{grid-template-columns:1fr}.smartGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.app{grid-template-rows:auto 1fr}.topbar{height:auto;align-items:flex-start;flex-wrap:wrap}.brand{min-width:0}.topActions{width:100%;margin-left:0}.workspace{height:calc(100vh - 108px);grid-template-columns:1fr}.rail{display:none}.node{width:220px}.minimap{display:none}.station{width:calc(100vw - 18px);height:calc(100vh - 124px);border-radius:18px}.stationHead{align-items:flex-start}.stationTitle h2{font-size:16px}.stationMain{padding:12px}.grid2{grid-template-columns:1fr}.floatingTools{right:10px;left:10px;bottom:10px}.btn{font-size:11px;padding:8px 10px}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 14% 12%,rgba(101,217,210,.10),transparent 28%),
+    radial-gradient(circle at 86% 18%,rgba(216,173,98,.10),transparent 28%),
+    linear-gradient(180deg,#060912,#04060b 80%);
+  color:var(--text);
+  font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+textarea{resize:vertical;line-height:1.5}
+h1,h2,h3,h4,p{margin:0}
+h1,h2,h3{letter-spacing:.02em;color:#efe2ca}
+p{color:#b9c7df;line-height:1.55}
+small,.mono{font-family:Consolas,"Space Mono",monospace}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#060914}
+::-webkit-scrollbar-thumb{background:#1c2941;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#2b3c5a}
+
+.btn{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.045);
+  color:var(--text);
+  padding:10px 13px;
+  font-size:12px;
+  font-weight:850;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  transition:.16s ease;
+  white-space:nowrap;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.13);border-color:rgba(255,255,255,.24)}
+.btn:active{transform:translateY(0)}
+.btn.tiny{font-size:10px;padding:6px 9px;border-radius:10px}
+.btn.block{width:100%}
+.btn.gold{background:linear-gradient(180deg,#f0cf8c,#c99748);border-color:rgba(216,173,98,.75);color:#1a1003}
+.btn.green{background:linear-gradient(180deg,#86e9ad,#5fc883);border-color:rgba(116,223,156,.75);color:#06130a}
+.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.42);color:#cefffb}
+.btn.red{background:rgba(239,142,142,.12);border-color:rgba(239,142,142,.42);color:#ffd7d7}
+.btn.purple{background:rgba(185,156,255,.12);border-color:rgba(185,156,255,.42);color:#eee4ff}
+.btn.blue{background:rgba(118,174,255,.12);border-color:rgba(118,174,255,.42);color:#e1edff}
+.btn.ghost{background:transparent}
+.btn.off{opacity:.52}
+input,textarea,select{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#080e1a;
+  color:var(--text);
+  padding:11px 12px;
+  outline:none;
+  font-size:13px;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(101,217,210,.7);
+  box-shadow:0 0 0 3px rgba(101,217,210,.08);
+}
+label{
+  display:block;
+  margin:12px 0 6px;
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.hide{display:none!important}
+
+.app{
+  height:100vh;
+  display:grid;
+  grid-template-rows:62px 1fr;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 14px;
+  background:rgba(6,9,18,.88);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(14px);
+  z-index:40;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:270px;
+}
+.mark{
+  width:42px;
+  height:42px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  color:#150d02;
+  font-weight:950;
+  background:radial-gradient(circle at 32% 22%,#fff4cf,#d8ad62 58%,#805622);
+  box-shadow:0 0 35px rgba(216,173,98,.18);
+}
+.brand strong{display:block;font-size:16px;color:#efe2ca}
+.brand span{display:block;margin-top:3px;color:var(--gold);font:10px Consolas,monospace;letter-spacing:.1em;text-transform:uppercase}
+.chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.chip{
+  display:inline-flex;
+  gap:6px;
+  align-items:center;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.035);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:10px;
+  font-weight:850;
+  color:#d4def0;
+}
+.chip.gold{border-color:rgba(216,173,98,.36);background:rgba(216,173,98,.08);color:#f5dfb1}
+.chip.good{border-color:rgba(116,223,156,.36);background:rgba(116,223,156,.08);color:#d7ffe3}
+.topActions{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.workspace{
+  min-height:0;
+  display:grid;
+  grid-template-columns:265px minmax(0,1fr) 330px;
+}
+.rail,.inspector{
+  min-height:0;
+  overflow:auto;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),#080d18;
+}
+.rail{border-right:1px solid var(--line);padding:14px}
+.inspector{border-left:1px solid var(--line);padding:14px}
+.card{
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:rgba(255,255,255,.028);
+  padding:13px;
+  margin-bottom:12px;
+}
+.card.gold{border-color:rgba(216,173,98,.25);background:rgba(216,173,98,.06)}
+.card h2{font-size:16px;margin-bottom:6px}
+.card h3{font-size:14px;margin-bottom:8px}
+.card h4,.sectionTitle{
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin:15px 0 8px;
+}
+.help{font:11px/1.45 Consolas,monospace;color:#a8b7d2}
+.step{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.028);
+  color:#dce6f7;
+  display:grid;
+  grid-template-columns:30px 1fr auto;
+  align-items:center;
+  gap:8px;
+  padding:9px;
+  margin-bottom:8px;
+  text-align:left;
+}
+.step:hover{border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.05)}
+.step.active{border-color:rgba(216,173,98,.68);background:rgba(216,173,98,.10)}
+.step.done{border-color:rgba(116,223,156,.36)}
+.step.ready{border-color:rgba(101,217,210,.34)}
+.step.locked{opacity:.52}
+.stepIcon{width:30px;height:30px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,.052)}
+.step strong{display:block;font-size:12px}
+.step span span{display:block;margin-top:2px;font:10px Consolas,monospace;color:var(--muted)}
+.dot{width:10px;height:10px;border-radius:99px;border:1px solid var(--line2);background:#182236}
+.dot.done{background:var(--green);border-color:rgba(116,223,156,.9);box-shadow:0 0 10px rgba(116,223,156,.36)}
+.dot.ready{background:var(--cyan);border-color:rgba(101,217,210,.9)}
+.dot.active{background:var(--gold);border-color:rgba(216,173,98,.9);box-shadow:0 0 10px rgba(216,173,98,.38)}
+.progressOuter{height:10px;border:1px solid var(--line);border-radius:999px;background:#050914;overflow:hidden}
+.progressInner{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green),var(--gold));transition:.25s}
+.kv{display:grid;gap:7px;margin-top:10px}
+.kv div{display:flex;justify-content:space-between;gap:8px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.025);padding:8px;font-size:11px;color:#cbd8ef}
+.kv strong{color:#fff}
+
+.canvasShell{
+  position:relative;
+  min-width:0;
+  min-height:0;
+  background:#050813;
+}
+.viewport{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  cursor:grab;
+  background-color:#050813;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px),
+    radial-gradient(circle at 28% 22%,rgba(101,217,210,.11),transparent 24%),
+    radial-gradient(circle at 72% 34%,rgba(216,173,98,.08),transparent 26%);
+  background-size:40px 40px,40px 40px,100% 100%,100% 100%;
+}
+.viewport.dragging{cursor:grabbing}
+.map{
+  position:absolute;
+  left:0;
+  top:0;
+  width:2600px;
+  height:1600px;
+  transform-origin:0 0;
+}
+.links{
+  position:absolute;
+  left:0;
+  top:0;
+  width:2600px;
+  height:1600px;
+  pointer-events:none;
+  overflow:visible;
+  z-index:1;
+}
+.links path{
+  fill:none;
+  stroke:rgba(101,217,210,.28);
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-dasharray:8 8;
+}
+.links path.done{stroke:rgba(216,173,98,.56);stroke-width:4;stroke-dasharray:none}
+.links path.locked{stroke:rgba(110,125,145,.20);stroke-width:2;stroke-dasharray:4 8}
+.node{
+  position:absolute;
+  width:282px;
+  min-height:150px;
+  border:1px solid var(--line);
+  border-radius:19px;
+  background:linear-gradient(180deg,rgba(255,255,255,.062),rgba(255,255,255,.018)),rgba(13,18,32,.94);
+  box-shadow:0 14px 46px rgba(0,0,0,.38);
+  backdrop-filter:blur(8px);
+  z-index:4;
+  cursor:pointer;
+  user-select:none;
+  transition:.16s ease;
+}
+.node:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.26);box-shadow:0 22px 70px rgba(0,0,0,.46)}
+.node.active{z-index:12;border-color:rgba(216,173,98,.85);box-shadow:0 0 0 1px rgba(216,173,98,.72),0 28px 88px rgba(0,0,0,.6)}
+.node.done{border-color:rgba(116,223,156,.55)}
+.node.ready{border-color:rgba(101,217,210,.48)}
+.node.locked{opacity:.50;filter:saturate(.7)}
+.node.dragging{z-index:20;transform:scale(1.025)}
+.port{
+  position:absolute;
+  top:66px;
+  width:12px;
+  height:12px;
+  border-radius:99px;
+  background:#0a1020;
+  border:2px solid rgba(101,217,210,.55);
+}
+.port.in{left:-7px}
+.port.out{right:-7px}
+.node.done .port{border-color:rgba(116,223,156,.8)}
+.node.active .port{border-color:rgba(216,173,98,.9)}
+.nodeHead{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border-bottom:1px solid var(--line);
+}
+.nodeIcon{
+  width:42px;
+  height:42px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:rgba(101,217,210,.08);
+  border:1px solid rgba(101,217,210,.18);
+  font-size:20px;
+}
+.node.done .nodeIcon{background:rgba(116,223,156,.10);border-color:rgba(116,223,156,.28)}
+.node.active .nodeIcon{background:rgba(216,173,98,.12);border-color:rgba(216,173,98,.34)}
+.nodeTitle{min-width:0}
+.nodeTitle strong{display:block;font-size:13px;color:#efe2ca}
+.nodeTitle small{display:block;margin-top:4px;color:var(--muted);font-size:9px;letter-spacing:.11em;text-transform:uppercase}
+.nodeBody{padding:11px 12px 13px}
+.summary{
+  min-height:46px;
+  color:#bdc9de;
+  font-size:11px;
+  line-height:1.45;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.nodeActions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.handle{position:absolute;right:9px;bottom:7px;color:#6f7d95;font-size:14px}
+
+.tools{
+  position:absolute;
+  left:16px;
+  bottom:16px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  border:1px solid var(--line);
+  background:rgba(8,13,25,.78);
+  backdrop-filter:blur(10px);
+  border-radius:16px;
+  padding:8px;
+}
+.zoom{min-width:58px;text-align:center;font:11px Consolas,monospace;color:#f2d69a}
+.toast{
+  position:absolute;
+  left:50%;
+  top:18px;
+  transform:translateX(-50%) translateY(-10px);
+  opacity:0;
+  pointer-events:none;
+  z-index:80;
+  border:1px solid rgba(116,223,156,.32);
+  background:rgba(8,13,25,.94);
+  color:#dfffe8;
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:var(--shadow);
+  font-size:12px;
+  font-weight:850;
+  transition:.22s;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.minimap{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  width:190px;
+  height:120px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(3,5,10,.72);
+  backdrop-filter:blur(10px);
+  border-radius:16px;
+  z-index:30;
+  overflow:hidden;
+}
+.minimapTitle{position:absolute;left:10px;top:7px;font:9px Consolas,monospace;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.miniNode{position:absolute;width:11px;height:8px;border-radius:2px;background:rgba(101,217,210,.50)}
+.miniNode.done{background:rgba(116,223,156,.85)}
+.miniNode.active{background:rgba(216,173,98,.95);box-shadow:0 0 9px rgba(216,173,98,.45)}
+
+.previewCard{
+  position:relative;
+  overflow:hidden;
+  aspect-ratio:9/16;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:19px;
+  background:linear-gradient(155deg,#121d31,#060914);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+}
+.glow{
+  position:absolute;
+  width:160px;
+  height:160px;
+  border-radius:999px;
+  background:radial-gradient(circle,rgba(101,217,210,.33),transparent 64%);
+  left:-60px;
+  top:85px;
+  animation:float 4.6s infinite alternate ease-in-out;
+}
+.glow.b{
+  background:radial-gradient(circle,rgba(216,173,98,.28),transparent 64%);
+  left:auto;
+  right:-80px;
+  top:auto;
+  bottom:105px;
+  animation-duration:5.8s;
+}
+.previewTitle{
+  position:absolute;
+  left:18px;
+  right:18px;
+  top:34%;
+  font-size:24px;
+  line-height:1.04;
+  color:#efe2ca;
+  font-weight:900;
+}
+.previewSub{
+  position:absolute;
+  left:18px;
+  right:18px;
+  top:52%;
+  font-size:11px;
+  color:#ceecff;
+  line-height:1.42;
+}
+.previewCta{
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:26px;
+  text-align:center;
+  border-radius:999px;
+  background:var(--gold);
+  color:#1a1003;
+  padding:10px;
+  font-weight:950;
+  font-size:11px;
+}
+@keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(34px,-16px) scale(1.12)}}
+
+.modalBackdrop{
+  position:absolute;
+  inset:0;
+  display:none;
+  z-index:50;
+  background:rgba(2,4,9,.62);
+  backdrop-filter:blur(5px);
+}
+.modalBackdrop.active{display:block}
+.station{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(1220px,calc(100vw - 42px));
+  height:min(820px,calc(100vh - 106px));
+  transform:translate(-50%,-50%) scale(.96);
+  opacity:0;
+  display:none;
+  z-index:60;
+  border:1px solid rgba(216,173,98,.38);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.016)),#0a101d;
+  box-shadow:0 38px 120px rgba(0,0,0,.72);
+  overflow:hidden;
+  transition:.18s ease;
+}
+.station.active{
+  display:grid;
+  grid-template-rows:66px 1fr;
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
+.stationHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 16px;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+}
+.stationTitle{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.stationTitleIcon{
+  width:42px;
+  height:42px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:rgba(216,173,98,.11);
+  border:1px solid rgba(216,173,98,.28);
+  font-size:21px;
+}
+.stationTitle h2{font-size:20px}
+.stationTitle p{font:10px Consolas,monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.stationBody{
+  min-height:0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 380px;
+}
+.stationMain{min-width:0;overflow:auto;padding:18px}
+.stationSide{overflow:auto;padding:16px;border-left:1px solid var(--line);background:rgba(5,8,18,.55)}
+.output{
+  white-space:pre-wrap;
+  min-height:230px;
+  max-height:470px;
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:#050914;
+  padding:13px;
+  color:#dce8ff;
+  font:12px/1.58 Consolas,"Space Mono",monospace;
+  outline:none;
+}
+.output:focus{border-color:rgba(101,217,210,.7)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.035);padding:5px 8px;font-size:10px;color:#cbd8ef}
+.drop{
+  display:block;
+  border:1px dashed rgba(101,217,210,.44);
+  border-radius:15px;
+  background:rgba(101,217,210,.055);
+  color:#cefffb;
+  text-align:center;
+  padding:18px 12px;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.drop input{display:none}
+.drop:hover{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.72)}
+.thumbs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.thumb{position:relative;aspect-ratio:16/10;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#050914}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb button{position:absolute;right:5px;top:5px;border:1px solid rgba(255,255,255,.25);border-radius:8px;background:rgba(0,0,0,.68);color:white;font-size:10px;padding:3px 6px}
+.empty{
+  display:grid;
+  place-items:center;
+  min-height:80px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#050914;
+  color:var(--muted);
+  font:10px Consolas,monospace;
+  text-align:center;
+  padding:10px;
+}
+.history{display:grid;gap:8px;max-height:220px;overflow:auto}
+.historyItem{border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025);padding:8px}
+.historyItem strong{display:block;color:#ead8b9;font-size:11px}
+.historyItem span{display:block;margin-top:3px;color:var(--muted);font:10px Consolas,monospace}
+.smartGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.smartCell{border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025);padding:9px;min-height:64px}
+.smartCell strong{display:block;font-size:11px;color:#ead8b9}
+.smartCell span{display:block;margin-top:5px;color:var(--muted);font:10px Consolas,monospace}
+
+@media(max-width:1160px){
+  .workspace{grid-template-columns:230px minmax(0,1fr)}
+  .inspector{display:none}
+  .stationBody{grid-template-columns:1fr}
+  .stationSide{border-left:0;border-top:1px solid var(--line);max-height:330px}
+  .smartGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:780px){
+  body{overflow:hidden}
+  .app{grid-template-rows:auto 1fr}
+  .topbar{height:auto;align-items:flex-start;flex-wrap:wrap}
+  .brand{min-width:0}
+  .chips{order:3;width:100%}
+  .topActions{width:100%;margin-left:0;justify-content:flex-start}
+  .workspace{height:calc(100vh - 132px);grid-template-columns:1fr}
+  .rail{display:none}
+  .node{width:230px}
+  .minimap{display:none}
+  .tools{left:10px;right:10px;bottom:10px}
+  .station{width:calc(100vw - 18px);height:calc(100vh - 142px);border-radius:18px}
+  .stationHead{align-items:flex-start}
+  .stationTitle h2{font-size:16px}
+  .stationMain{padding:12px}
+  .grid2,.grid3{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
     <div class="brand">
-      <div class="brandMark">OS</div>
-      <div class="brandText"><strong>Video Pack Studio</strong><span>Titan Nodes OS — independente</span></div>
+      <div class="mark">OS</div>
+      <div>
+        <strong>Video Pack Studio</strong>
+        <span>Titan Nodes OS V4 - completo</span>
+      </div>
     </div>
-    <div class="statusStrip">
+    <div class="chips">
       <span class="chip gold" id="projectChip">Projeto: Sem título</span>
-      <span class="chip" id="autosaveChip">Autosave ativo</span>
+      <span class="chip" id="saveChip">Autosave ativo</span>
       <span class="chip good" id="progressChip">0% pronto</span>
     </div>
     <div class="topActions">
       <button class="btn cyan" onclick="openStation('brief')">Abrir Briefing</button>
-      <button class="btn gold" onclick="generateAll()">Gerar Pipeline</button>
+      <button class="btn gold" onclick="generatePipeline()">Gerar Pipeline</button>
       <button class="btn green" onclick="exportPackage()">Exportar</button>
       <button class="btn red" onclick="resetProject()">Reset</button>
     </div>
   </header>
+
   <div class="workspace">
     <aside class="rail">
-      <div class="railHead"><h2>Árvore da Criação</h2><p class="mini">Canvas vivo estilo Blender: cada node é uma estação técnica que aprova, fecha e alimenta a próxima etapa.</p></div>
-      <h4>Pipeline</h4>
+      <div class="card gold">
+        <h2>Arvore da Criacao</h2>
+        <p class="help">Fluxo em nodes: cada bloco vira uma estacao tecnica com campos, resultado, aprovacao e exportacao.</p>
+      </div>
+
+      <div class="sectionTitle">Pipeline</div>
       <div id="stepsList"></div>
-      <h4>Ações rápidas</h4>
-      <button class="btn block gold" onclick="generateAll()">Preencher uma vez → gerar tudo</button>
+
+      <div class="sectionTitle">Acoes rapidas</div>
+      <button class="btn block gold" onclick="generatePipeline()">Preencher uma vez -> gerar tudo</button>
       <div style="height:8px"></div>
       <button class="btn block cyan" onclick="centerMap()">Centralizar mapa</button>
       <div style="height:8px"></div>
       <button class="btn block purple" onclick="autoLayout()">Organizar nodes</button>
-      <h4>Regra do produto</h4>
-      <p class="mini">Não renderiza MP4. Organiza pré-produção, roteiro, prompts, JSON, SRT, som, CapCut Motion Book e pacote final.</p>
+      <div style="height:8px"></div>
+      <button class="btn block blue" onclick="openStation('export')">Ver pacote final</button>
+
+      <div class="sectionTitle">Regra do Produto</div>
+      <p class="help">Nao renderiza MP4. Organiza briefing, storyboard, roteiro, prompts, JSON, SRT, som, CapCut Motion Book e pacote final.</p>
     </aside>
+
     <main class="canvasShell">
       <div class="toast" id="toast">Salvo</div>
-      <div class="nodeViewport" id="viewport">
-        <div class="nodeMap" id="nodeMap">
-          <svg class="connectorSvg" id="connectorSvg"></svg>
+
+      <div class="viewport" id="viewport">
+        <div class="map" id="map">
+          <svg class="links" id="links"></svg>
           <div id="nodesCanvas"></div>
         </div>
       </div>
-      <div class="floatingTools">
-        <button class="btn tiny" onclick="zoomMap(-.1)">−</button>
-        <span class="zoomReadout" id="zoomReadout">100%</span>
-        <button class="btn tiny" onclick="zoomMap(.1)">+</button>
+
+      <div class="tools">
+        <button class="btn tiny" onclick="zoomMap(-0.1)">-</button>
+        <span class="zoom" id="zoomReadout">100%</span>
+        <button class="btn tiny" onclick="zoomMap(0.1)">+</button>
         <button class="btn tiny cyan" onclick="centerMap()">Centralizar</button>
         <button class="btn tiny purple" onclick="autoLayout()">Organizar</button>
       </div>
-      <div class="minimap" id="minimap"><div class="minimapTitle">Minimapa</div></div>
-      <div class="stationOverlay" id="stationOverlay" onclick="closeStation()"></div>
+
+      <div class="minimap" id="minimap">
+        <div class="minimapTitle">Minimapa</div>
+      </div>
+
+      <div class="modalBackdrop" id="backdrop" onclick="closeStation()"></div>
       <section class="station" id="station">
         <div class="stationHead">
-          <div class="stationTitle"><div class="stationTitleIcon" id="stationIcon">🧠</div><div><h2 id="stationTitle">Briefing Mestre</h2><p id="stationSub">Estação ativa</p></div></div>
-          <div class="topActions"><button class="btn tiny purple" onclick="goPrevNode()">‹ Anterior</button><button class="btn tiny gold" onclick="approveAndNext()">Aprovar e avançar</button><button class="btn tiny" onclick="closeStation()">Fechar</button></div>
+          <div class="stationTitle">
+            <div class="stationTitleIcon" id="stationIcon">BR</div>
+            <div>
+              <h2 id="stationTitle">Briefing Mestre</h2>
+              <p id="stationSub">Estacao ativa</p>
+            </div>
+          </div>
+          <div class="topActions">
+            <button class="btn tiny purple" onclick="previousNode()">Anterior</button>
+            <button class="btn tiny gold" onclick="approveAndNext()">Aprovar e avancar</button>
+            <button class="btn tiny" onclick="closeStation()">Fechar</button>
+          </div>
         </div>
         <div class="stationBody">
           <div class="stationMain" id="stationMain"></div>
           <aside class="stationSide">
-            <div class="stationSection"><h3>Contexto visual</h3><p class="mini">Upload de frames, thumbnails, storyboard ou referência visual. Funciona offline como memória de direção de arte.</p><label class="visualDrop">+ Adicionar referências<input type="file" accept="image/*" multiple onchange="handleImages(this)"></label><div id="thumbGrid" class="thumbGrid"></div></div>
-            <div class="stationSection"><h3>Memória estética</h3><textarea id="visualMemoryInput" rows="8" placeholder="Ex.: paleta escura, câmera baixa, neon, sombra forte..." oninput="setVisualMemory(this.value)"></textarea><div class="actions"><button class="btn tiny cyan" onclick="analyzeVisualMemory()">Gerar DNA Visual</button><button class="btn tiny" onclick="copyText(state.visualMemory||'')">Copiar</button></div></div>
-            <div class="stationSection"><h3>Histórico</h3><div class="historyList" id="historyList"></div></div>
+            <div class="card">
+              <h3>Referencias visuais</h3>
+              <p class="help">Coloque frames, thumbnails, storyboard ou imagens do projeto. Fica salvo localmente no navegador.</p>
+              <label class="drop">Adicionar imagens
+                <input type="file" multiple accept="image/*" onchange="handleImages(this)">
+              </label>
+              <div class="thumbs" id="thumbs"></div>
+            </div>
+
+            <div class="card">
+              <h3>Memoria estetica</h3>
+              <textarea rows="8" id="visualNotes" oninput="updateVisualMemory(this.value)" placeholder="Ex.: luz dura, camera baixa, textura apocaliptica, composicao vertical..."></textarea>
+              <div class="actions">
+                <button class="btn tiny cyan" onclick="buildVisualMemory()">Gerar DNA</button>
+                <button class="btn tiny" onclick="copyText(state.visualMemory)">Copiar</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Historico</h3>
+              <div class="history" id="history"></div>
+            </div>
           </aside>
         </div>
       </section>
     </main>
+
     <aside class="inspector">
-      <div class="panel"><h3>Diagnóstico do projeto</h3><div class="progressWrap"><div class="progressFill" id="progressFill"></div></div><div class="kv" id="diagnosticKV"></div></div>
-      <div class="panel"><h3>Preview leve</h3><div class="previewCard"><div class="previewGlow"></div><div class="previewGlow b"></div><div class="previewTitle" id="previewTitle">Video Pack</div><div class="previewSub" id="previewSub">Preencha o briefing para criar o pacote técnico.</div><div class="previewCta">PIPELINE IA</div></div></div>
-      <div class="panel"><h3>Pacote final</h3><p class="mini">Quando todos os nodes principais estiverem prontos, exporte TXT ou JSON para usar no CapCut, Remotion, Flow, Veo, Seedance ou edição manual.</p><div class="actions"><button class="btn block green" onclick="downloadPackageTxt()">Baixar TXT</button><button class="btn block cyan" onclick="downloadPackageJson()">Baixar JSON</button></div></div>
+      <div class="card">
+        <h3>Diagnostico do projeto</h3>
+        <div class="progressOuter"><div class="progressInner" id="progressFill"></div></div>
+        <div class="kv" id="diagnostic"></div>
+      </div>
+
+      <div class="card">
+        <h3>Preview leve</h3>
+        <div class="previewCard">
+          <div class="glow"></div>
+          <div class="glow b"></div>
+          <div class="previewTitle" id="previewTitle">Video Pack</div>
+          <div class="previewSub" id="previewSub">Preencha o briefing para criar o pacote tecnico.</div>
+          <div class="previewCta">PIPELINE IA</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Pacote final</h3>
+        <p class="help">Exporte TXT ou JSON para CapCut, Remotion, Flow, Veo, Seedance ou edicao manual.</p>
+        <div class="actions">
+          <button class="btn block green" onclick="downloadTxt()">Baixar TXT</button>
+          <button class="btn block cyan" onclick="downloadJson()">Baixar JSON</button>
+        </div>
+      </div>
     </aside>
   </div>
 </div>
+
 <script>
-const $=id=>document.getElementById(id);
-const STORAGE_KEY='video_pack_titan_nodes_os_independente_v1';
-const NODE_W=260, NODE_H=142;
-const nodeDefaults=[
-  {id:'brief',title:'Briefing Mestre',icon:'🧠',x:80,y:100,deps:[],type:'brain',desc:'ideia, universo, objetivo e material base'},
-  {id:'dna',title:'DNA Visual',icon:'🧬',x:410,y:100,deps:['brief'],type:'visual',desc:'paleta, atmosfera, câmera e continuidade'},
-  {id:'storyboard',title:'Storyboard Técnico',icon:'🎞️',x:740,y:100,deps:['dna'],type:'text',desc:'cenas, ritmo, enquadramento e cortes'},
-  {id:'roteiro',title:'Roteiro / Narração',icon:'✍️',x:1070,y:100,deps:['storyboard'],type:'text',desc:'fala, hook, CTA e texto em tela'},
-  {id:'prompts',title:'Prompts Vídeo IA',icon:'🎬',x:1400,y:100,deps:['storyboard','dna'],type:'text',desc:'Flow, Veo, Seedance, Runway'},
-  {id:'remotion',title:'JSON / Remotion',icon:'{}',x:1400,y:330,deps:['storyboard'],type:'code',desc:'layers, timing, cenas e motion'},
-  {id:'srt',title:'SRT / Som / SFX',icon:'🎧',x:1070,y:330,deps:['roteiro'],type:'text',desc:'legenda, trilha, som e efeitos'},
-  {id:'capcut',title:'CapCut Motion Book',icon:'📘',x:740,y:560,deps:['prompts','srt','remotion'],type:'text',desc:'plano de edição manual'},
-  {id:'assets',title:'Assets / Continuidade',icon:'🗂️',x:410,y:560,deps:['brief','dna'],type:'assets',desc:'personagens, objetos, regras visuais'},
-  {id:'export',title:'Pacote Final',icon:'📦',x:1070,y:560,deps:['capcut','assets'],type:'export',desc:'entrega organizada sem duplicação'}
+(function(){
+'use strict';
+
+window.$ = function(id){ return document.getElementById(id); };
+
+var STORAGE_KEY = 'video_pack_studio_titan_os_v4_completo';
+var NODE_W = 282;
+
+var nodeDefaults = [
+  {id:'brief', title:'Briefing Mestre', icon:'BR', x:80, y:110, deps:[], desc:'ideia, objetivo, canal, duracao e material base'},
+  {id:'dna', title:'DNA Visual', icon:'DNA', x:430, y:110, deps:['brief'], desc:'paleta, atmosfera, camera e continuidade'},
+  {id:'storyboard', title:'Storyboard Tecnico', icon:'SB', x:780, y:110, deps:['dna'], desc:'cenas, ritmo, enquadramento e cortes'},
+  {id:'roteiro', title:'Roteiro / Narracao', icon:'RT', x:1130, y:110, deps:['storyboard'], desc:'hook, fala, texto em tela e CTA'},
+  {id:'prompts', title:'Prompts de Video IA', icon:'AI', x:1480, y:110, deps:['storyboard','dna'], desc:'Flow, Veo, Seedance, Runway, Kling'},
+  {id:'remotion', title:'JSON / Remotion', icon:'{}', x:1480, y:355, deps:['storyboard'], desc:'layers, timing, cenas e movimento'},
+  {id:'srt', title:'SRT / Som / SFX', icon:'SRT', x:1130, y:355, deps:['roteiro'], desc:'legendas, som ambiente e efeitos'},
+  {id:'assets', title:'Assets / Continuidade', icon:'AS', x:430, y:600, deps:['brief','dna'], desc:'personagens, objetos, regras e biblioteca'},
+  {id:'capcut', title:'CapCut Motion Book', icon:'CC', x:780, y:600, deps:['prompts','srt','remotion'], desc:'plano de edicao, keyframes e checklist'},
+  {id:'export', title:'Pacote Final', icon:'PK', x:1130, y:600, deps:['capcut','assets'], desc:'entrega limpa em TXT e JSON'}
 ];
-const defaultData={
-  brief:{title:'',idea:'',assets:'',required:'',goal:'Gerar conteúdo viral',tone:'Cinematográfico',audience:'Shorts/Reels/TikTok',duration:'30 segundos',format:'9:16 vertical'},
-  dna:{content:'',approved:false},storyboard:{content:'',approved:false},roteiro:{content:'',approved:false},prompts:{content:'',approved:false},remotion:{content:'',approved:false},srt:{content:'',approved:false},capcut:{content:'',approved:false},assets:{content:'',approved:false},export:{content:'',approved:false}
+
+var defaultData = {
+  brief:{
+    title:'',
+    idea:'',
+    materials:'',
+    required:'',
+    goal:'Pre-producao audiovisual',
+    tone:'Cinematografico',
+    channel:'Shorts / Reels / TikTok',
+    duration:'30 segundos',
+    format:'9:16 vertical',
+    apiProvider:'Offline / sem API'
+  },
+  dna:{content:'', approved:false},
+  storyboard:{content:'', approved:false},
+  roteiro:{content:'', approved:false},
+  prompts:{content:'', approved:false},
+  remotion:{content:'', approved:false},
+  srt:{content:'', approved:false},
+  assets:{content:'', approved:false},
+  capcut:{content:'', approved:false},
+  export:{content:'', approved:false}
 };
-let state={zoom:1,panX:0,panY:0,active:'brief',nodes:structuredClone(nodeDefaults),data:structuredClone(defaultData),visualRefs:[],visualMemory:'',history:[]};
-let drag={mode:null,id:null,startX:0,startY:0,nodeX:0,nodeY:0,moved:false};
-let autosaveTimer=null;
-function clone(o){return JSON.parse(JSON.stringify(o))}
-function escapeHTML(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function escapeAttr(s){return escapeHTML(s).replace(/'/g,'&#39;')}
-function oneLine(s,n=86){s=String(s||'').replace(/\s+/g,' ').trim();return s? (s.length>n?s.slice(0,n-1)+'…':s):''}
-function currentNode(){return state.nodes.find(n=>n.id===state.active)||state.nodes[0]}
-function getData(id){return state.data[id]||{content:''}}
-function hasContent(id){if(id==='brief')return !!(state.data.brief.idea||state.data.brief.title);if(id==='dna')return !!(state.visualMemory||state.data.dna.content);return !!getData(id).content}
-function isApproved(id){if(id==='brief')return hasContent('brief');if(id==='dna')return hasContent('dna')&&!!state.data.dna.approved;return !!getData(id).approved}
-function isLocked(n){return n.deps.some(d=>!hasContent(d))}
-function nodeStatus(id){const n=state.nodes.find(x=>x.id===id);if(isLocked(n))return 'locked';if(state.generating===id)return 'generating';if(isApproved(id))return 'done';if(hasContent(id))return 'ready';return 'empty'}
-function statusLabel(st){return {done:'aprovado',ready:'revisar',locked:'bloqueado',generating:'gerando',empty:'aguardando'}[st]||st}
-function progress(){const count=state.nodes.filter(n=>n.id!=='export').length;const done=state.nodes.filter(n=>n.id!=='export'&&isApproved(n.id)).length;return Math.round((done/count)*100)}
-function save(){clearTimeout(autosaveTimer);autosaveTimer=setTimeout(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));$('autosaveChip').textContent='Salvo localmente';showToast('Projeto salvo no navegador')}catch(e){$('autosaveChip').textContent='Autosave limitado'}},250)}
-function load(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const old=JSON.parse(raw);state={...state,...old,nodes:old.nodes||clone(nodeDefaults),data:{...clone(defaultData),...(old.data||{})},visualRefs:old.visualRefs||[],history:old.history||[]}}catch(e){}}
-function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1300)}
-function addHistory(title,body){state.history.unshift({title,body:oneLine(body,150),time:new Date().toLocaleString('pt-BR')});state.history=state.history.slice(0,25)}
-function render(){renderSteps();renderNodes();drawConnectors();renderInspector();renderMinimap();updateTransform(false);save()}
-function renderSteps(){const box=$('stepsList');box.innerHTML=state.nodes.map(n=>{const st=nodeStatus(n.id);return `<button class="step ${state.active===n.id?'active':''}" onclick="openStation('${n.id}')"><span class="stepIcon">${n.icon}</span><span class="stepText"><strong>${escapeHTML(n.title)}</strong><span>${statusLabel(st)}</span></span><span class="dot ${st==='done'?'done':state.active===n.id?'active':st==='ready'?'ready':''}"></span></button>`}).join('')}
-function nodeSummary(id){if(id==='brief'){return oneLine(state.data.brief.idea,96)||'Defina ideia, objetivo, público, duração e materiais.'}if(id==='dna'){return oneLine(state.visualMemory||state.data.dna.content,96)||'Extraia paleta, clima, câmera e regras visuais.'}return oneLine(getData(id).content,96)||state.nodes.find(n=>n.id===id)?.desc||'Aguardando.'}
-function renderNodes(){const canvas=$('nodesCanvas');canvas.innerHTML=state.nodes.map(n=>{const st=nodeStatus(n.id);return `<div class="node ${st} ${state.active===n.id?'active':''}" id="node-${n.id}" data-id="${n.id}" style="left:${n.x}px;top:${n.y}px" ondblclick="openStation('${n.id}')"><span class="port in"></span><span class="port out"></span><div class="nodeTop"><div class="nodeIcon">${n.icon}</div><div class="nodeTitle"><strong>${escapeHTML(n.title)}</strong><span>${statusLabel(st)}</span></div></div><div class="nodeBody"><div class="nodeSummary">${escapeHTML(nodeSummary(n.id))}</div><div class="nodeActions"><button class="btn tiny ${st==='locked'?'ghost':'cyan'}" onclick="event.stopPropagation();openStation('${n.id}')">Abrir estação</button>${hasContent(n.id)&&n.id!=='brief'?`<button class="btn tiny gold" onclick="event.stopPropagation();approveNode('${n.id}')">Aprovar</button>`:''}</div></div><span class="nodeHandle">⠿</span></div>`}).join('');bindNodeEvents()}
-function bindNodeEvents(){document.querySelectorAll('.node').forEach(el=>{el.addEventListener('mousedown',e=>{if(e.target.closest('button'))return;const id=el.dataset.id;const n=state.nodes.find(x=>x.id===id);drag={mode:'node',id,startX:e.clientX,startY:e.clientY,nodeX:n.x,nodeY:n.y,moved:false};el.classList.add('dragging')});el.addEventListener('click',e=>{if(e.target.closest('button'))return;if(drag.moved)return;state.active=el.dataset.id;render()})})}
-function centerOf(id){const n=state.nodes.find(x=>x.id===id);return n?{x:n.x+NODE_W/2,y:n.y+70}:null}
-function drawConnectors(){let html='';state.nodes.forEach(n=>{n.deps.forEach(dep=>{const a=centerOf(dep),b=centerOf(n.id);if(!a||!b)return;const dx=Math.max(90,Math.abs(b.x-a.x)*.45);const cls=(hasContent(dep)&&hasContent(n.id))?'main':(hasContent(dep)?'':'blocked');html+=`<path class="${cls}" d="M ${a.x} ${a.y} C ${a.x+dx} ${a.y}, ${b.x-dx} ${b.y}, ${b.x} ${b.y}"/>`})});$('connectorSvg').innerHTML=html}
-function renderInspector(){const p=progress();$('progressFill').style.width=p+'%';$('progressChip').textContent=p+'% pronto';$('projectChip').textContent='Projeto: '+(state.data.brief.title||'Sem título');$('diagnosticKV').innerHTML=`<div><span>Nodes aprovados</span><strong>${state.nodes.filter(n=>isApproved(n.id)).length}/${state.nodes.length}</strong></div><div><span>Referências visuais</span><strong>${state.visualRefs.length}</strong></div><div><span>Formato</span><strong>${escapeHTML(state.data.brief.format)}</strong></div><div><span>Duração</span><strong>${escapeHTML(state.data.brief.duration)}</strong></div>`;$('previewTitle').textContent=state.data.brief.title||'Video Pack';$('previewSub').textContent=oneLine(state.data.brief.idea,95)||'Preencha o briefing para criar o pacote técnico.'}
-function renderMinimap(){const mm=$('minimap');const existing=mm.querySelectorAll('.miniNode');existing.forEach(e=>e.remove());const maxX=1700,maxY=760;state.nodes.forEach(n=>{const d=document.createElement('div');d.className='miniNode '+(isApproved(n.id)?'done':'')+(state.active===n.id?' active':'');d.style.left=(10+n.x/maxX*165)+'px';d.style.top=(28+n.y/maxY*82)+'px';mm.appendChild(d)})}
-function updateTransform(redraw=true){$('nodeMap').style.transform=`translate(${state.panX}px,${state.panY}px) scale(${state.zoom})`;$('zoomReadout').textContent=Math.round(state.zoom*100)+'%';if(redraw)renderMinimap()}
-function zoomMap(delta,cx,cy){const vp=$('viewport');const rect=vp.getBoundingClientRect();const old=state.zoom;const next=Math.max(.35,Math.min(2.3,+(state.zoom+delta).toFixed(2)));if(old===next)return;cx=cx??rect.left+rect.width/2;cy=cy??rect.top+rect.height/2;const ox=cx-rect.left,oy=cy-rect.top;state.panX=ox-(ox-state.panX)*(next/old);state.panY=oy-(oy-state.panY)*(next/old);state.zoom=next;updateTransform();save()}
-function centerMap(){const vp=$('viewport');state.zoom=Math.min(1,Math.max(.56,vp.clientWidth/1650));state.panX=(vp.clientWidth-1550*state.zoom)/2;state.panY=Math.max(30,(vp.clientHeight-720*state.zoom)/2);updateTransform();save()}
-function autoLayout(){const pos={brief:[80,100],dna:[410,100],storyboard:[740,100],roteiro:[1070,100],prompts:[1400,100],remotion:[1400,330],srt:[1070,330],assets:[410,560],capcut:[740,560],export:[1070,560]};state.nodes.forEach(n=>{if(pos[n.id]){n.x=pos[n.id][0];n.y=pos[n.id][1]}});render();centerMap();showToast('Mapa reorganizado')}
-const viewport=$('viewport');
-viewport.addEventListener('mousedown',e=>{if(e.target.closest('.node')||e.target.closest('button'))return;drag={mode:'map',startX:e.clientX,startY:e.clientY,nodeX:state.panX,nodeY:state.panY,moved:false};viewport.classList.add('dragging')});
-window.addEventListener('mousemove',e=>{if(!drag.mode)return;drag.moved=true;if(drag.mode==='map'){state.panX=drag.nodeX+(e.clientX-drag.startX);state.panY=drag.nodeY+(e.clientY-drag.startY);updateTransform(false)}if(drag.mode==='node'){const n=state.nodes.find(x=>x.id===drag.id);if(!n)return;n.x=Math.round(drag.nodeX+(e.clientX-drag.startX)/state.zoom);n.y=Math.round(drag.nodeY+(e.clientY-drag.startY)/state.zoom);const el=$('node-'+n.id);if(el){el.style.left=n.x+'px';el.style.top=n.y+'px'}drawConnectors();renderMinimap()}});
-window.addEventListener('mouseup',()=>{if(drag.mode){document.querySelectorAll('.node.dragging').forEach(el=>el.classList.remove('dragging'));viewport.classList.remove('dragging');save()}drag={mode:null,id:null,startX:0,startY:0,nodeX:0,nodeY:0,moved:false}});
-viewport.addEventListener('wheel',e=>{e.preventDefault();zoomMap(e.deltaY>0?-.06:.06,e.clientX,e.clientY)},{passive:false});
-let lastTouch=null;viewport.addEventListener('touchstart',e=>{if(e.touches.length===1){lastTouch={mode:'pan',x:e.touches[0].clientX,y:e.touches[0].clientY,panX:state.panX,panY:state.panY}}else if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);lastTouch={mode:'pinch',d,zoom:state.zoom}}},{passive:true});
-viewport.addEventListener('touchmove',e=>{if(!lastTouch)return;if(lastTouch.mode==='pan'&&e.touches.length===1){state.panX=lastTouch.panX+(e.touches[0].clientX-lastTouch.x);state.panY=lastTouch.panY+(e.touches[0].clientY-lastTouch.y);updateTransform(false)}else if(lastTouch.mode==='pinch'&&e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);state.zoom=Math.max(.35,Math.min(2.3,lastTouch.zoom*(d/lastTouch.d)));updateTransform(false)}},{passive:true});viewport.addEventListener('touchend',()=>{lastTouch=null;save()});
-function renderStation(){const n=currentNode();$('stationIcon').textContent=n.icon;$('stationTitle').textContent=n.title;$('stationSub').textContent='Estação '+statusLabel(nodeStatus(n.id));$('stationMain').innerHTML=stationContent(n.id);renderThumbs();renderHistory();const vm=$('visualMemoryInput');if(vm)vm.value=state.visualMemory||''}
-function openStation(id){state.active=id;render();renderStation();$('stationOverlay').classList.add('active');$('station').classList.add('active')}
-function closeStation(){$('stationOverlay').classList.remove('active');$('station').classList.remove('active');render()}
-function stationContent(id){if(id==='brief')return briefHTML();if(id==='export')return exportHTML();if(id==='dna')return dnaHTML();if(id==='assets')return assetsHTML();return technicalHTML(id)}
-function briefHTML(){const d=state.data.brief;return `<div class="stationSection"><h3>Cérebro do projeto</h3><div class="grid2"><div><label>Nome do projeto</label><input value="${escapeAttr(d.title)}" oninput="state.data.brief.title=this.value;renderInspector();save()" placeholder="Ex.: O Hambúrguer da Meia-Noite"></div><div><label>Objetivo</label><select onchange="state.data.brief.goal=this.value;save()">${options(d.goal,['Gerar conteúdo viral','Vender produto','Motion comic narrativo','Pré-produção de vídeo IA','Anúncio comercial','Conteúdo dark / suspense'])}</select></div><div><label>Formato</label><select onchange="state.data.brief.format=this.value;renderInspector();save()">${options(d.format,['9:16 vertical','16:9 horizontal','1:1 quadrado','4:5 feed','21:9 cinematic'])}</select></div><div><label>Duração</label><select onchange="state.data.brief.duration=this.value;renderInspector();save()">${options(d.duration,['8 segundos','15 segundos','30 segundos','45 segundos','60 segundos','90 segundos'])}</select></div><div><label>Tom</label><select onchange="state.data.brief.tone=this.value;save()">${options(d.tone,['Cinematográfico','Horror/tensão','Premium/comercial','Emocional','TikTok rápido','Documental misterioso'])}</select></div><div><label>Público / canal</label><input value="${escapeAttr(d.audience)}" oninput="state.data.brief.audience=this.value;save()"></div></div><label>Ideia, roteiro bruto ou descrição</label><textarea rows="8" oninput="state.data.brief.idea=this.value;renderInspector();save()" placeholder="Cole aqui sua ideia solta, roteiro, briefing ou descrição...">${escapeHTML(d.idea)}</textarea><label>Assets / materiais disponíveis</label><textarea rows="4" oninput="state.data.brief.assets=this.value;save()" placeholder="Logo, personagem, imagens, produto, voz, texto obrigatório...">${escapeHTML(d.assets)}</textarea><label>Textos obrigatórios / regras</label><textarea rows="4" oninput="state.data.brief.required=this.value;save()" placeholder="CTA, frases que precisam aparecer, proibições...">${escapeHTML(d.required)}</textarea><div class="actions"><button class="btn gold" onclick="generateAll()">Gerar pipeline completo</button><button class="btn cyan" onclick="generateNode('dna')">Gerar DNA Visual</button></div></div><div class="stationSection"><h3>Visão estratégica</h3><div class="smartGrid"><div class="smartCell"><strong>Camada 1</strong><span>Cérebro: briefing, tom e objetivo.</span></div><div class="smartCell"><strong>Camada 2</strong><span>Estações: nodes que transformam a ideia.</span></div><div class="smartCell"><strong>Camada 3</strong><span>Exportação limpa para edição.</span></div><div class="smartCell"><strong>Foco</strong><span>Organização + pipeline, sem renderizar MP4.</span></div></div></div>`}
-function dnaHTML(){return `<div class="stationSection"><h3>DNA Visual / Continuidade</h3><p class="mini">Gere regras de estética que alimentam todos os próximos nodes.</p><textarea rows="14" oninput="state.data.dna.content=this.value;state.visualMemory=this.value;save()" placeholder="Paleta, luz, câmera, textura, movimento, composição, referências...">${escapeHTML(state.data.dna.content||state.visualMemory)}</textarea><div class="actions"><button class="btn gold" onclick="generateNode('dna')">Gerar DNA Visual</button><button class="btn green" onclick="approveNode('dna')">Aprovar DNA</button><button class="btn cyan" onclick="copyText(state.data.dna.content||state.visualMemory)">Copiar</button></div></div>`}
-function assetsHTML(){return `<div class="stationSection"><h3>Assets / Continuidade</h3><textarea rows="18" oninput="state.data.assets.content=this.value;save()" placeholder="Personagens, roupas, objetos, cenários, props, logos, regras de continuidade...">${escapeHTML(state.data.assets.content)}</textarea><div class="actions"><button class="btn gold" onclick="generateNode('assets')">Gerar biblioteca de assets</button><button class="btn green" onclick="approveNode('assets')">Aprovar</button></div></div>`}
-function technicalHTML(id){const titles={storyboard:'Storyboard técnico',roteiro:'Roteiro / narração',prompts:'Prompts para vídeo IA',remotion:'JSON / Remotion',srt:'SRT / Som / SFX',capcut:'CapCut Motion Book'};const hints={storyboard:'Cenas numeradas, timing, câmera, corte, composição e intenção dramática.',roteiro:'Hook, narração, texto em tela, CTA e versão curta.',prompts:'Prompt pronto para Flow/Veo/Seedance/Runway, com português e inglês.',remotion:'JSON instrucional de cenas, layers, motion, áudio e timing.',srt:'Legenda SRT + plano de som ambiente, SFX e mixagem.',capcut:'Plano de edição manual com cortes, keyframes, efeitos, legendas e organização.'};return `<div class="stationSection"><h3>${titles[id]}</h3><p class="mini">${hints[id]}</p><div class="actions"><button class="btn gold" onclick="generateNode('${id}')">Gerar esta etapa</button><button class="btn green" onclick="approveNode('${id}')">Aprovar</button><button class="btn cyan" onclick="copyText(state.data['${id}'].content||'')">Copiar</button></div><div class="output" id="output-${id}" contenteditable="true" oninput="state.data['${id}'].content=this.innerText;save()">${escapeHTML(state.data[id].content||'Aguardando geração desta estação...')}</div></div>`}
-function exportHTML(){const pkg=buildPackage();return `<div class="stationSection"><h3>Pacote final limpo</h3><p class="mini">Compilação organizada sem duplicação, pronta para CapCut, Remotion, Flow, Veo, Seedance ou editor manual.</p><div class="actions"><button class="btn gold" onclick="exportPackage()">Atualizar pacote</button><button class="btn green" onclick="downloadPackageTxt()">Baixar TXT</button><button class="btn cyan" onclick="downloadPackageJson()">Baixar JSON</button><button class="btn" onclick="copyText(buildPackage())">Copiar tudo</button></div><div class="output" id="output-export">${escapeHTML(pkg)}</div></div>`}
-function options(cur,arr){return arr.map(v=>`<option ${v===cur?'selected':''}>${escapeHTML(v)}</option>`).join('')}
-function buildContext(){const b=state.data.brief;return {project:b.title||'Projeto sem título',idea:b.idea||'Sem briefing informado',assets:b.assets||'Assets não informados',required:b.required||'Sem texto obrigatório',goal:b.goal,tone:b.tone,audience:b.audience,duration:b.duration,format:b.format,visualMemory:state.visualMemory||state.data.dna.content||'Sem DNA visual definido'}}
-function generateNode(id){if(id!=='brief'&&id!=='dna'){const n=state.nodes.find(x=>x.id===id);if(isLocked(n)){showToast('Preencha os nodes anteriores primeiro');return}}state.generating=id;render();if($('station').classList.contains('active'))renderStation();setTimeout(()=>{const c=buildContext();let out='';if(id==='dna'){out=`DNA VISUAL OFICIAL\n\nProjeto: ${c.project}\nFormato: ${c.format} | Duração: ${c.duration}\nTom: ${c.tone}\n\n1. Atmosfera\n- Visual cinematográfico, leitura clara e foco em retenção rápida.\n- A estética deve preservar unidade entre cenas, personagens e objetos.\n\n2. Paleta\n- Fundo escuro profundo, contraste controlado, luz principal dramática.\n- Acentos em dourado/ciano quando fizer sentido para tecnologia, mistério ou premium.\n\n3. Câmera\n- Primeiro impacto nos 3 segundos iniciais.\n- Planos próximos, push-in lento, cortes secos e transições motivadas pelo roteiro.\n\n4. Textura e composição\n- Texturas realistas, profundidade, sombras visíveis e elementos bem separados.\n- Evitar imagem plana, genérica ou com excesso de objetos.\n\n5. Regras de continuidade\n- Manter personagem/produto/ambiente coerente em todas as cenas.\n- Cada cena deve parecer parte do mesmo universo visual.\n\nReferências enviadas: ${state.visualRefs.length} imagem(ns).\nNotas visuais existentes:\n${state.visualMemory||'Nenhuma nota manual.'}`;state.visualMemory=out;state.data.dna.content=out}else if(id==='storyboard'){out=`STORYBOARD TÉCNICO — ${c.project}\n\nCENA 01 — HOOK / ABERTURA — 0s a 3s\nVisual: plano forte, direto, com o elemento principal já em evidência.\nCâmera: push-in curto ou corte seco.\nObjetivo: prender atenção antes do usuário rolar.\n\nCENA 02 — CONTEXTO — 3s a 8s\nVisual: apresentar universo, personagem/produto e conflito visual.\nMovimento: pan lateral leve ou aproximação controlada.\n\nCENA 03 — DESENVOLVIMENTO — 8s a 18s\nVisual: mostrar a transformação, descoberta, benefício ou tensão narrativa.\nComposição: contraste alto, foco claro e mínimo ruído visual.\n\nCENA 04 — PAYOFF — 18s a 26s\nVisual: revelação principal, antes/depois, detalhe crítico ou virada visual.\n\nCENA 05 — CTA / FECHAMENTO — 26s a ${c.duration}\nVisual: frame final memorável com ação clara.\nTexto obrigatório: ${c.required}\n\nDNA aplicado:\n${oneLine(c.visualMemory,360)}` }else if(id==='roteiro'){out=`ROTEIRO / NARRAÇÃO — ${c.project}\n\nHOOK — 0s a 3s\n“Você vai entender por que essa ideia não pode ser tratada como só mais um vídeo.”\n\nDESENVOLVIMENTO\nA cena começa com impacto visual. A câmera se aproxima do elemento principal enquanto o ambiente revela pistas do universo. Nada parece solto: cada luz, corte e som prepara a próxima etapa.\n\nVIRADA\nO que parecia apenas uma ideia vira um pacote técnico completo: storyboard, prompts, som, legenda e plano de edição.\n\nCTA FINAL\n“Agora transforme essa ideia em produção de verdade.”\n\nTEXTO EM TELA SUGERIDO\n1. Ideia solta\n2. Pipeline completo\n3. Pronto para editar\n\nRegras obrigatórias:\n${c.required}` }else if(id==='prompts'){out=`PROMPTS DE VÍDEO IA — ${c.project}\n\nPROMPT EM PORTUGUÊS\nVídeo ${c.format}, ${c.duration}, estética ${c.tone}, direção visual baseada no DNA do projeto. Criar uma sequência cinematográfica com continuidade entre cenas, câmera intencional, iluminação dramática, textura realista, foco no elemento principal e ritmo de retenção para ${c.audience}. Abertura forte nos primeiros 3 segundos, evolução visual clara, payoff final e CTA visual. Não adicionar elementos aleatórios. Manter coerência física, composição limpa e leitura imediata.\n\nPROMPT EM INGLÊS\n${c.format} video, ${c.duration}, ${c.tone} aesthetic, visual direction based on the project DNA. Create a cinematic sequence with consistent continuity between scenes, intentional camera movement, dramatic lighting, realistic textures, clear subject focus, and high-retention pacing for ${c.audience}. Strong opening in the first 3 seconds, clear visual progression, final payoff and visual CTA. Do not add random elements. Keep physical coherence, clean composition and immediate readability.\n\nNEGATIVE PROMPT\nlow quality, blurry, random elements, inconsistent character, inconsistent product, flat lighting, messy composition, text errors, broken anatomy, unrealistic physics, excessive motion, distorted objects, duplicated subjects, watermark, logo artifacts` }else if(id==='remotion'){out=JSON.stringify({project:c.project,format:c.format,duration:c.duration,engine:'remotion-instructional',render_mp4:false,visualDNA:c.visualMemory.slice(0,360),scenes:[{id:1,time:'0-3s',name:'Hook',layers:['background','main-subject','impact-text','sfx-hit'],camera:'short push-in'},{id:2,time:'3-8s',name:'Context',layers:['environment','subject-detail','caption'],camera:'slow pan'},{id:3,time:'8-18s',name:'Development',layers:['motion-panels','text-cards','sound-design'],camera:'controlled zoom'},{id:4,time:'18-final',name:'Payoff CTA',layers:['final-frame','cta','stinger-sfx'],camera:'lock-off'}],export:['json','srt','capcut-motion-book','prompt-video-ai']},null,2)}else if(id==='srt'){out=`1\n00:00:00,000 --> 00:00:03,000\nVocê vai entender por que isso não é só mais um vídeo.\n\n2\n00:00:03,000 --> 00:00:08,000\nUma ideia solta pode virar uma produção completa.\n\n3\n00:00:08,000 --> 00:00:18,000\nRoteiro, storyboard, prompts, som e edição em um único fluxo.\n\n4\n00:00:18,000 --> 00:00:${String(parseInt(c.duration)||30).padStart(2,'0')},000\nAgora é transformar isso em execução.\n\nPLANO DE SOM / SFX\n- 0s: impacto grave curto.\n- 3s: ambience discreto.\n- 8s: whoosh leve nas transições.\n- final: stinger limpo e profissional.\n- Evitar música alta cobrindo narração.` }else if(id==='capcut'){out=`CAPCUT MOTION BOOK — ${c.project}\n\n1. ORGANIZAÇÃO\n- Criar pasta do projeto com: assets, refs, narração, SRT, sound design e exports.\n- Linha do tempo em ${c.format}, duração ${c.duration}.\n\n2. EDIÇÃO\n- Corte 1: hook imediato com zoom curto e impacto sonoro.\n- Corte 2: contexto visual com movimento leve.\n- Corte 3: desenvolvimento com keyframes suaves.\n- Corte 4: payoff com texto/CTA final.\n\n3. MOTION\n- Usar keyframes de escala entre 100% e 106%.\n- Transições secas ou motivadas por som.\n- Evitar efeitos genéricos demais.\n\n4. LEGENDAS\n- Importar SRT.\n- Usar blocos curtos, alta legibilidade e contraste.\n\n5. ENTREGA\n- Exportar versão final e também salvar pacote técnico para reedição.` }else if(id==='assets'){out=`BIBLIOTECA DE ASSETS / CONTINUIDADE\n\nProjeto: ${c.project}\n\nMateriais informados:\n${c.assets}\n\nRegras de preservação:\n- Manter identidade visual do personagem/produto em todas as cenas.\n- Não trocar roupa, cor, forma, logo ou proporção quando houver referência fixa.\n- Separar assets por função: personagem, produto, fundo, texto, som, referência e export.\n\nChecklist de produção:\n[ ] Imagens base separadas\n[ ] Logo e textos obrigatórios conferidos\n[ ] Prompt positivo PT/EN aprovado\n[ ] Negative prompt aprovado\n[ ] SRT conferido\n[ ] CapCut Motion Book pronto\n[ ] Pacote final exportado`}
-state.data[id]=state.data[id]||{};state.data[id].content=out;state.generating=null;addHistory('Gerado: '+(state.nodes.find(n=>n.id===id)?.title||id),out);render();if($('station').classList.contains('active'))renderStation();showToast('Node gerado: '+id)},650)}
-function generateAll(){if(!hasContent('brief')){openStation('brief');showToast('Preencha o briefing primeiro');return}const order=['dna','storyboard','roteiro','prompts','remotion','srt','assets','capcut'];let i=0;function next(){if(i>=order.length){exportPackage();showToast('Pipeline completo gerado');return}generateNode(order[i]);i++;setTimeout(next,760)}next()}
-function approveNode(id){if(id==='brief'){showToast('Briefing aprovado');return}if(!hasContent(id)){generateNode(id);return}state.data[id].approved=true;addHistory('Aprovado: '+(state.nodes.find(n=>n.id===id)?.title||id),getData(id).content||state.visualMemory);render();if($('station').classList.contains('active'))renderStation();showToast('Node aprovado')}
-function approveAndNext(){approveNode(state.active);goNextNode()}
-function goNextNode(){const i=state.nodes.findIndex(n=>n.id===state.active);const next=state.nodes[Math.min(state.nodes.length-1,i+1)];openStation(next.id)}
-function goPrevNode(){const i=state.nodes.findIndex(n=>n.id===state.active);const prev=state.nodes[Math.max(0,i-1)];openStation(prev.id)}
-function exportPackage(){const pkg=buildPackage();state.data.export.content=pkg;state.data.export.approved=true;addHistory('Pacote final montado',pkg);render();if($('station').classList.contains('active'))renderStation();else openStation('export');showToast('Pacote final atualizado')}
-function buildPackage(){const b=state.data.brief;const sections=['dna','storyboard','roteiro','prompts','remotion','srt','assets','capcut'];let text=`VIDEO PACK STUDIO — TITAN NODES OS\nPACOTE FINAL DE PRÉ-PRODUÇÃO AUDIOVISUAL\n\nPROJETO: ${b.title||'Sem título'}\nOBJETIVO: ${b.goal}\nTOM: ${b.tone}\nPÚBLICO/CANAL: ${b.audience}\nFORMATO: ${b.format}\nDURAÇÃO: ${b.duration}\n\nREGRA PRINCIPAL:\nEste pacote não renderiza MP4. Ele organiza direção criativa, roteiro, storyboard, prompts, JSON, SRT, som, assets, CapCut Motion Book e checklist final para execução em ferramentas externas.\n\nBRIEFING ORIGINAL:\n${b.idea||'Não informado'}\n\nASSETS INFORMADOS:\n${b.assets||'Não informado'}\n\nTEXTOS/REGRAS OBRIGATÓRIAS:\n${b.required||'Não informado'}\n`;sections.forEach(id=>{const n=state.nodes.find(x=>x.id===id);const body=id==='dna'?(state.data.dna.content||state.visualMemory):state.data[id]?.content;if(body){text+=`\n\n---\n\n## ${n.title.toUpperCase()}\n\n${body.trim()}\n`}});text+=`\n\n---\n\n## CHECKLIST FINAL\n\n1. Conferir briefing e duração.\n2. Conferir continuidade visual.\n3. Separar imagens, logos, áudio e referências.\n4. Usar prompts em ferramenta de vídeo IA.\n5. Usar JSON como guia técnico para Remotion/motion.\n6. Importar SRT e aplicar sound design.\n7. Montar no CapCut/editor seguindo o Motion Book.\n8. Exportar e revisar versão final.\n`;return text}
-function handleImages(input){const files=Array.from(input.files||[]).slice(0,8);files.forEach(file=>{const reader=new FileReader();reader.onload=e=>{state.visualRefs.push({name:file.name,src:e.target.result});renderThumbs();save();showToast('Referência adicionada')};reader.readAsDataURL(file)});input.value=''}
-function renderThumbs(){const box=$('thumbGrid');if(!box)return;if(!state.visualRefs.length){box.innerHTML='<div class="emptyThumb">Nenhuma referência visual</div>';return}box.innerHTML=state.visualRefs.map((r,i)=>`<div class="thumb"><img src="${r.src}" alt="${escapeAttr(r.name)}"><button onclick="removeImage(${i})">×</button></div>`).join('')}
-function removeImage(i){state.visualRefs.splice(i,1);renderThumbs();save()}
-function setVisualMemory(v){state.visualMemory=v;state.data.dna.content=v;save()}
-function analyzeVisualMemory(){const b=state.data.brief;const text=`DNA VISUAL GERADO\n\nBaseado no briefing: ${b.title||'Projeto sem título'}\nReferências visuais carregadas: ${state.visualRefs.length}\n\n- Atmosfera: ${b.tone}, com leitura forte para ${b.audience}.\n- Formato: ${b.format}, pensado para impacto rápido e composição vertical/horizontal coerente.\n- Câmera: abertura forte, movimento controlado, cortes claros e progressão visual.\n- Luz: contraste cinematográfico, sombras com intenção e foco no elemento principal.\n- Continuidade: manter personagens/produtos/objetos sem alterações aleatórias entre cenas.\n- Ritmo: primeiro impacto em até 3 segundos, desenvolvimento sem ruído e fechamento memorável.\n\nNotas manuais preservadas:\n${state.visualMemory||'Nenhuma nota anterior.'}`;state.visualMemory=text;state.data.dna.content=text;renderStation();render();showToast('DNA Visual atualizado')}
-function renderHistory(){const box=$('historyList');if(!box)return;box.innerHTML=state.history.length?state.history.map(h=>`<div class="historyItem"><strong>${escapeHTML(h.title)}</strong><span>${escapeHTML(h.time)} — ${escapeHTML(h.body)}</span></div>`).join(''):'<p class="mini">Sem histórico ainda.</p>'}
-function copyText(text){navigator.clipboard?.writeText(String(text||''));showToast('Copiado')}
-function download(name,content,type='text/plain'){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
-function safeName(){return (state.data.brief.title||'video-pack-studio').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'video-pack-studio'}
-function downloadPackageTxt(){download(safeName()+'-pacote-final.txt',buildPackage())}
-function downloadPackageJson(){const payload={meta:{name:state.data.brief.title||'Sem título',createdAt:new Date().toISOString(),version:'Titan Nodes OS independente'},brief:state.data.brief,visualMemory:state.visualMemory,nodes:state.nodes.map(n=>({id:n.id,title:n.title,status:nodeStatus(n.id),content:state.data[n.id]?.content||''})),package:buildPackage()};download(safeName()+'-pacote-final.json',JSON.stringify(payload,null,2),'application/json')}
-function resetProject(){if(!confirm('Resetar todo o projeto salvo neste navegador?'))return;localStorage.removeItem(STORAGE_KEY);state={zoom:1,panX:0,panY:0,active:'brief',nodes:clone(nodeDefaults),data:clone(defaultData),visualRefs:[],visualMemory:'',history:[]};render();centerMap();showToast('Projeto resetado')}
-load();render();setTimeout(centerMap,60);
+
+window.state = {
+  zoom:1,
+  panX:0,
+  panY:0,
+  active:'brief',
+  nodes:clone(nodeDefaults),
+  data:clone(defaultData),
+  visualRefs:[],
+  visualMemory:'',
+  history:[],
+  generating:null
+};
+
+var drag = {mode:null,id:null,startX:0,startY:0,baseX:0,baseY:0,moved:false};
+var saveTimer = null;
+
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+  });
+}
+function escAttr(s){ return esc(s).replace(/'/g,'&#39;'); }
+function cleanLine(s,n){
+  s = String(s || '').replace(/\s+/g,' ').trim();
+  n = n || 90;
+  return s.length > n ? s.slice(0,n-1)+'...' : s;
+}
+function now(){ return new Date().toLocaleString('pt-BR'); }
+function nodeById(id){ return state.nodes.find(function(n){return n.id === id;}); }
+function dataFor(id){ return state.data[id] || {content:'',approved:false}; }
+
+function hasContent(id){
+  if(id === 'brief') return !!(state.data.brief.idea || state.data.brief.title);
+  if(id === 'dna') return !!(state.data.dna.content || state.visualMemory);
+  return !!(dataFor(id).content);
+}
+function approved(id){
+  if(id === 'brief') return hasContent('brief');
+  if(id === 'dna') return hasContent('dna') && !!state.data.dna.approved;
+  return !!dataFor(id).approved;
+}
+function locked(node){
+  if(!node) return false;
+  return node.deps.some(function(dep){ return !hasContent(dep); });
+}
+function status(id){
+  var n = nodeById(id);
+  if(state.generating === id) return 'generating';
+  if(locked(n)) return 'locked';
+  if(approved(id)) return 'done';
+  if(hasContent(id)) return 'ready';
+  return 'empty';
+}
+function statusLabel(st){
+  return {generating:'gerando',locked:'bloqueado',done:'aprovado',ready:'revisar',empty:'aguardando'}[st] || st;
+}
+function progress(){
+  var total = state.nodes.filter(function(n){return n.id !== 'export';}).length;
+  var done = state.nodes.filter(function(n){return n.id !== 'export' && approved(n.id);}).length;
+  return Math.round((done / total) * 100);
+}
+function toast(msg){
+  var el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); },1300);
+}
+function addHistory(title,body){
+  state.history.unshift({title:title,body:cleanLine(body,150),time:now()});
+  state.history = state.history.slice(0,30);
+}
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      $('saveChip').textContent = 'Salvo localmente';
+    }catch(e){
+      $('saveChip').textContent = 'Autosave limitado';
+    }
+  },220);
+}
+function load(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    var old = JSON.parse(raw);
+    state.zoom = old.zoom || 1;
+    state.panX = old.panX || 0;
+    state.panY = old.panY || 0;
+    state.active = old.active || 'brief';
+    state.nodes = old.nodes || clone(nodeDefaults);
+    state.data = Object.assign(clone(defaultData), old.data || {});
+    state.visualRefs = old.visualRefs || [];
+    state.visualMemory = old.visualMemory || '';
+    state.history = old.history || [];
+  }catch(e){}
+}
+
+window.render = function(){
+  renderSteps();
+  renderNodes();
+  drawLinks();
+  renderInspector();
+  renderMinimap();
+  updateTransform(false);
+  save();
+};
+
+function renderSteps(){
+  var html = state.nodes.map(function(n){
+    var st = status(n.id);
+    return '<button class="step '+(state.active===n.id?'active ':'')+st+'" onclick="openStation(\''+n.id+'\')">'+
+      '<span class="stepIcon">'+esc(n.icon)+'</span>'+
+      '<span><strong>'+esc(n.title)+'</strong><span>'+statusLabel(st)+'</span></span>'+
+      '<i class="dot '+(st==='done'?'done':state.active===n.id?'active':st==='ready'?'ready':'')+'"></i>'+
+    '</button>';
+  }).join('');
+  $('stepsList').innerHTML = html;
+}
+
+function nodeSummary(id){
+  if(id === 'brief') return cleanLine(state.data.brief.idea,110) || 'Defina ideia, objetivo, formato, duracao e materiais.';
+  if(id === 'dna') return cleanLine(state.data.dna.content || state.visualMemory,110) || 'Transforme referencias em regras visuais.';
+  return cleanLine(dataFor(id).content,110) || (nodeById(id) ? nodeById(id).desc : 'Aguardando.');
+}
+
+function renderNodes(){
+  var html = state.nodes.map(function(n){
+    var st = status(n.id);
+    return '<div class="node '+st+' '+(state.active===n.id?'active':'')+'" id="node-'+n.id+'" data-id="'+n.id+'" style="left:'+n.x+'px;top:'+n.y+'px" ondblclick="openStation(\''+n.id+'\')">'+
+      '<span class="port in"></span><span class="port out"></span>'+
+      '<div class="nodeHead">'+
+        '<div class="nodeIcon">'+esc(n.icon)+'</div>'+
+        '<div class="nodeTitle"><strong>'+esc(n.title)+'</strong><small>'+statusLabel(st)+'</small></div>'+
+      '</div>'+
+      '<div class="nodeBody">'+
+        '<div class="summary">'+esc(nodeSummary(n.id))+'</div>'+
+        '<div class="nodeActions">'+
+          '<button class="btn tiny cyan" onclick="event.stopPropagation();openStation(\''+n.id+'\')">Abrir</button>'+
+          (hasContent(n.id) && n.id !== 'brief' ? '<button class="btn tiny gold" onclick="event.stopPropagation();approveNode(\''+n.id+'\')">Aprovar</button>' : '')+
+        '</div>'+
+      '</div>'+
+      '<span class="handle">...</span>'+
+    '</div>';
+  }).join('');
+  $('nodesCanvas').innerHTML = html;
+  bindNodeEvents();
+}
+
+function centerOf(id){
+  var n = nodeById(id);
+  if(!n) return {x:0,y:0};
+  return {x:n.x + NODE_W/2, y:n.y + 74};
+}
+function drawLinks(){
+  var paths = '';
+  state.nodes.forEach(function(n){
+    n.deps.forEach(function(dep){
+      var a = centerOf(dep);
+      var b = centerOf(n.id);
+      var dx = Math.max(90, Math.abs(b.x-a.x)*0.42);
+      var cls = hasContent(dep) && hasContent(n.id) ? 'done' : (!hasContent(dep) ? 'locked' : '');
+      paths += '<path class="'+cls+'" d="M '+a.x+' '+a.y+' C '+(a.x+dx)+' '+a.y+', '+(b.x-dx)+' '+b.y+', '+b.x+' '+b.y+'"></path>';
+    });
+  });
+  $('links').innerHTML = paths;
+}
+
+function renderInspector(){
+  var p = progress();
+  $('progressFill').style.width = p + '%';
+  $('progressChip').textContent = p + '% pronto';
+  $('projectChip').textContent = 'Projeto: ' + (state.data.brief.title || 'Sem titulo');
+  $('previewTitle').textContent = state.data.brief.title || 'Video Pack';
+  $('previewSub').textContent = cleanLine(state.data.brief.idea,105) || 'Preencha o briefing para criar o pacote tecnico.';
+  $('diagnostic').innerHTML =
+    '<div><span>Nodes aprovados</span><strong>'+state.nodes.filter(function(n){return approved(n.id);}).length+'/'+state.nodes.length+'</strong></div>'+
+    '<div><span>Referencias visuais</span><strong>'+state.visualRefs.length+'</strong></div>'+
+    '<div><span>Formato</span><strong>'+esc(state.data.brief.format)+'</strong></div>'+
+    '<div><span>Duracao</span><strong>'+esc(state.data.brief.duration)+'</strong></div>'+
+    '<div><span>API</span><strong>'+esc(state.data.brief.apiProvider)+'</strong></div>';
+}
+
+function renderMinimap(){
+  var mm = $('minimap');
+  Array.prototype.slice.call(mm.querySelectorAll('.miniNode')).forEach(function(e){e.remove();});
+  state.nodes.forEach(function(n){
+    var d = document.createElement('div');
+    d.className = 'miniNode '+(approved(n.id)?'done':'')+(state.active===n.id?' active':'');
+    d.style.left = (10 + n.x/1700*165) + 'px';
+    d.style.top = (28 + n.y/760*82) + 'px';
+    mm.appendChild(d);
+  });
+}
+
+function updateTransform(redraw){
+  $('map').style.transform = 'translate('+state.panX+'px,'+state.panY+'px) scale('+state.zoom+')';
+  $('zoomReadout').textContent = Math.round(state.zoom*100) + '%';
+  if(redraw !== false) renderMinimap();
+}
+
+window.zoomMap = function(delta,cx,cy){
+  var vp = $('viewport');
+  var rect = vp.getBoundingClientRect();
+  var old = state.zoom;
+  var next = Math.max(.34, Math.min(2.25, +(state.zoom + delta).toFixed(2)));
+  if(next === old) return;
+  cx = cx || rect.left + rect.width/2;
+  cy = cy || rect.top + rect.height/2;
+  var ox = cx - rect.left;
+  var oy = cy - rect.top;
+  state.panX = ox - (ox - state.panX) * (next / old);
+  state.panY = oy - (oy - state.panY) * (next / old);
+  state.zoom = next;
+  updateTransform();
+  save();
+};
+window.centerMap = function(){
+  var vp = $('viewport');
+  state.zoom = Math.min(1, Math.max(.52, vp.clientWidth / 1680));
+  state.panX = (vp.clientWidth - 1550 * state.zoom) / 2;
+  state.panY = Math.max(28, (vp.clientHeight - 740 * state.zoom) / 2);
+  updateTransform();
+  save();
+};
+window.autoLayout = function(){
+  var pos = {
+    brief:[80,110], dna:[430,110], storyboard:[780,110], roteiro:[1130,110], prompts:[1480,110],
+    remotion:[1480,355], srt:[1130,355], assets:[430,600], capcut:[780,600], export:[1130,600]
+  };
+  state.nodes.forEach(function(n){
+    if(pos[n.id]){ n.x = pos[n.id][0]; n.y = pos[n.id][1]; }
+  });
+  render();
+  centerMap();
+  toast('Nodes reorganizados');
+};
+
+function bindNodeEvents(){
+  Array.prototype.slice.call(document.querySelectorAll('.node')).forEach(function(el){
+    el.addEventListener('mousedown',function(e){
+      if(e.target.closest('button')) return;
+      var id = el.getAttribute('data-id');
+      var n = nodeById(id);
+      drag = {mode:'node',id:id,startX:e.clientX,startY:e.clientY,baseX:n.x,baseY:n.y,moved:false};
+      el.classList.add('dragging');
+    });
+    el.addEventListener('click',function(e){
+      if(e.target.closest('button')) return;
+      if(drag.moved) return;
+      state.active = el.getAttribute('data-id');
+      render();
+    });
+  });
+}
+
+var viewport = $('viewport');
+viewport.addEventListener('mousedown',function(e){
+  if(e.target.closest('.node') || e.target.closest('button')) return;
+  drag = {mode:'map',id:null,startX:e.clientX,startY:e.clientY,baseX:state.panX,baseY:state.panY,moved:false};
+  viewport.classList.add('dragging');
+});
+window.addEventListener('mousemove',function(e){
+  if(!drag.mode) return;
+  drag.moved = true;
+  if(drag.mode === 'map'){
+    state.panX = drag.baseX + (e.clientX - drag.startX);
+    state.panY = drag.baseY + (e.clientY - drag.startY);
+    updateTransform(false);
+  }
+  if(drag.mode === 'node'){
+    var n = nodeById(drag.id);
+    if(!n) return;
+    n.x = Math.round(drag.baseX + (e.clientX - drag.startX) / state.zoom);
+    n.y = Math.round(drag.baseY + (e.clientY - drag.startY) / state.zoom);
+    var el = $('node-'+n.id);
+    if(el){ el.style.left = n.x+'px'; el.style.top = n.y+'px'; }
+    drawLinks();
+    renderMinimap();
+  }
+});
+window.addEventListener('mouseup',function(){
+  if(drag.mode){
+    Array.prototype.slice.call(document.querySelectorAll('.node.dragging')).forEach(function(el){el.classList.remove('dragging');});
+    viewport.classList.remove('dragging');
+    save();
+  }
+  drag = {mode:null,id:null,startX:0,startY:0,baseX:0,baseY:0,moved:false};
+});
+viewport.addEventListener('wheel',function(e){
+  e.preventDefault();
+  zoomMap(e.deltaY > 0 ? -0.06 : 0.06, e.clientX, e.clientY);
+},{passive:false});
+
+window.openStation = function(id){
+  state.active = id;
+  render();
+  renderStation();
+  $('backdrop').classList.add('active');
+  $('station').classList.add('active');
+};
+window.closeStation = function(){
+  $('backdrop').classList.remove('active');
+  $('station').classList.remove('active');
+  render();
+};
+function renderStation(){
+  var n = nodeById(state.active);
+  $('stationIcon').textContent = n.icon;
+  $('stationTitle').textContent = n.title;
+  $('stationSub').textContent = 'Estacao ' + statusLabel(status(n.id));
+  $('stationMain').innerHTML = stationHtml(n.id);
+  renderThumbs();
+  renderHistory();
+  var vn = $('visualNotes');
+  if(vn) vn.value = state.visualMemory || '';
+}
+function optionHtml(current,arr){
+  return arr.map(function(v){ return '<option '+(v===current?'selected':'')+'>'+esc(v)+'</option>'; }).join('');
+}
+function stationHtml(id){
+  if(id === 'brief') return briefHtml();
+  if(id === 'dna') return dnaHtml();
+  if(id === 'assets') return assetsHtml();
+  if(id === 'export') return exportHtml();
+  return technicalHtml(id);
+}
+function briefHtml(){
+  var b = state.data.brief;
+  return ''+
+  '<div class="card">'+
+    '<h3>Briefing Mestre - cerebro do projeto</h3>'+
+    '<div class="grid2">'+
+      '<div><label>Nome do projeto</label><input value="'+escAttr(b.title)+'" oninput="state.data.brief.title=this.value;render();"></div>'+
+      '<div><label>API / Modo</label><select onchange="state.data.brief.apiProvider=this.value;render();">'+optionHtml(b.apiProvider,['Offline / sem API','Claude','Gemini','Groq','OpenRouter','Outro'])+'</select></div>'+
+      '<div><label>Objetivo</label><select onchange="state.data.brief.goal=this.value;save();">'+optionHtml(b.goal,['Pre-producao audiovisual','Video viral curto','Motion comic 2D','Anuncio comercial','Storyboard para cliente','Pacote para CapCut','Pacote para Remotion'])+'</select></div>'+
+      '<div><label>Tom</label><select onchange="state.data.brief.tone=this.value;save();">'+optionHtml(b.tone,['Cinematografico','Horror / tensao','Comedia de acao','Dorama / emocional','Premium / comercial','Anime 2D','Documental misterioso'])+'</select></div>'+
+      '<div><label>Formato</label><select onchange="state.data.brief.format=this.value;render();">'+optionHtml(b.format,['9:16 vertical','16:9 horizontal','1:1 quadrado','4:5 feed','21:9 cinematic'])+'</select></div>'+
+      '<div><label>Duracao</label><select onchange="state.data.brief.duration=this.value;render();">'+optionHtml(b.duration,['8 segundos','15 segundos','30 segundos','45 segundos','60 segundos','90 segundos','2 minutos'])+'</select></div>'+
+      '<div><label>Canal / Publico</label><input value="'+escAttr(b.channel)+'" oninput="state.data.brief.channel=this.value;save();"></div>'+
+      '<div><label>Status</label><input value="'+(hasContent('brief')?'Briefing com conteudo':'Aguardando ideia')+'" readonly></div>'+
+    '</div>'+
+    '<label>Ideia, roteiro bruto ou descricao</label>'+
+    '<textarea rows="8" oninput="state.data.brief.idea=this.value;render();" placeholder="Cole a ideia, roteiro, proposta do cliente, texto solto ou descricao do video...">'+esc(b.idea)+'</textarea>'+
+    '<label>Materiais / assets disponiveis</label>'+
+    '<textarea rows="4" oninput="state.data.brief.materials=this.value;save();" placeholder="Logo, personagem, imagens, produto, voz, musica, roteiro, referencias...">'+esc(b.materials)+'</textarea>'+
+    '<label>Textos obrigatorios / regras / proibicoes</label>'+
+    '<textarea rows="4" oninput="state.data.brief.required=this.value;save();" placeholder="CTA, frase obrigatoria, restricoes, evitar tal coisa...">'+esc(b.required)+'</textarea>'+
+    '<div class="actions">'+
+      '<button class="btn gold" onclick="generatePipeline()">Gerar pipeline completo</button>'+
+      '<button class="btn cyan" onclick="generateNode(\'dna\')">Gerar DNA Visual</button>'+
+      '<button class="btn green" onclick="approveAndNext()">Aprovar e avancar</button>'+
+    '</div>'+
+  '</div>'+
+  '<div class="card">'+
+    '<h3>Arquitetura do produto</h3>'+
+    '<div class="smartGrid">'+
+      '<div class="smartCell"><strong>1. Briefing</strong><span>Uma entrada alimenta tudo.</span></div>'+
+      '<div class="smartCell"><strong>2. Estacoes</strong><span>Cada node vira trabalho real.</span></div>'+
+      '<div class="smartCell"><strong>3. Revisao</strong><span>Aprovar, corrigir ou regenerar.</span></div>'+
+      '<div class="smartCell"><strong>4. Entrega</strong><span>TXT/JSON limpo para producao.</span></div>'+
+    '</div>'+
+  '</div>';
+}
+function dnaHtml(){
+  return ''+
+  '<div class="card">'+
+    '<h3>DNA Visual / Continuidade</h3>'+
+    '<p class="help">Aqui fica a biblia visual do projeto: paleta, atmosfera, camera, textura, continuidade e regras contra erro visual.</p>'+
+    '<textarea rows="15" oninput="state.data.dna.content=this.value;state.visualMemory=this.value;save();">'+esc(state.data.dna.content || state.visualMemory)+'</textarea>'+
+    '<div class="actions">'+
+      '<button class="btn gold" onclick="generateNode(\'dna\')">Gerar DNA Visual</button>'+
+      '<button class="btn green" onclick="approveNode(\'dna\')">Aprovar DNA</button>'+
+      '<button class="btn cyan" onclick="copyText(state.data.dna.content || state.visualMemory)">Copiar</button>'+
+    '</div>'+
+  '</div>';
+}
+function assetsHtml(){
+  return ''+
+  '<div class="card">'+
+    '<h3>Assets / Continuidade</h3>'+
+    '<p class="help">Biblioteca tecnica para nao perder personagem, roupa, objeto, cor, logo e regra visual entre cenas.</p>'+
+    '<textarea rows="18" oninput="state.data.assets.content=this.value;save();">'+esc(state.data.assets.content)+'</textarea>'+
+    '<div class="actions">'+
+      '<button class="btn gold" onclick="generateNode(\'assets\')">Gerar biblioteca</button>'+
+      '<button class="btn green" onclick="approveNode(\'assets\')">Aprovar</button>'+
+      '<button class="btn cyan" onclick="copyText(state.data.assets.content)">Copiar</button>'+
+    '</div>'+
+  '</div>';
+}
+function technicalHtml(id){
+  var titles = {
+    storyboard:'Storyboard Tecnico',
+    roteiro:'Roteiro / Narracao',
+    prompts:'Prompts de Video IA',
+    remotion:'JSON / Remotion',
+    srt:'SRT / Som / SFX',
+    capcut:'CapCut Motion Book'
+  };
+  var hints = {
+    storyboard:'Cenas numeradas com tempo, enquadramento, acao, camera e corte.',
+    roteiro:'Hook, narracao, falas, textos em tela e CTA.',
+    prompts:'Prompt PT/EN para Veo, Flow, Seedance, Kling, Runway ou CapCut AI.',
+    remotion:'JSON tecnico com scenes, layers, timing, motion e audio.',
+    srt:'Legenda .srt + guia de som, SFX e musica.',
+    capcut:'Manual de montagem no CapCut: cortes, keyframes, efeitos, checklist.'
+  };
+  return ''+
+  '<div class="card">'+
+    '<h3>'+esc(titles[id])+'</h3>'+
+    '<p class="help">'+esc(hints[id])+'</p>'+
+    '<div class="actions">'+
+      '<button class="btn gold" onclick="generateNode(\''+id+'\')">Gerar etapa</button>'+
+      '<button class="btn green" onclick="approveNode(\''+id+'\')">Aprovar</button>'+
+      '<button class="btn cyan" onclick="copyText(state.data[\''+id+'\'].content || \'\')">Copiar</button>'+
+      '<button class="btn red" onclick="clearNode(\''+id+'\')">Limpar</button>'+
+    '</div>'+
+    '<div class="output" contenteditable="true" oninput="state.data[\''+id+'\'].content=this.innerText;save();">'+esc(state.data[id].content || 'Aguardando geracao desta estacao...')+'</div>'+
+  '</div>';
+}
+function exportHtml(){
+  var pkg = buildPackage();
+  return ''+
+  '<div class="card">'+
+    '<h3>Pacote Final Limpo</h3>'+
+    '<p class="help">Compilacao final sem duplicar cards, pronta para producao externa.</p>'+
+    '<div class="actions">'+
+      '<button class="btn gold" onclick="exportPackage()">Atualizar pacote</button>'+
+      '<button class="btn green" onclick="downloadTxt()">Baixar TXT</button>'+
+      '<button class="btn cyan" onclick="downloadJson()">Baixar JSON</button>'+
+      '<button class="btn" onclick="copyText(buildPackage())">Copiar tudo</button>'+
+    '</div>'+
+    '<div class="output">'+esc(pkg)+'</div>'+
+  '</div>';
+}
+
+function context(){
+  var b = state.data.brief;
+  return {
+    project:b.title || 'Projeto sem titulo',
+    idea:b.idea || 'Sem briefing informado',
+    materials:b.materials || 'Materiais nao informados',
+    required:b.required || 'Sem textos obrigatorios',
+    goal:b.goal,
+    tone:b.tone,
+    channel:b.channel,
+    duration:b.duration,
+    format:b.format,
+    visual:state.data.dna.content || state.visualMemory || 'DNA visual ainda nao definido',
+    refs:state.visualRefs.length
+  };
+}
+window.generatePipeline = function(){
+  if(!hasContent('brief')){
+    openStation('brief');
+    toast('Preencha o briefing primeiro');
+    return;
+  }
+  var order = ['dna','storyboard','roteiro','prompts','remotion','srt','assets','capcut'];
+  var i = 0;
+  function next(){
+    if(i >= order.length){
+      exportPackage();
+      toast('Pipeline completo gerado');
+      return;
+    }
+    generateNode(order[i]);
+    i += 1;
+    setTimeout(next, 330);
+  }
+  next();
+};
+
+window.generateNode = function(id){
+  if(id !== 'dna'){
+    var n = nodeById(id);
+    if(n && locked(n)){
+      toast('Preencha os nodes anteriores primeiro');
+      return;
+    }
+  }
+  state.generating = id;
+  render();
+  if($('station').classList.contains('active')) renderStation();
+
+  setTimeout(function(){
+    var c = context();
+    var out = '';
+    if(id === 'dna'){
+      out = 'DNA VISUAL OFICIAL\\n\\n'+
+      'Projeto: '+c.project+'\\n'+
+      'Objetivo: '+c.goal+'\\n'+
+      'Formato: '+c.format+' | Duracao: '+c.duration+'\\n'+
+      'Tom: '+c.tone+' | Canal: '+c.channel+'\\n\\n'+
+      '1. Atmosfera\\n'+
+      '- Visual de impacto, leitura rapida e acabamento profissional.\\n'+
+      '- A estetica deve manter unidade entre cenas, personagens, objetos e texto.\\n\\n'+
+      '2. Paleta e luz\\n'+
+      '- Fundo escuro ou limpo conforme o projeto, contraste controlado e ponto de foco bem definido.\\n'+
+      '- Usar acentos de cor apenas para guiar o olhar, nao para poluir.\\n\\n'+
+      '3. Camera\\n'+
+      '- Hook visual nos primeiros 3 segundos.\\n'+
+      '- Push-in curto, pan leve, corte seco ou movimento motivado pelo som.\\n\\n'+
+      '4. Continuidade\\n'+
+      '- Manter personagem/produto/ambiente sem mudancas aleatorias.\\n'+
+      '- Nao trocar roupa, forma, logo, proporcao ou cor fixa sem decisao do usuario.\\n\\n'+
+      '5. Referencias carregadas\\n'+
+      '- '+c.refs+' imagem(ns) anexada(s).\\n\\n'+
+      'Notas visuais preservadas:\\n'+(state.visualMemory || 'Nenhuma nota manual.');
+      state.visualMemory = out;
+      state.data.dna.content = out;
+    }
+    if(id === 'storyboard'){
+      out = 'STORYBOARD TECNICO - '+c.project+'\\n\\n'+
+      'CENA 01 - HOOK / ABERTURA - 0s a 3s\\n'+
+      'Visual: frame forte com o elemento principal em evidencia.\\n'+
+      'Camera: push-in curto ou corte seco.\\n'+
+      'Objetivo: prender atencao antes do usuario rolar.\\n\\n'+
+      'CENA 02 - CONTEXTO - 3s a 8s\\n'+
+      'Visual: mostrar universo, personagem/produto e problema.\\n'+
+      'Camera: pan lateral leve, foco no detalhe ou aproximacao controlada.\\n\\n'+
+      'CENA 03 - DESENVOLVIMENTO - 8s a 18s\\n'+
+      'Visual: revelar a transformacao, descoberta, beneficio ou conflito.\\n'+
+      'Composicao: contraste alto, foco claro e pouco ruido visual.\\n\\n'+
+      'CENA 04 - PAYOFF - 18s a 26s\\n'+
+      'Visual: resultado, virada, antes/depois ou detalhe memoravel.\\n\\n'+
+      'CENA 05 - CTA / FECHAMENTO - 26s a '+c.duration+'\\n'+
+      'Visual: frame final limpo com chamada de acao.\\n'+
+      'Texto obrigatorio: '+c.required+'\\n\\n'+
+      'DNA aplicado:\\n'+cleanLine(c.visual,500);
+    }
+    if(id === 'roteiro'){
+      out = 'ROTEIRO / NARRACAO - '+c.project+'\\n\\n'+
+      'HOOK - 0s a 3s\\n'+
+      '"Isso aqui nao e so uma ideia: e um pacote pronto para virar video."\\n\\n'+
+      'NARRACAO - 3s a 18s\\n'+
+      'A cena apresenta o ponto principal com clareza. O movimento da camera guia o olhar, enquanto cada corte transforma a ideia em producao: visual, roteiro, legenda, som e edicao.\\n\\n'+
+      'VIRADA - 18s a 26s\\n'+
+      'O que antes estava solto agora tem estrutura: cenas, prompts, timing, SRT e plano tecnico.\\n\\n'+
+      'CTA FINAL\\n'+
+      '"Agora e executar no editor e finalizar como producao profissional."\\n\\n'+
+      'TEXTOS EM TELA\\n'+
+      '1. Ideia solta\\n2. Pipeline completo\\n3. Pronto para editar\\n\\n'+
+      'Regras obrigatorias:\\n'+c.required;
+    }
+    if(id === 'prompts'){
+      out = 'PROMPTS DE VIDEO IA - '+c.project+'\\n\\n'+
+      'PROMPT EM PORTUGUES\\n'+
+      'Video '+c.format+', duracao '+c.duration+', estetica '+c.tone+', criado para '+c.channel+'. Criar sequencia cinematografica com continuidade entre cenas, camera intencional, iluminacao coerente, textura profissional, foco claro no elemento principal e ritmo de retencao. Abertura forte nos primeiros 3 segundos, desenvolvimento visual organizado, payoff final e CTA visual. Nao adicionar elementos aleatorios. Manter coerencia fisica, composicao limpa e leitura imediata.\\n\\n'+
+      'PROMPT EM INGLES\\n'+
+      c.format+' video, '+c.duration+', '+c.tone+' aesthetic, designed for '+c.channel+'. Create a cinematic sequence with consistent continuity between shots, intentional camera movement, coherent lighting, professional texture, clear subject focus, and high-retention pacing. Strong opening in the first 3 seconds, organized visual progression, final payoff and visual CTA. Do not add random elements. Keep physical coherence, clean composition and immediate readability.\\n\\n'+
+      'NEGATIVE PROMPT\\n'+
+      'low quality, blurry, random elements, inconsistent character, inconsistent product, flat lighting, messy composition, text artifacts, broken anatomy, unrealistic physics, excessive motion, distorted objects, duplicated subjects, watermark, logo artifacts';
+    }
+    if(id === 'remotion'){
+      out = JSON.stringify({
+        project:c.project,
+        version:'Titan OS V4',
+        render_mp4:false,
+        format:c.format,
+        duration:c.duration,
+        goal:c.goal,
+        visualDNA:c.visual.slice(0,500),
+        scenes:[
+          {id:1,time:'0-3s',name:'Hook',layers:['background','main-subject','impact-text','sfx-hit'],camera:'short push-in'},
+          {id:2,time:'3-8s',name:'Context',layers:['environment','subject-detail','caption'],camera:'slow pan'},
+          {id:3,time:'8-18s',name:'Development',layers:['motion-panels','text-cards','sound-design'],camera:'controlled zoom'},
+          {id:4,time:'18-final',name:'Payoff CTA',layers:['final-frame','cta','stinger-sfx'],camera:'lock-off'}
+        ],
+        exports:['txt-package','json-package','srt','capcut-motion-book','video-ai-prompts']
+      },null,2);
+    }
+    if(id === 'srt'){
+      var sec = parseInt(c.duration,10) || 30;
+      out = '1\\n00:00:00,000 --> 00:00:03,000\\nIsso aqui nao e so uma ideia.\\n\\n'+
+      '2\\n00:00:03,000 --> 00:00:08,000\\nE uma producao organizada em etapas.\\n\\n'+
+      '3\\n00:00:08,000 --> 00:00:18,000\\nStoryboard, roteiro, prompts, som e edicao no mesmo fluxo.\\n\\n'+
+      '4\\n00:00:18,000 --> 00:00:'+String(sec).padStart(2,'0')+',000\\nAgora e transformar isso em video.\\n\\n'+
+      'PLANO DE SOM / SFX\\n'+
+      '- 0s: impacto grave curto.\\n'+
+      '- 3s: ambiente discreto.\\n'+
+      '- 8s: whoosh leve nas transicoes.\\n'+
+      '- Final: stinger limpo e profissional.\\n'+
+      '- Evitar musica alta cobrindo narracao.';
+    }
+    if(id === 'assets'){
+      out = 'ASSETS / CONTINUIDADE - '+c.project+'\\n\\n'+
+      'Materiais informados:\\n'+c.materials+'\\n\\n'+
+      'Biblioteca sugerida:\\n'+
+      '1. Personagens / produto / objeto principal.\\n'+
+      '2. Fundos e cenarios.\\n'+
+      '3. Logos, textos obrigatorios e CTA.\\n'+
+      '4. Referencias visuais e thumbnails.\\n'+
+      '5. Audio, voz, trilha e SFX.\\n\\n'+
+      'Regras de continuidade:\\n'+
+      '- Nao alterar roupa, cor, logo, proporcao ou objeto fixo.\\n'+
+      '- Conferir frame final de cada cena antes de passar para a proxima.\\n'+
+      '- Salvar tudo em pastas separadas para CapCut/Drive.\\n\\n'+
+      'Checklist:\\n[ ] imagens base separadas\\n[ ] prompt aprovado\\n[ ] negative prompt aprovado\\n[ ] SRT conferido\\n[ ] Motion Book pronto\\n[ ] pacote final exportado';
+    }
+    if(id === 'capcut'){
+      out = 'CAPCUT MOTION BOOK - '+c.project+'\\n\\n'+
+      '1. ORGANIZACAO\\n'+
+      '- Criar pasta com: refs, assets, audio, srt, exports e pacote tecnico.\\n'+
+      '- Linha do tempo em '+c.format+', duracao '+c.duration+'.\\n\\n'+
+      '2. EDICAO\\n'+
+      '- Corte 1: hook imediato com zoom curto e impacto sonoro.\\n'+
+      '- Corte 2: contexto com movimento leve.\\n'+
+      '- Corte 3: desenvolvimento com keyframes suaves.\\n'+
+      '- Corte 4: payoff com texto/CTA final.\\n\\n'+
+      '3. MOTION\\n'+
+      '- Keyframes de escala entre 100% e 106%.\\n'+
+      '- Transicoes secas ou motivadas por som.\\n'+
+      '- Evitar efeito generico demais.\\n\\n'+
+      '4. LEGENDAS\\n'+
+      '- Importar SRT.\\n'+
+      '- Usar blocos curtos, contraste alto e boa leitura.\\n\\n'+
+      '5. EXPORTACAO\\n'+
+      '- Exportar versao final.\\n'+
+      '- Guardar TXT/JSON para reuso e revisao.';
+    }
+
+    if(!state.data[id]) state.data[id] = {content:'',approved:false};
+    state.data[id].content = out;
+    state.generating = null;
+    addHistory('Gerado: '+(nodeById(id)?nodeById(id).title:id), out);
+    render();
+    if($('station').classList.contains('active')) renderStation();
+    toast('Node gerado: '+id);
+  },420);
+};
+
+window.approveNode = function(id){
+  if(id === 'brief'){
+    toast('Briefing aprovado');
+    return;
+  }
+  if(!hasContent(id)){
+    generateNode(id);
+    return;
+  }
+  state.data[id].approved = true;
+  addHistory('Aprovado: '+(nodeById(id)?nodeById(id).title:id), state.data[id].content || state.visualMemory);
+  render();
+  if($('station').classList.contains('active')) renderStation();
+  toast('Node aprovado');
+};
+window.approveAndNext = function(){
+  approveNode(state.active);
+  var i = state.nodes.findIndex(function(n){return n.id === state.active;});
+  var next = state.nodes[Math.min(state.nodes.length-1, i+1)];
+  openStation(next.id);
+};
+window.previousNode = function(){
+  var i = state.nodes.findIndex(function(n){return n.id === state.active;});
+  var prev = state.nodes[Math.max(0, i-1)];
+  openStation(prev.id);
+};
+window.clearNode = function(id){
+  if(!state.data[id]) return;
+  state.data[id].content = '';
+  state.data[id].approved = false;
+  render();
+  renderStation();
+  toast('Node limpo');
+};
+
+window.buildVisualMemory = function(){
+  var c = context();
+  var text = 'DNA VISUAL GERADO\\n\\n'+
+  'Projeto: '+c.project+'\\n'+
+  'Referencias carregadas: '+state.visualRefs.length+'\\n\\n'+
+  '- Atmosfera: '+c.tone+', com leitura forte para '+c.channel+'.\\n'+
+  '- Formato: '+c.format+', pensado para impacto rapido.\\n'+
+  '- Camera: abertura forte, movimento controlado e cortes claros.\\n'+
+  '- Luz: contraste cinematografico e foco no elemento principal.\\n'+
+  '- Continuidade: preservar personagens/produtos/objetos entre cenas.\\n\\n'+
+  'Notas manuais:\\n'+(state.visualMemory || 'Nenhuma nota anterior.');
+  state.visualMemory = text;
+  state.data.dna.content = text;
+  render();
+  renderStation();
+  toast('DNA visual atualizado');
+};
+window.updateVisualMemory = function(v){
+  state.visualMemory = v;
+  state.data.dna.content = v;
+  save();
+};
+window.handleImages = function(input){
+  var files = Array.prototype.slice.call(input.files || []).slice(0,12);
+  files.forEach(function(file){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      state.visualRefs.push({name:file.name,src:e.target.result});
+      renderThumbs();
+      render();
+      toast('Referencia adicionada');
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+};
+function renderThumbs(){
+  var box = $('thumbs');
+  if(!box) return;
+  if(!state.visualRefs.length){
+    box.innerHTML = '<div class="empty">Nenhuma referencia visual</div>';
+    return;
+  }
+  box.innerHTML = state.visualRefs.map(function(r,i){
+    return '<div class="thumb"><img src="'+r.src+'" alt="'+escAttr(r.name)+'"><button onclick="removeImage('+i+')">x</button></div>';
+  }).join('');
+}
+window.removeImage = function(i){
+  state.visualRefs.splice(i,1);
+  renderThumbs();
+  render();
+};
+function renderHistory(){
+  var box = $('history');
+  if(!box) return;
+  if(!state.history.length){
+    box.innerHTML = '<p class="help">Sem historico ainda.</p>';
+    return;
+  }
+  box.innerHTML = state.history.map(function(h){
+    return '<div class="historyItem"><strong>'+esc(h.title)+'</strong><span>'+esc(h.time)+' - '+esc(h.body)+'</span></div>';
+  }).join('');
+}
+
+window.exportPackage = function(){
+  var pkg = buildPackage();
+  state.data.export.content = pkg;
+  state.data.export.approved = true;
+  addHistory('Pacote final montado', pkg);
+  render();
+  openStation('export');
+  toast('Pacote final atualizado');
+};
+window.buildPackage = function(){
+  var b = state.data.brief;
+  var text = '';
+  text += 'VIDEO PACK STUDIO - TITAN NODES OS V4\\n';
+  text += 'PACOTE FINAL DE PRE-PRODUCAO AUDIOVISUAL\\n\\n';
+  text += 'PROJETO: '+(b.title || 'Sem titulo')+'\\n';
+  text += 'OBJETIVO: '+b.goal+'\\n';
+  text += 'TOM: '+b.tone+'\\n';
+  text += 'CANAL/PUBLICO: '+b.channel+'\\n';
+  text += 'FORMATO: '+b.format+'\\n';
+  text += 'DURACAO: '+b.duration+'\\n';
+  text += 'API/MODO: '+b.apiProvider+'\\n\\n';
+  text += 'REGRA PRINCIPAL\\n';
+  text += 'Este pacote nao renderiza MP4. Ele organiza direcao criativa, roteiro, storyboard, prompts, JSON, SRT, som, assets, CapCut Motion Book e checklist final.\\n\\n';
+  text += 'BRIEFING ORIGINAL\\n'+(b.idea || 'Nao informado')+'\\n\\n';
+  text += 'MATERIAIS / ASSETS\\n'+(b.materials || 'Nao informado')+'\\n\\n';
+  text += 'TEXTOS OBRIGATORIOS / REGRAS\\n'+(b.required || 'Nao informado')+'\\n';
+
+  ['dna','storyboard','roteiro','prompts','remotion','srt','assets','capcut'].forEach(function(id){
+    var n = nodeById(id);
+    var body = state.data[id] && state.data[id].content ? state.data[id].content : '';
+    if(body){
+      text += '\\n\\n---\\n\\n## '+n.title.toUpperCase()+'\\n\\n'+body.trim()+'\\n';
+    }
+  });
+
+  text += '\\n\\n---\\n\\nCHECKLIST FINAL\\n';
+  text += '[ ] Conferir briefing, duracao e formato.\\n';
+  text += '[ ] Conferir continuidade visual.\\n';
+  text += '[ ] Separar assets e referencias.\\n';
+  text += '[ ] Usar prompts em ferramenta de video IA.\\n';
+  text += '[ ] Usar JSON como guia tecnico/motion.\\n';
+  text += '[ ] Importar SRT e aplicar som/SFX.\\n';
+  text += '[ ] Montar no CapCut/editor seguindo Motion Book.\\n';
+  text += '[ ] Exportar versao final e guardar pacote.\\n';
+
+  return text;
+};
+function safeName(){
+  return (state.data.brief.title || 'video-pack-studio-titan-os-v4')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-|-$/g,'') || 'video-pack-studio-titan-os-v4';
+}
+function download(name,content,type){
+  var blob = new Blob([content], {type:type || 'text/plain'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+window.downloadTxt = function(){ download(safeName()+'-pacote-final.txt', buildPackage(), 'text/plain'); };
+window.downloadJson = function(){
+  var payload = {
+    meta:{name:state.data.brief.title || 'Sem titulo',version:'Titan Nodes OS V4',createdAt:new Date().toISOString()},
+    brief:state.data.brief,
+    visualMemory:state.visualMemory,
+    referencesCount:state.visualRefs.length,
+    nodes:state.nodes.map(function(n){return {id:n.id,title:n.title,status:status(n.id),approved:approved(n.id),content:(state.data[n.id] && state.data[n.id].content) || ''};}),
+    package:buildPackage()
+  };
+  download(safeName()+'-pacote-final.json', JSON.stringify(payload,null,2), 'application/json');
+};
+window.copyText = function(text){
+  text = String(text || '');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){toast('Copiado');}).catch(function(){fallbackCopy(text);});
+  }else fallbackCopy(text);
+};
+function fallbackCopy(text){
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand('copy'); toast('Copiado'); }catch(e){ toast('Nao foi possivel copiar'); }
+  ta.remove();
+}
+window.resetProject = function(){
+  if(!confirm('Resetar todo o projeto salvo neste navegador?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state.zoom = 1;
+  state.panX = 0;
+  state.panY = 0;
+  state.active = 'brief';
+  state.nodes = clone(nodeDefaults);
+  state.data = clone(defaultData);
+  state.visualRefs = [];
+  state.visualMemory = '';
+  state.history = [];
+  state.generating = null;
+  render();
+  setTimeout(centerMap,40);
+  toast('Projeto resetado');
+};
+
+load();
+render();
+setTimeout(centerMap,80);
+
+})();
 </script>
 </body>
 </html>
