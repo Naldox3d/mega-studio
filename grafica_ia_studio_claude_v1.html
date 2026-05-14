@@ -1,214 +1,426 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Gráfica IA Studio — Claude API</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gráfica Nodes OS — Plataforma Profissional Independente</title>
 <style>
 :root{
-  --bg:#060812;--surface:#0d1122;--surface2:#151b31;--surface3:#1d2542;--border:rgba(255,255,255,.09);
-  --text:#edf1ff;--muted:#8a92b8;--gold:#ffbf3d;--cyan:#00e5d4;--pink:#ff4d7e;--green:#56ff9b;--purple:#9b6dff;
-  --gold-dim:rgba(255,191,61,.12);--cyan-dim:rgba(0,229,212,.1);--pink-dim:rgba(255,77,126,.11);--green-dim:rgba(86,255,155,.11);--purple-dim:rgba(155,109,255,.11);
-  --radius:16px;--radius-sm:10px;
+  --bg:#050711;
+  --bg2:#090d19;
+  --panel:#0d1324;
+  --panel2:#111a2e;
+  --panel3:#17213a;
+  --line:rgba(255,255,255,.10);
+  --line2:rgba(255,255,255,.16);
+  --text:#edf2ff;
+  --muted:#9aa8c7;
+  --soft:#c8d4ef;
+  --gold:#e9bf69;
+  --gold2:#f3d38d;
+  --cyan:#58e1d8;
+  --green:#78e39f;
+  --red:#ff8e8e;
+  --purple:#b69bff;
+  --blue:#78b7ff;
+  --pink:#ff78aa;
+  --shadow:0 24px 80px rgba(0,0,0,.46);
+  --radius:18px;
+  --nodeW:268px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:radial-gradient(circle at 20% 0,#16234b 0,#060812 35%,#04050b 100%);color:var(--text);font-family:Inter,sans-serif;min-height:100vh}
-button,input,select,textarea{font-family:inherit}
-.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;padding:14px 20px;background:rgba(6,8,18,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.brand{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);letter-spacing:.5px}.brand span{display:block;color:var(--muted);font-family:Inter,sans-serif;font-size:11px;font-weight:500}
-.status{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--muted)}.dot.ok{background:var(--green);box-shadow:0 0 10px var(--green)}
-.layout{display:grid;grid-template-columns:270px 1fr;min-height:calc(100vh - 61px)}
-.sidebar{background:rgba(13,17,34,.86);border-right:1px solid var(--border);padding:14px;overflow-y:auto}
-.node{display:flex;gap:10px;align-items:center;padding:11px 12px;margin-bottom:7px;border:1px solid var(--border);background:var(--surface2);border-radius:var(--radius-sm);cursor:pointer;transition:.15s}
-.node:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.2)}.node.active{border-color:var(--gold);background:var(--gold-dim)}.node.done{border-color:rgba(86,255,155,.32)}
-.node b{font-size:13px}.node small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.node i{font-style:normal;font-size:18px}
-.main{height:calc(100vh - 61px);overflow:hidden;display:flex;flex-direction:column}
-.terminal{min-height:34px;padding:8px 18px;border-bottom:1px solid var(--border);font-family:Space Mono,monospace;color:var(--cyan);font-size:11px;background:rgba(0,0,0,.24)}
-.panel{display:none;flex:1;overflow-y:auto;padding:22px}.panel.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.full{grid-column:1/-1}
-.card{background:rgba(21,27,49,.85);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
-.card h2,.card h3{font-family:Syne,sans-serif;letter-spacing:.2px}.card h2{font-size:22px;margin-bottom:7px}.card h3{font-size:15px;margin-bottom:10px;color:var(--gold)}
-.muted{color:var(--muted);font-size:13px;line-height:1.55}.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);background:rgba(255,255,255,.05);font-size:11px;color:var(--muted);margin:2px}
-label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:var(--gold);font-weight:700;margin-bottom:6px}
-input,select,textarea{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:11px 12px;outline:none;font-size:14px}
-textarea{min-height:120px;resize:vertical;line-height:1.5}.mono{font-family:Space Mono,monospace}
-input:focus,select:focus,textarea:focus{border-color:var(--gold)}
-.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:var(--radius-sm);padding:9px 13px;cursor:pointer;font-weight:700;font-size:12px;transition:.15s}.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}.btn:disabled{opacity:.55;cursor:wait;transform:none}
-.gold{background:rgba(255,191,61,.9);border-color:var(--gold);color:#1b1000}.cyan{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan)}.green{background:var(--green-dim);border-color:var(--green);color:var(--green)}.pink{background:var(--pink-dim);border-color:var(--pink);color:var(--pink)}.purple{background:var(--purple-dim);border-color:var(--purple);color:var(--purple)}
-.output{background:rgba(0,0,0,.28);border:1px solid var(--border);border-radius:var(--radius);padding:15px;white-space:pre-wrap;line-height:1.65;font-size:12px;font-family:Space Mono,monospace;color:#d8e0ff;min-height:130px}
-.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.product{padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);cursor:pointer}.product.selected{border-color:var(--cyan);background:var(--cyan-dim)}.product b{font-size:13px}.product small{display:block;color:var(--muted);font-size:11px;margin-top:4px;line-height:1.35}
-.preview-img{max-width:180px;border-radius:10px;border:1px solid var(--border);margin:8px 8px 0 0}
-.notice{padding:11px 13px;border-radius:var(--radius-sm);font-size:12px;line-height:1.55;margin:10px 0}.info{background:var(--cyan-dim);border:1px solid rgba(0,229,212,.25)}.warn{background:var(--gold-dim);border:1px solid rgba(255,191,61,.25)}.ok{background:var(--green-dim);border:1px solid rgba(86,255,155,.25)}
-table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:9px;border-bottom:1px solid var(--border);text-align:left}th{color:var(--gold)}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border)}.node{min-width:170px}.grid,.products{grid-template-columns:1fr}.main{height:auto}.panel{padding:14px}}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{
+  background:
+    radial-gradient(circle at 18% 0%,rgba(88,225,216,.12),transparent 28%),
+    radial-gradient(circle at 80% 8%,rgba(233,191,105,.12),transparent 24%),
+    linear-gradient(180deg,#050711,#070a14 46%,#050711);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+input,textarea,select{width:100%;border:1px solid var(--line);background:#080d19;color:var(--text);border-radius:12px;padding:11px 12px;outline:none}
+textarea{min-height:110px;resize:vertical;line-height:1.55;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}
+input:focus,textarea:focus,select:focus{border-color:rgba(88,225,216,.58);box-shadow:0 0 0 2px rgba(88,225,216,.08)}
+label{display:block;margin:12px 0 6px;color:var(--gold2);font-weight:900;text-transform:uppercase;letter-spacing:.12em;font-size:10px}
+h1,h2,h3{margin:0;color:#f0ddbb;letter-spacing:.015em}h1{font-size:22px}h2{font-size:18px}h3{font-size:14px}p{line-height:1.55;color:var(--soft)}
+.small{font-size:11px;color:var(--muted);line-height:1.55}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.hide{display:none!important}
+.app{display:grid;grid-template-rows:62px 1fr;height:100vh}
+.topbar{height:62px;display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(5,7,17,.88);border-bottom:1px solid var(--line);backdrop-filter:blur(16px);z-index:30}
+.logoMark{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,var(--gold),#7d5a22);display:grid;place-items:center;color:#130d03;font-weight:1000;box-shadow:0 10px 28px rgba(233,191,105,.18)}
+.brand{min-width:230px}.brand b{display:block;font-size:15px;color:#f0ddbb}.brand span{font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}.topStatus{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;padding:6px 10px;font-size:11px;color:var(--soft);font-weight:800}.pill.gold{border-color:rgba(233,191,105,.4);color:#f6dfad;background:rgba(233,191,105,.08)}.pill.green{border-color:rgba(120,227,159,.4);color:#c9ffd8;background:rgba(120,227,159,.08)}.toolbar{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:900;display:inline-flex;gap:7px;align-items:center;justify-content:center;transition:.15s;white-space:nowrap}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn:active{transform:translateY(0)}.btn.gold{background:linear-gradient(180deg,#f2cf88,#d9a94f);color:#160e02;border-color:rgba(233,191,105,.6)}.btn.cyan{background:rgba(88,225,216,.10);border-color:rgba(88,225,216,.42);color:#cafffb}.btn.green{background:linear-gradient(180deg,#83e8a8,#5fd38c);border-color:rgba(120,227,159,.6);color:#051108}.btn.purple{background:rgba(182,155,255,.10);border-color:rgba(182,155,255,.42);color:#eadfff}.btn.red{background:rgba(255,142,142,.10);border-color:rgba(255,142,142,.42);color:#ffd8d8}.btn.tiny{font-size:10px;padding:7px 9px;border-radius:10px}
+.workspace{display:grid;grid-template-columns:252px minmax(0,1fr) 326px;height:calc(100vh - 62px);min-height:0}
+.leftPanel,.rightPanel{background:rgba(13,19,36,.83);border-right:1px solid var(--line);padding:14px;overflow:auto}.rightPanel{border-right:0;border-left:1px solid var(--line)}
+.panelCard{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border-radius:17px;padding:13px;margin-bottom:12px}.panelCard h3{margin-bottom:8px}.kicker{display:inline-flex;color:#bffefa;border:1px solid rgba(88,225,216,.25);background:rgba(88,225,216,.07);font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:.12em;border-radius:999px;padding:4px 8px;margin-bottom:8px}.quickStack{display:grid;gap:8px}.progressBar{height:8px;border-radius:999px;overflow:hidden;background:#050814;border:1px solid rgba(255,255,255,.08)}.progressBar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--gold),var(--green));transition:width .3s}.miniList{display:grid;gap:7px;margin-top:10px}.miniItem{display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.03);padding:8px;font-size:11px;color:var(--soft)}.miniDot{width:9px;height:9px;border-radius:50%;background:#4a5570}.miniItem.done .miniDot{background:var(--green);box-shadow:0 0 12px rgba(120,227,159,.5)}.miniItem.active .miniDot{background:var(--gold);box-shadow:0 0 12px rgba(233,191,105,.45)}
+.canvasWrap{position:relative;min-width:0;min-height:0;overflow:hidden;background:#050814}.canvas{position:absolute;inset:0;overflow:hidden;cursor:grab;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:32px 32px}.canvas.dragging{cursor:grabbing}.nodeMap{position:absolute;left:0;top:0;width:2600px;height:1800px;transform-origin:0 0;will-change:transform}.links{position:absolute;left:0;top:0;width:2600px;height:1800px;overflow:visible;pointer-events:none;z-index:1}.links path{fill:none;stroke:rgba(88,225,216,.26);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 10}.links path.done{stroke:rgba(120,227,159,.52);stroke-dasharray:none;filter:drop-shadow(0 0 5px rgba(120,227,159,.25))}.links path.main{stroke:rgba(233,191,105,.55);stroke-width:4;stroke-dasharray:none}.nodesLayer{position:absolute;left:0;top:0;z-index:2}.node{position:absolute;width:var(--nodeW);border:1px solid var(--line);border-radius:19px;background:rgba(13,19,36,.92);box-shadow:0 16px 50px rgba(0,0,0,.38);backdrop-filter:blur(10px);user-select:none;transition:border-color .16s,box-shadow .16s,transform .16s,filter .16s}.node:hover{border-color:rgba(255,255,255,.26);filter:brightness(1.08);transform:translateY(-2px)}.node.dragging{z-index:20;border-color:var(--gold);box-shadow:0 24px 80px rgba(0,0,0,.55),0 0 0 1px rgba(233,191,105,.25);transform:scale(1.02)}.node.active{z-index:10;border-color:rgba(233,191,105,.76);box-shadow:0 22px 80px rgba(0,0,0,.55),0 0 0 1px rgba(233,191,105,.26)}.node.done{border-color:rgba(120,227,159,.45)}.node.ready{border-color:rgba(88,225,216,.42)}.node.warn{border-color:rgba(233,191,105,.45)}.nodeHeader{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--line)}.nodeIcon{width:40px;height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.10);display:grid;place-items:center;background:rgba(255,255,255,.05);font-size:19px;flex:0 0 auto}.nodeTitle{min-width:0}.nodeTitle b{display:block;font-size:13px;color:#f2dfbd;line-height:1.2}.nodeTitle span{display:block;font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;margin-top:3px}.nodeBody{padding:12px}.nodeSummary{color:#bcc8df;font-size:11px;line-height:1.45;min-height:48px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.nodeFooter{display:flex;gap:7px;margin-top:10px}.nodeFooter .btn{flex:1}.handle{position:absolute;right:10px;bottom:7px;color:#5d6b88;font-size:13px}.port{position:absolute;width:12px;height:12px;border-radius:50%;background:#0b1020;border:2px solid rgba(88,225,216,.55);top:72px}.port.in{left:-6px}.port.out{right:-6px}.node.done .port{border-color:rgba(120,227,159,.72)}
+.canvasControls{position:absolute;left:14px;bottom:14px;z-index:12;display:flex;gap:8px;background:rgba(7,10,18,.82);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:15px;padding:8px}.zoomText{display:grid;place-items:center;min-width:54px;color:#f0d9aa;font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.minimap{position:absolute;right:16px;bottom:16px;width:190px;height:120px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(3,5,12,.78);z-index:11;overflow:hidden}.minimapTitle{position:absolute;left:10px;top:7px;font:8px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--muted);letter-spacing:.14em}.miniNode{position:absolute;width:16px;height:10px;border-radius:3px;background:rgba(88,225,216,.5)}.miniNode.done{background:rgba(120,227,159,.7)}
+.outputBox{white-space:pre-wrap;background:#050814;border:1px solid var(--line);border-radius:14px;padding:13px;min-height:120px;max-height:330px;overflow:auto;color:#dbe5ff;font:11px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.previewCard{height:320px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:#070b16;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.mockArt{width:210px;height:260px;border:1px solid rgba(255,255,255,.18);border-radius:19px;background:linear-gradient(150deg,#141b2f,#070b16);position:relative;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.40)}.mockOrb{position:absolute;border-radius:50%;filter:blur(1px)}.mockOrb.a{width:160px;height:160px;background:radial-gradient(circle,rgba(88,225,216,.35),transparent 65%);left:-70px;top:50px}.mockOrb.b{width:150px;height:150px;background:radial-gradient(circle,rgba(233,191,105,.30),transparent 65%);right:-65px;bottom:35px}.mockTitle{position:absolute;left:18px;right:18px;top:72px;color:#f1dfbd;font-weight:1000;font-size:22px;line-height:1}.mockSub{position:absolute;left:18px;right:18px;top:135px;color:#d8e8ff;font-size:11px;line-height:1.4}.mockCta{position:absolute;left:18px;right:18px;bottom:22px;text-align:center;background:var(--gold);color:#140d03;border-radius:999px;padding:9px;font-size:10px;font-weight:1000}.statsGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);padding:10px}.stat b{display:block;color:#f1dfbd}.stat span{font-size:10px;color:var(--muted)}
+.stationOverlay{position:fixed;inset:0;background:rgba(2,4,10,.62);backdrop-filter:blur(5px);z-index:80;display:none}.station{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(1180px,94vw);max-height:88vh;background:#0a0f1d;border:1px solid rgba(233,191,105,.32);border-radius:24px;box-shadow:0 35px 120px rgba(0,0,0,.72);z-index:90;display:none;overflow:hidden;opacity:0;transition:.18s}.station.active{display:flex;flex-direction:column;opacity:1;transform:translate(-50%,-50%) scale(1)}.stationOverlay.active{display:block}.stationHead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}.stationHeadLeft{display:flex;align-items:center;gap:12px}.stationIcon{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:rgba(233,191,105,.08);border:1px solid rgba(233,191,105,.22);font-size:21px}.stationBadge{display:inline-flex;padding:4px 8px;border:1px solid rgba(88,225,216,.35);border-radius:999px;color:#cafffb;background:rgba(88,225,216,.08);font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:.10em}.stationBody{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:0;overflow:hidden}.stationMain{padding:18px;overflow:auto;max-height:calc(88vh - 74px)}.stationSide{border-left:1px solid var(--line);padding:16px;background:rgba(5,8,20,.55);overflow:auto;max-height:calc(88vh - 74px)}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.full{grid-column:1/-1}.productGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}.productCard{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035);padding:12px;cursor:pointer;transition:.15s}.productCard:hover{filter:brightness(1.12);transform:translateY(-1px)}.productCard.selected{border-color:rgba(88,225,216,.58);background:rgba(88,225,216,.08)}.productCard b{display:block;font-size:12px}.productCard span{display:block;font-size:10px;color:var(--muted);line-height:1.35;margin-top:4px}.stationActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}.drop{display:block;border:1px dashed rgba(88,225,216,.43);border-radius:16px;background:rgba(88,225,216,.06);padding:18px;text-align:center;color:#cafffb;font-weight:900;cursor:pointer}.drop input{display:none}.refGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.refThumb{aspect-ratio:16/10;border-radius:12px;border:1px solid var(--line);background:#03050c;overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:10px;text-align:center}.refThumb img{width:100%;height:100%;object-fit:cover}.checkGrid{display:grid;gap:8px}.checkRow{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.03);padding:10px}.checkRow input{width:auto;margin-top:2px}.checkRow b{font-size:12px;color:#f0ddbb}.checkRow span{display:block;font-size:11px;color:var(--muted);line-height:1.45}.danger{border-color:rgba(255,142,142,.3)!important;background:rgba(255,142,142,.06)!important}.note{border:1px dashed rgba(233,191,105,.28);background:rgba(233,191,105,.06);color:#f2dcae;border-radius:14px;padding:11px;font-size:12px;line-height:1.55;margin:8px 0}.divider{height:1px;background:var(--line);margin:14px 0}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:#10182b;border:1px solid rgba(88,225,216,.32);color:#dffffc;border-radius:999px;padding:10px 14px;font-weight:900;font-size:12px;opacity:0;pointer-events:none;z-index:200;transition:.18s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:1100px){.workspace{grid-template-columns:220px minmax(0,1fr)}.rightPanel{display:none}.stationBody{grid-template-columns:1fr}.stationSide{border-left:0;border-top:1px solid var(--line);max-height:260px}.productGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:780px){html,body{overflow:auto}.app{height:auto;min-height:100vh}.topbar{height:auto;align-items:flex-start;flex-wrap:wrap}.toolbar{margin-left:0}.workspace{display:block;height:calc(100vh - 110px)}.leftPanel{display:none}.canvasWrap{height:100%;min-height:620px}.station{width:96vw;max-height:92vh}.grid2,.grid3,.productGrid{grid-template-columns:1fr}.minimap{display:none}.brand{min-width:auto}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">🖨️ Gráfica IA Studio <span>Claude API • Briefing • Orçamento • Pré-impressão • Roteiro comercial</span></div>
-  <div class="status"><span class="dot" id="apiDot"></span><span id="statusText">Setup</span><span class="pill" id="costPill">Custo estimado: US$0.00</span></div>
-</div>
-<div class="layout">
-  <aside class="sidebar" id="nav"></aside>
-  <main class="main">
-    <div class="terminal" id="terminal">Studio iniciado. Configure API, briefing e produto gráfico.</div>
-
-    <section id="panel-brief" class="panel active">
-      <div class="card">
-        <h2>📋 Briefing da Peça Gráfica</h2>
-        <p class="muted">Preencha como se fosse atendimento de gráfica. A IA transforma em proposta, copy, layout, checklist técnico e roteiro para arte.</p>
+<div class="app">
+  <header class="topbar">
+    <div class="logoMark">GP</div>
+    <div class="brand"><b>Gráfica Nodes OS</b><span>independente • canvas profissional • pré-impressão</span></div>
+    <div class="topStatus">
+      <span class="pill gold" id="projectPill">Projeto: Sem título</span>
+      <span class="pill" id="autosavePill">Autosave ativo</span>
+      <span class="pill green" id="progressPill">0% pronto</span>
+    </div>
+    <div class="toolbar">
+      <button class="btn cyan" id="btnOpenBrief">Abrir briefing</button>
+      <button class="btn gold" id="btnGeneratePipeline">Gerar pipeline</button>
+      <button class="btn green" id="btnExportPack">Exportar</button>
+      <button class="btn red" id="btnReset">Reset</button>
+    </div>
+  </header>
+  <main class="workspace">
+    <aside class="leftPanel">
+      <div class="panelCard">
+        <span class="kicker">árvore da gráfica</span>
+        <h3>Pipeline profissional</h3>
+        <p class="small">Preencha uma vez. Cada node vira uma estação técnica, aprova a etapa e alimenta o pacote final.</p>
       </div>
-      <div class="grid">
-        <div><label>Cliente / Marca</label><input id="clientName" value="Cliente Gráfica"/></div>
-        <div><label>Segmento</label><input id="businessType" value="Lanchonete, loja local, evento ou campanha"/></div>
-        <div><label>Objetivo</label><select id="goal"><option>Vender mais</option><option>Divulgar inauguração</option><option>Promoção relâmpago</option><option>Identidade visual</option><option>Cardápio / catálogo</option><option>Evento</option></select></div>
-        <div><label>Tom da comunicação</label><select id="tone"><option>Profissional e moderno</option><option>Popular e vendedor</option><option>Luxo e premium</option><option>Infantil e colorido</option><option>Urgente e promocional</option></select></div>
-        <div class="full"><label>Descrição do pedido</label><textarea id="brief">Criar uma peça gráfica para divulgar uma promoção de fim de semana, com visual chamativo, leitura rápida e chamada para WhatsApp.</textarea></div>
-        <div class="full"><label>Texto obrigatório / informações do cliente</label><textarea id="requiredText">Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.</textarea></div>
-      </div>
-      <div class="btns"><button class="btn gold" onclick="saveBrief()">Salvar briefing</button><button class="btn cyan" onclick="go('product')">Escolher produto →</button><button class="btn purple" onclick="buildCommercialPrompt()">Gerar engenharia do prompt</button></div>
-    </section>
-
-    <section id="panel-product" class="panel">
-      <div class="card"><h2>📦 Produto Gráfico</h2><p class="muted">Escolha o tipo de entrega. O sistema ajusta medidas, sangria, DPI, acabamento e checklist.</p></div>
-      <div class="products" id="products"></div>
-      <div class="card">
-        <h3>Medidas e produção</h3>
-        <div class="grid">
-          <div><label>Largura</label><input id="width" value="1080"/></div>
-          <div><label>Altura</label><input id="height" value="1350"/></div>
-          <div><label>Unidade</label><select id="unit"><option>px</option><option>mm</option><option>cm</option></select></div>
-          <div><label>Quantidade</label><input id="qty" type="number" value="100"/></div>
-          <div><label>Material</label><select id="material"><option>Digital / Social Media</option><option>Couchê 90g</option><option>Couchê 150g</option><option>Couchê 250g</option><option>Adesivo vinil</option><option>Lona 440g</option><option>Papel cartão</option></select></div>
-          <div><label>Acabamento</label><select id="finish"><option>Sem acabamento</option><option>Refile</option><option>Laminação fosca</option><option>Laminação brilho</option><option>Verniz localizado</option><option>Ilhós</option><option>Corte especial</option></select></div>
+      <div class="panelCard">
+        <h3>Ações rápidas</h3>
+        <div class="quickStack">
+          <button class="btn gold" id="quickAll">Preencher uma vez → gerar tudo</button>
+          <button class="btn cyan" id="quickCenter">Centralizar mapa</button>
+          <button class="btn purple" id="quickOrganize">Organizar nodes</button>
+          <button class="btn" id="quickSave">Salvar agora</button>
         </div>
-        <div class="btns"><button class="btn green" onclick="calcQuote()">Calcular orçamento local</button><button class="btn gold" onclick="go('ai')">Gerar com IA →</button></div>
       </div>
-      <div class="output" id="quoteOutput">Escolha um produto e calcule o orçamento.</div>
+      <div class="panelCard">
+        <h3>Progresso</h3>
+        <div class="progressBar"><span id="progressBar"></span></div>
+        <div class="miniList" id="pipelineList"></div>
+      </div>
+      <div class="panelCard">
+        <h3>Regra do produto</h3>
+        <p class="small">Não renderiza arte final sozinho. Organiza atendimento, orçamento, direção visual, copy, prompt de arte, pré-impressão, produção e entrega.</p>
+      </div>
+    </aside>
+    <section class="canvasWrap">
+      <div class="canvas" id="canvas">
+        <div class="nodeMap" id="nodeMap">
+          <svg class="links" id="links"></svg>
+          <div class="nodesLayer" id="nodesLayer"></div>
+        </div>
+      </div>
+      <div class="canvasControls">
+        <button class="btn tiny" id="zoomOut">−</button>
+        <span class="zoomText" id="zoomText">100%</span>
+        <button class="btn tiny" id="zoomIn">+</button>
+        <button class="btn tiny cyan" id="centerBtn">Centralizar</button>
+        <button class="btn tiny purple" id="organizeBtn">Organizar</button>
+      </div>
+      <div class="minimap" id="minimap"><div class="minimapTitle">MINIMAPA</div></div>
     </section>
-
-    <section id="panel-api" class="panel">
-      <div class="card">
-        <h2>🔌 Claude API</h2>
-        <p class="muted">Para uso profissional, use backend seguro. Para teste pessoal, o modo navegador pode funcionar, mas não publique sua chave no HTML.</p>
-        <div class="notice warn">Recomendado: Site → /api/grafica-generate → Claude API. Assim a chave fica protegida e você controla custo por cliente.</div>
+    <aside class="rightPanel">
+      <div class="panelCard">
+        <h3>Diagnóstico do projeto</h3>
+        <div class="statsGrid">
+          <div class="stat"><b id="statProduct">—</b><span>Produto</span></div>
+          <div class="stat"><b id="statFormat">—</b><span>Formato</span></div>
+          <div class="stat"><b id="statQuote">R$ 0,00</b><span>Estimativa</span></div>
+          <div class="stat"><b id="statChecks">0/8</b><span>Pré-impressão</span></div>
+        </div>
       </div>
-      <div class="grid">
-        <div><label>Provider</label><select id="provider"><option value="claude">Claude / Anthropic</option></select></div>
-        <div><label>Modelo</label><select id="model"><option value="claude-haiku-4-5">Claude Haiku 4.5 — econômico</option><option value="claude-sonnet-4-6" selected>Claude Sonnet 4.6 — recomendado</option><option value="claude-opus-4-7">Claude Opus 4.7 — premium</option></select></div>
-        <div><label>Modo</label><select id="callMode"><option value="backend" selected>Backend seguro</option><option value="browser">Teste rápido no navegador</option></select></div>
-        <div><label>Endpoint backend</label><input id="endpoint" value="/api/grafica-generate"/></div>
-        <div class="full"><label>API Key</label><input id="apiKey" type="password" placeholder="Cole sua chave só para teste local"/></div>
-        <div><label>Máx. tokens</label><input id="maxTokens" type="number" value="2500"/></div>
-        <div><label>Temperatura criativa</label><input id="temperature" type="number" value="0.45" step="0.05" min="0" max="1"/></div>
+      <div class="panelCard">
+        <h3>Preview leve</h3>
+        <div class="previewCard">
+          <div class="mockArt">
+            <div class="mockOrb a"></div><div class="mockOrb b"></div>
+            <div class="mockTitle" id="mockTitle">Gráfica OS</div>
+            <div class="mockSub" id="mockSub">Briefing, orçamento e pré-impressão em nodes.</div>
+            <div class="mockCta" id="mockCta">ARTE PRONTA PARA PRODUÇÃO</div>
+          </div>
+        </div>
       </div>
-      <div class="btns"><button class="btn cyan" onclick="testApi()">Testar conexão</button><button class="btn green" onclick="saveApi()">Salvar API</button></div>
-    </section>
-
-    <section id="panel-ref" class="panel">
-      <div class="card">
-        <h2>🖼️ Referências, PDF e Arte do Cliente</h2>
-        <p class="muted">Claude pode analisar imagens e PDFs. Use para entender logo, folder antigo, cardápio, panfleto, print de Instagram ou arte enviada pelo cliente.</p>
+      <div class="panelCard">
+        <h3>Pacote final</h3>
+        <p class="small">Quando as etapas principais estiverem prontas, exporte em TXT ou JSON para cliente, designer ou produção.</p>
+        <div class="quickStack">
+          <button class="btn green" id="downloadTxt">Baixar TXT</button>
+          <button class="btn cyan" id="downloadJson">Baixar JSON</button>
+          <button class="btn" id="copyPack">Copiar pacote</button>
+        </div>
       </div>
-      <div class="grid">
-        <div class="full"><label>Arquivos de referência</label><input id="files" type="file" accept="image/*,.pdf" multiple onchange="previewFiles(event)"/></div>
-        <div class="full"><label>Observação sobre referência</label><textarea id="refNotes">Usar como referência de estilo, hierarquia e informações. Não copiar arte de terceiros.</textarea></div>
-      </div>
-      <div id="filePreview"></div>
-      <div class="btns"><button class="btn purple" onclick="analyzeReferences()">Analisar referência com Claude Vision/PDF</button><button class="btn cyan" onclick="buildRefPrompt()">Montar prompt de referência</button></div>
-      <div class="output" id="refOutput">Nenhuma referência analisada.</div>
-    </section>
-
-    <section id="panel-ai" class="panel">
-      <div class="card">
-        <h2>🤖 Motor IA para Gráfica</h2>
-        <p class="muted">Gera proposta, copy, layout textual, checklist técnico, prompt de imagem e roteiro para designer/Canva/Photoshop/Illustrator.</p>
-      </div>
-      <div class="btns">
-        <button class="btn gold" onclick="generateAI('complete')">Gerar pacote completo</button>
-        <button class="btn cyan" onclick="generateAI('copy')">Copy da peça</button>
-        <button class="btn purple" onclick="generateAI('layout')">Direção de layout</button>
-        <button class="btn green" onclick="generateAI('prepress')">Checklist pré-impressão</button>
-        <button class="btn" onclick="generateAI('imageprompt')">Prompt para imagem/arte</button>
-      </div>
-      <div class="output" id="aiOutput">Resultado da IA aparecerá aqui.</div>
-      <div class="btns"><button class="btn green" onclick="copyOut('aiOutput')">Copiar resultado</button><button class="btn pink" onclick="downloadOut('aiOutput','pacote-grafica.txt')">Baixar .txt</button></div>
-    </section>
-
-    <section id="panel-prepress" class="panel">
-      <div class="card"><h2>✅ Pré-impressão e Qualidade</h2><p class="muted">Checklist técnico para reduzir erro antes de mandar para produção.</p></div>
-      <div class="card">
-        <table>
-          <tr><th>Item</th><th>Regra profissional</th><th>Status</th></tr>
-          <tr><td>Sangria</td><td>3 mm para impressos com corte</td><td><input type="checkbox"/></td></tr>
-          <tr><td>Margem segura</td><td>3 a 5 mm dentro da borda</td><td><input type="checkbox"/></td></tr>
-          <tr><td>Resolução</td><td>300 DPI para impressão; 72/144 DPI para digital</td><td><input type="checkbox"/></td></tr>
-          <tr><td>Cor</td><td>CMYK para gráfica; RGB para digital</td><td><input type="checkbox"/></td></tr>
-          <tr><td>Fontes</td><td>Converter em curvas ou incorporar no PDF</td><td><input type="checkbox"/></td></tr>
-          <tr><td>Arquivo final</td><td>PDF/X, PDF alta qualidade ou PNG/JPG conforme entrega</td><td><input type="checkbox"/></td></tr>
-          <tr><td>Revisão textual</td><td>Telefone, preço, endereço, data, redes e ortografia</td><td><input type="checkbox"/></td></tr>
-        </table>
-      </div>
-      <div class="btns"><button class="btn gold" onclick="generateAI('prepress')">Gerar checklist personalizado</button></div>
-      <div class="output" id="prepressOutput">Checklist personalizado aparecerá aqui.</div>
-    </section>
-
-    <section id="panel-export" class="panel">
-      <div class="card"><h2>📤 Exportação do Projeto</h2><p class="muted">Salve o briefing, orçamento e pacote gerado para mandar ao cliente ou designer.</p></div>
-      <div class="btns"><button class="btn green" onclick="exportJSON()">Baixar JSON</button><button class="btn cyan" onclick="exportClientProposal()">Proposta para cliente</button><button class="btn purple" onclick="copyProject()">Copiar projeto</button></div>
-      <div class="output" id="exportOutput">Preview da exportação.</div>
-    </section>
+    </aside>
   </main>
 </div>
+<div class="stationOverlay" id="stationOverlay"></div>
+<section class="station" id="station">
+  <div class="stationHead">
+    <div class="stationHeadLeft"><div class="stationIcon" id="stationIcon">🧠</div><div><span class="stationBadge" id="stationBadge">Estação ativa</span><h2 id="stationTitle">Briefing</h2></div></div>
+    <div class="stationActions" style="margin:0;padding:0;border:0"><button class="btn tiny cyan" id="stationPrev">‹ Anterior</button><button class="btn tiny gold" id="stationNext">Próximo ›</button><button class="btn tiny" id="stationClose">Fechar</button></div>
+  </div>
+  <div class="stationBody">
+    <div class="stationMain" id="stationMain"></div>
+    <aside class="stationSide">
+      <h3>Contexto do node</h3>
+      <p class="small" id="stationHelp">Cada estação gera uma parte do trabalho gráfico.</p>
+      <div class="divider"></div>
+      <h3>Memória visual</h3>
+      <label class="drop">+ Adicionar referências
+        <input type="file" accept="image/*" multiple id="refInput" />
+      </label>
+      <div class="refGrid" id="refGrid"></div>
+      <label>DNA visual extraído</label>
+      <textarea id="visualDNA" placeholder="Paleta, estilo, hierarquia, textura, mood da marca..."></textarea>
+      <button class="btn tiny cyan" style="width:100%;margin-top:8px" id="analyzeRefs">Analisar referências localmente</button>
+    </aside>
+  </div>
+</section>
+<div class="toast" id="toast">Salvo</div>
 <script>
-const STORAGE='grafica_ia_studio_v1';
-const PRODUCTS=[
-  {id:'social',icon:'📱',name:'Social Media',desc:'Post/feed/story/anúncio digital',w:'1080',h:'1350',unit:'px',mat:'Digital / Social Media',base:0.15},
-  {id:'flyer',icon:'📄',name:'Panfleto/Flyer',desc:'A5/A6 promocional para impressão',w:'148',h:'210',unit:'mm',mat:'Couchê 90g',base:0.35},
-  {id:'card',icon:'💳',name:'Cartão de visita',desc:'90x50mm com sangria',w:'90',h:'50',unit:'mm',mat:'Couchê 250g',base:0.18},
-  {id:'banner',icon:'🪧',name:'Banner/Lona',desc:'Faixa, lona, evento e vitrine',w:'90',h:'120',unit:'cm',mat:'Lona 440g',base:55},
-  {id:'menu',icon:'🍽️',name:'Cardápio',desc:'Menu impresso ou digital',w:'210',h:'297',unit:'mm',mat:'Couchê 150g',base:2.2},
-  {id:'sticker',icon:'🏷️',name:'Adesivo',desc:'Etiqueta, rótulo e embalagem',w:'50',h:'50',unit:'mm',mat:'Adesivo vinil',base:0.28},
-  {id:'catalog',icon:'📚',name:'Catálogo',desc:'Lista de produtos/serviços',w:'210',h:'297',unit:'mm',mat:'Couchê 150g',base:3.5},
-  {id:'logo',icon:'✨',name:'Logo/Identidade',desc:'Direção criativa e guia de marca',w:'1080',h:'1080',unit:'px',mat:'Digital / Social Media',base:80},
-  {id:'package',icon:'📦',name:'Embalagem',desc:'Rótulo, caixa, etiqueta premium',w:'100',h:'150',unit:'mm',mat:'Papel cartão',base:1.8}
-];
-let state=load();let selectedFiles=[];
-function load(){try{return JSON.parse(localStorage.getItem(STORAGE))||{product:'social',api:{model:'claude-sonnet-4-6',callMode:'backend',endpoint:'/api/grafica-generate',maxTokens:2500,temperature:.45},last:''}}catch{return {product:'social',api:{model:'claude-sonnet-4-6',callMode:'backend',endpoint:'/api/grafica-generate',maxTokens:2500,temperature:.45},last:''}}}
-function save(){localStorage.setItem(STORAGE,JSON.stringify(state))}
+(function(){
+'use strict';
+const STORAGE='grafica_nodes_os_profissional_v1';
 const $=id=>document.getElementById(id);
-function log(t,type=''){ $('terminal').textContent=t; $('statusText').textContent=t.slice(0,50); if(type==='ok')$('apiDot').classList.add('ok') }
-function nav(){const items=[['brief','📋','Briefing','dados do cliente'],['product','📦','Produto','peça e orçamento'],['api','🔌','API Claude','modelo e custo'],['ref','🖼️','Referências','imagem/PDF'],['ai','🤖','Motor IA','copy/layout'],['prepress','✅','Pré-impressão','checklist'],['export','📤','Exportar','cliente/designer']];$('nav').innerHTML=items.map(i=>`<div class="node ${document.querySelector('#panel-'+i[0])?.classList.contains('active')?'active':''}" onclick="go('${i[0]}')"><i>${i[1]}</i><div><b>${i[2]}</b><small>${i[3]}</small></div></div>`).join('')}
-function go(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));$('panel-'+id).classList.add('active');nav();if(id==='export')previewExport()}
-function renderProducts(){ $('products').innerHTML=PRODUCTS.map(p=>`<div class="product ${state.product===p.id?'selected':''}" onclick="selectProduct('${p.id}')"><b>${p.icon} ${p.name}</b><small>${p.desc}</small></div>`).join('')}
-function selectProduct(id){state.product=id;const p=PRODUCTS.find(x=>x.id===id);$('width').value=p.w;$('height').value=p.h;$('unit').value=p.unit;$('material').value=p.mat;renderProducts();save();log('Produto selecionado: '+p.name,'ok')}
-function saveBrief(){state.brief=collect();save();log('Briefing salvo.','ok');}
-function saveApi(){state.api={model:$('model').value,callMode:$('callMode').value,endpoint:$('endpoint').value,maxTokens:Number($('maxTokens').value||2500),temperature:Number($('temperature').value||.45),apiKey:$('apiKey').value};save();log('API salva.','ok')}
-function collect(){return {clientName:$('clientName').value,businessType:$('businessType').value,goal:$('goal').value,tone:$('tone').value,brief:$('brief').value,requiredText:$('requiredText').value,product:PRODUCTS.find(p=>p.id===state.product),width:$('width').value,height:$('height').value,unit:$('unit').value,qty:Number($('qty').value||1),material:$('material').value,finish:$('finish').value,refNotes:$('refNotes').value}}
-function systemPrompt(){return `Você é um diretor de arte e consultor de gráfica no Brasil. Ajude com briefing, copy, direção visual, pré-impressão, orçamento lógico e entrega para designer. Regras: não inventar preço final como absoluto; sempre indicar que orçamento depende da gráfica/local/material. Para impressão, lembrar CMYK, 300 DPI, sangria 3mm, margem segura e revisão. Se houver referência de terceiros, usar apenas estrutura/estilo geral, sem copiar arte, marca, personagem ou texto protegido. Responda em português do Brasil.`}
-function promptFor(kind){const b=collect();const base=`BRIEFING GRÁFICA:\n${JSON.stringify(b,null,2)}\n\nTAREFA: `;const tasks={complete:'Gere pacote completo com proposta para cliente, conceito visual, copy principal, textos alternativos, direção de layout, paleta sugerida, tipografia sugerida, checklist técnico e prompt para criar imagem/arte em IA.',copy:'Gere copy curta, persuasiva e pronta para a peça, com 5 variações de título, subtítulo, CTA e observações de hierarquia.',layout:'Crie direção de layout detalhada: composição, hierarquia, cores, tipografia, posição de logo, imagem, CTA e variações para designer.',prepress:'Gere checklist técnico personalizado de pré-impressão para este produto, incluindo sangria, margem, DPI, CMYK/RGB, PDF, revisão e riscos.',imageprompt:'Gere prompts para criar imagem/arte de apoio em IA, em português e inglês, sem texto embutido na imagem e sem copiar marcas/estilos protegidos.'};return base+(tasks[kind]||tasks.complete)}
-function localFallback(kind){const b=collect();return `PACOTE GRÁFICA IA — ${b.product.name}\n\nCLIENTE: ${b.clientName}\nOBJETIVO: ${b.goal}\nFORMATO: ${b.width}x${b.height}${b.unit} | ${b.material} | ${b.finish} | qtd. ${b.qty}\n\nCONCEITO:\nPeça com leitura rápida, visual limpo e chamada forte para ação. Priorizar uma mensagem principal, contraste alto e WhatsApp/CTA visível.\n\nCOPY SUGERIDA:\nTítulo: Oferta especial de fim de semana!\nSubtítulo: Aproveite condições exclusivas até domingo.\nCTA: Chame no WhatsApp e garanta o seu.\n\nDIREÇÃO DE LAYOUT:\nTopo com título grande. Centro com imagem/produto. Rodapé com WhatsApp, endereço e redes. Use no máximo 2 famílias de fontes e contraste forte.\n\nPRÉ-IMPRESSÃO:\n${b.unit==='px'?'Digital: exportar RGB em PNG/JPG.':'Impressão: usar CMYK, 300 DPI, sangria de 3mm, margem segura, fontes em curvas e PDF em alta qualidade.'}\n\nPROMPT DE ARTE:\nCrie uma composição publicitária moderna para ${b.businessType}, visual chamativo, iluminação comercial, espaço limpo para texto, sem texto na imagem, alta qualidade.`}
-function estimateTokens(kind){const b=JSON.stringify(collect()).length/4;const out={complete:2200,copy:700,layout:1200,prepress:900,imageprompt:600}[kind]||1500;return {input:Math.round(900+b),output:out}}
-function estimateCost(kind){const model=$('model').value;const t=estimateTokens(kind);let i=3,o=15;if(model.includes('haiku')){i=1;o=5}else if(model.includes('opus')){i=5;o=25}const cost=t.input*i/1e6+t.output*o/1e6;$('costPill').textContent='Custo estimado: US$'+cost.toFixed(4);return cost}
-async function callClaude(prompt){saveApi();const api=state.api;const body={model:api.model,max_tokens:api.maxTokens||2500,temperature:api.temperature||.45,system:systemPrompt(),messages:[{role:'user',content:prompt}]};if(api.callMode==='backend'){const r=await fetch(api.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw new Error(d.error||d.message||JSON.stringify(d));return d.text||d.content||d.output||JSON.stringify(d,null,2)}else{if(!api.apiKey)throw new Error('Sem API Key. Use backend ou cole a chave para teste local.');const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':api.apiKey,'anthropic-version':'2023-06-01'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw new Error(d.error?.message||JSON.stringify(d));return (d.content||[]).map(c=>c.text||'').join('\n')}}
-async function generateAI(kind){estimateCost(kind);const out=kind==='prepress'?'prepressOutput':'aiOutput';$(out).textContent='Gerando com IA...';try{const text=await callClaude(promptFor(kind));$(out).textContent=text;state.last=text;save();log('Resultado gerado com Claude.','ok')}catch(e){$(out).textContent=localFallback(kind)+`\n\n[Fallback local porque a API não respondeu: ${e.message}]`;log('API falhou; usando fallback local.','')}}
-async function testApi(){try{const text=await callClaude('Responda apenas: Gráfica IA Studio online.');log('API conectada: '+text.slice(0,80),'ok')}catch(e){log('Erro API: '+e.message)}}
-function calcQuote(){const b=collect();const p=b.product;let cost=p.base*b.qty;if(p.id==='banner')cost=p.base*Math.max(1,(Number(b.width)*Number(b.height))/10000);if(['logo'].includes(p.id))cost=p.base;const design=p.id==='social'?35:p.id==='logo'?180:50;const total=cost+design;$('quoteOutput').textContent=`ORÇAMENTO LOCAL ESTIMADO\n\nProduto: ${p.name}\nFormato: ${b.width}x${b.height}${b.unit}\nMaterial: ${b.material}\nAcabamento: ${b.finish}\nQuantidade: ${b.qty}\n\nProdução estimada: R$ ${cost.toFixed(2)}\nCriação/arte estimada: R$ ${design.toFixed(2)}\nTotal sugerido inicial: R$ ${total.toFixed(2)}\n\nObservação: use como base de atendimento. Confirme preço final com fornecedor, papel, máquina, cidade e prazo.`;log('Orçamento local calculado.','ok')}
-function previewFiles(e){selectedFiles=[...e.target.files];$('filePreview').innerHTML=selectedFiles.map(f=>f.type.startsWith('image/')?`<img class="preview-img" src="${URL.createObjectURL(f)}"/>`:`<span class="pill">📄 ${f.name}</span>`).join('');log(selectedFiles.length+' referência(s) carregada(s).','ok')}
-function buildRefPrompt(){const p=`Analise as referências enviadas para uma peça gráfica, considerando: hierarquia visual, cores, estilo, mensagem, riscos de cópia e como adaptar para um material original.\n\nBriefing:\n${JSON.stringify(collect(),null,2)}`;$('refOutput').textContent=p;return p}
-async function analyzeReferences(){if(!selectedFiles.length){$('refOutput').textContent='Carregue imagem ou PDF primeiro.';return} $('refOutput').textContent='Preparando análise. Para análise real de imagem/PDF, use o backend para converter arquivos em base64/file_id e enviar para Claude.';try{const text=await callClaude(buildRefPrompt()+`\n\nArquivos carregados: ${selectedFiles.map(f=>f.name).join(', ')}\nExplique como analisar esses arquivos no fluxo do designer.`);$('refOutput').textContent=text}catch(e){$('refOutput').textContent='Fallback: use as referências apenas para direção geral. Não copie marcas, textos ou layout protegido.\n\n'+buildRefPrompt()}}
-function buildCommercialPrompt(){$('aiOutput').textContent=promptFor('complete');go('ai')}
-function copyOut(id){navigator.clipboard.writeText($(id).textContent);log('Copiado.','ok')}
-function downloadOut(id,file){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$(id).textContent],{type:'text/plain;charset=utf-8'}));a.download=file;a.click();URL.revokeObjectURL(a.href)}
-function exportJSON(){const data=JSON.stringify({app:'Grafica IA Studio',exportedAt:new Date().toISOString(),brief:collect(),api:{model:$('model').value,callMode:$('callMode').value},last:state.last},null,2);$('exportOutput').textContent=data;downloadOut('exportOutput','grafica-ia-projeto.json')}
-function exportClientProposal(){const b=collect();$('exportOutput').textContent=`PROPOSTA — ${b.clientName}\n\nProduto: ${b.product.name}\nObjetivo: ${b.goal}\nFormato: ${b.width}x${b.height}${b.unit}\nMaterial: ${b.material}\nAcabamento: ${b.finish}\nQuantidade: ${b.qty}\n\nEscopo:\n- Criação/adequação da arte\n- Revisão básica de texto\n- Preparação para impressão/digital\n- Entrega em arquivo final combinado\n\nObservação: valores finais dependem da aprovação do orçamento e especificações técnicas.`}
-function copyProject(){navigator.clipboard.writeText(JSON.stringify({brief:collect(),last:state.last},null,2));log('Projeto copiado.','ok')}
-function previewExport(){ $('exportOutput').textContent=JSON.stringify({brief:collect(),last:state.last},null,2)}
-function init(){nav();renderProducts();const p=PRODUCTS.find(x=>x.id===state.product)||PRODUCTS[0];selectProduct(p.id);if(state.api){$('model').value=state.api.model||'claude-sonnet-4-6';$('callMode').value=state.api.callMode||'backend';$('endpoint').value=state.api.endpoint||'/api/grafica-generate';$('maxTokens').value=state.api.maxTokens||2500;$('temperature').value=state.api.temperature||.45}log('Pronto para criar peças gráficas com IA.')}
+const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const escapeHtml=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const unescapeText=s=>String(s??'');
+const PRODUCTS=[
+  {id:'social',icon:'📱',name:'Social Media',desc:'Feed, story, anúncio e post digital',w:1080,h:1350,unit:'px',material:'Digital / RGB',base:35,printBase:0},
+  {id:'flyer',icon:'📄',name:'Panfleto / Flyer',desc:'A5/A6 promocional para rua ou balcão',w:148,h:210,unit:'mm',material:'Couchê 90g',base:55,printBase:.35},
+  {id:'card',icon:'💳',name:'Cartão de visita',desc:'90x50mm com sangria e margem segura',w:90,h:50,unit:'mm',material:'Couchê 250g',base:65,printBase:.18},
+  {id:'banner',icon:'🪧',name:'Banner / Lona',desc:'Lona, faixa, evento, vitrine e fachada',w:90,h:120,unit:'cm',material:'Lona 440g',base:70,printBase:55},
+  {id:'menu',icon:'🍽️',name:'Cardápio',desc:'Menu impresso, digital ou dobrável',w:210,h:297,unit:'mm',material:'Couchê 150g',base:90,printBase:2.2},
+  {id:'sticker',icon:'🏷️',name:'Adesivo / Rótulo',desc:'Etiqueta, rótulo, embalagem e vinil',w:50,h:50,unit:'mm',material:'Adesivo vinil',base:80,printBase:.28},
+  {id:'catalog',icon:'📚',name:'Catálogo',desc:'Produtos, serviços e lista comercial',w:210,h:297,unit:'mm',material:'Couchê 150g',base:160,printBase:3.5},
+  {id:'brand',icon:'✨',name:'Logo / Identidade',desc:'Marca, guia visual e aplicações',w:1080,h:1080,unit:'px',material:'Digital / Vetorial',base:280,printBase:0},
+  {id:'package',icon:'📦',name:'Embalagem',desc:'Caixa, rótulo, cinta e faca técnica',w:100,h:150,unit:'mm',material:'Papel cartão',base:190,printBase:1.8}
+];
+const NODE_DEF=[
+  {id:'brief',title:'1. Atendimento / Briefing',icon:'🧠',x:70,y:95,deps:[],help:'Entrada comercial: cliente, objetivo, público, texto obrigatório e restrições.'},
+  {id:'product',title:'2. Produto Gráfico',icon:'📦',x:420,y:95,deps:['brief'],help:'Define tipo de peça, medida, material, acabamento, quantidade e entrega.'},
+  {id:'refs',title:'3. Referências / Marca',icon:'🖼️',x:770,y:95,deps:['brief'],help:'Upload de referências visuais, logo, fotos, estilo e DNA visual.'},
+  {id:'quote',title:'4. Orçamento Inteligente',icon:'💰',x:1120,y:95,deps:['product'],help:'Calcula base estimada, criação, produção, acabamento, urgência e margem.'},
+  {id:'art',title:'5. Direção de Arte',icon:'🎨',x:770,y:340,deps:['product','refs'],help:'Gera composição, hierarquia, paleta, tipografia e layout para designer.'},
+  {id:'copy',title:'6. Copy / Texto da Peça',icon:'✍️',x:1120,y:340,deps:['art'],help:'Cria títulos, subtítulos, CTA, variações e revisão comercial.'},
+  {id:'prompt',title:'7. Prompt IA / Arte',icon:'⚡',x:1470,y:340,deps:['art','copy'],help:'Gera prompts em português e inglês para imagem/arte sem texto embutido.'},
+  {id:'prepress',title:'8. Pré-impressão',icon:'✅',x:1120,y:590,deps:['copy','quote'],help:'Checklist técnico: CMYK/RGB, DPI, sangria, margem, fonte, PDF e revisão.'},
+  {id:'production',title:'9. Produção / Entrega',icon:'🏭',x:1470,y:590,deps:['prepress'],help:'Ordem de produção, arquivos finais, observações e aprovação do cliente.'},
+  {id:'package',title:'10. Pacote Final',icon:'📤',x:1820,y:590,deps:['prompt','production'],help:'Exporta briefing, orçamento, direção, copy, prompts e checklist.'}
+];
+const CHECKS=[
+  ['bleed','Sangria','3 mm para impresso com corte; digital não precisa.'],
+  ['safe','Margem segura','Texto e logo longe da borda, normalmente 3 a 5 mm.'],
+  ['dpi','Resolução','300 DPI para impressão; RGB/72-144 DPI para digital.'],
+  ['color','Cor','CMYK para gráfica; RGB para redes sociais.'],
+  ['fonts','Fontes','Converter em curvas ou incorporar no PDF.'],
+  ['proof','Revisão textual','Telefone, data, preço, endereço, acentos e Instagram.'],
+  ['format','Arquivo final','PDF alta qualidade/PDF-X para gráfica; PNG/JPG para digital.'],
+  ['approval','Aprovação','Cliente aprovou conteúdo, medidas e material antes da produção.']
+];
+function defaultState(){
+  return {
+    panX:20,panY:20,zoom:0.82,activeNode:'brief',nodePos:Object.fromEntries(NODE_DEF.map(n=>[n.id,{x:n.x,y:n.y}])),
+    refs:[],visualDNA:'',
+    brief:{project:'',client:'Cliente Gráfica',segment:'Loja local, evento ou campanha',goal:'Vender mais',tone:'Profissional e moderno',audience:'Público local que precisa entender rápido a oferta',description:'Criar uma peça gráfica com visual chamativo, leitura rápida e chamada forte para WhatsApp.',required:'Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.',deadline:'Prazo normal',notes:''},
+    product:{id:'social',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente'},
+    quote:{design:35,print:0,finishCost:0,urgency:0,margin:20,total:42,notes:'Valores estimativos. Confirmar custo real com fornecedor e material.'},
+    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',prepress:'',production:'',package:'',proposal:''},
+    checks:Object.fromEntries(CHECKS.map(c=>[c[0],false]))
+  };
+}
+let state=loadState();
+let drag={type:null,id:null,startX:0,startY:0,origX:0,origY:0};
+let saveTimer=null;
+function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return defaultState();return merge(defaultState(),JSON.parse(raw));}catch(e){return defaultState();}}
+function merge(a,b){if(!b||typeof b!=='object')return a;const out=Array.isArray(a)?[...a]:{...a};Object.keys(b).forEach(k=>{out[k]=(a[k]&&typeof a[k]==='object'&&!Array.isArray(a[k]))?merge(a[k],b[k]):b[k];});return out;}
+function saveState(){try{localStorage.setItem(STORAGE,JSON.stringify(state));toast('Salvo automaticamente');}catch(e){toast('LocalStorage cheio: reduza referências');}}
+function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveState,280);refreshAll(false);}
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1300);}
+function setPath(path,value){const parts=path.split('.');let obj=state;while(parts.length>1)obj=obj[parts.shift()];obj[parts[0]]=value;scheduleSave();}
+function product(){return PRODUCTS.find(p=>p.id===state.product.id)||PRODUCTS[0];}
+function completedNodes(){return NODE_DEF.filter(n=>nodeStatus(n.id)==='done').length;}
+function nodeStatus(id){
+  if(id==='brief')return state.brief.description.trim()&&state.brief.client.trim()?'done':'ready';
+  if(id==='product')return state.product.id&&state.product.width&&state.product.height?'done':'ready';
+  if(id==='refs')return state.visualDNA.trim()||state.refs.length?'done':'ready';
+  if(id==='quote')return state.outputs.quote.trim()?'done':'ready';
+  if(id==='art')return state.outputs.art.trim()?'done':'ready';
+  if(id==='copy')return state.outputs.copy.trim()?'done':'ready';
+  if(id==='prompt')return state.outputs.promptPT.trim()&&state.outputs.promptEN.trim()?'done':'ready';
+  if(id==='prepress')return state.outputs.prepress.trim()||Object.values(state.checks).filter(Boolean).length>=5?'done':'warn';
+  if(id==='production')return state.outputs.production.trim()?'done':'ready';
+  if(id==='package')return state.outputs.package.trim()?'done':'ready';
+  return 'ready';
+}
+function summary(id){
+  const p=product();
+  const o=state.outputs;
+  if(id==='brief')return state.brief.project||state.brief.description||'Defina cliente, objetivo e informações obrigatórias.';
+  if(id==='product')return `${p.name} • ${state.product.width}x${state.product.height}${state.product.unit} • ${state.product.material}`;
+  if(id==='refs')return state.visualDNA?state.visualDNA.slice(0,140):`${state.refs.length} referência(s) carregada(s). Defina o DNA visual.`;
+  if(id==='quote')return o.quote?`Estimativa montada: ${money(state.quote.total)}`:'Calcule criação, produção, acabamento, urgência e margem.';
+  if(id==='art')return o.art||'Composição, paleta, hierarquia, tipografia e layout.';
+  if(id==='copy')return o.copy||'Título, subtítulo, CTA, variações e revisão.';
+  if(id==='prompt')return o.promptPT?'Prompts PT/EN prontos para arte IA.':'Prompt em português e inglês sem texto embutido.';
+  if(id==='prepress')return `${Object.values(state.checks).filter(Boolean).length}/${CHECKS.length} itens técnicos marcados.`;
+  if(id==='production')return o.production||'Ordem de produção, arquivos finais e aprovação.';
+  if(id==='package')return o.package?'Pacote final pronto para exportar.':'Exportação completa para cliente, designer ou produção.';
+  return '';
+}
+function renderNodes(){
+  $('nodesLayer').innerHTML=NODE_DEF.map(n=>{
+    const pos=state.nodePos[n.id]||{x:n.x,y:n.y};
+    const st=nodeStatus(n.id), active=state.activeNode===n.id?'active':'';
+    return `<div class="node ${st} ${active}" id="node-${n.id}" data-id="${n.id}" style="left:${pos.x}px;top:${pos.y}px">
+      <span class="port in"></span><span class="port out"></span>
+      <div class="nodeHeader"><div class="nodeIcon">${n.icon}</div><div class="nodeTitle"><b>${escapeHtml(n.title)}</b><span>${st==='done'?'✓ aprovado':st==='warn'?'atenção':'○ aberto'}</span></div></div>
+      <div class="nodeBody"><div class="nodeSummary">${escapeHtml(summary(n.id))}</div><div class="nodeFooter"><button class="btn tiny nodeOpen" data-open="${n.id}">Abrir</button><button class="btn tiny gold nodeGen" data-gen="${n.id}">Gerar</button></div></div><span class="handle">⠿</span>
+    </div>`;
+  }).join('');
+  bindNodeEvents();drawLinks();renderMinimap();
+}
+function drawLinks(){
+  const svg=$('links');let html='';
+  NODE_DEF.forEach(t=>{(t.deps||[]).forEach(dep=>{const s=NODE_DEF.find(n=>n.id===dep);if(!s)return;const sp=state.nodePos[s.id]||s,tp=state.nodePos[t.id]||t;const sx=sp.x+268,sy=sp.y+72,tx=tp.x,ty=tp.y+72;const dx=Math.max(120,Math.abs(tx-sx)*.55);const done=nodeStatus(s.id)==='done'&&nodeStatus(t.id)==='done';const main=(dep==='brief'||s.id==='product'||s.id==='art'||s.id==='prepress')?' main':'';html+=`<path class="${done?'done':''}${main}" d="M ${sx} ${sy} C ${sx+dx} ${sy}, ${tx-dx} ${ty}, ${tx} ${ty}"/>`;});});
+  svg.innerHTML=html;
+}
+function bindNodeEvents(){
+  document.querySelectorAll('.nodeOpen').forEach(b=>b.onclick=e=>{e.stopPropagation();openStation(b.dataset.open);});
+  document.querySelectorAll('.nodeGen').forEach(b=>b.onclick=e=>{e.stopPropagation();generateNode(b.dataset.gen);});
+  document.querySelectorAll('.node').forEach(node=>{
+    node.ondblclick=()=>openStation(node.dataset.id);
+    node.onpointerdown=e=>{
+      if(e.target.closest('button'))return;
+      const id=node.dataset.id;state.activeNode=id;renderNodes();
+      drag={type:'node',id,startX:e.clientX,startY:e.clientY,origX:state.nodePos[id].x,origY:state.nodePos[id].y};
+      node.classList.add('dragging');node.setPointerCapture(e.pointerId);
+    };
+  });
+}
+function applyTransform(){
+  $('nodeMap').style.transform=`translate(${state.panX}px,${state.panY}px) scale(${state.zoom})`;
+  $('zoomText').textContent=Math.round(state.zoom*100)+'%';
+}
+function zoom(delta,cx=null,cy=null){
+  const canvas=$('canvas'),rect=canvas.getBoundingClientRect();const old=state.zoom;const next=Math.max(.35,Math.min(1.8,old+delta));
+  const x=(cx??(rect.left+rect.width/2))-rect.left,y=(cy??(rect.top+rect.height/2))-rect.top;
+  state.panX=x-(x-state.panX)*(next/old);state.panY=y-(y-state.panY)*(next/old);state.zoom=next;applyTransform();scheduleSave();
+}
+function centerMap(){state.zoom=.82;state.panX=20;state.panY=20;applyTransform();scheduleSave();}
+function organizeNodes(){NODE_DEF.forEach(n=>{state.nodePos[n.id]={x:n.x,y:n.y};});renderNodes();centerMap();}
+function renderMinimap(){
+  const mm=$('minimap');if(!mm)return;mm.querySelectorAll('.miniNode').forEach(x=>x.remove());
+  NODE_DEF.forEach(n=>{const pos=state.nodePos[n.id]||n;const div=document.createElement('div');div.className='miniNode '+(nodeStatus(n.id)==='done'?'done':'');div.style.left=(10+pos.x/12)+'px';div.style.top=(22+pos.y/12)+'px';mm.appendChild(div);});
+}
+function refreshTop(){
+  const p=product(),done=completedNodes(),pct=Math.round(done/NODE_DEF.length*100),checks=Object.values(state.checks).filter(Boolean).length;
+  $('projectPill').textContent='Projeto: '+(state.brief.project||state.brief.client||'Sem título');
+  $('progressPill').textContent=pct+'% pronto';$('progressBar').style.width=pct+'%';
+  $('statProduct').textContent=p.name;$('statFormat').textContent=`${state.product.width}x${state.product.height}${state.product.unit}`;$('statQuote').textContent=money(state.quote.total);$('statChecks').textContent=`${checks}/${CHECKS.length}`;
+  $('mockTitle').textContent=state.brief.project||p.name;$('mockSub').textContent=state.brief.description.slice(0,86)||'Briefing, orçamento e pré-impressão em nodes.';$('mockCta').textContent=(state.brief.goal||'ARTE PRONTA').toUpperCase();
+  const active=NODE_DEF.findIndex(n=>nodeStatus(n.id)!=='done');
+  $('pipelineList').innerHTML=NODE_DEF.map((n,i)=>`<div class="miniItem ${nodeStatus(n.id)==='done'?'done':i===active?'active':''}"><span class="miniDot"></span><span>${escapeHtml(n.title)}</span></div>`).join('');
+}
+function refreshAll(nodes=true){if(nodes)renderNodes();refreshTop();applyTransform();}
+function openStation(id){
+  state.activeNode=id;const n=NODE_DEF.find(x=>x.id===id)||NODE_DEF[0];
+  $('stationIcon').textContent=n.icon;$('stationTitle').textContent=n.title;$('stationBadge').textContent=nodeStatus(id)==='done'?'aprovado':'estação ativa';$('stationHelp').textContent=n.help;
+  $('stationMain').innerHTML=stationHtml(id);$('visualDNA').value=state.visualDNA;renderRefs();bindStationFields();
+  $('stationOverlay').classList.add('active');$('station').classList.add('active');refreshAll();
+}
+function closeStation(){ $('stationOverlay').classList.remove('active');$('station').classList.remove('active');saveState();refreshAll();}
+function nextNode(){const i=NODE_DEF.findIndex(n=>n.id===state.activeNode);openStation(NODE_DEF[Math.min(NODE_DEF.length-1,i+1)].id);}
+function prevNode(){const i=NODE_DEF.findIndex(n=>n.id===state.activeNode);openStation(NODE_DEF[Math.max(0,i-1)].id);}
+function field(path,value='',type='text'){return `<input type="${type}" data-bind="${path}" value="${escapeHtml(value)}"/>`;}
+function area(path,value='',placeholder=''){return `<textarea data-bind="${path}" placeholder="${escapeHtml(placeholder)}">${escapeHtml(value)}</textarea>`;}
+function selectField(path,value,opts){return `<select data-bind="${path}">${opts.map(o=>`<option ${o===value?'selected':''}>${escapeHtml(o)}</option>`).join('')}</select>`;}
+function stationHtml(id){
+  const b=state.brief,p=state.product,q=state.quote,o=state.outputs;
+  if(id==='brief')return `<div class="note">Essa é a entrada principal. Preencheu aqui, todo o fluxo da gráfica recebe contexto.</div><div class="grid2"><div><label>Nome do projeto</label>${field('brief.project',b.project)}</div><div><label>Cliente / Marca</label>${field('brief.client',b.client)}</div><div><label>Segmento</label>${field('brief.segment',b.segment)}</div><div><label>Objetivo</label>${selectField('brief.goal',b.goal,['Vender mais','Divulgar inauguração','Promoção relâmpago','Identidade visual','Cardápio / catálogo','Evento','Campanha institucional'])}</div><div><label>Tom da comunicação</label>${selectField('brief.tone',b.tone,['Profissional e moderno','Popular e vendedor','Luxo e premium','Infantil e colorido','Urgente e promocional','Minimalista e sofisticado'])}</div><div><label>Prazo</label>${selectField('brief.deadline',b.deadline,['Prazo normal','Urgente 24h','Urgente hoje','A combinar'])}</div><div class="full"><label>Público-alvo</label>${area('brief.audience',b.audience)}</div><div class="full"><label>Descrição do pedido</label>${area('brief.description',b.description)}</div><div class="full"><label>Texto obrigatório / informações do cliente</label>${area('brief.required',b.required)}</div><div class="full"><label>Observações internas</label>${area('brief.notes',b.notes)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="brief">Salvar e gerar diagnóstico</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='product')return `<div class="note">Escolha o produto. O sistema ajusta medidas e regras técnicas de produção.</div><div class="productGrid">${PRODUCTS.map(prod=>`<div class="productCard ${prod.id===p.id?'selected':''}" data-product="${prod.id}"><b>${prod.icon} ${prod.name}</b><span>${prod.desc}</span></div>`).join('')}</div><div class="grid3"><div><label>Largura</label>${field('product.width',p.width,'number')}</div><div><label>Altura</label>${field('product.height',p.height,'number')}</div><div><label>Unidade</label>${selectField('product.unit',p.unit,['px','mm','cm'])}</div><div><label>Quantidade</label>${field('product.qty',p.qty,'number')}</div><div><label>Material</label>${selectField('product.material',p.material,['Digital / RGB','Couchê 90g','Couchê 150g','Couchê 250g','Adesivo vinil','Lona 440g','Papel cartão','Offset','Reciclato'])}</div><div><label>Acabamento</label>${selectField('product.finish',p.finish,['Sem acabamento','Refile','Laminação fosca','Laminação brilho','Verniz localizado','Ilhós','Corte especial','Dobra','Faca especial'])}</div><div><label>Entrega</label>${selectField('product.delivery',p.delivery,['Digital PNG/JPG','PDF alta qualidade','PDF/X para gráfica','Arquivo aberto + PDF','Impresso finalizado'])}</div><div><label>Logo</label>${field('product.logo',p.logo)}</div><div><label>Cores</label>${field('product.colors',p.colors)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="product">Aplicar produto</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='refs')return `<div class="note">Use este node para transformar referências soltas em direção visual objetiva.</div><label>DNA visual do projeto</label>${area('visualDNA',state.visualDNA,'Ex.: paleta principal, estilo, hierarquia, mood, textura, tipo de imagem...')}<div class="stationActions"><button class="btn gold" data-action="analyze">Analisar referências</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='quote')return `<div class="grid3"><div><label>Criação / Arte</label>${field('quote.design',q.design,'number')}</div><div><label>Produção / Impressão</label>${field('quote.print',q.print,'number')}</div><div><label>Acabamento extra</label>${field('quote.finishCost',q.finishCost,'number')}</div><div><label>Urgência</label>${field('quote.urgency',q.urgency,'number')}</div><div><label>Margem %</label>${field('quote.margin',q.margin,'number')}</div><div><label>Total</label><input value="${money(q.total)}" readonly/></div><div class="full"><label>Observações de orçamento</label>${area('quote.notes',q.notes)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="quote">Calcular orçamento</button><button class="btn green" data-action="copyQuote">Copiar proposta curta</button><button class="btn cyan" data-action="next">Próximo node</button></div><label>Resultado</label><div class="outputBox">${escapeHtml(o.quote||'Clique em Calcular orçamento.')}</div>`;
+  if(id==='art')return `<label>Direção de arte gerada</label>${area('outputs.art',o.art,'Clique em gerar para criar a direção de arte.')}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="art">Gerar direção de arte</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='copy')return `<label>Copy da peça</label>${area('outputs.copy',o.copy,'Clique em gerar para criar títulos, CTA e textos.')}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="copy">Gerar copy</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='prompt')return `<div class="grid2"><div><label>Prompt em português</label>${area('outputs.promptPT',o.promptPT)}</div><div><label>Prompt em inglês</label>${area('outputs.promptEN',o.promptEN)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="prompt">Gerar prompts PT/EN</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='prepress')return `<div class="checkGrid">${CHECKS.map(([k,t,d])=>`<label class="checkRow"><input type="checkbox" data-check="${k}" ${state.checks[k]?'checked':''}/><span><b>${escapeHtml(t)}</b><span>${escapeHtml(d)}</span></span></label>`).join('')}</div><label>Checklist personalizado</label>${area('outputs.prepress',o.prepress)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="prepress">Gerar checklist personalizado</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='production')return `<label>Ordem de produção / entrega</label>${area('outputs.production',o.production)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="production">Gerar ordem de produção</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='package')return `<div class="note">Pacote final consolidado para cliente, designer ou produção.</div><label>Pacote final</label>${area('outputs.package',o.package)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button><button class="btn green" data-action="downloadTxt">Baixar TXT</button><button class="btn cyan" data-action="downloadJson">Baixar JSON</button><button class="btn" data-action="copyPackage">Copiar pacote</button></div>`;
+  return '';
+}
+function bindStationFields(){
+  document.querySelectorAll('[data-bind]').forEach(el=>{el.oninput=()=>{const val=el.type==='number'?Number(el.value||0):el.value;setPath(el.dataset.bind,val);};el.onchange=el.oninput;});
+  document.querySelectorAll('[data-product]').forEach(card=>{card.onclick=()=>selectProduct(card.dataset.product);});
+  document.querySelectorAll('[data-check]').forEach(ch=>{ch.onchange=()=>{state.checks[ch.dataset.check]=ch.checked;scheduleSave();};});
+  document.querySelectorAll('[data-action]').forEach(btn=>{btn.onclick=()=>handleAction(btn.dataset.action,btn.dataset.node);});
+}
+function handleAction(action,node){
+  if(action==='next')return nextNode(); if(action==='generate')return generateNode(node); if(action==='analyze')return analyzeRefs(); if(action==='copyQuote')return copyText(state.outputs.quote||buildQuoteText()); if(action==='downloadTxt')return downloadTxt(); if(action==='downloadJson')return downloadJson(); if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
+}
+function selectProduct(id){const prod=PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];state.product={...state.product,id:prod.id,width:prod.w,height:prod.h,unit:prod.unit,material:prod.material,qty:prod.id==='social'||prod.id==='brand'?1:100,delivery:prod.unit==='px'?'Digital PNG/JPG':'PDF/X para gráfica'};calcQuote(false);saveState();openStation('product');toast('Produto aplicado: '+prod.name);}
+function calcQuote(write=true){
+  const p=product(),qty=Number(state.product.qty||1);let print=0;
+  if(p.id==='banner'){print=p.printBase*Math.max(1,(Number(state.product.width||90)*Number(state.product.height||120))/10000);}else print=p.printBase*qty;
+  if(p.id==='social'||p.id==='brand')print=0;
+  const finish=state.product.finish==='Sem acabamento'?0:Math.max(12,print*.18);
+  const urgency=state.brief.deadline.includes('Urgente')?Math.max(20,state.quote.design*.25):Number(state.quote.urgency||0);
+  const design=Number(state.quote.design||p.base||50);const subtotal=design+print+finish+urgency;const total=subtotal*(1+Number(state.quote.margin||0)/100);
+  state.quote.print=Number(print.toFixed(2));state.quote.finishCost=Number(finish.toFixed(2));state.quote.urgency=Number(urgency.toFixed(2));state.quote.total=Number(total.toFixed(2));
+  if(write)state.outputs.quote=buildQuoteText();
+  return total;
+}
+function buildQuoteText(){const p=product();return `ORÇAMENTO PROFISSIONAL — ${state.brief.client}\n\nProduto: ${p.name}\nProjeto: ${state.brief.project||'Sem título'}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nQuantidade: ${state.product.qty}\nEntrega: ${state.product.delivery}\n\nCriação/arte: ${money(state.quote.design)}\nProdução/impressão estimada: ${money(state.quote.print)}\nAcabamento extra: ${money(state.quote.finishCost)}\nUrgência: ${money(state.quote.urgency)}\nMargem aplicada: ${state.quote.margin}%\n\nTOTAL SUGERIDO: ${money(state.quote.total)}\n\nObservação: valor estimativo. Confirmar custo final conforme fornecedor, material, prazo, máquina, cidade e aprovação do cliente.`;}
+function generateNode(id){
+  if(id==='brief'){state.outputs.proposal=`DIAGNÓSTICO DO BRIEFING\n\nCliente: ${state.brief.client}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\n\nLeitura profissional: a peça precisa comunicar uma promessa única, manter leitura rápida, hierarquia forte, CTA visível e revisão rígida de dados do cliente.`;}
+  if(id==='product'){calcQuote(false);}
+  if(id==='refs')analyzeRefs(false);
+  if(id==='quote'){calcQuote(true);}
+  if(id==='art')state.outputs.art=generateArtDirection();
+  if(id==='copy')state.outputs.copy=generateCopy();
+  if(id==='prompt'){const r=generatePrompts();state.outputs.promptPT=r.pt;state.outputs.promptEN=r.en;}
+  if(id==='prepress')state.outputs.prepress=generatePrepress();
+  if(id==='production')state.outputs.production=generateProduction();
+  if(id==='package')state.outputs.package=assemblePackage();
+  saveState();toast('Node gerado: '+(NODE_DEF.find(n=>n.id===id)?.title||id));
+  openStation(id);
+}
+function generatePipeline(){['quote','art','copy','prompt','prepress','production','package'].forEach(generateNode);openStation('package');}
+function analyzeRefs(reopen=true){
+  const p=product();
+  state.visualDNA=`DNA VISUAL DO PROJETO\n\nPaleta sugerida: usar as cores da marca (${state.product.colors}) com contraste alto e fundo limpo.\nEstilo: ${state.brief.tone}, leitura rápida e hierarquia comercial forte.\nImagem: priorizar uma imagem principal de impacto, sem excesso de elementos.\nTipografia: título pesado para impacto, texto de apoio simples e CTA bem separado.\nRisco: não copiar referência de terceiros; usar apenas estrutura, clima e direção visual.\nProduto-alvo: ${p.name} no formato ${state.product.width}x${state.product.height}${state.product.unit}.`;
+  if(reopen)openStation('refs');else scheduleSave();
+}
+function generateArtDirection(){const p=product();return `DIREÇÃO DE ARTE — ${p.name}\n\n1. Composição\n- Criar peça com hierarquia clara: título forte no topo, imagem/produto no centro e CTA no rodapé.\n- Manter área de respiro ao redor do texto para leitura rápida.\n- Usar grade simples para evitar aparência amadora.\n\n2. Hierarquia\n- Título: maior elemento textual.\n- Oferta/promessa: segunda camada.\n- Informações obrigatórias: menores, mas legíveis.\n- CTA/WhatsApp: destaque visual separado.\n\n3. Paleta e estilo\n- Cores: ${state.product.colors}.\n- Tom: ${state.brief.tone}.\n- Evitar poluição visual e excesso de efeitos.\n\n4. Tipografia\n- Fonte principal bold para o título.\n- Fonte secundária limpa para detalhes.\n- Máximo de 2 famílias tipográficas.\n\n5. Produção\n- Formato: ${state.product.width}x${state.product.height}${state.product.unit}.\n- Material/entrega: ${state.product.material} / ${state.product.delivery}.`;}
+function generateCopy(){return `COPY DA PEÇA — ${state.brief.client}\n\nTÍTULOS SUGERIDOS\n1. ${state.brief.goal} começa com uma comunicação que chama atenção.\n2. Promoção especial por tempo limitado.\n3. Chegou a hora de aproveitar.\n4. Oferta de fim de semana que vale conferir.\n5. Seu próximo pedido começa aqui.\n\nTEXTO PRINCIPAL\n${state.brief.description}\n\nINFORMAÇÕES OBRIGATÓRIAS\n${state.brief.required}\n\nCTAS\n- Chame no WhatsApp agora.\n- Peça pelo direct.\n- Garanta antes que acabe.\n- Venha aproveitar hoje.\n\nREVISÃO COMERCIAL\nUsar frases curtas, alto contraste e uma promessa principal. Evitar texto demais na arte.`;}
+function generatePrompts(){const base=`cliente ${state.brief.client}, segmento ${state.brief.segment}, objetivo ${state.brief.goal}, produto gráfico ${product().name}, formato ${state.product.width}x${state.product.height}${state.product.unit}, tom ${state.brief.tone}, composição publicitária moderna, espaço limpo para inserir texto depois, hierarquia visual forte, iluminação comercial, aparência profissional, alta qualidade, sem texto embutido na imagem, sem logotipos fictícios, sem copiar marcas de terceiros`;return {pt:`Crie uma arte/imagem de apoio para peça gráfica de ${base}. Priorize contraste, clareza, elegância visual e área negativa para o designer inserir título, oferta, WhatsApp e informações obrigatórias.`,en:`Create a support image/artwork for a professional graphic design piece: ${base}. Prioritize contrast, clarity, clean visual hierarchy, commercial lighting, professional look, and negative space so the designer can add headline, offer, WhatsApp and mandatory client information later.`};}
+function generatePrepress(){const isDigital=state.product.unit==='px'||state.product.material.includes('Digital');return `CHECKLIST PERSONALIZADO DE PRÉ-IMPRESSÃO\n\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nDestino: ${isDigital?'Digital / redes sociais':'Impressão gráfica'}\n\n${isDigital?'- Exportar em RGB.\n- Conferir proporção e legibilidade no celular.\n- Salvar PNG para qualidade ou JPG leve para tráfego.':'- Usar CMYK.\n- Trabalhar em 300 DPI.\n- Aplicar sangria mínima de 3 mm.\n- Manter margem segura de 3 a 5 mm.\n- Converter fontes em curvas ou incorporar no PDF.\n- Exportar PDF em alta qualidade/PDF-X quando aplicável.'}\n\nRevisar obrigatoriamente: preço, telefone, data, endereço, redes sociais, ortografia, acentos e autorização final do cliente.`;}
+function generateProduction(){return `ORDEM DE PRODUÇÃO / ENTREGA\n\nCliente: ${state.brief.client}\nProjeto: ${state.brief.project||product().name}\nProduto: ${product().name}\nQuantidade: ${state.product.qty}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\nPrazo: ${state.brief.deadline}\n\nARQUIVOS A ENTREGAR\n- Arte final em ${state.product.delivery}.\n- Versão editável, se contratada.\n- Preview JPG/PNG para aprovação.\n- Observações de produção e checklist técnico.\n\nSTATUS\nAguardar aprovação final do cliente antes de imprimir ou publicar.`;}
+function assemblePackage(){calcQuote(false);const pkg=`GRÁFICA NODES OS — PACOTE FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n10. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
+  state.outputs.package=pkg;return pkg;
+}
+function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Copiado')).catch(()=>toast('Não foi possível copiar'));}
+function download(name,text,type='text/plain;charset=utf-8'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function downloadTxt(){const text=state.outputs.package||assemblePackage();download('grafica-nodes-os-pacote-final.txt',text);}
+function downloadJson(){download('grafica-nodes-os-projeto.json',JSON.stringify(state,null,2),'application/json;charset=utf-8');}
+function renderRefs(){const grid=$('refGrid');grid.innerHTML=state.refs.length?state.refs.map(r=>`<div class="refThumb"><img src="${r}" alt="referência"></div>`).join(''):'<div class="refThumb">Sem referências</div>';}
+function handleRefs(files){Array.from(files).slice(0,6).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{state.refs.push(reader.result);saveState();renderRefs();refreshAll();toast('Referência adicionada');};reader.readAsDataURL(file);});}
+function attachGlobalEvents(){
+  $('btnOpenBrief').onclick=()=>openStation('brief');$('btnGeneratePipeline').onclick=generatePipeline;$('btnExportPack').onclick=()=>{state.outputs.package=assemblePackage();saveState();openStation('package');};$('btnReset').onclick=()=>{if(confirm('Resetar todo o projeto?')){state=defaultState();saveState();refreshAll();openStation('brief');}};
+  $('quickAll').onclick=generatePipeline;$('quickCenter').onclick=centerMap;$('quickOrganize').onclick=organizeNodes;$('quickSave').onclick=saveState;$('zoomOut').onclick=()=>zoom(-.1);$('zoomIn').onclick=()=>zoom(.1);$('centerBtn').onclick=centerMap;$('organizeBtn').onclick=organizeNodes;
+  $('downloadTxt').onclick=downloadTxt;$('downloadJson').onclick=downloadJson;$('copyPack').onclick=()=>copyText(state.outputs.package||assemblePackage());
+  $('stationClose').onclick=closeStation;$('stationOverlay').onclick=closeStation;$('stationNext').onclick=nextNode;$('stationPrev').onclick=prevNode;$('analyzeRefs').onclick=()=>analyzeRefs(true);
+  $('visualDNA').oninput=()=>{state.visualDNA=$('visualDNA').value;scheduleSave();};$('refInput').onchange=e=>handleRefs(e.target.files);
+  const canvas=$('canvas');
+  canvas.onpointerdown=e=>{if(e.target.closest('.node'))return;drag={type:'map',startX:e.clientX,startY:e.clientY,origX:state.panX,origY:state.panY};canvas.classList.add('dragging');canvas.setPointerCapture(e.pointerId);};
+  window.onpointermove=e=>{if(!drag.type)return;if(drag.type==='map'){state.panX=drag.origX+(e.clientX-drag.startX);state.panY=drag.origY+(e.clientY-drag.startY);applyTransform();}else if(drag.type==='node'){const pos=state.nodePos[drag.id];pos.x=drag.origX+(e.clientX-drag.startX)/state.zoom;pos.y=drag.origY+(e.clientY-drag.startY)/state.zoom;const el=$('node-'+drag.id);if(el){el.style.left=pos.x+'px';el.style.top=pos.y+'px';}drawLinks();renderMinimap();}};
+  window.onpointerup=()=>{if(drag.type){document.querySelectorAll('.node.dragging').forEach(n=>n.classList.remove('dragging'));$('canvas').classList.remove('dragging');drag={type:null};scheduleSave();}};
+  canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY>0?-.06:.06,e.clientX,e.clientY);},{passive:false});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('station').classList.contains('active'))closeStation();if(e.ctrlKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveState();}});
+}
+function init(){attachGlobalEvents();refreshAll(true);openStation('brief');setTimeout(()=>closeStation(),120);}
 init();
+})();
 </script>
 </body>
 </html>
