@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Video Pack Studio — Titan Colossal V2.6 Canvas Focus Visual</title>
+<title>Video Pack Studio — Titan Colossal V2.7 Nodes Fix Visual</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--purple:#b99cff;--blue:#5aa9ff;--text:#e8ecf4;--muted:#9aa4b8;--dark:#050813}
@@ -21,7 +21,7 @@ body.canvas-mode .nodeWorkspace.focusStation{left:300px!important;top:58px!impor
 </style>
 </head>
 <body>
-<header class="topbar"><div class="brand">Video Pack Studio <small>V2.6 / canvas focus visual</small></div><nav class="nav"><button class="btn" onclick="showScreen('briefing')">Briefing</button><button class="btn" onclick="showScreen('roteiro')">Roteiro</button><button class="btn" onclick="showScreen('json')">JSON</button><button class="btn" onclick="showScreen('srt')">SRT</button><button class="btn" onclick="showScreen('exportacao')">Exportar</button><button class="btn gold" onclick="openCanvas()">Árvore / Nodes</button></nav></header>
+<header class="topbar"><div class="brand">Video Pack Studio <small>V2.7 / nodes fix visual</small></div><nav class="nav"><button class="btn" onclick="showScreen('briefing')">Briefing</button><button class="btn" onclick="showScreen('roteiro')">Roteiro</button><button class="btn" onclick="showScreen('json')">JSON</button><button class="btn" onclick="showScreen('srt')">SRT</button><button class="btn" onclick="showScreen('exportacao')">Exportar</button><button class="btn gold" onclick="openCanvas()">Árvore / Nodes</button></nav></header>
 <div class="shell"><aside class="side"><h4>Fluxo de vídeo</h4><button class="step active" data-step="briefing" onclick="showScreen('briefing')">1. Briefing Mestre</button><button class="step" data-step="modelo" onclick="showScreen('modelo')">2. Modelo / formato</button><button class="step" data-step="roteiro" onclick="showScreen('roteiro')">3. Roteiro visual</button><button class="step" data-step="json" onclick="showScreen('json')">4. JSON Remotion</button><button class="step" data-step="srt" onclick="showScreen('srt')">5. SRT / som</button><button class="step" data-step="preview" onclick="showScreen('preview')">6. Preview leve</button><button class="step" data-step="exportacao" onclick="showScreen('exportacao')">7. Exportar pacote</button><button class="step" data-step="api" onclick="showScreen('api')">8. API</button><button class="step" data-step="mindjob" onclick="openCanvas()">9. Árvore / Nodes</button><h4>Modelos</h4><span class="pill">Produto animado</span><span class="pill">Poster vivo</span><span class="pill">Motion Comic</span><span class="pill">Story/Reels</span><h4>Regra</h4><p class="mini">Não renderiza MP4. Organiza briefing, roteiro, JSON, SRT, som, prompts, assets e checklist.</p><div class="actions"><button class="btn tiny gold" onclick="generate('complete')">Gerar mestre</button><button class="btn tiny cyan" onclick="openCanvas()">Canvas</button><button class="btn tiny green" onclick="buildExport()">Montar limpo</button></div></aside>
 <main class="main">
 <section class="hero"><div class="kicker">sem mp4 automático</div><h1>Video Pack / Remotion Pack</h1><p>Ferramenta de pré-produção audiovisual: gera roteiro visual, JSON, SRT, som, prompts e pacote final limpo para CapCut, Remotion, IA de vídeo ou edição manual.</p><div class="notice">Fórmula: preencher uma vez, gerar tudo, revisar por cards/nodes, aplicar sem duplicar e exportar limpo.</div><div class="creatorLine"><span class="creatorSeal">Árvore da Criação</span><strong>Sistema vivo de produção criativa em nodes</strong><span>Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.</span></div></section>
@@ -35,7 +35,7 @@ body.canvas-mode .nodeWorkspace.focusStation{left:300px!important;top:58px!impor
 <section id="preview" class="screen"><div class="grid two"><div class="card"><h2>Preview leve</h2><p>Prévia simples para validar ritmo sem MP4.</p><div class="actions"><button class="btn gold" onclick="updatePreview()">Atualizar preview</button><button class="btn purple" onclick="generate('previewGuide')">Gerar guia</button><button class="btn cyan" onclick="appendToExport('previewOut','PREVIEW')">Aplicar</button></div><div class="output" id="previewOut">Aguardando guia.</div></div><div class="card"><h2>Simulação visual</h2><div class="previewBox"><div class="stage"><div class="orb"></div><div class="orb2"></div><div class="stageTitle" id="pvTitle">Video Pack</div><div class="stageSub" id="pvSub">Prévia sem render MP4</div><div class="stageCta" id="pvCta">PRÉVIA VISUAL</div></div></div></div></div></section>
 <section id="exportacao" class="screen"><div class="grid two"><div class="card"><h2>Exportar pacote limpo</h2><p>Monta entrega sem duplicação: briefing, roteiro, JSON, SRT/Som, preview, assets e checklist.</p><div class="actions"><button class="btn gold" onclick="buildExport()">Montar pacote limpo</button><button class="btn" onclick="copy('exportOut')">Copiar</button><button class="btn green" onclick="download('video-pack-limpo.txt','exportOut')">Baixar</button><button class="btn cyan" onclick="shareExport()">Compartilhar</button><button class="btn red" onclick="clearExport()">Limpar</button></div></div><div class="card"><h2>Pacote final</h2><div class="output" id="exportOut">Aguardando montagem.</div></div></div></section>
 <section id="api" class="screen"><div class="grid two"><div class="card"><h2>API / modo local</h2><p class="mini">Por padrão o teste usa gerador local. Marque API real quando seu backend estiver pronto.</p><label><input id="useApi" type="checkbox" style="width:auto"> Usar API real</label><label>Endpoint</label><input id="endpoint" value="/api/generate-video"><label>Modelo</label><input id="model" value="claude-sonnet-4-5"><label>Tokens</label><input id="maxTokens" type="number" value="4200"><label>Temperatura</label><input id="temperature" type="number" step="0.05" value="0.58"><div class="actions"><button class="btn cyan" onclick="testAPI()">Testar</button><button class="btn green" onclick="saveApi()">Salvar</button></div></div><div class="card"><h2>Status</h2><div class="output" id="apiStatus">Modo local pronto.</div></div></div></section>
-<section id="mindjob" class="screen"><button class="btn gold canvasExitBtn" onclick="toggleCanvasMode()">Voltar tela normal</button><div class="card mindHero" id="mindHero"><div class="mindTitleLine"><div><div class="kicker">TITAN COLOSSAL V2.6</div><h2>Árvore da Criação</h2><p class="mini"><strong>Sistema vivo de produção criativa em nodes</strong> — idealizado por Elinaldo Menezes.</p></div><div class="eggTerminal"><div class="eggFace" id="eggMood">🥚</div><div><strong id="eggTitle">Mister Egg aguardando</strong><span id="eggText">Preencha o Briefing Mestre para começar.</span></div></div></div><div class="actions"><button class="btn gold" onclick="toggleCanvasMode()">Canvas limpo</button><button class="btn" onclick="zoomMind(-.1)">− Zoom</button><span class="zoomReadout" id="zoomReadout">100%</span><button class="btn" onclick="zoomMind(.1)">+ Zoom</button><button class="btn cyan" onclick="centerMind()">Centralizar</button><button class="btn purple" onclick="autoOrganize()">Reorganizar</button><button class="btn red" onclick="resetLayout()">Reset</button></div></div><div class="card mindShell"><div class="hubHead"><div><div class="kicker">Mapa vivo / nodes — mobile ajustado</div><h2>Árvore central e ramificações</h2><p>PC: roda do mouse para zoom. Celular: pinça para zoom e 1 dedo para arrastar mapa/nodes.</p></div></div><div class="nodeViewport" id="nodeViewport"><div class="nodeMap" id="nodeMap"><svg class="connectorSvg" id="connectorSvg"></svg><div id="mindCanvas"></div></div><div class="mapHint">PC: roda = zoom • Celular: pinça = zoom • 1 dedo = arrastar</div></div></div></section>
+<section id="mindjob" class="screen"><button class="btn gold canvasExitBtn" onclick="toggleCanvasMode()">Voltar tela normal</button><div class="card mindHero" id="mindHero"><div class="mindTitleLine"><div><div class="kicker">TITAN COLOSSAL V2.7</div><h2>Árvore da Criação</h2><p class="mini"><strong>Sistema vivo de produção criativa em nodes</strong> — idealizado por Elinaldo Menezes.</p></div><div class="eggTerminal"><div class="eggFace" id="eggMood">🥚</div><div><strong id="eggTitle">Mister Egg aguardando</strong><span id="eggText">Preencha o Briefing Mestre para começar.</span></div></div></div><div class="actions"><button class="btn gold" onclick="toggleCanvasMode()">Canvas limpo</button><button class="btn" onclick="zoomMind(-.1)">− Zoom</button><span class="zoomReadout" id="zoomReadout">100%</span><button class="btn" onclick="zoomMind(.1)">+ Zoom</button><button class="btn cyan" onclick="centerMind()">Centralizar</button><button class="btn purple" onclick="autoOrganize()">Reorganizar</button><button class="btn red" onclick="resetLayout()">Reset</button></div></div><div class="card mindShell"><div class="hubHead"><div><div class="kicker">Mapa vivo / nodes — mobile ajustado</div><h2>Árvore central e ramificações</h2><p>PC: roda do mouse para zoom. Celular: pinça para zoom e 1 dedo para arrastar mapa/nodes.</p></div></div><div class="nodeViewport" id="nodeViewport"><div class="nodeMap" id="nodeMap"><svg class="connectorSvg" id="connectorSvg"></svg><div id="mindCanvas"></div></div><div class="mapHint">PC: roda = zoom • Celular: pinça = zoom • 1 dedo = arrastar</div></div></div></section>
 </main></div>
 <script>
 const $=id=>document.getElementById(id);const val=id=>{const el=$(id);return el?(el.value!==undefined?String(el.value).trim():String(el.textContent).trim()):''};let activeNodeId='brief',appliedSections={},mindZoom=1,mindPan={x:0,y:0},mapDrag=null,nodeDrag=null,mindInit=false,generatingType='',canvasMode=false,ramoReviewText='',packageDelivered=false;const NODE_POS_KEY='arvore_v22_positions';const DEFAULT_POS={brief:{x:70,y:90},mestre:{x:410,y:90},modelo:{x:750,y:90},roteiro:{x:1090,y:90},json:{x:1430,y:90},srt:{x:1430,y:330},preview:{x:1090,y:540},pacote:{x:1430,y:570},ramo:{x:750,y:360}};let nodePositions={...DEFAULT_POS};try{nodePositions={...DEFAULT_POS,...JSON.parse(localStorage.getItem(NODE_POS_KEY)||'{}')}}catch(e){}
@@ -269,9 +269,7 @@ async function generateTechAll(){
 function visualRefs(){try{return JSON.parse(localStorage.getItem('v26_visual_refs')||'[]')}catch(e){return[]}}
 function saveVisualRefs(arr){localStorage.setItem('v26_visual_refs',JSON.stringify(arr.slice(-8)))}
 function visualMemory(){return localStorage.getItem('v26_visual_memory')||''}
-function saveVisualMemory(t){localStorage.setItem('v26_visual_memory',String(t||'')); const a=$('assets'); if(a && t && !a.value.includes('UNIVERSO VISUAL')){a.value=(a.value? a.value+'
-
-':'')+t; syncMasterToTabs();}}
+function saveVisualMemory(t){localStorage.setItem('v26_visual_memory',String(t||'')); const a=$('assets'); if(a && t && !a.value.includes('UNIVERSO VISUAL')){a.value=(a.value ? a.value + '\\n\\n' : '') + t; syncMasterToTabs();}}
 function renderVisualGrid(){const g=$('visualGridV26'); if(!g)return; const refs=visualRefs(); g.innerHTML=refs.length?refs.map((r,i)=>`<div class="visualThumb"><img src="${r}" alt="ref ${i+1}"></div>`).join(''):'<div class="visualThumb"><span>Nenhuma imagem ainda</span></div><div class="visualThumb"><span>Upload ajuda a IA</span></div>'; const m=$('visualMemoryV26'); if(m)m.value=visualMemory();}
 function handleVisualUploadV26(input){const files=[...(input.files||[])].slice(0,6); if(!files.length)return; const refs=visualRefs(); let pending=files.length; files.forEach(f=>{const reader=new FileReader(); reader.onload=()=>{refs.push(reader.result); pending--; if(!pending){saveVisualRefs(refs); renderVisualGrid();}}; reader.readAsDataURL(f);});}
 function analyzeVisualRefsV26(){const refs=visualRefs(); const base=`UNIVERSO VISUAL / REFERÊNCIAS:
@@ -291,6 +289,38 @@ centerMind=function(){const vp=$('nodeViewport'); if(!vp)return; if(document.bod
 const autoOrganizeV25=autoOrganize;
 autoOrganize=function(){nodePositions={brief:{x:26,y:42},mestre:{x:26,y:190},modelo:{x:26,y:338},roteiro:{x:26,y:486},json:{x:26,y:634},srt:{x:26,y:782},preview:{x:26,y:930},pacote:{x:26,y:1078},ramo:{x:26,y:1226}};savePositions();renderMindJob();centerMind();}
 function openFocusStation(id){activeNodeId=id||activeNodeId||'brief';renderMindJob();setTimeout(centerMind,40)}
+
+
+/* ===== V2.7 PATCH — BOTAO NODES ROBUSTO ===== */
+function openNodesMode(node){
+  try{
+    activeNodeId = node || activeNodeId || 'brief';
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    const mj=$('mindjob'); if(mj) mj.classList.add('active');
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='mindjob'));
+    document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s.dataset.step==='mindjob'));
+    document.body.classList.add('canvas-mode');
+    canvasMode=true;
+    renderMindJob();
+    setTimeout(()=>{autoOrganize(); centerMind(); renderVisualGrid();},60);
+  }catch(e){
+    alert('Erro ao abrir Nodes: '+e.message);
+    console.error(e);
+  }
+}
+openCanvas=function(node){openNodesMode(node)};
+function bindNodesButtonsV27(){
+  document.querySelectorAll('button').forEach(btn=>{
+    const txt=(btn.textContent||'').toLowerCase();
+    const oc=btn.getAttribute('onclick')||'';
+    if(txt.includes('árvore')||txt.includes('nodes')||txt.trim()==='canvas'||oc.includes('openCanvas')||oc.includes('toggleCanvasMode')){
+      if(txt.includes('voltar tela normal')) return;
+      btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();openNodesMode(activeNodeId||'brief');};
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded',bindNodesButtonsV27);
+setTimeout(bindNodesButtonsV27,200);
 
 ensurePatchDom();
 ['briefTemplate','briefFormat','briefDuration','briefMotionStyle','goalMaster','toneMaster','requiredTextMaster','jsonLevelMaster','audioTypeMaster'].forEach(id=>$(id)?.addEventListener('change',syncMasterToTabs));loadApi();syncMasterToTabs();renderMindJob();updateCardFlow();
