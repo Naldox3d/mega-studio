@@ -3,48 +3,637 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Studio Platform — Portal Profissional</title>
+<title>Studio Platform Nodes Core — Portal Mestre</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#070a12;--panel:#0d1322;--panel2:#111a2d;--line:rgba(255,255,255,.1);--text:#eef3ff;--muted:#9aa7c3;--gold:#d8b46f;--cyan:#6ee7df;--red:#ef7d8d;--green:#78e2a2;--radius:18px}*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:radial-gradient(circle at 15% 0,rgba(110,231,223,.12),transparent 32%),radial-gradient(circle at 88% 10%,rgba(216,180,111,.12),transparent 28%),linear-gradient(180deg,#070a12,#090d18 58%,#05070d);color:var(--text);font-family:Inter,system-ui,sans-serif}.hidden{display:none!important}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.card{width:min(460px,94vw);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018)),var(--panel);border:1px solid rgba(216,180,111,.28);border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.45);padding:30px}.brand{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;text-align:center;margin-bottom:18px}.card h1{font-size:28px;text-align:center;margin-bottom:8px}.card p{font-size:13px;line-height:1.6;color:var(--muted);text-align:center;margin-bottom:22px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);font-weight:800}.field input{width:100%;border:1px solid var(--line);background:#090f1d;color:var(--text);border-radius:12px;padding:12px 13px;outline:none}.field input:focus{border-color:rgba(216,180,111,.55)}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}.btn:hover{filter:brightness(1.08)}.btn.primary{width:100%;background:linear-gradient(180deg,#e2bf7d,#c79a53);color:#110c03;border-color:#e2bf7d}.err{display:none;margin:12px 0;padding:10px 12px;border-radius:12px;border:1px solid rgba(239,125,141,.28);background:rgba(239,125,141,.1);color:#ffd7dc;font-size:13px}.err.show{display:block}.app{min-height:100vh;display:flex;flex-direction:column}.top{height:62px;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line);background:rgba(7,10,18,.86);backdrop-filter:blur(10px)}.title{font-family:Syne,sans-serif;font-weight:900;color:var(--gold);margin-right:auto}.tab{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}.tab.active{border-color:rgba(216,180,111,.48);background:rgba(216,180,111,.1);color:#f3d69f}.logout{border-color:rgba(239,125,141,.28);background:rgba(239,125,141,.08);color:#ffd7dc}.status{min-height:32px;padding:8px 16px;border-bottom:1px solid var(--line);font-size:12px;color:var(--cyan);background:rgba(0,0,0,.18)}.frames{flex:1;min-height:0}.frame{display:none;width:100%;height:calc(100vh - 94px);border:0;background:#070a12}.frame.active{display:block}.note{font-size:11px;color:var(--muted);line-height:1.45;margin-top:13px}@media(max-width:760px){.top{height:auto;flex-wrap:wrap;padding:12px}.title{width:100%}.tab{flex:1}.frame{height:calc(100vh - 148px)}}
+:root{
+  --bg:#060913;
+  --bg2:#090e1b;
+  --panel:#0d1425;
+  --panel2:#121b30;
+  --panel3:#18223a;
+  --line:rgba(255,255,255,.10);
+  --line2:rgba(255,255,255,.18);
+  --text:#eef3ff;
+  --muted:#97a6c4;
+  --soft:#c8d5ef;
+  --gold:#d8b46f;
+  --gold2:#f1d59c;
+  --cyan:#6ee7df;
+  --green:#78e2a2;
+  --red:#ef7d8d;
+  --purple:#b99cff;
+  --blue:#74b7ff;
+  --shadow:0 28px 90px rgba(0,0,0,.48);
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{
+  background:
+    radial-gradient(circle at 14% 0,rgba(110,231,223,.14),transparent 32%),
+    radial-gradient(circle at 88% 8%,rgba(216,180,111,.15),transparent 28%),
+    radial-gradient(circle at 50% 110%,rgba(185,156,255,.08),transparent 34%),
+    linear-gradient(180deg,#070a12,#090e1b 58%,#05070d);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.btn{
+  border:1px solid var(--line);
+  background:var(--panel2);
+  color:var(--text);
+  border-radius:13px;
+  padding:10px 14px;
+  font-weight:900;
+  font-size:13px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.16s;
+  white-space:nowrap;
+}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.gold{background:linear-gradient(180deg,#e6c17d,#c99b53);border-color:rgba(216,180,111,.72);color:#130d03}
+.btn.cyan{background:rgba(110,231,223,.10);border-color:rgba(110,231,223,.42);color:#d8fffc}
+.btn.green{background:linear-gradient(180deg,#86e8aa,#5fd18b);border-color:rgba(120,226,162,.7);color:#06130b}
+.btn.red{background:rgba(239,125,141,.10);border-color:rgba(239,125,141,.38);color:#ffdce1}
+.btn.purple{background:rgba(185,156,255,.11);border-color:rgba(185,156,255,.38);color:#eadfff}
+.btn.ghost{background:rgba(255,255,255,.035)}
+.btn.small{font-size:11px;padding:8px 10px;border-radius:11px}
+.login{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:22px;
+}
+.loginCard{
+  width:min(500px,94vw);
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),rgba(13,20,37,.94);
+  border:1px solid rgba(216,180,111,.30);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:32px;
+}
+.brandMini{
+  font-family:Syne,sans-serif;
+  font-weight:900;
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.10em;
+  text-align:center;
+  margin-bottom:16px;
+}
+.loginCard h1{
+  font-family:Syne,sans-serif;
+  font-size:30px;
+  text-align:center;
+  color:#f0ddbb;
+  margin-bottom:8px;
+}
+.loginCard p{
+  font-size:13px;
+  line-height:1.6;
+  color:var(--muted);
+  text-align:center;
+  margin-bottom:22px;
+}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.field label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:var(--gold2);
+  font-weight:900;
+}
+.field input{
+  width:100%;
+  border:1px solid var(--line);
+  background:#080f1d;
+  color:var(--text);
+  border-radius:13px;
+  padding:12px 13px;
+  outline:none;
+}
+.field input:focus{border-color:rgba(216,180,111,.62);box-shadow:0 0 0 3px rgba(216,180,111,.08)}
+.err{
+  display:none;
+  margin:12px 0;
+  padding:10px 12px;
+  border-radius:13px;
+  border:1px solid rgba(239,125,141,.30);
+  background:rgba(239,125,141,.10);
+  color:#ffd7dc;
+  font-size:13px;
+}
+.err.show{display:block}
+.note{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.45;
+  margin-top:13px;
+}
+.app{min-height:100vh;display:grid;grid-template-rows:64px 36px 1fr}
+.top{
+  height:64px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 16px;
+  border-bottom:1px solid var(--line);
+  background:rgba(7,10,18,.86);
+  backdrop-filter:blur(14px);
+  z-index:20;
+}
+.logo{
+  width:40px;
+  height:40px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  font-weight:1000;
+  background:radial-gradient(circle at 35% 25%,#fff0c6,#d8b46f 58%,#745221);
+  color:#130d03;
+  box-shadow:0 0 32px rgba(216,180,111,.18);
+}
+.titleWrap{min-width:220px;margin-right:auto}
+.title{
+  font-family:Syne,sans-serif;
+  font-weight:900;
+  color:#f0ddbb;
+  line-height:1;
+}
+.subtitle{
+  display:block;
+  margin-top:4px;
+  font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.tabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tab{
+  border:1px solid var(--line);
+  background:rgba(18,27,48,.9);
+  color:#b9c5de;
+  border-radius:999px;
+  padding:8px 13px;
+  font-weight:900;
+  font-size:12px;
+}
+.tab.active{
+  border-color:rgba(216,180,111,.56);
+  background:rgba(216,180,111,.13);
+  color:#f5dca8;
+}
+.status{
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 16px;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  color:var(--cyan);
+  background:rgba(0,0,0,.22);
+}
+.status b{color:#e9fffD}
+.content{
+  min-height:0;
+  position:relative;
+}
+.portal{
+  min-height:calc(100vh - 100px);
+  overflow:auto;
+  padding:24px;
+}
+.hero{
+  max-width:1200px;
+  margin:0 auto 18px;
+  border:1px solid rgba(216,180,111,.22);
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(255,255,255,.050),rgba(255,255,255,.018)),rgba(13,20,37,.68);
+  padding:26px;
+  box-shadow:0 20px 70px rgba(0,0,0,.30);
+}
+.kicker{
+  display:inline-flex;
+  border:1px solid rgba(110,231,223,.28);
+  background:rgba(110,231,223,.08);
+  color:#cffffb;
+  border-radius:999px;
+  padding:5px 9px;
+  font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.hero h1{
+  font-family:Syne,sans-serif;
+  font-size:clamp(32px,5vw,58px);
+  line-height:.98;
+  color:#f0ddbb;
+  max-width:900px;
+}
+.hero p{
+  margin-top:14px;
+  color:#cdd9f1;
+  line-height:1.65;
+  max-width:880px;
+}
+.creator{
+  margin-top:16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:#d7e1f5;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:11px;
+  font-weight:900;
+}
+.pill.gold{border-color:rgba(216,180,111,.35);color:#f6dfad;background:rgba(216,180,111,.08)}
+.grid{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.module{
+  position:relative;
+  overflow:hidden;
+  min-height:310px;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018)),rgba(13,20,37,.82);
+  box-shadow:0 16px 54px rgba(0,0,0,.28);
+  padding:20px;
+}
+.module::before{
+  content:"";
+  position:absolute;
+  width:210px;
+  height:210px;
+  border-radius:999px;
+  right:-100px;
+  top:-90px;
+  background:radial-gradient(circle,rgba(110,231,223,.16),transparent 65%);
+}
+.module.print::before{background:radial-gradient(circle,rgba(216,180,111,.18),transparent 65%)}
+.module.lab::before{background:radial-gradient(circle,rgba(185,156,255,.18),transparent 65%)}
+.module.api::before{background:radial-gradient(circle,rgba(120,226,162,.18),transparent 65%)}
+.moduleHead{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
+.icon{
+  width:48px;
+  height:48px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.11);
+}
+.module h2{
+  font-family:Syne,sans-serif;
+  color:#f0ddbb;
+  font-size:22px;
+  line-height:1.05;
+}
+.module small{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  text-transform:uppercase;
+  letter-spacing:.10em;
+}
+.module p{
+  position:relative;
+  color:#c5d1e8;
+  line-height:1.58;
+  font-size:13px;
+  min-height:64px;
+}
+.flow{
+  position:relative;
+  margin:14px 0;
+  display:grid;
+  gap:7px;
+}
+.flow span{
+  border:1px solid rgba(255,255,255,.075);
+  background:rgba(255,255,255,.035);
+  border-radius:12px;
+  padding:8px 9px;
+  color:#d9e4fa;
+  font-size:11px;
+  font-weight:800;
+}
+.actions{
+  position:relative;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.frame{
+  display:none;
+  width:100%;
+  height:calc(100vh - 100px);
+  border:0;
+  background:#070a12;
+}
+.frame.active{display:block}
+.apiPanel{
+  display:none;
+  min-height:calc(100vh - 100px);
+  overflow:auto;
+  padding:24px;
+}
+.apiPanel.active{display:block}
+.apiBox{
+  max-width:940px;
+  margin:0 auto;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018)),rgba(13,20,37,.82);
+  padding:22px;
+}
+.apiBox h1{
+  font-family:Syne,sans-serif;
+  color:#f0ddbb;
+  margin-bottom:10px;
+}
+.apiBox p{color:#c5d1e8;line-height:1.65;margin-bottom:12px}
+.apiList{display:grid;gap:9px;margin:16px 0}
+.apiList div{
+  border:1px solid rgba(255,255,255,.075);
+  background:rgba(255,255,255,.035);
+  border-radius:14px;
+  padding:11px 12px;
+  color:#d9e4fa;
+  font-size:13px;
+}
+.apiResult{
+  margin-top:14px;
+  min-height:80px;
+  white-space:pre-wrap;
+  border:1px solid var(--line);
+  background:#070d1a;
+  border-radius:14px;
+  padding:12px;
+  color:#dffffc;
+  font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media(max-width:1050px){.grid{grid-template-columns:1fr 1fr}.module.api{grid-column:1/-1}.top{height:auto;align-items:flex-start;flex-wrap:wrap;padding:12px}.titleWrap{width:100%}.app{grid-template-rows:auto 36px 1fr}.frame,.apiPanel,.portal{min-height:calc(100vh - 132px);height:calc(100vh - 132px)}}
+@media(max-width:720px){.tabs{width:100%}.tab{flex:1}.grid{grid-template-columns:1fr}.portal{padding:14px}.hero{padding:20px}.module{min-height:auto}.frame,.apiPanel,.portal{height:calc(100vh - 176px)}}
 </style>
 </head>
 <body>
 <section id="login" class="login">
-  <div class="card">
-    <div class="brand">Studio Platform</div>
-    <h1>Portal Profissional</h1>
-    <p>Área de trabalho separada: Studio interno, Client para roteiristas e Print para gráfica. A API roda por trás, sem aparecer como produto.</p>
-    <div class="field"><label>Usuário</label><input id="user" autocomplete="username" placeholder="admin"></div>
-    <div class="field"><label>Senha</label><input id="pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+  <div class="loginCard">
+    <div class="brandMini">Studio Platform</div>
+    <h1>Portal Mestre</h1>
+    <p>Produção criativa em nodes para vídeo, gráfica e automação com IA. Entre para acessar os motores da plataforma.</p>
+
+    <div class="field">
+      <label>Usuário</label>
+      <input id="user" autocomplete="username" placeholder="admin">
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
+    </div>
+
     <div id="err" class="err">Login inválido ou API de autenticação indisponível.</div>
-    <button class="btn primary" onclick="login()">Entrar</button>
-    <div class="note">Configure ADMIN_USER, ADMIN_PASS, SESSION_SECRET e ANTHROPIC_API_KEY na Vercel. Em ambiente local use <b>vercel dev</b>.</div>
+    <button class="btn gold" style="width:100%" onclick="login()">Entrar</button>
+    <div class="note">Configure ADMIN_USER, ADMIN_PASS, SESSION_SECRET e as chaves de IA na Vercel. Em ambiente local use <b>vercel dev</b>.</div>
   </div>
 </section>
+
 <section id="app" class="app hidden">
   <header class="top">
-    <div class="title">Studio Platform</div>
-    <button id="tab-studio" class="tab active" onclick="showTab('studio')">Studio</button>
-    <button id="tab-client" class="tab" onclick="showTab('client')">Client</button>
-    <button id="tab-print" class="tab" onclick="showTab('print')">Print</button>
-    <button class="btn logout" onclick="logout()">Sair</button>
+    <div class="logo">SP</div>
+    <div class="titleWrap">
+      <div class="title">Studio Platform</div>
+      <span class="subtitle">Nodes Core • Portal Mestre</span>
+    </div>
+    <nav class="tabs">
+      <button id="tab-portal" class="tab active" onclick="showTab('portal')">Portal</button>
+      <button id="tab-studio" class="tab" onclick="showTab('studio')">Studio Remotion Lab</button>
+      <button id="tab-video" class="tab" onclick="showTab('video')">Video Remotion</button>
+      <button id="tab-print" class="tab" onclick="showTab('print')">Print</button>
+      <button id="tab-api" class="tab" onclick="showTab('api')">API / Config</button>
+      <button class="btn red small" onclick="logout()">Sair</button>
+    </nav>
   </header>
-  <div id="status" class="status">Studio ativo.</div>
-  <main class="frames">
-    <iframe id="frame-studio" class="frame active" src="./studio/"></iframe>
-    <iframe id="frame-client" class="frame" src="./client/"></iframe>
+
+  <div id="status" class="status"><b>Portal ativo.</b> Escolha um motor de produção.</div>
+
+  <main class="content">
+    <section id="portal" class="portal">
+      <div class="hero">
+        <span class="kicker">nova fase do produto final</span>
+        <h1>Produção criativa em nodes para vídeo, gráfica e automação com IA.</h1>
+        <p>
+          A plataforma agora se organiza por motores independentes. O Studio Remotion Lab é o laboratório do criador,
+          Video Remotion é o produto audiovisual final, Print é o produto gráfico/pré-impressão e API/Config é o motor técnico global.
+        </p>
+        <div class="creator">
+          <span class="pill gold">Idealizado por Elinaldo Menezes</span>
+          <span class="pill">Criador audiovisual</span>
+          <span class="pill">Fundador do Iniciantes do Punk de Caruaru</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="module lab">
+          <div class="moduleHead">
+            <div class="icon">🧪</div>
+            <div><h2>Studio Remotion Lab</h2><small>laboratório do criador</small></div>
+          </div>
+          <p>Área interna para testes, Fruits, presets manuais, microagentes, ideias novas, versões Titan/Colossal e experimentos de interface.</p>
+          <div class="flow">
+            <span>Setup limpo → Storyboard → Cena</span>
+            <span>Motion 2D → SRT/Som → CapCut Book</span>
+            <span>Exportar → Testes → Versões</span>
+          </div>
+          <div class="actions">
+            <button class="btn purple" onclick="showTab('studio')">Abrir Lab</button>
+            <button class="btn ghost" onclick="showTab('portal')">Modo inovação</button>
+          </div>
+        </article>
+
+        <article class="module video">
+          <div class="moduleHead">
+            <div class="icon">🎬</div>
+            <div><h2>Video Remotion</h2><small>produto audiovisual final</small></div>
+          </div>
+          <p>Motor principal para criar vídeo com fluxo limpo: briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, CapCut Book e pacote final.</p>
+          <div class="flow">
+            <span>Briefing Mestre → Roteiro/Cena</span>
+            <span>Storyboard → Motion 2D / Vídeo IA</span>
+            <span>Remotion JSON → SRT/Som → Pacote Final</span>
+          </div>
+          <div class="actions">
+            <button class="btn gold" onclick="showTab('video')">Abrir Video Remotion</button>
+            <button class="btn cyan" onclick="showTab('video')">Novo projeto limpo</button>
+          </div>
+        </article>
+
+        <article class="module print">
+          <div class="moduleHead">
+            <div class="icon">🖨️</div>
+            <div><h2>Print</h2><small>gráfica e pré-impressão</small></div>
+          </div>
+          <p>Motor gráfico para atendimento, produto, referências, orçamento, direção de arte, copy, prompt IA, pré-impressão, produção e entrega.</p>
+          <div class="flow">
+            <span>Atendimento → Produto Gráfico → Orçamento</span>
+            <span>Direção de Arte → Copy → Prompt IA</span>
+            <span>Pré-impressão → Produção → Pacote Final</span>
+          </div>
+          <div class="actions">
+            <button class="btn green" onclick="showTab('print')">Abrir Print</button>
+            <button class="btn ghost" onclick="showTab('print')">Nova peça gráfica</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <iframe id="frame-studio" class="frame" src="./studio/"></iframe>
+    <iframe id="frame-video" class="frame" src="./video/"></iframe>
     <iframe id="frame-print" class="frame" src="./print/"></iframe>
+
+    <section id="apiPanel" class="apiPanel">
+      <div class="apiBox">
+        <span class="kicker">motor técnico global</span>
+        <h1>API / Config</h1>
+        <p>Esta área não é produto criativo. Ela centraliza segurança, autenticação, backend e provedores de IA para todos os motores da plataforma.</p>
+        <div class="apiList">
+          <div><b>Auth:</b> ADMIN_USER, ADMIN_PASS e SESSION_SECRET protegidos no backend.</div>
+          <div><b>IA:</b> Claude, Gemini, Groq e OpenRouter podem ser ligados por rotas internas.</div>
+          <div><b>Regra:</b> nenhuma chave deve ficar exposta em HTML público.</div>
+          <div><b>Fluxo:</b> Video Remotion, Print e Lab chamam a API, mas não mostram a chave ao usuário.</div>
+        </div>
+        <div class="actions">
+          <button class="btn cyan" onclick="testAuth()">Testar autenticação</button>
+          <button class="btn gold" onclick="showTab('portal')">Voltar ao portal</button>
+        </div>
+        <div id="apiResult" class="apiResult">Aguardando teste.</div>
+      </div>
+    </section>
   </main>
 </section>
+
 <script>
-const $=id=>document.getElementById(id);
-async function verify(){try{const r=await fetch('/api/auth-verify'); if(r.ok){$('login').classList.add('hidden');$('app').classList.remove('hidden');}}catch(e){}}
-async function login(){ $('err').classList.remove('show'); try{const r=await fetch('/api/auth-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('user').value.trim(),password:$('pass').value})}); if(!r.ok) throw new Error('login'); $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('status').textContent='Login aprovado. Studio ativo.';}catch(e){$('err').classList.add('show');}}
-async function logout(){try{await fetch('/api/auth-logout',{method:'POST'});}catch(e){} $('app').classList.add('hidden'); $('login').classList.remove('hidden'); $('pass').value='';}
-function showTab(name){['studio','client','print'].forEach(n=>{ $('tab-'+n).classList.toggle('active',n===name); $('frame-'+n).classList.toggle('active',n===name);}); const labels={studio:'Studio interno ativo: testes, atualizações e produção avançada.',client:'Client ativo: produto neutro para roteiristas e usuários finais.',print:'Print ativo: gráfica, briefing e pré-impressão.'}; $('status').textContent=labels[name];}
-document.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!$('login').classList.contains('hidden')) login();});
+const $ = id => document.getElementById(id);
+
+async function verify(){
+  try{
+    const r = await fetch('/api/auth-verify');
+    if(r.ok){
+      $('login').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      showTab('portal');
+    }
+  }catch(e){}
+}
+
+async function login(){
+  $('err').classList.remove('show');
+  try{
+    const r = await fetch('/api/auth-login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        username:$('user').value.trim(),
+        password:$('pass').value
+      })
+    });
+    if(!r.ok) throw new Error('login');
+    $('login').classList.add('hidden');
+    $('app').classList.remove('hidden');
+    showTab('portal');
+  }catch(e){
+    $('err').classList.add('show');
+  }
+}
+
+async function logout(){
+  try{ await fetch('/api/auth-logout',{method:'POST'}); }catch(e){}
+  $('app').classList.add('hidden');
+  $('login').classList.remove('hidden');
+  $('pass').value = '';
+}
+
+function hideAll(){
+  $('portal').classList.add('hidden');
+  $('frame-studio').classList.remove('active');
+  $('frame-video').classList.remove('active');
+  $('frame-print').classList.remove('active');
+  $('apiPanel').classList.remove('active');
+}
+
+function showTab(name){
+  ['portal','studio','video','print','api'].forEach(n=>{
+    const tab = $('tab-'+n);
+    if(tab) tab.classList.toggle('active',n===name);
+  });
+
+  hideAll();
+
+  const labels = {
+    portal:'Portal ativo. Escolha um motor de produção.',
+    studio:'Studio Remotion Lab ativo: laboratório do criador, testes, Fruits, presets e inovação.',
+    video:'Video Remotion ativo: produto audiovisual final em nodes, limpo e profissional.',
+    print:'Print ativo: produto gráfico, orçamento, arte, copy, pré-impressão e entrega.',
+    api:'API / Config ativo: autenticação, backend, provedores e segurança.'
+  };
+
+  if(name==='portal') $('portal').classList.remove('hidden');
+  if(name==='studio') $('frame-studio').classList.add('active');
+  if(name==='video') $('frame-video').classList.add('active');
+  if(name==='print') $('frame-print').classList.add('active');
+  if(name==='api') $('apiPanel').classList.add('active');
+
+  $('status').innerHTML = '<b>'+labels[name].split(':')[0]+':</b>' + (labels[name].includes(':') ? labels[name].slice(labels[name].indexOf(':')+1) : '');
+}
+
+async function testAuth(){
+  const out = $('apiResult');
+  out.textContent = 'Testando /api/auth-verify...';
+  try{
+    const r = await fetch('/api/auth-verify');
+    out.textContent = r.ok
+      ? 'OK: autenticação ativa e sessão reconhecida.'
+      : 'Atenção: rota respondeu, mas a sessão não foi validada. Status: '+r.status;
+  }catch(e){
+    out.textContent = 'Erro: não consegui chamar /api/auth-verify. Verifique api/, middleware.js e variáveis da Vercel.';
+  }
+}
+
+document.addEventListener('keydown',ev=>{
+  if(ev.key==='Enter' && !$('login').classList.contains('hidden')) login();
+});
+
 verify();
 </script>
 </body>
