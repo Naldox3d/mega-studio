@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — Print Remotion V1</title>
+<title>Print Remotion — Gráfica Nodes OS Aprovado V10</title>
 <style>
 :root{
   --bg:#050711;
@@ -199,13 +199,321 @@ input:focus,textarea:focus,select:focus{
   line-height:1.45;
 }
 
+
+/* =========================================================
+   PATCH FINAL — PRINT REMOTION APROVADO V10
+   Objetivo: manter a gráfica aprovada e aproximar o design
+   do Studio Remotion Lab aprovado: barras, cores, badges,
+   painel lateral, canvas e preview.
+   ========================================================= */
+:root{
+  --studio-bg:#05070d;
+  --studio-panel:#0c111d;
+  --studio-panel2:#111827;
+  --studio-line:rgba(255,255,255,.10);
+  --studio-gold:#d6ad68;
+  --studio-cyan:#65d9d2;
+  --studio-green:#75db9b;
+  --studio-red:#e18491;
+  --studio-purple:#a996ff;
+  --studio-text:#e8edf8;
+  --studio-muted:#96a1ba;
+}
+html,body{
+  background:
+    radial-gradient(circle at 78% 12%, rgba(214,173,104,.11), transparent 26%),
+    radial-gradient(circle at 15% 18%, rgba(101,217,210,.08), transparent 28%),
+    radial-gradient(circle at 50% 120%, rgba(169,150,255,.08), transparent 38%),
+    linear-gradient(180deg, #060913 0%, #05070d 100%)!important;
+}
+.app{
+  grid-template-rows:64px 1fr!important;
+}
+.topbar{
+  height:64px!important;
+  padding:10px 18px!important;
+  background:rgba(5,7,13,.90)!important;
+  border-bottom:1px solid var(--studio-line)!important;
+  backdrop-filter:blur(18px)!important;
+}
+.logoMark{
+  width:42px!important;
+  height:42px!important;
+  border-radius:14px!important;
+  display:grid!important;
+  place-items:center!important;
+  font-family:Syne,Inter,system-ui,sans-serif!important;
+  font-weight:900!important;
+  color:#1a1203!important;
+  background:linear-gradient(180deg,#f2d08b,#65d9d2)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 0 28px rgba(214,173,104,.18)!important;
+}
+.brand b{
+  font-family:Syne,Inter,system-ui,sans-serif!important;
+  color:#eadcc1!important;
+  letter-spacing:.04em!important;
+  font-size:18px!important;
+  text-transform:uppercase!important;
+}
+.brand b::after{
+  content:" . APROVADO";
+  color:var(--studio-green);
+  font-size:.62em;
+  letter-spacing:.10em;
+}
+.brand span{
+  display:block!important;
+  margin-top:4px!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+  color:var(--studio-gold)!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase!important;
+  font-size:10px!important;
+}
+.pill{
+  border:1px solid var(--studio-line)!important;
+  background:rgba(255,255,255,.035)!important;
+  color:var(--studio-muted)!important;
+  border-radius:999px!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+}
+.pill.green{
+  color:#caffda!important;
+  border-color:rgba(117,219,155,.38)!important;
+  background:rgba(117,219,155,.08)!important;
+}
+.pill.gold{
+  color:#f6d7a2!important;
+  border-color:rgba(214,173,104,.38)!important;
+  background:rgba(214,173,104,.08)!important;
+}
+.btn{
+  border-radius:12px!important;
+  border:1px solid var(--studio-line)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018))!important;
+  box-shadow:none!important;
+}
+.btn.gold{
+  background:linear-gradient(180deg,#e5c07e,#c79650)!important;
+  color:#1c1305!important;
+  border-color:rgba(214,173,104,.80)!important;
+}
+.btn.green{
+  background:linear-gradient(180deg,#83e1a9,#62c889)!important;
+  color:#07150d!important;
+  border-color:rgba(117,219,155,.70)!important;
+}
+.btn.cyan{
+  background:rgba(101,217,210,.10)!important;
+  color:#cafffb!important;
+  border-color:rgba(101,217,210,.38)!important;
+}
+.btn.purple{
+  background:rgba(169,150,255,.10)!important;
+  color:#e5ddff!important;
+  border-color:rgba(169,150,255,.38)!important;
+}
+.btn.red{
+  background:rgba(225,132,145,.10)!important;
+  color:#ffd7de!important;
+  border-color:rgba(225,132,145,.42)!important;
+}
+.workspace{
+  grid-template-columns:250px minmax(0,1fr) 340px!important;
+  height:calc(100vh - 64px)!important;
+  background:#050813!important;
+}
+.leftPanel,.rightPanel{
+  background:rgba(12,17,29,.88)!important;
+  border-color:var(--studio-line)!important;
+  padding:14px!important;
+}
+.panelCard{
+  border:1px solid var(--studio-line)!important;
+  border-radius:16px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+.panelCard h3{
+  font-family:Syne,Inter,system-ui,sans-serif!important;
+  color:#eadcc1!important;
+  letter-spacing:.03em!important;
+}
+.kicker{
+  border:1px solid rgba(101,217,210,.32)!important;
+  background:rgba(101,217,210,.08)!important;
+  color:#cafffb!important;
+  border-radius:999px!important;
+}
+.printBridge{
+  border:1px solid rgba(101,217,210,.28)!important;
+  border-radius:16px!important;
+  background:linear-gradient(180deg,rgba(101,217,210,.08),rgba(255,255,255,.015)),rgba(13,18,32,.94)!important;
+}
+.printBridge::after{
+  content:"Design alinhado ao Studio Remotion Lab.";
+  display:block;
+  margin-top:8px;
+  color:#f6d7a2;
+  font-size:11px;
+}
+.canvasWrap,.canvas{
+  background:
+    linear-gradient(var(--grid-small,rgba(255,255,255,.035)) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-small,rgba(255,255,255,.035)) 1px,transparent 1px),
+    linear-gradient(var(--grid-big,rgba(255,255,255,.055)) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-big,rgba(255,255,255,.055)) 1px,transparent 1px),
+    radial-gradient(circle at 42% 28%,rgba(101,217,210,.08),transparent 26%),
+    radial-gradient(circle at 70% 65%,rgba(214,173,104,.06),transparent 28%),
+    #050813!important;
+  background-size:32px 32px,32px 32px,160px 160px,160px 160px,auto,auto,auto!important;
+}
+.node{
+  border:1px solid rgba(255,255,255,.11)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.060),rgba(255,255,255,.018)),rgba(13,18,32,.96)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.36)!important;
+}
+.node.active{
+  border-color:rgba(214,173,104,.82)!important;
+  box-shadow:0 0 0 2px rgba(214,173,104,.22),0 26px 70px rgba(0,0,0,.55)!important;
+}
+.node.done{
+  border-color:rgba(117,219,155,.52)!important;
+}
+.node.ready{
+  border-color:rgba(101,217,210,.42)!important;
+}
+.nodeHeader{
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+}
+.nodeIcon{
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  background:rgba(255,255,255,.035)!important;
+}
+.nodeTitle b{
+  font-family:Syne,Inter,system-ui,sans-serif!important;
+  color:#eadcc1!important;
+  letter-spacing:.02em!important;
+}
+.nodeTitle span{
+  color:var(--studio-muted)!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+}
+.links path{
+  stroke:rgba(101,217,210,.26)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 8!important;
+}
+.links path.done{
+  stroke:rgba(214,173,104,.63)!important;
+  stroke-width:4!important;
+  stroke-dasharray:none!important;
+}
+.links path.main{
+  stroke:rgba(214,173,104,.63)!important;
+}
+.canvasControls{
+  left:16px!important;
+  bottom:16px!important;
+  border:1px solid var(--studio-line)!important;
+  border-radius:16px!important;
+  background:rgba(5,8,19,.78)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.minimap{
+  width:190px!important;
+  height:126px!important;
+  border:1px solid var(--studio-line)!important;
+  border-radius:16px!important;
+  background:rgba(5,8,19,.72)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.previewCard{
+  min-height:280px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:18px!important;
+  background:#080c16!important;
+}
+.mockArt{
+  width:180px!important;
+  aspect-ratio:9/16!important;
+  height:auto!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-radius:26px!important;
+  background:linear-gradient(160deg,#121a2c,#070a12)!important;
+}
+.mockTitle{
+  font-family:Syne,Inter,system-ui,sans-serif!important;
+  color:#eadcc1!important;
+  top:32%!important;
+  font-size:19px!important;
+}
+.mockSub{
+  top:52%!important;
+  color:#cdd7ee!important;
+}
+.mockCta{
+  border-radius:999px!important;
+  background:var(--studio-gold)!important;
+  color:#1b1204!important;
+}
+.station{
+  border:1px solid rgba(214,173,104,.34)!important;
+  border-radius:24px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.014)),rgba(10,15,28,.98)!important;
+  box-shadow:0 24px 80px rgba(0,0,0,.45)!important;
+}
+.stationHead{
+  border-bottom:1px solid var(--studio-line)!important;
+  background:rgba(255,255,255,.02)!important;
+}
+.stationIcon{
+  border:1px solid rgba(214,173,104,.28)!important;
+  background:rgba(214,173,104,.08)!important;
+}
+.stationHead h2{
+  font-family:Syne,Inter,system-ui,sans-serif!important;
+  color:#eadcc1!important;
+}
+.stationSide{
+  border-left:1px solid var(--studio-line)!important;
+  background:rgba(5,8,19,.32)!important;
+}
+.outputBox,input,textarea,select{
+  background:#080d19!important;
+  border-color:rgba(255,255,255,.11)!important;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(214,173,104,.58)!important;
+  box-shadow:0 0 0 4px rgba(214,173,104,.07)!important;
+}
+.print-approved-note{
+  border:1px solid rgba(101,217,210,.28);
+  border-radius:14px;
+  background:rgba(101,217,210,.07);
+  color:#cafffb;
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.print-approved-note b{color:#eadcc1}
+@media(max-width:1100px){
+  .workspace{grid-template-columns:220px minmax(0,1fr)!important}
+}
+@media(max-width:780px){
+  .workspace{height:calc(100vh - 110px)!important}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
     <div class="logoMark">PR</div>
-    <div class="brand"><b>Print Remotion</b><span>gráfica • orçamento • pré-impressão • entrega</span></div>
+    <div class="brand"><b>Print Remotion</b><span>gráfica nodes os • aprovado • irmão do Studio Remotion Lab</span></div>
     <div class="topStatus">
       <span class="pill gold" id="projectPill">Projeto: Sem título</span>
       <span class="pill" id="autosavePill">Autosave ativo</span>
@@ -241,7 +549,7 @@ input:focus,textarea:focus,select:focus{
       </div>
       <div class="panelCard">
         <h3>Regra do produto</h3>
-        <p class="small">Módulo gráfico da Studio Platform. Organiza atendimento, orçamento, direção visual, copy, prompt de arte, pré-impressão, produção, entrega e pacote final.</p>
+        <p class="small">Módulo gráfico aprovado da Studio Platform. Organiza atendimento, orçamento, direção visual, copy, prompt IA, pré-impressão, produção, entrega e pacote final.</p>
       </div>
     </aside>
     <section class="canvasWrap">
@@ -592,6 +900,43 @@ init();
     applyPrintRemotionBridge();
   }
   setTimeout(applyPrintRemotionBridge, 500);
+})();
+</script>
+
+
+<script>
+(function(){
+  function patchPrintApprovedIdentity(){
+    try{
+      document.title = "Print Remotion — Gráfica Nodes OS Aprovado V10";
+      var mark = document.querySelector('.logoMark');
+      if(mark) mark.textContent = 'PR';
+      var brand = document.querySelector('.brand');
+      if(brand){
+        var b = brand.querySelector('b');
+        var s = brand.querySelector('span');
+        if(b) b.textContent = 'Print Remotion';
+        if(s) s.textContent = 'gráfica nodes os • aprovado • irmão do Studio Remotion Lab';
+      }
+      var firstCard = document.querySelector('.leftPanel .panelCard');
+      if(firstCard && !firstCard.querySelector('.print-approved-note')){
+        var note = document.createElement('div');
+        note.className = 'print-approved-note';
+        note.innerHTML = '<b>Print aprovado.</b><br>Manter este módulo gráfico em nodes. Correção aplicada em identidade, barras, cores e acabamento para ficar parecido com o Studio.';
+        firstCard.appendChild(note);
+      }
+      var mock = document.getElementById('mockTitle');
+      if(mock && (!mock.textContent || mock.textContent.indexOf('Print') === -1)){
+        mock.textContent = 'Print Remotion';
+      }
+    }catch(e){console.warn(e)}
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchPrintApprovedIdentity);
+  }else{
+    patchPrintApprovedIdentity();
+  }
+  setTimeout(patchPrintApprovedIdentity, 450);
 })();
 </script>
 
