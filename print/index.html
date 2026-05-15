@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — Gráfica Nodes OS V10.5 Melhor dos Dois Mundos</title>
+<title>Print Remotion — V11 Saída Real para Gráfica</title>
 <style>
 :root{
   --bg:#050711;
@@ -813,6 +813,28 @@ input:focus,textarea:focus,select:focus{
   .visualEditGrid,.visualModeCards{grid-template-columns:1fr!important}
 }
 
+
+
+/* =========================================================
+   PATCH V11 — SAÍDA REAL PARA GRÁFICA
+   Categoria profissional, regras técnicas automáticas e pacote real.
+   ========================================================= */
+.categoryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:8px 0 12px}
+.categoryCard{border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);border-radius:16px;padding:12px;cursor:pointer;transition:.15s;min-height:78px}
+.categoryCard:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.categoryCard.active{border-color:rgba(214,173,104,.64);background:rgba(214,173,104,.10);box-shadow:0 0 0 1px rgba(214,173,104,.12) inset}
+.categoryCard b{display:block;color:#f0ddbb;font-size:12px;margin-bottom:5px}.categoryCard span{display:block;color:#9aa8c7;font-size:10px;line-height:1.35}
+.techSpecGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.techSpec{border:1px solid rgba(101,217,210,.22);background:linear-gradient(180deg,rgba(101,217,210,.07),rgba(255,255,255,.015));border-radius:14px;padding:11px;min-height:72px}
+.techSpec b{display:block;color:#cafffb;font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-bottom:5px}.techSpec span{display:block;color:#e8edf8;font-size:11px;line-height:1.35}
+.productCard[data-cat="Digital"]{border-left:3px solid rgba(101,217,210,.50)}
+.productCard[data-cat="Gráfica comum"]{border-left:3px solid rgba(214,173,104,.55)}
+.productCard[data-cat="Grande formato"]{border-left:3px solid rgba(120,183,255,.55)}
+.productCard[data-cat="Brinde"]{border-left:3px solid rgba(185,156,255,.55)}
+.productCard[data-cat="Vestuário"]{border-left:3px solid rgba(120,227,159,.55)}
+.productCard[data-cat="Fotografia"]{border-left:3px solid rgba(255,120,170,.55)}
+@media(max-width:980px){.categoryGrid,.techSpecGrid{grid-template-columns:1fr!important}}
+
 </style>
 </head>
 <body>
@@ -934,25 +956,33 @@ input:focus,textarea:focus,select:focus{
 <script>
 (function(){
 'use strict';
-const STORAGE='grafica_nodes_os_profissional_v105';
+const STORAGE='grafica_nodes_os_profissional_v11_saida_real';
 const $=id=>document.getElementById(id);
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const escapeHtml=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const unescapeText=s=>String(s??'');
 const PRODUCTS=[
-  {id:'social',icon:'📱',name:'Social Media Feed',desc:'Instagram/Facebook feed 4:5 com leitura premium',w:1080,h:1350,unit:'px',material:'Digital / RGB',base:45,printBase:0,aspect:'4:5',cta:'VENDER MAIS'},
-  {id:'story',icon:'🎬',name:'Story / Reels / TikTok',desc:'Vertical 9:16 para anúncio, story, reels, shorts e TikTok',w:1080,h:1920,unit:'px',material:'Digital / RGB',base:55,printBase:0,aspect:'9:16',cta:'CHAMAR NO WHATS'},
-  {id:'square',icon:'⬛',name:'Post Quadrado / WhatsApp',desc:'Peça 1:1 para WhatsApp, catálogo rápido e postagem simples',w:1080,h:1080,unit:'px',material:'Digital / RGB',base:40,printBase:0,aspect:'1:1',cta:'PEDIR AGORA'},
-  {id:'youtube_banner',icon:'📺',name:'Banner YouTube',desc:'Arte horizontal para capa de canal, campanha e identidade',w:2560,h:1440,unit:'px',material:'Digital / RGB',base:120,printBase:0,aspect:'16:9',cta:'CONHECER CANAL'},
-  {id:'facebook_cover',icon:'🖼️',name:'Capa Facebook / LinkedIn',desc:'Capa horizontal para perfil, página ou campanha institucional',w:1640,h:624,unit:'px',material:'Digital / RGB',base:95,printBase:0,aspect:'cover',cta:'SAIBA MAIS'},
-  {id:'flyer',icon:'📄',name:'Panfleto / Flyer',desc:'A5/A6 promocional para rua ou balcão',w:148,h:210,unit:'mm',material:'Couchê 90g',base:55,printBase:.35,aspect:'a5',cta:'APROVEITAR'},
-  {id:'card',icon:'💳',name:'Cartão de visita',desc:'90x50mm com sangria e margem segura',w:90,h:50,unit:'mm',material:'Couchê 250g',base:65,printBase:.18,aspect:'card',cta:'CONTATO'},
-  {id:'banner',icon:'🪧',name:'Banner / Lona',desc:'Lona, faixa, evento, vitrine e fachada',w:90,h:120,unit:'cm',material:'Lona 440g',base:70,printBase:55,aspect:'3:4',cta:'VISITE AGORA'},
-  {id:'menu',icon:'🍽️',name:'Cardápio',desc:'Menu impresso, digital ou dobrável',w:210,h:297,unit:'mm',material:'Couchê 150g',base:90,printBase:2.2,aspect:'a4',cta:'VER CARDÁPIO'},
-  {id:'sticker',icon:'🏷️',name:'Adesivo / Rótulo',desc:'Etiqueta, rótulo, embalagem e vinil',w:50,h:50,unit:'mm',material:'Adesivo vinil',base:80,printBase:.28,aspect:'1:1',cta:'DESTACAR PRODUTO'},
-  {id:'catalog',icon:'📚',name:'Catálogo',desc:'Produtos, serviços e lista comercial',w:210,h:297,unit:'mm',material:'Couchê 150g',base:160,printBase:3.5,aspect:'a4',cta:'VER PRODUTOS'},
-  {id:'brand',icon:'✨',name:'Logo / Identidade',desc:'Marca, guia visual e aplicações',w:1080,h:1080,unit:'px',material:'Digital / Vetorial',base:280,printBase:0,aspect:'1:1',cta:'NOVA MARCA'},
-  {id:'package',icon:'📦',name:'Embalagem',desc:'Caixa, rótulo, cinta e faca técnica',w:100,h:150,unit:'mm',material:'Papel cartão',base:190,printBase:1.8,aspect:'2:3',cta:'PRODUTO PREMIUM'}
+  {id:'social_feed',category:'Digital',icon:'📱',name:'Social Media Feed',desc:'Instagram/Facebook feed 4:5 para campanha digital',w:1080,h:1350,unit:'px',material:'Digital / RGB',base:45,printBase:0,aspect:'4:5',cta:'VENDER MAIS',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'80 px',finalFile:'PNG/JPG RGB',transparent:false,technique:'Publicação digital'},
+  {id:'story_reels',category:'Digital',icon:'🎬',name:'Story / Reels / TikTok',desc:'Vertical 9:16 para story, anúncio, shorts e TikTok',w:1080,h:1920,unit:'px',material:'Digital / RGB',base:55,printBase:0,aspect:'9:16',cta:'CHAMAR NO WHATS',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'120 px',finalFile:'PNG/JPG RGB',transparent:false,technique:'Publicação digital'},
+  {id:'whatsapp_card',category:'Digital',icon:'⬛',name:'Card WhatsApp / Post Quadrado',desc:'Peça 1:1 para WhatsApp, catálogo rápido e postagem simples',w:1080,h:1080,unit:'px',material:'Digital / RGB',base:40,printBase:0,aspect:'1:1',cta:'PEDIR AGORA',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'80 px',finalFile:'PNG/JPG RGB',transparent:false,technique:'Digital / WhatsApp'},
+  {id:'youtube_banner',category:'Digital',icon:'📺',name:'Banner YouTube',desc:'Arte horizontal para capa de canal ou campanha institucional',w:2560,h:1440,unit:'px',material:'Digital / RGB',base:120,printBase:0,aspect:'16:9',cta:'CONHECER CANAL',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'Área segura central',finalFile:'PNG/JPG RGB',transparent:false,technique:'Digital / Capa'},
+  {id:'flyer_a5',category:'Gráfica comum',icon:'📄',name:'Panfleto / Flyer A5',desc:'A5 promocional para rua, balcão, entrega local e evento',w:148,h:210,unit:'mm',material:'Couchê 90g',base:65,printBase:.35,aspect:'a5',cta:'APROVEITAR',colorMode:'CMYK',dpi:'300 dpi',bleed:'3 mm',safe:'5 mm',finalFile:'PDF/X-1a ou PDF alta qualidade',transparent:false,technique:'Offset / Digital'},
+  {id:'flyer_a6',category:'Gráfica comum',icon:'🧾',name:'Panfleto A6',desc:'Panfleto pequeno promocional para alto volume',w:105,h:148,unit:'mm',material:'Couchê 90g',base:55,printBase:.25,aspect:'a5',cta:'APROVEITAR',colorMode:'CMYK',dpi:'300 dpi',bleed:'3 mm',safe:'5 mm',finalFile:'PDF/X-1a ou PDF alta qualidade',transparent:false,technique:'Offset / Digital'},
+  {id:'business_card',category:'Gráfica comum',icon:'💳',name:'Cartão de visita',desc:'90x50mm com sangria, margem segura e acabamento',w:90,h:50,unit:'mm',material:'Couchê 250g',base:75,printBase:.18,aspect:'card',cta:'CONTATO',colorMode:'CMYK',dpi:'300 dpi',bleed:'3 mm',safe:'4 mm',finalFile:'PDF/X-1a com frente/verso',transparent:false,technique:'Digital / Offset'},
+  {id:'folder_a4',category:'Gráfica comum',icon:'📑',name:'Folder A4 / Dobra',desc:'Folder institucional, promocional ou apresentação de serviços',w:210,h:297,unit:'mm',material:'Couchê 150g',base:140,printBase:1.9,aspect:'a4',cta:'CONHEÇA',colorMode:'CMYK',dpi:'300 dpi',bleed:'3 mm',safe:'5 mm',finalFile:'PDF/X-1a com marcação de dobra',transparent:false,technique:'Offset / Digital'},
+  {id:'sticker_label',category:'Gráfica comum',icon:'🏷️',name:'Adesivo / Rótulo',desc:'Etiqueta, rótulo, embalagem e vinil adesivo',w:50,h:50,unit:'mm',material:'Adesivo vinil',base:90,printBase:.28,aspect:'1:1',cta:'DESTACAR PRODUTO',colorMode:'CMYK',dpi:'300 dpi',bleed:'3 mm',safe:'3 mm',finalFile:'PDF vetorial ou PNG 300 dpi',transparent:true,technique:'Vinil / Recorte'},
+  {id:'menu_a4',category:'Gráfica comum',icon:'🍽️',name:'Cardápio A4',desc:'Menu impresso, digital ou plastificado',w:210,h:297,unit:'mm',material:'Couchê 150g',base:110,printBase:2.2,aspect:'a4',cta:'VER CARDÁPIO',colorMode:'CMYK',dpi:'300 dpi',bleed:'3 mm',safe:'5 mm',finalFile:'PDF alta qualidade',transparent:false,technique:'Digital / Laminação'},
+  {id:'banner_lona',category:'Grande formato',icon:'🪧',name:'Banner / Lona',desc:'Lona, faixa, evento, vitrine e fachada',w:90,h:120,unit:'cm',material:'Lona 440g',base:90,printBase:55,aspect:'3:4',cta:'VISITE AGORA',colorMode:'CMYK',dpi:'100–150 dpi no tamanho final',bleed:'2 a 5 cm conforme gráfica',safe:'5 cm',finalFile:'PDF em escala real ou TIFF/JPG alta',transparent:false,technique:'Impressão solvente/UV'},
+  {id:'faixa_lona',category:'Grande formato',icon:'🚩',name:'Faixa / Lona Horizontal',desc:'Faixa de promoção, fachada, parede e evento',w:300,h:80,unit:'cm',material:'Lona 440g',base:120,printBase:48,aspect:'16:9',cta:'OFERTA',colorMode:'CMYK',dpi:'72–150 dpi no tamanho final',bleed:'2 a 5 cm conforme gráfica',safe:'5 cm',finalFile:'PDF em escala real',transparent:false,technique:'Lona com ilhós/refile'},
+  {id:'outdoor',category:'Grande formato',icon:'🏙️',name:'Outdoor / Painel',desc:'Grande formato com leitura a distância',w:900,h:300,unit:'cm',material:'Lona / Papel outdoor',base:260,printBase:0,aspect:'16:9',cta:'LEMBRAR MARCA',colorMode:'CMYK',dpi:'30–72 dpi conforme escala',bleed:'Escala técnica combinada',safe:'Área segura ampla',finalFile:'PDF/TIFF em escala combinada',transparent:false,technique:'Grande formato'},
+  {id:'mug',category:'Brinde',icon:'☕',name:'Caneca personalizada',desc:'Arte para sublimação em caneca',w:210,h:95,unit:'mm',material:'Sublimação / Cerâmica',base:80,printBase:12,aspect:'cover',cta:'BRINDE PERSONALIZADO',colorMode:'RGB ou CMYK conforme fornecedor',dpi:'300 dpi',bleed:'3 mm',safe:'8 mm nas bordas',finalFile:'PNG/PDF em alta',transparent:true,technique:'Sublimação'},
+  {id:'squeeze',category:'Brinde',icon:'🥤',name:'Squeeze / Garrafa',desc:'Arte para brinde promocional cilíndrico',w:180,h:80,unit:'mm',material:'UV / Transfer / Sublimação',base:95,printBase:18,aspect:'cover',cta:'BRINDE CORPORATIVO',colorMode:'Conforme técnica',dpi:'300 dpi',bleed:'3 mm',safe:'5 mm',finalFile:'PNG transparente ou PDF vetorial',transparent:true,technique:'UV / Transfer'},
+  {id:'bag',category:'Brinde',icon:'🛍️',name:'Sacola / Ecobag',desc:'Aplicação de marca em sacola, ecobag ou embalagem promocional',w:250,h:250,unit:'mm',material:'Tecido / Papel / Transfer',base:120,printBase:20,aspect:'1:1',cta:'MARCA EM DESTAQUE',colorMode:'Conforme técnica',dpi:'300 dpi',bleed:'3 mm',safe:'10 mm',finalFile:'PNG transparente / PDF vetorial',transparent:true,technique:'Silk / DTF / Transfer'},
+  {id:'shirt',category:'Vestuário',icon:'👕',name:'Camiseta',desc:'Arte para DTF, silk, sublimação ou transfer',w:300,h:400,unit:'mm',material:'DTF / Silk / Sublimação',base:130,printBase:25,aspect:'3:4',cta:'CAMISETA PERSONALIZADA',colorMode:'RGB/CMYK conforme técnica',dpi:'300 dpi',bleed:'Sem sangria, área de aplicação real',safe:'20 mm da costura',finalFile:'PNG transparente 300 dpi ou vetor',transparent:true,technique:'DTF / Silk / Sublimação'},
+  {id:'cap',category:'Vestuário',icon:'🧢',name:'Boné / Bordado',desc:'Aplicação frontal/lateral para bordado ou silk',w:120,h:55,unit:'mm',material:'Bordado / Silk / Patch',base:100,printBase:18,aspect:'card',cta:'BRINDE PREMIUM',colorMode:'Cores sólidas / Vetor',dpi:'Vetor recomendado',bleed:'Não se aplica',safe:'Área útil do painel',finalFile:'SVG/PDF vetorial ou PNG alta',transparent:true,technique:'Bordado / Silk'},
+  {id:'uniform',category:'Vestuário',icon:'🥋',name:'Uniforme / Camisa de equipe',desc:'Aplicação de logo, nome, número e identidade de equipe',w:300,h:420,unit:'mm',material:'DTF / Sublimação / Bordado',base:160,printBase:35,aspect:'3:4',cta:'EQUIPE PADRONIZADA',colorMode:'Conforme técnica',dpi:'300 dpi',bleed:'Área de aplicação real',safe:'Margem da peça',finalFile:'PNG transparente + mockup',transparent:true,technique:'DTF / Sublimação / Bordado'},
+  {id:'photo_print',category:'Fotografia',icon:'🖼️',name:'Foto impressa',desc:'Impressão fotográfica em alta qualidade',w:150,h:210,unit:'mm',material:'Papel fotográfico',base:45,printBase:6,aspect:'a5',cta:'MEMÓRIA IMPRESSA',colorMode:'RGB tratado / perfil da gráfica',dpi:'300 dpi',bleed:'3 mm se houver corte',safe:'5 mm',finalFile:'JPG/TIFF/PDF alta qualidade',transparent:false,technique:'Impressão fotográfica'},
+  {id:'photo_album',category:'Fotografia',icon:'📸',name:'Álbum fotográfico',desc:'Capa, contracapa e páginas internas para álbum',w:300,h:300,unit:'mm',material:'Papel fotográfico / Couchê premium',base:280,printBase:8,aspect:'1:1',cta:'ÁLBUM APROVADO',colorMode:'RGB tratado ou CMYK conforme gráfica',dpi:'300 dpi',bleed:'3 mm',safe:'8 mm',finalFile:'PDF paginado + JPG preview',transparent:false,technique:'Diagramação fotográfica'}
 ];
 const NODE_DEF=[
   {id:'brief',title:'1. Atendimento / Briefing',icon:'🧠',x:70,y:95,deps:[],help:'Entrada comercial: cliente, objetivo, público, texto obrigatório e restrições.'},
@@ -968,21 +998,43 @@ const NODE_DEF=[
   {id:'package',title:'11. Pacote Final',icon:'📤',x:2170,y:590,deps:['visualEdit','production'],help:'Exporta briefing, orçamento, direção, copy, prompts, personalização visual e checklist.'}
 ];
 const CHECKS=[
-  ['bleed','Sangria','3 mm para impresso com corte; digital não precisa.'],
-  ['safe','Margem segura','Texto e logo longe da borda, normalmente 3 a 5 mm.'],
-  ['dpi','Resolução','300 DPI para impressão; RGB/72-144 DPI para digital.'],
-  ['color','Cor','CMYK para gráfica; RGB para redes sociais.'],
-  ['fonts','Fontes','Converter em curvas ou incorporar no PDF.'],
-  ['proof','Revisão textual','Telefone, data, preço, endereço, acentos e Instagram.'],
-  ['format','Arquivo final','PDF alta qualidade/PDF-X para gráfica; PNG/JPG para digital.'],
-  ['approval','Aprovação','Cliente aprovou conteúdo, medidas e material antes da produção.']
+  ['category','Categoria correta','Produto classificado como Digital, Gráfica comum, Grande formato, Brinde, Vestuário ou Fotografia.'],
+  ['size','Medida real','Tamanho e unidade conferidos conforme o destino da peça.'],
+  ['bleed','Sangria','3 mm para impresso comum; grande formato e fotografia conforme fornecedor.'],
+  ['safe','Margem segura','Textos, logos e informações longe da área de corte ou costura.'],
+  ['dpi','Resolução','300 dpi para impresso pequeno/fotografia; grande formato usa resolução proporcional.'],
+  ['color','Cor','RGB para digital; CMYK ou perfil indicado para impressão; técnica específica para brinde/vestuário.'],
+  ['fonts','Fontes','Converter em curvas ou incorporar no PDF quando for para gráfica.'],
+  ['format','Arquivo final','PDF para gráfica; PNG transparente para brindes/estamparia; JPG/PNG para preview.'],
+  ['proof','Revisão textual','Telefone, preço, data, endereço, Instagram, ortografia e acentos revisados.'],
+  ['approval','Aprovação','Cliente aprovou layout, material, acabamento, prazo e arquivo final antes da produção.']
 ];
+const CATEGORY_RULES={
+  'Digital':{
+    label:'Digital / Redes sociais',color:'RGB',dpi:'72–144 ppi',bleed:'Não usa sangria',safe:'Área segura para celular',file:'PNG/JPG RGB',client:'JPG/PNG de aprovação',designer:'Arquivo editável + PNG/JPG',producer:'Publicar em RGB; conferir legibilidade no celular e peso do arquivo.',warnings:'Não enviar CMYK para redes sociais. Evitar texto pequeno e excesso de informação.'
+  },
+  'Gráfica comum':{
+    label:'Gráfica comum',color:'CMYK',dpi:'300 dpi',bleed:'3 mm',safe:'3 a 5 mm',file:'PDF/X-1a ou PDF alta qualidade',client:'PDF/JPG de aprovação',designer:'PDF final + arquivo aberto se contratado',producer:'Enviar PDF fechado em CMYK, com sangria, margem segura, fontes incorporadas/convertidas e imagens embedadas.',warnings:'Conferir sangria, margem, fontes, imagens e revisão final antes de imprimir.'
+  },
+  'Grande formato':{
+    label:'Grande formato',color:'CMYK',dpi:'72–150 dpi proporcional',bleed:'2 a 5 cm ou escala combinada',safe:'5 cm ou mais',file:'PDF/TIFF/JPG alta em escala real ou combinada',client:'Mockup + JPG de aprovação',designer:'PDF/TIFF/JPG alta + instruções de escala',producer:'Informar medida em cm/m, acabamento, ilhós, refil, dobra, área de emenda e escala.',warnings:'Não exigir 300 dpi em tamanho gigante sem necessidade; confirmar padrão da gráfica.'
+  },
+  'Brinde':{
+    label:'Brinde / Produto personalizado',color:'Conforme técnica',dpi:'300 dpi ou vetor',bleed:'Depende da área de aplicação',safe:'Área útil do produto',file:'PNG transparente, PDF vetorial ou SVG',client:'Mockup aplicado + JPG de aprovação',designer:'PNG transparente/vetor + mockup',producer:'Informar técnica: sublimação, UV, transfer, DTF, silk ou gravação. Conferir área de aplicação real.',warnings:'Confirmar gabarito do fornecedor. Cores podem variar conforme material e técnica.'
+  },
+  'Vestuário':{
+    label:'Vestuário / Estamparia',color:'Conforme técnica',dpi:'300 dpi ou vetor',bleed:'Sem sangria; usar área de aplicação',safe:'Distância de gola, costura e barra',file:'PNG transparente 300 dpi, PDF/SVG vetorial ou arquivo de bordado',client:'Mockup em camiseta/boné/uniforme',designer:'Arte limpa com fundo transparente + vetor quando possível',producer:'Informar DTF, silk, sublimação, bordado ou transfer; separar cores se necessário.',warnings:'Evitar detalhes muito finos para silk/bordado. Conferir tamanho real em cm.'
+  },
+  'Fotografia':{
+    label:'Fotografia / Álbum',color:'RGB tratado ou perfil da gráfica',dpi:'300 dpi',bleed:'3 mm quando houver corte',safe:'5 a 8 mm',file:'JPG/TIFF/PDF alta; PDF paginado para álbum',client:'PDF/JPG de aprovação do álbum',designer:'Fotos em alta + PDF paginado + capa/contracapa',producer:'Conferir ordem das fotos, capa, contracapa, lombada, páginas, papel e acabamento.',warnings:'Evitar fotos de baixa resolução. Confirmar perfil de cor e formato da gráfica fotográfica.'
+  }
+};
 function defaultState(){
   return {
     panX:20,panY:20,zoom:0.82,activeNode:'brief',nodePos:Object.fromEntries(NODE_DEF.map(n=>[n.id,{x:n.x,y:n.y}])),
     refs:[],visualDNA:'',
     brief:{project:'',client:'Cliente Gráfica',segment:'Loja local, evento ou campanha',goal:'Vender mais',tone:'Profissional e moderno',audience:'Público local que precisa entender rápido a oferta',description:'Criar uma peça gráfica com visual chamativo, leitura rápida e chamada forte para WhatsApp.',required:'Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.',deadline:'Prazo normal',notes:''},
-    product:{id:'social',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente'},
+    product:{id:'social_feed',category:'Digital',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG RGB',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'80 px',finalFile:'PNG/JPG RGB',productionTech:'Publicação digital',transparent:false},
     visualEdit:{mode:'produto',style:'realista publicitário',intensity:70,preserveBackground:true,preserveComposition:true,preserveBrand:true,baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',notes:'Preservar composição, iluminação, identidade visual, perspectiva e leitura comercial da peça.'},
     quote:{design:35,print:0,finishCost:0,urgency:0,margin:20,total:42,notes:'Valores estimativos. Confirmar custo real com fornecedor e material.'},
     outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',prepress:'',production:'',package:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
@@ -999,6 +1051,32 @@ function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveState,2
 function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1300);}
 function setPath(path,value){const parts=path.split('.');let obj=state;while(parts.length>1)obj=obj[parts.shift()];obj[parts[0]]=value;scheduleSave();}
 function product(){return PRODUCTS.find(p=>p.id===state.product.id)||PRODUCTS[0];}
+function categoryRule(){return CATEGORY_RULES[state.product.category||product().category]||CATEGORY_RULES.Digital;}
+function categoryList(){return Object.keys(CATEGORY_RULES);}
+function outputProfile(){
+  const p=product(),r=categoryRule();
+  return {
+    category:state.product.category||p.category,
+    label:r.label,
+    colorMode:state.product.colorMode||p.colorMode||r.color,
+    dpi:state.product.dpi||p.dpi||r.dpi,
+    bleed:state.product.bleed||p.bleed||r.bleed,
+    safe:state.product.safe||p.safe||r.safe,
+    finalFile:state.product.finalFile||p.finalFile||r.file,
+    productionTech:state.product.productionTech||p.technique||'Produção gráfica',
+    transparent:!!(state.product.transparent||p.transparent),
+    client:r.client,
+    designer:r.designer,
+    producer:r.producer,
+    warnings:r.warnings
+  };
+}
+function applyProductTechnicalRules(fromCategoryOnly=false){
+  const p=product(),r=categoryRule();
+  if(!fromCategoryOnly){state.product.category=p.category;state.product.colorMode=p.colorMode||r.color;state.product.dpi=p.dpi||r.dpi;state.product.bleed=p.bleed||r.bleed;state.product.safe=p.safe||r.safe;state.product.finalFile=p.finalFile||r.file;state.product.productionTech=p.technique||'';state.product.transparent=!!p.transparent;}
+  else{state.product.colorMode=r.color;state.product.dpi=r.dpi;state.product.bleed=r.bleed;state.product.safe=r.safe;state.product.finalFile=r.file;state.product.productionTech=r.label;}
+  if(!state.product.delivery || state.product.delivery==='Digital PNG/JPG' || state.product.delivery==='PDF/X para gráfica') state.product.delivery=state.product.finalFile;
+}
 function completedNodes(){return NODE_DEF.filter(n=>nodeStatus(n.id)==='done').length;}
 function nodeStatus(id){
   if(id==='brief')return state.brief.description.trim()&&state.brief.client.trim()?'done':'ready';
@@ -1018,13 +1096,49 @@ function summary(id){
   const p=product();
   const o=state.outputs;
   if(id==='brief')return state.brief.project||state.brief.description||'Defina cliente, objetivo e informações obrigatórias.';
-  if(id==='product')return `${p.name} • ${state.product.width}x${state.product.height}${state.product.unit} • ${state.product.material}`;
+  if(id==='product')return `<div class="note"><b>V11 — Saída Real para Gráfica.</b> Escolha a categoria e o produto real. O sistema ajusta medida, cor, DPI, sangria, margem, material, acabamento e arquivo final recomendado.</div>
+    <label>Categoria profissional</label>
+    <div class="categoryGrid">${categoryList().map(cat=>`<div class="categoryCard ${((state.product.category||product().category)===cat)?'active':''}" data-category="${cat}"><b>${escapeHtml(cat)}</b><span>${escapeHtml(CATEGORY_RULES[cat].file)}</span></div>`).join('')}</div>
+    <label>Produto real / destino</label>
+    <div class="productGrid">${PRODUCTS.map(prod=>`<div class="productCard ${prod.id===p.id?'selected':''}" data-product="${prod.id}" data-cat="${prod.category}"><b>${prod.icon} ${prod.name}</b><span>${prod.category} • ${prod.desc}</span></div>`).join('')}</div>
+    <div class="grid3">
+      <div><label>Largura</label>${field('product.width',p.width,'number')}</div>
+      <div><label>Altura</label>${field('product.height',p.height,'number')}</div>
+      <div><label>Unidade</label>${selectField('product.unit',p.unit,['px','mm','cm','m'])}</div>
+      <div><label>Quantidade</label>${field('product.qty',p.qty,'number')}</div>
+      <div><label>Material</label>${selectField('product.material',p.material,['Digital / RGB','Couchê 90g','Couchê 150g','Couchê 250g','Adesivo vinil','Lona 440g','Papel cartão','Papel fotográfico','Sublimação / Cerâmica','DTF / Silk / Sublimação','Bordado / Silk / Patch','UV / Transfer / Sublimação','Tecido / Papel / Transfer','Offset','Reciclato'])}</div>
+      <div><label>Acabamento</label>${selectField('product.finish',p.finish,['Sem acabamento','Refile','Laminação fosca','Laminação brilho','Verniz localizado','Ilhós','Corte especial','Dobra','Faca especial','Bordado','DTF','Sublimação','Silk','UV','Transfer','Lombada / encadernação'])}</div>
+      <div><label>Entrega recomendada</label>${selectField('product.delivery',p.delivery,['Digital PNG/JPG RGB','PDF alta qualidade','PDF/X para gráfica','PDF com sangria e marcas','PNG transparente 300 dpi','SVG/PDF vetorial','JPG/TIFF alta qualidade','PDF paginado para álbum','Arquivo aberto + PDF','Impresso finalizado'])}</div>
+      <div><label>Logo</label>${field('product.logo',p.logo)}</div>
+      <div><label>Cores</label>${field('product.colors',p.colors)}</div>
+    </div>
+    <div class="techSpecGrid">
+      <div class="techSpec"><b>Modo de cor</b><span>${escapeHtml(outputProfile().colorMode)}</span></div>
+      <div class="techSpec"><b>Resolução</b><span>${escapeHtml(outputProfile().dpi)}</span></div>
+      <div class="techSpec"><b>Sangria</b><span>${escapeHtml(outputProfile().bleed)}</span></div>
+      <div class="techSpec"><b>Margem segura</b><span>${escapeHtml(outputProfile().safe)}</span></div>
+      <div class="techSpec"><b>Arquivo final</b><span>${escapeHtml(outputProfile().finalFile)}</span></div>
+      <div class="techSpec"><b>Técnica</b><span>${escapeHtml(outputProfile().productionTech)}</span></div>
+    </div>
+    <div class="note"><b>Regra V11:</b> ${escapeHtml(outputProfile().producer)}<br><b>Alerta:</b> ${escapeHtml(outputProfile().warnings)}</div>
+    <div class="stationActions"><button class="btn gold" data-action="generate" data-node="product">Aplicar regras técnicas</button><button class="btn cyan" data-action="applyCategory">Aplicar categoria selecionada</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='refs')return state.visualDNA?state.visualDNA.slice(0,140):`${state.refs.length} referência(s) carregada(s). Defina o DNA visual.`;
   if(id==='quote')return o.quote?`Estimativa montada: ${money(state.quote.total)}`:'Calcule criação, produção, acabamento, urgência e margem.';
   if(id==='art')return o.art||'Composição, paleta, hierarquia, tipografia e layout.';
   if(id==='copy')return o.copy||'Título, subtítulo, CTA, variações e revisão.';
   if(id==='prompt')return o.promptPT?'Prompts PT/EN prontos para arte IA.':'Prompt em português e inglês sem texto embutido.';
-  if(id==='prepress')return `${Object.values(state.checks).filter(Boolean).length}/${CHECKS.length} itens técnicos marcados.`;
+  if(id==='prepress')return `<div class="note"><b>Fechamento técnico V11.</b> Checklist ajustado para ${escapeHtml(outputProfile().label)}. O sistema separa o que vai para cliente, designer, gráfica/produção, estamparia/brindes e projeto interno.</div>
+    <div class="techSpecGrid">
+      <div class="techSpec"><b>Categoria</b><span>${escapeHtml(outputProfile().label)}</span></div>
+      <div class="techSpec"><b>Arquivo</b><span>${escapeHtml(outputProfile().finalFile)}</span></div>
+      <div class="techSpec"><b>Cor</b><span>${escapeHtml(outputProfile().colorMode)}</span></div>
+      <div class="techSpec"><b>DPI</b><span>${escapeHtml(outputProfile().dpi)}</span></div>
+      <div class="techSpec"><b>Sangria</b><span>${escapeHtml(outputProfile().bleed)}</span></div>
+      <div class="techSpec"><b>Margem</b><span>${escapeHtml(outputProfile().safe)}</span></div>
+    </div>
+    <div class="checkGrid">${CHECKS.map(([k,t,d])=>`<label class="checkRow"><input type="checkbox" data-check="${k}" ${state.checks[k]?'checked':''}/><span><b>${escapeHtml(t)}</b><span>${escapeHtml(d)}</span></span></label>`).join('')}</div>
+    <label>Checklist personalizado</label>${area('outputs.prepress',o.prepress)}
+    <div class="stationActions"><button class="btn gold" data-action="generate" data-node="prepress">Gerar checklist personalizado</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='production')return o.production||'Ordem de produção, arquivos finais e aprovação.';
   if(id==='visualEdit')return o.visualEdit||`Modo: trocar ${state.visualEdit.mode}. Upload base + referência e gere a instrução técnica.`;
   if(id==='package')return o.package?'Pacote final pronto para exportar.':'Exportação completa para cliente, designer ou produção.';
@@ -1145,13 +1259,49 @@ function visualSlot(key,title,placeholder){
 function stationHtml(id){
   const b=state.brief,p=state.product,q=state.quote,o=state.outputs;
   if(id==='brief')return `<div class="note">Essa é a entrada principal. Preencheu aqui, todo o fluxo da gráfica recebe contexto.</div><div class="grid2"><div><label>Nome do projeto</label>${field('brief.project',b.project)}</div><div><label>Cliente / Marca</label>${field('brief.client',b.client)}</div><div><label>Segmento</label>${field('brief.segment',b.segment)}</div><div><label>Objetivo</label>${selectField('brief.goal',b.goal,['Vender mais','Divulgar inauguração','Promoção relâmpago','Identidade visual','Cardápio / catálogo','Evento','Campanha institucional'])}</div><div><label>Tom da comunicação</label>${selectField('brief.tone',b.tone,['Profissional e moderno','Popular e vendedor','Luxo e premium','Infantil e colorido','Urgente e promocional','Minimalista e sofisticado'])}</div><div><label>Prazo</label>${selectField('brief.deadline',b.deadline,['Prazo normal','Urgente 24h','Urgente hoje','A combinar'])}</div><div class="full"><label>Público-alvo</label>${area('brief.audience',b.audience)}</div><div class="full"><label>Descrição do pedido</label>${area('brief.description',b.description)}</div><div class="full"><label>Texto obrigatório / informações do cliente</label>${area('brief.required',b.required)}</div><div class="full"><label>Observações internas</label>${area('brief.notes',b.notes)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="brief">Salvar e gerar diagnóstico</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
-  if(id==='product')return `<div class="note">Escolha o produto. O sistema ajusta medidas e regras técnicas de produção.</div><div class="productGrid">${PRODUCTS.map(prod=>`<div class="productCard ${prod.id===p.id?'selected':''}" data-product="${prod.id}"><b>${prod.icon} ${prod.name}</b><span>${prod.desc}</span></div>`).join('')}</div><div class="grid3"><div><label>Largura</label>${field('product.width',p.width,'number')}</div><div><label>Altura</label>${field('product.height',p.height,'number')}</div><div><label>Unidade</label>${selectField('product.unit',p.unit,['px','mm','cm'])}</div><div><label>Quantidade</label>${field('product.qty',p.qty,'number')}</div><div><label>Material</label>${selectField('product.material',p.material,['Digital / RGB','Couchê 90g','Couchê 150g','Couchê 250g','Adesivo vinil','Lona 440g','Papel cartão','Offset','Reciclato'])}</div><div><label>Acabamento</label>${selectField('product.finish',p.finish,['Sem acabamento','Refile','Laminação fosca','Laminação brilho','Verniz localizado','Ilhós','Corte especial','Dobra','Faca especial'])}</div><div><label>Entrega</label>${selectField('product.delivery',p.delivery,['Digital PNG/JPG','PDF alta qualidade','PDF/X para gráfica','Arquivo aberto + PDF','Impresso finalizado'])}</div><div><label>Logo</label>${field('product.logo',p.logo)}</div><div><label>Cores</label>${field('product.colors',p.colors)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="product">Aplicar produto</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='product')return `<div class="note"><b>V11 — Saída Real para Gráfica.</b> Escolha a categoria e o produto real. O sistema ajusta medida, cor, DPI, sangria, margem, material, acabamento e arquivo final recomendado.</div>
+    <label>Categoria profissional</label>
+    <div class="categoryGrid">${categoryList().map(cat=>`<div class="categoryCard ${((state.product.category||product().category)===cat)?'active':''}" data-category="${cat}"><b>${escapeHtml(cat)}</b><span>${escapeHtml(CATEGORY_RULES[cat].file)}</span></div>`).join('')}</div>
+    <label>Produto real / destino</label>
+    <div class="productGrid">${PRODUCTS.map(prod=>`<div class="productCard ${prod.id===p.id?'selected':''}" data-product="${prod.id}" data-cat="${prod.category}"><b>${prod.icon} ${prod.name}</b><span>${prod.category} • ${prod.desc}</span></div>`).join('')}</div>
+    <div class="grid3">
+      <div><label>Largura</label>${field('product.width',p.width,'number')}</div>
+      <div><label>Altura</label>${field('product.height',p.height,'number')}</div>
+      <div><label>Unidade</label>${selectField('product.unit',p.unit,['px','mm','cm','m'])}</div>
+      <div><label>Quantidade</label>${field('product.qty',p.qty,'number')}</div>
+      <div><label>Material</label>${selectField('product.material',p.material,['Digital / RGB','Couchê 90g','Couchê 150g','Couchê 250g','Adesivo vinil','Lona 440g','Papel cartão','Papel fotográfico','Sublimação / Cerâmica','DTF / Silk / Sublimação','Bordado / Silk / Patch','UV / Transfer / Sublimação','Tecido / Papel / Transfer','Offset','Reciclato'])}</div>
+      <div><label>Acabamento</label>${selectField('product.finish',p.finish,['Sem acabamento','Refile','Laminação fosca','Laminação brilho','Verniz localizado','Ilhós','Corte especial','Dobra','Faca especial','Bordado','DTF','Sublimação','Silk','UV','Transfer','Lombada / encadernação'])}</div>
+      <div><label>Entrega recomendada</label>${selectField('product.delivery',p.delivery,['Digital PNG/JPG RGB','PDF alta qualidade','PDF/X para gráfica','PDF com sangria e marcas','PNG transparente 300 dpi','SVG/PDF vetorial','JPG/TIFF alta qualidade','PDF paginado para álbum','Arquivo aberto + PDF','Impresso finalizado'])}</div>
+      <div><label>Logo</label>${field('product.logo',p.logo)}</div>
+      <div><label>Cores</label>${field('product.colors',p.colors)}</div>
+    </div>
+    <div class="techSpecGrid">
+      <div class="techSpec"><b>Modo de cor</b><span>${escapeHtml(outputProfile().colorMode)}</span></div>
+      <div class="techSpec"><b>Resolução</b><span>${escapeHtml(outputProfile().dpi)}</span></div>
+      <div class="techSpec"><b>Sangria</b><span>${escapeHtml(outputProfile().bleed)}</span></div>
+      <div class="techSpec"><b>Margem segura</b><span>${escapeHtml(outputProfile().safe)}</span></div>
+      <div class="techSpec"><b>Arquivo final</b><span>${escapeHtml(outputProfile().finalFile)}</span></div>
+      <div class="techSpec"><b>Técnica</b><span>${escapeHtml(outputProfile().productionTech)}</span></div>
+    </div>
+    <div class="note"><b>Regra V11:</b> ${escapeHtml(outputProfile().producer)}<br><b>Alerta:</b> ${escapeHtml(outputProfile().warnings)}</div>
+    <div class="stationActions"><button class="btn gold" data-action="generate" data-node="product">Aplicar regras técnicas</button><button class="btn cyan" data-action="applyCategory">Aplicar categoria selecionada</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='refs')return `<div class="note">Use este node para transformar referências soltas em direção visual objetiva.</div><label>DNA visual do projeto</label>${area('visualDNA',state.visualDNA,'Ex.: paleta principal, estilo, hierarquia, mood, textura, tipo de imagem...')}<div class="stationActions"><button class="btn gold" data-action="analyze">Analisar referências</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='quote')return `<div class="grid3"><div><label>Criação / Arte</label>${field('quote.design',q.design,'number')}</div><div><label>Produção / Impressão</label>${field('quote.print',q.print,'number')}</div><div><label>Acabamento extra</label>${field('quote.finishCost',q.finishCost,'number')}</div><div><label>Urgência</label>${field('quote.urgency',q.urgency,'number')}</div><div><label>Margem %</label>${field('quote.margin',q.margin,'number')}</div><div><label>Total</label><input value="${money(q.total)}" readonly/></div><div class="full"><label>Observações de orçamento</label>${area('quote.notes',q.notes)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="quote">Calcular orçamento</button><button class="btn green" data-action="copyQuote">Copiar proposta curta</button><button class="btn cyan" data-action="next">Próximo node</button></div><label>Resultado</label><div class="outputBox">${escapeHtml(o.quote||'Clique em Calcular orçamento.')}</div>`;
   if(id==='art')return `<label>Direção de arte gerada</label>${area('outputs.art',o.art,'Clique em gerar para criar a direção de arte.')}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="art">Gerar direção de arte</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='copy')return `<label>Copy da peça</label>${area('outputs.copy',o.copy,'Clique em gerar para criar títulos, CTA e textos.')}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="copy">Gerar copy</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='prompt')return `<div class="grid2"><div><label>Prompt em português</label>${area('outputs.promptPT',o.promptPT)}</div><div><label>Prompt em inglês</label>${area('outputs.promptEN',o.promptEN)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="prompt">Gerar prompts PT/EN</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
-  if(id==='prepress')return `<div class="checkGrid">${CHECKS.map(([k,t,d])=>`<label class="checkRow"><input type="checkbox" data-check="${k}" ${state.checks[k]?'checked':''}/><span><b>${escapeHtml(t)}</b><span>${escapeHtml(d)}</span></span></label>`).join('')}</div><label>Checklist personalizado</label>${area('outputs.prepress',o.prepress)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="prepress">Gerar checklist personalizado</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='prepress')return `<div class="note"><b>Fechamento técnico V11.</b> Checklist ajustado para ${escapeHtml(outputProfile().label)}. O sistema separa o que vai para cliente, designer, gráfica/produção, estamparia/brindes e projeto interno.</div>
+    <div class="techSpecGrid">
+      <div class="techSpec"><b>Categoria</b><span>${escapeHtml(outputProfile().label)}</span></div>
+      <div class="techSpec"><b>Arquivo</b><span>${escapeHtml(outputProfile().finalFile)}</span></div>
+      <div class="techSpec"><b>Cor</b><span>${escapeHtml(outputProfile().colorMode)}</span></div>
+      <div class="techSpec"><b>DPI</b><span>${escapeHtml(outputProfile().dpi)}</span></div>
+      <div class="techSpec"><b>Sangria</b><span>${escapeHtml(outputProfile().bleed)}</span></div>
+      <div class="techSpec"><b>Margem</b><span>${escapeHtml(outputProfile().safe)}</span></div>
+    </div>
+    <div class="checkGrid">${CHECKS.map(([k,t,d])=>`<label class="checkRow"><input type="checkbox" data-check="${k}" ${state.checks[k]?'checked':''}/><span><b>${escapeHtml(t)}</b><span>${escapeHtml(d)}</span></span></label>`).join('')}</div>
+    <label>Checklist personalizado</label>${area('outputs.prepress',o.prepress)}
+    <div class="stationActions"><button class="btn gold" data-action="generate" data-node="prepress">Gerar checklist personalizado</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='production')return `<label>Ordem de produção / entrega</label>${area('outputs.production',o.production)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="production">Gerar ordem de produção</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='visualEdit')return `<div class="note"><b>Personalização Visual IA.</b> Este node transforma a peça em um fluxo real de substituição visual: rosto, roupa ou produto. O modo local gera o briefing técnico e prompt de edição; quando houver motor visual conectado, a mesma estrutura pode enviar para /api/visual-edit.</div>
     <div class="visualModeCards">
@@ -1191,6 +1341,7 @@ function stationHtml(id){
 function bindStationFields(){
   document.querySelectorAll('[data-bind]').forEach(el=>{el.oninput=()=>{const val=el.type==='number'?Number(el.value||0):el.value;setPath(el.dataset.bind,val);};el.onchange=el.oninput;});
   document.querySelectorAll('[data-product]').forEach(card=>{card.onclick=()=>selectProduct(card.dataset.product);});
+  document.querySelectorAll('[data-category]').forEach(card=>{card.onclick=()=>{state.product.category=card.dataset.category;applyProductTechnicalRules(true);scheduleSave();openStation('product');};});
   document.querySelectorAll('[data-check]').forEach(ch=>{ch.onchange=()=>{state.checks[ch.dataset.check]=ch.checked;scheduleSave();};});
   document.querySelectorAll('[data-visual-check]').forEach(ch=>{ch.onchange=()=>{state.visualEdit[ch.dataset.visualCheck]=ch.checked;scheduleSave();};});
   document.querySelectorAll('[data-visual-mode]').forEach(card=>{card.onclick=()=>{state.visualEdit.mode=card.dataset.visualMode;scheduleSave();openStation('visualEdit');};});
@@ -1202,6 +1353,7 @@ function handleAction(action,node){
   if(action==='generate')return generateNode(node);
   if(action==='analyze')return analyzeRefs();
   if(action==='copyQuote')return copyText(state.outputs.quote||buildQuoteText());
+  if(action==='applyCategory'){applyProductTechnicalRules(true);saveState();openStation('product');toast('Categoria técnica aplicada');return;}
   if(action==='visualVariation')return generateVisualVariation();
   if(action==='applyVisualToPackage')return applyVisualToPackage();
   if(action==='downloadVisualBrief')return download('print-remotion-briefing-personalizacao-visual.txt', state.outputs.visualEdit||generateVisualEditBrief());
@@ -1209,11 +1361,21 @@ function handleAction(action,node){
   if(action==='downloadJson')return downloadJson();
   if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
 }
-function selectProduct(id){const prod=PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];state.product={...state.product,id:prod.id,width:prod.w,height:prod.h,unit:prod.unit,material:prod.material,qty:(prod.unit==='px'||prod.id==='brand')?1:100,delivery:prod.unit==='px'?'Digital PNG/JPG':'PDF/X para gráfica'};calcQuote(false);saveState();openStation('product');toast('Produto aplicado: '+prod.name);}
+function selectProduct(id){
+  const prod=PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];
+  state.product={...state.product,
+    id:prod.id,category:prod.category,width:prod.w,height:prod.h,unit:prod.unit,
+    material:prod.material,qty:(prod.unit==='px'||prod.id==='brand')?1:(prod.category==='Grande formato'?1:100),
+    delivery:prod.finalFile||CATEGORY_RULES[prod.category]?.file||'PDF alta qualidade',
+    colorMode:prod.colorMode, dpi:prod.dpi, bleed:prod.bleed, safe:prod.safe,
+    finalFile:prod.finalFile, productionTech:prod.technique, transparent:!!prod.transparent
+  };
+  calcQuote(false);saveState();openStation('product');toast('Produto real aplicado: '+prod.name);
+}
 function calcQuote(write=true){
   const p=product(),qty=Number(state.product.qty||1);let print=0;
-  if(p.id==='banner'){print=p.printBase*Math.max(1,(Number(state.product.width||90)*Number(state.product.height||120))/10000);}else print=p.printBase*qty;
-  if(state.product.unit==='px'||p.id==='brand')print=0;
+  if((state.product.category||p.category)==='Grande formato'){print=p.printBase*Math.max(1,(Number(state.product.width||90)*Number(state.product.height||120))/10000);}else print=p.printBase*qty;
+  if((state.product.category||p.category)==='Digital'||p.id==='brand')print=0;
   const finish=state.product.finish==='Sem acabamento'?0:Math.max(12,print*.18);
   const urgency=state.brief.deadline.includes('Urgente')?Math.max(20,state.quote.design*.25):Number(state.quote.urgency||0);
   const design=Number(state.quote.design||p.base||50);const subtotal=design+print+finish+urgency;const total=subtotal*(1+Number(state.quote.margin||0)/100);
@@ -1221,7 +1383,31 @@ function calcQuote(write=true){
   if(write)state.outputs.quote=buildQuoteText();
   return total;
 }
-function buildQuoteText(){const p=product();return `ORÇAMENTO PROFISSIONAL — ${state.brief.client}\n\nProduto: ${p.name}\nProjeto: ${state.brief.project||'Sem título'}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nQuantidade: ${state.product.qty}\nEntrega: ${state.product.delivery}\n\nCriação/arte: ${money(state.quote.design)}\nProdução/impressão estimada: ${money(state.quote.print)}\nAcabamento extra: ${money(state.quote.finishCost)}\nUrgência: ${money(state.quote.urgency)}\nMargem aplicada: ${state.quote.margin}%\n\nTOTAL SUGERIDO: ${money(state.quote.total)}\n\nObservação: valor estimativo. Confirmar custo final conforme fornecedor, material, prazo, máquina, cidade e aprovação do cliente.`;}
+function buildQuoteText(){const p=product(),op=outputProfile();return `ORÇAMENTO PROFISSIONAL — ${state.brief.client}
+
+Produto: ${p.name}
+Categoria: ${op.label}
+Projeto: ${state.brief.project||'Sem título'}
+Formato: ${state.product.width}x${state.product.height}${state.product.unit}
+Material: ${state.product.material}
+Acabamento: ${state.product.finish}
+Quantidade: ${state.product.qty}
+Entrega recomendada: ${op.finalFile}
+Modo de cor: ${op.colorMode}
+Resolução: ${op.dpi}
+Sangria: ${op.bleed}
+Margem segura: ${op.safe}
+Técnica/produção: ${op.productionTech}
+
+Criação/arte: ${money(state.quote.design)}
+Produção/impressão estimada: ${money(state.quote.print)}
+Acabamento extra: ${money(state.quote.finishCost)}
+Urgência: ${money(state.quote.urgency)}
+Margem aplicada: ${state.quote.margin}%
+
+TOTAL SUGERIDO: ${money(state.quote.total)}
+
+Observação: valor estimativo. Confirmar custo final conforme fornecedor, material, prazo, máquina, cidade, técnica de produção e aprovação do cliente.`;}
 function stripCodeFence(text){
   return String(text || '')
     .trim()
@@ -1297,6 +1483,13 @@ function buildPrintPayload(nodeId){
     tipo: p.name,
     formato: `${state.product.width}x${state.product.height}${state.product.unit}`,
     produto: state.brief.project || p.name,
+    categoria: state.product.category || p.category,
+    modoCor: outputProfile().colorMode,
+    resolucao: outputProfile().dpi,
+    sangria: outputProfile().bleed,
+    margemSegura: outputProfile().safe,
+    arquivoFinal: outputProfile().finalFile,
+    tecnicaProducao: outputProfile().productionTech,
     cliente: state.brief.client,
     segmento: state.brief.segment,
     publico: state.brief.audience,
@@ -1318,7 +1511,7 @@ function buildPrintPayload(nodeId){
     quote: state.quote,
     checks: state.checks,
     outputs: state.outputs,
-    pedido: 'Gere resposta profissional para o node solicitado. Sempre que possível retorne JSON com chaves visualDNA, art, copy, promptPT, promptEN, visualEdit, prepress, production, package, proposal, titulo, subtitulo e cta. Para visualEdit, descreva troca de rosto/roupa/produto preservando composição, luz, fundo, perspectiva e identidade visual.'
+    pedido: 'Gere resposta profissional para o node solicitado. Sempre que possível retorne JSON com chaves visualDNA, art, copy, promptPT, promptEN, visualEdit, prepress, production, package, proposal, titulo, subtitulo e cta. Considerar a V11 Saída Real para Gráfica: categoria do produto, arquivo final recomendado, CMYK/RGB, DPI, sangria, margem segura, material, acabamento e saída separada para cliente, designer, gráfica, estamparia/brindes e projeto interno. Para visualEdit, descreva troca de rosto/roupa/produto preservando composição, luz, fundo, perspectiva e identidade visual.'
   };
 }
 function normalizePrintAIResponse(raw){
@@ -1559,9 +1752,224 @@ function handleVisualUpload(key,files){
   reader.readAsDataURL(file);
 }
 
-function generatePrepress(){const isDigital=state.product.unit==='px'||state.product.material.includes('Digital');return `CHECKLIST PERSONALIZADO DE PRÉ-IMPRESSÃO\n\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nDestino: ${isDigital?'Digital / redes sociais':'Impressão gráfica'}\n\n${isDigital?'- Exportar em RGB.\n- Conferir proporção e legibilidade no celular.\n- Salvar PNG para qualidade ou JPG leve para tráfego.':'- Usar CMYK.\n- Trabalhar em 300 DPI.\n- Aplicar sangria mínima de 3 mm.\n- Manter margem segura de 3 a 5 mm.\n- Converter fontes em curvas ou incorporar no PDF.\n- Exportar PDF em alta qualidade/PDF-X quando aplicável.'}\n\nRevisar obrigatoriamente: preço, telefone, data, endereço, redes sociais, ortografia, acentos e autorização final do cliente.`;}
-function generateProduction(){return `ORDEM DE PRODUÇÃO / ENTREGA\n\nCliente: ${state.brief.client}\nProjeto: ${state.brief.project||product().name}\nProduto: ${product().name}\nQuantidade: ${state.product.qty}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\nPrazo: ${state.brief.deadline}\n\nARQUIVOS A ENTREGAR\n- Arte final em ${state.product.delivery}.\n- Versão editável, se contratada.\n- Preview JPG/PNG para aprovação.\n- Observações de produção e checklist técnico.\n\nSTATUS\nAguardar aprovação final do cliente antes de imprimir ou publicar.`;}
-function assemblePackage(){calcQuote(false);const pkg=`PRINT REMOTION — PACOTE GRÁFICO FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\nPREVIEW / CHAMADA PRINCIPAL\n==============================\nTítulo: ${state.outputs.previewTitle||state.brief.project||product().name}\nSubtítulo: ${state.outputs.previewSub||state.brief.description}\nCTA: ${state.outputs.previewCta||state.brief.goal}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PERSONALIZAÇÃO VISUAL IA\n==============================\n${state.outputs.visualEdit||generateVisualEditBrief()}\n\n==============================\n10. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n11. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
+function generatePrepress(){const p=product(),op=outputProfile();return `CHECKLIST PERSONALIZADO — V11 SAÍDA REAL PARA GRÁFICA
+
+Produto: ${p.name}
+Categoria: ${op.label}
+Formato: ${state.product.width}x${state.product.height}${state.product.unit}
+Material: ${state.product.material}
+Acabamento: ${state.product.finish}
+Arquivo final recomendado: ${op.finalFile}
+Modo de cor: ${op.colorMode}
+Resolução: ${op.dpi}
+Sangria: ${op.bleed}
+Margem segura: ${op.safe}
+Técnica de produção: ${op.productionTech}
+
+REGRAS AUTOMÁTICAS DA CATEGORIA
+${op.producer}
+
+SAÍDA PARA CLIENTE
+- ${op.client}
+- Mockup ou preview simples para aprovação.
+- Avisar que cor de tela pode variar no impresso.
+
+SAÍDA PARA DESIGNER
+- ${op.designer}
+- Manter arquivo editável organizado com fontes, links e referências.
+- Revisar hierarquia, legibilidade e aplicação da marca.
+
+SAÍDA PARA GRÁFICA / PRODUÇÃO
+- ${op.finalFile}
+- Conferir cor, DPI, sangria, margem segura, material, acabamento e medidas reais.
+- Enviar observações de produção junto ao arquivo.
+
+ALERTAS
+${op.warnings}
+
+REVISÃO FINAL OBRIGATÓRIA
+Telefone, preço, endereço, data, Instagram, ortografia, acentos, logo, dimensões e aprovação do cliente.`;}
+function generateProduction(){const p=product(),op=outputProfile();return `ORDEM DE PRODUÇÃO / ENTREGA — V11
+
+Cliente: ${state.brief.client}
+Projeto: ${state.brief.project||p.name}
+Produto real: ${p.name}
+Categoria: ${op.label}
+Quantidade: ${state.product.qty}
+Formato: ${state.product.width}x${state.product.height}${state.product.unit}
+Material: ${state.product.material}
+Acabamento: ${state.product.finish}
+Arquivo final recomendado: ${op.finalFile}
+Modo de cor: ${op.colorMode}
+Resolução: ${op.dpi}
+Sangria: ${op.bleed}
+Margem segura: ${op.safe}
+Técnica: ${op.productionTech}
+Prazo: ${state.brief.deadline}
+
+PASTA DE ENTREGA SUGERIDA
+01_Aprovacao_Cliente
+- JPG/PNG/PDF leve de aprovação
+- Mockup da peça
+- Observações comerciais
+
+02_Designer
+- Briefing
+- Copy
+- Direção de arte
+- Prompt IA
+- Referências
+
+03_Grafica_Producao
+- Arquivo final: ${op.finalFile}
+- Instruções técnicas
+- Checklist de pré-impressão
+
+04_Projeto_Interno
+- JSON completo
+- TXT técnico
+- Histórico e observações
+
+STATUS
+Aguardar aprovação final do cliente antes de imprimir, estampar, produzir brinde ou publicar.`;}
+function assemblePackage(){calcQuote(false);const p=product(),op=outputProfile();const pkg=`PRINT REMOTION V11 — PACOTE PROFISSIONAL PARA PRODUÇÃO REAL
+Gerado em: ${new Date().toLocaleString('pt-BR')}
+
+==============================
+1. BRIEFING
+==============================
+Projeto: ${state.brief.project||'Sem título'}
+Cliente: ${state.brief.client}
+Segmento: ${state.brief.segment}
+Objetivo: ${state.brief.goal}
+Tom: ${state.brief.tone}
+Público: ${state.brief.audience}
+Descrição: ${state.brief.description}
+Texto obrigatório: ${state.brief.required}
+Prazo: ${state.brief.deadline}
+
+==============================
+2. PREVIEW / CHAMADA PRINCIPAL
+==============================
+Título: ${state.outputs.previewTitle||state.brief.project||p.name}
+Subtítulo: ${state.outputs.previewSub||state.brief.description}
+CTA: ${state.outputs.previewCta||state.brief.goal}
+
+==============================
+3. PRODUTO REAL / ESPECIFICAÇÃO TÉCNICA
+==============================
+Produto: ${p.name}
+Categoria: ${op.label}
+Formato: ${state.product.width}x${state.product.height}${state.product.unit}
+Quantidade: ${state.product.qty}
+Material: ${state.product.material}
+Acabamento: ${state.product.finish}
+Modo de cor: ${op.colorMode}
+Resolução: ${op.dpi}
+Sangria: ${op.bleed}
+Margem segura: ${op.safe}
+Arquivo final recomendado: ${op.finalFile}
+Técnica de produção: ${op.productionTech}
+Fundo transparente necessário: ${op.transparent?'Sim':'Não'}
+
+==============================
+4. DNA VISUAL
+==============================
+${state.visualDNA||'Pendente'}
+
+==============================
+5. ORÇAMENTO
+==============================
+${state.outputs.quote||buildQuoteText()}
+
+==============================
+6. DIREÇÃO DE ARTE
+==============================
+${state.outputs.art||generateArtDirection()}
+
+==============================
+7. COPY
+==============================
+${state.outputs.copy||generateCopy()}
+
+==============================
+8. PROMPT IA — PORTUGUÊS
+==============================
+${state.outputs.promptPT||generatePrompts().pt}
+
+==============================
+9. PROMPT IA — ENGLISH
+==============================
+${state.outputs.promptEN||generatePrompts().en}
+
+==============================
+10. PERSONALIZAÇÃO VISUAL IA
+==============================
+${state.outputs.visualEdit||generateVisualEditBrief()}
+
+==============================
+11. PRÉ-IMPRESSÃO / FECHAMENTO TÉCNICO
+==============================
+${state.outputs.prepress||generatePrepress()}
+
+==============================
+12. PRODUÇÃO / ORDEM DE SERVIÇO
+==============================
+${state.outputs.production||generateProduction()}
+
+==============================
+13. SAÍDA PARA CLIENTE
+==============================
+- ${op.client}
+- Preview JPG/PNG ou PDF leve para aprovação.
+- Mockup quando aplicável.
+- Resumo comercial da peça.
+- Status: enviar somente para aprovação, não para produção final.
+
+==============================
+14. SAÍDA PARA DESIGNER
+==============================
+- ${op.designer}
+- Briefing completo.
+- Direção de arte e copy.
+- Prompts IA e referências.
+- Arquivo editável se contratado.
+
+==============================
+15. SAÍDA PARA GRÁFICA / IMPRESSÃO
+==============================
+- Arquivo recomendado: ${op.finalFile}
+- Cor: ${op.colorMode}
+- Resolução: ${op.dpi}
+- Sangria: ${op.bleed}
+- Margem segura: ${op.safe}
+- Material: ${state.product.material}
+- Acabamento: ${state.product.finish}
+- Observação: ${op.producer}
+
+==============================
+16. SAÍDA PARA ESTAMPARIA / BRINDES
+==============================
+${['Brinde','Vestuário'].includes(state.product.category||p.category)?`- PNG transparente/vetor quando necessário.
+- Técnica: ${op.productionTech}
+- Área de aplicação: ${state.product.width}x${state.product.height}${state.product.unit}
+- Mockup aprovado obrigatório.
+- Confirmar gabarito do fornecedor.`:'Não aplicável para este produto. Caso vire brinde/vestuário, gerar PNG transparente ou vetor e mockup de aplicação.'}
+
+==============================
+17. PROJETO INTERNO
+==============================
+- JSON completo do projeto.
+- TXT técnico.
+- Referências visuais.
+- Histórico de decisões.
+- Checklist marcado: ${Object.values(state.checks).filter(Boolean).length}/${CHECKS.length}.
+
+==============================
+18. ALERTAS
+==============================
+${op.warnings}
+`;
   state.outputs.package=pkg;return pkg;
 }
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Copiado')).catch(()=>toast('Não foi possível copiar'));}
@@ -1662,7 +2070,7 @@ init();
 (function(){
   function patchPrintV101(){
     try{
-      document.title = "Print Remotion — Gráfica Nodes OS V10.5 Melhor dos Dois Mundos";
+      document.title = "Print Remotion — V11 Saída Real para Gráfica";
       var s = document.querySelector('.brand span');
       if(s) s.textContent = 'gráfica nodes os • aprovado • personalização visual ia';
       var note = document.querySelector('.print-approved-note');
@@ -1685,12 +2093,12 @@ init();
 (function(){
   function patchV105BestWorlds(){
     try{
-      document.title = "Print Remotion — V10.5 Melhor dos Dois Mundos";
+      document.title = "Print Remotion — V11 Saída Real para Gráfica";
       var s = document.querySelector('.brand span');
-      if(s) s.textContent = 'gráfica nodes os • formatos smart • personalização visual ia';
+      if(s) s.textContent = 'gráfica nodes os • saída real • arquivos técnicos';
       var note = document.querySelector('.print-approved-note');
       if(note){
-        note.innerHTML = '<b>Print aprovado V10.5.</b><br>Melhor dos dois mundos: visual aprovado V10.4 + formatos profissionais de rede social + node de personalização visual IA.';
+        note.innerHTML = '<b>Print aprovado V10.5.</b><br>V11 Saída Real para Gráfica: categorias profissionais, regras técnicas automáticas, checklist por destino e pacote final separado para cliente, designer, gráfica, estamparia/brindes e projeto interno.';
       }
     }catch(e){console.warn(e)}
   }
