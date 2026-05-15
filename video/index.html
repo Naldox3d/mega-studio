@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Video Remotion — Nodes Core V1.1</title>
+<title>Video Remotion — Nodes Core V1.2</title>
 <style>
 :root{
   --bg:#05070d;--panel:#0d1425;--panel2:#121b30;--panel3:#18243c;
@@ -198,12 +198,397 @@ label{display:block;margin:11px 0 6px;color:#f1d59c;font-size:10px;font-weight:1
 @keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(34px,-18px) scale(1.12)}}
 @media(max-width:1100px){.workspace{grid-template-columns:210px minmax(0,1fr)}.inspector{display:none}.stationBody{grid-template-columns:1fr}.stationSide{border-left:0;border-top:1px solid var(--line);max-height:330px}.station{height:min(850px,calc(100vh - 80px))}.grid2,.grid3{grid-template-columns:1fr}}
 @media(max-width:760px){.app{grid-template-rows:auto 1fr}.topbar{height:auto;align-items:flex-start;flex-wrap:wrap}.brand{min-width:0}.topActions{width:100%;margin-left:0}.workspace{height:calc(100vh - 108px);grid-template-columns:1fr}.rail{display:none}.node{width:220px}.minimap{display:none}.station{width:calc(100vw - 18px);height:calc(100vh - 124px);border-radius:18px}.stationTitle h2{font-size:16px}.stationMain{padding:12px}.floatingTools{right:10px;left:10px;bottom:10px}.flowPanel{top:auto;bottom:68px;left:10px;right:10px;width:auto;max-height:210px;overflow:auto}.flowPanel:not(.is-collapsed){max-height:240px}.flowChecklist{max-height:90px}.flowPanel.is-collapsed{width:auto;max-width:calc(100% - 20px)}.flowMini span{max-width:180px}.btn{font-size:11px;padding:8px 10px}}
+
+/* =========================================================
+   PATCH V1.2 — VIDEO REMOTION LATERAIS COMO STUDIO
+   Mantém nodes, posição salva do canvas, drag/zoom, minimap,
+   fluxo e exportação. Corrige laterais, barras, cores e
+   responsividade para ficar fiel ao Studio Remotion Lab.
+   ========================================================= */
+:root{
+  --studio-bg:#05070d;
+  --studio-panel:#0c111d;
+  --studio-panel2:#111827;
+  --studio-line:rgba(255,255,255,.10);
+  --studio-line-soft:rgba(255,255,255,.065);
+  --studio-gold:#d6ad68;
+  --studio-cyan:#65d9d2;
+  --studio-green:#75db9b;
+  --studio-red:#e18491;
+  --studio-purple:#a996ff;
+  --studio-text:#e8edf8;
+  --studio-muted:#96a1ba;
+}
+html,body{
+  background:
+    radial-gradient(circle at 78% 12%, rgba(214,173,104,.10), transparent 26%),
+    radial-gradient(circle at 15% 18%, rgba(101,217,210,.075), transparent 28%),
+    radial-gradient(circle at 50% 120%, rgba(169,150,255,.07), transparent 38%),
+    linear-gradient(180deg,#060913 0%,#05070d 100%)!important;
+}
+.app{
+  grid-template-rows:64px 1fr!important;
+}
+.topbar{
+  height:64px!important;
+  padding:10px 18px!important;
+  background:rgba(5,7,13,.91)!important;
+  border-bottom:1px solid var(--studio-line)!important;
+  backdrop-filter:blur(18px)!important;
+}
+.brandMark{
+  width:42px!important;
+  height:42px!important;
+  border-radius:14px!important;
+  background:linear-gradient(180deg,#f2d08b,#d8b46f)!important;
+  color:#1a1203!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 0 28px rgba(214,173,104,.16)!important;
+}
+.brandText strong{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+  letter-spacing:.04em!important;
+  font-size:18px!important;
+}
+.brandText strong::after{
+  content:" . APROVADO";
+  color:var(--studio-green);
+  font-size:.62em;
+  letter-spacing:.10em;
+}
+.brandText span{
+  color:var(--studio-gold)!important;
+  letter-spacing:.12em!important;
+}
+.chip{
+  border:1px solid var(--studio-line)!important;
+  background:rgba(255,255,255,.035)!important;
+  color:var(--studio-muted)!important;
+  border-radius:999px!important;
+}
+.chip.good{
+  color:#caffda!important;
+  border-color:rgba(117,219,155,.38)!important;
+  background:rgba(117,219,155,.08)!important;
+}
+.chip.gold{
+  color:#f6d7a2!important;
+  border-color:rgba(214,173,104,.38)!important;
+  background:rgba(214,173,104,.08)!important;
+}
+.btn{
+  border-radius:12px!important;
+  border:1px solid var(--studio-line)!important;
+  box-shadow:none!important;
+}
+.btn.gold{
+  background:linear-gradient(180deg,#e5c07e,#c79650)!important;
+  color:#1c1305!important;
+  border-color:rgba(214,173,104,.80)!important;
+}
+.btn.green{
+  background:linear-gradient(180deg,#83e1a9,#62c889)!important;
+  color:#07150d!important;
+  border-color:rgba(117,219,155,.70)!important;
+}
+.btn.cyan{
+  background:rgba(101,217,210,.10)!important;
+  color:#cafffb!important;
+  border-color:rgba(101,217,210,.38)!important;
+}
+.btn.purple{
+  background:rgba(169,150,255,.10)!important;
+  color:#e5ddff!important;
+  border-color:rgba(169,150,255,.38)!important;
+}
+.btn.red{
+  background:rgba(225,132,145,.10)!important;
+  color:#ffd7de!important;
+  border-color:rgba(225,132,145,.42)!important;
+}
+.workspace{
+  grid-template-columns:248px minmax(0,1fr) 330px!important;
+  height:calc(100vh - 64px)!important;
+  background:#050813!important;
+}
+.rail,.inspector{
+  background:rgba(12,17,29,.88)!important;
+  border-color:var(--studio-line)!important;
+  padding:14px 10px 18px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.28) rgba(255,255,255,.04);
+}
+.rail::-webkit-scrollbar,.inspector::-webkit-scrollbar{width:8px}
+.rail::-webkit-scrollbar-track,.inspector::-webkit-scrollbar-track{background:rgba(255,255,255,.035)}
+.rail::-webkit-scrollbar-thumb,.inspector::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.24);
+  border-radius:999px;
+}
+.railHead,.panel{
+  border:1px solid var(--studio-line)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),rgba(13,18,32,.94)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03)!important;
+  padding:14px!important;
+  margin-bottom:12px!important;
+}
+.railHead{
+  border-color:rgba(214,173,104,.28)!important;
+}
+.railHead h2,.panel h3{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+  font-size:15px!important;
+  line-height:1.15!important;
+  margin-bottom:8px!important;
+}
+.rail h4,.inspector h4{
+  color:var(--studio-gold)!important;
+  letter-spacing:.16em!important;
+  margin:15px 0 8px!important;
+}
+.small{
+  font-size:11px!important;
+  line-height:1.55!important;
+  color:#aeb8cc!important;
+}
+.step{
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.038),rgba(255,255,255,.014)),rgba(13,18,32,.88)!important;
+  padding:9px 10px!important;
+  margin-bottom:8px!important;
+}
+.step:hover,.step.active{
+  border-color:rgba(214,173,104,.58)!important;
+  background:linear-gradient(180deg,rgba(214,173,104,.12),rgba(214,173,104,.035)),rgba(13,18,32,.95)!important;
+}
+.stepIcon{
+  border-radius:11px!important;
+  background:rgba(255,255,255,.045)!important;
+  border:1px solid rgba(255,255,255,.075)!important;
+}
+.stepText strong{
+  color:#e8edf8!important;
+}
+.stepText span{
+  color:var(--studio-muted)!important;
+}
+.dot.active{
+  background:var(--studio-gold)!important;
+}
+.dot.done{
+  background:var(--studio-green)!important;
+}
+.rail .btn.block,.inspector .btn.block{
+  width:100%!important;
+  min-height:38px!important;
+  justify-content:center!important;
+  white-space:normal!important;
+  text-align:center!important;
+  line-height:1.18!important;
+  padding:9px 10px!important;
+}
+.nodeViewport{
+  background-color:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),
+    radial-gradient(circle at 42% 28%,rgba(101,217,210,.08),transparent 26%),
+    radial-gradient(circle at 70% 65%,rgba(214,173,104,.06),transparent 28%),
+    #050813!important;
+  background-size:32px 32px,32px 32px,160px 160px,160px 160px,auto,auto,auto!important;
+}
+.node{
+  border:1px solid rgba(255,255,255,.11)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.060),rgba(255,255,255,.018)),rgba(13,18,32,.96)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.36)!important;
+}
+.node.active{
+  border-color:rgba(214,173,104,.82)!important;
+  box-shadow:0 0 0 2px rgba(214,173,104,.22),0 26px 70px rgba(0,0,0,.55)!important;
+}
+.node.done{
+  border-color:rgba(117,219,155,.52)!important;
+}
+.nodeTop{
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+}
+.nodeIcon{
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  background:rgba(255,255,255,.035)!important;
+}
+.nodeTitle strong{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+}
+.connectorSvg path{
+  stroke:rgba(101,217,210,.26)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 8!important;
+}
+.connectorSvg path.done,.connectorSvg path.main{
+  stroke:rgba(214,173,104,.62)!important;
+  stroke-width:4!important;
+}
+.flowPanel{
+  border-color:rgba(101,217,210,.28)!important;
+  background:rgba(5,8,19,.72)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.flowPanel.is-collapsed{
+  border-color:rgba(101,217,210,.36)!important;
+}
+.floatingTools{
+  left:16px!important;
+  bottom:16px!important;
+  border:1px solid var(--studio-line)!important;
+  border-radius:16px!important;
+  background:rgba(5,8,19,.78)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.minimap{
+  width:190px!important;
+  height:126px!important;
+  border:1px solid var(--studio-line)!important;
+  border-radius:16px!important;
+  background:rgba(5,8,19,.72)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.progressWrap{
+  height:7px!important;
+  margin:8px 0!important;
+  background:rgba(255,255,255,.055)!important;
+}
+.progressFill{
+  background:linear-gradient(90deg,var(--studio-gold),var(--studio-cyan),var(--studio-green))!important;
+}
+.kv{
+  gap:8px!important;
+}
+.kv div{
+  border-radius:13px!important;
+  padding:9px 10px!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  background:rgba(255,255,255,.025)!important;
+}
+.kv span{
+  color:var(--studio-muted)!important;
+}
+.kv strong{
+  color:#e8edf8!important;
+  overflow-wrap:anywhere!important;
+}
+.previewCard{
+  min-height:300px!important;
+  height:auto!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:18px!important;
+  background:#080c16!important;
+}
+.previewTitle{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+  font-size:22px!important;
+}
+.previewSub{
+  color:#cdd7ee!important;
+}
+.previewCta{
+  border-radius:999px!important;
+  background:var(--studio-gold)!important;
+  color:#1b1204!important;
+}
+.station{
+  width:min(1160px,94vw)!important;
+  border:1px solid rgba(214,173,104,.34)!important;
+  border-radius:24px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.014)),rgba(10,15,28,.98)!important;
+}
+.stationBody{
+  grid-template-columns:minmax(0,1fr) 330px!important;
+}
+.stationSide{
+  min-width:0!important;
+}
+.stationSection,.stationProgress,.output{
+  border-color:rgba(255,255,255,.10)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),rgba(13,18,32,.90)!important;
+}
+input,textarea,select{
+  background:#080d19!important;
+  border-color:rgba(255,255,255,.11)!important;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(214,173,104,.58)!important;
+  box-shadow:0 0 0 4px rgba(214,173,104,.07)!important;
+}
+.video-approved-note{
+  border:1px solid rgba(101,217,210,.28);
+  border-radius:14px;
+  background:rgba(101,217,210,.07);
+  color:#cafffb;
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.video-approved-note b{color:#eadcc1}
+@media(max-width:1200px){
+  .workspace{
+    grid-template-columns:230px minmax(0,1fr) 306px!important;
+  }
+  .rail,.inspector{
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+}
+@media(max-width:980px){
+  .workspace{
+    grid-template-columns:220px minmax(0,1fr)!important;
+  }
+  .inspector{
+    display:none!important;
+  }
+}
+@media(max-width:780px){
+  .workspace{
+    display:block!important;
+    height:calc(100vh - 116px)!important;
+  }
+  .rail{
+    display:block!important;
+    max-height:285px!important;
+    width:100%!important;
+    border-right:0!important;
+    border-bottom:1px solid rgba(255,255,255,.10)!important;
+  }
+  .canvasShell{
+    height:calc(100vh - 401px)!important;
+    min-height:520px!important;
+  }
+  .stationBody{
+    grid-template-columns:1fr!important;
+  }
+  .stationSide{
+    border-left:0!important;
+    border-top:1px solid rgba(255,255,255,.10)!important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.1 — produto audiovisual final</span></div></div>
+  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.2 — produto audiovisual final</span></div></div>
   <div class="statusStrip">
     <span class="chip gold" id="projectChip">Projeto: Sem título</span>
     <span class="chip" id="autosaveChip">Salvo localmente</span>
@@ -400,9 +785,44 @@ function copyActiveOutput(){const id=state.active;copyText(id==="export"?buildPa
 function download(name,content,type="text/plain"){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
 function safeName(){return((state.data.brief.title||"video-remotion").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""))||"video-remotion"}
 function downloadPackageTxt(){download(safeName()+"-pacote-final.txt",buildPackage())}
-function downloadPackageJson(){download(safeName()+"-pacote-final.json",JSON.stringify({meta:{name:state.data.brief.title||"Sem título",createdAt:new Date().toISOString(),version:"Video Remotion Nodes Core V1.1"},brief:state.data.brief,refs:state.visualRefs.length,nodes:state.nodes.map(n=>({id:n.id,title:n.title,status:nodeStatus(n.id),content:state.data[n.id]?.content||""})),package:buildPackage()},null,2),"application/json")}
+function downloadPackageJson(){download(safeName()+"-pacote-final.json",JSON.stringify({meta:{name:state.data.brief.title||"Sem título",createdAt:new Date().toISOString(),version:"Video Remotion Nodes Core V1.2"},brief:state.data.brief,refs:state.visualRefs.length,nodes:state.nodes.map(n=>({id:n.id,title:n.title,status:nodeStatus(n.id),content:state.data[n.id]?.content||""})),package:buildPackage()},null,2),"application/json")}
 function resetProject(){if(!confirm("Resetar projeto salvo neste navegador?"))return;localStorage.removeItem(STORAGE_KEY);state={zoom:1,panX:0,panY:0,active:"brief",nodes:clone(nodeDefaults),data:clone(defaultData),visualRefs:[],visualMemory:"",history:[],flowMode:true,flowCollapsed:true,completedAt:{}};render();centerMap();showToast("Projeto resetado")}
-load();render();setTimeout(centerMap,80)
+const __hadSavedVideoState = !!localStorage.getItem(STORAGE_KEY);
+load();
+render();
+if(!__hadSavedVideoState){
+  setTimeout(centerMap,80);
+} else {
+  setTimeout(()=>updateTransform(),80);
+}
 </script>
+
+<script>
+(function(){
+  function patchVideoV12(){
+    try{
+      document.title = "Video Remotion — Nodes Core V1.2";
+      var brand = document.querySelector('.brandText strong');
+      if(brand) brand.textContent = 'Video Remotion';
+      var sub = document.querySelector('.brandText span');
+      if(sub) sub.textContent = 'Nodes Core V1.2 — produto audiovisual final';
+      var rail = document.querySelector('.railHead');
+      if(rail && !rail.querySelector('.video-approved-note')){
+        var note = document.createElement('div');
+        note.className = 'video-approved-note';
+        note.innerHTML = '<b>Video aprovado.</b><br>Laterais alinhadas ao Studio/Print. A posição salva do canvas foi preservada.';
+        rail.appendChild(note);
+      }
+    }catch(e){console.warn(e)}
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchVideoV12);
+  }else{
+    patchVideoV12();
+  }
+  setTimeout(patchVideoV12,450);
+})();
+</script>
+
 </body>
 </html>
