@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — V11.2 Sales Ready + Saída Comercial</title>
+<title>Portal Genesis — Print Remotion V1.7</title>
 <style>
 :root{
   --bg:#050711;
@@ -863,13 +863,35 @@ input:focus,textarea:focus,select:focus{
 .salesOutputActions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 @media(max-width:980px){.salesBridgeGrid,.salesOutputActions{grid-template-columns:1fr!important}}
 
+
+/* PATCH PG V1.7 — Portal Genesis Print Premium */
+.moduleNav{display:flex;gap:8px;flex-wrap:wrap;margin-left:8px}
+.moduleLink{display:inline-flex;align-items:center;justify-content:center;padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);color:#d6e2fb;text-decoration:none;font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;transition:.15s}
+.moduleLink:hover{filter:brightness(1.14);transform:translateY(-1px);border-color:rgba(88,225,216,.35)}
+.moduleLink.active{background:linear-gradient(180deg,#f2cf88,#d9a94f);border-color:rgba(233,191,105,.62);color:#140d03;font-weight:1000}
+.pgPrintNote{margin-bottom:12px;border:1px solid rgba(101,217,210,.28);background:linear-gradient(180deg,rgba(101,217,210,.10),rgba(255,255,255,.02));border-radius:16px;padding:12px;color:#dffdf9;font-size:11px;line-height:1.5}
+.pgPrintNote b{display:block;color:#f0ddbb;margin-bottom:4px;font-size:12px}
+.pgVitrineStrip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.pgVitrineStrip div{border:1px solid rgba(255,255,255,.10);border-radius:13px;background:rgba(255,255,255,.035);padding:9px;font-size:10px;color:#aeb8cc;line-height:1.35}
+.pgVitrineStrip b{display:block;color:#f0ddbb;font-size:11px;margin-bottom:3px}
+.pgOutputTag{display:inline-flex;margin-top:8px;border:1px solid rgba(233,191,105,.35);background:rgba(233,191,105,.08);color:#f6dfad;border-radius:999px;padding:5px 8px;font-size:9px;font-weight:1000;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:1180px){.moduleNav{width:100%;margin-left:0}.topbar{height:auto!important;min-height:64px}.workspace{height:calc(100vh - 90px)!important}}
+@media(max-width:780px){.moduleNav{gap:6px}.moduleLink{font-size:9px;padding:6px 8px}}
+
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <div class="logoMark">PR</div>
-    <div class="brand"><b>Print Remotion</b><span>gráfica nodes os • aprovado • irmão do Studio Remotion Lab</span></div>
+    <div class="logoMark">PG</div>
+    <div class="brand"><b>Portal Genesis Print</b><span>Marketing • Adventures • Punk • Vitrine Business de Caruaru</span></div>
+    <nav class="moduleNav" id="pgModuleNav">
+      <a class="moduleLink" href="../index.html">Portal</a>
+      <a class="moduleLink" href="../studio/index.html">Studio</a>
+      <a class="moduleLink" href="../video/index.html">Video</a>
+      <a class="moduleLink active" href="./index.html">Print</a>
+      <a class="moduleLink" href="../api/index.html">API / Config</a>
+    </nav>
     <div class="topStatus">
       <span class="pill gold" id="projectPill">Projeto: Sem título</span>
       <span class="pill" id="autosavePill">Autosave ativo</span>
@@ -877,19 +899,19 @@ input:focus,textarea:focus,select:focus{
     </div>
     <div class="toolbar">
       <button class="btn cyan" id="btnOpenBrief">Abrir briefing</button>
-      <button class="btn purple" id="btnOpenClients">Clientes</button>
+      <button class="btn purple" id="btnOpenClients">Área do Cliente</button>
       <button class="btn gold" id="btnGeneratePipeline">Gerar pipeline</button>
       <button class="btn green" id="btnExportPack">Exportar</button>
-      <button class="btn purple" id="btnOpenSales">Sales Ready</button>
+      <button class="btn purple" id="btnOpenSales">Sales / Vitrine</button>
       <button class="btn red" id="btnReset">Reset</button>
     </div>
   </header>
   <main class="workspace">
     <aside class="leftPanel">
       <div class="panelCard">
-        <span class="kicker">árvore do print</span>
-        <h3>Pipeline gráfico profissional</h3>
-        <p class="small">Preencha uma vez. Cada node vira uma estação técnica, aprova a etapa e alimenta o pacote final.</p>
+        <span class="kicker">Portal Genesis Print</span>
+        <h3>Motor gráfico profissional</h3>
+        <p class="small">Módulo de impressão real do Portal Genesis. Cada node organiza briefing, orçamento, arte, copy, pré-impressão, produção, entrega e pacote final para cliente.</p>
       </div>
       <div class="panelCard">
         <h3>Ações rápidas</h3>
@@ -906,8 +928,8 @@ input:focus,textarea:focus,select:focus{
         <div class="miniList" id="pipelineList"></div>
       </div>
       <div class="panelCard">
-        <h3>Regra do produto</h3>
-        <p class="small">Módulo gráfico aprovado da Studio Platform. Organiza atendimento, orçamento, direção visual, copy, prompt IA, pré-impressão, produção, entrega, pacote final e saída comercial para o futuro Sales Remotion.</p>
+        <h3>Regra do Portal Genesis Print</h3>
+        <p class="small">Saída gráfica oficial do Portal Genesis: atendimento, cadastro de cliente, orçamento, direção visual, prompt IA, pré-impressão, produção, entrega, pacote final e ponte comercial para vendas.</p>
       </div>
     </aside>
     <section class="canvasWrap">
@@ -937,13 +959,13 @@ input:focus,textarea:focus,select:focus{
         </div>
       </div>
       <div class="panelCard">
-        <h3>Preview leve</h3>
+        <h3>Preview estratégico</h3>
         <div class="previewCard">
           <div class="mockArt">
             <div class="mockOrb a"></div><div class="mockOrb b"></div>
-            <div class="mockTitle" id="mockTitle">Print Remotion</div>
-            <div class="mockSub" id="mockSub">Briefing, orçamento e pré-impressão em nodes.</div>
-            <div class="mockCta" id="mockCta">ARTE PRONTA PARA PRODUÇÃO</div>
+            <div class="mockTitle" id="mockTitle">Portal Genesis Print</div>
+            <div class="mockSub" id="mockSub">Peças gráficas, impressão real, brindes e identidade visual em nodes.</div>
+            <div class="mockCta" id="mockCta">GERAR PRINT</div>
           </div>
         </div>
       </div>
@@ -986,7 +1008,7 @@ input:focus,textarea:focus,select:focus{
 <script>
 (function(){
 'use strict';
-const STORAGE='grafica_nodes_os_profissional_v112_sales_ready';
+const STORAGE='portal_genesis_print_remotion_v17';
 const $=id=>document.getElementById(id);
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const escapeHtml=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
@@ -2040,7 +2062,7 @@ Pronto para criar no Sales Remotion:
 - aprovação do cliente;
 - envio para produção no Print Remotion.`;
 }
-function assemblePackage(){calcQuote(false);const p=product(),op=outputProfile();const pkg=`PRINT REMOTION V11 — PACOTE PROFISSIONAL PARA PRODUÇÃO REAL
+function assemblePackage(){calcQuote(false);const p=product(),op=outputProfile();const pkg=`PORTAL GENESIS — PRINT REMOTION\nPACOTE PROFISSIONAL PARA PRODUÇÃO REAL
 Gerado em: ${new Date().toLocaleString('pt-BR')}
 
 ==============================
@@ -2192,8 +2214,8 @@ ${op.warnings}
 }
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Copiado')).catch(()=>toast('Não foi possível copiar'));}
 function download(name,text,type='text/plain;charset=utf-8'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
-function downloadTxt(){const text=state.outputs.package||assemblePackage();download('print-remotion-pacote-grafico-final.txt',text);}
-function downloadJson(){download('print-remotion-projeto-grafico.json',JSON.stringify(state,null,2),'application/json;charset=utf-8');}
+function downloadTxt(){const text=state.outputs.package||assemblePackage();download('portal-genesis-print-pacote-final.txt',text);}
+function downloadJson(){download('portal-genesis-print-projeto.json',JSON.stringify(state,null,2),'application/json;charset=utf-8');}
 function renderRefs(){const grid=$('refGrid');grid.innerHTML=state.refs.length?state.refs.map(r=>`<div class="refThumb"><img src="${r}" alt="referência"></div>`).join(''):'<div class="refThumb">Sem referências</div>';}
 function handleRefs(files){Array.from(files).slice(0,6).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{state.refs.push(reader.result);saveState();renderRefs();refreshAll();toast('Referência adicionada');};reader.readAsDataURL(file);});}
 function attachGlobalEvents(){
@@ -2326,6 +2348,55 @@ init();
     patchV105BestWorlds();
   }
   setTimeout(patchV105BestWorlds, 450);
+})();
+</script>
+
+
+<script>
+(function(){
+  function pgSetText(sel, txt){ var el=document.querySelector(sel); if(el) el.textContent=txt; }
+  function patchPortalGenesisPrintFinal(){
+    try{
+      document.title='Portal Genesis — Print Remotion V1.7';
+      pgSetText('.logoMark','PG');
+      pgSetText('.brand b','Portal Genesis Print');
+      pgSetText('.brand span','Marketing • Adventures • Punk • Vitrine Business de Caruaru');
+      pgSetText('#mockTitle','Portal Genesis Print');
+      var sub=document.getElementById('mockSub');
+      if(sub && (!sub.textContent || sub.textContent.indexOf('Briefing')>=0 || sub.textContent.indexOf('pré-impressão')>=0)){
+        sub.textContent='Peças gráficas, impressão real, brindes e identidade visual em nodes.';
+      }
+      var cta=document.getElementById('mockCta');
+      if(cta && (!cta.textContent || cta.textContent.indexOf('ARTE')>=0)) cta.textContent='GERAR PRINT';
+      var sales=document.getElementById('btnOpenSales'); if(sales) sales.textContent='Sales / Vitrine';
+      var clients=document.getElementById('btnOpenClients'); if(clients) clients.textContent='Área do Cliente';
+      var firstCard=document.querySelector('.leftPanel .panelCard');
+      var left=document.querySelector('.leftPanel');
+      if(left && !left.querySelector('.pgPrintNote')){
+        var note=document.createElement('div');
+        note.className='pgPrintNote';
+        note.innerHTML='<b>Raiz Portal Genesis.</b>Saída gráfica oficial para artes digitais, impressos, brindes, camisetas, bonés, canecas, banners, fotografia e pacotes comerciais. O cliente pergunta onde fez; a resposta é: Portal Genesis.';
+        left.insertBefore(note,left.firstChild);
+      }
+      if(firstCard && !firstCard.querySelector('.pgVitrineStrip')){
+        var strip=document.createElement('div');
+        strip.className='pgVitrineStrip';
+        strip.innerHTML='<div><b>Digital</b>Instagram, TikTok, YouTube, WhatsApp e campanhas.</div><div><b>Impressão real</b>PDF/PNG/JPG, CMYK/RGB, DPI, sangria e margem.</div><div><b>Produtos</b>Camisa, boné, caneca, banner, adesivo e brinde.</div><div><b>Cliente</b>Cadastro, briefing, orçamento, aprovação e entrega.</div>';
+        firstCard.appendChild(strip);
+      }
+      var rightTitle=document.querySelector('.rightPanel .panelCard:nth-child(2) h3');
+      if(rightTitle) rightTitle.textContent='Preview estratégico';
+      var packText=document.querySelector('.rightPanel .panelCard:last-child .small');
+      if(packText) packText.textContent='Exporte o pacote para cliente, designer, gráfica, produção, vitrine ou vendas.';
+      var note=document.querySelector('.print-approved-note');
+      if(note){
+        note.innerHTML='<b>Portal Genesis Print aprovado.</b><br>Identidade final alinhada ao ecossistema: Portal, Studio, Video, Print, Área do Cliente e Sales/Vitrine.';
+      }
+    }catch(e){console.warn(e)}
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',patchPortalGenesisPrintFinal)}else{patchPortalGenesisPrintFinal()}
+  setTimeout(patchPortalGenesisPrintFinal,650);
+  setTimeout(patchPortalGenesisPrintFinal,1600);
 })();
 </script>
 
