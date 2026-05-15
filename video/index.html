@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Video Remotion — Nodes Core V1.3</title>
+<title>Video Remotion — Nodes Core V1.4</title>
 <style>
 :root{
   --bg:#05070d;--panel:#0d1425;--panel2:#121b30;--panel3:#18243c;
@@ -655,12 +655,80 @@ input:focus,textarea:focus,select:focus{
   background:rgba(101,217,210,.075)!important;
 }
 
+
+/* =========================================================
+   PATCH V1.4 — CANVAS LIMPO E CENTRALIZADO COMO STUDIO/PRINT
+   Remove manchas/bolhas do canvas, aumenta legibilidade dos nodes
+   e aplica uma centralização única da versão sem sobrescrever depois.
+   ========================================================= */
+.canvasShell{
+  background:#050813!important;
+}
+.nodeViewport{
+  background:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,.060) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.060) 1px, transparent 1px)!important;
+  background-size:40px 40px,40px 40px,160px 160px,160px 160px!important;
+}
+.nodeViewport::before{
+  display:none!important;
+  opacity:0!important;
+  background:none!important;
+}
+.nodeMap{
+  filter:none!important;
+}
+.node{
+  opacity:.96!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.058),rgba(255,255,255,.018)),rgba(13,18,32,.96)!important;
+  border-color:rgba(255,255,255,.12)!important;
+}
+.node.locked{
+  opacity:.56!important;
+  filter:saturate(.82) brightness(.92)!important;
+}
+.node.awaiting{
+  opacity:.78!important;
+}
+.node.active{
+  opacity:1!important;
+  filter:none!important;
+  border-color:rgba(214,173,104,.88)!important;
+}
+.connectorSvg path{
+  stroke:rgba(101,217,210,.22)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.main{
+  stroke:rgba(101,217,210,.28)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.done{
+  stroke:rgba(214,173,104,.54)!important;
+  stroke-width:4!important;
+  stroke-dasharray:none!important;
+}
+.flowPanel,
+.floatingTools,
+.minimap{
+  background:rgba(5,8,19,.88)!important;
+  backdrop-filter:blur(10px)!important;
+}
+.video-approved-note{
+  background:rgba(101,217,210,.075)!important;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.3 — produto audiovisual final</span></div></div>
+  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.4 — produto audiovisual final</span></div></div>
   <div class="statusStrip">
     <span class="chip gold" id="projectChip">Projeto: Sem título</span>
     <span class="chip" id="autosaveChip">Salvo localmente</span>
@@ -873,11 +941,11 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoV12(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.3";
+      document.title = "Video Remotion — Nodes Core V1.4";
       var brand = document.querySelector('.brandText strong');
       if(brand) brand.textContent = 'Video Remotion';
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.3 — produto audiovisual final';
+      if(sub) sub.textContent = 'Nodes Core V1.4 — produto audiovisual final';
       var rail = document.querySelector('.railHead');
       if(rail && !rail.querySelector('.video-approved-note')){
         var note = document.createElement('div');
@@ -901,9 +969,9 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoCanvasV13(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.3";
+      document.title = "Video Remotion — Nodes Core V1.4";
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.3 — produto audiovisual final';
+      if(sub) sub.textContent = 'Nodes Core V1.4 — produto audiovisual final';
       var note = document.querySelector('.video-approved-note');
       if(note){
         note.innerHTML = '<b>Video aprovado.</b><br>Canvas corrigido para ficar mais fiel ao Studio/Print: grade limpa, menos brilho e centralização preservada.';
@@ -939,6 +1007,76 @@ if(!__hadSavedVideoState){
     patchVideoCanvasV13();
   }
   setTimeout(patchVideoCanvasV13, 500);
+})();
+</script>
+
+
+<script>
+(function(){
+  const CANVAS_FIX_KEY = "video_remotion_canvas_v14_applied";
+
+  function fitVideoCanvasLikeStudio(force){
+    try{
+      if(typeof state === "undefined" || typeof updateTransform !== "function") return;
+      const vp = document.getElementById("viewport");
+      if(!vp || !state.nodes || !state.nodes.length) return;
+
+      const applied = localStorage.getItem(CANVAS_FIX_KEY) === "1";
+      if(applied && !force) return;
+
+      const nodeW = 230;
+      const nodeH = 135;
+      const minX = Math.min(...state.nodes.map(n => Number(n.x || 0)));
+      const minY = Math.min(...state.nodes.map(n => Number(n.y || 0)));
+      const maxX = Math.max(...state.nodes.map(n => Number(n.x || 0) + nodeW));
+      const maxY = Math.max(...state.nodes.map(n => Number(n.y || 0) + nodeH));
+      const graphW = Math.max(900, maxX - minX);
+      const graphH = Math.max(520, maxY - minY);
+
+      const zx = (vp.clientWidth - 180) / graphW;
+      const zy = (vp.clientHeight - 135) / graphH;
+      state.zoom = Math.min(.82, Math.max(.58, Math.min(zx, zy)));
+
+      state.panX = Math.round((vp.clientWidth - graphW * state.zoom) / 2 - minX * state.zoom);
+      state.panY = Math.round((vp.clientHeight - graphH * state.zoom) / 2 - minY * state.zoom);
+
+      updateTransform();
+      if(typeof save === "function") save();
+      localStorage.setItem(CANVAS_FIX_KEY, "1");
+    }catch(e){console.warn(e)}
+  }
+
+  function patchVideoCanvasV14(){
+    try{
+      document.title = "Video Remotion — Nodes Core V1.4";
+      var sub = document.querySelector(".brandText span");
+      if(sub) sub.textContent = "Nodes Core V1.4 — produto audiovisual final";
+      var note = document.querySelector(".video-approved-note");
+      if(note){
+        note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo: sem manchas, nodes mais legíveis e centralização parecida com Studio/Print.";
+      }
+
+      // Só centraliza uma vez nesta versão. Depois preserva a posição manual.
+      fitVideoCanvasLikeStudio(false);
+
+      // Botão Centralizar passa a usar o enquadramento limpo desta versão.
+      window.fitVideoCanvasLikeStudio = function(){ fitVideoCanvasLikeStudio(true); };
+      if(typeof centerMap === "function" && !window.__videoCenterPatchedV14){
+        window.__videoCenterPatchedV14 = true;
+        const oldCenter = centerMap;
+        centerMap = function(){
+          fitVideoCanvasLikeStudio(true);
+        };
+      }
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchVideoCanvasV14);
+  }else{
+    patchVideoCanvasV14();
+  }
+  setTimeout(patchVideoCanvasV14, 500);
 })();
 </script>
 
