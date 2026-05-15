@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — V11.1 Cadastro de Cliente + Saída Real</title>
+<title>Print Remotion — V11.2 Sales Ready + Saída Comercial</title>
 <style>
 :root{
   --bg:#050711;
@@ -851,6 +851,18 @@ input:focus,textarea:focus,select:focus{
 .clientStatus{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(120,227,159,.35);background:rgba(120,227,159,.08);color:#caffda;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
 @media(max-width:980px){.clientGrid{grid-template-columns:1fr!important}.clientList{max-height:260px}}
 
+
+/* =========================================================
+   PATCH V11.2 — SALES READY / PONTE COMERCIAL
+   Prepara o Print para conversar com a futura 4ª opção: Sales Remotion.
+   ========================================================= */
+.salesBridgeGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 14px}
+.salesBridgeCard{border:1px solid rgba(214,173,104,.30);background:linear-gradient(180deg,rgba(214,173,104,.08),rgba(255,255,255,.015)),rgba(13,18,32,.94);border-radius:16px;padding:12px;min-height:92px}
+.salesBridgeCard b{display:block;color:#f0ddbb;font-size:12px;margin-bottom:6px}.salesBridgeCard span{display:block;color:#aeb8cc;font-size:10.5px;line-height:1.4}
+.salesStatusPill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(120,227,159,.38);background:rgba(120,227,159,.08);color:#caffda;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.salesOutputActions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+@media(max-width:980px){.salesBridgeGrid,.salesOutputActions{grid-template-columns:1fr!important}}
+
 </style>
 </head>
 <body>
@@ -868,6 +880,7 @@ input:focus,textarea:focus,select:focus{
       <button class="btn purple" id="btnOpenClients">Clientes</button>
       <button class="btn gold" id="btnGeneratePipeline">Gerar pipeline</button>
       <button class="btn green" id="btnExportPack">Exportar</button>
+      <button class="btn purple" id="btnOpenSales">Sales Ready</button>
       <button class="btn red" id="btnReset">Reset</button>
     </div>
   </header>
@@ -894,7 +907,7 @@ input:focus,textarea:focus,select:focus{
       </div>
       <div class="panelCard">
         <h3>Regra do produto</h3>
-        <p class="small">Módulo gráfico aprovado da Studio Platform. Organiza atendimento, orçamento, direção visual, copy, prompt IA, pré-impressão, produção, entrega e pacote final.</p>
+        <p class="small">Módulo gráfico aprovado da Studio Platform. Organiza atendimento, orçamento, direção visual, copy, prompt IA, pré-impressão, produção, entrega, pacote final e saída comercial para o futuro Sales Remotion.</p>
       </div>
     </aside>
     <section class="canvasWrap">
@@ -973,7 +986,7 @@ input:focus,textarea:focus,select:focus{
 <script>
 (function(){
 'use strict';
-const STORAGE='grafica_nodes_os_profissional_v11_saida_real';
+const STORAGE='grafica_nodes_os_profissional_v112_sales_ready';
 const $=id=>document.getElementById(id);
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const escapeHtml=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
@@ -1013,7 +1026,8 @@ const NODE_DEF=[
   {id:'visualEdit',title:'9. Personalização Visual IA',icon:'🪄',x:2170,y:340,deps:['prompt','art'],help:'Troca inteligente de rosto, roupa ou produto preservando composição, iluminação e identidade visual.'},
   {id:'prepress',title:'10. Pré-impressão',icon:'✅',x:1470,y:590,deps:['copy','quote'],help:'Checklist técnico: CMYK/RGB, DPI, sangria, margem, fonte, PDF e revisão.'},
   {id:'production',title:'11. Produção / Entrega',icon:'🏭',x:1820,y:590,deps:['prepress'],help:'Ordem de produção, arquivos finais, observações e aprovação do cliente.'},
-  {id:'package',title:'12. Pacote Final',icon:'📤',x:2170,y:590,deps:['visualEdit','production'],help:'Exporta briefing, orçamento, direção, copy, prompts, personalização visual e checklist.'}
+  {id:'package',title:'12. Pacote Final',icon:'📤',x:2170,y:590,deps:['visualEdit','production'],help:'Exporta briefing, orçamento, direção, copy, prompts, personalização visual e checklist.'},
+  {id:'sales',title:'13. Ponte Sales / Comercial',icon:'💼',x:2520,y:590,deps:['package'],help:'Prepara a saída comercial para o futuro Sales Remotion: oferta, proposta, one page, WhatsApp, destino de produção e pacote vendável.'}
 ];
 const CHECKS=[
   ['category','Categoria correta','Produto classificado como Digital, Gráfica comum, Grande formato, Brinde, Vestuário ou Fotografia.'],
@@ -1057,7 +1071,7 @@ function defaultState(){
     product:{id:'social_feed',category:'Digital',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG RGB',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'80 px',finalFile:'PNG/JPG RGB',productionTech:'Publicação digital',transparent:false},
     visualEdit:{mode:'produto',style:'realista publicitário',intensity:70,preserveBackground:true,preserveComposition:true,preserveBrand:true,baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',notes:'Preservar composição, iluminação, identidade visual, perspectiva e leitura comercial da peça.'},
     quote:{design:35,print:0,finishCost:0,urgency:0,margin:20,total:42,notes:'Valores estimativos. Confirmar custo real com fornecedor e material.'},
-    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',prepress:'',production:'',package:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
+    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',prepress:'',production:'',package:'',sales:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
     checks:Object.fromEntries(CHECKS.map(c=>[c[0],false]))
   };
 }
@@ -1127,6 +1141,7 @@ function nodeStatus(id){
   if(id==='production')return state.outputs.production.trim()?'done':'ready';
   if(id==='visualEdit')return state.outputs.visualEdit.trim()||state.visualEdit.resultImage?'done':'ready';
   if(id==='package')return state.outputs.package.trim()?'done':'ready';
+  if(id==='sales')return state.outputs.sales.trim()?'done':'ready';
   return 'ready';
 }
 function summary(id){
@@ -1180,6 +1195,7 @@ function summary(id){
   if(id==='production')return o.production||'Ordem de produção, arquivos finais e aprovação.';
   if(id==='visualEdit')return o.visualEdit||`Modo: trocar ${state.visualEdit.mode}. Upload base + referência e gere a instrução técnica.`;
   if(id==='package')return o.package?'Pacote final pronto para exportar.':'Exportação completa para cliente, designer ou produção.';
+  if(id==='sales')return o.sales?'Ponte comercial pronta para Sales Remotion.':'Prepara oferta, proposta, one page, WhatsApp e destino de produção para o futuro Sales Remotion.';
   return '';
 }
 function renderNodes(){
@@ -1407,7 +1423,15 @@ function stationHtml(id){
       <button class="btn green" data-action="downloadVisualBrief">Baixar briefing visual</button>
       <button class="btn cyan" data-action="next">Próximo node</button>
     </div>`;
-  if(id==='package')return `<div class="note">Pacote final consolidado para cliente, designer ou produção.</div><label>Pacote final</label>${area('outputs.package',o.package)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button><button class="btn green" data-action="downloadTxt">Baixar TXT</button><button class="btn cyan" data-action="downloadJson">Baixar JSON</button><button class="btn" data-action="copyPackage">Copiar pacote</button></div>`;
+  if(id==='sales')return `<div class="note"><b>Ponte Sales Ready.</b> Este node prepara o pacote do Print para a futura quarta opção do portal: Sales Remotion. Ele transforma a produção gráfica em oferta vendável, proposta, one page, mensagens de WhatsApp e briefing comercial.</div>
+    <div class="salesBridgeGrid">
+      <div class="salesBridgeCard"><b>Oferta</b><span>Nome do pacote, promessa principal, benefício e CTA comercial.</span></div>
+      <div class="salesBridgeCard"><b>One Page</b><span>Estrutura de página para vender o serviço ou pacote gráfico/marketing.</span></div>
+      <div class="salesBridgeCard"><b>Produção</b><span>Destino automático: Print, Video, Studio ou pacote misto.</span></div>
+    </div>
+    <label>Saída comercial para Sales Remotion</label>${area('outputs.sales',o.sales,'Clique em Gerar Ponte Sales para criar oferta, proposta, one page, WhatsApp e briefing de produção.')}
+    <div class="stationActions"><button class="btn gold" data-action="generate" data-node="sales">Gerar Ponte Sales</button><button class="btn cyan" data-action="copySales">Copiar Sales</button><button class="btn green" data-action="downloadSales">Baixar Sales TXT</button><button class="btn purple" data-action="applySalesToPackage">Aplicar no pacote final</button></div>`;
+  if(id==='package')return `<div class="note">Pacote final consolidado para cliente, designer, produção e Sales Remotion.</div><label>Pacote final</label>${area('outputs.package',o.package)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button><button class="btn green" data-action="downloadTxt">Baixar TXT</button><button class="btn cyan" data-action="downloadJson">Baixar JSON</button><button class="btn" data-action="copyPackage">Copiar pacote</button></div>`;
   return '';
 }
 function bindStationFields(){
@@ -1438,6 +1462,9 @@ function handleAction(action,node){
   if(action==='downloadTxt')return downloadTxt();
   if(action==='downloadJson')return downloadJson();
   if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
+  if(action==='copySales')return copyText(state.outputs.sales||generateSalesBridge());
+  if(action==='downloadSales')return download('print-remotion-ponte-sales-ready.txt', state.outputs.sales||generateSalesBridge());
+  if(action==='applySalesToPackage'){state.outputs.sales=state.outputs.sales||generateSalesBridge(); state.outputs.package=assemblePackage(); saveState(); openStation('package'); toast('Ponte Sales aplicada ao pacote final'); return;}
 }
 function selectProduct(id){
   const prod=PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];
@@ -1590,7 +1617,7 @@ function buildPrintPayload(nodeId){
     quote: state.quote,
     checks: state.checks,
     outputs: state.outputs,
-    pedido: 'Gere resposta profissional para o node solicitado. Sempre que possível retorne JSON com chaves visualDNA, art, copy, promptPT, promptEN, visualEdit, prepress, production, package, proposal, titulo, subtitulo e cta. Considerar a V11 Saída Real para Gráfica: categoria do produto, arquivo final recomendado, CMYK/RGB, DPI, sangria, margem segura, material, acabamento e saída separada para cliente, designer, gráfica, estamparia/brindes e projeto interno. Para visualEdit, descreva troca de rosto/roupa/produto preservando composição, luz, fundo, perspectiva e identidade visual.'
+    pedido: 'Gere resposta profissional para o node solicitado. Sempre que possível retorne JSON com chaves visualDNA, art, copy, promptPT, promptEN, visualEdit, prepress, production, package, sales, proposal, titulo, subtitulo e cta. Considerar a V11 Saída Real para Gráfica: categoria do produto, arquivo final recomendado, CMYK/RGB, DPI, sangria, margem segura, material, acabamento e saída separada para cliente, designer, gráfica, estamparia/brindes, projeto interno e ponte comercial para Sales Remotion. Para visualEdit, descreva troca de rosto/roupa/produto preservando composição, luz, fundo, perspectiva e identidade visual.'
   };
 }
 function normalizePrintAIResponse(raw){
@@ -1612,6 +1639,7 @@ function normalizePrintAIResponse(raw){
     prepress: firstFilled(parsed.prepress, parsed.pre_impressao, parsed.preImpressao, parsed.checklist),
     production: firstFilled(parsed.production, parsed.producao, parsed.entrega, parsed.ordemProducao),
     package: firstFilled(parsed.package, parsed.pacote, parsed.pacoteFinal, parsed.final),
+    sales: firstFilled(parsed.sales, parsed.salesBridge, parsed.ponte_comercial, parsed.comercial, parsed.oferta_comercial, parsed.pacote_venda),
     proposal: firstFilled(parsed.proposal, parsed.diagnostico, parsed.briefing, parsed.strategy, parsed.resumo),
     previewTitle: preview.title,
     previewSub: preview.subtitle,
@@ -1642,6 +1670,7 @@ function applyAIFields(ai, overwrite=false){
   if(ai.prepress && (overwrite || !state.outputs.prepress.trim())) state.outputs.prepress = ai.prepress;
   if(ai.production && (overwrite || !state.outputs.production.trim())) state.outputs.production = ai.production;
   if(ai.package && (overwrite || !state.outputs.package.trim())) state.outputs.package = ai.package;
+  if(ai.sales && (overwrite || !state.outputs.sales.trim())) state.outputs.sales = ai.sales;
   if(ai.previewTitle && (overwrite || !state.outputs.previewTitle)) state.outputs.previewTitle = ai.previewTitle;
   if(ai.previewSub && (overwrite || !state.outputs.previewSub)) state.outputs.previewSub = ai.previewSub;
   if(ai.previewCta && (overwrite || !state.outputs.previewCta)) state.outputs.previewCta = ai.previewCta;
@@ -1730,6 +1759,11 @@ Leitura profissional: a peça precisa comunicar uma promessa única, manter leit
       applyAIFields(ai,false);
       state.outputs.package = ai.package || ai.rawText || assemblePackage();
     }
+    if(id==='sales'){
+      applyAIFields(ai,false);
+      state.outputs.sales = ai.sales || ai.rawText || generateSalesBridge();
+      state.outputs.package = assemblePackage();
+    }
     saveState();refreshAll(true);openStation(id);
     toast('Node gerado com IA: '+(NODE_DEF.find(n=>n.id===id)?.title||id));
   }catch(err){
@@ -1744,16 +1778,17 @@ Leitura profissional: a peça precisa comunicar uma promessa única, manter leit
     if(id==='prepress') state.outputs.prepress = generatePrepress();
     if(id==='production') state.outputs.production = generateProduction();
     if(id==='package') state.outputs.package = assemblePackage();
+    if(id==='sales'){ state.outputs.sales = generateSalesBridge(); state.outputs.package = assemblePackage(); }
     saveState();refreshAll(true);openStation(id);
   }
 }
 async function generatePipeline(){
-  const order=['quote','refs','art','copy','prompt','visualEdit','prepress','production','package'];
+  const order=['quote','refs','art','copy','prompt','visualEdit','prepress','production','package','sales'];
   for(const id of order){
     await generateNode(id);
   }
-  openStation('package');
-  toast('Pipeline completo gerado');
+  openStation('sales');
+  toast('Pipeline completo gerado e ponte Sales preparada');
 }
 function generateArtDirection(){const p=product();return `DIREÇÃO DE ARTE — ${p.name}\n\n1. Composição\n- Criar peça com hierarquia clara: título forte no topo, imagem/produto no centro e CTA no rodapé.\n- Manter área de respiro ao redor do texto para leitura rápida.\n- Usar grade simples para evitar aparência amadora.\n\n2. Hierarquia\n- Título: maior elemento textual.\n- Oferta/promessa: segunda camada.\n- Informações obrigatórias: menores, mas legíveis.\n- CTA/WhatsApp: destaque visual separado.\n\n3. Paleta e estilo\n- Cores: ${state.product.colors}.\n- Tom: ${state.brief.tone}.\n- Evitar poluição visual e excesso de efeitos.\n\n4. Tipografia\n- Fonte principal bold para o título.\n- Fonte secundária limpa para detalhes.\n- Máximo de 2 famílias tipográficas.\n\n5. Produção\n- Formato: ${state.product.width}x${state.product.height}${state.product.unit}.\n- Material/entrega: ${state.product.material} / ${state.product.delivery}.`;}
 function generateCopy(){return `COPY DA PEÇA — ${state.brief.client}\n\nTÍTULOS SUGERIDOS\n1. ${state.brief.goal} começa com uma comunicação que chama atenção.\n2. Promoção especial por tempo limitado.\n3. Chegou a hora de aproveitar.\n4. Oferta de fim de semana que vale conferir.\n5. Seu próximo pedido começa aqui.\n\nTEXTO PRINCIPAL\n${state.brief.description}\n\nINFORMAÇÕES OBRIGATÓRIAS\n${state.brief.required}\n\nCTAS\n- Chame no WhatsApp agora.\n- Peça pelo direct.\n- Garanta antes que acabe.\n- Venha aproveitar hoje.\n\nREVISÃO COMERCIAL\nUsar frases curtas, alto contraste e uma promessa principal. Evitar texto demais na arte.`;}
@@ -1912,6 +1947,99 @@ PASTA DE ENTREGA SUGERIDA
 
 STATUS
 Aguardar aprovação final do cliente antes de imprimir, estampar, produzir brinde ou publicar.`;}
+function salesDestination(){
+  const cat = state.product.category || product().category;
+  if(['Brinde','Vestuário'].includes(cat)) return 'Print Remotion + futura trilha de Brindes/Vestuário';
+  if(cat==='Digital') return 'Sales Remotion → Print Remotion ou Marketing Pack digital';
+  if(cat==='Fotografia') return 'Sales Remotion → Photo Album OS / Print Remotion';
+  return 'Sales Remotion → Print Remotion';
+}
+function suggestCommercialPackage(){
+  const cat = state.product.category || product().category;
+  if(cat==='Digital') return 'Pacote Presença Digital';
+  if(cat==='Grande formato') return 'Pacote Visibilidade Local';
+  if(cat==='Brinde') return 'Pacote Brindes Corporativos';
+  if(cat==='Vestuário') return 'Pacote Uniforme / Vestuário Personalizado';
+  if(cat==='Fotografia') return 'Pacote Memória Impressa / Álbum';
+  return 'Pacote Gráfica Express';
+}
+function generateSalesBridge(){
+  calcQuote(false);
+  const p=product(), op=outputProfile(), c=activeClient();
+  const packageName = suggestCommercialPackage();
+  const headline = state.outputs.previewTitle || state.brief.project || `${p.name} profissional para ${state.brief.client}`;
+  const sub = state.outputs.previewSub || state.brief.description;
+  const cta = state.outputs.previewCta || 'Solicitar aprovação e produção';
+  return `SALES REMOTION READY — PONTE COMERCIAL DO PRINT
+Gerado em: ${new Date().toLocaleString('pt-BR')}
+
+OBJETIVO
+Preparar este projeto gráfico para entrar no futuro módulo Sales Remotion como oferta vendável, proposta comercial, one page e fluxo de aprovação.
+
+CLIENTE / LEAD
+Nome: ${c.name||state.brief.client}
+Marca: ${c.brand||state.brief.client}
+Contato: ${c.contact||''}
+WhatsApp: ${c.whatsapp||c.phone||''}
+E-mail: ${c.email||''}
+Segmento: ${c.segment||state.brief.segment}
+Cidade: ${c.city||''}
+Status sugerido no Sales: negociação
+
+PACOTE COMERCIAL SUGERIDO
+Nome do pacote: ${packageName}
+Produto principal: ${p.name}
+Categoria: ${op.label}
+Destino de produção: ${salesDestination()}
+Valor base sugerido: ${money(state.quote.total)}
+Prazo informado: ${state.brief.deadline}
+
+OFERTA PARA O CLIENTE
+Título: ${headline}
+Subtítulo: ${sub}
+CTA: ${cta}
+Promessa: entregar uma peça gráfica pronta para aprovação, produção e uso comercial, com briefing, copy, direção visual, especificação técnica e pacote final organizado.
+
+ITENS INCLUSOS
+- Atendimento e briefing organizado.
+- Direção de arte e copy da peça.
+- Prompt IA / orientação visual.
+- Especificação técnica de produção.
+- Checklist de pré-impressão.
+- Pacote final para cliente, designer e produção.
+${['Brinde','Vestuário'].includes(state.product.category||p.category)?'- Orientação para estamparia/brinde com PNG transparente/vetor/mockup quando aplicável.':''}
+${state.outputs.visualEdit?'- Personalização Visual IA: troca de rosto/roupa/produto preparada.':''}
+
+ESTRUTURA DE ONE PAGE
+1. Hero: ${headline}
+2. Subheadline: ${sub}
+3. Benefícios: visual profissional, arquivo organizado, saída técnica correta e aprovação clara.
+4. O que está incluso: briefing, arte/copy, preparação técnica, pacote final e suporte de produção.
+5. Prova/segurança: checklist de gráfica, saída por destino e revisão de dados obrigatórios.
+6. Oferta: ${packageName} — ${money(state.quote.total)}
+7. CTA final: ${cta}
+
+MENSAGEM DE WHATSAPP PARA VENDA
+Olá, ${c.name||state.brief.client}! Preparei uma proposta para ${p.name} com saída profissional para ${op.label}. O pacote inclui briefing, direção visual, copy, orientação técnica e arquivo final organizado para aprovação/produção. Valor inicial: ${money(state.quote.total)}. Posso te enviar o preview e fechar a produção?
+
+BRIEFING PARA SALES REMOTION
+- Tipo de venda: ${packageName}
+- Cliente: ${state.brief.client}
+- Dor/oportunidade: ${state.brief.goal}
+- Produto: ${p.name}
+- Formato: ${state.product.width}x${state.product.height}${state.product.unit}
+- Arquivo final: ${op.finalFile}
+- Técnica: ${op.productionTech}
+- Observação técnica: ${op.producer}
+
+STATUS DE HANDOFF
+Pronto para criar no Sales Remotion:
+- proposta comercial;
+- one page;
+- mensagens de follow-up;
+- aprovação do cliente;
+- envio para produção no Print Remotion.`;
+}
 function assemblePackage(){calcQuote(false);const p=product(),op=outputProfile();const pkg=`PRINT REMOTION V11 — PACOTE PROFISSIONAL PARA PRODUÇÃO REAL
 Gerado em: ${new Date().toLocaleString('pt-BR')}
 
@@ -2051,7 +2179,12 @@ ${['Brinde','Vestuário'].includes(state.product.category||p.category)?`- PNG tr
 - Checklist marcado: ${Object.values(state.checks).filter(Boolean).length}/${CHECKS.length}.
 
 ==============================
-18. ALERTAS
+18. PONTE COMERCIAL / SALES REMOTION READY
+==============================
+${state.outputs.sales||generateSalesBridge()}
+
+==============================
+19. ALERTAS
 ==============================
 ${op.warnings}
 `;
@@ -2064,7 +2197,7 @@ function downloadJson(){download('print-remotion-projeto-grafico.json',JSON.stri
 function renderRefs(){const grid=$('refGrid');grid.innerHTML=state.refs.length?state.refs.map(r=>`<div class="refThumb"><img src="${r}" alt="referência"></div>`).join(''):'<div class="refThumb">Sem referências</div>';}
 function handleRefs(files){Array.from(files).slice(0,6).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{state.refs.push(reader.result);saveState();renderRefs();refreshAll();toast('Referência adicionada');};reader.readAsDataURL(file);});}
 function attachGlobalEvents(){
-  $('btnOpenBrief').onclick=()=>openStation('brief');$('btnOpenClients').onclick=()=>openStation('client');$('btnGeneratePipeline').onclick=generatePipeline;$('btnExportPack').onclick=()=>{state.outputs.package=assemblePackage();saveState();openStation('package');};$('btnReset').onclick=()=>{if(confirm('Resetar todo o projeto?')){state=defaultState();saveState();refreshAll();openStation('brief');}};
+  $('btnOpenBrief').onclick=()=>openStation('brief');$('btnOpenClients').onclick=()=>openStation('client');$('btnOpenSales').onclick=()=>openStation('sales');$('btnGeneratePipeline').onclick=generatePipeline;$('btnExportPack').onclick=()=>{state.outputs.package=assemblePackage();saveState();openStation('package');};$('btnReset').onclick=()=>{if(confirm('Resetar todo o projeto?')){state=defaultState();saveState();refreshAll();openStation('brief');}};
   $('quickAll').onclick=generatePipeline;$('quickCenter').onclick=centerMap;$('quickOrganize').onclick=organizeNodes;$('quickSave').onclick=saveState;$('zoomOut').onclick=()=>zoom(-.1);$('zoomIn').onclick=()=>zoom(.1);$('centerBtn').onclick=centerMap;$('organizeBtn').onclick=organizeNodes;
   $('downloadTxt').onclick=downloadTxt;$('downloadJson').onclick=downloadJson;$('copyPack').onclick=()=>copyText(state.outputs.package||assemblePackage());
   $('stationClose').onclick=closeStation;$('stationOverlay').onclick=closeStation;$('stationNext').onclick=nextNode;$('stationPrev').onclick=prevNode;$('analyzeRefs').onclick=()=>analyzeRefs(true);
@@ -2155,7 +2288,7 @@ init();
 (function(){
   function patchPrintV101(){
     try{
-      document.title = "Print Remotion — V11 Saída Real para Gráfica";
+      document.title = "Print Remotion — V11.2 Sales Ready";
       var s = document.querySelector('.brand span');
       if(s) s.textContent = 'gráfica nodes os • aprovado • personalização visual ia';
       var note = document.querySelector('.print-approved-note');
@@ -2178,12 +2311,12 @@ init();
 (function(){
   function patchV105BestWorlds(){
     try{
-      document.title = "Print Remotion — V11 Saída Real para Gráfica";
+      document.title = "Print Remotion — V11.2 Sales Ready";
       var s = document.querySelector('.brand span');
-      if(s) s.textContent = 'gráfica nodes os • saída real • arquivos técnicos';
+      if(s) s.textContent = 'gráfica nodes os • sales ready • saída comercial';
       var note = document.querySelector('.print-approved-note');
       if(note){
-        note.innerHTML = '<b>Print aprovado V10.5.</b><br>V11 Saída Real para Gráfica: categorias profissionais, regras técnicas automáticas, checklist por destino e pacote final separado para cliente, designer, gráfica, estamparia/brindes e projeto interno.';
+        note.innerHTML = '<b>Print aprovado V10.5.</b><br>V11.2 Sales Ready: saída real para gráfica + ponte comercial preparada para o futuro Sales Remotion, com oferta, one page, proposta, WhatsApp e destino de produção.';
       }
     }catch(e){console.warn(e)}
   }
