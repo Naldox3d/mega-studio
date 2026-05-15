@@ -890,7 +890,7 @@ input:focus,textarea:focus,select:focus{
       <a class="moduleLink" href="../studio/index.html">Studio</a>
       <a class="moduleLink" href="../video/index.html">Video</a>
       <a class="moduleLink active" href="./index.html">Print</a>
-      <a class="moduleLink" href="../api/index.html">API / Config</a>
+      <a class="moduleLink" href="../index.html">API / Config</a>
     </nav>
     <div class="topStatus">
       <span class="pill gold" id="projectPill">Projeto: Sem título</span>
@@ -2397,6 +2397,32 @@ init();
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',patchPortalGenesisPrintFinal)}else{patchPortalGenesisPrintFinal()}
   setTimeout(patchPortalGenesisPrintFinal,650);
   setTimeout(patchPortalGenesisPrintFinal,1600);
+})();
+</script>
+
+
+<script>
+(function(){
+  function fixApiConfigLinks(){
+    document.querySelectorAll('a[href*="/api/index.html"], a[href*="../api/index.html"], a[href="/api/"], a[href="../api/"]').forEach(function(a){
+      a.setAttribute('href','../index.html');
+      a.setAttribute('title','API / Config fica no Portal Genesis; /api é reservado para rotas internas.');
+    });
+    document.querySelectorAll('a').forEach(function(a){
+      var t=(a.textContent||'').trim().toLowerCase();
+      if(t==='api / config' || t==='api/config'){
+        var href=a.getAttribute('href')||'';
+        if(href.indexOf('/api')>=0){
+          a.setAttribute('href','../index.html');
+        }
+      }
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',fixApiConfigLinks);
+  }else{
+    fixApiConfigLinks();
+  }
 })();
 </script>
 
