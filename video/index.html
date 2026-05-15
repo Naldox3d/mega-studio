@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Video Remotion — Nodes Core V1.6</title>
+<title>Portal Genesis — Video Remotion V1.7</title>
 <style>
 :root{
   --bg:#05070d;--panel:#0d1425;--panel2:#121b30;--panel3:#18243c;
@@ -758,12 +758,82 @@ input:focus,textarea:focus,select:focus{
   display:none!important;
 }
 
+
+/* =========================================================
+   PATCH V1.7 — PORTAL GENESIS VIDEO REMOTION
+   Identidade final alinhada ao Portal Genesis, mantendo
+   canvas aprovado, zoom 82%, laterais, nodes e pipeline.
+   ========================================================= */
+:root{
+  --pg-gold:#d6ad68;
+  --pg-cyan:#65d9d2;
+  --pg-green:#75db9b;
+  --pg-deep:#05070d;
+}
+.brandMark{
+  font-family:Syne,Inter,Segoe UI,Arial,sans-serif!important;
+  background:linear-gradient(180deg,#f3d48d,#65d9d2)!important;
+  color:#10131a!important;
+}
+.brandText strong{
+  font-family:Syne,Inter,Segoe UI,Arial,sans-serif!important;
+  letter-spacing:.035em!important;
+}
+.brandText strong::after{
+  content:" . PG";
+  color:var(--pg-green);
+  font-size:.62em;
+  letter-spacing:.12em;
+}
+.railHead{
+  border-color:rgba(101,217,210,.28)!important;
+  background:
+    radial-gradient(circle at 10% 12%,rgba(101,217,210,.13),transparent 34%),
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),
+    rgba(13,18,32,.94)!important;
+}
+.portal-genesis-note{
+  border:1px solid rgba(101,217,210,.28);
+  border-radius:14px;
+  background:rgba(101,217,210,.075);
+  color:#cafffb;
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.portal-genesis-note b{color:#eadcc1}
+.pg-ai-card{
+  border:1px solid rgba(214,173,104,.24);
+  border-radius:16px;
+  padding:12px;
+  background:rgba(214,173,104,.055);
+  margin-top:12px;
+}
+.pg-ai-card strong{
+  display:block;
+  color:#f0ddbb;
+  margin-bottom:5px;
+}
+.pg-ai-card span{
+  display:block;
+  color:#b8c4dc;
+  font-size:11px;
+  line-height:1.45;
+}
+.previewCard{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 20px 70px rgba(0,0,0,.38)!important;
+}
+.previewTitle{
+  text-shadow:0 0 18px rgba(214,173,104,.18)!important;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.6 — produto audiovisual final</span></div></div>
+  <div class="brand"><div class="brandMark">PG</div><div class="brandText"><strong>Portal Genesis Video</strong><span>Marketing • Adventures • Punk • Vitrine Business de Caruaru</span></div></div>
   <div class="statusStrip">
     <span class="chip gold" id="projectChip">Projeto: Sem título</span>
     <span class="chip" id="autosaveChip">Salvo localmente</span>
@@ -780,7 +850,7 @@ input:focus,textarea:focus,select:focus{
   <aside class="rail">
     <div class="railHead">
       <h2>Video Remotion</h2>
-      <p class="small">Produto final limpo para criar pacote audiovisual em nodes: roteiro, storyboard, motion, Remotion JSON, SRT, som e CapCut Book.</p>
+      <p class="small">Motor audiovisual do Portal Genesis para criar pacotes de vídeo: briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, CapCut Book e entrega para cliente.</p>
     </div>
     <h4>Pipeline</h4><div id="stepsList"></div>
     <h4>Ações rápidas</h4>
@@ -788,7 +858,7 @@ input:focus,textarea:focus,select:focus{
     <div style="height:8px"></div><button class="btn block cyan" onclick="centerMap()">Centralizar mapa</button>
     <div style="height:8px"></div><button class="btn block purple" onclick="autoLayout()">Organizar nodes</button>
     <h4>Regra do produto</h4>
-    <p class="small">Novo projeto sempre começa limpo. Nada de Fruits automático, nada de gráfica, nada de laboratório misturado.</p>
+    <p class="small">Novo projeto começa limpo. A marca Portal Genesis, Fruits Adventures e Iniciantes do Punk entram como raiz institucional, mas cada cliente/campanha mantém identidade própria.</p>
   </aside>
 
   <main class="canvasShell">
@@ -856,7 +926,7 @@ input:focus,textarea:focus,select:focus{
     <div class="panel"><h3>Diagnóstico</h3><div class="progressWrap"><div class="progressFill" id="progressFill"></div></div><div class="kv" id="diagnosticKV"></div></div>
     <div class="panel">
       <h3>Preview leve</h3>
-      <div class="previewCard"><div class="previewGlow"></div><div class="previewGlow b"></div><div class="previewTitle" id="previewTitle">Video Remotion</div><div class="previewSub" id="previewSub">Preencha o briefing para criar o pacote técnico.</div><div class="previewCta">NODES IA</div></div>
+      <div class="previewCard"><div class="previewGlow"></div><div class="previewGlow b"></div><div class="previewTitle" id="previewTitle">Portal Genesis Video</div><div class="previewSub" id="previewSub">Preencha o briefing para criar vídeo, reels, shorts, campanha ou pacote técnico.</div><div class="previewCta">GERAR VÍDEO IA</div></div>
     </div>
     <div class="panel"><h3>Pacote final</h3><p class="small">Exporta TXT/JSON para CapCut, Remotion, Flow, Veo, Seedance, Runway ou edição manual.</p><div class="actions"><button class="btn block green" onclick="downloadPackageTxt()">Baixar TXT</button><button class="btn block cyan" onclick="downloadPackageJson()">Baixar JSON</button></div></div>
   </aside>
@@ -865,7 +935,7 @@ input:focus,textarea:focus,select:focus{
 
 <script>
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "video_remotion_nodes_core_v1_1";
+const STORAGE_KEY = "portal_genesis_video_remotion_v17";
 const NODE_W = 264;
 const nodeDefaults = [
   {id:"brief",title:"Briefing Mestre",icon:"🧠",x:80,y:100,deps:[],desc:"ideia, objetivo, canal e material base"},
@@ -948,7 +1018,7 @@ function applyAllReady(){let applied=0;state.nodes.forEach(n=>{if(n.id!=="export
 function toggleFlowMode(){state.flowMode=!state.flowMode;render();showToast(state.flowMode?"Modo progressivo ligado":"Modo livre ligado")}
 function reopenNode(id){if(id!=="brief")state.data[id].approved=false;state.completedAt[id]=null;openStation(id);showToast("Node aberto para revisão")}
 function exportPackage(){const pkg=buildPackage();state.data.export.content=pkg;state.data.export.approved=true;addHistory("Pacote final montado",pkg);render();if($("station").classList.contains("active"))renderStation();else openStation("export");showToast("Pacote final atualizado")}
-function buildPackage(){const b=state.data.brief,sections=["roteiro","storyboard","motion","remotion","srt","assets","capcut"];let text=`VIDEO REMOTION — NODES CORE\nPACOTE FINAL AUDIOVISUAL\n\nPROJETO: ${b.title||"Sem título"}\nOBJETIVO: ${b.goal}\nTOM: ${b.tone}\nPÚBLICO/CANAL: ${b.audience}\nFORMATO: ${b.format}\nDURAÇÃO: ${b.duration}\n\nREGRA PRINCIPAL:\nEste pacote não renderiza MP4. Ele organiza briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, assets, CapCut Book e checklist para execução em ferramentas externas.\n\nBRIEFING ORIGINAL:\n${b.idea||"Não informado"}\n\nASSETS:\n${b.assets||"Não informado"}\n\nTEXTOS/REGRAS:\n${b.required||"Não informado"}\n`;sections.forEach(id=>{const n=state.nodes.find(x=>x.id===id),body=state.data[id]?.content;if(body)text+=`\n\n---\n\n## ${n.title.toUpperCase()}\n\n${body.trim()}\n`});text+=`\n\n---\n\n## CHECKLIST FINAL\n1. Conferir briefing e duração.\n2. Conferir continuidade visual.\n3. Separar assets, imagens, voz e SFX.\n4. Usar prompts em gerador de vídeo IA.\n5. Usar JSON como guia de Remotion/motion.\n6. Importar SRT e aplicar som.\n7. Montar no CapCut/editor seguindo o Book.\n8. Exportar e revisar.\n`;return text}
+function buildPackage(){const b=state.data.brief,sections=["roteiro","storyboard","motion","remotion","srt","assets","capcut"];let text=`PORTAL GENESIS — VIDEO REMOTION\nPACOTE FINAL AUDIOVISUAL\n\nPROJETO: ${b.title||"Sem título"}\nOBJETIVO: ${b.goal}\nTOM: ${b.tone}\nPÚBLICO/CANAL: ${b.audience}\nFORMATO: ${b.format}\nDURAÇÃO: ${b.duration}\n\nREGRA PRINCIPAL:\nEste pacote não renderiza MP4. Ele organiza briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, assets, CapCut Book e checklist para execução em ferramentas externas.\n\nBRIEFING ORIGINAL:\n${b.idea||"Não informado"}\n\nASSETS:\n${b.assets||"Não informado"}\n\nTEXTOS/REGRAS:\n${b.required||"Não informado"}\n`;sections.forEach(id=>{const n=state.nodes.find(x=>x.id===id),body=state.data[id]?.content;if(body)text+=`\n\n---\n\n## ${n.title.toUpperCase()}\n\n${body.trim()}\n`});text+=`\n\n---\n\n## CHECKLIST FINAL\n1. Conferir briefing e duração.\n2. Conferir continuidade visual.\n3. Separar assets, imagens, voz e SFX.\n4. Usar prompts em gerador de vídeo IA.\n5. Usar JSON como guia de Remotion/motion.\n6. Importar SRT e aplicar som.\n7. Montar no CapCut/editor seguindo o Book.\n8. Exportar e revisar.\n`;return text}
 function handleImages(input){Array.from(input.files||[]).slice(0,8).forEach(file=>{const reader=new FileReader();reader.onload=e=>{state.visualRefs.push({name:file.name,src:e.target.result});renderThumbs();save();showToast("Referência adicionada")};reader.readAsDataURL(file)});input.value=""}
 function renderThumbs(){const box=$("thumbGrid");if(!box)return;if(!state.visualRefs.length){box.innerHTML='<div class="emptyThumb">Nenhuma referência visual</div>';return}box.innerHTML=state.visualRefs.map((r,i)=>`<div class="thumb"><img src="${r.src}" alt="${escapeAttr(r.name)}"><button onclick="removeImage(${i})">×</button></div>`).join("")}
 function removeImage(i){state.visualRefs.splice(i,1);renderThumbs();save()}
@@ -960,7 +1030,7 @@ function copyActiveOutput(){const id=state.active;copyText(id==="export"?buildPa
 function download(name,content,type="text/plain"){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
 function safeName(){return((state.data.brief.title||"video-remotion").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""))||"video-remotion"}
 function downloadPackageTxt(){download(safeName()+"-pacote-final.txt",buildPackage())}
-function downloadPackageJson(){download(safeName()+"-pacote-final.json",JSON.stringify({meta:{name:state.data.brief.title||"Sem título",createdAt:new Date().toISOString(),version:"Video Remotion Nodes Core V1.2"},brief:state.data.brief,refs:state.visualRefs.length,nodes:state.nodes.map(n=>({id:n.id,title:n.title,status:nodeStatus(n.id),content:state.data[n.id]?.content||""})),package:buildPackage()},null,2),"application/json")}
+function downloadPackageJson(){download(safeName()+"-pacote-final.json",JSON.stringify({meta:{name:state.data.brief.title||"Sem título",createdAt:new Date().toISOString(),version:"Portal Genesis Video Remotion V1.7"},brief:state.data.brief,refs:state.visualRefs.length,nodes:state.nodes.map(n=>({id:n.id,title:n.title,status:nodeStatus(n.id),content:state.data[n.id]?.content||""})),package:buildPackage()},null,2),"application/json")}
 function resetProject(){if(!confirm("Resetar projeto salvo neste navegador?"))return;localStorage.removeItem(STORAGE_KEY);state={zoom:1,panX:0,panY:0,active:"brief",nodes:clone(nodeDefaults),data:clone(defaultData),visualRefs:[],visualMemory:"",history:[],flowMode:true,flowCollapsed:true,completedAt:{}};render();centerMap();showToast("Projeto resetado")}
 const __hadSavedVideoState = !!localStorage.getItem(STORAGE_KEY);
 load();
@@ -976,11 +1046,11 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoV12(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.6";
+      document.title = "Portal Genesis — Video Remotion V1.7";
       var brand = document.querySelector('.brandText strong');
       if(brand) brand.textContent = 'Video Remotion';
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.6 — produto audiovisual final';
+      if(sub) sub.textContent = 'Marketing • Adventures • Punk • Vitrine Business de Caruaru';
       var rail = document.querySelector('.railHead');
       if(rail && !rail.querySelector('.video-approved-note')){
         var note = document.createElement('div');
@@ -1004,9 +1074,9 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoCanvasV13(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.6";
+      document.title = "Portal Genesis — Video Remotion V1.7";
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.6 — produto audiovisual final';
+      if(sub) sub.textContent = 'Marketing • Adventures • Punk • Vitrine Business de Caruaru';
       var note = document.querySelector('.video-approved-note');
       if(note){
         note.innerHTML = '<b>Video aprovado.</b><br>Canvas corrigido para ficar mais fiel ao Studio/Print: grade limpa, menos brilho e centralização preservada.';
@@ -1083,9 +1153,9 @@ if(!__hadSavedVideoState){
 
   function patchVideoCanvasV14(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.6";
+      document.title = "Portal Genesis — Video Remotion V1.7";
       var sub = document.querySelector(".brandText span");
-      if(sub) sub.textContent = "Nodes Core V1.6 — produto audiovisual final";
+      if(sub) sub.textContent = "Marketing • Adventures • Punk • Vitrine Business de Caruaru";
       var note = document.querySelector(".video-approved-note");
       if(note){
         note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo: sem manchas, nodes mais legíveis e centralização parecida com Studio/Print.";
@@ -1153,9 +1223,9 @@ if(!__hadSavedVideoState){
 
   function patchVideoCenterV15(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.6";
+      document.title = "Portal Genesis — Video Remotion V1.7";
       var sub = document.querySelector(".brandText span");
-      if(sub) sub.textContent = "Nodes Core V1.6 — produto audiovisual final";
+      if(sub) sub.textContent = "Marketing • Adventures • Punk • Vitrine Business de Caruaru";
       var note = document.querySelector(".video-approved-note");
       if(note){
         note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo, nodes centralizados e zoom padrão em 82%.";
@@ -1245,9 +1315,9 @@ if(!__hadSavedVideoState){
 
   function patchVideoV16(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.6";
+      document.title = "Portal Genesis — Video Remotion V1.7";
       const sub = document.querySelector(".brandText span");
-      if(sub) sub.textContent = "Nodes Core V1.6 — produto audiovisual final";
+      if(sub) sub.textContent = "Marketing • Adventures • Punk • Vitrine Business de Caruaru";
       const note = document.querySelector(".video-approved-note");
       if(note){
         note.innerHTML = "<b>Video aprovado.</b><br>Zoom corrigido para 82% real e nodes centralizados no canvas.";
@@ -1282,6 +1352,249 @@ if(!__hadSavedVideoState){
   }else{
     patchVideoV16();
   }
+})();
+</script>
+
+
+<script>
+(function(){
+  function pgSetText(selector, text){
+    var el = document.querySelector(selector);
+    if(el) el.textContent = text;
+  }
+
+  function patchPortalGenesisVideoV17(){
+    try{
+      document.title = "Portal Genesis — Video Remotion V1.7";
+
+      pgSetText(".brandMark", "PG");
+      pgSetText(".brandText strong", "Portal Genesis Video");
+      pgSetText(".brandText span", "Marketing • Adventures • Punk • Vitrine Business de Caruaru");
+
+      var rail = document.querySelector(".railHead");
+      if(rail){
+        var h2 = rail.querySelector("h2");
+        var p = rail.querySelector("p.small");
+        if(h2) h2.textContent = "Video Remotion";
+        if(p) p.textContent = "Motor audiovisual do Portal Genesis para criar vídeo, reels, shorts, motion, roteiro, storyboard, Remotion JSON, SRT, som, CapCut Book e pacote final para cliente.";
+        if(!rail.querySelector(".portal-genesis-note")){
+          var note = document.createElement("div");
+          note.className = "portal-genesis-note";
+          note.innerHTML = "<b>Portal Genesis aprovado.</b><br>Vídeo conectado à vitrine criativa: marketing, entretenimento, cliente, redes sociais e produção audiovisual.";
+          rail.appendChild(note);
+        }
+      }
+
+      var rule = Array.from(document.querySelectorAll(".rail h4")).find(function(el){ return /regra/i.test(el.textContent); });
+      if(rule && rule.nextElementSibling){
+        rule.nextElementSibling.textContent = "Projeto limpo por cliente/campanha. A raiz institucional é Portal Genesis, Fruits Adventures e Iniciantes do Punk, mas cada entrega mantém identidade própria.";
+      }
+
+      var title = document.getElementById("previewTitle");
+      if(title && (!state || !state.data || !state.data.brief || !state.data.brief.title)){
+        title.textContent = "Portal Genesis Video";
+      }
+      var sub = document.getElementById("previewSub");
+      if(sub && (!state || !state.data || !state.data.brief || !state.data.brief.idea)){
+        sub.textContent = "Crie vídeo, reels, shorts, campanha, motion e pacote técnico pronto para produção.";
+      }
+      var cta = document.querySelector(".previewCta");
+      if(cta) cta.textContent = "GERAR VÍDEO IA";
+    }catch(e){ console.warn(e); }
+  }
+
+  window.pgVideoPromptForNode = function(id){
+    var c = buildContext();
+    var titles = {
+      roteiro:"Roteiro / Cena",
+      storyboard:"Storyboard",
+      motion:"Motion 2D / Vídeo IA",
+      remotion:"Remotion JSON",
+      srt:"SRT / Som",
+      capcut:"CapCut Book",
+      assets:"Assets / Continuidade",
+      export:"Pacote Final"
+    };
+    return [
+      "Você é o motor audiovisual do Portal Genesis.",
+      "Marca raiz: Portal Genesis — Marketing • Adventures • Punk • Vitrine Business de Caruaru.",
+      "Crie uma saída profissional para o node: " + (titles[id] || id) + ".",
+      "",
+      "CONTEXTO DO PROJETO:",
+      "Projeto: " + c.project,
+      "Objetivo: " + c.goal,
+      "Formato: " + c.format,
+      "Duração: " + c.duration,
+      "Tom: " + c.tone,
+      "Público/canal: " + c.audience,
+      "",
+      "BRIEFING:",
+      c.idea,
+      "",
+      "ASSETS/MATERIAIS:",
+      c.assets,
+      "",
+      "TEXTOS/REGRAS:",
+      c.required,
+      "",
+      "MEMÓRIA VISUAL:",
+      c.visualMemory,
+      "",
+      "REGRAS DE RESPOSTA:",
+      "- responder em português do Brasil;",
+      "- entregar texto prático, técnico e direto para produção;",
+      "- separar em blocos claros;",
+      "- não inventar render MP4 dentro do site;",
+      "- preparar saída para CapCut, Remotion, Flow, Veo, Seedance, Runway ou edição manual;",
+      "- preservar identidade do cliente e continuidade visual;",
+      "- não copiar obras, personagens, marcas ou textos protegidos."
+    ].join("\n");
+  };
+
+  window.pgVideoAskGemini = async function(prompt){
+    var response = await fetch("/api/gemini", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt:prompt})
+    });
+    var json = await response.json();
+    if(!response.ok || !json || json.ok === false){
+      throw new Error((json && (json.error || json.message)) || "Falha na API Gemini");
+    }
+    return json.text || json.result || (json.candidates ? JSON.stringify(json.candidates, null, 2) : JSON.stringify(json, null, 2));
+  };
+
+  window.generateNodeAI = async function(id){
+    try{
+      if(id !== "brief"){
+        var n = state.nodes.find(function(x){ return x.id === id; });
+        if(n && isLocked(n)){
+          showToast("Preencha os nodes anteriores primeiro");
+          return;
+        }
+      }
+      state.generating = id;
+      render();
+      if(document.getElementById("station").classList.contains("active")) renderStation();
+
+      showToast("Chamando Gemini...");
+      var prompt = window.pgVideoPromptForNode(id);
+      var text = await window.pgVideoAskGemini(prompt);
+
+      if(id === "brief"){
+        state.data.brief.idea = text;
+      }else{
+        state.data[id] = state.data[id] || {};
+        state.data[id].content = text;
+        state.data[id].approved = false;
+      }
+
+      state.generating = null;
+      addHistory("Gemini: " + ((state.nodes.find(function(n){ return n.id === id; }) || {}).title || id), text);
+      render();
+      if(document.getElementById("station").classList.contains("active")) renderStation();
+      showToast("Gemini gerou o node");
+    }catch(error){
+      state.generating = null;
+      render();
+      if(document.getElementById("station").classList.contains("active")) renderStation();
+      showToast("Gemini falhou; use geração local ou confira API");
+      console.error(error);
+    }
+  };
+
+  // Reabre estações técnicas com botão Gemini sem quebrar a geração local.
+  window.technicalHTML = function(id){
+    var titles = {roteiro:"Roteiro / Cena",storyboard:"Storyboard",motion:"Motion 2D / Vídeo IA",remotion:"Remotion JSON",srt:"SRT / Som",capcut:"CapCut Book"};
+    var hints = {
+      roteiro:"Hook, narração, texto em tela, virada e CTA.",
+      storyboard:"Cenas numeradas, timing, câmera, cortes e quadros.",
+      motion:"Prompts de vídeo, movimento de câmera e direção.",
+      remotion:"JSON instrucional para layers, timing e motion.",
+      srt:"Legenda SRT, som ambiente, SFX e mixagem.",
+      capcut:"Plano de edição manual com keyframes, cortes e organização."
+    };
+    return `<div class="stationSection"><h3>${titles[id]}</h3><p class="small">${hints[id]}</p><div class="pg-ai-card"><strong>Gemini conectado</strong><span>Use IA para melhorar a saída quando a rota /api/gemini estiver ativa. Se a API falhar, a geração local continua funcionando.</span></div><div class="actions"><button class="btn gold" onclick="generateNode('${id}')">Gerar local</button><button class="btn cyan" onclick="generateNodeAI('${id}')">Gerar com Gemini</button><button class="btn green" onclick="approveNode('${id}')">Aprovar</button><button class="btn purple" onclick="copyText(state.data['${id}'].content||'')">Copiar</button></div><div class="output" id="output-${id}" contenteditable="true" oninput="state.data['${id}'].content=this.innerText;save()">${escapeHTML(state.data[id].content||"Aguardando geração desta estação...")}</div></div>`;
+  };
+
+  window.buildPackage = function(){
+    var b = state.data.brief;
+    var sections = ["roteiro","storyboard","motion","remotion","srt","assets","capcut"];
+    var text = `PORTAL GENESIS — VIDEO REMOTION
+PACOTE FINAL AUDIOVISUAL
+
+MARCA: Portal Genesis
+ASSINATURA: Marketing • Adventures • Punk • Vitrine Business de Caruaru
+RAIZ CRIATIVA: Fruits Adventures • Iniciantes do Punk
+
+PROJETO: ${b.title||"Sem título"}
+OBJETIVO: ${b.goal}
+TOM: ${b.tone}
+PÚBLICO/CANAL: ${b.audience}
+FORMATO: ${b.format}
+DURAÇÃO: ${b.duration}
+
+REGRA PRINCIPAL:
+Este pacote não renderiza MP4 sozinho. Ele organiza briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, assets, CapCut Book e checklist para execução em ferramentas externas ou backend próprio.
+
+BRIEFING ORIGINAL:
+${b.idea||"Não informado"}
+
+ASSETS:
+${b.assets||"Não informado"}
+
+TEXTOS/REGRAS:
+${b.required||"Não informado"}
+
+MEMÓRIA VISUAL:
+${state.visualMemory||"Não informada"}
+`;
+    sections.forEach(function(id){
+      var n = state.nodes.find(function(x){ return x.id === id; });
+      var body = state.data[id] && state.data[id].content;
+      if(body) text += `
+
+---
+
+## ${(n ? n.title : id).toUpperCase()}
+
+${body.trim()}
+`;
+    });
+    text += `
+
+---
+
+## CHECKLIST FINAL PORTAL GENESIS
+1. Conferir briefing, duração e formato.
+2. Conferir identidade do cliente/campanha.
+3. Conferir continuidade visual.
+4. Separar assets, imagens, voz, SFX e referências.
+5. Usar prompts em gerador de vídeo IA.
+6. Usar JSON como guia de Remotion/motion.
+7. Importar SRT e aplicar som.
+8. Montar no CapCut/editor seguindo o Book.
+9. Exportar versão final e arquivar pacote do cliente.
+`;
+    return text;
+  };
+
+  window.safeName = function(){
+    return ((state.data.brief.title || "portal-genesis-video-remotion")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-|-$/g,"")) || "portal-genesis-video-remotion";
+  };
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchPortalGenesisVideoV17);
+  }else{
+    patchPortalGenesisVideoV17();
+  }
+  setTimeout(patchPortalGenesisVideoV17, 400);
+  setTimeout(patchPortalGenesisVideoV17, 1000);
 })();
 </script>
 
