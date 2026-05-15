@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — Gráfica Nodes OS Aprovado V10.4 Personalização Visual IA</title>
+<title>Print Remotion — Gráfica Nodes OS V10.5 Melhor dos Dois Mundos</title>
 <style>
 :root{
   --bg:#050711;
@@ -934,21 +934,25 @@ input:focus,textarea:focus,select:focus{
 <script>
 (function(){
 'use strict';
-const STORAGE='grafica_nodes_os_profissional_v1';
+const STORAGE='grafica_nodes_os_profissional_v105';
 const $=id=>document.getElementById(id);
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const escapeHtml=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const unescapeText=s=>String(s??'');
 const PRODUCTS=[
-  {id:'social',icon:'📱',name:'Social Media',desc:'Feed, story, anúncio e post digital',w:1080,h:1350,unit:'px',material:'Digital / RGB',base:35,printBase:0},
-  {id:'flyer',icon:'📄',name:'Panfleto / Flyer',desc:'A5/A6 promocional para rua ou balcão',w:148,h:210,unit:'mm',material:'Couchê 90g',base:55,printBase:.35},
-  {id:'card',icon:'💳',name:'Cartão de visita',desc:'90x50mm com sangria e margem segura',w:90,h:50,unit:'mm',material:'Couchê 250g',base:65,printBase:.18},
-  {id:'banner',icon:'🪧',name:'Banner / Lona',desc:'Lona, faixa, evento, vitrine e fachada',w:90,h:120,unit:'cm',material:'Lona 440g',base:70,printBase:55},
-  {id:'menu',icon:'🍽️',name:'Cardápio',desc:'Menu impresso, digital ou dobrável',w:210,h:297,unit:'mm',material:'Couchê 150g',base:90,printBase:2.2},
-  {id:'sticker',icon:'🏷️',name:'Adesivo / Rótulo',desc:'Etiqueta, rótulo, embalagem e vinil',w:50,h:50,unit:'mm',material:'Adesivo vinil',base:80,printBase:.28},
-  {id:'catalog',icon:'📚',name:'Catálogo',desc:'Produtos, serviços e lista comercial',w:210,h:297,unit:'mm',material:'Couchê 150g',base:160,printBase:3.5},
-  {id:'brand',icon:'✨',name:'Logo / Identidade',desc:'Marca, guia visual e aplicações',w:1080,h:1080,unit:'px',material:'Digital / Vetorial',base:280,printBase:0},
-  {id:'package',icon:'📦',name:'Embalagem',desc:'Caixa, rótulo, cinta e faca técnica',w:100,h:150,unit:'mm',material:'Papel cartão',base:190,printBase:1.8}
+  {id:'social',icon:'📱',name:'Social Media Feed',desc:'Instagram/Facebook feed 4:5 com leitura premium',w:1080,h:1350,unit:'px',material:'Digital / RGB',base:45,printBase:0,aspect:'4:5',cta:'VENDER MAIS'},
+  {id:'story',icon:'🎬',name:'Story / Reels / TikTok',desc:'Vertical 9:16 para anúncio, story, reels, shorts e TikTok',w:1080,h:1920,unit:'px',material:'Digital / RGB',base:55,printBase:0,aspect:'9:16',cta:'CHAMAR NO WHATS'},
+  {id:'square',icon:'⬛',name:'Post Quadrado / WhatsApp',desc:'Peça 1:1 para WhatsApp, catálogo rápido e postagem simples',w:1080,h:1080,unit:'px',material:'Digital / RGB',base:40,printBase:0,aspect:'1:1',cta:'PEDIR AGORA'},
+  {id:'youtube_banner',icon:'📺',name:'Banner YouTube',desc:'Arte horizontal para capa de canal, campanha e identidade',w:2560,h:1440,unit:'px',material:'Digital / RGB',base:120,printBase:0,aspect:'16:9',cta:'CONHECER CANAL'},
+  {id:'facebook_cover',icon:'🖼️',name:'Capa Facebook / LinkedIn',desc:'Capa horizontal para perfil, página ou campanha institucional',w:1640,h:624,unit:'px',material:'Digital / RGB',base:95,printBase:0,aspect:'cover',cta:'SAIBA MAIS'},
+  {id:'flyer',icon:'📄',name:'Panfleto / Flyer',desc:'A5/A6 promocional para rua ou balcão',w:148,h:210,unit:'mm',material:'Couchê 90g',base:55,printBase:.35,aspect:'a5',cta:'APROVEITAR'},
+  {id:'card',icon:'💳',name:'Cartão de visita',desc:'90x50mm com sangria e margem segura',w:90,h:50,unit:'mm',material:'Couchê 250g',base:65,printBase:.18,aspect:'card',cta:'CONTATO'},
+  {id:'banner',icon:'🪧',name:'Banner / Lona',desc:'Lona, faixa, evento, vitrine e fachada',w:90,h:120,unit:'cm',material:'Lona 440g',base:70,printBase:55,aspect:'3:4',cta:'VISITE AGORA'},
+  {id:'menu',icon:'🍽️',name:'Cardápio',desc:'Menu impresso, digital ou dobrável',w:210,h:297,unit:'mm',material:'Couchê 150g',base:90,printBase:2.2,aspect:'a4',cta:'VER CARDÁPIO'},
+  {id:'sticker',icon:'🏷️',name:'Adesivo / Rótulo',desc:'Etiqueta, rótulo, embalagem e vinil',w:50,h:50,unit:'mm',material:'Adesivo vinil',base:80,printBase:.28,aspect:'1:1',cta:'DESTACAR PRODUTO'},
+  {id:'catalog',icon:'📚',name:'Catálogo',desc:'Produtos, serviços e lista comercial',w:210,h:297,unit:'mm',material:'Couchê 150g',base:160,printBase:3.5,aspect:'a4',cta:'VER PRODUTOS'},
+  {id:'brand',icon:'✨',name:'Logo / Identidade',desc:'Marca, guia visual e aplicações',w:1080,h:1080,unit:'px',material:'Digital / Vetorial',base:280,printBase:0,aspect:'1:1',cta:'NOVA MARCA'},
+  {id:'package',icon:'📦',name:'Embalagem',desc:'Caixa, rótulo, cinta e faca técnica',w:100,h:150,unit:'mm',material:'Papel cartão',base:190,printBase:1.8,aspect:'2:3',cta:'PRODUTO PREMIUM'}
 ];
 const NODE_DEF=[
   {id:'brief',title:'1. Atendimento / Briefing',icon:'🧠',x:70,y:95,deps:[],help:'Entrada comercial: cliente, objetivo, público, texto obrigatório e restrições.'},
@@ -1071,6 +1075,44 @@ function renderMinimap(){
   const mm=$('minimap');if(!mm)return;mm.querySelectorAll('.miniNode').forEach(x=>x.remove());
   NODE_DEF.forEach(n=>{const pos=state.nodePos[n.id]||n;const div=document.createElement('div');div.className='miniNode '+(nodeStatus(n.id)==='done'?'done':'');div.style.left=(10+pos.x/12)+'px';div.style.top=(22+pos.y/12)+'px';mm.appendChild(div);});
 }
+
+function updatePreviewAspect(){
+  const art=document.querySelector('.mockArt');
+  if(!art) return;
+  const p=product();
+  const map={
+    '9:16':{w:170,h:302},
+    '4:5':{w:190,h:238},
+    '1:1':{w:210,h:210},
+    '16:9':{w:250,h:141},
+    'cover':{w:250,h:95},
+    'card':{w:245,h:136},
+    'a5':{w:180,h:255},
+    'a4':{w:178,h:252},
+    '3:4':{w:190,h:253},
+    '2:3':{w:180,h:270}
+  };
+  const a=map[p.aspect]||map['4:5'];
+  art.style.width=a.w+'px';
+  art.style.height=a.h+'px';
+  art.style.aspectRatio='auto';
+  const title=document.querySelector('.mockTitle');
+  const sub=document.querySelector('.mockSub');
+  const cta=document.querySelector('.mockCta');
+  if(title){
+    title.style.top=(a.h<150?'28%':a.h<220?'34%':'32%');
+    title.style.fontSize=(a.h<150?'16px':a.h<220?'18px':'19px');
+  }
+  if(sub){
+    sub.style.top=(a.h<150?'50%':a.h<220?'55%':'52%');
+    sub.style.fontSize=(a.h<150?'9px':'11px');
+  }
+  if(cta){
+    cta.style.bottom=(a.h<150?'12px':'18px');
+    cta.style.padding=(a.h<150?'7px':'9px');
+  }
+}
+
 function refreshTop(){
   const p=product(),done=completedNodes(),pct=Math.round(done/NODE_DEF.length*100),checks=Object.values(state.checks).filter(Boolean).length;
   $('projectPill').textContent='Projeto: '+(state.brief.project||state.brief.client||'Sem título');
@@ -1078,7 +1120,8 @@ function refreshTop(){
   $('statProduct').textContent=p.name;$('statFormat').textContent=`${state.product.width}x${state.product.height}${state.product.unit}`;$('statQuote').textContent=money(state.quote.total);$('statChecks').textContent=`${checks}/${CHECKS.length}`;
   $('mockTitle').textContent=state.outputs.previewTitle||state.brief.project||p.name;
   $('mockSub').textContent=(state.outputs.previewSub||state.brief.description||'Briefing, orçamento e pré-impressão em nodes.').slice(0,120);
-  $('mockCta').textContent=(state.outputs.previewCta||state.brief.goal||'ARTE PRONTA').toUpperCase();
+  $('mockCta').textContent=(state.outputs.previewCta||p.cta||state.brief.goal||'ARTE PRONTA').toUpperCase();
+  updatePreviewAspect();
   const active=NODE_DEF.findIndex(n=>nodeStatus(n.id)!=='done');
   $('pipelineList').innerHTML=NODE_DEF.map((n,i)=>`<div class="miniItem ${nodeStatus(n.id)==='done'?'done':i===active?'active':''}"><span class="miniDot"></span><span>${escapeHtml(n.title)}</span></div>`).join('');
 }
@@ -1166,11 +1209,11 @@ function handleAction(action,node){
   if(action==='downloadJson')return downloadJson();
   if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
 }
-function selectProduct(id){const prod=PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];state.product={...state.product,id:prod.id,width:prod.w,height:prod.h,unit:prod.unit,material:prod.material,qty:prod.id==='social'||prod.id==='brand'?1:100,delivery:prod.unit==='px'?'Digital PNG/JPG':'PDF/X para gráfica'};calcQuote(false);saveState();openStation('product');toast('Produto aplicado: '+prod.name);}
+function selectProduct(id){const prod=PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];state.product={...state.product,id:prod.id,width:prod.w,height:prod.h,unit:prod.unit,material:prod.material,qty:(prod.unit==='px'||prod.id==='brand')?1:100,delivery:prod.unit==='px'?'Digital PNG/JPG':'PDF/X para gráfica'};calcQuote(false);saveState();openStation('product');toast('Produto aplicado: '+prod.name);}
 function calcQuote(write=true){
   const p=product(),qty=Number(state.product.qty||1);let print=0;
   if(p.id==='banner'){print=p.printBase*Math.max(1,(Number(state.product.width||90)*Number(state.product.height||120))/10000);}else print=p.printBase*qty;
-  if(p.id==='social'||p.id==='brand')print=0;
+  if(state.product.unit==='px'||p.id==='brand')print=0;
   const finish=state.product.finish==='Sem acabamento'?0:Math.max(12,print*.18);
   const urgency=state.brief.deadline.includes('Urgente')?Math.max(20,state.quote.design*.25):Number(state.quote.urgency||0);
   const design=Number(state.quote.design||p.base||50);const subtotal=design+print+finish+urgency;const total=subtotal*(1+Number(state.quote.margin||0)/100);
@@ -1441,7 +1484,7 @@ async function generatePipeline(){
 }
 function generateArtDirection(){const p=product();return `DIREÇÃO DE ARTE — ${p.name}\n\n1. Composição\n- Criar peça com hierarquia clara: título forte no topo, imagem/produto no centro e CTA no rodapé.\n- Manter área de respiro ao redor do texto para leitura rápida.\n- Usar grade simples para evitar aparência amadora.\n\n2. Hierarquia\n- Título: maior elemento textual.\n- Oferta/promessa: segunda camada.\n- Informações obrigatórias: menores, mas legíveis.\n- CTA/WhatsApp: destaque visual separado.\n\n3. Paleta e estilo\n- Cores: ${state.product.colors}.\n- Tom: ${state.brief.tone}.\n- Evitar poluição visual e excesso de efeitos.\n\n4. Tipografia\n- Fonte principal bold para o título.\n- Fonte secundária limpa para detalhes.\n- Máximo de 2 famílias tipográficas.\n\n5. Produção\n- Formato: ${state.product.width}x${state.product.height}${state.product.unit}.\n- Material/entrega: ${state.product.material} / ${state.product.delivery}.`;}
 function generateCopy(){return `COPY DA PEÇA — ${state.brief.client}\n\nTÍTULOS SUGERIDOS\n1. ${state.brief.goal} começa com uma comunicação que chama atenção.\n2. Promoção especial por tempo limitado.\n3. Chegou a hora de aproveitar.\n4. Oferta de fim de semana que vale conferir.\n5. Seu próximo pedido começa aqui.\n\nTEXTO PRINCIPAL\n${state.brief.description}\n\nINFORMAÇÕES OBRIGATÓRIAS\n${state.brief.required}\n\nCTAS\n- Chame no WhatsApp agora.\n- Peça pelo direct.\n- Garanta antes que acabe.\n- Venha aproveitar hoje.\n\nREVISÃO COMERCIAL\nUsar frases curtas, alto contraste e uma promessa principal. Evitar texto demais na arte.`;}
-function generatePrompts(){const base=`cliente ${state.brief.client}, segmento ${state.brief.segment}, objetivo ${state.brief.goal}, produto gráfico ${product().name}, formato ${state.product.width}x${state.product.height}${state.product.unit}, tom ${state.brief.tone}, composição publicitária moderna, espaço limpo para inserir texto depois, hierarquia visual forte, iluminação comercial, aparência profissional, alta qualidade, sem texto embutido na imagem, sem logotipos fictícios, sem copiar marcas de terceiros`;return {pt:`Crie uma arte/imagem de apoio para peça gráfica de ${base}. Priorize contraste, clareza, elegância visual e área negativa para o designer inserir título, oferta, WhatsApp e informações obrigatórias.`,en:`Create a support image/artwork for a professional graphic design piece: ${base}. Prioritize contrast, clarity, clean visual hierarchy, commercial lighting, professional look, and negative space so the designer can add headline, offer, WhatsApp and mandatory client information later.`};}
+function generatePrompts(){const base=`cliente ${state.brief.client}, segmento ${state.brief.segment}, objetivo ${state.brief.goal}, produto gráfico ${product().name}, formato ${state.product.width}x${state.product.height}${state.product.unit}, tom ${state.brief.tone}, composição publicitária moderna, espaço limpo para inserir texto depois, hierarquia visual forte, iluminação comercial, aparência profissional, alta qualidade, sem texto embutido na imagem, sem logotipos fictícios, sem copiar marcas de terceiros, preparado para personalização visual controlada quando houver referência de rosto roupa ou produto`;return {pt:`Crie uma arte/imagem de apoio para peça gráfica de ${base}. Priorize contraste, clareza, elegância visual e área negativa para o designer inserir título, oferta, WhatsApp e informações obrigatórias.`,en:`Create a support image/artwork for a professional graphic design piece: ${base}. Prioritize contrast, clarity, clean visual hierarchy, commercial lighting, professional look, and negative space so the designer can add headline, offer, WhatsApp and mandatory client information later.`};}
 
 function visualModeLabel(){
   return state.visualEdit.mode==='rosto'?'troca de rosto':state.visualEdit.mode==='roupa'?'troca de roupa':'troca de produto';
@@ -1518,7 +1561,7 @@ function handleVisualUpload(key,files){
 
 function generatePrepress(){const isDigital=state.product.unit==='px'||state.product.material.includes('Digital');return `CHECKLIST PERSONALIZADO DE PRÉ-IMPRESSÃO\n\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nDestino: ${isDigital?'Digital / redes sociais':'Impressão gráfica'}\n\n${isDigital?'- Exportar em RGB.\n- Conferir proporção e legibilidade no celular.\n- Salvar PNG para qualidade ou JPG leve para tráfego.':'- Usar CMYK.\n- Trabalhar em 300 DPI.\n- Aplicar sangria mínima de 3 mm.\n- Manter margem segura de 3 a 5 mm.\n- Converter fontes em curvas ou incorporar no PDF.\n- Exportar PDF em alta qualidade/PDF-X quando aplicável.'}\n\nRevisar obrigatoriamente: preço, telefone, data, endereço, redes sociais, ortografia, acentos e autorização final do cliente.`;}
 function generateProduction(){return `ORDEM DE PRODUÇÃO / ENTREGA\n\nCliente: ${state.brief.client}\nProjeto: ${state.brief.project||product().name}\nProduto: ${product().name}\nQuantidade: ${state.product.qty}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\nPrazo: ${state.brief.deadline}\n\nARQUIVOS A ENTREGAR\n- Arte final em ${state.product.delivery}.\n- Versão editável, se contratada.\n- Preview JPG/PNG para aprovação.\n- Observações de produção e checklist técnico.\n\nSTATUS\nAguardar aprovação final do cliente antes de imprimir ou publicar.`;}
-function assemblePackage(){calcQuote(false);const pkg=`PRINT REMOTION — PACOTE GRÁFICO FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\nPREVIEW / CHAMADA PRINCIPAL\n==============================\nTítulo: ${state.outputs.previewTitle||state.brief.project||product().name}\nSubtítulo: ${state.outputs.previewSub||state.brief.description}\nCTA: ${state.outputs.previewCta||state.brief.goal}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n10. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
+function assemblePackage(){calcQuote(false);const pkg=`PRINT REMOTION — PACOTE GRÁFICO FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\nPREVIEW / CHAMADA PRINCIPAL\n==============================\nTítulo: ${state.outputs.previewTitle||state.brief.project||product().name}\nSubtítulo: ${state.outputs.previewSub||state.brief.description}\nCTA: ${state.outputs.previewCta||state.brief.goal}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PERSONALIZAÇÃO VISUAL IA\n==============================\n${state.outputs.visualEdit||generateVisualEditBrief()}\n\n==============================\n10. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n11. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
   state.outputs.package=pkg;return pkg;
 }
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Copiado')).catch(()=>toast('Não foi possível copiar'));}
@@ -1619,7 +1662,7 @@ init();
 (function(){
   function patchPrintV101(){
     try{
-      document.title = "Print Remotion — Gráfica Nodes OS Aprovado V10.4 Personalização Visual IA";
+      document.title = "Print Remotion — Gráfica Nodes OS V10.5 Melhor dos Dois Mundos";
       var s = document.querySelector('.brand span');
       if(s) s.textContent = 'gráfica nodes os • aprovado • personalização visual ia';
       var note = document.querySelector('.print-approved-note');
@@ -1634,6 +1677,29 @@ init();
     patchPrintV101();
   }
   setTimeout(patchPrintV101, 450);
+})();
+</script>
+
+
+<script>
+(function(){
+  function patchV105BestWorlds(){
+    try{
+      document.title = "Print Remotion — V10.5 Melhor dos Dois Mundos";
+      var s = document.querySelector('.brand span');
+      if(s) s.textContent = 'gráfica nodes os • formatos smart • personalização visual ia';
+      var note = document.querySelector('.print-approved-note');
+      if(note){
+        note.innerHTML = '<b>Print aprovado V10.5.</b><br>Melhor dos dois mundos: visual aprovado V10.4 + formatos profissionais de rede social + node de personalização visual IA.';
+      }
+    }catch(e){console.warn(e)}
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchV105BestWorlds);
+  }else{
+    patchV105BestWorlds();
+  }
+  setTimeout(patchV105BestWorlds, 450);
 })();
 </script>
 
