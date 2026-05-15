@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Gráfica Nodes OS — Plataforma Profissional Independente</title>
+<title>Print Remotion — Print Remotion V1</title>
 <style>
 :root{
   --bg:#050711;
@@ -59,13 +59,153 @@ h1,h2,h3{margin:0;color:#f0ddbb;letter-spacing:.015em}h1{font-size:22px}h2{font-
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:#10182b;border:1px solid rgba(88,225,216,.32);color:#dffffc;border-radius:999px;padding:10px 14px;font-weight:900;font-size:12px;opacity:0;pointer-events:none;z-index:200;transition:.18s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:1100px){.workspace{grid-template-columns:220px minmax(0,1fr)}.rightPanel{display:none}.stationBody{grid-template-columns:1fr}.stationSide{border-left:0;border-top:1px solid var(--line);max-height:260px}.productGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:780px){html,body{overflow:auto}.app{height:auto;min-height:100vh}.topbar{height:auto;align-items:flex-start;flex-wrap:wrap}.toolbar{margin-left:0}.workspace{display:block;height:calc(100vh - 110px)}.leftPanel{display:none}.canvasWrap{height:100%;min-height:620px}.station{width:96vw;max-height:92vh}.grid2,.grid3,.productGrid{grid-template-columns:1fr}.minimap{display:none}.brand{min-width:auto}}
+
+/* =========================================================
+   PRINT REMOTION — GRAFICA NODES OS V1
+   Base funcional preservada do arquivo enviado.
+   Ajuste visual: Studio Platform / Remotion / modulo Print.
+   ========================================================= */
+:root{
+  --print-bg:#070a12;
+  --print-panel:#0d1220;
+  --print-panel2:#111827;
+  --print-line:rgba(255,255,255,.10);
+  --print-gold:#d6ad68;
+  --print-cyan:#65d9d2;
+  --print-green:#74d99a;
+}
+body{
+  background:
+    radial-gradient(circle at 18% 8%,rgba(101,217,210,.09),transparent 24%),
+    radial-gradient(circle at 84% 10%,rgba(214,173,104,.10),transparent 24%),
+    linear-gradient(180deg,#070a12,#090d18 55%,#070a12)!important;
+}
+.topbar{
+  background:rgba(7,10,18,.96)!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+  backdrop-filter:blur(14px)!important;
+}
+.logoMark{
+  background:linear-gradient(180deg,#e2bc7b,#65d9d2)!important;
+  color:#070a12!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.24)!important;
+}
+.brand b{
+  font-family:Syne,Inter,system-ui,sans-serif!important;
+  color:#eadcc1!important;
+  letter-spacing:.06em!important;
+  text-transform:uppercase!important;
+}
+.brand span{
+  color:#d6ad68!important;
+}
+.workspace{
+  background:#050813!important;
+}
+.leftPanel,.rightPanel{
+  background:rgba(10,15,29,.94)!important;
+}
+.canvasWrap,.canvas{
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),
+    radial-gradient(circle at 32% 18%,rgba(101,217,210,.055),transparent 25%),
+    radial-gradient(circle at 74% 24%,rgba(214,173,104,.055),transparent 25%),
+    #050813!important;
+  background-size:32px 32px,32px 32px,auto,auto,auto!important;
+}
+.panelCard,.node,.station,.stat,.productCard,.checkRow,.outputBox,.previewCard,.mockArt{
+  border-color:rgba(255,255,255,.10)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(13,18,32,.94)!important;
+}
+.node.active{
+  border-color:rgba(214,173,104,.82)!important;
+  box-shadow:0 22px 80px rgba(0,0,0,.55),0 0 0 1px rgba(214,173,104,.26)!important;
+}
+.node.ready{
+  border-color:rgba(101,217,210,.42)!important;
+}
+.node.done{
+  border-color:rgba(116,217,154,.48)!important;
+}
+.links path{
+  stroke:rgba(101,217,210,.26)!important;
+}
+.links path.done{
+  stroke:rgba(116,217,154,.58)!important;
+}
+.links path.main{
+  stroke:rgba(214,173,104,.62)!important;
+}
+.kicker,.stationBadge{
+  border-color:rgba(101,217,210,.32)!important;
+  background:rgba(101,217,210,.08)!important;
+  color:#cafffb!important;
+}
+.btn.gold{
+  background:linear-gradient(180deg,#e1bc7b,#c89a55)!important;
+  color:#1a1203!important;
+}
+.btn.green{
+  background:linear-gradient(180deg,#83dda9,#61c78c)!important;
+  color:#07140d!important;
+}
+.btn.cyan{
+  background:rgba(101,217,210,.10)!important;
+  border-color:rgba(101,217,210,.38)!important;
+  color:#cafffb!important;
+}
+.btn.purple{
+  background:rgba(185,156,255,.10)!important;
+  border-color:rgba(185,156,255,.38)!important;
+  color:#eadcff!important;
+}
+input,textarea,select{
+  background:#080d19!important;
+  border-color:rgba(255,255,255,.10)!important;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(101,217,210,.58)!important;
+  box-shadow:0 0 0 3px rgba(101,217,210,.08)!important;
+}
+.printBridge{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+  border:1px solid rgba(101,217,210,.28);
+  background:linear-gradient(180deg,rgba(101,217,210,.08),rgba(255,255,255,.015)),rgba(13,18,32,.94);
+  color:#cafffb;
+  border-radius:16px;
+  padding:12px;
+  font-size:12px;
+  line-height:1.45;
+}
+.printBridge b{
+  color:#eadcc1;
+  font-family:Syne,Inter,system-ui,sans-serif;
+  letter-spacing:.04em;
+}
+.printBridge span{
+  color:#9aa8c7;
+}
+.rightPanel .panelCard:last-child::after{
+  content:"Print Remotion prepara o pacote para cliente, designer, producao ou pre-impressao.";
+  display:block;
+  margin-top:10px;
+  color:#cafffb;
+  font-size:11px;
+  line-height:1.45;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <div class="logoMark">GP</div>
-    <div class="brand"><b>Gráfica Nodes OS</b><span>independente • canvas profissional • pré-impressão</span></div>
+    <div class="logoMark">PR</div>
+    <div class="brand"><b>Print Remotion</b><span>gráfica • orçamento • pré-impressão • entrega</span></div>
     <div class="topStatus">
       <span class="pill gold" id="projectPill">Projeto: Sem título</span>
       <span class="pill" id="autosavePill">Autosave ativo</span>
@@ -81,8 +221,8 @@ h1,h2,h3{margin:0;color:#f0ddbb;letter-spacing:.015em}h1{font-size:22px}h2{font-
   <main class="workspace">
     <aside class="leftPanel">
       <div class="panelCard">
-        <span class="kicker">árvore da gráfica</span>
-        <h3>Pipeline profissional</h3>
+        <span class="kicker">árvore do print</span>
+        <h3>Pipeline gráfico profissional</h3>
         <p class="small">Preencha uma vez. Cada node vira uma estação técnica, aprova a etapa e alimenta o pacote final.</p>
       </div>
       <div class="panelCard">
@@ -101,7 +241,7 @@ h1,h2,h3{margin:0;color:#f0ddbb;letter-spacing:.015em}h1{font-size:22px}h2{font-
       </div>
       <div class="panelCard">
         <h3>Regra do produto</h3>
-        <p class="small">Não renderiza arte final sozinho. Organiza atendimento, orçamento, direção visual, copy, prompt de arte, pré-impressão, produção e entrega.</p>
+        <p class="small">Módulo gráfico da Studio Platform. Organiza atendimento, orçamento, direção visual, copy, prompt de arte, pré-impressão, produção, entrega e pacote final.</p>
       </div>
     </aside>
     <section class="canvasWrap">
@@ -135,7 +275,7 @@ h1,h2,h3{margin:0;color:#f0ddbb;letter-spacing:.015em}h1{font-size:22px}h2{font-
         <div class="previewCard">
           <div class="mockArt">
             <div class="mockOrb a"></div><div class="mockOrb b"></div>
-            <div class="mockTitle" id="mockTitle">Gráfica OS</div>
+            <div class="mockTitle" id="mockTitle">Print Remotion</div>
             <div class="mockSub" id="mockSub">Briefing, orçamento e pré-impressão em nodes.</div>
             <div class="mockCta" id="mockCta">ARTE PRONTA PARA PRODUÇÃO</div>
           </div>
@@ -396,13 +536,13 @@ function generateCopy(){return `COPY DA PEÇA — ${state.brief.client}\n\nTÍTU
 function generatePrompts(){const base=`cliente ${state.brief.client}, segmento ${state.brief.segment}, objetivo ${state.brief.goal}, produto gráfico ${product().name}, formato ${state.product.width}x${state.product.height}${state.product.unit}, tom ${state.brief.tone}, composição publicitária moderna, espaço limpo para inserir texto depois, hierarquia visual forte, iluminação comercial, aparência profissional, alta qualidade, sem texto embutido na imagem, sem logotipos fictícios, sem copiar marcas de terceiros`;return {pt:`Crie uma arte/imagem de apoio para peça gráfica de ${base}. Priorize contraste, clareza, elegância visual e área negativa para o designer inserir título, oferta, WhatsApp e informações obrigatórias.`,en:`Create a support image/artwork for a professional graphic design piece: ${base}. Prioritize contrast, clarity, clean visual hierarchy, commercial lighting, professional look, and negative space so the designer can add headline, offer, WhatsApp and mandatory client information later.`};}
 function generatePrepress(){const isDigital=state.product.unit==='px'||state.product.material.includes('Digital');return `CHECKLIST PERSONALIZADO DE PRÉ-IMPRESSÃO\n\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nDestino: ${isDigital?'Digital / redes sociais':'Impressão gráfica'}\n\n${isDigital?'- Exportar em RGB.\n- Conferir proporção e legibilidade no celular.\n- Salvar PNG para qualidade ou JPG leve para tráfego.':'- Usar CMYK.\n- Trabalhar em 300 DPI.\n- Aplicar sangria mínima de 3 mm.\n- Manter margem segura de 3 a 5 mm.\n- Converter fontes em curvas ou incorporar no PDF.\n- Exportar PDF em alta qualidade/PDF-X quando aplicável.'}\n\nRevisar obrigatoriamente: preço, telefone, data, endereço, redes sociais, ortografia, acentos e autorização final do cliente.`;}
 function generateProduction(){return `ORDEM DE PRODUÇÃO / ENTREGA\n\nCliente: ${state.brief.client}\nProjeto: ${state.brief.project||product().name}\nProduto: ${product().name}\nQuantidade: ${state.product.qty}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\nPrazo: ${state.brief.deadline}\n\nARQUIVOS A ENTREGAR\n- Arte final em ${state.product.delivery}.\n- Versão editável, se contratada.\n- Preview JPG/PNG para aprovação.\n- Observações de produção e checklist técnico.\n\nSTATUS\nAguardar aprovação final do cliente antes de imprimir ou publicar.`;}
-function assemblePackage(){calcQuote(false);const pkg=`GRÁFICA NODES OS — PACOTE FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n10. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
+function assemblePackage(){calcQuote(false);const pkg=`PRINT REMOTION — PACOTE GRÁFICO FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n10. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
   state.outputs.package=pkg;return pkg;
 }
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Copiado')).catch(()=>toast('Não foi possível copiar'));}
 function download(name,text,type='text/plain;charset=utf-8'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
-function downloadTxt(){const text=state.outputs.package||assemblePackage();download('grafica-nodes-os-pacote-final.txt',text);}
-function downloadJson(){download('grafica-nodes-os-projeto.json',JSON.stringify(state,null,2),'application/json;charset=utf-8');}
+function downloadTxt(){const text=state.outputs.package||assemblePackage();download('print-remotion-pacote-grafico-final.txt',text);}
+function downloadJson(){download('print-remotion-projeto-grafico.json',JSON.stringify(state,null,2),'application/json;charset=utf-8');}
 function renderRefs(){const grid=$('refGrid');grid.innerHTML=state.refs.length?state.refs.map(r=>`<div class="refThumb"><img src="${r}" alt="referência"></div>`).join(''):'<div class="refThumb">Sem referências</div>';}
 function handleRefs(files){Array.from(files).slice(0,6).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{state.refs.push(reader.result);saveState();renderRefs();refreshAll();toast('Referência adicionada');};reader.readAsDataURL(file);});}
 function attachGlobalEvents(){
@@ -422,5 +562,38 @@ function init(){attachGlobalEvents();refreshAll(true);openStation('brief');setTi
 init();
 })();
 </script>
+
+<script>
+(function(){
+  function applyPrintRemotionBridge(){
+    try{
+      document.title = "Print Remotion — Grafica Nodes OS V1";
+      var brand = document.querySelector('.brand');
+      if(brand){
+        var b = brand.querySelector('b');
+        var s = brand.querySelector('span');
+        if(b) b.textContent = 'Print Remotion';
+        if(s) s.textContent = 'grafica • orcamento • pre-impressao • entrega';
+      }
+      var mark = document.querySelector('.logoMark');
+      if(mark) mark.textContent = 'PR';
+      var left = document.querySelector('.leftPanel');
+      if(left && !left.querySelector('.printBridge')){
+        var bridge = document.createElement('div');
+        bridge.className = 'printBridge';
+        bridge.innerHTML = '<div><b>Print Remotion</b><br><span>Modulo grafico da Studio Platform: atendimento, orcamento, direcao de arte, copy, prompt IA, pre-impressao, producao e pacote final.</span></div>';
+        left.insertBefore(bridge, left.firstChild);
+      }
+    }catch(e){console.warn(e)}
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', applyPrintRemotionBridge);
+  }else{
+    applyPrintRemotionBridge();
+  }
+  setTimeout(applyPrintRemotionBridge, 500);
+})();
+</script>
+
 </body>
 </html>
