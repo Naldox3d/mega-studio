@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — Gráfica Nodes OS Aprovado V10.1</title>
+<title>Print Remotion — Gráfica Nodes OS Aprovado V10.2 IA</title>
 <style>
 :root{
   --bg:#050711;
@@ -821,7 +821,7 @@ input:focus,textarea:focus,select:focus{
       <div class="refGrid" id="refGrid"></div>
       <label>DNA visual extraído</label>
       <textarea id="visualDNA" placeholder="Paleta, estilo, hierarquia, textura, mood da marca..."></textarea>
-      <button class="btn tiny cyan" style="width:100%;margin-top:8px" id="analyzeRefs">Analisar referências localmente</button>
+      <button class="btn tiny cyan" style="width:100%;margin-top:8px" id="analyzeRefs">Analisar referências com IA</button>
     </aside>
   </div>
 </section>
@@ -1020,25 +1020,193 @@ function calcQuote(write=true){
   return total;
 }
 function buildQuoteText(){const p=product();return `ORÇAMENTO PROFISSIONAL — ${state.brief.client}\n\nProduto: ${p.name}\nProjeto: ${state.brief.project||'Sem título'}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nQuantidade: ${state.product.qty}\nEntrega: ${state.product.delivery}\n\nCriação/arte: ${money(state.quote.design)}\nProdução/impressão estimada: ${money(state.quote.print)}\nAcabamento extra: ${money(state.quote.finishCost)}\nUrgência: ${money(state.quote.urgency)}\nMargem aplicada: ${state.quote.margin}%\n\nTOTAL SUGERIDO: ${money(state.quote.total)}\n\nObservação: valor estimativo. Confirmar custo final conforme fornecedor, material, prazo, máquina, cidade e aprovação do cliente.`;}
-function generateNode(id){
-  if(id==='brief'){state.outputs.proposal=`DIAGNÓSTICO DO BRIEFING\n\nCliente: ${state.brief.client}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\n\nLeitura profissional: a peça precisa comunicar uma promessa única, manter leitura rápida, hierarquia forte, CTA visível e revisão rígida de dados do cliente.`;}
-  if(id==='product'){calcQuote(false);}
-  if(id==='refs')analyzeRefs(false);
-  if(id==='quote'){calcQuote(true);}
-  if(id==='art')state.outputs.art=generateArtDirection();
-  if(id==='copy')state.outputs.copy=generateCopy();
-  if(id==='prompt'){const r=generatePrompts();state.outputs.promptPT=r.pt;state.outputs.promptEN=r.en;}
-  if(id==='prepress')state.outputs.prepress=generatePrepress();
-  if(id==='production')state.outputs.production=generateProduction();
-  if(id==='package')state.outputs.package=assemblePackage();
-  saveState();toast('Node gerado: '+(NODE_DEF.find(n=>n.id===id)?.title||id));
-  openStation(id);
+function safeJsonParse(text){
+  try{return JSON.parse(text);}catch(e){return null;}
 }
-function generatePipeline(){['quote','art','copy','prompt','prepress','production','package'].forEach(generateNode);openStation('package');}
-function analyzeRefs(reopen=true){
+function firstFilled(){
+  for(const value of arguments){
+    if(typeof value === 'string' && value.trim()) return value;
+    if(value && typeof value === 'object' && !Array.isArray(value)) return value;
+  }
+  return '';
+}
+function buildPrintPayload(nodeId){
+  const p = product();
+  return {
+    node: nodeId,
+    modulo: 'print-remotion',
+    tipo: p.name,
+    formato: `${state.product.width}x${state.product.height}${state.product.unit}`,
+    produto: state.brief.project || p.name,
+    cliente: state.brief.client,
+    segmento: state.brief.segment,
+    publico: state.brief.audience,
+    objetivo: state.brief.goal,
+    estilo: state.brief.tone,
+    descricao: state.brief.description,
+    obrigatorios: state.brief.required,
+    prazo: state.brief.deadline,
+    observacoes: state.brief.notes,
+    material: state.product.material,
+    acabamento: state.product.finish,
+    entrega: state.product.delivery,
+    quantidade: state.product.qty,
+    cores: state.product.colors,
+    logo: state.product.logo,
+    visualDNA: state.visualDNA,
+    referencias: state.refs,
+    quote: state.quote,
+    checks: state.checks,
+    outputs: state.outputs,
+    pedido: 'Gere resposta profissional para o node solicitado. Sempre que possível retorne JSON com chaves visualDNA, art, copy, promptPT, promptEN, prepress, production, package e proposal.'
+  };
+}
+function normalizePrintAIResponse(raw){
+  const parsedFromText = typeof raw?.text === 'string' ? safeJsonParse(raw.text) : null;
+  const parsed =
+    (raw && raw.result && typeof raw.result === 'object' && raw.result) ||
+    (raw && raw.data && typeof raw.data === 'object' && raw.data) ||
+    parsedFromText ||
+    {};
+  return {
+    visualDNA: firstFilled(parsed.visualDNA, parsed.dna_visual, parsed.analise_visual, parsed.dna, parsed.refs),
+    art: firstFilled(parsed.art, parsed.artDirection, parsed.direcao_de_arte, parsed.direcaoArte, parsed.layout),
+    copy: firstFilled(parsed.copy, parsed.copys, parsed.texto, parsed.copywriting, parsed.headlines),
+    promptPT: firstFilled(parsed.promptPT, parsed.prompt_pt, parsed.prompt, parsed.promptImagem, parsed.prompt_ia),
+    promptEN: firstFilled(parsed.promptEN, parsed.prompt_en, parsed.promptEnglish),
+    prepress: firstFilled(parsed.prepress, parsed.pre_impressao, parsed.preImpressao, parsed.checklist),
+    production: firstFilled(parsed.production, parsed.producao, parsed.entrega, parsed.ordemProducao),
+    package: firstFilled(parsed.package, parsed.pacote, parsed.pacoteFinal, parsed.final),
+    proposal: firstFilled(parsed.proposal, parsed.diagnostico, parsed.briefing, parsed.strategy),
+    rawText: typeof raw?.text === 'string' ? raw.text : ''
+  };
+}
+async function callPrintAI(nodeId){
+  const res = await fetch('/api/print-ai', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(buildPrintPayload(nodeId))
+  });
+  const data = await res.json().catch(() => ({}));
+  if(!res.ok || data.ok === false){
+    throw new Error(data?.error || data?.message || `Falha HTTP ${res.status} na rota /api/print-ai`);
+  }
+  return normalizePrintAIResponse(data);
+}
+function applyAIFields(ai, overwrite=false){
+  if(ai.visualDNA && (overwrite || !state.visualDNA.trim())) state.visualDNA = ai.visualDNA;
+  if(ai.proposal && (overwrite || !state.outputs.proposal.trim())) state.outputs.proposal = ai.proposal;
+  if(ai.art && (overwrite || !state.outputs.art.trim())) state.outputs.art = ai.art;
+  if(ai.copy && (overwrite || !state.outputs.copy.trim())) state.outputs.copy = ai.copy;
+  if(ai.promptPT && (overwrite || !state.outputs.promptPT.trim())) state.outputs.promptPT = ai.promptPT;
+  if(ai.promptEN && (overwrite || !state.outputs.promptEN.trim())) state.outputs.promptEN = ai.promptEN;
+  if(ai.prepress && (overwrite || !state.outputs.prepress.trim())) state.outputs.prepress = ai.prepress;
+  if(ai.production && (overwrite || !state.outputs.production.trim())) state.outputs.production = ai.production;
+  if(ai.package && (overwrite || !state.outputs.package.trim())) state.outputs.package = ai.package;
+}
+function localVisualDNA(){
   const p=product();
-  state.visualDNA=`DNA VISUAL DO PROJETO\n\nPaleta sugerida: usar as cores da marca (${state.product.colors}) com contraste alto e fundo limpo.\nEstilo: ${state.brief.tone}, leitura rápida e hierarquia comercial forte.\nImagem: priorizar uma imagem principal de impacto, sem excesso de elementos.\nTipografia: título pesado para impacto, texto de apoio simples e CTA bem separado.\nRisco: não copiar referência de terceiros; usar apenas estrutura, clima e direção visual.\nProduto-alvo: ${p.name} no formato ${state.product.width}x${state.product.height}${state.product.unit}.`;
-  if(reopen)openStation('refs');else scheduleSave();
+  return `DNA VISUAL DO PROJETO
+
+Paleta sugerida: usar as cores da marca (${state.product.colors}) com contraste alto e fundo limpo.
+Estilo: ${state.brief.tone}, leitura rápida e hierarquia comercial forte.
+Imagem: priorizar uma imagem principal de impacto, sem excesso de elementos.
+Tipografia: título pesado para impacto, texto de apoio simples e CTA bem separado.
+Risco: não copiar referência de terceiros; usar apenas estrutura, clima e direção visual.
+Produto-alvo: ${p.name} no formato ${state.product.width}x${state.product.height}${state.product.unit}.`;
+}
+async function analyzeRefs(reopen=true){
+  try{
+    toast('Analisando referências com IA...');
+    const ai = await callPrintAI('refs');
+    state.visualDNA = ai.visualDNA || ai.rawText || localVisualDNA();
+    saveState();
+    refreshAll(true);
+    if(reopen) openStation('refs'); else scheduleSave();
+    toast('DNA visual gerado com IA');
+  }catch(err){
+    console.error(err);
+    state.visualDNA = localVisualDNA();
+    saveState();
+    refreshAll(true);
+    if(reopen) openStation('refs'); else scheduleSave();
+    toast('IA indisponível. DNA local aplicado.');
+  }
+}
+async function generateNode(id){
+  try{
+    state.activeNode = id;
+    if(id==='brief'){
+      toast('Gerando diagnóstico do briefing...');
+      try{
+        const ai = await callPrintAI('brief');
+        state.outputs.proposal = ai.proposal || ai.rawText || `DIAGNÓSTICO DO BRIEFING
+
+Cliente: ${state.brief.client}
+Objetivo: ${state.brief.goal}
+Tom: ${state.brief.tone}
+Público: ${state.brief.audience}
+
+Leitura profissional: a peça precisa comunicar uma promessa única, manter leitura rápida, hierarquia forte, CTA visível e revisão rígida de dados do cliente.`;
+      }catch(e){
+        state.outputs.proposal = `DIAGNÓSTICO DO BRIEFING
+
+Cliente: ${state.brief.client}
+Objetivo: ${state.brief.goal}
+Tom: ${state.brief.tone}
+Público: ${state.brief.audience}
+
+Leitura profissional: a peça precisa comunicar uma promessa única, manter leitura rápida, hierarquia forte, CTA visível e revisão rígida de dados do cliente.`;
+      }
+      saveState();refreshAll(true);openStation(id);toast('Node gerado: briefing');return;
+    }
+    if(id==='product'){
+      calcQuote(false);saveState();refreshAll(true);openStation(id);toast('Node gerado: produto');return;
+    }
+    if(id==='quote'){
+      calcQuote(true);saveState();refreshAll(true);openStation(id);toast('Node gerado: orçamento');return;
+    }
+    if(id==='refs'){
+      await analyzeRefs(true);return;
+    }
+    toast('Chamando IA do Print Remotion...');
+    const ai = await callPrintAI(id);
+    if(id==='art') state.outputs.art = ai.art || ai.rawText || generateArtDirection();
+    if(id==='copy') state.outputs.copy = ai.copy || ai.rawText || generateCopy();
+    if(id==='prompt'){
+      const local = generatePrompts();
+      state.outputs.promptPT = ai.promptPT || ai.rawText || local.pt;
+      state.outputs.promptEN = ai.promptEN || local.en;
+    }
+    if(id==='prepress') state.outputs.prepress = ai.prepress || ai.rawText || generatePrepress();
+    if(id==='production') state.outputs.production = ai.production || ai.rawText || generateProduction();
+    if(id==='package'){
+      applyAIFields(ai,false);
+      state.outputs.package = ai.package || ai.rawText || assemblePackage();
+    }
+    saveState();refreshAll(true);openStation(id);
+    toast('Node gerado com IA: '+(NODE_DEF.find(n=>n.id===id)?.title||id));
+  }catch(err){
+    console.error(err);
+    toast('Falha na IA. Aplicando modo local.');
+    if(id==='art') state.outputs.art = generateArtDirection();
+    if(id==='copy') state.outputs.copy = generateCopy();
+    if(id==='prompt'){
+      const local = generatePrompts();state.outputs.promptPT = local.pt;state.outputs.promptEN = local.en;
+    }
+    if(id==='prepress') state.outputs.prepress = generatePrepress();
+    if(id==='production') state.outputs.production = generateProduction();
+    if(id==='package') state.outputs.package = assemblePackage();
+    saveState();refreshAll(true);openStation(id);
+  }
+}
+async function generatePipeline(){
+  const order=['quote','refs','art','copy','prompt','prepress','production','package'];
+  for(const id of order){
+    await generateNode(id);
+  }
+  openStation('package');
+  toast('Pipeline completo gerado');
 }
 function generateArtDirection(){const p=product();return `DIREÇÃO DE ARTE — ${p.name}\n\n1. Composição\n- Criar peça com hierarquia clara: título forte no topo, imagem/produto no centro e CTA no rodapé.\n- Manter área de respiro ao redor do texto para leitura rápida.\n- Usar grade simples para evitar aparência amadora.\n\n2. Hierarquia\n- Título: maior elemento textual.\n- Oferta/promessa: segunda camada.\n- Informações obrigatórias: menores, mas legíveis.\n- CTA/WhatsApp: destaque visual separado.\n\n3. Paleta e estilo\n- Cores: ${state.product.colors}.\n- Tom: ${state.brief.tone}.\n- Evitar poluição visual e excesso de efeitos.\n\n4. Tipografia\n- Fonte principal bold para o título.\n- Fonte secundária limpa para detalhes.\n- Máximo de 2 famílias tipográficas.\n\n5. Produção\n- Formato: ${state.product.width}x${state.product.height}${state.product.unit}.\n- Material/entrega: ${state.product.material} / ${state.product.delivery}.`;}
 function generateCopy(){return `COPY DA PEÇA — ${state.brief.client}\n\nTÍTULOS SUGERIDOS\n1. ${state.brief.goal} começa com uma comunicação que chama atenção.\n2. Promoção especial por tempo limitado.\n3. Chegou a hora de aproveitar.\n4. Oferta de fim de semana que vale conferir.\n5. Seu próximo pedido começa aqui.\n\nTEXTO PRINCIPAL\n${state.brief.description}\n\nINFORMAÇÕES OBRIGATÓRIAS\n${state.brief.required}\n\nCTAS\n- Chame no WhatsApp agora.\n- Peça pelo direct.\n- Garanta antes que acabe.\n- Venha aproveitar hoje.\n\nREVISÃO COMERCIAL\nUsar frases curtas, alto contraste e uma promessa principal. Evitar texto demais na arte.`;}
