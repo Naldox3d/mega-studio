@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Video Remotion — Nodes Core V1.2</title>
+<title>Video Remotion — Nodes Core V1.3</title>
 <style>
 :root{
   --bg:#05070d;--panel:#0d1425;--panel2:#121b30;--panel3:#18243c;
@@ -583,12 +583,84 @@ input:focus,textarea:focus,select:focus{
   }
 }
 
+
+/* =========================================================
+   PATCH V1.3 — CANVAS VIDEO REMOTION MAIS FIEL AO STUDIO/PRINT
+   Corrige canvas: menos bolhas/transparência, grade mais limpa,
+   contraste próximo do Studio e Print, centralização inteligente.
+   ========================================================= */
+.canvasShell{
+  background:#050813!important;
+}
+.nodeViewport{
+  background-color:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.050) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.050) 1px,transparent 1px),
+    radial-gradient(circle at 28% 22%,rgba(101,217,210,.052),transparent 24%),
+    radial-gradient(circle at 72% 30%,rgba(214,173,104,.038),transparent 26%),
+    #050813!important;
+  background-size:40px 40px,40px 40px,160px 160px,160px 160px,auto,auto,auto!important;
+}
+.nodeViewport::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(5,8,19,.78) 0%,rgba(5,8,19,.16) 18%,rgba(5,8,19,0) 34%,rgba(5,8,19,0) 66%,rgba(5,8,19,.12) 84%,rgba(5,8,19,.62) 100%);
+  opacity:.42;
+  z-index:0;
+}
+.nodeMap{
+  z-index:1;
+}
+.node{
+  opacity:.88!important;
+}
+.node.locked{
+  opacity:.43!important;
+  filter:saturate(.72) brightness(.86)!important;
+}
+.node.active{
+  opacity:1!important;
+}
+.node.awaiting{
+  opacity:1!important;
+}
+.connectorSvg path{
+  stroke:rgba(101,217,210,.24)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.main{
+  stroke:rgba(101,217,210,.34)!important;
+  stroke-width:3.5!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.done{
+  stroke:rgba(214,173,104,.52)!important;
+  stroke-width:4!important;
+  stroke-dasharray:none!important;
+}
+.flowPanel{
+  background:rgba(5,8,19,.82)!important;
+}
+.floatingTools,.minimap{
+  background:rgba(5,8,19,.82)!important;
+}
+.video-approved-note{
+  background:rgba(101,217,210,.075)!important;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.2 — produto audiovisual final</span></div></div>
+  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.3 — produto audiovisual final</span></div></div>
   <div class="statusStrip">
     <span class="chip gold" id="projectChip">Projeto: Sem título</span>
     <span class="chip" id="autosaveChip">Salvo localmente</span>
@@ -801,11 +873,11 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoV12(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.2";
+      document.title = "Video Remotion — Nodes Core V1.3";
       var brand = document.querySelector('.brandText strong');
       if(brand) brand.textContent = 'Video Remotion';
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.2 — produto audiovisual final';
+      if(sub) sub.textContent = 'Nodes Core V1.3 — produto audiovisual final';
       var rail = document.querySelector('.railHead');
       if(rail && !rail.querySelector('.video-approved-note')){
         var note = document.createElement('div');
@@ -821,6 +893,52 @@ if(!__hadSavedVideoState){
     patchVideoV12();
   }
   setTimeout(patchVideoV12,450);
+})();
+</script>
+
+
+<script>
+(function(){
+  function patchVideoCanvasV13(){
+    try{
+      document.title = "Video Remotion — Nodes Core V1.3";
+      var sub = document.querySelector('.brandText span');
+      if(sub) sub.textContent = 'Nodes Core V1.3 — produto audiovisual final';
+      var note = document.querySelector('.video-approved-note');
+      if(note){
+        note.innerHTML = '<b>Video aprovado.</b><br>Canvas corrigido para ficar mais fiel ao Studio/Print: grade limpa, menos brilho e centralização preservada.';
+      }
+
+      // Corrige apenas se o canvas estiver muito fora da área visível.
+      // Não força centerMap sempre, para não apagar o posicionamento manual.
+      if(typeof state !== 'undefined' && typeof updateTransform === 'function'){
+        var vp = document.getElementById('viewport');
+        if(vp){
+          var z = Number(state.zoom || 1);
+          var tooFarLeft = state.panX < -900;
+          var tooFarRight = state.panX > vp.clientWidth * .55;
+          var tooFarTop = state.panY < -520;
+          var tooFarBottom = state.panY > vp.clientHeight * .45;
+          var badZoom = z < .45 || z > 1.35;
+
+          if(tooFarLeft || tooFarRight || tooFarTop || tooFarBottom || badZoom){
+            state.zoom = Math.min(.86, Math.max(.62, vp.clientWidth / 1720));
+            state.panX = Math.max(18, (vp.clientWidth - 1420 * state.zoom) / 2);
+            state.panY = Math.max(26, (vp.clientHeight - 710 * state.zoom) / 2);
+            updateTransform();
+            if(typeof save === 'function') save();
+          }
+        }
+      }
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchVideoCanvasV13);
+  }else{
+    patchVideoCanvasV13();
+  }
+  setTimeout(patchVideoCanvasV13, 500);
 })();
 </script>
 
