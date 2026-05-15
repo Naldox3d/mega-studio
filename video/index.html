@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Video Remotion — Nodes Core V1.4</title>
+<title>Video Remotion — Nodes Core V1.5</title>
 <style>
 :root{
   --bg:#05070d;--panel:#0d1425;--panel2:#121b30;--panel3:#18243c;
@@ -723,12 +723,24 @@ input:focus,textarea:focus,select:focus{
   background:rgba(101,217,210,.075)!important;
 }
 
+
+/* =========================================================
+   PATCH V1.5 — ZOOM 82% E NODES CENTRALIZADOS
+   Mantém o canvas limpo V1.4 e aplica enquadramento padrão:
+   zoom 82%, grupo de nodes no centro visual.
+   ========================================================= */
+.floatingTools .zoomText,
+#zoomText{
+  min-width:44px!important;
+  text-align:center!important;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.4 — produto audiovisual final</span></div></div>
+  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.5 — produto audiovisual final</span></div></div>
   <div class="statusStrip">
     <span class="chip gold" id="projectChip">Projeto: Sem título</span>
     <span class="chip" id="autosaveChip">Salvo localmente</span>
@@ -941,11 +953,11 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoV12(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.4";
+      document.title = "Video Remotion — Nodes Core V1.5";
       var brand = document.querySelector('.brandText strong');
       if(brand) brand.textContent = 'Video Remotion';
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.4 — produto audiovisual final';
+      if(sub) sub.textContent = 'Nodes Core V1.5 — produto audiovisual final';
       var rail = document.querySelector('.railHead');
       if(rail && !rail.querySelector('.video-approved-note')){
         var note = document.createElement('div');
@@ -969,9 +981,9 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoCanvasV13(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.4";
+      document.title = "Video Remotion — Nodes Core V1.5";
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.4 — produto audiovisual final';
+      if(sub) sub.textContent = 'Nodes Core V1.5 — produto audiovisual final';
       var note = document.querySelector('.video-approved-note');
       if(note){
         note.innerHTML = '<b>Video aprovado.</b><br>Canvas corrigido para ficar mais fiel ao Studio/Print: grade limpa, menos brilho e centralização preservada.';
@@ -1048,9 +1060,9 @@ if(!__hadSavedVideoState){
 
   function patchVideoCanvasV14(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.4";
+      document.title = "Video Remotion — Nodes Core V1.5";
       var sub = document.querySelector(".brandText span");
-      if(sub) sub.textContent = "Nodes Core V1.4 — produto audiovisual final";
+      if(sub) sub.textContent = "Nodes Core V1.5 — produto audiovisual final";
       var note = document.querySelector(".video-approved-note");
       if(note){
         note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo: sem manchas, nodes mais legíveis e centralização parecida com Studio/Print.";
@@ -1077,6 +1089,74 @@ if(!__hadSavedVideoState){
     patchVideoCanvasV14();
   }
   setTimeout(patchVideoCanvasV14, 500);
+})();
+</script>
+
+
+<script>
+(function(){
+  const CANVAS_CENTER_82_KEY = "video_remotion_canvas_center_82_v15";
+
+  function centerVideoNodesAt82(force){
+    try{
+      if(typeof state === "undefined" || typeof updateTransform !== "function") return;
+      const vp = document.getElementById("viewport");
+      if(!vp || !state.nodes || !state.nodes.length) return;
+
+      const already = localStorage.getItem(CANVAS_CENTER_82_KEY) === "1";
+      if(already && !force) return;
+
+      const nodeW = 230;
+      const nodeH = 135;
+      const minX = Math.min(...state.nodes.map(n => Number(n.x || 0)));
+      const minY = Math.min(...state.nodes.map(n => Number(n.y || 0)));
+      const maxX = Math.max(...state.nodes.map(n => Number(n.x || 0) + nodeW));
+      const maxY = Math.max(...state.nodes.map(n => Number(n.y || 0) + nodeH));
+      const graphW = maxX - minX;
+      const graphH = maxY - minY;
+
+      state.zoom = 0.82;
+
+      // Centralização visual: deixa o mapa no meio do canvas, um pouco acima do centro,
+      // parecido com o Print/Studio aprovado.
+      state.panX = Math.round((vp.clientWidth - graphW * state.zoom) / 2 - minX * state.zoom);
+      state.panY = Math.round((vp.clientHeight - graphH * state.zoom) / 2 - minY * state.zoom - 18);
+
+      updateTransform();
+      if(typeof save === "function") save();
+      localStorage.setItem(CANVAS_CENTER_82_KEY, "1");
+    }catch(e){console.warn(e)}
+  }
+
+  function patchVideoCenterV15(){
+    try{
+      document.title = "Video Remotion — Nodes Core V1.5";
+      var sub = document.querySelector(".brandText span");
+      if(sub) sub.textContent = "Nodes Core V1.5 — produto audiovisual final";
+      var note = document.querySelector(".video-approved-note");
+      if(note){
+        note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo, nodes centralizados e zoom padrão em 82%.";
+      }
+
+      centerVideoNodesAt82(false);
+
+      // O botão Centralizar agora volta exatamente para o enquadramento aprovado em 82%.
+      window.centerVideoNodesAt82 = function(){ centerVideoNodesAt82(true); };
+      if(typeof centerMap === "function" && !window.__videoCenter82PatchedV15){
+        window.__videoCenter82PatchedV15 = true;
+        centerMap = function(){
+          centerVideoNodesAt82(true);
+        };
+      }
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchVideoCenterV15);
+  }else{
+    patchVideoCenterV15();
+  }
+  setTimeout(patchVideoCenterV15, 500);
 })();
 </script>
 
