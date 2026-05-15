@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Video Remotion — Nodes Core V1.5</title>
+<title>Video Remotion — Nodes Core V1.6</title>
 <style>
 :root{
   --bg:#05070d;--panel:#0d1425;--panel2:#121b30;--panel3:#18243c;
@@ -735,12 +735,35 @@ input:focus,textarea:focus,select:focus{
   text-align:center!important;
 }
 
+
+/* =========================================================
+   PATCH V1.6 — FIX REAL 82% + CENTER
+   Força o enquadramento aprovado depois dos scripts antigos:
+   zoom real 0.82, texto 82%, nodes no centro visual.
+   ========================================================= */
+#zoomText,.zoomText{
+  min-width:44px!important;
+  text-align:center!important;
+}
+.nodeViewport{
+  background-color:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,.060) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.060) 1px, transparent 1px)!important;
+  background-size:40px 40px,40px 40px,160px 160px,160px 160px!important;
+}
+.nodeViewport::before{
+  display:none!important;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.5 — produto audiovisual final</span></div></div>
+  <div class="brand"><div class="brandMark">VR</div><div class="brandText"><strong>Video Remotion</strong><span>Nodes Core V1.6 — produto audiovisual final</span></div></div>
   <div class="statusStrip">
     <span class="chip gold" id="projectChip">Projeto: Sem título</span>
     <span class="chip" id="autosaveChip">Salvo localmente</span>
@@ -953,11 +976,11 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoV12(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.5";
+      document.title = "Video Remotion — Nodes Core V1.6";
       var brand = document.querySelector('.brandText strong');
       if(brand) brand.textContent = 'Video Remotion';
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.5 — produto audiovisual final';
+      if(sub) sub.textContent = 'Nodes Core V1.6 — produto audiovisual final';
       var rail = document.querySelector('.railHead');
       if(rail && !rail.querySelector('.video-approved-note')){
         var note = document.createElement('div');
@@ -981,9 +1004,9 @@ if(!__hadSavedVideoState){
 (function(){
   function patchVideoCanvasV13(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.5";
+      document.title = "Video Remotion — Nodes Core V1.6";
       var sub = document.querySelector('.brandText span');
-      if(sub) sub.textContent = 'Nodes Core V1.5 — produto audiovisual final';
+      if(sub) sub.textContent = 'Nodes Core V1.6 — produto audiovisual final';
       var note = document.querySelector('.video-approved-note');
       if(note){
         note.innerHTML = '<b>Video aprovado.</b><br>Canvas corrigido para ficar mais fiel ao Studio/Print: grade limpa, menos brilho e centralização preservada.';
@@ -1060,9 +1083,9 @@ if(!__hadSavedVideoState){
 
   function patchVideoCanvasV14(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.5";
+      document.title = "Video Remotion — Nodes Core V1.6";
       var sub = document.querySelector(".brandText span");
-      if(sub) sub.textContent = "Nodes Core V1.5 — produto audiovisual final";
+      if(sub) sub.textContent = "Nodes Core V1.6 — produto audiovisual final";
       var note = document.querySelector(".video-approved-note");
       if(note){
         note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo: sem manchas, nodes mais legíveis e centralização parecida com Studio/Print.";
@@ -1130,9 +1153,9 @@ if(!__hadSavedVideoState){
 
   function patchVideoCenterV15(){
     try{
-      document.title = "Video Remotion — Nodes Core V1.5";
+      document.title = "Video Remotion — Nodes Core V1.6";
       var sub = document.querySelector(".brandText span");
-      if(sub) sub.textContent = "Nodes Core V1.5 — produto audiovisual final";
+      if(sub) sub.textContent = "Nodes Core V1.6 — produto audiovisual final";
       var note = document.querySelector(".video-approved-note");
       if(note){
         note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo, nodes centralizados e zoom padrão em 82%.";
@@ -1157,6 +1180,108 @@ if(!__hadSavedVideoState){
     patchVideoCenterV15();
   }
   setTimeout(patchVideoCenterV15, 500);
+})();
+</script>
+
+
+<script>
+(function(){
+  const FORCE_ZOOM = 0.82;
+
+  function getViewport(){
+    return document.getElementById("viewport") ||
+           document.querySelector(".nodeViewport") ||
+           document.querySelector(".canvasShell");
+  }
+
+  function getMapEl(){
+    return document.getElementById("nodeMap") ||
+           document.querySelector(".nodeMap");
+  }
+
+  function setZoomText(){
+    const ztxt = document.getElementById("zoomText") || document.querySelector(".zoomText");
+    if(ztxt) ztxt.textContent = "82%";
+  }
+
+  function forceVideoCenter82(){
+    try{
+      if(typeof state === "undefined") return false;
+      const vp = getViewport();
+      if(!vp || !state.nodes || !state.nodes.length) return false;
+
+      const nodeW = 230;
+      const nodeH = 135;
+      const minX = Math.min(...state.nodes.map(n => Number(n.x || 0)));
+      const minY = Math.min(...state.nodes.map(n => Number(n.y || 0)));
+      const maxX = Math.max(...state.nodes.map(n => Number(n.x || 0) + nodeW));
+      const maxY = Math.max(...state.nodes.map(n => Number(n.y || 0) + nodeH));
+      const graphW = maxX - minX;
+      const graphH = maxY - minY;
+
+      state.zoom = FORCE_ZOOM;
+
+      // Centro real do grupo dentro da área visível.
+      state.panX = Math.round((vp.clientWidth - graphW * FORCE_ZOOM) / 2 - minX * FORCE_ZOOM);
+      state.panY = Math.round((vp.clientHeight - graphH * FORCE_ZOOM) / 2 - minY * FORCE_ZOOM - 8);
+
+      if(typeof updateTransform === "function"){
+        updateTransform();
+      }else{
+        const map = getMapEl();
+        if(map) map.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+      }
+
+      setZoomText();
+
+      // Salva em cima do localStorage antigo para não voltar para 62%.
+      if(typeof save === "function") save();
+      return true;
+    }catch(e){
+      console.warn(e);
+      return false;
+    }
+  }
+
+  function patchVideoV16(){
+    try{
+      document.title = "Video Remotion — Nodes Core V1.6";
+      const sub = document.querySelector(".brandText span");
+      if(sub) sub.textContent = "Nodes Core V1.6 — produto audiovisual final";
+      const note = document.querySelector(".video-approved-note");
+      if(note){
+        note.innerHTML = "<b>Video aprovado.</b><br>Zoom corrigido para 82% real e nodes centralizados no canvas.";
+      }
+
+      // Apaga chaves antigas que impediam o recenter.
+      try{
+        localStorage.removeItem("video_remotion_canvas_v14_applied");
+        localStorage.removeItem("video_remotion_canvas_center_82_v15");
+      }catch(e){}
+
+      forceVideoCenter82();
+
+      // O botão Centralizar agora SEMPRE força 82%.
+      window.centerVideoNodesAt82 = forceVideoCenter82;
+      window.fitVideoCanvasLikeStudio = forceVideoCenter82;
+      window.centerMap = forceVideoCenter82;
+
+      // Roda depois dos scripts originais e depois do layout estabilizar.
+      setTimeout(forceVideoCenter82, 150);
+      setTimeout(forceVideoCenter82, 650);
+      setTimeout(forceVideoCenter82, 1200);
+
+      window.addEventListener("resize", function(){
+        setTimeout(forceVideoCenter82, 120);
+      });
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchVideoV16);
+  }else{
+    patchVideoV16();
+  }
 })();
 </script>
 
