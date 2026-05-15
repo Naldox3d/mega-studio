@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — V11 Saída Real para Gráfica</title>
+<title>Print Remotion — V11.1 Cadastro de Cliente + Saída Real</title>
 <style>
 :root{
   --bg:#050711;
@@ -835,6 +835,22 @@ input:focus,textarea:focus,select:focus{
 .productCard[data-cat="Fotografia"]{border-left:3px solid rgba(255,120,170,.55)}
 @media(max-width:980px){.categoryGrid,.techSpecGrid{grid-template-columns:1fr!important}}
 
+
+/* =========================================================
+   PATCH V11.1 — CADASTRO DE CLIENTE
+   Cadastro local de clientes, briefing por cliente, aprovação e histórico simples.
+   ========================================================= */
+.clientGrid{display:grid;grid-template-columns:310px minmax(0,1fr);gap:12px;margin-top:8px}
+.clientList{display:grid;gap:8px;max-height:520px;overflow:auto;padding-right:4px}
+.clientCard{border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);border-radius:16px;padding:12px;cursor:pointer;transition:.15s}
+.clientCard:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.clientCard.active{border-color:rgba(214,173,104,.64);background:rgba(214,173,104,.10)}
+.clientCard b{display:block;color:#f0ddbb;font-size:12px;margin-bottom:4px}.clientCard span{display:block;color:#9aa8c7;font-size:10px;line-height:1.35}
+.clientMini{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+.clientMini .techSpec{min-height:58px}.clientActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.clientStatus{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(120,227,159,.35);background:rgba(120,227,159,.08);color:#caffda;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:980px){.clientGrid{grid-template-columns:1fr!important}.clientList{max-height:260px}}
+
 </style>
 </head>
 <body>
@@ -849,6 +865,7 @@ input:focus,textarea:focus,select:focus{
     </div>
     <div class="toolbar">
       <button class="btn cyan" id="btnOpenBrief">Abrir briefing</button>
+      <button class="btn purple" id="btnOpenClients">Clientes</button>
       <button class="btn gold" id="btnGeneratePipeline">Gerar pipeline</button>
       <button class="btn green" id="btnExportPack">Exportar</button>
       <button class="btn red" id="btnReset">Reset</button>
@@ -985,17 +1002,18 @@ const PRODUCTS=[
   {id:'photo_album',category:'Fotografia',icon:'📸',name:'Álbum fotográfico',desc:'Capa, contracapa e páginas internas para álbum',w:300,h:300,unit:'mm',material:'Papel fotográfico / Couchê premium',base:280,printBase:8,aspect:'1:1',cta:'ÁLBUM APROVADO',colorMode:'RGB tratado ou CMYK conforme gráfica',dpi:'300 dpi',bleed:'3 mm',safe:'8 mm',finalFile:'PDF paginado + JPG preview',transparent:false,technique:'Diagramação fotográfica'}
 ];
 const NODE_DEF=[
-  {id:'brief',title:'1. Atendimento / Briefing',icon:'🧠',x:70,y:95,deps:[],help:'Entrada comercial: cliente, objetivo, público, texto obrigatório e restrições.'},
-  {id:'product',title:'2. Produto Gráfico',icon:'📦',x:420,y:95,deps:['brief'],help:'Define tipo de peça, medida, material, acabamento, quantidade e entrega.'},
-  {id:'refs',title:'3. Referências / Marca',icon:'🖼️',x:770,y:95,deps:['brief'],help:'Upload de referências visuais, logo, fotos, estilo e DNA visual.'},
-  {id:'quote',title:'4. Orçamento Inteligente',icon:'💰',x:1120,y:95,deps:['product'],help:'Calcula base estimada, criação, produção, acabamento, urgência e margem.'},
-  {id:'art',title:'5. Direção de Arte',icon:'🎨',x:770,y:340,deps:['product','refs'],help:'Gera composição, hierarquia, paleta, tipografia e layout para designer.'},
-  {id:'copy',title:'6. Copy / Texto da Peça',icon:'✍️',x:1120,y:340,deps:['art'],help:'Cria títulos, subtítulos, CTA, variações e revisão comercial.'},
-  {id:'prompt',title:'7. Prompt IA / Arte',icon:'⚡',x:1470,y:340,deps:['art','copy'],help:'Gera prompts em português e inglês para imagem/arte sem texto embutido.'},
-  {id:'prepress',title:'8. Pré-impressão',icon:'✅',x:1120,y:590,deps:['copy','quote'],help:'Checklist técnico: CMYK/RGB, DPI, sangria, margem, fonte, PDF e revisão.'},
-  {id:'production',title:'9. Produção / Entrega',icon:'🏭',x:1470,y:590,deps:['prepress'],help:'Ordem de produção, arquivos finais, observações e aprovação do cliente.'},
-  {id:'visualEdit',title:'10. Personalização Visual IA',icon:'🪄',x:1820,y:340,deps:['prompt','art'],help:'Troca inteligente de rosto, roupa ou produto preservando composição, iluminação e identidade visual.'},
-  {id:'package',title:'11. Pacote Final',icon:'📤',x:2170,y:590,deps:['visualEdit','production'],help:'Exporta briefing, orçamento, direção, copy, prompts, personalização visual e checklist.'}
+  {id:'client',title:'1. Cadastro de Cliente',icon:'👤',x:70,y:95,deps:[],help:'Cadastro local do cliente: contato, marca, documentos, preferências, aprovação e observações.'},
+  {id:'brief',title:'2. Atendimento / Briefing',icon:'🧠',x:420,y:95,deps:['client'],help:'Entrada comercial: cliente, objetivo, público, texto obrigatório e restrições.'},
+  {id:'product',title:'3. Produto Gráfico',icon:'📦',x:770,y:95,deps:['brief'],help:'Define tipo de peça, medida, material, acabamento, quantidade e entrega.'},
+  {id:'refs',title:'4. Referências / Marca',icon:'🖼️',x:1120,y:95,deps:['brief'],help:'Upload de referências visuais, logo, fotos, estilo e DNA visual.'},
+  {id:'quote',title:'5. Orçamento Inteligente',icon:'💰',x:1470,y:95,deps:['product'],help:'Calcula base estimada, criação, produção, acabamento, urgência e margem.'},
+  {id:'art',title:'6. Direção de Arte',icon:'🎨',x:1120,y:340,deps:['product','refs'],help:'Gera composição, hierarquia, paleta, tipografia e layout para designer.'},
+  {id:'copy',title:'7. Copy / Texto da Peça',icon:'✍️',x:1470,y:340,deps:['art'],help:'Cria títulos, subtítulos, CTA, variações e revisão comercial.'},
+  {id:'prompt',title:'8. Prompt IA / Arte',icon:'⚡',x:1820,y:340,deps:['art','copy'],help:'Gera prompts em português e inglês para imagem/arte sem texto embutido.'},
+  {id:'visualEdit',title:'9. Personalização Visual IA',icon:'🪄',x:2170,y:340,deps:['prompt','art'],help:'Troca inteligente de rosto, roupa ou produto preservando composição, iluminação e identidade visual.'},
+  {id:'prepress',title:'10. Pré-impressão',icon:'✅',x:1470,y:590,deps:['copy','quote'],help:'Checklist técnico: CMYK/RGB, DPI, sangria, margem, fonte, PDF e revisão.'},
+  {id:'production',title:'11. Produção / Entrega',icon:'🏭',x:1820,y:590,deps:['prepress'],help:'Ordem de produção, arquivos finais, observações e aprovação do cliente.'},
+  {id:'package',title:'12. Pacote Final',icon:'📤',x:2170,y:590,deps:['visualEdit','production'],help:'Exporta briefing, orçamento, direção, copy, prompts, personalização visual e checklist.'}
 ];
 const CHECKS=[
   ['category','Categoria correta','Produto classificado como Digital, Gráfica comum, Grande formato, Brinde, Vestuário ou Fotografia.'],
@@ -1031,7 +1049,9 @@ const CATEGORY_RULES={
 };
 function defaultState(){
   return {
-    panX:20,panY:20,zoom:0.82,activeNode:'brief',nodePos:Object.fromEntries(NODE_DEF.map(n=>[n.id,{x:n.x,y:n.y}])),
+    panX:20,panY:20,zoom:0.82,activeNode:'client',nodePos:Object.fromEntries(NODE_DEF.map(n=>[n.id,{x:n.x,y:n.y}])),
+    activeClientId:'cliente_1',
+    clients:[{id:'cliente_1',name:'Cliente Gráfica',brand:'Cliente Gráfica',contact:'',phone:'',email:'',document:'',city:'Caruaru / PE',segment:'Loja local, evento ou campanha',instagram:'',whatsapp:'',address:'',notes:'',status:'rascunho',history:[]}],
     refs:[],visualDNA:'',
     brief:{project:'',client:'Cliente Gráfica',segment:'Loja local, evento ou campanha',goal:'Vender mais',tone:'Profissional e moderno',audience:'Público local que precisa entender rápido a oferta',description:'Criar uma peça gráfica com visual chamativo, leitura rápida e chamada forte para WhatsApp.',required:'Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.',deadline:'Prazo normal',notes:''},
     product:{id:'social_feed',category:'Digital',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG RGB',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'80 px',finalFile:'PNG/JPG RGB',productionTech:'Publicação digital',transparent:false},
@@ -1044,6 +1064,22 @@ function defaultState(){
 let state=loadState();
 let drag={type:null,id:null,startX:0,startY:0,origX:0,origY:0};
 let saveTimer=null;
+
+function blankClient(){return {id:'cliente_'+Date.now(),name:'Novo cliente',brand:'',contact:'',phone:'',email:'',document:'',city:'Caruaru / PE',segment:'',instagram:'',whatsapp:'',address:'',notes:'',status:'rascunho',history:[]};}
+function clientIndex(){return Math.max(0,(state.clients||[]).findIndex(c=>c.id===state.activeClientId));}
+function activeClient(){
+  if(!state.clients||!state.clients.length){state.clients=[blankClient()];state.activeClientId=state.clients[0].id;}
+  let c=state.clients.find(x=>x.id===state.activeClientId);
+  if(!c){c=state.clients[0];state.activeClientId=c.id;}
+  return c;
+}
+function selectClient(id){state.activeClientId=id;const c=activeClient();applyClientToBrief(false);saveState();openStation('client');toast('Cliente ativo: '+(c.name||c.brand||'sem nome'));}
+function newClient(){const c=blankClient();state.clients.unshift(c);state.activeClientId=c.id;saveState();openStation('client');toast('Novo cliente criado');}
+function deleteClient(){if((state.clients||[]).length<=1){toast('Mantenha pelo menos 1 cliente');return;}const c=activeClient();if(!confirm('Excluir cliente '+(c.name||c.brand)+'?'))return;state.clients=state.clients.filter(x=>x.id!==c.id);state.activeClientId=state.clients[0].id;saveState();openStation('client');}
+function applyClientToBrief(save=true){const c=activeClient();state.brief.client=c.brand||c.name||state.brief.client;state.brief.segment=c.segment||state.brief.segment;if(c.whatsapp||c.phone||c.instagram||c.address){state.brief.required=`${state.brief.required||''}\nCliente: ${c.brand||c.name}\nWhatsApp: ${c.whatsapp||c.phone||''}\nInstagram: ${c.instagram||''}\nEndereço: ${c.address||''}`.trim();} if(save) scheduleSave();}
+function saveBriefToClient(){const c=activeClient();c.brand=state.brief.client||c.brand;c.segment=state.brief.segment||c.segment;c.notes=[c.notes,state.brief.notes].filter(Boolean).join('\n---\n');c.history=c.history||[];c.history.unshift({date:new Date().toLocaleString('pt-BR'),project:state.brief.project||'Sem título',product:product().name,total:state.quote.total||0,status:'briefing salvo'});saveState();openStation('client');toast('Briefing salvo no cadastro do cliente');}
+function clientSummaryText(){const c=activeClient();return `CLIENTE CADASTRADO\nNome: ${c.name||''}\nMarca: ${c.brand||''}\nContato: ${c.contact||''}\nWhatsApp/Telefone: ${c.whatsapp||c.phone||''}\nE-mail: ${c.email||''}\nCPF/CNPJ: ${c.document||''}\nCidade: ${c.city||''}\nSegmento: ${c.segment||''}\nInstagram: ${c.instagram||''}\nEndereço: ${c.address||''}\nStatus: ${c.status||'rascunho'}\nObservações: ${c.notes||''}`;}
+
 function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return defaultState();return merge(defaultState(),JSON.parse(raw));}catch(e){return defaultState();}}
 function merge(a,b){if(!b||typeof b!=='object')return a;const out=Array.isArray(a)?[...a]:{...a};Object.keys(b).forEach(k=>{out[k]=(a[k]&&typeof a[k]==='object'&&!Array.isArray(a[k]))?merge(a[k],b[k]):b[k];});return out;}
 function saveState(){try{localStorage.setItem(STORAGE,JSON.stringify(state));toast('Salvo automaticamente');}catch(e){toast('LocalStorage cheio: reduza referências');}}
@@ -1079,6 +1115,7 @@ function applyProductTechnicalRules(fromCategoryOnly=false){
 }
 function completedNodes(){return NODE_DEF.filter(n=>nodeStatus(n.id)==='done').length;}
 function nodeStatus(id){
+  if(id==='client')return activeClient().name.trim()||activeClient().brand.trim()?'done':'ready';
   if(id==='brief')return state.brief.description.trim()&&state.brief.client.trim()?'done':'ready';
   if(id==='product')return state.product.id&&state.product.width&&state.product.height?'done':'ready';
   if(id==='refs')return state.visualDNA.trim()||state.refs.length?'done':'ready';
@@ -1095,6 +1132,7 @@ function nodeStatus(id){
 function summary(id){
   const p=product();
   const o=state.outputs;
+  if(id==='client'){const c=activeClient();return (c.brand||c.name)?`${c.brand||c.name} • ${c.whatsapp||c.phone||c.email||'sem contato'}`:'Cadastre cliente, marca, contato, CPF/CNPJ e preferências.';}
   if(id==='brief')return state.brief.project||state.brief.description||'Defina cliente, objetivo e informações obrigatórias.';
   if(id==='product')return `<div class="note"><b>V11 — Saída Real para Gráfica.</b> Escolha a categoria e o produto real. O sistema ajusta medida, cor, DPI, sangria, margem, material, acabamento e arquivo final recomendado.</div>
     <label>Categoria profissional</label>
@@ -1258,6 +1296,40 @@ function visualSlot(key,title,placeholder){
 }
 function stationHtml(id){
   const b=state.brief,p=state.product,q=state.quote,o=state.outputs;
+  if(id==='client'){
+    const idx=clientIndex(),c=activeClient();
+    return `<div class="note"><b>Cadastro de cliente.</b> Use para guardar cliente, marca, contato, CPF/CNPJ, cidade, preferências, aprovação e histórico simples. Tudo fica salvo no navegador/localStorage deste aparelho.</div>
+    <div class="clientGrid">
+      <div>
+        <div class="clientActions"><button class="btn gold" data-action="newClient">+ Novo cliente</button><button class="btn red" data-action="deleteClient">Excluir</button></div>
+        <div class="clientList">${(state.clients||[]).map(cli=>`<div class="clientCard ${cli.id===state.activeClientId?'active':''}" data-client-id="${cli.id}"><b>${escapeHtml(cli.brand||cli.name||'Cliente sem nome')}</b><span>${escapeHtml(cli.whatsapp||cli.phone||cli.email||'sem contato')}<br>${escapeHtml(cli.segment||'sem segmento')} • ${escapeHtml(cli.status||'rascunho')}</span></div>`).join('')}</div>
+      </div>
+      <div>
+        <span class="clientStatus">${escapeHtml(c.status||'rascunho')}</span>
+        <div class="grid2">
+          <div><label>Nome do cliente</label>${field(`clients.${idx}.name`,c.name)}</div>
+          <div><label>Marca / Nome comercial</label>${field(`clients.${idx}.brand`,c.brand)}</div>
+          <div><label>Responsável / contato</label>${field(`clients.${idx}.contact`,c.contact)}</div>
+          <div><label>WhatsApp</label>${field(`clients.${idx}.whatsapp`,c.whatsapp)}</div>
+          <div><label>Telefone</label>${field(`clients.${idx}.phone`,c.phone)}</div>
+          <div><label>E-mail</label>${field(`clients.${idx}.email`,c.email)}</div>
+          <div><label>CPF/CNPJ</label>${field(`clients.${idx}.document`,c.document)}</div>
+          <div><label>Cidade / UF</label>${field(`clients.${idx}.city`,c.city)}</div>
+          <div><label>Segmento</label>${field(`clients.${idx}.segment`,c.segment)}</div>
+          <div><label>Instagram</label>${field(`clients.${idx}.instagram`,c.instagram)}</div>
+          <div class="full"><label>Endereço</label>${area(`clients.${idx}.address`,c.address)}</div>
+          <div><label>Status do cliente</label>${selectField(`clients.${idx}.status`,c.status||'rascunho',['rascunho','ativo','aguardando aprovação','aprovado','entregue','arquivado'])}</div>
+          <div class="full"><label>Observações / preferências</label>${area(`clients.${idx}.notes`,c.notes,'Preferências de cor, estilo, papel, acabamento, restrições, histórico de atendimento...')}</div>
+        </div>
+        <div class="clientMini">
+          <div class="techSpec"><b>Histórico</b><span>${(c.history||[]).length} registro(s)</span></div>
+          <div class="techSpec"><b>Projeto atual</b><span>${escapeHtml(state.brief.project||'Sem título')}</span></div>
+        </div>
+        <label>Histórico simples</label><div class="outputBox">${escapeHtml((c.history||[]).map(h=>`${h.date} — ${h.project} — ${h.product||''} — ${money(h.total||0)} — ${h.status||''}`).join('\n')||'Nenhum histórico ainda.')}</div>
+        <div class="stationActions"><button class="btn gold" data-action="clientToBrief">Aplicar no briefing</button><button class="btn cyan" data-action="briefToClient">Salvar briefing no cliente</button><button class="btn green" data-action="copyClient">Copiar cadastro</button><button class="btn cyan" data-action="next">Próximo node</button></div>
+      </div>
+    </div>`;
+  }
   if(id==='brief')return `<div class="note">Essa é a entrada principal. Preencheu aqui, todo o fluxo da gráfica recebe contexto.</div><div class="grid2"><div><label>Nome do projeto</label>${field('brief.project',b.project)}</div><div><label>Cliente / Marca</label>${field('brief.client',b.client)}</div><div><label>Segmento</label>${field('brief.segment',b.segment)}</div><div><label>Objetivo</label>${selectField('brief.goal',b.goal,['Vender mais','Divulgar inauguração','Promoção relâmpago','Identidade visual','Cardápio / catálogo','Evento','Campanha institucional'])}</div><div><label>Tom da comunicação</label>${selectField('brief.tone',b.tone,['Profissional e moderno','Popular e vendedor','Luxo e premium','Infantil e colorido','Urgente e promocional','Minimalista e sofisticado'])}</div><div><label>Prazo</label>${selectField('brief.deadline',b.deadline,['Prazo normal','Urgente 24h','Urgente hoje','A combinar'])}</div><div class="full"><label>Público-alvo</label>${area('brief.audience',b.audience)}</div><div class="full"><label>Descrição do pedido</label>${area('brief.description',b.description)}</div><div class="full"><label>Texto obrigatório / informações do cliente</label>${area('brief.required',b.required)}</div><div class="full"><label>Observações internas</label>${area('brief.notes',b.notes)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="brief">Salvar e gerar diagnóstico</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='product')return `<div class="note"><b>V11 — Saída Real para Gráfica.</b> Escolha a categoria e o produto real. O sistema ajusta medida, cor, DPI, sangria, margem, material, acabamento e arquivo final recomendado.</div>
     <label>Categoria profissional</label>
@@ -1342,6 +1414,7 @@ function bindStationFields(){
   document.querySelectorAll('[data-bind]').forEach(el=>{el.oninput=()=>{const val=el.type==='number'?Number(el.value||0):el.value;setPath(el.dataset.bind,val);};el.onchange=el.oninput;});
   document.querySelectorAll('[data-product]').forEach(card=>{card.onclick=()=>selectProduct(card.dataset.product);});
   document.querySelectorAll('[data-category]').forEach(card=>{card.onclick=()=>{state.product.category=card.dataset.category;applyProductTechnicalRules(true);scheduleSave();openStation('product');};});
+  document.querySelectorAll('[data-client-id]').forEach(card=>{card.onclick=()=>selectClient(card.dataset.clientId);});
   document.querySelectorAll('[data-check]').forEach(ch=>{ch.onchange=()=>{state.checks[ch.dataset.check]=ch.checked;scheduleSave();};});
   document.querySelectorAll('[data-visual-check]').forEach(ch=>{ch.onchange=()=>{state.visualEdit[ch.dataset.visualCheck]=ch.checked;scheduleSave();};});
   document.querySelectorAll('[data-visual-mode]').forEach(card=>{card.onclick=()=>{state.visualEdit.mode=card.dataset.visualMode;scheduleSave();openStation('visualEdit');};});
@@ -1350,6 +1423,11 @@ function bindStationFields(){
 }
 function handleAction(action,node){
   if(action==='next')return nextNode();
+  if(action==='newClient')return newClient();
+  if(action==='deleteClient')return deleteClient();
+  if(action==='clientToBrief'){applyClientToBrief(true);openStation('brief');toast('Cliente aplicado no briefing');return;}
+  if(action==='briefToClient')return saveBriefToClient();
+  if(action==='copyClient')return copyText(clientSummaryText());
   if(action==='generate')return generateNode(node);
   if(action==='analyze')return analyzeRefs();
   if(action==='copyQuote')return copyText(state.outputs.quote||buildQuoteText());
@@ -1491,6 +1569,7 @@ function buildPrintPayload(nodeId){
     arquivoFinal: outputProfile().finalFile,
     tecnicaProducao: outputProfile().productionTech,
     cliente: state.brief.client,
+    clienteCadastro: activeClient(),
     segmento: state.brief.segment,
     publico: state.brief.audience,
     objetivo: state.brief.goal,
@@ -1600,6 +1679,7 @@ async function analyzeRefs(reopen=true){
 async function generateNode(id){
   try{
     state.activeNode = id;
+    if(id==='client'){saveState();refreshAll(true);openStation(id);toast('Cadastro de cliente salvo');return;}
     if(id==='brief'){
       toast('Gerando diagnóstico do briefing...');
       try{
@@ -1836,6 +1916,11 @@ function assemblePackage(){calcQuote(false);const p=product(),op=outputProfile()
 Gerado em: ${new Date().toLocaleString('pt-BR')}
 
 ==============================
+0. CADASTRO DO CLIENTE
+==============================
+${clientSummaryText()}
+
+==============================
 1. BRIEFING
 ==============================
 Projeto: ${state.brief.project||'Sem título'}
@@ -1979,7 +2064,7 @@ function downloadJson(){download('print-remotion-projeto-grafico.json',JSON.stri
 function renderRefs(){const grid=$('refGrid');grid.innerHTML=state.refs.length?state.refs.map(r=>`<div class="refThumb"><img src="${r}" alt="referência"></div>`).join(''):'<div class="refThumb">Sem referências</div>';}
 function handleRefs(files){Array.from(files).slice(0,6).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{state.refs.push(reader.result);saveState();renderRefs();refreshAll();toast('Referência adicionada');};reader.readAsDataURL(file);});}
 function attachGlobalEvents(){
-  $('btnOpenBrief').onclick=()=>openStation('brief');$('btnGeneratePipeline').onclick=generatePipeline;$('btnExportPack').onclick=()=>{state.outputs.package=assemblePackage();saveState();openStation('package');};$('btnReset').onclick=()=>{if(confirm('Resetar todo o projeto?')){state=defaultState();saveState();refreshAll();openStation('brief');}};
+  $('btnOpenBrief').onclick=()=>openStation('brief');$('btnOpenClients').onclick=()=>openStation('client');$('btnGeneratePipeline').onclick=generatePipeline;$('btnExportPack').onclick=()=>{state.outputs.package=assemblePackage();saveState();openStation('package');};$('btnReset').onclick=()=>{if(confirm('Resetar todo o projeto?')){state=defaultState();saveState();refreshAll();openStation('brief');}};
   $('quickAll').onclick=generatePipeline;$('quickCenter').onclick=centerMap;$('quickOrganize').onclick=organizeNodes;$('quickSave').onclick=saveState;$('zoomOut').onclick=()=>zoom(-.1);$('zoomIn').onclick=()=>zoom(.1);$('centerBtn').onclick=centerMap;$('organizeBtn').onclick=organizeNodes;
   $('downloadTxt').onclick=downloadTxt;$('downloadJson').onclick=downloadJson;$('copyPack').onclick=()=>copyText(state.outputs.package||assemblePackage());
   $('stationClose').onclick=closeStation;$('stationOverlay').onclick=closeStation;$('stationNext').onclick=nextNode;$('stationPrev').onclick=prevNode;$('analyzeRefs').onclick=()=>analyzeRefs(true);
