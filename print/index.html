@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — Gráfica Nodes OS Aprovado V10.3 IA Formatada</title>
+<title>Print Remotion — Gráfica Nodes OS Aprovado V10.4 Personalização Visual IA</title>
 <style>
 :root{
   --bg:#050711;
@@ -708,6 +708,111 @@ input:focus,textarea:focus,select:focus{
   }
 }
 
+
+/* =========================================================
+   PATCH V10.4 — PERSONALIZAÇÃO VISUAL IA
+   Mantém visual aprovado; adiciona node profissional para
+   troca de rosto, roupa e produto com preview, prompts e API-ready.
+   ========================================================= */
+.visualEditGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin:10px 0 14px;
+}
+.visualSlot{
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),rgba(13,18,32,.94);
+  border-radius:16px;
+  padding:10px;
+  min-height:190px;
+}
+.visualSlot h3{
+  margin:0 0 8px!important;
+  font-size:12px!important;
+  color:#eadcc1!important;
+}
+.visualUpload{
+  display:grid;
+  place-items:center;
+  height:118px;
+  border:1px dashed rgba(101,217,210,.42);
+  border-radius:14px;
+  background:rgba(101,217,210,.055);
+  color:#cafffb;
+  text-align:center;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  overflow:hidden;
+}
+.visualUpload input{display:none!important}
+.visualUpload img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.visualModeCards{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:10px 0;
+}
+.visualModeCard{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  border-radius:16px;
+  padding:12px;
+  cursor:pointer;
+  transition:.15s;
+}
+.visualModeCard:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.visualModeCard.active{
+  border-color:rgba(214,173,104,.62);
+  background:rgba(214,173,104,.09);
+}
+.visualModeCard b{display:block;color:#f0ddbb;font-size:12px}
+.visualModeCard span{display:block;color:#9aa8c7;font-size:10px;line-height:1.4;margin-top:4px}
+.visualPreviewBox{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  background:#050814;
+  min-height:260px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  position:relative;
+}
+.visualPreviewBox img{
+  max-width:100%;
+  max-height:420px;
+  object-fit:contain;
+  display:block;
+}
+.visualPreviewEmpty{
+  color:#9aa8c7;
+  text-align:center;
+  font-size:12px;
+  padding:22px;
+}
+.visualABList{
+  display:grid;
+  gap:8px;
+}
+.visualABItem{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  padding:10px;
+  background:rgba(255,255,255,.03);
+  font-size:11px;
+  color:#c8d4ef;
+}
+.visualABItem b{color:#f0ddbb}
+@media(max-width:980px){
+  .visualEditGrid,.visualModeCards{grid-template-columns:1fr!important}
+}
+
 </style>
 </head>
 <body>
@@ -855,7 +960,8 @@ const NODE_DEF=[
   {id:'prompt',title:'7. Prompt IA / Arte',icon:'⚡',x:1470,y:340,deps:['art','copy'],help:'Gera prompts em português e inglês para imagem/arte sem texto embutido.'},
   {id:'prepress',title:'8. Pré-impressão',icon:'✅',x:1120,y:590,deps:['copy','quote'],help:'Checklist técnico: CMYK/RGB, DPI, sangria, margem, fonte, PDF e revisão.'},
   {id:'production',title:'9. Produção / Entrega',icon:'🏭',x:1470,y:590,deps:['prepress'],help:'Ordem de produção, arquivos finais, observações e aprovação do cliente.'},
-  {id:'package',title:'10. Pacote Final',icon:'📤',x:1820,y:590,deps:['prompt','production'],help:'Exporta briefing, orçamento, direção, copy, prompts e checklist.'}
+  {id:'visualEdit',title:'10. Personalização Visual IA',icon:'🪄',x:1820,y:340,deps:['prompt','art'],help:'Troca inteligente de rosto, roupa ou produto preservando composição, iluminação e identidade visual.'},
+  {id:'package',title:'11. Pacote Final',icon:'📤',x:2170,y:590,deps:['visualEdit','production'],help:'Exporta briefing, orçamento, direção, copy, prompts, personalização visual e checklist.'}
 ];
 const CHECKS=[
   ['bleed','Sangria','3 mm para impresso com corte; digital não precisa.'],
@@ -873,8 +979,9 @@ function defaultState(){
     refs:[],visualDNA:'',
     brief:{project:'',client:'Cliente Gráfica',segment:'Loja local, evento ou campanha',goal:'Vender mais',tone:'Profissional e moderno',audience:'Público local que precisa entender rápido a oferta',description:'Criar uma peça gráfica com visual chamativo, leitura rápida e chamada forte para WhatsApp.',required:'Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.',deadline:'Prazo normal',notes:''},
     product:{id:'social',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente'},
+    visualEdit:{mode:'produto',style:'realista publicitário',intensity:70,preserveBackground:true,preserveComposition:true,preserveBrand:true,baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',notes:'Preservar composição, iluminação, identidade visual, perspectiva e leitura comercial da peça.'},
     quote:{design:35,print:0,finishCost:0,urgency:0,margin:20,total:42,notes:'Valores estimativos. Confirmar custo real com fornecedor e material.'},
-    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',prepress:'',production:'',package:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
+    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',prepress:'',production:'',package:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
     checks:Object.fromEntries(CHECKS.map(c=>[c[0],false]))
   };
 }
@@ -899,6 +1006,7 @@ function nodeStatus(id){
   if(id==='prompt')return state.outputs.promptPT.trim()&&state.outputs.promptEN.trim()?'done':'ready';
   if(id==='prepress')return state.outputs.prepress.trim()||Object.values(state.checks).filter(Boolean).length>=5?'done':'warn';
   if(id==='production')return state.outputs.production.trim()?'done':'ready';
+  if(id==='visualEdit')return state.outputs.visualEdit.trim()||state.visualEdit.resultImage?'done':'ready';
   if(id==='package')return state.outputs.package.trim()?'done':'ready';
   return 'ready';
 }
@@ -914,6 +1022,7 @@ function summary(id){
   if(id==='prompt')return o.promptPT?'Prompts PT/EN prontos para arte IA.':'Prompt em português e inglês sem texto embutido.';
   if(id==='prepress')return `${Object.values(state.checks).filter(Boolean).length}/${CHECKS.length} itens técnicos marcados.`;
   if(id==='production')return o.production||'Ordem de produção, arquivos finais e aprovação.';
+  if(id==='visualEdit')return o.visualEdit||`Modo: trocar ${state.visualEdit.mode}. Upload base + referência e gere a instrução técnica.`;
   if(id==='package')return o.package?'Pacote final pronto para exportar.':'Exportação completa para cliente, designer ou produção.';
   return '';
 }
@@ -986,6 +1095,10 @@ function prevNode(){const i=NODE_DEF.findIndex(n=>n.id===state.activeNode);openS
 function field(path,value='',type='text'){return `<input type="${type}" data-bind="${path}" value="${escapeHtml(value)}"/>`;}
 function area(path,value='',placeholder=''){return `<textarea data-bind="${path}" placeholder="${escapeHtml(placeholder)}">${escapeHtml(value)}</textarea>`;}
 function selectField(path,value,opts){return `<select data-bind="${path}">${opts.map(o=>`<option ${o===value?'selected':''}>${escapeHtml(o)}</option>`).join('')}</select>`;}
+function visualSlot(key,title,placeholder){
+  const img=state.visualEdit?.[key]||'';
+  return `<div class="visualSlot"><h3>${escapeHtml(title)}</h3><label class="visualUpload">${img?`<img src="${img}" alt="${escapeHtml(title)}">`:escapeHtml(placeholder)}<input type="file" accept="image/*" data-visual-upload="${key}"></label></div>`;
+}
 function stationHtml(id){
   const b=state.brief,p=state.product,q=state.quote,o=state.outputs;
   if(id==='brief')return `<div class="note">Essa é a entrada principal. Preencheu aqui, todo o fluxo da gráfica recebe contexto.</div><div class="grid2"><div><label>Nome do projeto</label>${field('brief.project',b.project)}</div><div><label>Cliente / Marca</label>${field('brief.client',b.client)}</div><div><label>Segmento</label>${field('brief.segment',b.segment)}</div><div><label>Objetivo</label>${selectField('brief.goal',b.goal,['Vender mais','Divulgar inauguração','Promoção relâmpago','Identidade visual','Cardápio / catálogo','Evento','Campanha institucional'])}</div><div><label>Tom da comunicação</label>${selectField('brief.tone',b.tone,['Profissional e moderno','Popular e vendedor','Luxo e premium','Infantil e colorido','Urgente e promocional','Minimalista e sofisticado'])}</div><div><label>Prazo</label>${selectField('brief.deadline',b.deadline,['Prazo normal','Urgente 24h','Urgente hoje','A combinar'])}</div><div class="full"><label>Público-alvo</label>${area('brief.audience',b.audience)}</div><div class="full"><label>Descrição do pedido</label>${area('brief.description',b.description)}</div><div class="full"><label>Texto obrigatório / informações do cliente</label>${area('brief.required',b.required)}</div><div class="full"><label>Observações internas</label>${area('brief.notes',b.notes)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="brief">Salvar e gerar diagnóstico</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
@@ -997,6 +1110,38 @@ function stationHtml(id){
   if(id==='prompt')return `<div class="grid2"><div><label>Prompt em português</label>${area('outputs.promptPT',o.promptPT)}</div><div><label>Prompt em inglês</label>${area('outputs.promptEN',o.promptEN)}</div></div><div class="stationActions"><button class="btn gold" data-action="generate" data-node="prompt">Gerar prompts PT/EN</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='prepress')return `<div class="checkGrid">${CHECKS.map(([k,t,d])=>`<label class="checkRow"><input type="checkbox" data-check="${k}" ${state.checks[k]?'checked':''}/><span><b>${escapeHtml(t)}</b><span>${escapeHtml(d)}</span></span></label>`).join('')}</div><label>Checklist personalizado</label>${area('outputs.prepress',o.prepress)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="prepress">Gerar checklist personalizado</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='production')return `<label>Ordem de produção / entrega</label>${area('outputs.production',o.production)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="production">Gerar ordem de produção</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
+  if(id==='visualEdit')return `<div class="note"><b>Personalização Visual IA.</b> Este node transforma a peça em um fluxo real de substituição visual: rosto, roupa ou produto. O modo local gera o briefing técnico e prompt de edição; quando houver motor visual conectado, a mesma estrutura pode enviar para /api/visual-edit.</div>
+    <div class="visualModeCards">
+      ${['produto','roupa','rosto'].map(mode=>`<div class="visualModeCard ${state.visualEdit.mode===mode?'active':''}" data-visual-mode="${mode}"><b>${mode==='produto'?'Trocar produto':mode==='roupa'?'Trocar roupa':'Trocar rosto'}</b><span>${mode==='produto'?'Substitui item, embalagem, comida, objeto ou produto mantendo composição.':mode==='roupa'?'Altera figurino, uniforme, cor, tecido ou estilo preservando a pessoa.':'Substitui o rosto mantendo pose, luz, enquadramento e estética.'}</span></div>`).join('')}
+    </div>
+    <div class="visualEditGrid">
+      ${visualSlot('baseImage','Imagem base da arte','Adicionar imagem base')}
+      ${visualSlot('faceImage','Referência de rosto','Adicionar rosto')}
+      ${visualSlot('clothingImage','Referência de roupa','Adicionar roupa')}
+      ${visualSlot('productImage','Referência de produto','Adicionar produto')}
+    </div>
+    <div class="grid3">
+      <div><label>Ação principal</label>${selectField('visualEdit.mode',state.visualEdit.mode,['produto','roupa','rosto'])}</div>
+      <div><label>Estilo de saída</label>${selectField('visualEdit.style',state.visualEdit.style,['realista publicitário','premium editorial','social media limpo','cinematográfico','e-commerce','catálogo profissional'])}</div>
+      <div><label>Intensidade da troca (%)</label>${field('visualEdit.intensity',state.visualEdit.intensity,'number')}</div>
+      <div class="full"><label>Regras e observações</label>${area('visualEdit.notes',state.visualEdit.notes,'Ex.: não alterar fundo, manter embalagem, respeitar luz, adaptar sombra e perspectiva...')}</div>
+    </div>
+    <div class="checkGrid">
+      <label class="checkRow"><input type="checkbox" data-visual-check="preserveBackground" ${state.visualEdit.preserveBackground?'checked':''}/><span><b>Preservar fundo</b><span>Não trocar cenário, textura, cor dominante ou atmosfera.</span></span></label>
+      <label class="checkRow"><input type="checkbox" data-visual-check="preserveComposition" ${state.visualEdit.preserveComposition?'checked':''}/><span><b>Preservar composição</b><span>Manter enquadramento, posição, perspectiva, luz e leitura da peça.</span></span></label>
+      <label class="checkRow"><input type="checkbox" data-visual-check="preserveBrand" ${state.visualEdit.preserveBrand?'checked':''}/><span><b>Preservar identidade visual</b><span>Manter paleta, hierarquia, estilo gráfico e intenção comercial.</span></span></label>
+    </div>
+    <div class="grid2">
+      <div><label>Preview da imagem base / resultado</label><div class="visualPreviewBox">${state.visualEdit.resultImage||state.visualEdit.baseImage?`<img src="${state.visualEdit.resultImage||state.visualEdit.baseImage}" alt="preview visual">`:'<div class="visualPreviewEmpty">Adicione uma imagem base para visualizar aqui.</div>'}</div></div>
+      <div><label>Briefing técnico de edição</label><div class="outputBox">${escapeHtml(o.visualEdit||'Clique em Gerar instrução de edição visual.')}</div></div>
+    </div>
+    <div class="stationActions">
+      <button class="btn gold" data-action="generate" data-node="visualEdit">Gerar instrução de edição visual</button>
+      <button class="btn cyan" data-action="visualVariation">Gerar variação A/B</button>
+      <button class="btn purple" data-action="applyVisualToPackage">Aplicar no pacote</button>
+      <button class="btn green" data-action="downloadVisualBrief">Baixar briefing visual</button>
+      <button class="btn cyan" data-action="next">Próximo node</button>
+    </div>`;
   if(id==='package')return `<div class="note">Pacote final consolidado para cliente, designer ou produção.</div><label>Pacote final</label>${area('outputs.package',o.package)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button><button class="btn green" data-action="downloadTxt">Baixar TXT</button><button class="btn cyan" data-action="downloadJson">Baixar JSON</button><button class="btn" data-action="copyPackage">Copiar pacote</button></div>`;
   return '';
 }
@@ -1004,10 +1149,22 @@ function bindStationFields(){
   document.querySelectorAll('[data-bind]').forEach(el=>{el.oninput=()=>{const val=el.type==='number'?Number(el.value||0):el.value;setPath(el.dataset.bind,val);};el.onchange=el.oninput;});
   document.querySelectorAll('[data-product]').forEach(card=>{card.onclick=()=>selectProduct(card.dataset.product);});
   document.querySelectorAll('[data-check]').forEach(ch=>{ch.onchange=()=>{state.checks[ch.dataset.check]=ch.checked;scheduleSave();};});
+  document.querySelectorAll('[data-visual-check]').forEach(ch=>{ch.onchange=()=>{state.visualEdit[ch.dataset.visualCheck]=ch.checked;scheduleSave();};});
+  document.querySelectorAll('[data-visual-mode]').forEach(card=>{card.onclick=()=>{state.visualEdit.mode=card.dataset.visualMode;scheduleSave();openStation('visualEdit');};});
+  document.querySelectorAll('[data-visual-upload]').forEach(input=>{input.onchange=e=>handleVisualUpload(input.dataset.visualUpload,e.target.files);});
   document.querySelectorAll('[data-action]').forEach(btn=>{btn.onclick=()=>handleAction(btn.dataset.action,btn.dataset.node);});
 }
 function handleAction(action,node){
-  if(action==='next')return nextNode(); if(action==='generate')return generateNode(node); if(action==='analyze')return analyzeRefs(); if(action==='copyQuote')return copyText(state.outputs.quote||buildQuoteText()); if(action==='downloadTxt')return downloadTxt(); if(action==='downloadJson')return downloadJson(); if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
+  if(action==='next')return nextNode();
+  if(action==='generate')return generateNode(node);
+  if(action==='analyze')return analyzeRefs();
+  if(action==='copyQuote')return copyText(state.outputs.quote||buildQuoteText());
+  if(action==='visualVariation')return generateVisualVariation();
+  if(action==='applyVisualToPackage')return applyVisualToPackage();
+  if(action==='downloadVisualBrief')return download('print-remotion-briefing-personalizacao-visual.txt', state.outputs.visualEdit||generateVisualEditBrief());
+  if(action==='downloadTxt')return downloadTxt();
+  if(action==='downloadJson')return downloadJson();
+  if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
 }
 function selectProduct(id){const prod=PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];state.product={...state.product,id:prod.id,width:prod.w,height:prod.h,unit:prod.unit,material:prod.material,qty:prod.id==='social'||prod.id==='brand'?1:100,delivery:prod.unit==='px'?'Digital PNG/JPG':'PDF/X para gráfica'};calcQuote(false);saveState();openStation('product');toast('Produto aplicado: '+prod.name);}
 function calcQuote(write=true){
@@ -1050,7 +1207,7 @@ function humanLabel(key){
     visualDNA:'DNA visual', dna_visual:'DNA visual', analise_visual:'Análise visual',
     art:'Direção de arte', artDirection:'Direção de arte', direcao_de_arte:'Direção de arte',
     copy:'Copy', promptPT:'Prompt IA PT', promptEN:'Prompt IA EN',
-    prepress:'Pré-impressão', production:'Produção', package:'Pacote final', proposal:'Diagnóstico'
+    visualEdit:'Personalização visual', personalizacao_visual:'Personalização visual', visual_edit:'Personalização visual', prepress:'Pré-impressão', production:'Produção', package:'Pacote final', proposal:'Diagnóstico'
   };
   return map[key] || String(key).replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^./,c=>c.toUpperCase());
 }
@@ -1114,10 +1271,11 @@ function buildPrintPayload(nodeId){
     logo: state.product.logo,
     visualDNA: state.visualDNA,
     referencias: state.refs,
+    visualEdit: state.visualEdit,
     quote: state.quote,
     checks: state.checks,
     outputs: state.outputs,
-    pedido: 'Gere resposta profissional para o node solicitado. Sempre que possível retorne JSON com chaves visualDNA, art, copy, promptPT, promptEN, prepress, production, package e proposal.'
+    pedido: 'Gere resposta profissional para o node solicitado. Sempre que possível retorne JSON com chaves visualDNA, art, copy, promptPT, promptEN, visualEdit, prepress, production, package, proposal, titulo, subtitulo e cta. Para visualEdit, descreva troca de rosto/roupa/produto preservando composição, luz, fundo, perspectiva e identidade visual.'
   };
 }
 function normalizePrintAIResponse(raw){
@@ -1135,6 +1293,7 @@ function normalizePrintAIResponse(raw){
     copy: firstFilled(parsed.copy, parsed.copys, parsed.texto, parsed.copywriting, parsed.headlines, parsed.titulo ? {titulo:parsed.titulo, subtitulo:parsed.subtitulo, cta:parsed.cta, texto_curto:parsed.texto_curto} : ''),
     promptPT: firstFilled(parsed.promptPT, parsed.prompt_pt, parsed.prompt, parsed.promptImagem, parsed.prompt_ia, parsed.prompt_portugues),
     promptEN: firstFilled(parsed.promptEN, parsed.prompt_en, parsed.promptEnglish, parsed.prompt_ingles),
+    visualEdit: firstFilled(parsed.visualEdit, parsed.visual_edit, parsed.personalizacao_visual, parsed.troca_inteligente, parsed.editor_visual, parsed.edicao_visual),
     prepress: firstFilled(parsed.prepress, parsed.pre_impressao, parsed.preImpressao, parsed.checklist),
     production: firstFilled(parsed.production, parsed.producao, parsed.entrega, parsed.ordemProducao),
     package: firstFilled(parsed.package, parsed.pacote, parsed.pacoteFinal, parsed.final),
@@ -1164,6 +1323,7 @@ function applyAIFields(ai, overwrite=false){
   if(ai.copy && (overwrite || !state.outputs.copy.trim())) state.outputs.copy = ai.copy;
   if(ai.promptPT && (overwrite || !state.outputs.promptPT.trim())) state.outputs.promptPT = ai.promptPT;
   if(ai.promptEN && (overwrite || !state.outputs.promptEN.trim())) state.outputs.promptEN = ai.promptEN;
+  if(ai.visualEdit && (overwrite || !state.outputs.visualEdit.trim())) state.outputs.visualEdit = ai.visualEdit;
   if(ai.prepress && (overwrite || !state.outputs.prepress.trim())) state.outputs.prepress = ai.prepress;
   if(ai.production && (overwrite || !state.outputs.production.trim())) state.outputs.production = ai.production;
   if(ai.package && (overwrite || !state.outputs.package.trim())) state.outputs.package = ai.package;
@@ -1247,6 +1407,7 @@ Leitura profissional: a peça precisa comunicar uma promessa única, manter leit
       state.outputs.promptEN = ai.promptEN || local.en;
       applyAIFields(ai,false);
     }
+    if(id==='visualEdit'){ state.outputs.visualEdit = ai.visualEdit || ai.rawText || generateVisualEditBrief(); applyAIFields(ai,false); }
     if(id==='prepress'){ state.outputs.prepress = ai.prepress || ai.rawText || generatePrepress(); applyAIFields(ai,false); }
     if(id==='production'){ state.outputs.production = ai.production || ai.rawText || generateProduction(); applyAIFields(ai,false); }
     if(id==='package'){
@@ -1263,6 +1424,7 @@ Leitura profissional: a peça precisa comunicar uma promessa única, manter leit
     if(id==='prompt'){
       const local = generatePrompts();state.outputs.promptPT = local.pt;state.outputs.promptEN = local.en;
     }
+    if(id==='visualEdit') state.outputs.visualEdit = generateVisualEditBrief();
     if(id==='prepress') state.outputs.prepress = generatePrepress();
     if(id==='production') state.outputs.production = generateProduction();
     if(id==='package') state.outputs.package = assemblePackage();
@@ -1270,7 +1432,7 @@ Leitura profissional: a peça precisa comunicar uma promessa única, manter leit
   }
 }
 async function generatePipeline(){
-  const order=['quote','refs','art','copy','prompt','prepress','production','package'];
+  const order=['quote','refs','art','copy','prompt','visualEdit','prepress','production','package'];
   for(const id of order){
     await generateNode(id);
   }
@@ -1280,6 +1442,80 @@ async function generatePipeline(){
 function generateArtDirection(){const p=product();return `DIREÇÃO DE ARTE — ${p.name}\n\n1. Composição\n- Criar peça com hierarquia clara: título forte no topo, imagem/produto no centro e CTA no rodapé.\n- Manter área de respiro ao redor do texto para leitura rápida.\n- Usar grade simples para evitar aparência amadora.\n\n2. Hierarquia\n- Título: maior elemento textual.\n- Oferta/promessa: segunda camada.\n- Informações obrigatórias: menores, mas legíveis.\n- CTA/WhatsApp: destaque visual separado.\n\n3. Paleta e estilo\n- Cores: ${state.product.colors}.\n- Tom: ${state.brief.tone}.\n- Evitar poluição visual e excesso de efeitos.\n\n4. Tipografia\n- Fonte principal bold para o título.\n- Fonte secundária limpa para detalhes.\n- Máximo de 2 famílias tipográficas.\n\n5. Produção\n- Formato: ${state.product.width}x${state.product.height}${state.product.unit}.\n- Material/entrega: ${state.product.material} / ${state.product.delivery}.`;}
 function generateCopy(){return `COPY DA PEÇA — ${state.brief.client}\n\nTÍTULOS SUGERIDOS\n1. ${state.brief.goal} começa com uma comunicação que chama atenção.\n2. Promoção especial por tempo limitado.\n3. Chegou a hora de aproveitar.\n4. Oferta de fim de semana que vale conferir.\n5. Seu próximo pedido começa aqui.\n\nTEXTO PRINCIPAL\n${state.brief.description}\n\nINFORMAÇÕES OBRIGATÓRIAS\n${state.brief.required}\n\nCTAS\n- Chame no WhatsApp agora.\n- Peça pelo direct.\n- Garanta antes que acabe.\n- Venha aproveitar hoje.\n\nREVISÃO COMERCIAL\nUsar frases curtas, alto contraste e uma promessa principal. Evitar texto demais na arte.`;}
 function generatePrompts(){const base=`cliente ${state.brief.client}, segmento ${state.brief.segment}, objetivo ${state.brief.goal}, produto gráfico ${product().name}, formato ${state.product.width}x${state.product.height}${state.product.unit}, tom ${state.brief.tone}, composição publicitária moderna, espaço limpo para inserir texto depois, hierarquia visual forte, iluminação comercial, aparência profissional, alta qualidade, sem texto embutido na imagem, sem logotipos fictícios, sem copiar marcas de terceiros`;return {pt:`Crie uma arte/imagem de apoio para peça gráfica de ${base}. Priorize contraste, clareza, elegância visual e área negativa para o designer inserir título, oferta, WhatsApp e informações obrigatórias.`,en:`Create a support image/artwork for a professional graphic design piece: ${base}. Prioritize contrast, clarity, clean visual hierarchy, commercial lighting, professional look, and negative space so the designer can add headline, offer, WhatsApp and mandatory client information later.`};}
+
+function visualModeLabel(){
+  return state.visualEdit.mode==='rosto'?'troca de rosto':state.visualEdit.mode==='roupa'?'troca de roupa':'troca de produto';
+}
+function requiredVisualRef(){
+  return state.visualEdit.mode==='rosto'?'faceImage':state.visualEdit.mode==='roupa'?'clothingImage':'productImage';
+}
+function generateVisualEditBrief(){
+  const mode=state.visualEdit.mode;
+  const refName=mode==='rosto'?'rosto de referência':mode==='roupa'?'roupa/figurino de referência':'produto de referência';
+  const hasBase=!!state.visualEdit.baseImage;
+  const hasRef=!!state.visualEdit[requiredVisualRef()];
+  return `PERSONALIZAÇÃO VISUAL IA — ${visualModeLabel().toUpperCase()}
+
+OBJETIVO
+Criar uma nova versão da peça gráfica substituindo ${mode==='rosto'?'apenas o rosto':mode==='roupa'?'a roupa/figurino':'o produto principal'} sem destruir a composição aprovada.
+
+ENTRADAS DO NODE
+- Imagem base da arte: ${hasBase?'carregada':'pendente'}
+- Referência necessária (${refName}): ${hasRef?'carregada':'pendente'}
+- Estilo de saída: ${state.visualEdit.style}
+- Intensidade da troca: ${state.visualEdit.intensity}%
+- Preservar fundo: ${state.visualEdit.preserveBackground?'sim':'não'}
+- Preservar composição: ${state.visualEdit.preserveComposition?'sim':'não'}
+- Preservar identidade visual: ${state.visualEdit.preserveBrand?'sim':'não'}
+
+REGRAS DE EDIÇÃO
+1. Manter enquadramento, perspectiva, luz, sombra e profundidade da imagem base.
+2. Preservar fundo, paleta, hierarquia visual e espaço para texto.
+3. Substituir somente o elemento solicitado: ${mode==='rosto'?'rosto, mantendo pose, cabelo aparente quando possível e expressão natural':'roupa'===mode?'figurino, mantendo corpo, pose, pele, proporção e luz':'produto, mantendo escala, apoio, contato, reflexos e sombra'}.
+4. Adaptar cor, brilho, textura e sombra da referência ao ambiente da peça.
+5. Não alterar textos, logo, CTA, informações obrigatórias nem identidade gráfica.
+6. Não gerar mãos, rostos, embalagens, logos ou textos distorcidos.
+
+PROMPT TÉCNICO PARA MOTOR VISUAL
+Use a imagem base como composição absoluta. Use a referência de ${refName} para substituir ${mode==='rosto'?'somente o rosto da pessoa':mode==='roupa'?'somente a roupa/figurino da pessoa':'somente o produto/objeto principal'}. Preserve fundo, iluminação, câmera, perspectiva, paleta, estilo publicitário, hierarquia e intenção comercial. Resultado realista, limpo, profissional, pronto para atendimento de gráfica e campanha digital. Não alterar textos existentes. Não deformar anatomia, produto, logotipo, embalagem, mãos ou bordas.
+
+NEGATIVE PROMPT
+text artifacts, distorted logo, wrong perspective, mismatched lighting, blurry face, deformed product, extra fingers, bad hands, warped packaging, changed background, changed layout, low quality, overprocessed, unrealistic shadows, duplicate objects, wrong scale, fake typography.
+
+OBSERVAÇÕES INTERNAS
+${state.visualEdit.notes}`;
+}
+function generateVisualVariation(){
+  const base=generateVisualEditBrief();
+  state.outputs.visualEdit = `${base}
+
+VARIAÇÃO A
+Mais fiel à imagem base: substituição sutil, mínima alteração de luz e textura.
+
+VARIAÇÃO B
+Mais publicitária: acabamento premium, contraste levemente maior, textura mais limpa e produto/figurino/rosto com destaque comercial.
+
+VARIAÇÃO C
+Mais social media: leitura rápida, impacto visual maior, preservando composição e identidade do cliente.`;
+  saveState();refreshAll(true);openStation('visualEdit');toast('Variações A/B/C geradas');
+}
+function applyVisualToPackage(){
+  if(!state.outputs.visualEdit) state.outputs.visualEdit = generateVisualEditBrief();
+  state.outputs.package = assemblePackage();
+  saveState();refreshAll(true);toast('Personalização visual aplicada ao pacote');
+}
+function handleVisualUpload(key,files){
+  const file=files && files[0];
+  if(!file || !file.type || !file.type.startsWith('image/')){toast('Envie uma imagem válida');return;}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    state.visualEdit[key]=reader.result;
+    if(key==='baseImage' && !state.visualEdit.resultImage) state.visualEdit.resultImage=reader.result;
+    saveState();refreshAll(true);openStation('visualEdit');toast('Imagem adicionada ao editor visual');
+  };
+  reader.readAsDataURL(file);
+}
+
 function generatePrepress(){const isDigital=state.product.unit==='px'||state.product.material.includes('Digital');return `CHECKLIST PERSONALIZADO DE PRÉ-IMPRESSÃO\n\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nDestino: ${isDigital?'Digital / redes sociais':'Impressão gráfica'}\n\n${isDigital?'- Exportar em RGB.\n- Conferir proporção e legibilidade no celular.\n- Salvar PNG para qualidade ou JPG leve para tráfego.':'- Usar CMYK.\n- Trabalhar em 300 DPI.\n- Aplicar sangria mínima de 3 mm.\n- Manter margem segura de 3 a 5 mm.\n- Converter fontes em curvas ou incorporar no PDF.\n- Exportar PDF em alta qualidade/PDF-X quando aplicável.'}\n\nRevisar obrigatoriamente: preço, telefone, data, endereço, redes sociais, ortografia, acentos e autorização final do cliente.`;}
 function generateProduction(){return `ORDEM DE PRODUÇÃO / ENTREGA\n\nCliente: ${state.brief.client}\nProjeto: ${state.brief.project||product().name}\nProduto: ${product().name}\nQuantidade: ${state.product.qty}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\nPrazo: ${state.brief.deadline}\n\nARQUIVOS A ENTREGAR\n- Arte final em ${state.product.delivery}.\n- Versão editável, se contratada.\n- Preview JPG/PNG para aprovação.\n- Observações de produção e checklist técnico.\n\nSTATUS\nAguardar aprovação final do cliente antes de imprimir ou publicar.`;}
 function assemblePackage(){calcQuote(false);const pkg=`PRINT REMOTION — PACOTE GRÁFICO FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\nPREVIEW / CHAMADA PRINCIPAL\n==============================\nTítulo: ${state.outputs.previewTitle||state.brief.project||product().name}\nSubtítulo: ${state.outputs.previewSub||state.brief.description}\nCTA: ${state.outputs.previewCta||state.brief.goal}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n10. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
@@ -1383,12 +1619,12 @@ init();
 (function(){
   function patchPrintV101(){
     try{
-      document.title = "Print Remotion — Gráfica Nodes OS Aprovado V10.3 IA Formatada";
+      document.title = "Print Remotion — Gráfica Nodes OS Aprovado V10.4 Personalização Visual IA";
       var s = document.querySelector('.brand span');
-      if(s) s.textContent = 'gráfica nodes os • aprovado • visual alinhado ao studio';
+      if(s) s.textContent = 'gráfica nodes os • aprovado • personalização visual ia';
       var note = document.querySelector('.print-approved-note');
       if(note){
-        note.innerHTML = '<b>Print aprovado.</b><br>Laterais corrigidas para ficarem mais responsivas e parecidas com o Studio Remotion Lab. Funções preservadas.';
+        note.innerHTML = '<b>Print aprovado.</b><br>Visual preservado. Cérebro atualizado com IA formatada e node de Personalização Visual IA para troca de rosto, roupa e produto.';
       }
     }catch(e){console.warn(e)}
   }
