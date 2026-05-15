@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio Remotion Lab — Blender Nodes OS V10</title>
+  <title>Portal Genesis — Studio Remotion Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
@@ -1227,16 +1227,72 @@
   color:#eadcc1;
 }
 
+
+
+/* PATCH PG V11 — continuidade Portal Genesis */
+:root{
+  --pg-deep:#030814;
+  --pg-card:#0d1528;
+  --pg-gold:#d8a94f;
+  --pg-cyan:#55d7d1;
+}
+.topbar{
+  background:linear-gradient(90deg,rgba(3,8,20,.96),rgba(7,10,18,.92),rgba(22,17,10,.84));
+}
+.brand-mark{
+  border-radius:16px!important;
+  background:linear-gradient(145deg,#f6d681 0%,#d8a94f 42%,#55d7d1 100%)!important;
+  box-shadow:0 0 28px rgba(216,169,79,.22), inset 0 1px 0 rgba(255,255,255,.35)!important;
+}
+.brand-title strong{
+  color:#f3dfb8!important;
+  text-shadow:0 0 18px rgba(216,169,79,.10);
+}
+.brand-title strong::after{
+  content:"  • PG"!important;
+  color:#75db9b!important;
+  font-size:.68em!important;
+  letter-spacing:.08em!important;
+}
+.brand-title span{
+  color:#e3b762!important;
+}
+.canvas-wrap{
+  background:
+    radial-gradient(circle at 10% 18%, rgba(85,215,209,.08), transparent 24%),
+    radial-gradient(circle at 78% 10%, rgba(216,169,79,.08), transparent 28%),
+    linear-gradient(var(--grid-small) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-small) 1px, transparent 1px),
+    linear-gradient(var(--grid-big) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-big) 1px, transparent 1px),
+    #050813!important;
+  background-size:auto, auto, 32px 32px, 32px 32px, 160px 160px, 160px 160px, auto!important;
+}
+.dock-card,.station,.node,.api-card{
+  backdrop-filter:blur(14px);
+}
+.pg-root-note{
+  border:1px solid rgba(216,169,79,.28);
+  background:linear-gradient(180deg,rgba(216,169,79,.10),rgba(85,215,209,.045));
+  color:#f6dfad;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.pg-root-note b{color:#cffffb}
+
 </style>
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">SL</div>
+        <div class="brand-mark">PG</div>
         <div class="brand-title">
-          <strong>Studio Remotion Lab</strong>
-          <span>Blender Nodes OS • laboratório do criador • filho do Video Remotion</span>
+          <strong>Portal Genesis Studio Lab</strong>
+          <span>Marketing • Adventures • Punk • Vitrine Business de Caruaru</span>
         </div>
       </div>
       <div class="top-status">
@@ -1254,8 +1310,8 @@
       <aside class="left-dock">
         <section class="dock-section">
           <div class="dock-card">
-            <h3>Árvore da Criação</h3>
-            <p>Canvas vivo estilo Blender/Remotion. Cada node abre uma estação técnica, aprova a etapa e alimenta o próximo bloco.</p>
+            <h3>Raiz Criativa PG</h3>
+            <p>Laboratório interno do Portal Genesis. Cada node transforma ideia, referência e serviço em pacote profissional para Video, Print e Vitrine.</p>
           </div>
         </section>
 
@@ -1275,7 +1331,7 @@
         </section>
 
         <section class="dock-section">
-          <div class="dock-title">Histórico</div>
+          <div class="dock-title">Memória do Lab</div>
           <div id="logList" class="side-note">Nenhuma ação ainda.</div>
         </section>
       </aside>
@@ -1318,8 +1374,8 @@
             <div class="phone-frame">
               <div class="phone-orb-a"></div>
               <div class="phone-orb-b"></div>
-              <div class="phone-title" id="previewTitle">Studio Remotion Lab</div>
-              <div class="phone-sub" id="previewSub">Preencha o briefing para montar o pacote técnico do Lab.</div>
+              <div class="phone-title" id="previewTitle">Portal Genesis Lab</div>
+              <div class="phone-sub" id="previewSub">Crie, teste e prepare ideias para a vitrine, vídeo, print e clientes.</div>
               <div class="phone-cta">PIPELINE IA</div>
             </div>
           </div>
@@ -1328,7 +1384,7 @@
         <section class="dock-section">
           <div class="dock-title">Pacote final</div>
           <div class="dock-card">
-            <p>Quando todos os nodes principais estiverem prontos, exporte TXT ou JSON para usar no Video Remotion, CapCut, Flow, Veo, Remotion, edição manual ou backend próprio.</p>
+            <p>Quando os nodes estiverem prontos, exporte TXT ou JSON para alimentar Video Remotion, Print Remotion, Fruits Vitrine, CapCut, Flow, Veo, Remotion ou produção manual.</p>
             <div class="quick-actions" style="margin-top:12px">
               <button class="btn green" onclick="downloadTxt()">Baixar TXT</button>
               <button class="btn cyan" onclick="downloadJson()">Baixar JSON</button>
@@ -1358,8 +1414,8 @@
     <div class="station-body">
       <div class="station-main" id="stationMain"></div>
       <aside class="station-side">
-        <h3>Contexto vivo</h3>
-        <p class="side-note">A estação ativa recebe o Briefing Mestre, a memória visual, as cenas aprovadas e o estado dos nodes anteriores.</p>
+        <h3>Contexto vivo PG</h3>
+        <p class="side-note">A estação ativa recebe o Briefing Mestre, a memória visual, as cenas aprovadas, a identidade Fruits Adventures e o estado dos nodes anteriores.</p>
         <label class="upload-label">
           + Adicionar referência visual
           <input type="file" accept="image/*" multiple onchange="handleRefUpload(event)">
@@ -1400,21 +1456,21 @@
   <script>
     'use strict';
 
-    const STORAGE_KEY = 'laboratorio_colossal_blender_nodes_os_v10';
+    const STORAGE_KEY = 'portal_genesis_studio_remotion_lab_v11';
     const $ = (id) => document.getElementById(id);
     const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
     const NODE_DEFS = [
-      { id: 'brief', icon: '🧠', title: 'Briefing Mestre', subtitle: 'cérebro do projeto', x: 80, y: 120, deps: [] },
-      { id: 'api', icon: '🔌', title: 'API / Motor', subtitle: 'local ou backend', x: 430, y: 120, deps: ['brief'] },
-      { id: 'dna', icon: '🧬', title: 'DNA Visual', subtitle: 'referências e universo', x: 780, y: 120, deps: ['brief'] },
+      { id: 'brief', icon: '🧠', title: 'Briefing Mestre', subtitle: 'raiz do projeto PG', x: 80, y: 120, deps: [] },
+      { id: 'api', icon: '🔌', title: 'API / Motor', subtitle: 'IA segura / backend', x: 430, y: 120, deps: ['brief'] },
+      { id: 'dna', icon: '🧬', title: 'DNA Visual', subtitle: 'marca e universo', x: 780, y: 120, deps: ['brief'] },
       { id: 'storyboard', icon: '🎞️', title: 'Storyboard', subtitle: 'estrutura de cenas', x: 1130, y: 120, deps: ['dna'] },
       { id: 'scene', icon: '🎬', title: 'Cena Atual', subtitle: 'direção detalhada', x: 1480, y: 120, deps: ['storyboard'] },
       { id: 'motion', icon: '🌀', title: 'Motion 2D', subtitle: 'movimento e câmera', x: 1480, y: 390, deps: ['scene'] },
       { id: 'prompts', icon: '✍️', title: 'Prompts IA', subtitle: 'PT/EN + negative', x: 1130, y: 390, deps: ['scene'] },
       { id: 'srt', icon: '🎧', title: 'SRT / Som', subtitle: 'legenda e áudio', x: 780, y: 390, deps: ['scene'] },
       { id: 'capcut', icon: '📘', title: 'CapCut Book', subtitle: 'plano de edição', x: 1130, y: 660, deps: ['motion', 'srt', 'prompts'] },
-      { id: 'export', icon: '📦', title: 'Pacote Final', subtitle: 'entrega limpa', x: 1480, y: 660, deps: ['capcut'] }
+      { id: 'export', icon: '📦', title: 'Pacote Final', subtitle: 'entrega para vitrine', x: 1480, y: 660, deps: ['capcut'] }
     ];
 
     const DEFAULT_STATE = {
@@ -1428,7 +1484,7 @@
       nodePositions: {},
       setup: {
         projectName: '',
-        projectMode: 'Novo projeto limpo',
+        projectMode: 'Portal Genesis / Novo projeto limpo',
         format: '9:16 vertical',
         duration: '60 segundos',
         scenesCount: 6,
@@ -1438,11 +1494,11 @@
         objective: 'Transformar uma ideia solta em pacote técnico completo de produção audiovisual.',
         continuityRules: 'Novo projeto limpo. Não importar personagens antigos sem ordem explícita. Preservar continuidade visual, emocional e espacial entre as cenas.',
         requiredText: '',
-        audience: 'criadores de conteúdo, editores, designers, storytellers e produtores com IA'
+        audience: 'clientes, criadores, empreendedores, designers, músicos, produtores e marcas locais de Caruaru'
       },
       api: {
         mode: 'local',
-        provider: 'Claude / OpenRouter / backend próprio',
+        provider: 'Gemini / Claude / OpenRouter / backend próprio',
         endpoint: '/api/laboratorio-generate',
         model: 'claude-sonnet-4-6',
         temperature: 0.50,
@@ -1908,7 +1964,7 @@
             <div class="field">
               <label>Modo do projeto</label>
               <select id="f_projectMode">
-                ${optionList(['Novo projeto limpo','Motion Comic 2D','Short/Reels viral','Produto cinematográfico','Storytelling dark','Projeto salvo / universo próprio'], s.projectMode)}
+                ${optionList(['Portal Genesis / Novo projeto limpo','Novo projeto limpo','Motion Comic 2D','Short/Reels viral','Produto cinematográfico','Storytelling dark','Projeto salvo / universo próprio'], s.projectMode)}
               </select>
             </div>
             <div class="field">
@@ -2600,7 +2656,7 @@
     }
 
     function buildExportText() {
-      return `STUDIO REMOTION LAB — PACOTE FINAL / BLENDER NODES OS\n\n` +
+      return `PORTAL GENESIS STUDIO LAB — PACOTE FINAL / BLENDER NODES OS\n\n` +
         `## 1. CONTEXTO\n${buildBaseContext()}\n\n` +
         `---\n\n## 2. DNA VISUAL\n${state.outputs.dna || state.visualMemory || 'Pendente'}\n\n` +
         `---\n\n## 3. STORYBOARD\n${state.outputs.storyboard || buildStoryboardTextSafe()}\n\n` +
@@ -2639,17 +2695,17 @@
 
     function downloadTxt() {
       if (!state.outputs.export) exportPackage(false);
-      downloadFile('studio_remotion_lab_pacote_final.txt', state.outputs.export, 'text/plain;charset=utf-8');
+      downloadFile('portal_genesis_studio_lab_pacote_final.txt', state.outputs.export, 'text/plain;charset=utf-8');
     }
 
     function downloadJson() {
       const data = JSON.stringify({
-        app: 'Studio Remotion Lab — Blender Nodes OS',
-        version: '10.0',
+        app: 'Portal Genesis — Studio Remotion Lab',
+        version: '11.0-pg',
         exportedAt: new Date().toISOString(),
         state
       }, null, 2);
-      downloadFile('studio_remotion_lab_projeto.json', data, 'application/json;charset=utf-8');
+      downloadFile('portal_genesis_studio_lab_projeto.json', data, 'application/json;charset=utf-8');
     }
 
     function downloadFile(filename, content, type) {
@@ -2799,21 +2855,22 @@
 (function(){
   function patchStudioLabIdentity(){
     try{
-      document.title = "Studio Remotion Lab — Blender Nodes OS V10";
+      document.title = "Portal Genesis — Studio Remotion Lab";
       var brand = document.querySelector('.brand-title strong');
-      if(brand) brand.textContent = 'Studio Remotion Lab';
+      if(brand) brand.textContent = 'Portal Genesis Studio Lab';
       var sub = document.querySelector('.brand-title span');
-      if(sub) sub.textContent = 'Blender Nodes OS • laboratório do criador • filho do Video Remotion';
+      if(sub) sub.textContent = 'Marketing • Adventures • Punk • Vitrine Business de Caruaru';
       var mark = document.querySelector('.brand-mark');
-      if(mark) mark.textContent = 'SL';
+      if(mark) mark.textContent = 'PG';
       var previewTitle = document.getElementById('previewTitle');
-      if(previewTitle && previewTitle.textContent.indexOf('Laboratório') >= 0) previewTitle.textContent = 'Studio Remotion Lab';
+      if(previewTitle && (previewTitle.textContent.indexOf('Laboratório') >= 0 || previewTitle.textContent.indexOf('Studio') >= 0)) previewTitle.textContent = 'Portal Genesis Lab';
       var firstCard = document.querySelector('.left-dock .dock-card');
       if(firstCard && !firstCard.querySelector('.lab-approved-note')){
         var note = document.createElement('div');
         note.className = 'lab-approved-note';
-        note.innerHTML = '<b>Studio aprovado.</b><br>Manter este canvas em nodes. Correção aplicada só em identidade, exportação e textos para conversar com Video Remotion.';
+        note.innerHTML = '<b>Studio PG aprovado.</b><br>Manter este canvas em nodes. Identidade alinhada ao Portal Genesis, com saída para Video, Print, Vitrine e Área do Cliente.';
         firstCard.appendChild(note);
+        if(!firstCard.querySelector('.pg-root-note')){var root=document.createElement('div');root.className='pg-root-note';root.innerHTML='<b>Raiz PG.</b><br>Studio interno conectado à vitrine pública: Fruits Adventures, Iniciantes do Punk, Video Remotion, Print Remotion e Área do Cliente.';firstCard.appendChild(root);}
       }
     }catch(e){console.warn(e)}
   }
