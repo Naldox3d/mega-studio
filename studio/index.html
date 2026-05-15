@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Laboratório Colossal — Blender Nodes OS V10</title>
+  <title>Studio Remotion Lab — Blender Nodes OS V10</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
@@ -1202,16 +1202,41 @@
         display: none;
       }
     }
-  </style>
+  
+/* PATCH — Studio aprovado: somente identidade e acabamento */
+.brand-mark{
+  background:linear-gradient(180deg,#f2d08b,#65d9d2)!important;
+}
+.brand-title strong::after{
+  content:"  • aprovado";
+  color:#75db9b;
+  font-size:.68em;
+  letter-spacing:.08em;
+}
+.lab-approved-note{
+  border:1px solid rgba(101,217,210,.28);
+  border-radius:14px;
+  background:rgba(101,217,210,.07);
+  color:#cafffb;
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.lab-approved-note b{
+  color:#eadcc1;
+}
+
+</style>
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">LC</div>
+        <div class="brand-mark">SL</div>
         <div class="brand-title">
-          <strong>Laboratório Colossal</strong>
-          <span>Blender Nodes OS • conteúdo audiovisual • independente</span>
+          <strong>Studio Remotion Lab</strong>
+          <span>Blender Nodes OS • laboratório do criador • filho do Video Remotion</span>
         </div>
       </div>
       <div class="top-status">
@@ -1230,7 +1255,7 @@
         <section class="dock-section">
           <div class="dock-card">
             <h3>Árvore da Criação</h3>
-            <p>Canvas vivo estilo Blender. Cada node abre uma estação técnica, aprova a etapa e alimenta o próximo bloco.</p>
+            <p>Canvas vivo estilo Blender/Remotion. Cada node abre uma estação técnica, aprova a etapa e alimenta o próximo bloco.</p>
           </div>
         </section>
 
@@ -1293,8 +1318,8 @@
             <div class="phone-frame">
               <div class="phone-orb-a"></div>
               <div class="phone-orb-b"></div>
-              <div class="phone-title" id="previewTitle">Laboratório Colossal</div>
-              <div class="phone-sub" id="previewSub">Preencha o briefing para montar o pacote técnico.</div>
+              <div class="phone-title" id="previewTitle">Studio Remotion Lab</div>
+              <div class="phone-sub" id="previewSub">Preencha o briefing para montar o pacote técnico do Lab.</div>
               <div class="phone-cta">PIPELINE IA</div>
             </div>
           </div>
@@ -1303,7 +1328,7 @@
         <section class="dock-section">
           <div class="dock-title">Pacote final</div>
           <div class="dock-card">
-            <p>Quando todos os nodes principais estiverem prontos, exporte TXT ou JSON para usar em CapCut, Flow, Veo, Remotion, edição manual ou backend próprio.</p>
+            <p>Quando todos os nodes principais estiverem prontos, exporte TXT ou JSON para usar no Video Remotion, CapCut, Flow, Veo, Remotion, edição manual ou backend próprio.</p>
             <div class="quick-actions" style="margin-top:12px">
               <button class="btn green" onclick="downloadTxt()">Baixar TXT</button>
               <button class="btn cyan" onclick="downloadJson()">Baixar JSON</button>
@@ -1705,8 +1730,8 @@
     function updatePreview() {
       const title = $('previewTitle');
       const sub = $('previewSub');
-      if (title) title.textContent = state.setup.projectName || 'Laboratório Colossal';
-      if (sub) sub.textContent = short(state.setup.idea || state.setup.objective || 'Preencha o briefing para montar o pacote técnico.', 110);
+      if (title) title.textContent = state.setup.projectName || 'Studio Remotion Lab';
+      if (sub) sub.textContent = short(state.setup.idea || state.setup.objective || 'Preencha o briefing para montar o pacote técnico do Lab.', 110);
     }
 
     function updateTransform() {
@@ -2575,7 +2600,7 @@
     }
 
     function buildExportText() {
-      return `LABORATÓRIO COLOSSAL — PACOTE FINAL / BLENDER NODES OS\n\n` +
+      return `STUDIO REMOTION LAB — PACOTE FINAL / BLENDER NODES OS\n\n` +
         `## 1. CONTEXTO\n${buildBaseContext()}\n\n` +
         `---\n\n## 2. DNA VISUAL\n${state.outputs.dna || state.visualMemory || 'Pendente'}\n\n` +
         `---\n\n## 3. STORYBOARD\n${state.outputs.storyboard || buildStoryboardTextSafe()}\n\n` +
@@ -2590,8 +2615,8 @@
         `3. Conferir se prompts não pedem texto indevido na imagem.\n` +
         `4. Conferir se o SRT respeita o tempo total.\n` +
         `5. Conferir se o CapCut Book tem ordem de edição clara.\n` +
-        `6. Usar este pacote em Flow, Veo, Seedance, CapCut, Remotion ou editor manual.\n` +
-        `7. Este módulo organiza pré-produção. Não renderiza MP4 automaticamente.`;
+        `6. Usar este pacote no Video Remotion, Flow, Veo, Seedance, CapCut, Remotion ou editor manual.\n` +
+        `7. Este Studio Remotion Lab organiza pré-produção. Não renderiza MP4 automaticamente.`;
     }
 
     function buildStoryboardTextSafe() {
@@ -2614,17 +2639,17 @@
 
     function downloadTxt() {
       if (!state.outputs.export) exportPackage(false);
-      downloadFile('laboratorio_colossal_pacote_final.txt', state.outputs.export, 'text/plain;charset=utf-8');
+      downloadFile('studio_remotion_lab_pacote_final.txt', state.outputs.export, 'text/plain;charset=utf-8');
     }
 
     function downloadJson() {
       const data = JSON.stringify({
-        app: 'Laboratório Colossal — Blender Nodes OS',
+        app: 'Studio Remotion Lab — Blender Nodes OS',
         version: '10.0',
         exportedAt: new Date().toISOString(),
         state
       }, null, 2);
-      downloadFile('laboratorio_colossal_projeto.json', data, 'application/json;charset=utf-8');
+      downloadFile('studio_remotion_lab_projeto.json', data, 'application/json;charset=utf-8');
     }
 
     function downloadFile(filename, content, type) {
@@ -2678,7 +2703,7 @@
     }
 
     function loadDemoProject() {
-      state.setup.projectName = 'Projeto Colossal — Cidade Depois da Chuva';
+      state.setup.projectName = 'Projeto Studio Remotion — Cidade Depois da Chuva';
       state.setup.projectMode = 'Motion Comic 2D';
       state.setup.format = '9:16 vertical';
       state.setup.duration = '60 segundos';
@@ -2769,5 +2794,37 @@
 
     init();
   </script>
+
+<script>
+(function(){
+  function patchStudioLabIdentity(){
+    try{
+      document.title = "Studio Remotion Lab — Blender Nodes OS V10";
+      var brand = document.querySelector('.brand-title strong');
+      if(brand) brand.textContent = 'Studio Remotion Lab';
+      var sub = document.querySelector('.brand-title span');
+      if(sub) sub.textContent = 'Blender Nodes OS • laboratório do criador • filho do Video Remotion';
+      var mark = document.querySelector('.brand-mark');
+      if(mark) mark.textContent = 'SL';
+      var previewTitle = document.getElementById('previewTitle');
+      if(previewTitle && previewTitle.textContent.indexOf('Laboratório') >= 0) previewTitle.textContent = 'Studio Remotion Lab';
+      var firstCard = document.querySelector('.left-dock .dock-card');
+      if(firstCard && !firstCard.querySelector('.lab-approved-note')){
+        var note = document.createElement('div');
+        note.className = 'lab-approved-note';
+        note.innerHTML = '<b>Studio aprovado.</b><br>Manter este canvas em nodes. Correção aplicada só em identidade, exportação e textos para conversar com Video Remotion.';
+        firstCard.appendChild(note);
+      }
+    }catch(e){console.warn(e)}
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchStudioLabIdentity);
+  }else{
+    patchStudioLabIdentity();
+  }
+  setTimeout(patchStudioLabIdentity, 400);
+})();
+</script>
+
 </body>
 </html>
