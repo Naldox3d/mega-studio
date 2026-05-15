@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portal Genesis — Print Remotion V1.7</title>
+<title>Portal Genesis — Print Remotion V12</title>
 <style>
 :root{
   --bg:#050711;
@@ -878,6 +878,180 @@ input:focus,textarea:focus,select:focus{
 @media(max-width:1180px){.moduleNav{width:100%;margin-left:0}.topbar{height:auto!important;min-height:64px}.workspace{height:calc(100vh - 90px)!important}}
 @media(max-width:780px){.moduleNav{gap:6px}.moduleLink{font-size:9px;padding:6px 8px}}
 
+
+/* =========================================================
+   PATCH V12 — PREVIEW FINAL + PROGRESSO GUIADO + SCROLL STUDIO
+   Objetivo: Print funcional para criação visual, preview, saída final,
+   mini-nodes de avanço e barras de rolagem translúcidas/cinza.
+   ========================================================= */
+:root{
+  --pg-scroll-track:rgba(255,255,255,.025);
+  --pg-scroll-thumb:rgba(170,180,205,.34);
+  --pg-scroll-thumb-hover:rgba(214,173,104,.54);
+}
+*{
+  scrollbar-width:thin;
+  scrollbar-color:var(--pg-scroll-thumb) var(--pg-scroll-track);
+}
+*::-webkit-scrollbar{width:9px;height:9px}
+*::-webkit-scrollbar-track{background:var(--pg-scroll-track);border-radius:999px}
+*::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,rgba(210,220,240,.30),rgba(110,120,145,.28));
+  border:2px solid rgba(5,8,19,.78);
+  border-radius:999px;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(180deg,rgba(214,173,104,.56),rgba(101,217,210,.42));
+}
+.stationMain,.stationSide,.outputBox,textarea,.clientList{
+  scrollbar-gutter:stable;
+}
+.pgStageGuide{
+  border:1px solid rgba(101,217,210,.22);
+  background:linear-gradient(180deg,rgba(101,217,210,.075),rgba(255,255,255,.012)),rgba(7,11,22,.74);
+  border-radius:18px;
+  padding:12px;
+  margin:0 0 14px;
+}
+.pgStageGuideTop{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
+}
+.pgStageGuideTop b{color:#f0ddbb;font-size:12px}
+.pgStageGuideTop span{color:#9aa8c7;font-size:10px;text-transform:uppercase;letter-spacing:.10em}
+.pgMiniNodes{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:8px;
+}
+.pgMiniStep{
+  position:relative;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  border-radius:13px;
+  padding:9px 8px;
+  min-height:58px;
+  overflow:hidden;
+}
+.pgMiniStep:before{
+  content:"";
+  position:absolute;
+  left:10px;top:10px;
+  width:8px;height:8px;border-radius:50%;
+  background:#4d5871;
+  box-shadow:0 0 0 3px rgba(255,255,255,.02);
+}
+.pgMiniStep b{
+  display:block;
+  color:#dce5fa;
+  font-size:10px;
+  line-height:1.2;
+  margin-left:16px;
+}
+.pgMiniStep span{
+  display:block;
+  color:#8794b0;
+  font-size:9px;
+  line-height:1.25;
+  margin-left:16px;
+  margin-top:3px;
+}
+.pgMiniStep.done{border-color:rgba(120,227,159,.38);background:rgba(120,227,159,.055)}
+.pgMiniStep.done:before{background:#78e39f;box-shadow:0 0 12px rgba(120,227,159,.42)}
+.pgMiniStep.active{border-color:rgba(214,173,104,.56);background:rgba(214,173,104,.085)}
+.pgMiniStep.active:before{background:#e9bf69;box-shadow:0 0 14px rgba(214,173,104,.45)}
+.pgFinalGrid{
+  display:grid;
+  grid-template-columns:320px minmax(0,1fr);
+  gap:14px;
+  align-items:start;
+}
+.pgFinalVisualPanel{
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.014)),rgba(7,11,22,.92);
+  border-radius:20px;
+  padding:14px;
+}
+.pgFinalPreview{
+  min-height:320px;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at 18% 30%,rgba(101,217,210,.14),transparent 34%),
+    radial-gradient(circle at 82% 74%,rgba(214,173,104,.12),transparent 36%),
+    #050814;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  padding:12px;
+}
+.pgFinalPreview img{
+  max-width:100%;
+  max-height:440px;
+  object-fit:contain;
+  border-radius:14px;
+  box-shadow:0 18px 60px rgba(0,0,0,.38);
+}
+.pgFinalEmpty{
+  text-align:center;
+  color:#aeb8cc;
+  padding:18px;
+  font-size:12px;
+  line-height:1.5;
+}
+.pgFinalEmpty b{display:block;color:#f0ddbb;margin-bottom:6px;font-size:14px}
+.pgFinalActions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.pgFileCards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.pgFileCard{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  border-radius:14px;
+  padding:10px;
+  min-height:76px;
+}
+.pgFileCard b{display:block;color:#f0ddbb;font-size:11px;margin-bottom:5px}
+.pgFileCard span{display:block;color:#9aa8c7;font-size:10px;line-height:1.35}
+.pgFileCard.ok{border-color:rgba(120,227,159,.32);background:rgba(120,227,159,.055)}
+.pgFileCard.warn{border-color:rgba(214,173,104,.34);background:rgba(214,173,104,.055)}
+.pgPreviewCardImage{
+  width:100%;
+  height:100%;
+  max-height:280px;
+  object-fit:contain;
+  border-radius:16px;
+}
+.pgRightPreviewLabel{
+  position:absolute;
+  left:14px;top:12px;
+  border:1px solid rgba(214,173,104,.35);
+  background:rgba(214,173,104,.08);
+  color:#f5dca8;
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+@media(max-width:980px){
+  .pgMiniNodes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pgFinalGrid{grid-template-columns:1fr}
+  .pgFileCards,.pgFinalActions{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -1008,7 +1182,7 @@ input:focus,textarea:focus,select:focus{
 <script>
 (function(){
 'use strict';
-const STORAGE='portal_genesis_print_remotion_v17';
+const STORAGE='portal_genesis_print_remotion_v12_final';
 const $=id=>document.getElementById(id);
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const escapeHtml=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
@@ -1312,14 +1486,72 @@ function refreshTop(){
   $('mockSub').textContent=(state.outputs.previewSub||state.brief.description||'Briefing, orçamento e pré-impressão em nodes.').slice(0,120);
   $('mockCta').textContent=(state.outputs.previewCta||p.cta||state.brief.goal||'ARTE PRONTA').toUpperCase();
   updatePreviewAspect();
+  renderVisualSidebarPreview();
   const active=NODE_DEF.findIndex(n=>nodeStatus(n.id)!=='done');
   $('pipelineList').innerHTML=NODE_DEF.map((n,i)=>`<div class="miniItem ${nodeStatus(n.id)==='done'?'done':i===active?'active':''}"><span class="miniDot"></span><span>${escapeHtml(n.title)}</span></div>`).join('');
 }
 function refreshAll(nodes=true){if(nodes)renderNodes();refreshTop();applyTransform();}
+
+function stationProgressHtml(activeId){
+  const groups = [
+    {ids:['client','brief'],name:'Pedido',desc:'cliente + briefing'},
+    {ids:['product','refs'],name:'Produto',desc:'formato + refs'},
+    {ids:['quote','art','copy'],name:'Criação',desc:'orçamento + arte'},
+    {ids:['prompt','visualEdit'],name:'IA Visual',desc:'prompt + edição'},
+    {ids:['prepress','production'],name:'Produção',desc:'checklist + entrega'},
+    {ids:['package','sales'],name:'Final',desc:'pacote + vitrine'}
+  ];
+  const activeIndex = groups.findIndex(g=>g.ids.includes(activeId));
+  const doneIds = new Set(NODE_DEF.filter(n=>nodeStatus(n.id)==='done').map(n=>n.id));
+  return `<div class="pgStageGuide">
+    <div class="pgStageGuideTop"><b>Progressão do Print</b><span>mini-nodes de orientação</span></div>
+    <div class="pgMiniNodes">${groups.map((g,i)=>{
+      const done = g.ids.every(id=>doneIds.has(id));
+      const cls = done?'done':(i===activeIndex?'active':'');
+      return `<div class="pgMiniStep ${cls}"><b>${escapeHtml(g.name)}</b><span>${escapeHtml(g.desc)}</span></div>`;
+    }).join('')}</div>
+  </div>`;
+}
+function visualOutputImage(){
+  return (state.visualEdit && (state.visualEdit.resultImage || state.visualEdit.baseImage)) || (state.refs && state.refs[0]) || '';
+}
+function visualBaseImage(){
+  return (state.visualEdit && state.visualEdit.baseImage) || (state.refs && state.refs[0]) || '';
+}
+function downloadDataUrl(filename, dataUrl){
+  if(!dataUrl){toast('Nenhuma imagem disponível para baixar');return;}
+  const a=document.createElement('a');
+  a.href=dataUrl;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+function downloadFinalImage(){
+  downloadDataUrl('portal-genesis-print-arte-final.png', visualOutputImage());
+}
+function downloadBaseImage(){
+  downloadDataUrl('portal-genesis-print-imagem-base.png', visualBaseImage());
+}
+function downloadMockupPreview(){
+  const img=visualOutputImage();
+  if(img) return downloadDataUrl('portal-genesis-print-preview-mockup.png', img);
+  const text=`PORTAL GENESIS PRINT — PREVIEW MOCKUP\n\nProjeto: ${state.brief.project||'Sem título'}\nProduto: ${product().name}\nCTA: ${state.outputs.previewCta||product().cta||state.brief.goal}\n\nUse a arte final aprovada para montar mockup externo quando necessário.`;
+  return download('portal-genesis-print-preview-mockup.txt', text);
+}
+function renderVisualSidebarPreview(){
+  const card=document.querySelector('.rightPanel .previewCard');
+  if(!card) return;
+  const img=visualOutputImage();
+  if(img){
+    card.innerHTML=`<span class="pgRightPreviewLabel">Preview visual</span><img class="pgPreviewCardImage" src="${img}" alt="preview visual aprovado">`;
+  }
+}
+
 function openStation(id){
   state.activeNode=id;const n=NODE_DEF.find(x=>x.id===id)||NODE_DEF[0];
   $('stationIcon').textContent=n.icon;$('stationTitle').textContent=n.title;$('stationBadge').textContent=nodeStatus(id)==='done'?'aprovado':'estação ativa';$('stationHelp').textContent=n.help;
-  $('stationMain').innerHTML=stationHtml(id);$('visualDNA').value=state.visualDNA;renderRefs();bindStationFields();
+  $('stationMain').innerHTML=stationProgressHtml(id)+stationHtml(id);$('visualDNA').value=state.visualDNA;renderRefs();bindStationFields();
   $('stationOverlay').classList.add('active');$('station').classList.add('active');refreshAll();
 }
 function closeStation(){ $('stationOverlay').classList.remove('active');$('station').classList.remove('active');saveState();refreshAll();}
@@ -1453,7 +1685,34 @@ function stationHtml(id){
     </div>
     <label>Saída comercial para Sales Remotion</label>${area('outputs.sales',o.sales,'Clique em Gerar Ponte Sales para criar oferta, proposta, one page, WhatsApp e briefing de produção.')}
     <div class="stationActions"><button class="btn gold" data-action="generate" data-node="sales">Gerar Ponte Sales</button><button class="btn cyan" data-action="copySales">Copiar Sales</button><button class="btn green" data-action="downloadSales">Baixar Sales TXT</button><button class="btn purple" data-action="applySalesToPackage">Aplicar no pacote final</button></div>`;
-  if(id==='package')return `<div class="note">Pacote final consolidado para cliente, designer, produção e Sales Remotion.</div><label>Pacote final</label>${area('outputs.package',o.package)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button><button class="btn green" data-action="downloadTxt">Baixar TXT</button><button class="btn cyan" data-action="downloadJson">Baixar JSON</button><button class="btn" data-action="copyPackage">Copiar pacote</button></div>`;
+  if(id==='package')return `<div class="note"><b>Pacote Final V12.</b> Agora o Print separa texto técnico, preview visual e saída final. Use a imagem aprovada do node Personalização Visual IA ou a primeira referência carregada como arte final do pacote.</div>
+    <div class="pgFinalGrid">
+      <div class="pgFinalVisualPanel">
+        <label>Preview / arte final aprovada</label>
+        <div class="pgFinalPreview">${visualOutputImage()?`<img src="${visualOutputImage()}" alt="arte final aprovada">`:`<div class="pgFinalEmpty"><b>Sem imagem final ainda</b>Volte no node 9, carregue/gera uma imagem e clique em Aplicar no pacote. O pacote TXT continua funcionando mesmo sem imagem.</div>`}</div>
+        <div class="pgFinalActions">
+          <button class="btn green" data-action="downloadFinalImage">Baixar arte final</button>
+          <button class="btn cyan" data-action="downloadBaseImage">Baixar imagem base</button>
+          <button class="btn purple" data-action="downloadMockupPreview">Baixar preview</button>
+          <button class="btn gold" data-action="applyVisualToPackage">Aplicar visual</button>
+        </div>
+        <div class="pgFileCards">
+          <div class="pgFileCard ${visualOutputImage()?'ok':'warn'}"><b>Arte final</b><span>${visualOutputImage()?'Imagem pronta para aprovação/download.':'Pendente: carregar imagem ou gerar variação.'}</span></div>
+          <div class="pgFileCard ${o.visualEdit?'ok':'warn'}"><b>Briefing visual</b><span>${o.visualEdit?'Personalização registrada.':'Pendente: gerar instrução visual.'}</span></div>
+          <div class="pgFileCard ${o.prepress?'ok':'warn'}"><b>Pré-impressão</b><span>${o.prepress?'Checklist técnico salvo.':'Pendente: gerar checklist.'}</span></div>
+          <div class="pgFileCard ${o.production?'ok':'warn'}"><b>Produção</b><span>${o.production?'Ordem de serviço pronta.':'Pendente: gerar produção.'}</span></div>
+        </div>
+      </div>
+      <div>
+        <label>Pacote final técnico</label>${area('outputs.package',o.package)}
+        <div class="stationActions">
+          <button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button>
+          <button class="btn green" data-action="downloadTxt">Baixar TXT</button>
+          <button class="btn cyan" data-action="downloadJson">Baixar JSON</button>
+          <button class="btn" data-action="copyPackage">Copiar pacote</button>
+        </div>
+      </div>
+    </div>`;
   return '';
 }
 function bindStationFields(){
@@ -1481,6 +1740,9 @@ function handleAction(action,node){
   if(action==='visualVariation')return generateVisualVariation();
   if(action==='applyVisualToPackage')return applyVisualToPackage();
   if(action==='downloadVisualBrief')return download('print-remotion-briefing-personalizacao-visual.txt', state.outputs.visualEdit||generateVisualEditBrief());
+  if(action==='downloadFinalImage')return downloadFinalImage();
+  if(action==='downloadBaseImage')return downloadBaseImage();
+  if(action==='downloadMockupPreview')return downloadMockupPreview();
   if(action==='downloadTxt')return downloadTxt();
   if(action==='downloadJson')return downloadJson();
   if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
@@ -2142,6 +2404,12 @@ ${state.outputs.promptEN||generatePrompts().en}
 ==============================
 ${state.outputs.visualEdit||generateVisualEditBrief()}
 
+ARQUIVOS VISUAIS DO PROJETO
+- Imagem base carregada: ${visualBaseImage()?'Sim':'Não'}
+- Arte final/preview aprovada: ${visualOutputImage()?'Sim':'Não'}
+- Download recomendado: botão "Baixar arte final" no Node 12
+- Separar entrega: TXT/JSON para briefing técnico + PNG/JPG/PDF visual para produção.
+
 ==============================
 11. PRÉ-IMPRESSÃO / FECHAMENTO TÉCNICO
 ==============================
@@ -2357,7 +2625,7 @@ init();
   function pgSetText(sel, txt){ var el=document.querySelector(sel); if(el) el.textContent=txt; }
   function patchPortalGenesisPrintFinal(){
     try{
-      document.title='Portal Genesis — Print Remotion V1.7';
+      document.title='Portal Genesis — Print Remotion V12';
       pgSetText('.logoMark','PG');
       pgSetText('.brand b','Portal Genesis Print');
       pgSetText('.brand span','Marketing • Adventures • Punk • Vitrine Business de Caruaru');
