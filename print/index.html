@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portal Genesis — Print Remotion V12</title>
+<title>Portal Genesis — Print Remotion V13 Ultra</title>
 <style>
 :root{
   --bg:#050711;
@@ -1052,6 +1052,92 @@ input:focus,textarea:focus,select:focus{
   .pgFileCards,.pgFinalActions{grid-template-columns:1fr}
 }
 
+
+/* =========================================================
+   PATCH V13 ULTRA — NODE 9 + NODE 12 COM API VISUAL REAL
+   Preview real, variações A/B/C, produto/banner/poster/estampa,
+   histórico visual e contrato pronto para backend /api/visual-image.
+   ========================================================= */
+.visualApiPanel{
+  border:1px solid rgba(101,217,210,.26);
+  background:linear-gradient(180deg,rgba(101,217,210,.075),rgba(255,255,255,.012)),rgba(7,11,22,.86);
+  border-radius:18px;
+  padding:12px;
+  margin:12px 0;
+}
+.visualApiPanelTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.visualApiPanelTitle b{color:#f0ddbb;font-size:12px}
+.visualApiPanelTitle span{
+  border:1px solid rgba(214,173,104,.32);
+  background:rgba(214,173,104,.08);
+  color:#f5dca8;
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.visualApiGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.visualResultGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.visualResultCard{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  border-radius:16px;
+  padding:10px;
+  min-height:150px;
+}
+.visualResultCard.active{
+  border-color:rgba(120,227,159,.48);
+  background:rgba(120,227,159,.07);
+}
+.visualResultCard b{display:block;color:#f0ddbb;font-size:11px;margin-bottom:7px}
+.visualResultCard img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:12px;
+  background:#050814;
+  display:block;
+}
+.visualResultCard .btn{width:100%;margin-top:8px}
+.visualApiStatus{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  border-radius:14px;
+  padding:10px;
+  color:#aeb8cc;
+  font-size:11px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.visualApiStatus.ok{border-color:rgba(120,227,159,.30);background:rgba(120,227,159,.055);color:#caffda}
+.visualApiStatus.err{border-color:rgba(225,132,145,.35);background:rgba(225,132,145,.07);color:#ffd7de}
+.visualDownloadGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+@media(max-width:1100px){
+  .visualApiGrid,.visualResultGrid,.visualDownloadGrid{grid-template-columns:1fr!important}
+}
+
 </style>
 </head>
 <body>
@@ -1265,9 +1351,9 @@ function defaultState(){
     refs:[],visualDNA:'',
     brief:{project:'',client:'Cliente Gráfica',segment:'Loja local, evento ou campanha',goal:'Vender mais',tone:'Profissional e moderno',audience:'Público local que precisa entender rápido a oferta',description:'Criar uma peça gráfica com visual chamativo, leitura rápida e chamada forte para WhatsApp.',required:'Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.',deadline:'Prazo normal',notes:''},
     product:{id:'social_feed',category:'Digital',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG RGB',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'80 px',finalFile:'PNG/JPG RGB',productionTech:'Publicação digital',transparent:false},
-    visualEdit:{mode:'produto',style:'realista publicitário',intensity:70,preserveBackground:true,preserveComposition:true,preserveBrand:true,baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',notes:'Preservar composição, iluminação, identidade visual, perspectiva e leitura comercial da peça.'},
+    visualEdit:{mode:'produto',style:'realista publicitário',intensity:70,preserveBackground:true,preserveComposition:true,preserveBrand:true,baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',resultImages:[],approvedIndex:0,apiEndpoint:'/api/visual-image',apiProvider:'openai-responses',imageSize:'1024x1024',imageQuality:'medium',imageFormat:'png',outputKind:'auto',generationAction:'auto',status:'modo local',lastError:'',history:[],notes:'Preservar composição, iluminação, identidade visual, perspectiva e leitura comercial da peça.'},
     quote:{design:35,print:0,finishCost:0,urgency:0,margin:20,total:42,notes:'Valores estimativos. Confirmar custo real com fornecedor e material.'},
-    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',prepress:'',production:'',package:'',sales:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
+    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',visualApi:'',prepress:'',production:'',package:'',sales:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
     checks:Object.fromEntries(CHECKS.map(c=>[c[0],false]))
   };
 }
@@ -1645,7 +1731,7 @@ function stationHtml(id){
     <label>Checklist personalizado</label>${area('outputs.prepress',o.prepress)}
     <div class="stationActions"><button class="btn gold" data-action="generate" data-node="prepress">Gerar checklist personalizado</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='production')return `<label>Ordem de produção / entrega</label>${area('outputs.production',o.production)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="production">Gerar ordem de produção</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
-  if(id==='visualEdit')return `<div class="note"><b>Personalização Visual IA.</b> Este node transforma a peça em um fluxo real de substituição visual: rosto, roupa ou produto. O modo local gera o briefing técnico e prompt de edição; quando houver motor visual conectado, a mesma estrutura pode enviar para /api/visual-edit.</div>
+  if(id==='visualEdit')return `<div class="note"><b>Personalização Visual IA V13 Ultra.</b> Este node agora trabalha em dois níveis: 1) gera briefing/prompt técnico; 2) chama uma API visual real para gerar preview, mockup, banner, poster, estampa, produto ou variação A/B/C. A rota padrão é <span class="mono">/api/visual-image</span>.</div>
     <div class="visualModeCards">
       ${['produto','roupa','rosto'].map(mode=>`<div class="visualModeCard ${state.visualEdit.mode===mode?'active':''}" data-visual-mode="${mode}"><b>${mode==='produto'?'Trocar produto':mode==='roupa'?'Trocar roupa':'Trocar rosto'}</b><span>${mode==='produto'?'Substitui item, embalagem, comida, objeto ou produto mantendo composição.':mode==='roupa'?'Altera figurino, uniforme, cor, tecido ou estilo preservando a pessoa.':'Substitui o rosto mantendo pose, luz, enquadramento e estética.'}</span></div>`).join('')}
     </div>
@@ -1666,15 +1752,45 @@ function stationHtml(id){
       <label class="checkRow"><input type="checkbox" data-visual-check="preserveComposition" ${state.visualEdit.preserveComposition?'checked':''}/><span><b>Preservar composição</b><span>Manter enquadramento, posição, perspectiva, luz e leitura da peça.</span></span></label>
       <label class="checkRow"><input type="checkbox" data-visual-check="preserveBrand" ${state.visualEdit.preserveBrand?'checked':''}/><span><b>Preservar identidade visual</b><span>Manter paleta, hierarquia, estilo gráfico e intenção comercial.</span></span></label>
     </div>
+
+    <div class="visualApiPanel">
+      <div class="visualApiPanelTitle"><b>Motor visual conectado</b><span>${escapeHtml(state.visualEdit.apiProvider||'api')}</span></div>
+      <div class="visualApiGrid">
+        <div><label>Endpoint da API</label>${field('visualEdit.apiEndpoint',state.visualEdit.apiEndpoint||'/api/visual-image')}</div>
+        <div><label>Tipo de saída</label>${selectField('visualEdit.outputKind',state.visualEdit.outputKind||'auto',['auto','produto','mockup','banner','poster','estampa','camiseta','caneca','cardapio','capa','thumbnail','social'])}</div>
+        <div><label>Tamanho</label>${selectField('visualEdit.imageSize',state.visualEdit.imageSize||'1024x1024',['1024x1024','1024x1536','1536x1024','1080x1350','1080x1920','1920x1080'])}</div>
+        <div><label>Qualidade</label>${selectField('visualEdit.imageQuality',state.visualEdit.imageQuality||'medium',['low','medium','high'])}</div>
+      </div>
+      <div class="visualApiStatus ${state.visualEdit.lastError?'err':(state.visualEdit.resultImage?'ok':'')}">
+        <b>Status:</b> ${escapeHtml(state.visualEdit.status||'aguardando ação')}<br>
+        ${state.visualEdit.lastError?`<b>Último erro:</b> ${escapeHtml(state.visualEdit.lastError)}`:'Quando a API estiver ativa, os botões abaixo retornam imagem final em base64/data URL ou URL pública.'}
+      </div>
+    </div>
+
     <div class="grid2">
-      <div><label>Preview da imagem base / resultado</label><div class="visualPreviewBox">${state.visualEdit.resultImage||state.visualEdit.baseImage?`<img src="${state.visualEdit.resultImage||state.visualEdit.baseImage}" alt="preview visual">`:'<div class="visualPreviewEmpty">Adicione uma imagem base para visualizar aqui.</div>'}</div></div>
+      <div>
+        <label>Preview da imagem base / resultado aprovado</label>
+        <div class="visualPreviewBox">${state.visualEdit.resultImage||state.visualEdit.baseImage?`<img src="${state.visualEdit.resultImage||state.visualEdit.baseImage}" alt="preview visual">`:'<div class="visualPreviewEmpty">Adicione uma imagem base ou gere uma imagem pela API.</div>'}</div>
+        <div class="visualDownloadGrid">
+          <button class="btn gold" data-action="visualGeneratePreview">Gerar preview real</button>
+          <button class="btn cyan" data-action="visualGenerateAB">Gerar A/B/C real</button>
+          <button class="btn purple" data-action="visualGenerateLocal">Preview local teste</button>
+        </div>
+      </div>
       <div><label>Briefing técnico de edição</label><div class="outputBox">${escapeHtml(o.visualEdit||'Clique em Gerar instrução de edição visual.')}</div></div>
     </div>
+
+    <label>Variações geradas / aprovadas</label>
+    <div class="visualResultGrid">
+      ${(state.visualEdit.resultImages&&state.visualEdit.resultImages.length?state.visualEdit.resultImages:[state.visualEdit.resultImage].filter(Boolean)).slice(0,3).map((img,i)=>`<div class="visualResultCard ${state.visualEdit.approvedIndex===i?'active':''}"><b>Versão ${String.fromCharCode(65+i)} ${state.visualEdit.approvedIndex===i?'• aprovada':''}</b><img src="${img}" alt="versão visual ${i+1}"><button class="btn green" data-action="approveVisual${i}">Aprovar esta versão</button></div>`).join('')||'<div class="visualResultCard"><b>Sem variações ainda</b><span class="small">Gere preview real ou A/B/C para aparecer aqui.</span></div>'}
+    </div>
+
     <div class="stationActions">
       <button class="btn gold" data-action="generate" data-node="visualEdit">Gerar instrução de edição visual</button>
-      <button class="btn cyan" data-action="visualVariation">Gerar variação A/B</button>
+      <button class="btn cyan" data-action="visualVariation">Gerar variação textual A/B</button>
       <button class="btn purple" data-action="applyVisualToPackage">Aplicar no pacote</button>
       <button class="btn green" data-action="downloadVisualBrief">Baixar briefing visual</button>
+      <button class="btn red" data-action="clearVisualResults">Limpar resultados</button>
       <button class="btn cyan" data-action="next">Próximo node</button>
     </div>`;
   if(id==='sales')return `<div class="note"><b>Ponte Sales Ready.</b> Este node prepara o pacote do Print para a futura quarta opção do portal: Sales Remotion. Ele transforma a produção gráfica em oferta vendável, proposta, one page, mensagens de WhatsApp e briefing comercial.</div>
@@ -1685,11 +1801,11 @@ function stationHtml(id){
     </div>
     <label>Saída comercial para Sales Remotion</label>${area('outputs.sales',o.sales,'Clique em Gerar Ponte Sales para criar oferta, proposta, one page, WhatsApp e briefing de produção.')}
     <div class="stationActions"><button class="btn gold" data-action="generate" data-node="sales">Gerar Ponte Sales</button><button class="btn cyan" data-action="copySales">Copiar Sales</button><button class="btn green" data-action="downloadSales">Baixar Sales TXT</button><button class="btn purple" data-action="applySalesToPackage">Aplicar no pacote final</button></div>`;
-  if(id==='package')return `<div class="note"><b>Pacote Final V12.</b> Agora o Print separa texto técnico, preview visual e saída final. Use a imagem aprovada do node Personalização Visual IA ou a primeira referência carregada como arte final do pacote.</div>
+  if(id==='package')return `<div class="note"><b>Pacote Final V13 Ultra.</b> O pacote agora separa: briefing técnico, JSON do projeto, imagem aprovada, preview/mockup e contrato de API visual. Use a imagem aprovada do Node 9 como arte final do projeto.</div>
     <div class="pgFinalGrid">
       <div class="pgFinalVisualPanel">
         <label>Preview / arte final aprovada</label>
-        <div class="pgFinalPreview">${visualOutputImage()?`<img src="${visualOutputImage()}" alt="arte final aprovada">`:`<div class="pgFinalEmpty"><b>Sem imagem final ainda</b>Volte no node 9, carregue/gera uma imagem e clique em Aplicar no pacote. O pacote TXT continua funcionando mesmo sem imagem.</div>`}</div>
+        <div class="pgFinalPreview">${visualOutputImage()?`<img src="${visualOutputImage()}" alt="arte final aprovada">`:`<div class="pgFinalEmpty"><b>Sem imagem final ainda</b>Volte no Node 9, carregue/gera uma imagem pela API e clique em Aplicar no pacote. O pacote TXT/JSON continua funcionando mesmo sem imagem.</div>`}</div>
         <div class="pgFinalActions">
           <button class="btn green" data-action="downloadFinalImage">Baixar arte final</button>
           <button class="btn cyan" data-action="downloadBaseImage">Baixar imagem base</button>
@@ -1697,10 +1813,12 @@ function stationHtml(id){
           <button class="btn gold" data-action="applyVisualToPackage">Aplicar visual</button>
         </div>
         <div class="pgFileCards">
-          <div class="pgFileCard ${visualOutputImage()?'ok':'warn'}"><b>Arte final</b><span>${visualOutputImage()?'Imagem pronta para aprovação/download.':'Pendente: carregar imagem ou gerar variação.'}</span></div>
+          <div class="pgFileCard ${visualOutputImage()?'ok':'warn'}"><b>Arte final</b><span>${visualOutputImage()?'Imagem aprovada para download/aprovação.':'Pendente: gerar ou aprovar imagem no Node 9.'}</span></div>
+          <div class="pgFileCard ${(state.visualEdit.resultImages||[]).length?'ok':'warn'}"><b>Variações IA</b><span>${(state.visualEdit.resultImages||[]).length?`${state.visualEdit.resultImages.length} versão(ões) no histórico visual.`:'Pendente: gerar A/B/C real.'}</span></div>
           <div class="pgFileCard ${o.visualEdit?'ok':'warn'}"><b>Briefing visual</b><span>${o.visualEdit?'Personalização registrada.':'Pendente: gerar instrução visual.'}</span></div>
           <div class="pgFileCard ${o.prepress?'ok':'warn'}"><b>Pré-impressão</b><span>${o.prepress?'Checklist técnico salvo.':'Pendente: gerar checklist.'}</span></div>
           <div class="pgFileCard ${o.production?'ok':'warn'}"><b>Produção</b><span>${o.production?'Ordem de serviço pronta.':'Pendente: gerar produção.'}</span></div>
+          <div class="pgFileCard ok"><b>API Visual</b><span>Endpoint: ${escapeHtml(state.visualEdit.apiEndpoint||'/api/visual-image')} • ${escapeHtml(state.visualEdit.imageSize||'1024x1024')} • ${escapeHtml(state.visualEdit.imageQuality||'medium')}</span></div>
         </div>
       </div>
       <div>
@@ -1709,6 +1827,7 @@ function stationHtml(id){
           <button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button>
           <button class="btn green" data-action="downloadTxt">Baixar TXT</button>
           <button class="btn cyan" data-action="downloadJson">Baixar JSON</button>
+          <button class="btn purple" data-action="downloadVisualContract">Baixar contrato API</button>
           <button class="btn" data-action="copyPackage">Copiar pacote</button>
         </div>
       </div>
@@ -1738,6 +1857,14 @@ function handleAction(action,node){
   if(action==='copyQuote')return copyText(state.outputs.quote||buildQuoteText());
   if(action==='applyCategory'){applyProductTechnicalRules(true);saveState();openStation('product');toast('Categoria técnica aplicada');return;}
   if(action==='visualVariation')return generateVisualVariation();
+  if(action==='visualGeneratePreview')return generateVisualImage('generate','A');
+  if(action==='visualGenerateAB')return generateVisualImage('variations','A/B/C');
+  if(action==='visualGenerateLocal')return createLocalVisualPreview('PREVIEW LOCAL').then(img=>{state.visualEdit.resultImages=[img];state.visualEdit.resultImage=img;state.visualEdit.status='Preview local de teste gerado';state.visualEdit.lastError='';state.outputs.package=assemblePackage();saveState();refreshAll(true);openStation('visualEdit');toast('Preview local gerado');});
+  if(action==='approveVisual0')return approveVisualVersion(0);
+  if(action==='approveVisual1')return approveVisualVersion(1);
+  if(action==='approveVisual2')return approveVisualVersion(2);
+  if(action==='clearVisualResults')return clearVisualResults();
+  if(action==='downloadVisualContract')return download('contrato-api-visual-print-remotion.txt', visualApiContractText());
   if(action==='applyVisualToPackage')return applyVisualToPackage();
   if(action==='downloadVisualBrief')return download('print-remotion-briefing-personalizacao-visual.txt', state.outputs.visualEdit||generateVisualEditBrief());
   if(action==='downloadFinalImage')return downloadFinalImage();
@@ -2120,9 +2247,8 @@ text artifacts, distorted logo, wrong perspective, mismatched lighting, blurry f
 OBSERVAÇÕES INTERNAS
 ${state.visualEdit.notes}`;
 }
-function generateVisualVariation(){
-  const base=generateVisualEditBrief();
-  state.outputs.visualEdit = `${base}
+async function generateVisualVariation(){
+  state.outputs.visualEdit = `${generateVisualEditBrief()}
 
 VARIAÇÃO A
 Mais fiel à imagem base: substituição sutil, mínima alteração de luz e textura.
@@ -2132,13 +2258,270 @@ Mais publicitária: acabamento premium, contraste levemente maior, textura mais 
 
 VARIAÇÃO C
 Mais social media: leitura rápida, impacto visual maior, preservando composição e identidade do cliente.`;
-  saveState();refreshAll(true);openStation('visualEdit');toast('Variações A/B/C geradas');
+  await generateVisualImage('variations','A/B/C');
 }
 function applyVisualToPackage(){
   if(!state.outputs.visualEdit) state.outputs.visualEdit = generateVisualEditBrief();
   state.outputs.package = assemblePackage();
   saveState();refreshAll(true);toast('Personalização visual aplicada ao pacote');
 }
+
+function visualReferenceImages(){
+  const imgs=[];
+  if(state.visualEdit.baseImage) imgs.push({role:'base',dataUrl:state.visualEdit.baseImage});
+  if(state.visualEdit.faceImage) imgs.push({role:'face_reference',dataUrl:state.visualEdit.faceImage});
+  if(state.visualEdit.clothingImage) imgs.push({role:'clothing_reference',dataUrl:state.visualEdit.clothingImage});
+  if(state.visualEdit.productImage) imgs.push({role:'product_reference',dataUrl:state.visualEdit.productImage});
+  state.refs.slice(0,6).forEach((r,i)=>imgs.push({role:'extra_reference_'+(i+1),dataUrl:r}));
+  return imgs;
+}
+function visualApiPrompt(variant='A'){
+  const p=product(), op=outputProfile();
+  const kind=state.visualEdit.outputKind||'auto';
+  const variantRule = variant==='B'
+    ? 'Versão B: acabamento mais publicitário, contraste premium, luz mais limpa, textura mais refinada, mantendo composição.'
+    : variant==='C'
+      ? 'Versão C: leitura mais forte para social media/anúncio, impacto visual maior, porém sem alterar identidade visual.'
+      : 'Versão A: máxima fidelidade à imagem base, alteração controlada, sombra e perspectiva realistas.';
+  return `PORTAL GENESIS PRINT — GERAÇÃO VISUAL REAL
+
+Objetivo: gerar uma imagem final profissional para ${p.name}, tipo de saída ${kind}, formato ${state.product.width}x${state.product.height}${state.product.unit}.
+Modo de edição: ${visualModeLabel()}.
+Estilo: ${state.visualEdit.style}.
+Qualidade: ${state.visualEdit.imageQuality}.
+Tamanho solicitado: ${state.visualEdit.imageSize}.
+Cliente: ${state.brief.client}.
+Segmento: ${state.brief.segment}.
+Objetivo comercial: ${state.brief.goal}.
+Descrição do projeto: ${state.brief.description}.
+Texto obrigatório do projeto: ${state.brief.required}.
+Produto técnico: ${op.label}; arquivo final recomendado ${op.finalFile}; cor ${op.colorMode}; resolução ${op.dpi}; sangria ${op.bleed}; margem segura ${op.safe}.
+
+Regras rígidas:
+- Usar a imagem base como composição principal quando enviada.
+- Preservar fundo: ${state.visualEdit.preserveBackground?'sim':'não'}.
+- Preservar composição: ${state.visualEdit.preserveComposition?'sim':'não'}.
+- Preservar identidade visual: ${state.visualEdit.preserveBrand?'sim':'não'}.
+- Intensidade da alteração: ${state.visualEdit.intensity}%.
+- Não criar textos pequenos ilegíveis, letras falsas, logotipos inventados ou marcas de terceiros.
+- Se for estampa/camiseta/caneca/brinde, criar visual limpo, centralizado e pronto para mockup.
+- Se for banner/poster/social, deixar hierarquia forte e espaço seguro para texto.
+- Se for troca de rosto, preservar pose, iluminação, idade aparente, expressão natural e proporção.
+- Se for troca de roupa, preservar corpo, pose, pele, luz e proporções.
+- Se for troca de produto, preservar escala, contato, reflexos, sombra e perspectiva.
+
+${variantRule}
+
+Observações do usuário:
+${state.visualEdit.notes}`;
+}
+function visualNegativePrompt(){
+  return 'text artifacts, fake typography, distorted logo, copyrighted brand marks, deformed face, bad hands, extra fingers, warped product, wrong perspective, mismatched lighting, blurry image, low resolution, changed layout, duplicated objects, unrealistic shadows, broken packaging, watermark, overprocessed skin, plastic texture';
+}
+function buildVisualImagePayload(action='generate', variant='A'){
+  return {
+    module:'print-remotion',
+    version:'V13-ultra',
+    action,
+    variant,
+    provider:state.visualEdit.apiProvider||'openai-responses',
+    mode:state.visualEdit.mode,
+    outputKind:state.visualEdit.outputKind||'auto',
+    prompt:visualApiPrompt(variant),
+    negativePrompt:visualNegativePrompt(),
+    size:state.visualEdit.imageSize||'1024x1024',
+    quality:state.visualEdit.imageQuality||'medium',
+    format:state.visualEdit.imageFormat||'png',
+    product:{
+      name:product().name,
+      category:state.product.category,
+      width:state.product.width,
+      height:state.product.height,
+      unit:state.product.unit,
+      material:state.product.material,
+      finish:state.product.finish,
+      finalFile:outputProfile().finalFile
+    },
+    brief:state.brief,
+    visualEdit:state.visualEdit,
+    images:visualReferenceImages()
+  };
+}
+function normalizeImageResult(data){
+  const result = data?.result || data?.data || data || {};
+  const rawImages = result.images || result.resultImages || result.outputs || result.data || [];
+  let images = [];
+  if(Array.isArray(rawImages)){
+    images = rawImages.map(x=>{
+      if(!x) return '';
+      if(typeof x === 'string') return x.startsWith('data:') || x.startsWith('http') ? x : `data:image/png;base64,${x}`;
+      if(x.dataUrl) return x.dataUrl;
+      if(x.url) return x.url;
+      if(x.b64_json) return `data:image/png;base64,${x.b64_json}`;
+      if(x.base64) return `data:image/png;base64,${x.base64}`;
+      if(x.image) return String(x.image).startsWith('data:') || String(x.image).startsWith('http') ? x.image : `data:image/png;base64,${x.image}`;
+      return '';
+    }).filter(Boolean);
+  }
+  const single = result.image || result.resultImage || result.url || result.dataUrl || result.b64_json || data?.image || data?.url;
+  if(single && !images.length){
+    images=[String(single).startsWith('data:') || String(single).startsWith('http') ? String(single) : `data:image/png;base64,${single}`];
+  }
+  return {
+    images,
+    text: result.text || result.message || result.prompt || '',
+    meta: result.meta || result.usage || data?.usage || null
+  };
+}
+async function callVisualImageAPI(action='generate', variant='A'){
+  const endpoint=(state.visualEdit.apiEndpoint||'/api/visual-image').trim() || '/api/visual-image';
+  const res=await fetch(endpoint,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(buildVisualImagePayload(action,variant))
+  });
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok || data.ok===false){
+    throw new Error(data?.error || data?.message || `Falha HTTP ${res.status} na rota ${endpoint}`);
+  }
+  return normalizeImageResult(data);
+}
+function createLocalVisualPreview(label='PREVIEW LOCAL'){
+  return new Promise(resolve=>{
+    const canvas=document.createElement('canvas');
+    const [w,h]=String(state.visualEdit.imageSize||'1024x1024').split('x').map(n=>parseInt(n,10)||1024);
+    canvas.width=Math.min(w,1536);canvas.height=Math.min(h,1536);
+    const ctx=canvas.getContext('2d');
+    const drawBase=()=>{
+      const grad=ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+      grad.addColorStop(0,'#111827');grad.addColorStop(.55,'#07101d');grad.addColorStop(1,'#1f1728');
+      ctx.fillStyle=grad;ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.globalAlpha=.26;ctx.fillStyle='#65d9d2';ctx.beginPath();ctx.arc(canvas.width*.22,canvas.height*.35,canvas.width*.22,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#d6ad68';ctx.beginPath();ctx.arc(canvas.width*.78,canvas.height*.68,canvas.width*.24,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+      ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(canvas.width*.12,canvas.height*.15,canvas.width*.76,canvas.height*.62);
+      ctx.strokeStyle='rgba(214,173,104,.55)';ctx.lineWidth=Math.max(4,canvas.width*.006);ctx.strokeRect(canvas.width*.12,canvas.height*.15,canvas.width*.76,canvas.height*.62);
+      ctx.fillStyle='#eadcc1';ctx.font=`900 ${Math.max(28,canvas.width*.055)}px Arial`;
+      ctx.textAlign='center';ctx.fillText((state.brief.project||product().name||'Portal Genesis Print').slice(0,28),canvas.width/2,canvas.height*.43);
+      ctx.fillStyle='#cafffb';ctx.font=`700 ${Math.max(18,canvas.width*.026)}px Arial`;
+      ctx.fillText(`${state.visualEdit.outputKind||'arte'} • ${visualModeLabel()}`,canvas.width/2,canvas.height*.50);
+      ctx.fillStyle='#1a1203';ctx.fillRect(canvas.width*.28,canvas.height*.82,canvas.width*.44,canvas.height*.075);
+      ctx.fillStyle='#f2d08b';ctx.font=`900 ${Math.max(14,canvas.width*.024)}px Arial`;
+      ctx.fillText(label,canvas.width/2,canvas.height*.868);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    const base=state.visualEdit.baseImage;
+    if(base){
+      const img=new Image();
+      img.onload=()=>{
+        ctx.fillStyle='#050814';ctx.fillRect(0,0,canvas.width,canvas.height);
+        const scale=Math.min(canvas.width/img.width,canvas.height/img.height);
+        const iw=img.width*scale, ih=img.height*scale;
+        ctx.drawImage(img,(canvas.width-iw)/2,(canvas.height-ih)/2,iw,ih);
+        ctx.fillStyle='rgba(5,8,20,.58)';ctx.fillRect(0,canvas.height*.82,canvas.width,canvas.height*.18);
+        ctx.fillStyle='#f2d08b';ctx.font=`900 ${Math.max(18,canvas.width*.03)}px Arial`;ctx.textAlign='center';
+        ctx.fillText(label,canvas.width/2,canvas.height*.895);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.onerror=drawBase;img.src=base;
+    }else{drawBase();}
+  });
+}
+async function generateVisualImage(action='generate', variant='A'){
+  if(!state.outputs.visualEdit) state.outputs.visualEdit=generateVisualEditBrief();
+  state.visualEdit.lastError='';
+  state.visualEdit.status=`Chamando API visual: ${action} ${variant}`;
+  saveState();refreshAll(true);openStation('visualEdit');
+  try{
+    const result=await callVisualImageAPI(action,variant);
+    if(!result.images.length) throw new Error('A API respondeu, mas não retornou imagem em image/url/base64/images.');
+    state.visualEdit.resultImages = result.images.slice(0,3);
+    state.visualEdit.approvedIndex = 0;
+    state.visualEdit.resultImage = state.visualEdit.resultImages[0];
+    state.visualEdit.status = `Imagem gerada pela API (${state.visualEdit.resultImages.length} versão/versões)`;
+    state.visualEdit.history = [...(state.visualEdit.history||[]),{date:new Date().toISOString(),action,variant,images:result.images.length,size:state.visualEdit.imageSize,quality:state.visualEdit.imageQuality}].slice(-20);
+    state.outputs.visualApi = JSON.stringify(buildVisualImagePayload(action,variant),null,2);
+    state.outputs.package = assemblePackage();
+    saveState();refreshAll(true);openStation('visualEdit');toast('Imagem gerada pela API visual');
+  }catch(err){
+    console.error(err);
+    state.visualEdit.lastError=err.message||String(err);
+    state.visualEdit.status='API indisponível. Preview local de teste foi gerado.';
+    const local=await createLocalVisualPreview(action==='variations'?'A/B/C LOCAL':'PREVIEW LOCAL');
+    if(action==='variations'){
+      const b=await createLocalVisualPreview('VERSÃO B LOCAL');
+      const c=await createLocalVisualPreview('VERSÃO C LOCAL');
+      state.visualEdit.resultImages=[local,b,c];
+    }else{
+      state.visualEdit.resultImages=[local];
+    }
+    state.visualEdit.approvedIndex=0;
+    state.visualEdit.resultImage=state.visualEdit.resultImages[0];
+    state.outputs.visualApi = JSON.stringify(buildVisualImagePayload(action,variant),null,2);
+    saveState();refreshAll(true);openStation('visualEdit');toast('API falhou; preview local gerado para teste');
+  }
+}
+function approveVisualVersion(index){
+  const imgs=state.visualEdit.resultImages||[];
+  if(!imgs[index]){toast('Versão não encontrada');return;}
+  state.visualEdit.approvedIndex=index;
+  state.visualEdit.resultImage=imgs[index];
+  state.outputs.package=assemblePackage();
+  saveState();refreshAll(true);openStation('visualEdit');toast(`Versão ${String.fromCharCode(65+index)} aprovada`);
+}
+function clearVisualResults(){
+  state.visualEdit.resultImage='';
+  state.visualEdit.resultImages=[];
+  state.visualEdit.approvedIndex=0;
+  state.visualEdit.lastError='';
+  state.visualEdit.status='resultados limpos';
+  saveState();refreshAll(true);openStation('visualEdit');toast('Resultados visuais limpos');
+}
+function visualApiContractText(){
+  return `CONTRATO DA ROTA /api/visual-image — PORTAL GENESIS PRINT V13
+
+Método: POST
+Content-Type: application/json
+
+Entrada esperada:
+{
+  "module": "print-remotion",
+  "version": "V13-ultra",
+  "action": "generate | variations | edit | mockup",
+  "variant": "A | B | C | A/B/C",
+  "mode": "produto | roupa | rosto",
+  "outputKind": "auto | produto | mockup | banner | poster | estampa | camiseta | caneca | cardapio | capa | thumbnail | social",
+  "prompt": "prompt técnico final",
+  "negativePrompt": "negative prompt",
+  "size": "1024x1024",
+  "quality": "low | medium | high",
+  "format": "png",
+  "product": {},
+  "brief": {},
+  "visualEdit": {},
+  "images": [
+    {"role":"base","dataUrl":"data:image/png;base64,..."},
+    {"role":"product_reference","dataUrl":"data:image/png;base64,..."}
+  ]
+}
+
+Saída aceita pelo front-end:
+{
+  "ok": true,
+  "images": [
+    {"dataUrl":"data:image/png;base64,..."}
+  ],
+  "message": "gerado"
+}
+
+Também aceita:
+{ "ok": true, "image": "data:image/png;base64,..." }
+{ "ok": true, "url": "https://..." }
+{ "ok": true, "result": { "images": ["base64-ou-data-url"] } }
+
+Observação importante:
+A chave da API nunca deve ficar no HTML. Ela deve ficar no servidor, em variável de ambiente.`;
+}
+
 function handleVisualUpload(key,files){
   const file=files && files[0];
   if(!file || !file.type || !file.type.startsWith('image/')){toast('Envie uma imagem válida');return;}
@@ -2407,6 +2790,11 @@ ${state.outputs.visualEdit||generateVisualEditBrief()}
 ARQUIVOS VISUAIS DO PROJETO
 - Imagem base carregada: ${visualBaseImage()?'Sim':'Não'}
 - Arte final/preview aprovada: ${visualOutputImage()?'Sim':'Não'}
+- Variações geradas: ${(state.visualEdit.resultImages||[]).length}
+- Versão aprovada: ${String.fromCharCode(65+(state.visualEdit.approvedIndex||0))}
+- Endpoint visual: ${state.visualEdit.apiEndpoint||'/api/visual-image'}
+- Saída visual: ${state.visualEdit.outputKind||'auto'} / ${state.visualEdit.imageSize||'1024x1024'} / qualidade ${state.visualEdit.imageQuality||'medium'}
+- Status visual: ${state.visualEdit.status||'não iniciado'}
 - Download recomendado: botão "Baixar arte final" no Node 12
 - Separar entrega: TXT/JSON para briefing técnico + PNG/JPG/PDF visual para produção.
 
@@ -2625,10 +3013,10 @@ init();
   function pgSetText(sel, txt){ var el=document.querySelector(sel); if(el) el.textContent=txt; }
   function patchPortalGenesisPrintFinal(){
     try{
-      document.title='Portal Genesis — Print Remotion V12';
+      document.title='Portal Genesis — Print Remotion V13 Ultra';
       pgSetText('.logoMark','PG');
       pgSetText('.brand b','Portal Genesis Print');
-      pgSetText('.brand span','Marketing • Adventures • Punk • Vitrine Business de Caruaru');
+      pgSetText('.brand span','Marketing • Adventures • Punk • Vitrine Business • API Visual');
       pgSetText('#mockTitle','Portal Genesis Print');
       var sub=document.getElementById('mockSub');
       if(sub && (!sub.textContent || sub.textContent.indexOf('Briefing')>=0 || sub.textContent.indexOf('pré-impressão')>=0)){
