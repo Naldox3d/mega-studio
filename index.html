@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Studio Platform Nodes Core — Portal Mestre</title>
+<title>Portal Genesis — Acesso e Portal Mestre</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -268,7 +268,7 @@ button{cursor:pointer}
   max-width:1200px;
   margin:0 auto;
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:14px;
 }
 .module{
@@ -403,83 +403,232 @@ button{cursor:pointer}
   color:#dffffc;
   font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
+
+.logo.pgLogo{
+  font-family:Syne,sans-serif;
+  font-size:18px;
+  letter-spacing:-.08em;
+  background:linear-gradient(135deg,#f6dfad,#d8b46f 42%,#6ee7df 120%);
+  color:#080b12;
+  border:1px solid rgba(216,180,111,.55);
+}
+.login::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(110,231,223,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(110,231,223,.03) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(circle at 50% 45%,#000 0 46%,transparent 74%);
+}
+.loginCard.pgAccess{
+  width:min(560px,94vw);
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(216,180,111,.42);
+  background:
+    radial-gradient(circle at 18% 12%,rgba(110,231,223,.14),transparent 30%),
+    radial-gradient(circle at 88% 18%,rgba(216,180,111,.18),transparent 36%),
+    linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.020)),
+    rgba(13,20,37,.96);
+}
+.loginCard.pgAccess::before{
+  content:"PG";
+  position:absolute;
+  right:-18px;
+  top:-34px;
+  font-family:Syne,sans-serif;
+  font-size:118px;
+  font-weight:900;
+  color:rgba(216,180,111,.055);
+  letter-spacing:-.10em;
+}
+.pgMark{
+  width:62px;
+  height:62px;
+  margin:0 auto 14px;
+  display:grid;
+  place-items:center;
+  border-radius:20px;
+  background:linear-gradient(135deg,#f6dfad,#d8b46f 50%,#6ee7df 140%);
+  color:#060913;
+  font-family:Syne,sans-serif;
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:-.10em;
+  box-shadow:0 0 42px rgba(216,180,111,.20);
+}
+.accessBadges{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:0 0 18px;
+}
+.accessBadges span{
+  border:1px solid rgba(255,255,255,.085);
+  background:rgba(255,255,255,.035);
+  color:#cbd8f1;
+  border-radius:12px;
+  padding:8px;
+  text-align:center;
+  font-size:10px;
+  font-weight:900;
+  line-height:1.25;
+}
+.module.genesis::before{background:radial-gradient(circle,rgba(120,226,162,.19),transparent 65%)}
+.module.genesis{border-color:rgba(120,226,162,.20)}
+.portalShell{
+  max-width:1280px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:18px;
+  align-items:stretch;
+}
+.showcaseHero{
+  border:1px solid rgba(110,231,223,.18);
+  border-radius:28px;
+  min-height:320px;
+  padding:24px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 50%,rgba(110,231,223,.18),transparent 28%),
+    radial-gradient(circle at 82% 72%,rgba(216,180,111,.17),transparent 24%),
+    linear-gradient(135deg,rgba(9,18,32,.98),rgba(13,20,37,.78));
+  box-shadow:0 20px 70px rgba(0,0,0,.30);
+}
+.showcaseHero::before{
+  content:"";
+  position:absolute;
+  inset:18px;
+  border:1px solid rgba(110,231,223,.12);
+  border-radius:22px;
+  background:
+    linear-gradient(rgba(110,231,223,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(216,180,111,.04) 1px,transparent 1px);
+  background-size:34px 34px;
+  opacity:.75;
+}
+.showcaseHero>*{position:relative}
+.showcaseHero h2{
+  font-family:Syne,sans-serif;
+  font-size:clamp(30px,4vw,56px);
+  line-height:.95;
+  color:#f3dfbc;
+  max-width:560px;
+}
+.showcaseHero h2 b{color:#d8b46f}
+.showcaseHero p{color:#cdd9f1;line-height:1.65;margin:14px 0 18px;max-width:560px}
+.heroChips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.heroChips span{font-size:11px;font-weight:900;border:1px solid rgba(110,231,223,.24);background:rgba(110,231,223,.075);color:#d9fffc;border-radius:999px;padding:7px 9px}
+.publicPanel{
+  border:1px solid rgba(216,180,111,.22);
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018)),rgba(13,20,37,.82);
+  padding:22px;
+  box-shadow:0 16px 54px rgba(0,0,0,.28);
+}
+.publicPanel h3{font-family:Syne,sans-serif;color:#f0ddbb;font-size:24px;margin-bottom:12px}
+.publicList{display:grid;gap:10px}
+.publicList div{border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.035);border-radius:14px;padding:12px;color:#d9e4fa;font-size:13px;line-height:1.45}
+.serviceGrid{max-width:1280px;margin:14px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.serviceCard{border:1px solid rgba(255,255,255,.08);background:rgba(13,20,37,.68);border-radius:18px;padding:14px;min-height:98px}
+.serviceCard b{display:block;color:#f2ddb6;margin-bottom:5px}.serviceCard span{font-size:12px;color:#aebcda;line-height:1.45}
+@media(max-width:1100px){.portalShell{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.serviceGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.accessBadges{grid-template-columns:1fr}.serviceGrid{grid-template-columns:1fr}}
+
 @media(max-width:1050px){.grid{grid-template-columns:1fr 1fr}.module.api{grid-column:1/-1}.top{height:auto;align-items:flex-start;flex-wrap:wrap;padding:12px}.titleWrap{width:100%}.app{grid-template-rows:auto 36px 1fr}.frame,.apiPanel,.portal{min-height:calc(100vh - 132px);height:calc(100vh - 132px)}}
 @media(max-width:720px){.tabs{width:100%}.tab{flex:1}.grid{grid-template-columns:1fr}.portal{padding:14px}.hero{padding:20px}.module{min-height:auto}.frame,.apiPanel,.portal{height:calc(100vh - 176px)}}
 </style>
 </head>
 <body>
 <section id="login" class="login">
-  <div class="loginCard">
-    <div class="brandMini">Studio Platform</div>
-    <h1>Portal Mestre</h1>
-    <p>Produção criativa em nodes para vídeo, gráfica e automação com IA. Entre para acessar os motores da plataforma.</p>
+  <div class="loginCard pgAccess">
+    <div class="pgMark">PG</div>
+    <div class="brandMini">Portal Genesis</div>
+    <h1>Acesso Oficial</h1>
+    <p>Marketing • Adventures • Punk • Vitrine Business de Caruaru. Entre para acessar a árvore criativa, a área do cliente e os motores de produção.</p>
+
+    <div class="accessBadges">
+      <span>Vitrine<br>Business</span>
+      <span>Área do<br>Cliente</span>
+      <span>Produção<br>Premium</span>
+    </div>
 
     <div class="field">
       <label>Usuário</label>
-      <input id="user" autocomplete="username" placeholder="admin">
+      <input id="user" autocomplete="username" placeholder="seu acesso">
     </div>
     <div class="field">
       <label>Senha</label>
       <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
     </div>
 
-    <div id="err" class="err">Login inválido ou API de autenticação indisponível.</div>
-    <button class="btn gold" style="width:100%" onclick="login()">Entrar</button>
-    <div class="note">Configure ADMIN_USER, ADMIN_PASS, SESSION_SECRET e as chaves de IA na Vercel. Em ambiente local use <b>vercel dev</b>.</div>
+    <div id="err" class="err">Acesso não autorizado. Confira usuário, senha ou disponibilidade do portal.</div>
+    <button class="btn gold" style="width:100%" onclick="login()">Entrar no Portal Genesis</button>
+    <div class="note">Portal seguro para clientes, produção, serviços, vitrine e gestão criativa. Do atendimento à entrega, tudo começa aqui.</div>
   </div>
 </section>
 
 <section id="app" class="app hidden">
   <header class="top">
-    <div class="logo">SP</div>
+    <div class="logo pgLogo">PG</div>
     <div class="titleWrap">
-      <div class="title">Studio Platform</div>
-      <span class="subtitle">Nodes Core • Portal Mestre</span>
+      <div class="title">Portal Genesis</div>
+      <span class="subtitle">Marketing • Adventures • Punk • Vitrine Business de Caruaru</span>
     </div>
     <nav class="tabs">
       <button id="tab-portal" class="tab active" onclick="showTab('portal')">Portal</button>
       <button id="tab-studio" class="tab" onclick="showTab('studio')">Studio Remotion Lab</button>
       <button id="tab-video" class="tab" onclick="showTab('video')">Video Remotion</button>
       <button id="tab-print" class="tab" onclick="showTab('print')">Print</button>
+      <button id="tab-vitrine" class="tab" onclick="showTab('vitrine')">Vitrine PG</button>
       <button id="tab-api" class="tab" onclick="showTab('api')">API / Config</button>
       <button class="btn red small" onclick="logout()">Sair</button>
     </nav>
   </header>
 
-  <div id="status" class="status"><b>Portal ativo.</b> Escolha um motor de produção.</div>
+  <div id="status" class="status"><b>Portal Genesis ativo.</b> Vitrine, serviços, clientes e motores de produção em uma árvore criativa.</div>
 
   <main class="content">
     <section id="portal" class="portal">
-      <div class="hero">
-        <span class="kicker">nova fase do produto final</span>
-        <h1>Produção criativa em nodes para vídeo, gráfica e automação com IA.</h1>
-        <p>
-          A plataforma agora se organiza por motores independentes. O Studio Remotion Lab é o laboratório do criador,
-          Video Remotion é o produto audiovisual final, Print é o produto gráfico/pré-impressão e API/Config é o motor técnico global.
-        </p>
-        <div class="creator">
-          <span class="pill gold">Idealizado por Elinaldo Menezes</span>
-          <span class="pill">Criador audiovisual</span>
-          <span class="pill">Fundador do Iniciantes do Punk de Caruaru</span>
+      <div class="portalShell">
+        <div class="showcaseHero">
+          <span class="kicker">bem-vindo ao portal genesis</span>
+          <h2>A Vitrine Criativa de <b>Caruaru</b></h2>
+          <p>Marketing, vídeo, gráfica e impressão real, mocap, arte, conteúdo digital, branding e entretenimento. Uma saída pública para transformar ideias em serviços, portfólio, campanhas e experiências que conectam.</p>
+          <div class="actions">
+            <button class="btn gold" onclick="showTab('vitrine')">Abrir Vitrine PG</button>
+            <button class="btn cyan" onclick="showTab('print')">Pedir orçamento</button>
+            <button class="btn ghost" onclick="showTab('vitrine')">Área do cliente</button>
+          </div>
+          <div class="heroChips">
+            <span>Vídeo</span><span>Gráfica</span><span>Branding</span><span>Social Media</span><span>Brindes</span><span>Entretenimento</span>
+          </div>
         </div>
+        <aside class="publicPanel">
+          <span class="kicker">raízes da marca</span>
+          <h3>Fruits Adventures + Iniciantes do Punk</h3>
+          <div class="publicList">
+            <div><b>Identidade:</b> Portal Genesis como nome de mercado. Quando perguntarem onde fez, a resposta é: foi no Portal Genesis.</div>
+            <div><b>Serviços:</b> vídeo, print, marketing digital, vitrine, mocap, social, impressão e produtos personalizados.</div>
+            <div><b>Experiência:</b> portal público, área do cliente, aprovação, orçamento e pacote final conectado aos motores internos.</div>
+          </div>
+        </aside>
       </div>
 
-      <div class="grid">
+      <div class="grid" style="margin-top:14px">
         <article class="module lab">
           <div class="moduleHead">
             <div class="icon">🧪</div>
-            <div><h2>Studio Remotion Lab</h2><small>laboratório do criador</small></div>
+            <div><h2>Studio Remotion Lab</h2><small>criação • testes • inovação</small></div>
           </div>
-          <p>Área interna para testes, Fruits, presets manuais, microagentes, ideias novas, versões Titan/Colossal e experimentos de interface.</p>
-          <div class="flow">
-            <span>Setup limpo → Storyboard → Cena</span>
-            <span>Motion 2D → SRT/Som → CapCut Book</span>
-            <span>Exportar → Testes → Versões</span>
-          </div>
-          <div class="actions">
-            <button class="btn purple" onclick="showTab('studio')">Abrir Lab</button>
-            <button class="btn ghost" onclick="showTab('portal')">Modo inovação</button>
-          </div>
+          <p>Área interna para desenvolver ideias, universos, personagens, referências, microagentes, motion comic, cenas, versões e experimentos criativos.</p>
+          <div class="flow"><span>Setup limpo → Storyboard → Cena</span><span>Motion 2D → SRT/Som → CapCut Book</span><span>Pesquisa → Testes → Versões</span></div>
+          <div class="actions"><button class="btn purple" onclick="showTab('studio')">Abrir Lab</button></div>
         </article>
 
         <article class="module video">
@@ -487,34 +636,37 @@ button{cursor:pointer}
             <div class="icon">🎬</div>
             <div><h2>Video Remotion</h2><small>produto audiovisual final</small></div>
           </div>
-          <p>Motor principal para criar vídeo com fluxo limpo: briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, CapCut Book e pacote final.</p>
-          <div class="flow">
-            <span>Briefing Mestre → Roteiro/Cena</span>
-            <span>Storyboard → Motion 2D / Vídeo IA</span>
-            <span>Remotion JSON → SRT/Som → Pacote Final</span>
-          </div>
-          <div class="actions">
-            <button class="btn gold" onclick="showTab('video')">Abrir Video Remotion</button>
-            <button class="btn cyan" onclick="showTab('video')">Novo projeto limpo</button>
-          </div>
+          <p>Motor para roteiro, storyboard, vídeo IA, SRT, som, Remotion JSON, CapCut Book, pacote final e conteúdo para Reels, Shorts, TikTok e YouTube.</p>
+          <div class="flow"><span>Briefing → Roteiro/Cena</span><span>Storyboard → Motion 2D / Vídeo IA</span><span>SRT/Som → CapCut → Pacote</span></div>
+          <div class="actions"><button class="btn gold" onclick="showTab('video')">Abrir Video</button></div>
         </article>
 
         <article class="module print">
           <div class="moduleHead">
             <div class="icon">🖨️</div>
-            <div><h2>Print</h2><small>gráfica e pré-impressão</small></div>
+            <div><h2>Print Remotion</h2><small>gráfica • marketing • impressão</small></div>
           </div>
-          <p>Motor gráfico para atendimento, produto, referências, orçamento, direção de arte, copy, prompt IA, pré-impressão, produção e entrega.</p>
-          <div class="flow">
-            <span>Atendimento → Produto Gráfico → Orçamento</span>
-            <span>Direção de Arte → Copy → Prompt IA</span>
-            <span>Pré-impressão → Produção → Pacote Final</span>
-          </div>
-          <div class="actions">
-            <button class="btn green" onclick="showTab('print')">Abrir Print</button>
-            <button class="btn ghost" onclick="showTab('print')">Nova peça gráfica</button>
-          </div>
+          <p>Motor gráfico para atendimento, cliente, orçamento, arte, copy, banners, camisetas, canecas, brindes, pré-impressão e entrega real para gráfica.</p>
+          <div class="flow"><span>Cliente → Produto → Orçamento</span><span>Direção de Arte → IA → Pré-impressão</span><span>Produção → Pacote Final</span></div>
+          <div class="actions"><button class="btn green" onclick="showTab('print')">Abrir Print</button></div>
         </article>
+
+        <article class="module genesis">
+          <div class="moduleHead">
+            <div class="icon">🌳</div>
+            <div><h2>Vitrine PG</h2><small>serviços • cliente • vendas</small></div>
+          </div>
+          <p>Saída pública do Portal Genesis: portfólio, banners animados, redes sociais, área do cliente, pacotes, orçamentos, trabalhos e divulgação da marca.</p>
+          <div class="flow"><span>Portfólio → Serviços → Orçamento</span><span>Área do Cliente → Aprovação</span><span>YouTube/TikTok/Instagram → Contato</span></div>
+          <div class="actions"><button class="btn cyan" onclick="showTab('vitrine')">Abrir Vitrine</button></div>
+        </article>
+      </div>
+
+      <div class="serviceGrid">
+        <div class="serviceCard"><b>Marketing Digital</b><span>posts, stories, anúncios, copy, calendário e campanhas.</span></div>
+        <div class="serviceCard"><b>Gráfica Real</b><span>cartão, flyer, banner, adesivo, cardápio, fachada e impressão.</span></div>
+        <div class="serviceCard"><b>Produtos</b><span>camiseta, boné, caneca, brindes, embalagens e mockups.</span></div>
+        <div class="serviceCard"><b>Entretenimento</b><span>Fruits Adventures, Iniciantes do Punk, mocap, vídeos e bastidores.</span></div>
       </div>
     </section>
 
@@ -522,16 +674,36 @@ button{cursor:pointer}
     <iframe id="frame-video" class="frame" src="./video/"></iframe>
     <iframe id="frame-print" class="frame" src="./print/"></iframe>
 
+    <section id="vitrinePanel" class="apiPanel">
+      <div class="apiBox" style="max-width:1180px">
+        <span class="kicker">portal genesis público</span>
+        <h1>Fruits Adventures • Iniciantes do Punk • Vitrine Business de Caruaru</h1>
+        <p>Esta área é a saída de marca: portfólio, serviços, área do cliente, redes sociais, orçamento e divulgação dos trabalhos. Aqui o Portal Genesis vira vitrine comercial, não painel técnico.</p>
+        <div class="serviceGrid" style="margin:16px 0;max-width:none">
+          <div class="serviceCard"><b>Serviços</b><span>marketing, vídeo, gráfica, impressão, brindes, social media e identidade visual.</span></div>
+          <div class="serviceCard"><b>Portfólio</b><span>banners, reels, mocap, peças gráficas, campanhas, mockups e conteúdo digital.</span></div>
+          <div class="serviceCard"><b>Área do Cliente</b><span>briefing, orçamento, aprovações, arquivos, pedidos e histórico.</span></div>
+          <div class="serviceCard"><b>Redes</b><span>YouTube, TikTok, Instagram, Facebook, WhatsApp e divulgação local.</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn gold" onclick="showTab('print')">Criar orçamento no Print</button>
+          <button class="btn cyan" onclick="showTab('video')">Criar conteúdo em vídeo</button>
+          <button class="btn purple" onclick="showTab('studio')">Abrir laboratório</button>
+          <button class="btn ghost" onclick="showTab('portal')">Voltar ao portal</button>
+        </div>
+      </div>
+    </section>
+
     <section id="apiPanel" class="apiPanel">
       <div class="apiBox">
-        <span class="kicker">motor técnico global</span>
+        <span class="kicker">gestão técnica</span>
         <h1>API / Config</h1>
-        <p>Esta área não é produto criativo. Ela centraliza segurança, autenticação, backend e provedores de IA para todos os motores da plataforma.</p>
+        <p>Área reservada para autenticação, provedores de IA, rotas internas e segurança do Portal Genesis.</p>
         <div class="apiList">
-          <div><b>Auth:</b> ADMIN_USER, ADMIN_PASS e SESSION_SECRET protegidos no backend.</div>
-          <div><b>IA:</b> Claude, Gemini, Groq e OpenRouter podem ser ligados por rotas internas.</div>
+          <div><b>Acesso:</b> credenciais e sessão protegidas no backend.</div>
+          <div><b>IA:</b> Gemini, Claude, Groq e OpenRouter podem alimentar os motores por rotas internas.</div>
           <div><b>Regra:</b> nenhuma chave deve ficar exposta em HTML público.</div>
-          <div><b>Fluxo:</b> Video Remotion, Print e Lab chamam a API, mas não mostram a chave ao usuário.</div>
+          <div><b>Fluxo:</b> Studio, Video, Print e Vitrine usam a API sem expor chaves ao usuário.</div>
         </div>
         <div class="actions">
           <button class="btn cyan" onclick="testAuth()">Testar autenticação</button>
@@ -589,11 +761,12 @@ function hideAll(){
   $('frame-studio').classList.remove('active');
   $('frame-video').classList.remove('active');
   $('frame-print').classList.remove('active');
+  $('vitrinePanel').classList.remove('active');
   $('apiPanel').classList.remove('active');
 }
 
 function showTab(name){
-  ['portal','studio','video','print','api'].forEach(n=>{
+  ['portal','studio','video','print','vitrine','api'].forEach(n=>{
     const tab = $('tab-'+n);
     if(tab) tab.classList.toggle('active',n===name);
   });
@@ -601,10 +774,11 @@ function showTab(name){
   hideAll();
 
   const labels = {
-    portal:'Portal ativo. Escolha um motor de produção.',
-    studio:'Studio Remotion Lab ativo: laboratório do criador, testes, Fruits, presets e inovação.',
+    portal:'Portal Genesis ativo: vitrine, serviços, clientes e motores de produção.',
+    studio:'Studio Remotion Lab ativo: criação, testes, Fruits, presets e inovação.',
     video:'Video Remotion ativo: produto audiovisual final em nodes, limpo e profissional.',
-    print:'Print ativo: produto gráfico, orçamento, arte, copy, pré-impressão e entrega.',
+    print:'Print Remotion ativo: produto gráfico, orçamento, arte, pré-impressão e entrega.',
+    vitrine:'Vitrine PG ativa: portfólio, serviços, redes, clientes e vendas.',
     api:'API / Config ativo: autenticação, backend, provedores e segurança.'
   };
 
@@ -612,6 +786,7 @@ function showTab(name){
   if(name==='studio') $('frame-studio').classList.add('active');
   if(name==='video') $('frame-video').classList.add('active');
   if(name==='print') $('frame-print').classList.add('active');
+  if(name==='vitrine') $('vitrinePanel').classList.add('active');
   if(name==='api') $('apiPanel').classList.add('active');
 
   $('status').innerHTML = '<b>'+labels[name].split(':')[0]+':</b>' + (labels[name].includes(':') ? labels[name].slice(labels[name].indexOf(':')+1) : '');
