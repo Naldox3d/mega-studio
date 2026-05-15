@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio Remotion Lab — Fruits Legacy Nodes V1</title>
+  <title>Laboratório Colossal — Blender Nodes OS V10</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
@@ -1202,37 +1202,16 @@
         display: none;
       }
     }
-  
-/* STUDIO REMOTION LAB — FRUITS LEGACY BRIDGE */
-.brand-mark{background:linear-gradient(180deg,#f2d08b,#65d9d2)!important}
-.brand-title strong::after{content:"  • Fruits Legacy";color:#65d9d2;font-size:.72em}
-.dock-card h3,.station-head-title h2,.node-title strong{letter-spacing:.035em}
-.canvas-wrap{
-  background:
-    linear-gradient(var(--grid-small) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-small) 1px, transparent 1px),
-    linear-gradient(var(--grid-big) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-big) 1px, transparent 1px),
-    radial-gradient(circle at 20% 16%, rgba(101,217,210,.075), transparent 24%),
-    radial-gradient(circle at 74% 18%, rgba(214,173,104,.075), transparent 25%),
-    radial-gradient(circle at 55% 80%, rgba(225,132,145,.045), transparent 30%),
-    #050813!important;
-}
-.node.active .node-icon{background:rgba(101,217,210,.10)!important;border-color:rgba(101,217,210,.38)!important}
-.node.active{border-color:rgba(214,173,104,.82)!important}
-.phone-title{font-size:17px!important}
-.phone-title::after{content:"Fruits Lab";display:block;color:#65d9d2;font:10px Space Mono,monospace;margin-top:8px;letter-spacing:.12em;text-transform:uppercase}
-
-</style>
+  </style>
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">SL</div>
+        <div class="brand-mark">LC</div>
         <div class="brand-title">
-          <strong>Studio Remotion Lab</strong>
-          <span>Fruits Legacy Smart • filho do Video Remotion</span>
+          <strong>Laboratório Colossal</strong>
+          <span>Blender Nodes OS • conteúdo audiovisual • independente</span>
         </div>
       </div>
       <div class="top-status">
@@ -1250,8 +1229,8 @@
       <aside class="left-dock">
         <section class="dock-section">
           <div class="dock-card">
-            <h3>Árvore da Criação Fruits</h3>
-            <p>Canvas vivo estilo Blender/Remotion. Cada node preserva o conteúdo Fruits, aprova a etapa e prepara pacote limpo para o Video Remotion.</p>
+            <h3>Árvore da Criação</h3>
+            <p>Canvas vivo estilo Blender. Cada node abre uma estação técnica, aprova a etapa e alimenta o próximo bloco.</p>
           </div>
         </section>
 
@@ -1314,7 +1293,7 @@
             <div class="phone-frame">
               <div class="phone-orb-a"></div>
               <div class="phone-orb-b"></div>
-              <div class="phone-title" id="previewTitle">Studio Remotion Lab</div>
+              <div class="phone-title" id="previewTitle">Laboratório Colossal</div>
               <div class="phone-sub" id="previewSub">Preencha o briefing para montar o pacote técnico.</div>
               <div class="phone-cta">PIPELINE IA</div>
             </div>
@@ -1324,7 +1303,7 @@
         <section class="dock-section">
           <div class="dock-title">Pacote final</div>
           <div class="dock-card">
-            <p>Quando os nodes estiverem prontos, exporte TXT ou JSON para usar no Video Remotion, CapCut, Flow, Veo, Remotion, edição manual ou backend próprio.</p>
+            <p>Quando todos os nodes principais estiverem prontos, exporte TXT ou JSON para usar em CapCut, Flow, Veo, Remotion, edição manual ou backend próprio.</p>
             <div class="quick-actions" style="margin-top:12px">
               <button class="btn green" onclick="downloadTxt()">Baixar TXT</button>
               <button class="btn cyan" onclick="downloadJson()">Baixar JSON</button>
@@ -1355,7 +1334,7 @@
       <div class="station-main" id="stationMain"></div>
       <aside class="station-side">
         <h3>Contexto vivo</h3>
-        <p class="side-note">A estação ativa recebe o Briefing Fruits Lab, DNA antigo preservado, memória visual, cenas aprovadas e estado dos nodes anteriores. Este Lab prepara pacote limpo para o Video Remotion.</p>
+        <p class="side-note">A estação ativa recebe o Briefing Mestre, a memória visual, as cenas aprovadas e o estado dos nodes anteriores.</p>
         <label class="upload-label">
           + Adicionar referência visual
           <input type="file" accept="image/*" multiple onchange="handleRefUpload(event)">
@@ -1396,21 +1375,21 @@
   <script>
     'use strict';
 
-    const STORAGE_KEY = 'studio_remotion_lab_fruits_legacy_nodes_v1';
+    const STORAGE_KEY = 'laboratorio_colossal_blender_nodes_os_v10';
     const $ = (id) => document.getElementById(id);
     const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
     const NODE_DEFS = [
-      { id: 'brief', icon: '🧠', title: 'Briefing Fruits Lab', subtitle: 'cérebro do projeto', x: 80, y: 120, deps: [] },
-      { id: 'api', icon: '🔌', title: 'API / Copilot', subtitle: 'Claude, Gemini ou local', x: 430, y: 120, deps: ['brief'] },
-      { id: 'dna', icon: '🍅', title: 'DNA Fruits', subtitle: 'universo e bíblia visual', x: 780, y: 120, deps: ['brief'] },
-      { id: 'storyboard', icon: '📚', title: 'Storyboard Comic', subtitle: 'páginas e quadros', x: 1130, y: 120, deps: ['dna'] },
-      { id: 'scene', icon: '🎬', title: 'Cena / Roteiro', subtitle: 'fala, câmera e emoção', x: 1480, y: 120, deps: ['storyboard'] },
-      { id: 'motion', icon: '🎞️', title: 'Motion Comic 2D', subtitle: 'animação e câmera', x: 1480, y: 390, deps: ['scene'] },
-      { id: 'prompts', icon: '✍️', title: 'Prompts IA', subtitle: 'imagem, vídeo e negativo', x: 1130, y: 390, deps: ['scene'] },
-      { id: 'srt', icon: '🎧', title: 'SRT / Rádio / Som', subtitle: 'legenda, voz e SFX', x: 780, y: 390, deps: ['scene'] },
-      { id: 'capcut', icon: '📘', title: 'CapCut Book', subtitle: 'plano técnico de edição', x: 1130, y: 660, deps: ['motion', 'srt', 'prompts'] },
-      { id: 'export', icon: '📦', title: 'Enviar ao Video Remotion', subtitle: 'entrega limpa', x: 1480, y: 660, deps: ['capcut'] }
+      { id: 'brief', icon: '🧠', title: 'Briefing Mestre', subtitle: 'cérebro do projeto', x: 80, y: 120, deps: [] },
+      { id: 'api', icon: '🔌', title: 'API / Motor', subtitle: 'local ou backend', x: 430, y: 120, deps: ['brief'] },
+      { id: 'dna', icon: '🧬', title: 'DNA Visual', subtitle: 'referências e universo', x: 780, y: 120, deps: ['brief'] },
+      { id: 'storyboard', icon: '🎞️', title: 'Storyboard', subtitle: 'estrutura de cenas', x: 1130, y: 120, deps: ['dna'] },
+      { id: 'scene', icon: '🎬', title: 'Cena Atual', subtitle: 'direção detalhada', x: 1480, y: 120, deps: ['storyboard'] },
+      { id: 'motion', icon: '🌀', title: 'Motion 2D', subtitle: 'movimento e câmera', x: 1480, y: 390, deps: ['scene'] },
+      { id: 'prompts', icon: '✍️', title: 'Prompts IA', subtitle: 'PT/EN + negative', x: 1130, y: 390, deps: ['scene'] },
+      { id: 'srt', icon: '🎧', title: 'SRT / Som', subtitle: 'legenda e áudio', x: 780, y: 390, deps: ['scene'] },
+      { id: 'capcut', icon: '📘', title: 'CapCut Book', subtitle: 'plano de edição', x: 1130, y: 660, deps: ['motion', 'srt', 'prompts'] },
+      { id: 'export', icon: '📦', title: 'Pacote Final', subtitle: 'entrega limpa', x: 1480, y: 660, deps: ['capcut'] }
     ];
 
     const DEFAULT_STATE = {
@@ -1423,33 +1402,24 @@
       visualMemory: '',
       nodePositions: {},
       setup: {
-        projectName: 'Fruits Adventures: Os Iniciantes do Punk',
-        projectMode: 'Fruits Legacy Smart',
-        format: '9:16 vertical / HQ vertical',
+        projectName: '',
+        projectMode: 'Novo projeto limpo',
+        format: '9:16 vertical',
         duration: '60 segundos',
         scenesCount: 6,
-        tone: 'Punk comic cinematográfico sombrio',
-        target: 'Shorts/Reels/TikTok + pacote Video Remotion',
-        idea: 'Fruits Adventures: Os Iniciantes do Punk — laboratório smart com novo visual Remotion.
-Objetivo: pegar o conteúdo antigo Fruits/Zombie Punk/Copilot Guia Criativo e reorganizar em nodes profissionais, sem perder DNA, rádio/voz, storyboard, SRT, CapCut Book, prompts IA e pacote final.
-O resultado deve funcionar como laboratório do criador: preservar memória, testar ideias e enviar somente a versão limpa para o Video Remotion.',
-        objective: 'Remodelar o conteúdo Fruits antigo com visual Remotion e pipeline smart em nodes.',
-        continuityRules: 'DNA OFICIAL: Studio Remotion Lab — Fruits Legacy / Os Iniciantes do Punk.
-Preservar o conteúdo Fruits antigo dentro do novo visual Remotion. O Lab é filho smart do Video Remotion: testa, organiza, cria storyboard, roteiro, motion, SRT, som, CapCut Book e exporta pacote limpo.
-Estética: punk comic underground com base humana, clima de banda, curta-metragem, Caruaru, storyboard, objetos de produção, humor ácido, textura cinematográfica e energia autoral.
-Elenco-raiz: Eli/Elinaldo (criador, chave de fenda e placa de HD), Taciano (claquete e atitude de direção), Bruno (guitarra, ritmo e som), Cesar (filmadora Sony HD100, corpo grande/pesado, punk veterano/editor audiovisual, sem óculos) e Tomate Elinaldo (mascote/fruta símbolo do universo).
-Tomate Elinaldo continua nome oficial; em balões/falas pode usar Eli quando precisar caber melhor.
-Não deixar infantil, colorido demais ou genérico. Não copiar franquias. Usar referências apenas como linguagem visual, clima e estrutura.
-Cada cena deve gerar: página comic, ritmo, fala, narração, SRT, fatiamento, vídeo IA e CapCut Motion Book.
-Regra de segurança criativa: nada antigo entra no Video Remotion final sem aprovação/exportação limpa.',
-        requiredText: 'Idealizado por Elinaldo Menezes — criador audiovisual, fundador do Iniciantes do Punk de Caruaru.',
-        audience: 'criadores, editores, roteiristas, designers, storytellers e produtores com IA'
+        tone: 'Cinematográfico sombrio',
+        target: 'Shorts/Reels/TikTok',
+        idea: '',
+        objective: 'Transformar uma ideia solta em pacote técnico completo de produção audiovisual.',
+        continuityRules: 'Novo projeto limpo. Não importar personagens antigos sem ordem explícita. Preservar continuidade visual, emocional e espacial entre as cenas.',
+        requiredText: '',
+        audience: 'criadores de conteúdo, editores, designers, storytellers e produtores com IA'
       },
       api: {
         mode: 'local',
         provider: 'Claude / OpenRouter / backend próprio',
-        endpoint: '/api/fruits-generate',
-        model: 'claude-sonnet-4-5',
+        endpoint: '/api/laboratorio-generate',
+        model: 'claude-sonnet-4-6',
         temperature: 0.50,
         maxTokens: 4200
       },
@@ -1735,7 +1705,7 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
     function updatePreview() {
       const title = $('previewTitle');
       const sub = $('previewSub');
-      if (title) title.textContent = state.setup.projectName || 'Studio Remotion Lab';
+      if (title) title.textContent = state.setup.projectName || 'Laboratório Colossal';
       if (sub) sub.textContent = short(state.setup.idea || state.setup.objective || 'Preencha o briefing para montar o pacote técnico.', 110);
     }
 
@@ -1913,7 +1883,7 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
             <div class="field">
               <label>Modo do projeto</label>
               <select id="f_projectMode">
-                ${optionList(['Fruits Legacy Smart','Motion Comic 2D','Short/Reels viral','Produto cinematográfico','Storytelling dark','Fruits Adventures / universo próprio'], s.projectMode)}
+                ${optionList(['Novo projeto limpo','Motion Comic 2D','Short/Reels viral','Produto cinematográfico','Storytelling dark','Projeto salvo / universo próprio'], s.projectMode)}
               </select>
             </div>
             <div class="field">
@@ -2303,7 +2273,7 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
     }
 
     function systemPrompt() {
-      return `Você é o Copilot Diretor do Studio Remotion Lab, filho smart do Video Remotion. Preserve o conteúdo Fruits Legacy quando ele estiver no briefing, sem copiar franquias externas. Trabalhe como diretor criativo, roteirista audiovisual, editor de motion comic, especialista em prompts de vídeo IA, SRT, som, CapCut Book e continuísta. Identidade do criador: Elinaldo Menezes, criador audiovisual e fundador do Iniciantes do Punk de Caruaru. Transforme briefing em pipeline técnico: DNA visual, storyboard, cena, motion comic 2D, prompts, SRT, som, CapCut Motion Book e pacote limpo para Video Remotion. Não renderize MP4. Responda em português do Brasil. Preserve continuidade e não importe personagens antigos fora do briefing atual.`;
+      return `Você é um diretor criativo sênior, roteirista audiovisual, editor de motion comic, especialista em prompts de vídeo IA e continuísta. Transforme briefing em pipeline técnico: DNA visual, storyboard, cena, motion 2D, prompts, SRT, som, CapCut Motion Book e pacote final. Não renderize MP4. Responda em português do Brasil. Preserve continuidade e não copie propriedade intelectual de terceiros.`;
     }
 
     function buildBaseContext() {
@@ -2605,7 +2575,7 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
     }
 
     function buildExportText() {
-      return `STUDIO REMOTION LAB — FRUITS LEGACY / PACOTE PARA VIDEO REMOTION\n\n` +
+      return `LABORATÓRIO COLOSSAL — PACOTE FINAL / BLENDER NODES OS\n\n` +
         `## 1. CONTEXTO\n${buildBaseContext()}\n\n` +
         `---\n\n## 2. DNA VISUAL\n${state.outputs.dna || state.visualMemory || 'Pendente'}\n\n` +
         `---\n\n## 3. STORYBOARD\n${state.outputs.storyboard || buildStoryboardTextSafe()}\n\n` +
@@ -2620,8 +2590,8 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
         `3. Conferir se prompts não pedem texto indevido na imagem.\n` +
         `4. Conferir se o SRT respeita o tempo total.\n` +
         `5. Conferir se o CapCut Book tem ordem de edição clara.\n` +
-        `6. Usar este pacote no Video Remotion, Flow, Veo, Seedance, CapCut, Remotion ou editor manual.\n` +
-        `7. Este Lab organiza pré-produção Fruits Legacy e envia pacote limpo ao Video Remotion. Não renderiza MP4 automaticamente.`;
+        `6. Usar este pacote em Flow, Veo, Seedance, CapCut, Remotion ou editor manual.\n` +
+        `7. Este módulo organiza pré-produção. Não renderiza MP4 automaticamente.`;
     }
 
     function buildStoryboardTextSafe() {
@@ -2644,17 +2614,17 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
 
     function downloadTxt() {
       if (!state.outputs.export) exportPackage(false);
-      downloadFile('studio_remotion_lab_fruits_legacy_pacote.txt', state.outputs.export, 'text/plain;charset=utf-8');
+      downloadFile('laboratorio_colossal_pacote_final.txt', state.outputs.export, 'text/plain;charset=utf-8');
     }
 
     function downloadJson() {
       const data = JSON.stringify({
-        app: 'Studio Remotion Lab — Fruits Legacy Nodes',
-        version: 'Fruits Legacy Nodes V1',
+        app: 'Laboratório Colossal — Blender Nodes OS',
+        version: '10.0',
         exportedAt: new Date().toISOString(),
         state
       }, null, 2);
-      downloadFile('studio_remotion_lab_fruits_legacy_projeto.json', data, 'application/json;charset=utf-8');
+      downloadFile('laboratorio_colossal_projeto.json', data, 'application/json;charset=utf-8');
     }
 
     function downloadFile(filename, content, type) {
@@ -2708,7 +2678,7 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
     }
 
     function loadDemoProject() {
-      state.setup.projectName = 'Projeto Fruits Legacy — Cidade Depois da Chuva';
+      state.setup.projectName = 'Projeto Colossal — Cidade Depois da Chuva';
       state.setup.projectMode = 'Motion Comic 2D';
       state.setup.format = '9:16 vertical';
       state.setup.duration = '60 segundos';
@@ -2758,10 +2728,6 @@ Regra de segurança criativa: nada antigo entra no Video Remotion final sem apro
       render();
       if (!state.setup.idea && !state.setup.projectName) {
         setTimeout(() => openStation('brief'), 350);
-      }
-      if (!state.logs.length) {
-        state.logs.unshift({ at: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), message: 'Fruits Legacy carregado no visual Remotion.' });
-        saveState();
       }
     }
 
