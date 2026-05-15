@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Print Remotion — Gráfica Nodes OS Aprovado V10.2 IA</title>
+<title>Print Remotion — Gráfica Nodes OS Aprovado V10.3 IA Formatada</title>
 <style>
 :root{
   --bg:#050711;
@@ -874,7 +874,7 @@ function defaultState(){
     brief:{project:'',client:'Cliente Gráfica',segment:'Loja local, evento ou campanha',goal:'Vender mais',tone:'Profissional e moderno',audience:'Público local que precisa entender rápido a oferta',description:'Criar uma peça gráfica com visual chamativo, leitura rápida e chamada forte para WhatsApp.',required:'Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.',deadline:'Prazo normal',notes:''},
     product:{id:'social',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente'},
     quote:{design:35,print:0,finishCost:0,urgency:0,margin:20,total:42,notes:'Valores estimativos. Confirmar custo real com fornecedor e material.'},
-    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',prepress:'',production:'',package:'',proposal:''},
+    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',prepress:'',production:'',package:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
     checks:Object.fromEntries(CHECKS.map(c=>[c[0],false]))
   };
 }
@@ -967,7 +967,9 @@ function refreshTop(){
   $('projectPill').textContent='Projeto: '+(state.brief.project||state.brief.client||'Sem título');
   $('progressPill').textContent=pct+'% pronto';$('progressBar').style.width=pct+'%';
   $('statProduct').textContent=p.name;$('statFormat').textContent=`${state.product.width}x${state.product.height}${state.product.unit}`;$('statQuote').textContent=money(state.quote.total);$('statChecks').textContent=`${checks}/${CHECKS.length}`;
-  $('mockTitle').textContent=state.brief.project||p.name;$('mockSub').textContent=state.brief.description.slice(0,86)||'Briefing, orçamento e pré-impressão em nodes.';$('mockCta').textContent=(state.brief.goal||'ARTE PRONTA').toUpperCase();
+  $('mockTitle').textContent=state.outputs.previewTitle||state.brief.project||p.name;
+  $('mockSub').textContent=(state.outputs.previewSub||state.brief.description||'Briefing, orçamento e pré-impressão em nodes.').slice(0,120);
+  $('mockCta').textContent=(state.outputs.previewCta||state.brief.goal||'ARTE PRONTA').toUpperCase();
   const active=NODE_DEF.findIndex(n=>nodeStatus(n.id)!=='done');
   $('pipelineList').innerHTML=NODE_DEF.map((n,i)=>`<div class="miniItem ${nodeStatus(n.id)==='done'?'done':i===active?'active':''}"><span class="miniDot"></span><span>${escapeHtml(n.title)}</span></div>`).join('');
 }
@@ -1020,15 +1022,72 @@ function calcQuote(write=true){
   return total;
 }
 function buildQuoteText(){const p=product();return `ORÇAMENTO PROFISSIONAL — ${state.brief.client}\n\nProduto: ${p.name}\nProjeto: ${state.brief.project||'Sem título'}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nQuantidade: ${state.product.qty}\nEntrega: ${state.product.delivery}\n\nCriação/arte: ${money(state.quote.design)}\nProdução/impressão estimada: ${money(state.quote.print)}\nAcabamento extra: ${money(state.quote.finishCost)}\nUrgência: ${money(state.quote.urgency)}\nMargem aplicada: ${state.quote.margin}%\n\nTOTAL SUGERIDO: ${money(state.quote.total)}\n\nObservação: valor estimativo. Confirmar custo final conforme fornecedor, material, prazo, máquina, cidade e aprovação do cliente.`;}
+function stripCodeFence(text){
+  return String(text || '')
+    .trim()
+    .replace(/^```(?:json)?\s*/i,'')
+    .replace(/```$/,'')
+    .trim();
+}
 function safeJsonParse(text){
-  try{return JSON.parse(text);}catch(e){return null;}
+  const clean = stripCodeFence(text);
+  try{return JSON.parse(clean);}catch(e){}
+  const start = clean.indexOf('{');
+  const end = clean.lastIndexOf('}');
+  if(start >= 0 && end > start){
+    try{return JSON.parse(clean.slice(start,end+1));}catch(e){}
+  }
+  return null;
+}
+function isPlainObject(value){
+  return value && typeof value === 'object' && !Array.isArray(value);
+}
+function humanLabel(key){
+  const map = {
+    titulo:'Título', title:'Título', headline:'Título',
+    subtitulo:'Subtítulo', subtitle:'Subtítulo',
+    cta:'CTA', texto_curto:'Texto curto', short_text:'Texto curto',
+    visualDNA:'DNA visual', dna_visual:'DNA visual', analise_visual:'Análise visual',
+    art:'Direção de arte', artDirection:'Direção de arte', direcao_de_arte:'Direção de arte',
+    copy:'Copy', promptPT:'Prompt IA PT', promptEN:'Prompt IA EN',
+    prepress:'Pré-impressão', production:'Produção', package:'Pacote final', proposal:'Diagnóstico'
+  };
+  return map[key] || String(key).replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^./,c=>c.toUpperCase());
+}
+function formatAIValue(value, depth=0){
+  if(value == null) return '';
+  if(typeof value === 'string'){
+    const parsed = safeJsonParse(value);
+    if(parsed) return formatAIValue(parsed, depth);
+    return value.trim();
+  }
+  if(Array.isArray(value)){
+    return value.map((item,i)=>{
+      if(isPlainObject(item)) return `${i+1}. ${formatAIValue(item, depth+1).replace(/\n/g,'\n   ')}`;
+      return `• ${formatAIValue(item, depth+1)}`;
+    }).join('\n');
+  }
+  if(isPlainObject(value)){
+    return Object.entries(value)
+      .filter(([,v])=>v !== undefined && v !== null && String(formatAIValue(v, depth+1)).trim())
+      .map(([k,v])=>`${humanLabel(k)}:\n${formatAIValue(v, depth+1)}`)
+      .join('\n\n');
+  }
+  return String(value);
 }
 function firstFilled(){
   for(const value of arguments){
-    if(typeof value === 'string' && value.trim()) return value;
-    if(value && typeof value === 'object' && !Array.isArray(value)) return value;
+    const formatted = formatAIValue(value);
+    if(formatted && formatted.trim()) return formatted.trim();
   }
   return '';
+}
+function previewFromParsed(parsed){
+  if(!parsed || typeof parsed !== 'object') return {};
+  const title = firstFilled(parsed.titulo, parsed.title, parsed.headline, parsed.nome, parsed.cabecalho);
+  const subtitle = firstFilled(parsed.subtitulo, parsed.subtitle, parsed.texto_curto, parsed.short_text, parsed.descricao_curta);
+  const cta = firstFilled(parsed.cta, parsed.chamada, parsed.call_to_action, parsed.botao);
+  return {title, subtitle, cta};
 }
 function buildPrintPayload(nodeId){
   const p = product();
@@ -1068,17 +1127,22 @@ function normalizePrintAIResponse(raw){
     (raw && raw.data && typeof raw.data === 'object' && raw.data) ||
     parsedFromText ||
     {};
+  const preview = previewFromParsed(parsed);
+  const genericBlock = formatAIValue(parsed) || (typeof raw?.text === 'string' ? stripCodeFence(raw.text) : '');
   return {
-    visualDNA: firstFilled(parsed.visualDNA, parsed.dna_visual, parsed.analise_visual, parsed.dna, parsed.refs),
-    art: firstFilled(parsed.art, parsed.artDirection, parsed.direcao_de_arte, parsed.direcaoArte, parsed.layout),
-    copy: firstFilled(parsed.copy, parsed.copys, parsed.texto, parsed.copywriting, parsed.headlines),
-    promptPT: firstFilled(parsed.promptPT, parsed.prompt_pt, parsed.prompt, parsed.promptImagem, parsed.prompt_ia),
-    promptEN: firstFilled(parsed.promptEN, parsed.prompt_en, parsed.promptEnglish),
+    visualDNA: firstFilled(parsed.visualDNA, parsed.dna_visual, parsed.analise_visual, parsed.dna, parsed.refs, parsed.referencias, parsed.marca),
+    art: firstFilled(parsed.art, parsed.artDirection, parsed.direcao_de_arte, parsed.direcaoArte, parsed.layout, parsed.composicao, parsed.estilo_visual),
+    copy: firstFilled(parsed.copy, parsed.copys, parsed.texto, parsed.copywriting, parsed.headlines, parsed.titulo ? {titulo:parsed.titulo, subtitulo:parsed.subtitulo, cta:parsed.cta, texto_curto:parsed.texto_curto} : ''),
+    promptPT: firstFilled(parsed.promptPT, parsed.prompt_pt, parsed.prompt, parsed.promptImagem, parsed.prompt_ia, parsed.prompt_portugues),
+    promptEN: firstFilled(parsed.promptEN, parsed.prompt_en, parsed.promptEnglish, parsed.prompt_ingles),
     prepress: firstFilled(parsed.prepress, parsed.pre_impressao, parsed.preImpressao, parsed.checklist),
     production: firstFilled(parsed.production, parsed.producao, parsed.entrega, parsed.ordemProducao),
     package: firstFilled(parsed.package, parsed.pacote, parsed.pacoteFinal, parsed.final),
-    proposal: firstFilled(parsed.proposal, parsed.diagnostico, parsed.briefing, parsed.strategy),
-    rawText: typeof raw?.text === 'string' ? raw.text : ''
+    proposal: firstFilled(parsed.proposal, parsed.diagnostico, parsed.briefing, parsed.strategy, parsed.resumo),
+    previewTitle: preview.title,
+    previewSub: preview.subtitle,
+    previewCta: preview.cta,
+    rawText: genericBlock
   };
 }
 async function callPrintAI(nodeId){
@@ -1103,6 +1167,9 @@ function applyAIFields(ai, overwrite=false){
   if(ai.prepress && (overwrite || !state.outputs.prepress.trim())) state.outputs.prepress = ai.prepress;
   if(ai.production && (overwrite || !state.outputs.production.trim())) state.outputs.production = ai.production;
   if(ai.package && (overwrite || !state.outputs.package.trim())) state.outputs.package = ai.package;
+  if(ai.previewTitle && (overwrite || !state.outputs.previewTitle)) state.outputs.previewTitle = ai.previewTitle;
+  if(ai.previewSub && (overwrite || !state.outputs.previewSub)) state.outputs.previewSub = ai.previewSub;
+  if(ai.previewCta && (overwrite || !state.outputs.previewCta)) state.outputs.previewCta = ai.previewCta;
 }
 function localVisualDNA(){
   const p=product();
@@ -1120,6 +1187,7 @@ async function analyzeRefs(reopen=true){
     toast('Analisando referências com IA...');
     const ai = await callPrintAI('refs');
     state.visualDNA = ai.visualDNA || ai.rawText || localVisualDNA();
+    applyAIFields(ai,false);
     saveState();
     refreshAll(true);
     if(reopen) openStation('refs'); else scheduleSave();
@@ -1171,15 +1239,16 @@ Leitura profissional: a peça precisa comunicar uma promessa única, manter leit
     }
     toast('Chamando IA do Print Remotion...');
     const ai = await callPrintAI(id);
-    if(id==='art') state.outputs.art = ai.art || ai.rawText || generateArtDirection();
-    if(id==='copy') state.outputs.copy = ai.copy || ai.rawText || generateCopy();
+    if(id==='art'){ state.outputs.art = ai.art || ai.rawText || generateArtDirection(); applyAIFields(ai,false); }
+    if(id==='copy'){ state.outputs.copy = ai.copy || ai.rawText || generateCopy(); applyAIFields(ai,true); }
     if(id==='prompt'){
       const local = generatePrompts();
       state.outputs.promptPT = ai.promptPT || ai.rawText || local.pt;
       state.outputs.promptEN = ai.promptEN || local.en;
+      applyAIFields(ai,false);
     }
-    if(id==='prepress') state.outputs.prepress = ai.prepress || ai.rawText || generatePrepress();
-    if(id==='production') state.outputs.production = ai.production || ai.rawText || generateProduction();
+    if(id==='prepress'){ state.outputs.prepress = ai.prepress || ai.rawText || generatePrepress(); applyAIFields(ai,false); }
+    if(id==='production'){ state.outputs.production = ai.production || ai.rawText || generateProduction(); applyAIFields(ai,false); }
     if(id==='package'){
       applyAIFields(ai,false);
       state.outputs.package = ai.package || ai.rawText || assemblePackage();
@@ -1213,7 +1282,7 @@ function generateCopy(){return `COPY DA PEÇA — ${state.brief.client}\n\nTÍTU
 function generatePrompts(){const base=`cliente ${state.brief.client}, segmento ${state.brief.segment}, objetivo ${state.brief.goal}, produto gráfico ${product().name}, formato ${state.product.width}x${state.product.height}${state.product.unit}, tom ${state.brief.tone}, composição publicitária moderna, espaço limpo para inserir texto depois, hierarquia visual forte, iluminação comercial, aparência profissional, alta qualidade, sem texto embutido na imagem, sem logotipos fictícios, sem copiar marcas de terceiros`;return {pt:`Crie uma arte/imagem de apoio para peça gráfica de ${base}. Priorize contraste, clareza, elegância visual e área negativa para o designer inserir título, oferta, WhatsApp e informações obrigatórias.`,en:`Create a support image/artwork for a professional graphic design piece: ${base}. Prioritize contrast, clarity, clean visual hierarchy, commercial lighting, professional look, and negative space so the designer can add headline, offer, WhatsApp and mandatory client information later.`};}
 function generatePrepress(){const isDigital=state.product.unit==='px'||state.product.material.includes('Digital');return `CHECKLIST PERSONALIZADO DE PRÉ-IMPRESSÃO\n\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nDestino: ${isDigital?'Digital / redes sociais':'Impressão gráfica'}\n\n${isDigital?'- Exportar em RGB.\n- Conferir proporção e legibilidade no celular.\n- Salvar PNG para qualidade ou JPG leve para tráfego.':'- Usar CMYK.\n- Trabalhar em 300 DPI.\n- Aplicar sangria mínima de 3 mm.\n- Manter margem segura de 3 a 5 mm.\n- Converter fontes em curvas ou incorporar no PDF.\n- Exportar PDF em alta qualidade/PDF-X quando aplicável.'}\n\nRevisar obrigatoriamente: preço, telefone, data, endereço, redes sociais, ortografia, acentos e autorização final do cliente.`;}
 function generateProduction(){return `ORDEM DE PRODUÇÃO / ENTREGA\n\nCliente: ${state.brief.client}\nProjeto: ${state.brief.project||product().name}\nProduto: ${product().name}\nQuantidade: ${state.product.qty}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\nPrazo: ${state.brief.deadline}\n\nARQUIVOS A ENTREGAR\n- Arte final em ${state.product.delivery}.\n- Versão editável, se contratada.\n- Preview JPG/PNG para aprovação.\n- Observações de produção e checklist técnico.\n\nSTATUS\nAguardar aprovação final do cliente antes de imprimir ou publicar.`;}
-function assemblePackage(){calcQuote(false);const pkg=`PRINT REMOTION — PACOTE GRÁFICO FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n10. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
+function assemblePackage(){calcQuote(false);const pkg=`PRINT REMOTION — PACOTE GRÁFICO FINAL\nGerado em: ${new Date().toLocaleString('pt-BR')}\n\n==============================\n1. BRIEFING\n==============================\nProjeto: ${state.brief.project||'Sem título'}\nCliente: ${state.brief.client}\nSegmento: ${state.brief.segment}\nObjetivo: ${state.brief.goal}\nTom: ${state.brief.tone}\nPúblico: ${state.brief.audience}\nDescrição: ${state.brief.description}\nTexto obrigatório: ${state.brief.required}\nPrazo: ${state.brief.deadline}\n\n==============================\nPREVIEW / CHAMADA PRINCIPAL\n==============================\nTítulo: ${state.outputs.previewTitle||state.brief.project||product().name}\nSubtítulo: ${state.outputs.previewSub||state.brief.description}\nCTA: ${state.outputs.previewCta||state.brief.goal}\n\n==============================\n2. PRODUTO GRÁFICO\n==============================\nProduto: ${product().name}\nFormato: ${state.product.width}x${state.product.height}${state.product.unit}\nQuantidade: ${state.product.qty}\nMaterial: ${state.product.material}\nAcabamento: ${state.product.finish}\nEntrega: ${state.product.delivery}\n\n==============================\n3. DNA VISUAL\n==============================\n${state.visualDNA||'Pendente'}\n\n==============================\n4. ORÇAMENTO\n==============================\n${state.outputs.quote||buildQuoteText()}\n\n==============================\n5. DIREÇÃO DE ARTE\n==============================\n${state.outputs.art||generateArtDirection()}\n\n==============================\n6. COPY\n==============================\n${state.outputs.copy||generateCopy()}\n\n==============================\n7. PROMPT IA — PORTUGUÊS\n==============================\n${state.outputs.promptPT||generatePrompts().pt}\n\n==============================\n8. PROMPT IA — ENGLISH\n==============================\n${state.outputs.promptEN||generatePrompts().en}\n\n==============================\n9. PRÉ-IMPRESSÃO\n==============================\n${state.outputs.prepress||generatePrepress()}\n\n==============================\n10. PRODUÇÃO\n==============================\n${state.outputs.production||generateProduction()}\n`;
   state.outputs.package=pkg;return pkg;
 }
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Copiado')).catch(()=>toast('Não foi possível copiar'));}
@@ -1314,7 +1383,7 @@ init();
 (function(){
   function patchPrintV101(){
     try{
-      document.title = "Print Remotion — Gráfica Nodes OS Aprovado V10.1";
+      document.title = "Print Remotion — Gráfica Nodes OS Aprovado V10.3 IA Formatada";
       var s = document.querySelector('.brand span');
       if(s) s.textContent = 'gráfica nodes os • aprovado • visual alinhado ao studio';
       var note = document.querySelector('.print-approved-note');
