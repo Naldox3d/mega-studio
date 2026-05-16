@@ -129,6 +129,20 @@ ${negativePrompt}
 `.trim();
 }
 
+function buildNumericSeed(payload) {
+  const rawSeed = payload.seed;
+
+  if (rawSeed !== undefined && rawSeed !== null && rawSeed !== "") {
+    const parsedSeed = Number(rawSeed);
+
+    if (Number.isFinite(parsedSeed)) {
+      return Math.floor(parsedSeed);
+    }
+  }
+
+  return Math.floor(Math.random() * 2147483647);
+}
+
 async function pollinationsFetchImageAsDataUrl(url) {
   const response = await fetch(url, {
     method: "GET",
@@ -173,10 +187,7 @@ async function callPollinationsImage(payload, variantLabel = "A") {
 
   const prompt = buildPollinationsPrompt(payload, variantLabel);
   const size = normalizeSize(payload.size || "1024x1024");
-
-  const seed =
-    payload.seed ||
-    `${Date.now()}-${variantLabel}-${Math.floor(Math.random() * 999999)}`;
+  const seed = buildNumericSeed(payload);
 
   const params = new URLSearchParams({
     model,
@@ -221,7 +232,7 @@ export default async function handler(req, res) {
     return sendJson(res, 200, {
       ok: true,
       route: "/api/visual-image",
-      version: "Pollinations Flux V1",
+      version: "Pollinations Flux V2 seed fix",
       provider: "pollinations",
       model: process.env.POLLINATIONS_IMAGE_MODEL || "flux",
       hasPollinationsKey: Boolean(process.env.POLLINATIONS_API_KEY),
