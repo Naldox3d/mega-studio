@@ -1,37 +1,18 @@
 /**
- * Portal Genesis Print Remotion — API Visual V14
+ * Portal Genesis Print Remotion — API Visual Pollinations Flux
  * Arquivo de produção Vercel: api/visual-image.js
  *
- * Função:
- * - Gemini como principal para gerar/editar imagem no Print.
- * - Claude como fallback textual caso o Gemini falhe por limite/erro.
+ * Variável obrigatória na Vercel:
+ * - POLLINATIONS_API_KEY=sk_...
  *
- * Variáveis na Vercel:
- * - GEMINI_API_KEY=...
- * - ANTHROPIC_API_KEY=...
- * - PRINT_IMAGE_PROVIDER=gemini
- * - TEXT_PROVIDER=claude
- * - PRINT_TEXT_FALLBACK=claude
+ * Variável opcional:
+ * - POLLINATIONS_IMAGE_MODEL=flux
  *
- * O endpoint usado pelo HTML continua:
- * /api/visual-image
+ * Endpoint usado pelo HTML:
+ * - /api/visual-image
  */
 
-const GEMINI_MODEL =
-  process.env.GEMINI_IMAGE_MODEL ||
-  process.env.PRINT_GEMINI_MODEL ||
-  "gemini-2.5-flash-image";
-
-const GEMINI_FALLBACK_MODEL =
-  process.env.GEMINI_IMAGE_FALLBACK_MODEL || "";
-
-const CLAUDE_MODEL =
-  process.env.CLAUDE_TEXT_MODEL ||
-  process.env.ANTHROPIC_MODEL ||
-  "claude-haiku-4-5";
-
-const GEMINI_ENDPOINT_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
-const CLAUDE_MESSAGES_ENDPOINT = "https://api.anthropic.com/v1/messages";
+const POLLINATIONS_IMAGE_BASE = "https://gen.pollinations.ai/image";
 
 function sendJson(res, status, data) {
   res.status(status);
@@ -57,137 +38,41 @@ function parseBody(req) {
   return req.body;
 }
 
-function parseDataUrl(dataUrl = "") {
-  if (typeof dataUrl !== "string") return null;
+function normalizeSize(size = "1024x1024") {
+  const clean = String(size || "").toLowerCase().trim();
+  const match = clean.match(/^(\d{2,5})x(\d{2,5})$/);
 
-  const clean = dataUrl.trim();
-
-  const match = clean.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
-
-  if (match) {
+  if (!match) {
     return {
-      mimeType: match[1],
-      data: match[2],
+      width: 1024,
+      height: 1024,
+      label: "1024x1024",
     };
   }
 
-  if (clean.length > 100 && /^[A-Za-z0-9+/=\r\n]+$/.test(clean)) {
-    return {
-      mimeType: "image/png",
-      data: clean.replace(/\s/g, ""),
-    };
-  }
+  const width = Math.max(256, Math.min(Number(match[1]), 2048));
+  const height = Math.max(256, Math.min(Number(match[2]), 2048));
 
-  return null;
-}
-
-function collectImages(payload) {
-  const images = [];
-
-  const directFields = [
-    payload.image,
-    payload.baseImage,
-    payload.base_image,
-    payload.referenceImage,
-    payload.reference_image,
-    payload.productImage,
-    payload.product_image,
-    payload.previewImage,
-    payload.preview_image,
-  ];
-
-  for (const item of directFields) {
-    const parsed = parseDataUrl(item);
-    if (parsed) images.push(parsed);
-  }
-
-  const arrays = [
-    payload.images,
-    payload.references,
-    payload.referenceImages,
-    payload.reference_images,
-    payload.input_images,
-  ];
-
-  for (const arr of arrays) {
-    if (!Array.isArray(arr)) continue;
-
-    for (const item of arr) {
-      if (typeof item === "string") {
-        const parsed = parseDataUrl(item);
-        if (parsed) images.push(parsed);
-        continue;
-      }
-
-      if (item && typeof item === "object") {
-        const possible =
-          item.dataUrl ||
-          item.data_url ||
-          item.image ||
-          item.base64 ||
-          item.src ||
-          item.url;
-
-        const parsed = parseDataUrl(possible);
-
-        if (parsed) {
-          images.push({
-            mimeType: safeString(item.mimeType || item.mime_type, parsed.mimeType),
-            data: parsed.data,
-          });
-        }
-      }
-    }
-  }
-
-  const unique = [];
-  const seen = new Set();
-
-  for (const img of images) {
-    const key = `${img.mimeType}:${img.data.slice(0, 80)}`;
-
-    if (!seen.has(key)) {
-      seen.add(key);
-      unique.push(img);
-    }
-  }
-
-  return unique.slice(0, 8);
-}
-
-function isLimitOrQuotaError(status, data) {
-  const text = JSON.stringify(data || {}).toLowerCase();
-
-  return (
-    status === 400 ||
-    status === 401 ||
-    status === 403 ||
-    status === 404 ||
-    status === 429 ||
-    text.includes("quota") ||
-    text.includes("limit") ||
-    text.includes("rate") ||
-    text.includes("exceeded") ||
-    text.includes("permission") ||
-    text.includes("billing") ||
-    text.includes("not found") ||
-    text.includes("unavailable")
-  );
+  return {
+    width,
+    height,
+    label: `${width}x${height}`,
+  };
 }
 
 function buildVariantRules(variantLabel) {
   const label = safeString(variantLabel, "A").toUpperCase();
 
   const rules = {
-    A: "VERSÃO A: máxima fidelidade à imagem base, alteração controlada, proporção realista, sombra coerente e acabamento limpo.",
-    B: "VERSÃO B: acabamento mais premium/publicitário, iluminação mais limpa, contraste elegante, textura refinada e aspecto comercial.",
-    C: "VERSÃO C: leitura mais forte para anúncio, banner, vitrine e social media, impacto visual maior sem perder a identidade.",
+    A: "VERSION A: maximum fidelity, clean composition, realistic proportions, coherent lighting and professional finish.",
+    B: "VERSION B: more premium advertising finish, refined lighting, elegant contrast, polished commercial texture.",
+    C: "VERSION C: stronger visual impact for ads, social media, banners and storefronts while preserving realism and identity.",
   };
 
   return rules[label] || rules.A;
 }
 
-function buildVisualPrompt(payload, variantLabel = "A") {
+function buildPollinationsPrompt(payload, variantLabel = "A") {
   const userPrompt =
     payload.prompt ||
     payload.visualPrompt ||
@@ -198,11 +83,11 @@ function buildVisualPrompt(payload, variantLabel = "A") {
   const negativePrompt =
     payload.negativePrompt ||
     payload.negative_prompt ||
-    "watermark, unreadable text, fake logo, distorted product, deformed hands, low quality, blur, artifacts";
+    "watermark, unreadable text, fake logo, distorted product, deformed hands, low quality, blur, artifacts, low resolution, bad anatomy, duplicated limbs";
 
   const outputKind = safeString(
     payload.outputKind || payload.output_kind || payload.kind || payload.type,
-    "imagem final para Print Remotion"
+    "professional final image"
   );
 
   const mode = safeString(payload.mode || payload.action, "generate");
@@ -210,334 +95,117 @@ function buildVisualPrompt(payload, variantLabel = "A") {
   const quality = safeString(payload.quality, "high");
 
   return `
-Você é o motor visual profissional do Portal Genesis Print Remotion.
+Create a professional high-quality image for Portal Genesis Print Remotion.
 
-OBJETIVO:
-Gerar ou editar uma imagem final profissional para: ${outputKind}.
+OUTPUT TYPE:
+${outputKind}
 
-MODO:
+MODE:
 ${mode}
 
-TAMANHO / PROPORÇÃO DESEJADA:
+REQUESTED SIZE / ASPECT:
 ${size}
 
-QUALIDADE:
+QUALITY:
 ${quality}
 
-DIREÇÃO DA VARIAÇÃO:
+VARIATION DIRECTION:
 ${buildVariantRules(variantLabel)}
 
-INSTRUÇÃO PRINCIPAL DO USUÁRIO:
+MAIN USER INSTRUCTION:
 ${userPrompt}
 
-REGRAS DE PRESERVAÇÃO:
-- Use as imagens enviadas como referência visual quando existirem.
-- Preserve identidade visual, composição, escala, produto, materiais, iluminação, textura e proporções sempre que isso for coerente com o pedido.
-- Se for produto, manter o produto reconhecível, com forma, cor, volume e acabamento consistentes.
-- Se for estampa, mockup, poster, banner ou social media, priorizar leitura, impacto e acabamento profissional.
-- Não inventar logotipos, marcas, textos ilegíveis, assinaturas ou marcas d’água.
-- Não deformar rosto, corpo, roupa, produto ou objeto de referência.
-- Entregar uma imagem final limpa, profissional, sem sujeira visual e pronta para aprovação.
+PRODUCTION RULES:
+- Follow the user's instruction with maximum fidelity.
+- Keep realistic proportions, natural lighting, clean composition and professional commercial quality.
+- If the prompt asks for a product, keep the product clear, recognizable and commercially attractive.
+- If the prompt asks for social media, ad, banner, mockup or poster, prioritize impact, readability and premium finish.
+- Do not invent unreadable text, fake logos, random signatures or watermarks.
+- Do not deform faces, bodies, clothing, products or important objects.
+- Final image must look polished, realistic and ready to use.
 
 NEGATIVE PROMPT:
 ${negativePrompt}
 `.trim();
 }
 
-function extractGeminiImages(data) {
-  const parts = [];
-
-  const candidates = Array.isArray(data?.candidates) ? data.candidates : [];
-
-  for (const candidate of candidates) {
-    const candidateParts = candidate?.content?.parts || [];
-
-    for (const part of candidateParts) {
-      parts.push(part);
-    }
-  }
-
-  if (Array.isArray(data?.parts)) {
-    parts.push(...data.parts);
-  }
-
-  const images = [];
-
-  for (const part of parts) {
-    const inline =
-      part.inlineData ||
-      part.inline_data ||
-      part.fileData ||
-      part.file_data;
-
-    const mimeType =
-      inline?.mimeType ||
-      inline?.mime_type ||
-      "image/png";
-
-    const base64 =
-      inline?.data ||
-      inline?.fileUri ||
-      inline?.file_uri ||
-      "";
-
-    if (!base64) continue;
-
-    if (base64.startsWith("data:image/")) {
-      images.push(base64);
-    } else if (/^https?:\/\//.test(base64)) {
-      images.push(base64);
-    } else {
-      images.push(`data:${mimeType};base64,${base64}`);
-    }
-  }
-
-  return images;
-}
-
-function extractGeminiText(data) {
-  const pieces = [];
-  const candidates = Array.isArray(data?.candidates) ? data.candidates : [];
-
-  for (const candidate of candidates) {
-    const parts = candidate?.content?.parts || [];
-
-    for (const part of parts) {
-      if (typeof part.text === "string") {
-        pieces.push(part.text);
-      }
-    }
-  }
-
-  return pieces.join("\n").trim();
-}
-
-async function callGeminiImage(payload, variantLabel = "A", modelName = GEMINI_MODEL) {
-  const prompt = buildVisualPrompt(payload, variantLabel);
-  const images = collectImages(payload);
-
-  const parts = [
-    {
-      text: prompt,
-    },
-  ];
-
-  for (const image of images) {
-    parts.push({
-      inline_data: {
-        mime_type: image.mimeType || "image/png",
-        data: image.data,
-      },
-    });
-  }
-
-  const url = `${GEMINI_ENDPOINT_BASE}/${encodeURIComponent(modelName)}:generateContent`;
-
+async function pollinationsFetchImageAsDataUrl(url) {
   const response = await fetch(url, {
-    method: "POST",
+    method: "GET",
     headers: {
-      "x-goog-api-key": process.env.GEMINI_API_KEY,
-      "Content-Type": "application/json",
+      Accept: "image/png,image/jpeg,image/webp,*/*",
     },
-    body: JSON.stringify({
-      contents: [
-        {
-          role: "user",
-          parts,
-        },
-      ],
-      generationConfig: {
-        responseModalities: ["TEXT", "IMAGE"],
-      },
-    }),
   });
 
-  const data = await response.json().catch(() => ({}));
-
   if (!response.ok) {
-    const message =
-      data?.error?.message ||
-      `Gemini falhou com status ${response.status}.`;
-
-    const error = new Error(message);
-    error.status = response.status;
-    error.data = data;
-    error.provider = "gemini";
-    error.model = modelName;
-    throw error;
-  }
-
-  const imagesOut = extractGeminiImages(data);
-  const textOut = extractGeminiText(data);
-
-  if (!imagesOut.length) {
-    const error = new Error(
-      textOut ||
-        "Gemini respondeu, mas não retornou imagem. Verifique se sua chave tem acesso ao modelo gemini-2.5-flash-image."
+    const text = await response.text().catch(() => "");
+    throw new Error(
+      `Pollinations falhou com status ${response.status}. ${text || ""}`.trim()
     );
-
-    error.status = 500;
-    error.data = data;
-    error.provider = "gemini";
-    error.model = modelName;
-    throw error;
   }
 
-  return {
-    ok: true,
-    provider: "gemini",
-    model: modelName,
-    variant: variantLabel,
-    image: imagesOut[0],
-    images: imagesOut.map((img) => ({
-      dataUrl: img,
-      variant: variantLabel,
-      provider: "gemini",
-      model: modelName,
-    })),
-    text: textOut,
-  };
-}
+  const contentType = response.headers.get("content-type") || "image/png";
 
-async function callClaudeTextFallback(payload, geminiError) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return {
-      ok: false,
-      provider: "claude",
-      fallbackType: "text",
-      error: "ANTHROPIC_API_KEY não configurada. Fallback textual indisponível.",
-    };
+  if (!contentType.startsWith("image/")) {
+    const text = await response.text().catch(() => "");
+    throw new Error(
+      `Pollinations não retornou imagem. Content-Type: ${contentType}. Resposta: ${text}`
+    );
   }
 
-  const visualPrompt = buildVisualPrompt(payload, payload.variant || "A");
+  const arrayBuffer = await response.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString("base64");
 
-  const message = `
-Você é o fallback textual do Portal Genesis Print Remotion.
-
-O Gemini falhou ao tentar gerar a imagem final.
-
-Erro técnico resumido:
-${geminiError?.message || "Erro desconhecido."}
-
-Sua tarefa:
-1. Reescrever um prompt visual profissional pronto para o usuário copiar.
-2. Gerar um checklist técnico para o designer ou para tentar novamente no Gemini.
-3. Explicar em uma frase que a imagem final não foi renderizada porque o limite/permissão do gerador visual falhou.
-
-Prompt base:
-${visualPrompt}
-
-Responda em JSON puro com estes campos:
-{
-  "status": "visual_limit_or_error",
-  "message": "...",
-  "professional_prompt_pt": "...",
-  "professional_prompt_en": "...",
-  "negative_prompt_en": "...",
-  "technical_checklist": ["...", "..."],
-  "next_action": "..."
+  return `data:${contentType};base64,${base64}`;
 }
-`.trim();
 
-  const response = await fetch(CLAUDE_MESSAGES_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "x-api-key": process.env.ANTHROPIC_API_KEY,
-      "anthropic-version": "2023-06-01",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: CLAUDE_MODEL,
-      max_tokens: 1800,
-      messages: [
-        {
-          role: "user",
-          content: message,
-        },
-      ],
-    }),
+async function callPollinationsImage(payload, variantLabel = "A") {
+  const apiKey = process.env.POLLINATIONS_API_KEY;
+
+  if (!apiKey) {
+    throw new Error("POLLINATIONS_API_KEY não configurada na Vercel.");
+  }
+
+  const model = safeString(
+    payload.model || payload.imageModel || process.env.POLLINATIONS_IMAGE_MODEL,
+    "flux"
+  );
+
+  const prompt = buildPollinationsPrompt(payload, variantLabel);
+  const size = normalizeSize(payload.size || "1024x1024");
+
+  const seed =
+    payload.seed ||
+    `${Date.now()}-${variantLabel}-${Math.floor(Math.random() * 999999)}`;
+
+  const params = new URLSearchParams({
+    model,
+    key: apiKey,
+    width: String(size.width),
+    height: String(size.height),
+    seed: String(seed),
+    nologo: "true",
+    private: "true",
   });
 
-  const data = await response.json().catch(() => ({}));
-
-  if (!response.ok) {
-    return {
-      ok: false,
-      provider: "claude",
-      fallbackType: "text",
-      error:
-        data?.error?.message ||
-        `Claude fallback falhou com status ${response.status}.`,
-      details: data,
-    };
-  }
-
-  const content = Array.isArray(data?.content) ? data.content : [];
-
-  const text = content
-    .filter((item) => item.type === "text" && item.text)
-    .map((item) => item.text)
-    .join("\n")
-    .trim();
-
-  let parsed = null;
-
-  try {
-    parsed = JSON.parse(text);
-  } catch {
-    parsed = null;
-  }
+  const url = `${POLLINATIONS_IMAGE_BASE}/${encodeURIComponent(prompt)}?${params.toString()}`;
+  const dataUrl = await pollinationsFetchImageAsDataUrl(url);
 
   return {
     ok: true,
-    provider: "claude",
-    model: CLAUDE_MODEL,
-    fallbackType: "text",
-    text,
-    json: parsed,
+    provider: "pollinations",
+    model,
+    variant: variantLabel,
+    image: dataUrl,
+    images: [
+      {
+        dataUrl,
+        variant: variantLabel,
+        provider: "pollinations",
+        model,
+      },
+    ],
   };
-}
-
-async function generateWithGeminiAndFallback(payload, variantLabel = "A") {
-  try {
-    return await callGeminiImage(payload, variantLabel, GEMINI_MODEL);
-  } catch (firstError) {
-    const shouldTrySecondGemini =
-      GEMINI_FALLBACK_MODEL &&
-      GEMINI_FALLBACK_MODEL !== GEMINI_MODEL &&
-      isLimitOrQuotaError(firstError.status, firstError.data);
-
-    if (shouldTrySecondGemini) {
-      try {
-        return await callGeminiImage(payload, variantLabel, GEMINI_FALLBACK_MODEL);
-      } catch (secondError) {
-        const fallback = await callClaudeTextFallback(payload, secondError);
-
-        return {
-          ok: false,
-          provider: "gemini",
-          fallbackProvider: "claude",
-          fallbackType: "text",
-          visualGenerated: false,
-          error: secondError.message,
-          firstGeminiError: firstError.message,
-          claudeFallback: fallback,
-        };
-      }
-    }
-
-    const fallback = await callClaudeTextFallback(payload, firstError);
-
-    return {
-      ok: false,
-      provider: "gemini",
-      fallbackProvider: "claude",
-      fallbackType: "text",
-      visualGenerated: false,
-      error: firstError.message,
-      claudeFallback: fallback,
-    };
-  }
 }
 
 export default async function handler(req, res) {
@@ -553,16 +221,11 @@ export default async function handler(req, res) {
     return sendJson(res, 200, {
       ok: true,
       route: "/api/visual-image",
-      version: "V14 Gemini principal + Claude fallback textual",
-      provider: "gemini",
-      model: GEMINI_MODEL,
-      fallbackGeminiModel: GEMINI_FALLBACK_MODEL || null,
-      textFallback: "claude",
-      claudeModel: CLAUDE_MODEL,
-      hasGeminiKey: Boolean(process.env.GEMINI_API_KEY),
-      hasClaudeKey: Boolean(process.env.ANTHROPIC_API_KEY),
-      message:
-        "API visual ativa. Use POST para gerar imagem com Gemini. Claude entra apenas como fallback textual.",
+      version: "Pollinations Flux V1",
+      provider: "pollinations",
+      model: process.env.POLLINATIONS_IMAGE_MODEL || "flux",
+      hasPollinationsKey: Boolean(process.env.POLLINATIONS_API_KEY),
+      message: "API visual ativa. Use POST para gerar imagem com Pollinations Flux.",
     });
   }
 
@@ -575,21 +238,6 @@ export default async function handler(req, res) {
 
   const payload = parseBody(req);
   const action = safeString(payload.action, "generate");
-
-  if (!process.env.GEMINI_API_KEY) {
-    const fallback = await callClaudeTextFallback(payload, {
-      message: "GEMINI_API_KEY não configurada.",
-    });
-
-    return sendJson(res, 500, {
-      ok: false,
-      visualGenerated: false,
-      provider: "gemini",
-      fallbackProvider: "claude",
-      error: "GEMINI_API_KEY não configurada na Vercel.",
-      claudeFallback: fallback,
-    });
-  }
 
   if (
     !payload.prompt &&
@@ -608,7 +256,7 @@ export default async function handler(req, res) {
       const versions = [];
 
       for (const variant of ["A", "B", "C"]) {
-        const result = await generateWithGeminiAndFallback(
+        const result = await callPollinationsImage(
           {
             ...payload,
             variant,
@@ -616,53 +264,21 @@ export default async function handler(req, res) {
           variant
         );
 
-        if (result.ok && result.images?.length) {
-          versions.push(result.images[0]);
-        } else {
-          versions.push({
-            variant,
-            provider: "claude",
-            fallbackType: "text",
-            visualGenerated: false,
-            error: result.error,
-            claudeFallback: result.claudeFallback,
-          });
-        }
-      }
-
-      const generated = versions.filter((item) => item.dataUrl || item.image);
-
-      if (!generated.length) {
-        return sendJson(res, 500, {
-          ok: false,
-          visualGenerated: false,
-          provider: "gemini",
-          fallbackProvider: "claude",
-          error:
-            "Nenhuma variação visual foi gerada. O fallback textual foi retornado nas versões.",
-          images: versions,
-        });
+        versions.push(result.images[0]);
       }
 
       return sendJson(res, 200, {
         ok: true,
         visualGenerated: true,
-        provider: "gemini",
-        model: GEMINI_MODEL,
+        provider: "pollinations",
+        model: process.env.POLLINATIONS_IMAGE_MODEL || payload.model || "flux",
         images: versions,
-        image: generated[0].dataUrl || generated[0].image,
-        message: "Variações A/B/C geradas com Gemini.",
+        image: versions[0].dataUrl,
+        message: "Variações A/B/C geradas com Pollinations Flux.",
       });
     }
 
-    const result = await generateWithGeminiAndFallback(
-      payload,
-      payload.variant || "A"
-    );
-
-    if (!result.ok) {
-      return sendJson(res, 500, result);
-    }
+    const result = await callPollinationsImage(payload, payload.variant || "A");
 
     return sendJson(res, 200, {
       ok: true,
@@ -671,19 +287,14 @@ export default async function handler(req, res) {
       model: result.model,
       image: result.image,
       images: result.images,
-      text: result.text,
-      message: "Imagem gerada com Gemini.",
+      message: "Imagem gerada com Pollinations Flux.",
     });
   } catch (error) {
-    const fallback = await callClaudeTextFallback(payload, error);
-
     return sendJson(res, 500, {
       ok: false,
       visualGenerated: false,
-      provider: "gemini",
-      fallbackProvider: "claude",
+      provider: "pollinations",
       error: error.message || "Erro interno ao gerar imagem.",
-      claudeFallback: fallback,
     });
   }
 }
