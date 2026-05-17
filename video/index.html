@@ -1,136 +1,124 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Portal Genesis — Video Remotion V1.7</title>
-<link rel="stylesheet" href="style.css"/>
-<style>
-:root {
-  --bg:#05070d; --panel:#0d1425; --text:#eef3ff;
-  --gold:#d8b46f; --cyan:#6ee7df; --green:#78e2a2;
-  --purple:#b99cff; --shadow:0 24px 90px rgba(0,0,0,.48);
-  --radius:18px;
-}
-/* ... Todo CSS do patch V1.7 do seu arquivo original, incluindo responsividade ... */
-body,html{height:100%;margin:0;padding:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:#05070d;color:#eef3ff;}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-/* ... continua mantendo todos os estilos de nodes, canvas, topbar, minimap, floatingTools, flowPanel, inspector, station ... */
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Genesis - Video Remotion</title>
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <div class="brand">
-      <div class="brandMark">PG</div>
-      <div class="brandText"><strong>Portal Genesis Video</strong>
-      <span>Marketing • Adventures • Punk • Vitrine Business de Caruaru</span></div>
+<div class="module-shell">
+  <header class="module-topbar">
+    <div class="module-title">
+      <h1>Video Remotion</h1>
+      <p>Motor audiovisual para roteiro, storyboard, Remotion JSON, SRT, som e CapCut Book.</p>
     </div>
-    <div class="statusStrip">
-      <span class="chip gold" id="projectChip">Projeto: Sem título</span>
-      <span class="chip" id="autosaveChip">Salvo localmente</span>
-      <span class="chip good" id="progressChip">0% pronto</span>
-    </div>
-    <div class="topActions">
-      <button class="btn cyan" onclick="openStation('brief')">Abrir Briefing</button>
-      <button class="btn gold" onclick="generateAll()">Gerar Pipeline</button>
-      <button class="btn green" onclick="exportPackage()">Exportar</button>
-      <button class="btn red" onclick="resetProject()">Reset</button>
+    <div class="actions-row">
+      <button class="btn cyan" id="addNodeBtn" type="button">Novo Node</button>
+      <button class="btn violet" id="autoLayoutBtn" type="button">Organizar</button>
+      <button class="btn green" id="exportTxtBtn" type="button">TXT</button>
+      <button class="btn gold" id="exportJsonBtn" type="button">JSON</button>
+      <button class="btn rose" id="resetBtn" type="button">Reset</button>
     </div>
   </header>
 
-  <div class="workspace">
-    <aside class="rail">
-      <div class="railHead">
-        <h2>Video Remotion</h2>
-        <p class="small">Motor audiovisual do Portal Genesis para criar pacotes de vídeo: briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, CapCut Book e entrega para cliente.</p>
+  <main class="module-grid">
+    <aside class="module-side">
+      <div class="panel">
+        <h3>Pipeline</h3>
+        <p class="muted">Fluxo de producao audiovisual.</p>
+        <div class="node-list" id="nodeList"></div>
       </div>
-      <h4>Pipeline</h4><div id="stepsList"></div>
-      <h4>Ações rápidas</h4>
-      <button class="btn block gold" onclick="generateAll()">Preencher uma vez → gerar tudo</button>
-      <button class="btn block cyan" onclick="centerMap()">Centralizar mapa</button>
-      <button class="btn block purple" onclick="autoLayout()">Organizar nodes</button>
     </aside>
 
-    <main class="canvasShell">
-      <div class="toast" id="toast">Salvo</div>
-      <div class="flowPanel is-collapsed" id="flowPanel">
-        <!-- Flow panel minimizado / expandido -->
-        <div class="flowMini" onclick="expandFlowPanel()">
-          <button class="btn tiny cyan" type="button">Fluxo</button>
-          <span id="flowMiniText">Próxima estação: Briefing Mestre</span>
-        </div>
-        <div class="flowBody">
-          <div class="flowHead">
-            <div class="flowHeadText">
-              <h3>Fluxo inteligente</h3>
-              <p id="flowHint">Aprove uma estação, ela compacta e alimenta o próximo node.</p>
-            </div>
-            <div class="flowHeadActions">
-              <button class="btn tiny" onclick="collapseFlowPanel()">Minimizar</button>
-            </div>
-          </div>
-          <div class="flowActions">
-            <button class="btn tiny gold" onclick="openNextPending()">Próximo pendente</button>
-            <button class="btn tiny green" onclick="applyAllReady()">Aprovar prontos</button>
-            <button class="btn tiny cyan" onclick="exportPackage()">Montar pacote</button>
-            <button class="btn tiny purple" onclick="toggleFlowMode()" id="flowToggleBtn">Compactar: ON</button>
-          </div>
-          <div class="flowChecklist" id="flowChecklist"></div>
-        </div>
-      </div>
-
-      <div class="nodeViewport" id="viewport">
-        <div class="nodeMap" id="nodeMap">
-          <svg class="connectorSvg" id="connectorSvg"></svg>
+    <section class="canvas-shell">
+      <div class="node-viewport" id="viewport">
+        <div class="node-map" id="nodeMap">
+          <svg class="connector-svg" id="connectorSvg"></svg>
           <div id="nodesCanvas"></div>
         </div>
       </div>
-
-      <div class="floatingTools">
-        <button class="btn tiny" onclick="zoomMap(-0.1)">−</button>
-        <span class="zoomReadout" id="zoomReadout">100%</span>
-        <button class="btn tiny" onclick="zoomMap(0.1)">+</button>
-        <button class="btn tiny cyan" onclick="centerMap()">Centralizar</button>
-        <button class="btn tiny purple" onclick="autoLayout()">Organizar</button>
+      <div class="canvas-tools">
+        <button class="btn small" id="zoomOutBtn" type="button">-</button>
+        <span class="zoom-readout" id="zoomReadout">100%</span>
+        <button class="btn small" id="zoomInBtn" type="button">+</button>
+        <button class="btn small cyan" id="centerBtn" type="button">Centro</button>
       </div>
+      <div class="minimap" id="minimap"></div>
+    </section>
 
-      <div class="minimap" id="minimap"><div class="minimapTitle">Minimapa</div></div>
-
-      <div class="stationOverlay" id="stationOverlay" onclick="closeStation()"></div>
-      <section class="station" id="station">
-        <!-- Estação de node: briefing, roteiro, motion, remotion, SRT, capcut, assets -->
-      </section>
-    </main>
-
-    <aside class="inspector">
-      <div class="panel"><h3>Diagnóstico</h3><div class="progressWrap"><div class="progressFill" id="progressFill"></div></div><div class="kv" id="diagnosticKV"></div></div>
-      <div class="panel"><h3>Preview leve</h3>
-        <div class="previewCard">
-          <div class="previewGlow"></div>
-          <div class="previewGlow b"></div>
-          <div class="previewTitle" id="previewTitle">Portal Genesis Video</div>
-          <div class="previewSub" id="previewSub">Preencha o briefing para criar vídeo, reels, shorts, campanha ou pacote técnico.</div>
-          <div class="previewCta">GERAR VÍDEO IA</div>
+    <aside class="module-inspector">
+      <div class="panel">
+        <h3>Diagnostico</h3>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="chip-row">
+          <span class="node-status ready" id="progressText">0% pronto</span>
+          <span class="node-status" id="nodeCount">0 nodes</span>
         </div>
+        <p class="muted" id="activeNodeTitle">Nenhum node</p>
+        <div class="message" id="moduleMessage"></div>
       </div>
-      <div class="panel"><h3>Pacote final</h3>
-        <p class="small">Exporta TXT/JSON para CapCut, Remotion, Flow, Veo, Seedance, Runway ou edição manual.</p>
-        <div class="actions">
-          <button class="btn block green" onclick="downloadPackageTxt()">Baixar TXT</button>
-          <button class="btn block cyan" onclick="downloadPackageJson()">Baixar JSON</button>
+
+      <div id="station"></div>
+
+      <div class="panel">
+        <h3>Preview IA</h3>
+        <div id="imagePreview"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Pacote Final</h3>
+        <pre class="output-box" id="nodeOutput"></pre>
+        <div class="actions-row">
+          <button class="btn green" id="exportTxtBtnSide" type="button">TXT</button>
+          <button class="btn gold" id="exportJsonBtnSide" type="button">JSON</button>
         </div>
       </div>
     </aside>
-  </div>
+  </main>
 </div>
 
 <script>
-// JavaScript de gerenciamento de nodes, canvas, flow panel, minimap e estação
-// State inicial, nodes, data, zoom, pan, active node, autosave
-// Funções: render, renderNodes, drawConnectors, renderInspector, renderFlowPanel, zoomMap, centerMap, autoLayout, openStation, closeStation
-// Placeholders para Flux, GPT Image2, ElevenLabs TTS
+window.PG_MODULE_CONFIG = {
+  slug: "video",
+  title: "Video Remotion",
+  endpoint: "/api/generate-video",
+  imageSize: "1280x720",
+  presets: [
+    {
+      title: "Briefing Audiovisual",
+      type: "briefing",
+      status: "working",
+      briefing: "Definir produto, publico, formato, duracao e CTA do video.",
+      prompts: "Cena inicial de impacto, Caruaru, energia punk elegante, campanha local."
+    },
+    {
+      title: "Roteiro e Beats",
+      type: "script",
+      briefing: "Quebrar a mensagem em hooks, cenas, fala, lettering e transicoes.",
+      story: "Hook de 3 segundos, prova, oferta, chamada final."
+    },
+    {
+      title: "Storyboard",
+      type: "storyboard",
+      briefing: "Criar quadros principais e prompts visuais por cena.",
+      prompts: "Frames cinematograficos limpos, produto claro, textura premium."
+    },
+    {
+      title: "Remotion JSON",
+      type: "remotion",
+      briefing: "Gerar estrutura reutilizavel com composicoes, assets e timings.",
+      motion: "Intro 2s, corpo 10s, encerramento 3s, motion limpo."
+    },
+    {
+      title: "SRT e Audio",
+      type: "audio",
+      briefing: "Preparar legenda, plano de som, TTS ElevenLabs e prompt CapCut.",
+      srt: "1\n00:00:00,000 --> 00:00:03,000\nPortal Genesis apresenta uma nova entrega."
+    }
+  ]
+};
 </script>
+<script src="../module-shell.js"></script>
 </body>
 </html>
