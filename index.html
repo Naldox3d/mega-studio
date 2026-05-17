@@ -1,224 +1,457 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portal Genesis — Acesso e Portal Mestre</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#060913;
-  --bg2:#090e1b;
-  --panel:#0d1425;
-  --panel2:#121b30;
-  --panel3:#18223a;
-  --line:rgba(255,255,255,.10);
-  --line2:rgba(255,255,255,.18);
-  --text:#eef3ff;
-  --muted:#97a6c4;
-  --soft:#c8d5ef;
-  --gold:#d8b46f;
-  --gold2:#f1d59c;
-  --cyan:#6ee7df;
-  --green:#78e2a2;
-  --red:#ef7d8d;
-  --purple:#b99cff;
-  --blue:#74b7ff;
-  --shadow:0 28px 90px rgba(0,0,0,.48);
-  --radius:22px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{
-  background:
-    radial-gradient(circle at 14% 0,rgba(110,231,223,.14),transparent 32%),
-    radial-gradient(circle at 88% 8%,rgba(216,180,111,.15),transparent 28%),
-    radial-gradient(circle at 50% 110%,rgba(185,156,255,.08),transparent 34%),
-    linear-gradient(180deg,#070a12,#090e1b 58%,#05070d);
-}
-button,input{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-/* ... manteve todo o CSS original ... */
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Genesis - Portal Mestre</title>
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<!-- Login -->
-<section id="login" class="login">
-  <div class="loginCard pgAccess">
-    <div class="pgMark">PG</div>
-    <div class="brandMini">Portal Genesis</div>
+<section class="login-shell" id="loginView">
+  <div class="login-card">
+    <div class="brand-lockup">
+      <div class="brand-mark">PG</div>
+      <div class="brand-copy">
+        <strong>Portal Genesis</strong>
+        <span>Marketing, Studio, Video, Print e Vitrine</span>
+      </div>
+    </div>
+
     <h1>Acesso Oficial</h1>
-    <p>Marketing • Adventures • Punk • Vitrine Business de Caruaru. Entre para acessar a árvore criativa, a área do cliente e os motores de produção.</p>
+    <p>Entrada segura para producao, clientes, nodes, IA visual, pacotes e exportacao.</p>
 
-    <div class="accessBadges">
-      <span>Vitrine<br>Business</span>
-      <span>Área do<br>Cliente</span>
-      <span>Produção<br>Premium</span>
+    <div class="field-stack">
+      <label class="field">
+        <span>Usuario</span>
+        <input id="loginUser" autocomplete="username" placeholder="admin">
+      </label>
+      <label class="field">
+        <span>Senha</span>
+        <input id="loginPass" type="password" autocomplete="current-password" placeholder="senha">
+      </label>
+      <div class="message" id="loginMessage"></div>
+      <button class="btn gold block" id="loginBtn" type="button">Entrar no Portal Genesis</button>
     </div>
-
-    <div class="field">
-      <label>Usuário</label>
-      <input id="user" autocomplete="username" placeholder="seu acesso">
-    </div>
-    <div class="field">
-      <label>Senha</label>
-      <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
-    </div>
-
-    <div id="err" class="err">Acesso não autorizado. Confira usuário, senha ou disponibilidade do portal.</div>
-    <button class="btn gold" style="width:100%" onclick="login()">Entrar no Portal Genesis</button>
-    <div class="note">Portal seguro para clientes, produção, serviços, vitrine e gestão criativa. Do atendimento à entrega, tudo começa aqui.</div>
   </div>
 </section>
 
-<!-- Dashboard -->
-<section id="app" class="app hidden">
-  <header class="top">
-    <div class="logo pgLogo">PG</div>
-    <div class="titleWrap">
-      <div class="title">Portal Genesis</div>
-      <span class="subtitle">Marketing • Adventures • Punk • Vitrine Business de Caruaru</span>
+<section class="app-shell hidden" id="appView">
+  <header class="topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark">PG</div>
+      <div class="brand-copy">
+        <strong>Portal Genesis</strong>
+        <span id="sessionLabel">Sessao ativa</span>
+      </div>
     </div>
-    <nav class="tabs">
-      <button id="tab-portal" class="tab active" onclick="showTab('portal')">Portal</button>
-      <button id="tab-studio" class="tab" onclick="showTab('studio')">Studio Remotion Lab</button>
-      <button id="tab-video" class="tab" onclick="showTab('video')">Video Remotion</button>
-      <button id="tab-print" class="tab" onclick="showTab('print')">Print</button>
-      <button id="tab-vitrine" class="tab" onclick="showTab('vitrine')">Vitrine PG</button>
-      <button id="tab-api" class="tab" onclick="showTab('api')">API / Config</button>
-      <button class="btn red small" onclick="logout()">Sair</button>
+
+    <nav class="tabs" aria-label="Modulos Portal Genesis">
+      <button class="tab active" id="tab-portal" type="button" data-tab="portal">Portal</button>
+      <button class="tab" id="tab-studio" type="button" data-tab="studio">Studio</button>
+      <button class="tab" id="tab-video" type="button" data-tab="video">Video</button>
+      <button class="tab" id="tab-print" type="button" data-tab="print">Print</button>
+      <button class="tab" id="tab-vitrine" type="button" data-tab="vitrine">Vitrine</button>
+      <button class="tab" id="tab-api" type="button" data-tab="api">API</button>
+      <button class="btn small rose" id="logoutBtn" type="button">Sair</button>
     </nav>
   </header>
 
-  <div id="status" class="status"><b>Portal Genesis ativo.</b> Vitrine, serviços, clientes e motores de produção em uma árvore criativa.</div>
+  <div class="status-bar" id="statusBar">Portal Genesis ativo.</div>
 
-  <main class="content">
-    <!-- Portal principal -->
-    <section id="portal" class="portal">
-      <!-- ... mantém todos os módulos, hero, grids, cards ... -->
+  <main class="dashboard">
+    <aside class="sidebar">
+      <div class="panel">
+        <h3>Controle</h3>
+        <div class="actions-row">
+          <button class="btn green" id="exportActiveTxt" type="button">TXT</button>
+          <button class="btn gold" id="exportActiveJson" type="button">JSON</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Modulos</h3>
+        <div class="node-list" id="moduleSummary">
+          <button class="node-list-item active" type="button" data-tab="portal">
+            <strong>Portal</strong>
+            <small>Visao mestre</small>
+          </button>
+          <button class="node-list-item" type="button" data-tab="studio">
+            <strong>Studio</strong>
+            <small>Carregando sob demanda</small>
+          </button>
+          <button class="node-list-item" type="button" data-tab="video">
+            <strong>Video</strong>
+            <small>Carregando sob demanda</small>
+          </button>
+          <button class="node-list-item" type="button" data-tab="print">
+            <strong>Print</strong>
+            <small>Carregando sob demanda</small>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <section class="portal-view active" id="view-portal">
+        <div class="panel">
+          <h2>Dashboard PG</h2>
+          <p class="muted">Base consolidada para producao, IA, nodes, canvas, estacao e exportacao.</p>
+          <div class="portal-grid">
+            <article class="portal-card">
+              <strong>Studio Remotion Lab</strong>
+              <small>Presets internos, experimentos, Flux, GPT Image 2 placeholder e pacote Remotion.</small>
+              <button class="btn cyan" type="button" data-tab="studio">Abrir Studio</button>
+            </article>
+            <article class="portal-card">
+              <strong>Video Remotion</strong>
+              <small>Briefing, roteiro, storyboard, Remotion JSON, SRT, audio e CapCut Book.</small>
+              <button class="btn violet" type="button" data-tab="video">Abrir Video</button>
+            </article>
+            <article class="portal-card">
+              <strong>Print Remotion</strong>
+              <small>Grafica, marketing, layout, pre-impressao, imagem base Flux e pacote final.</small>
+              <button class="btn green" type="button" data-tab="print">Abrir Print</button>
+            </article>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Pipeline Mestre</h3>
+          <div class="cards-grid">
+            <div class="mini-card"><strong>1. Entrada</strong><small>Login, verify e sessao ativa.</small></div>
+            <div class="mini-card"><strong>2. Producao</strong><small>Nodes editaveis por modulo.</small></div>
+            <div class="mini-card"><strong>3. IA</strong><small>Flux, texto, GPT Image 2 e TTS preparados.</small></div>
+            <div class="mini-card"><strong>4. Exportacao</strong><small>TXT e JSON por aba ativa.</small></div>
+            <div class="mini-card"><strong>5. Vitrine</strong><small>Servicos e portfolio PG.</small></div>
+            <div class="mini-card"><strong>6. Deploy</strong><small>Base pronta para GitHub/Vercel.</small></div>
+          </div>
+        </div>
+      </section>
+
+      <iframe class="frame" id="frame-studio" title="Studio Remotion Lab" data-src="./studio/index.html"></iframe>
+      <iframe class="frame" id="frame-video" title="Video Remotion" data-src="./video/index.html"></iframe>
+      <iframe class="frame" id="frame-print" title="Print Remotion" data-src="./print/index.html"></iframe>
+
+      <section class="portal-view" id="view-vitrine">
+        <div class="panel">
+          <h2>Vitrine PG</h2>
+          <p class="muted">Hub comercial para apresentar servicos, pacotes, cases, redes e caminho de contato.</p>
+          <div class="portal-grid">
+            <article class="portal-card"><strong>Marketing Local</strong><small>Campanhas, posts, reels, anuncios e identidade de oferta.</small></article>
+            <article class="portal-card"><strong>Adventures</strong><small>Conteudo, narrativa e entregas visuais para experiencias.</small></article>
+            <article class="portal-card"><strong>Punk Caruaru</strong><small>Estetica autoral com acabamento profissional e organizacao tecnica.</small></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="portal-view" id="view-api">
+        <div class="panel">
+          <h2>API / Config</h2>
+          <p class="muted">Rotas mapeadas para autenticacao, texto, imagem, TTS e pacotes dos modulos.</p>
+          <div class="api-list">
+            <div class="api-row"><strong>Login</strong><code>/api/auth-login</code></div>
+            <div class="api-row"><strong>Verify</strong><code>/api/auth-verify</code></div>
+            <div class="api-row"><strong>Logout</strong><code>/api/auth-logout</code></div>
+            <div class="api-row"><strong>Studio</strong><code>/api/generate-studio</code></div>
+            <div class="api-row"><strong>Video</strong><code>/api/generate-video</code></div>
+            <div class="api-row"><strong>Print</strong><code>/api/generate-print</code></div>
+            <div class="api-row"><strong>Flux</strong><code>/api/visual-image</code></div>
+            <div class="api-row"><strong>GPT Image 2</strong><code>/api/gpt-image-2</code></div>
+            <div class="api-row"><strong>ElevenLabs</strong><code>/api/tts-eleven</code></div>
+          </div>
+          <div class="actions-row">
+            <button class="btn cyan" id="testAuthBtn" type="button">Testar auth</button>
+            <button class="btn violet" id="testVisualBtn" type="button">Testar Flux</button>
+          </div>
+          <pre class="output-box" id="apiResult">Aguardando teste.</pre>
+        </div>
+      </section>
     </section>
 
-    <!-- Frames de módulos -->
-    <iframe id="frame-studio" class="frame" src="./studio/"></iframe>
-    <iframe id="frame-video" class="frame" src="./video/"></iframe>
-    <iframe id="frame-print" class="frame" src="./print/"></iframe>
+    <aside class="inspector">
+      <div class="panel">
+        <h3>Estado da Aba</h3>
+        <p class="muted" id="activeTabInfo">Portal mestre ativo.</p>
+        <div class="chip-row">
+          <span class="node-status ready" id="authChip">Auth ok</span>
+          <span class="node-status" id="frameChip">Portal</span>
+        </div>
+      </div>
 
-    <!-- Vitrine e API Panels -->
-    <section id="vitrinePanel" class="apiPanel"> <!-- ... conteúdo ... --> </section>
-    <section id="apiPanel" class="apiPanel"> <!-- ... conteúdo ... --> </section>
+      <div class="panel">
+        <h3>Exportacao</h3>
+        <p class="muted">A exportacao usa a aba ativa. Em Studio, Video e Print, o iframe recebe o comando sem recarregar.</p>
+        <div class="actions-row">
+          <button class="btn green" id="exportActiveTxtSide" type="button">TXT</button>
+          <button class="btn gold" id="exportActiveJsonSide" type="button">JSON</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>IA Preparada</h3>
+        <div class="api-list">
+          <div class="api-row"><strong>Flux</strong><code>Pollinations visual-image</code></div>
+          <div class="api-row"><strong>GPT Image 2</strong><code>placeholder dedicado</code></div>
+          <div class="api-row"><strong>TTS</strong><code>ElevenLabs placeholder</code></div>
+        </div>
+      </div>
+    </aside>
   </main>
 </section>
 
 <script>
-const $ = id => document.getElementById(id);
+const $ = (id) => document.getElementById(id);
 
-// --- LOGIN / DASHBOARD ---
-async function verify(){
-  try{
-    const r = await fetch('/api/auth-verify');
-    if(r.ok){
-      $('login').classList.add('hidden');
-      $('app').classList.remove('hidden');
-      showTab('portal');
-    }
-  }catch(e){}
+const labels = {
+  portal: "Portal Genesis ativo: visao mestre, pipeline, vitrine e exportacao.",
+  studio: "Studio Remotion Lab ativo: nodes internos, presets, Flux e pacote Remotion.",
+  video: "Video Remotion ativo: roteiro, storyboard, JSON, SRT, audio e CapCut Book.",
+  print: "Print Remotion ativo: grafica, layout, pre-impressao e Flux.",
+  vitrine: "Vitrine PG ativa: servicos, portfolio e ofertas.",
+  api: "API / Config ativo: rotas, verificacao e placeholders."
+};
+
+let activeTab = "portal";
+const moduleStates = {};
+
+function setLoginMessage(text, kind = "") {
+  const el = $("loginMessage");
+  el.textContent = text || "";
+  el.className = `message ${kind}`.trim();
 }
 
-async function login(){
-  $('err').classList.remove('show');
-  try{
-    const r = await fetch('/api/auth-login',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        username:$('user').value.trim(),
-        password:$('pass').value
+function showLogin(message = "") {
+  $("appView").classList.add("hidden");
+  $("loginView").classList.remove("hidden");
+  $("authChip").textContent = "Auth pendente";
+  $("authChip").className = "node-status";
+  if (message) setLoginMessage(message, "error");
+  resetFrames();
+}
+
+function showApp(user = "admin") {
+  $("loginView").classList.add("hidden");
+  $("appView").classList.remove("hidden");
+  $("sessionLabel").textContent = `Sessao ativa: ${user}`;
+  $("authChip").textContent = "Auth ok";
+  $("authChip").className = "node-status ready";
+  showTab(activeTab || "portal");
+}
+
+function resetFrames() {
+  ["studio", "video", "print"].forEach((name) => {
+    const frame = $(`frame-${name}`);
+    if (frame) frame.removeAttribute("src");
+  });
+}
+
+async function verify() {
+  setLoginMessage("Verificando sessao...");
+  try {
+    const response = await fetch("/api/auth-verify", { credentials: "include" });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || data.ok === false) {
+      throw new Error(data.error || "Sessao nao validada.");
+    }
+    setLoginMessage("");
+    showApp(data.user || "admin");
+  } catch (error) {
+    showLogin("Entre com usuario e senha para abrir o portal.");
+  }
+}
+
+async function login() {
+  const button = $("loginBtn");
+  button.disabled = true;
+  setLoginMessage("Entrando...");
+  try {
+    const response = await fetch("/api/auth-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        username: $("loginUser").value.trim(),
+        password: $("loginPass").value
       })
     });
-    if(!r.ok) throw new Error('login');
-    $('login').classList.add('hidden');
-    $('app').classList.remove('hidden');
-    showTab('portal');
-
-    // --- TTS de boas-vindas via ElevenLabs gratuito ---
-    gerarAudioEleven("Bem-vindo ao Portal Genesis!");
-  }catch(e){
-    $('err').classList.add('show');
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || data.ok === false) {
+      throw new Error(data.error || "Usuario ou senha invalidos.");
+    }
+    $("loginPass").value = "";
+    showApp(data.user || $("loginUser").value.trim() || "admin");
+    warmTts("Bem-vindo ao Portal Genesis.");
+  } catch (error) {
+    setLoginMessage(error.message || "Falha no login.", "error");
+  } finally {
+    button.disabled = false;
   }
 }
 
-async function logout(){
-  try{ await fetch('/api/auth-logout',{method:'POST'}); }catch(e){}
-  $('app').classList.add('hidden');
-  $('login').classList.remove('hidden');
-  $('pass').value = '';
+async function logout() {
+  $("logoutBtn").disabled = true;
+  try {
+    await fetch("/api/auth-logout", { method: "POST", credentials: "include" });
+  } catch {}
+  $("logoutBtn").disabled = false;
+  activeTab = "portal";
+  showLogin("Sessao encerrada.");
 }
 
-// --- TABS / NODES ---
-function hideAll(){
-  $('portal').classList.add('hidden');
-  $('frame-studio').classList.remove('active');
-  $('frame-video').classList.remove('active');
-  $('frame-print').classList.remove('active');
-  $('vitrinePanel').classList.remove('active');
-  $('apiPanel').classList.remove('active');
+function ensureFrame(name) {
+  const frame = $(`frame-${name}`);
+  if (!frame) return;
+  if (!frame.getAttribute("src")) {
+    frame.src = frame.dataset.src;
+  }
 }
 
-function showTab(name){
-  ['portal','studio','video','print','vitrine','api'].forEach(n=>{
-    const tab = $('tab-'+n);
-    if(tab) tab.classList.toggle('active',n===name);
+function showTab(name) {
+  activeTab = name;
+  document.querySelectorAll("[data-tab]").forEach((item) => {
+    if (item.classList.contains("tab") || item.classList.contains("node-list-item")) {
+      item.classList.toggle("active", item.dataset.tab === name);
+    }
   });
-  hideAll();
-  const labels = {
-    portal:'Portal Genesis ativo: vitrine, serviços, clientes e motores de produção.',
-    studio:'Studio Remotion Lab ativo: criação, testes, presets e inovação.',
-    video:'Video Remotion ativo: produto audiovisual final.',
-    print:'Print Remotion ativo: produto gráfico e marketing.',
-    vitrine:'Vitrine PG ativa: portfólio, serviços, redes e clientes.',
-    api:'API / Config ativo: autenticação e backend.'
+
+  ["portal", "vitrine", "api"].forEach((panel) => {
+    $(`view-${panel}`).classList.toggle("active", panel === name);
+  });
+
+  ["studio", "video", "print"].forEach((moduleName) => {
+    const frame = $(`frame-${moduleName}`);
+    const isActive = moduleName === name;
+    frame.classList.toggle("active", isActive);
+    if (isActive) ensureFrame(moduleName);
+  });
+
+  $("statusBar").textContent = labels[name] || labels.portal;
+  $("activeTabInfo").textContent = labels[name] || labels.portal;
+  $("frameChip").textContent = name;
+}
+
+function portalPackage() {
+  return {
+    portal: "Portal Genesis",
+    activeTab,
+    exportedAt: new Date().toISOString(),
+    modules: moduleStates,
+    endpoints: [
+      "/api/auth-login",
+      "/api/auth-verify",
+      "/api/auth-logout",
+      "/api/generate-studio",
+      "/api/generate-video",
+      "/api/generate-print",
+      "/api/visual-image",
+      "/api/gpt-image-2",
+      "/api/tts-eleven"
+    ]
   };
-  if(name==='portal') $('portal').classList.remove('hidden');
-  if(name==='studio') $('frame-studio').classList.add('active');
-  if(name==='video') $('frame-video').classList.add('active');
-  if(name==='print') $('frame-print').classList.add('active');
-  if(name==='vitrine') $('vitrinePanel').classList.add('active');
-  if(name==='api') $('apiPanel').classList.add('active');
-  $('status').innerHTML = '<b>'+labels[name].split(':')[0]+':</b>' + (labels[name].includes(':') ? labels[name].slice(labels[name].indexOf(':')+1) : '');
 }
 
-// --- TESTES / API ---
-async function testAuth(){
-  const out = $('apiResult');
-  out.textContent = 'Testando /api/auth-verify...';
-  try{
-    const r = await fetch('/api/auth-verify');
-    out.textContent = r.ok
-      ? 'OK: autenticação ativa.'
-      : 'Atenção: rota respondeu, mas a sessão não foi validada. Status: '+r.status;
-  }catch(e){
-    out.textContent = 'Erro: não consegui chamar /api/auth-verify.';
+function portalTxt() {
+  const pack = portalPackage();
+  return [
+    "Portal Genesis - Pacote Mestre",
+    `Aba ativa: ${pack.activeTab}`,
+    `Exportado em: ${pack.exportedAt}`,
+    "",
+    "Modulos:",
+    ...Object.values(pack.modules).map((item) => `- ${item.title}: ${item.nodes} nodes, ${item.progress}% pronto`),
+    "",
+    "Endpoints:",
+    ...pack.endpoints.map((route) => `- ${route}`)
+  ].join("\n");
+}
+
+function download(filename, mime, content) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportActive(format) {
+  if (["studio", "video", "print"].includes(activeTab)) {
+    const frame = $(`frame-${activeTab}`);
+    ensureFrame(activeTab);
+    frame.contentWindow?.postMessage({ type: "PG_EXPORT", slug: activeTab, format }, "*");
+    return;
+  }
+
+  if (format === "json") {
+    download(`portal-genesis-${activeTab}.json`, "application/json;charset=utf-8", JSON.stringify(portalPackage(), null, 2));
+  } else {
+    download(`portal-genesis-${activeTab}.txt`, "text/plain;charset=utf-8", portalTxt());
   }
 }
 
-// --- FUNÇÃO DE TTS ELEVENLABS GRATUITO ---
-async function gerarAudioEleven(texto){
-  try{
-    await fetch('/api/tts-eleven',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ text:texto })
+async function warmTts(text) {
+  try {
+    await fetch("/api/tts-eleven", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ text })
     });
-  }catch(e){
-    console.log("Erro ao chamar ElevenLabs TTS:", e);
+  } catch {}
+}
+
+async function testAuth() {
+  const out = $("apiResult");
+  out.textContent = "Testando /api/auth-verify...";
+  try {
+    const response = await fetch("/api/auth-verify", { credentials: "include" });
+    const data = await response.json().catch(() => ({}));
+    out.textContent = JSON.stringify({ status: response.status, ...data }, null, 2);
+  } catch (error) {
+    out.textContent = `Erro: ${error.message}`;
   }
 }
 
-// --- TECLA ENTER para login ---
-document.addEventListener('keydown',ev=>{
-  if(ev.key==='Enter' && !$('login').classList.contains('hidden')) login();
+async function testVisual() {
+  const out = $("apiResult");
+  out.textContent = "Testando /api/visual-image...";
+  try {
+    const response = await fetch("/api/visual-image", { credentials: "include" });
+    const data = await response.json().catch(() => ({}));
+    out.textContent = JSON.stringify({ status: response.status, ...data }, null, 2);
+  } catch (error) {
+    out.textContent = `Erro: ${error.message}`;
+  }
+}
+
+window.addEventListener("message", (event) => {
+  const data = event.data || {};
+  if (data.type !== "PG_MODULE_STATE" || !data.slug) return;
+  moduleStates[data.slug] = data;
+  const item = document.querySelector(`#moduleSummary [data-tab="${data.slug}"] small`);
+  if (item) item.textContent = `${data.nodes} nodes / ${data.progress}%`;
+});
+
+document.querySelectorAll("[data-tab]").forEach((button) => {
+  button.addEventListener("click", () => showTab(button.dataset.tab));
+});
+
+$("loginBtn").addEventListener("click", login);
+$("logoutBtn").addEventListener("click", logout);
+$("exportActiveTxt").addEventListener("click", () => exportActive("txt"));
+$("exportActiveJson").addEventListener("click", () => exportActive("json"));
+$("exportActiveTxtSide").addEventListener("click", () => exportActive("txt"));
+$("exportActiveJsonSide").addEventListener("click", () => exportActive("json"));
+$("testAuthBtn").addEventListener("click", testAuth);
+$("testVisualBtn").addEventListener("click", testVisual);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !$("loginView").classList.contains("hidden")) {
+    login();
+  }
 });
 
 verify();
