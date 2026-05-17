@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portal Genesis — Print Remotion V1.7</title>
+<title>Portal Genesis — Print Remotion V15 Stable</title>
 <style>
 :root{
   --bg:#050711;
@@ -878,6 +878,317 @@ input:focus,textarea:focus,select:focus{
 @media(max-width:1180px){.moduleNav{width:100%;margin-left:0}.topbar{height:auto!important;min-height:64px}.workspace{height:calc(100vh - 90px)!important}}
 @media(max-width:780px){.moduleNav{gap:6px}.moduleLink{font-size:9px;padding:6px 8px}}
 
+
+/* =========================================================
+   PATCH V12 — PREVIEW FINAL + PROGRESSO GUIADO + SCROLL STUDIO
+   Objetivo: Print funcional para criação visual, preview, saída final,
+   mini-nodes de avanço e barras de rolagem translúcidas/cinza.
+   ========================================================= */
+:root{
+  --pg-scroll-track:rgba(255,255,255,.025);
+  --pg-scroll-thumb:rgba(170,180,205,.34);
+  --pg-scroll-thumb-hover:rgba(214,173,104,.54);
+}
+*{
+  scrollbar-width:thin;
+  scrollbar-color:var(--pg-scroll-thumb) var(--pg-scroll-track);
+}
+*::-webkit-scrollbar{width:9px;height:9px}
+*::-webkit-scrollbar-track{background:var(--pg-scroll-track);border-radius:999px}
+*::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,rgba(210,220,240,.30),rgba(110,120,145,.28));
+  border:2px solid rgba(5,8,19,.78);
+  border-radius:999px;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(180deg,rgba(214,173,104,.56),rgba(101,217,210,.42));
+}
+.stationMain,.stationSide,.outputBox,textarea,.clientList{
+  scrollbar-gutter:stable;
+}
+.pgStageGuide{
+  border:1px solid rgba(101,217,210,.22);
+  background:linear-gradient(180deg,rgba(101,217,210,.075),rgba(255,255,255,.012)),rgba(7,11,22,.74);
+  border-radius:18px;
+  padding:12px;
+  margin:0 0 14px;
+}
+.pgStageGuideTop{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
+}
+.pgStageGuideTop b{color:#f0ddbb;font-size:12px}
+.pgStageGuideTop span{color:#9aa8c7;font-size:10px;text-transform:uppercase;letter-spacing:.10em}
+.pgMiniNodes{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:8px;
+}
+.pgMiniStep{
+  position:relative;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  border-radius:13px;
+  padding:9px 8px;
+  min-height:58px;
+  overflow:hidden;
+}
+.pgMiniStep:before{
+  content:"";
+  position:absolute;
+  left:10px;top:10px;
+  width:8px;height:8px;border-radius:50%;
+  background:#4d5871;
+  box-shadow:0 0 0 3px rgba(255,255,255,.02);
+}
+.pgMiniStep b{
+  display:block;
+  color:#dce5fa;
+  font-size:10px;
+  line-height:1.2;
+  margin-left:16px;
+}
+.pgMiniStep span{
+  display:block;
+  color:#8794b0;
+  font-size:9px;
+  line-height:1.25;
+  margin-left:16px;
+  margin-top:3px;
+}
+.pgMiniStep.done{border-color:rgba(120,227,159,.38);background:rgba(120,227,159,.055)}
+.pgMiniStep.done:before{background:#78e39f;box-shadow:0 0 12px rgba(120,227,159,.42)}
+.pgMiniStep.active{border-color:rgba(214,173,104,.56);background:rgba(214,173,104,.085)}
+.pgMiniStep.active:before{background:#e9bf69;box-shadow:0 0 14px rgba(214,173,104,.45)}
+.pgFinalGrid{
+  display:grid;
+  grid-template-columns:320px minmax(0,1fr);
+  gap:14px;
+  align-items:start;
+}
+.pgFinalVisualPanel{
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.014)),rgba(7,11,22,.92);
+  border-radius:20px;
+  padding:14px;
+}
+.pgFinalPreview{
+  min-height:320px;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at 18% 30%,rgba(101,217,210,.14),transparent 34%),
+    radial-gradient(circle at 82% 74%,rgba(214,173,104,.12),transparent 36%),
+    #050814;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  padding:12px;
+}
+.pgFinalPreview img{
+  max-width:100%;
+  max-height:440px;
+  object-fit:contain;
+  border-radius:14px;
+  box-shadow:0 18px 60px rgba(0,0,0,.38);
+}
+.pgFinalEmpty{
+  text-align:center;
+  color:#aeb8cc;
+  padding:18px;
+  font-size:12px;
+  line-height:1.5;
+}
+.pgFinalEmpty b{display:block;color:#f0ddbb;margin-bottom:6px;font-size:14px}
+.pgFinalActions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.pgFileCards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.pgFileCard{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  border-radius:14px;
+  padding:10px;
+  min-height:76px;
+}
+.pgFileCard b{display:block;color:#f0ddbb;font-size:11px;margin-bottom:5px}
+.pgFileCard span{display:block;color:#9aa8c7;font-size:10px;line-height:1.35}
+.pgFileCard.ok{border-color:rgba(120,227,159,.32);background:rgba(120,227,159,.055)}
+.pgFileCard.warn{border-color:rgba(214,173,104,.34);background:rgba(214,173,104,.055)}
+.pgPreviewCardImage{
+  width:100%;
+  height:100%;
+  max-height:280px;
+  object-fit:contain;
+  border-radius:16px;
+}
+.pgRightPreviewLabel{
+  position:absolute;
+  left:14px;top:12px;
+  border:1px solid rgba(214,173,104,.35);
+  background:rgba(214,173,104,.08);
+  color:#f5dca8;
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+@media(max-width:980px){
+  .pgMiniNodes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pgFinalGrid{grid-template-columns:1fr}
+  .pgFileCards,.pgFinalActions{grid-template-columns:1fr}
+}
+
+
+/* =========================================================
+   PATCH V13 ULTRA — NODE 9 + NODE 12 COM API VISUAL REAL
+   Preview real, variações A/B/C, produto/banner/poster/estampa,
+   histórico visual e contrato pronto para backend /api/visual-image.
+   ========================================================= */
+.visualApiPanel{
+  border:1px solid rgba(101,217,210,.26);
+  background:linear-gradient(180deg,rgba(101,217,210,.075),rgba(255,255,255,.012)),rgba(7,11,22,.86);
+  border-radius:18px;
+  padding:12px;
+  margin:12px 0;
+}
+.visualApiPanelTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.visualApiPanelTitle b{color:#f0ddbb;font-size:12px}
+.visualApiPanelTitle span{
+  border:1px solid rgba(214,173,104,.32);
+  background:rgba(214,173,104,.08);
+  color:#f5dca8;
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.visualApiGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.visualResultGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.visualResultCard{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  border-radius:16px;
+  padding:10px;
+  min-height:150px;
+}
+.visualResultCard.active{
+  border-color:rgba(120,227,159,.48);
+  background:rgba(120,227,159,.07);
+}
+.visualResultCard b{display:block;color:#f0ddbb;font-size:11px;margin-bottom:7px}
+.visualResultCard img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:12px;
+  background:#050814;
+  display:block;
+}
+.visualResultCard .btn{width:100%;margin-top:8px}
+.visualApiStatus{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  border-radius:14px;
+  padding:10px;
+  color:#aeb8cc;
+  font-size:11px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.visualApiStatus.ok{border-color:rgba(120,227,159,.30);background:rgba(120,227,159,.055);color:#caffda}
+.visualApiStatus.err{border-color:rgba(225,132,145,.35);background:rgba(225,132,145,.07);color:#ffd7de}
+.visualDownloadGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+@media(max-width:1100px){
+  .visualApiGrid,.visualResultGrid,.visualDownloadGrid{grid-template-columns:1fr!important}
+}
+
+/* =========================================================
+   PATCH V15 STABLE — MEMÓRIA, TESTE ZERO E CONTROLE VISUAL
+   - evita LocalStorage cheio
+   - remove imagens individualmente
+   - adiciona teste direto da API sem referências
+   - reduz risco de preview local mascarar erro real
+   ========================================================= */
+.visualSlot{position:relative}
+.visualRemoveBtn,.refRemoveBtn{
+  position:absolute!important;
+  z-index:8!important;
+  right:8px!important;
+  top:8px!important;
+  min-width:26px!important;
+  min-height:26px!important;
+  width:26px!important;
+  height:26px!important;
+  padding:0!important;
+  border-radius:999px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:rgba(225,80,95,.92)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  font-weight:1000!important;
+  line-height:1!important;
+}
+.refRemoveBtn{right:6px!important;top:6px!important;width:24px!important;height:24px!important;font-size:12px!important}
+.visualToolRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:10px 0 0;
+}
+.visualZeroNote{
+  border:1px dashed rgba(101,217,210,.34);
+  background:rgba(101,217,210,.055);
+  color:#cafffb;
+  border-radius:14px;
+  padding:10px;
+  font-size:11px;
+  line-height:1.45;
+  margin:10px 0;
+}
+.visualApiStatus b.providerGemini{
+  color:#cafffb;
+}
+body.pg-single-header .topbar:not(:first-of-type){
+  display:none!important;
+}
+
 </style>
 </head>
 <body>
@@ -1008,7 +1319,7 @@ input:focus,textarea:focus,select:focus{
 <script>
 (function(){
 'use strict';
-const STORAGE='portal_genesis_print_remotion_v17';
+const STORAGE='portal_genesis_print_remotion_v12_final';
 const $=id=>document.getElementById(id);
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const escapeHtml=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
@@ -1091,9 +1402,9 @@ function defaultState(){
     refs:[],visualDNA:'',
     brief:{project:'',client:'Cliente Gráfica',segment:'Loja local, evento ou campanha',goal:'Vender mais',tone:'Profissional e moderno',audience:'Público local que precisa entender rápido a oferta',description:'Criar uma peça gráfica com visual chamativo, leitura rápida e chamada forte para WhatsApp.',required:'Promoção válida até domingo. WhatsApp: (00) 00000-0000. Endereço e Instagram da marca.',deadline:'Prazo normal',notes:''},
     product:{id:'social_feed',category:'Digital',width:1080,height:1350,unit:'px',qty:1,material:'Digital / RGB',finish:'Sem acabamento',delivery:'Digital PNG/JPG RGB',colors:'Usar cores da marca com bom contraste',logo:'Logo enviada pelo cliente',colorMode:'RGB',dpi:'144 ppi',bleed:'0',safe:'80 px',finalFile:'PNG/JPG RGB',productionTech:'Publicação digital',transparent:false},
-    visualEdit:{mode:'produto',style:'realista publicitário',intensity:70,preserveBackground:true,preserveComposition:true,preserveBrand:true,baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',notes:'Preservar composição, iluminação, identidade visual, perspectiva e leitura comercial da peça.'},
+    visualEdit:{mode:'produto',style:'realista publicitário',intensity:70,preserveBackground:true,preserveComposition:true,preserveBrand:true,baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',resultImages:[],approvedIndex:0,apiEndpoint:'/api/visual-image',apiProvider:'gemini',imageSize:'1024x1024',imageQuality:'medium',imageFormat:'png',outputKind:'auto',generationAction:'auto',status:'modo local',lastError:'',history:[],notes:'Preservar composição, iluminação, identidade visual, perspectiva e leitura comercial da peça.'},
     quote:{design:35,print:0,finishCost:0,urgency:0,margin:20,total:42,notes:'Valores estimativos. Confirmar custo real com fornecedor e material.'},
-    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',prepress:'',production:'',package:'',sales:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
+    outputs:{quote:'',art:'',copy:'',promptPT:'',promptEN:'',visualEdit:'',visualApi:'',prepress:'',production:'',package:'',sales:'',proposal:'',previewTitle:'',previewSub:'',previewCta:''},
     checks:Object.fromEntries(CHECKS.map(c=>[c[0],false]))
   };
 }
@@ -1116,11 +1427,96 @@ function applyClientToBrief(save=true){const c=activeClient();state.brief.client
 function saveBriefToClient(){const c=activeClient();c.brand=state.brief.client||c.brand;c.segment=state.brief.segment||c.segment;c.notes=[c.notes,state.brief.notes].filter(Boolean).join('\n---\n');c.history=c.history||[];c.history.unshift({date:new Date().toLocaleString('pt-BR'),project:state.brief.project||'Sem título',product:product().name,total:state.quote.total||0,status:'briefing salvo'});saveState();openStation('client');toast('Briefing salvo no cadastro do cliente');}
 function clientSummaryText(){const c=activeClient();return `CLIENTE CADASTRADO\nNome: ${c.name||''}\nMarca: ${c.brand||''}\nContato: ${c.contact||''}\nWhatsApp/Telefone: ${c.whatsapp||c.phone||''}\nE-mail: ${c.email||''}\nCPF/CNPJ: ${c.document||''}\nCidade: ${c.city||''}\nSegmento: ${c.segment||''}\nInstagram: ${c.instagram||''}\nEndereço: ${c.address||''}\nStatus: ${c.status||'rascunho'}\nObservações: ${c.notes||''}`;}
 
-function loadState(){try{const raw=localStorage.getItem(STORAGE);if(!raw)return defaultState();return merge(defaultState(),JSON.parse(raw));}catch(e){return defaultState();}}
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE);
+    if(!raw)return defaultState();
+    const loaded=merge(defaultState(),JSON.parse(raw));
+    if(loaded.visualEdit){
+      loaded.visualEdit.apiProvider='gemini';
+      loaded.visualEdit.apiEndpoint=loaded.visualEdit.apiEndpoint||'/api/visual-image';
+    }
+    return loaded;
+  }catch(e){
+    return defaultState();
+  }
+}
 function merge(a,b){if(!b||typeof b!=='object')return a;const out=Array.isArray(a)?[...a]:{...a};Object.keys(b).forEach(k=>{out[k]=(a[k]&&typeof a[k]==='object'&&!Array.isArray(a[k]))?merge(a[k],b[k]):b[k];});return out;}
-function saveState(){try{localStorage.setItem(STORAGE,JSON.stringify(state));toast('Salvo automaticamente');}catch(e){toast('LocalStorage cheio: reduza referências');}}
+function storageLightState(){
+  const copy=JSON.parse(JSON.stringify(state));
+  copy.refs=(copy.refs||[]).slice(-3);
+  if(copy.visualEdit){
+    copy.visualEdit.apiProvider='gemini';
+    copy.visualEdit.history=(copy.visualEdit.history||[]).slice(-8);
+    /* Resultado gerado fica em memória na sessão. Não gravar base64 pesado no navegador. */
+    copy.visualEdit.resultImage='';
+    copy.visualEdit.resultImages=[];
+  }
+  if(copy.outputs){
+    copy.outputs.visualApi=(copy.outputs.visualApi||'').slice(0,12000);
+    copy.outputs.package=(copy.outputs.package||'').slice(0,60000);
+  }
+  return copy;
+}
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE,JSON.stringify(storageLightState()));
+  }catch(e){
+    try{
+      const safe=storageLightState();
+      safe.refs=[];
+      if(safe.visualEdit){
+        safe.visualEdit.baseImage='';
+        safe.visualEdit.faceImage='';
+        safe.visualEdit.clothingImage='';
+        safe.visualEdit.productImage='';
+        safe.visualEdit.resultImage='';
+        safe.visualEdit.resultImages=[];
+      }
+      localStorage.setItem(STORAGE,JSON.stringify(safe));
+      toast('Salvo em modo leve: imagens grandes não foram gravadas');
+      return;
+    }catch(e2){
+      console.warn('Falha ao salvar localStorage',e,e2);
+      toast('LocalStorage cheio: clique em Limpar imagens/ref');
+      return;
+    }
+  }
+  toast('Salvo automaticamente');
+}
 function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveState,280);refreshAll(false);}
 function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1300);}
+
+function fileToOptimizedDataUrl(file,maxSide=1100,quality=.84){
+  return new Promise((resolve,reject)=>{
+    if(!file || !file.type || !file.type.startsWith('image/')) return reject(new Error('Arquivo inválido'));
+    const reader=new FileReader();
+    reader.onerror=()=>reject(new Error('Falha ao ler imagem'));
+    reader.onload=()=>{
+      const src=reader.result;
+      const img=new Image();
+      img.onerror=()=>resolve(src);
+      img.onload=()=>{
+        try{
+          const scale=Math.min(1,maxSide/Math.max(img.width,img.height));
+          const w=Math.max(1,Math.round(img.width*scale));
+          const h=Math.max(1,Math.round(img.height*scale));
+          const canvas=document.createElement('canvas');
+          canvas.width=w;canvas.height=h;
+          const ctx=canvas.getContext('2d');
+          ctx.drawImage(img,0,0,w,h);
+          const mime=file.type==='image/png'&&file.size<900000?'image/png':'image/jpeg';
+          resolve(canvas.toDataURL(mime,mime==='image/jpeg'?quality:undefined));
+        }catch(e){
+          resolve(src);
+        }
+      };
+      img.src=src;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function setPath(path,value){const parts=path.split('.');let obj=state;while(parts.length>1)obj=obj[parts.shift()];obj[parts[0]]=value;scheduleSave();}
 function product(){return PRODUCTS.find(p=>p.id===state.product.id)||PRODUCTS[0];}
 function categoryRule(){return CATEGORY_RULES[state.product.category||product().category]||CATEGORY_RULES.Digital;}
@@ -1312,14 +1708,72 @@ function refreshTop(){
   $('mockSub').textContent=(state.outputs.previewSub||state.brief.description||'Briefing, orçamento e pré-impressão em nodes.').slice(0,120);
   $('mockCta').textContent=(state.outputs.previewCta||p.cta||state.brief.goal||'ARTE PRONTA').toUpperCase();
   updatePreviewAspect();
+  renderVisualSidebarPreview();
   const active=NODE_DEF.findIndex(n=>nodeStatus(n.id)!=='done');
   $('pipelineList').innerHTML=NODE_DEF.map((n,i)=>`<div class="miniItem ${nodeStatus(n.id)==='done'?'done':i===active?'active':''}"><span class="miniDot"></span><span>${escapeHtml(n.title)}</span></div>`).join('');
 }
 function refreshAll(nodes=true){if(nodes)renderNodes();refreshTop();applyTransform();}
+
+function stationProgressHtml(activeId){
+  const groups = [
+    {ids:['client','brief'],name:'Pedido',desc:'cliente + briefing'},
+    {ids:['product','refs'],name:'Produto',desc:'formato + refs'},
+    {ids:['quote','art','copy'],name:'Criação',desc:'orçamento + arte'},
+    {ids:['prompt','visualEdit'],name:'IA Visual',desc:'prompt + edição'},
+    {ids:['prepress','production'],name:'Produção',desc:'checklist + entrega'},
+    {ids:['package','sales'],name:'Final',desc:'pacote + vitrine'}
+  ];
+  const activeIndex = groups.findIndex(g=>g.ids.includes(activeId));
+  const doneIds = new Set(NODE_DEF.filter(n=>nodeStatus(n.id)==='done').map(n=>n.id));
+  return `<div class="pgStageGuide">
+    <div class="pgStageGuideTop"><b>Progressão do Print</b><span>mini-nodes de orientação</span></div>
+    <div class="pgMiniNodes">${groups.map((g,i)=>{
+      const done = g.ids.every(id=>doneIds.has(id));
+      const cls = done?'done':(i===activeIndex?'active':'');
+      return `<div class="pgMiniStep ${cls}"><b>${escapeHtml(g.name)}</b><span>${escapeHtml(g.desc)}</span></div>`;
+    }).join('')}</div>
+  </div>`;
+}
+function visualOutputImage(){
+  return (state.visualEdit && (state.visualEdit.resultImage || state.visualEdit.baseImage)) || (state.refs && state.refs[0]) || '';
+}
+function visualBaseImage(){
+  return (state.visualEdit && state.visualEdit.baseImage) || (state.refs && state.refs[0]) || '';
+}
+function downloadDataUrl(filename, dataUrl){
+  if(!dataUrl){toast('Nenhuma imagem disponível para baixar');return;}
+  const a=document.createElement('a');
+  a.href=dataUrl;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+function downloadFinalImage(){
+  downloadDataUrl('portal-genesis-print-arte-final.png', visualOutputImage());
+}
+function downloadBaseImage(){
+  downloadDataUrl('portal-genesis-print-imagem-base.png', visualBaseImage());
+}
+function downloadMockupPreview(){
+  const img=visualOutputImage();
+  if(img) return downloadDataUrl('portal-genesis-print-preview-mockup.png', img);
+  const text=`PORTAL GENESIS PRINT — PREVIEW MOCKUP\n\nProjeto: ${state.brief.project||'Sem título'}\nProduto: ${product().name}\nCTA: ${state.outputs.previewCta||product().cta||state.brief.goal}\n\nUse a arte final aprovada para montar mockup externo quando necessário.`;
+  return download('portal-genesis-print-preview-mockup.txt', text);
+}
+function renderVisualSidebarPreview(){
+  const card=document.querySelector('.rightPanel .previewCard');
+  if(!card) return;
+  const img=visualOutputImage();
+  if(img){
+    card.innerHTML=`<span class="pgRightPreviewLabel">Preview visual</span><img class="pgPreviewCardImage" src="${img}" alt="preview visual aprovado">`;
+  }
+}
+
 function openStation(id){
   state.activeNode=id;const n=NODE_DEF.find(x=>x.id===id)||NODE_DEF[0];
   $('stationIcon').textContent=n.icon;$('stationTitle').textContent=n.title;$('stationBadge').textContent=nodeStatus(id)==='done'?'aprovado':'estação ativa';$('stationHelp').textContent=n.help;
-  $('stationMain').innerHTML=stationHtml(id);$('visualDNA').value=state.visualDNA;renderRefs();bindStationFields();
+  $('stationMain').innerHTML=stationProgressHtml(id)+stationHtml(id);$('visualDNA').value=state.visualDNA;renderRefs();bindStationFields();
   $('stationOverlay').classList.add('active');$('station').classList.add('active');refreshAll();
 }
 function closeStation(){ $('stationOverlay').classList.remove('active');$('station').classList.remove('active');saveState();refreshAll();}
@@ -1330,7 +1784,26 @@ function area(path,value='',placeholder=''){return `<textarea data-bind="${path}
 function selectField(path,value,opts){return `<select data-bind="${path}">${opts.map(o=>`<option ${o===value?'selected':''}>${escapeHtml(o)}</option>`).join('')}</select>`;}
 function visualSlot(key,title,placeholder){
   const img=state.visualEdit?.[key]||'';
-  return `<div class="visualSlot"><h3>${escapeHtml(title)}</h3><label class="visualUpload">${img?`<img src="${img}" alt="${escapeHtml(title)}">`:escapeHtml(placeholder)}<input type="file" accept="image/*" data-visual-upload="${key}"></label></div>`;
+  return `<div class="visualSlot">
+    <h3>${escapeHtml(title)}</h3>
+    ${img?`<button type="button" class="btn tiny red visualRemoveBtn" data-remove-visual="${key}" title="Remover imagem">×</button>`:''}
+    <label class="visualUpload">
+      ${img?`<img src="${img}" alt="${escapeHtml(title)}">`:escapeHtml(placeholder)}
+      <input type="file" accept="image/*" data-visual-upload="${key}">
+    </label>
+  </div>`;
+}
+function removeVisualUpload(key){
+  if(!key || !state.visualEdit)return;
+  if(!state.visualEdit[key]){toast('Nada para remover');return;}
+  state.visualEdit[key]='';
+  if(key==='baseImage'){
+    state.visualEdit.resultImage='';
+    state.visualEdit.resultImages=[];
+    state.visualEdit.approvedIndex=0;
+  }
+  state.visualEdit.status='Imagem removida do editor visual';
+  saveState();refreshAll(true);openStation('visualEdit');toast('Imagem removida');
 }
 function stationHtml(id){
   const b=state.brief,p=state.product,q=state.quote,o=state.outputs;
@@ -1413,7 +1886,7 @@ function stationHtml(id){
     <label>Checklist personalizado</label>${area('outputs.prepress',o.prepress)}
     <div class="stationActions"><button class="btn gold" data-action="generate" data-node="prepress">Gerar checklist personalizado</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
   if(id==='production')return `<label>Ordem de produção / entrega</label>${area('outputs.production',o.production)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="production">Gerar ordem de produção</button><button class="btn cyan" data-action="next">Próximo node</button></div>`;
-  if(id==='visualEdit')return `<div class="note"><b>Personalização Visual IA.</b> Este node transforma a peça em um fluxo real de substituição visual: rosto, roupa ou produto. O modo local gera o briefing técnico e prompt de edição; quando houver motor visual conectado, a mesma estrutura pode enviar para /api/visual-edit.</div>
+  if(id==='visualEdit')return `<div class="note"><b>Personalização Visual IA V15 Stable.</b> Este node agora trabalha em dois níveis: 1) gera briefing/prompt técnico; 2) chama uma API visual real para gerar preview, mockup, banner, poster, estampa, produto ou variação A/B/C. A rota padrão é <span class="mono">/api/visual-image</span>.</div>
     <div class="visualModeCards">
       ${['produto','roupa','rosto'].map(mode=>`<div class="visualModeCard ${state.visualEdit.mode===mode?'active':''}" data-visual-mode="${mode}"><b>${mode==='produto'?'Trocar produto':mode==='roupa'?'Trocar roupa':'Trocar rosto'}</b><span>${mode==='produto'?'Substitui item, embalagem, comida, objeto ou produto mantendo composição.':mode==='roupa'?'Altera figurino, uniforme, cor, tecido ou estilo preservando a pessoa.':'Substitui o rosto mantendo pose, luz, enquadramento e estética.'}</span></div>`).join('')}
     </div>
@@ -1434,15 +1907,51 @@ function stationHtml(id){
       <label class="checkRow"><input type="checkbox" data-visual-check="preserveComposition" ${state.visualEdit.preserveComposition?'checked':''}/><span><b>Preservar composição</b><span>Manter enquadramento, posição, perspectiva, luz e leitura da peça.</span></span></label>
       <label class="checkRow"><input type="checkbox" data-visual-check="preserveBrand" ${state.visualEdit.preserveBrand?'checked':''}/><span><b>Preservar identidade visual</b><span>Manter paleta, hierarquia, estilo gráfico e intenção comercial.</span></span></label>
     </div>
+
+    <div class="visualApiPanel">
+      <div class="visualApiPanelTitle"><b>Motor visual conectado</b><span>GEMINI + CLAUDE FALLBACK</span></div>
+      <div class="visualApiGrid">
+        <div><label>Endpoint da API</label>${field('visualEdit.apiEndpoint',state.visualEdit.apiEndpoint||'/api/visual-image')}</div>
+        <div><label>Tipo de saída</label>${selectField('visualEdit.outputKind',state.visualEdit.outputKind||'auto',['auto','produto','mockup','banner','poster','estampa','camiseta','caneca','cardapio','capa','thumbnail','social'])}</div>
+        <div><label>Tamanho</label>${selectField('visualEdit.imageSize',state.visualEdit.imageSize||'1024x1024',['1024x1024','1024x1536','1536x1024','1080x1350','1080x1920','1920x1080'])}</div>
+        <div><label>Qualidade</label>${selectField('visualEdit.imageQuality',state.visualEdit.imageQuality||'medium',['low','medium','high'])}</div>
+      </div>
+      <div class="visualApiStatus ${state.visualEdit.lastError?'err':(state.visualEdit.resultImage?'ok':'')}">
+        <b>Status:</b> ${escapeHtml(state.visualEdit.status||'aguardando ação')}<br>
+        ${state.visualEdit.lastError?`<b>Último erro:</b> ${escapeHtml(state.visualEdit.lastError)}`:'Quando a API estiver ativa, os botões abaixo retornam imagem final em base64/data URL ou URL pública.'}
+      </div>
+    </div>
+
     <div class="grid2">
-      <div><label>Preview da imagem base / resultado</label><div class="visualPreviewBox">${state.visualEdit.resultImage||state.visualEdit.baseImage?`<img src="${state.visualEdit.resultImage||state.visualEdit.baseImage}" alt="preview visual">`:'<div class="visualPreviewEmpty">Adicione uma imagem base para visualizar aqui.</div>'}</div></div>
+      <div>
+        <label>Preview da imagem base / resultado aprovado</label>
+        <div class="visualPreviewBox">${state.visualEdit.resultImage||state.visualEdit.baseImage?`<img src="${state.visualEdit.resultImage||state.visualEdit.baseImage}" alt="preview visual">`:'<div class="visualPreviewEmpty">Adicione uma imagem base ou gere uma imagem pela API.</div>'}</div>
+        <div class="visualDownloadGrid">
+          <button class="btn gold" data-action="visualGeneratePreview">Gerar preview real</button>
+          <button class="btn cyan" data-action="visualGenerateAB">Gerar A/B/C real</button>
+          <button class="btn purple" data-action="visualGenerateLocal">Preview local teste</button>
+        </div>
+        <div class="visualToolRow">
+          <button class="btn cyan" data-action="visualZeroTest">Teste IA do zero</button>
+          <button class="btn red" data-action="clearVisualMemory">Limpar imagens/ref</button>
+        </div>
+        <div class="visualZeroNote">Se a troca de rosto não renderizar, use <b>Teste IA do zero</b>. Ele chama a rota /api/visual-image sem nenhuma referência e mostra se o Gemini está gerando imagem de verdade.</div>
+      </div>
       <div><label>Briefing técnico de edição</label><div class="outputBox">${escapeHtml(o.visualEdit||'Clique em Gerar instrução de edição visual.')}</div></div>
     </div>
+
+    <label>Variações geradas / aprovadas</label>
+    <div class="visualResultGrid">
+      ${(state.visualEdit.resultImages&&state.visualEdit.resultImages.length?state.visualEdit.resultImages:[state.visualEdit.resultImage].filter(Boolean)).slice(0,3).map((img,i)=>`<div class="visualResultCard ${state.visualEdit.approvedIndex===i?'active':''}"><b>Versão ${String.fromCharCode(65+i)} ${state.visualEdit.approvedIndex===i?'• aprovada':''}</b><img src="${img}" alt="versão visual ${i+1}"><button class="btn green" data-action="approveVisual${i}">Aprovar esta versão</button></div>`).join('')||'<div class="visualResultCard"><b>Sem variações ainda</b><span class="small">Gere preview real ou A/B/C para aparecer aqui.</span></div>'}
+    </div>
+
     <div class="stationActions">
       <button class="btn gold" data-action="generate" data-node="visualEdit">Gerar instrução de edição visual</button>
-      <button class="btn cyan" data-action="visualVariation">Gerar variação A/B</button>
+      <button class="btn cyan" data-action="visualVariation">Gerar variação textual A/B</button>
       <button class="btn purple" data-action="applyVisualToPackage">Aplicar no pacote</button>
       <button class="btn green" data-action="downloadVisualBrief">Baixar briefing visual</button>
+      <button class="btn red" data-action="clearVisualResults">Limpar resultados</button>
+      <button class="btn red" data-action="clearVisualMemory">Limpar imagens/ref</button>
       <button class="btn cyan" data-action="next">Próximo node</button>
     </div>`;
   if(id==='sales')return `<div class="note"><b>Ponte Sales Ready.</b> Este node prepara o pacote do Print para a futura quarta opção do portal: Sales Remotion. Ele transforma a produção gráfica em oferta vendável, proposta, one page, mensagens de WhatsApp e briefing comercial.</div>
@@ -1453,7 +1962,37 @@ function stationHtml(id){
     </div>
     <label>Saída comercial para Sales Remotion</label>${area('outputs.sales',o.sales,'Clique em Gerar Ponte Sales para criar oferta, proposta, one page, WhatsApp e briefing de produção.')}
     <div class="stationActions"><button class="btn gold" data-action="generate" data-node="sales">Gerar Ponte Sales</button><button class="btn cyan" data-action="copySales">Copiar Sales</button><button class="btn green" data-action="downloadSales">Baixar Sales TXT</button><button class="btn purple" data-action="applySalesToPackage">Aplicar no pacote final</button></div>`;
-  if(id==='package')return `<div class="note">Pacote final consolidado para cliente, designer, produção e Sales Remotion.</div><label>Pacote final</label>${area('outputs.package',o.package)}<div class="stationActions"><button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button><button class="btn green" data-action="downloadTxt">Baixar TXT</button><button class="btn cyan" data-action="downloadJson">Baixar JSON</button><button class="btn" data-action="copyPackage">Copiar pacote</button></div>`;
+  if(id==='package')return `<div class="note"><b>Pacote Final V13 Ultra.</b> O pacote agora separa: briefing técnico, JSON do projeto, imagem aprovada, preview/mockup e contrato de API visual. Use a imagem aprovada do Node 9 como arte final do projeto.</div>
+    <div class="pgFinalGrid">
+      <div class="pgFinalVisualPanel">
+        <label>Preview / arte final aprovada</label>
+        <div class="pgFinalPreview">${visualOutputImage()?`<img src="${visualOutputImage()}" alt="arte final aprovada">`:`<div class="pgFinalEmpty"><b>Sem imagem final ainda</b>Volte no Node 9, carregue/gera uma imagem pela API e clique em Aplicar no pacote. O pacote TXT/JSON continua funcionando mesmo sem imagem.</div>`}</div>
+        <div class="pgFinalActions">
+          <button class="btn green" data-action="downloadFinalImage">Baixar arte final</button>
+          <button class="btn cyan" data-action="downloadBaseImage">Baixar imagem base</button>
+          <button class="btn purple" data-action="downloadMockupPreview">Baixar preview</button>
+          <button class="btn gold" data-action="applyVisualToPackage">Aplicar visual</button>
+        </div>
+        <div class="pgFileCards">
+          <div class="pgFileCard ${visualOutputImage()?'ok':'warn'}"><b>Arte final</b><span>${visualOutputImage()?'Imagem aprovada para download/aprovação.':'Pendente: gerar ou aprovar imagem no Node 9.'}</span></div>
+          <div class="pgFileCard ${(state.visualEdit.resultImages||[]).length?'ok':'warn'}"><b>Variações IA</b><span>${(state.visualEdit.resultImages||[]).length?`${state.visualEdit.resultImages.length} versão(ões) no histórico visual.`:'Pendente: gerar A/B/C real.'}</span></div>
+          <div class="pgFileCard ${o.visualEdit?'ok':'warn'}"><b>Briefing visual</b><span>${o.visualEdit?'Personalização registrada.':'Pendente: gerar instrução visual.'}</span></div>
+          <div class="pgFileCard ${o.prepress?'ok':'warn'}"><b>Pré-impressão</b><span>${o.prepress?'Checklist técnico salvo.':'Pendente: gerar checklist.'}</span></div>
+          <div class="pgFileCard ${o.production?'ok':'warn'}"><b>Produção</b><span>${o.production?'Ordem de serviço pronta.':'Pendente: gerar produção.'}</span></div>
+          <div class="pgFileCard ok"><b>API Visual</b><span>Endpoint: ${escapeHtml(state.visualEdit.apiEndpoint||'/api/visual-image')} • ${escapeHtml(state.visualEdit.imageSize||'1024x1024')} • ${escapeHtml(state.visualEdit.imageQuality||'medium')}</span></div>
+        </div>
+      </div>
+      <div>
+        <label>Pacote final técnico</label>${area('outputs.package',o.package)}
+        <div class="stationActions">
+          <button class="btn gold" data-action="generate" data-node="package">Montar pacote final</button>
+          <button class="btn green" data-action="downloadTxt">Baixar TXT</button>
+          <button class="btn cyan" data-action="downloadJson">Baixar JSON</button>
+          <button class="btn purple" data-action="downloadVisualContract">Baixar contrato API</button>
+          <button class="btn" data-action="copyPackage">Copiar pacote</button>
+        </div>
+      </div>
+    </div>`;
   return '';
 }
 function bindStationFields(){
@@ -1465,6 +2004,7 @@ function bindStationFields(){
   document.querySelectorAll('[data-visual-check]').forEach(ch=>{ch.onchange=()=>{state.visualEdit[ch.dataset.visualCheck]=ch.checked;scheduleSave();};});
   document.querySelectorAll('[data-visual-mode]').forEach(card=>{card.onclick=()=>{state.visualEdit.mode=card.dataset.visualMode;scheduleSave();openStation('visualEdit');};});
   document.querySelectorAll('[data-visual-upload]').forEach(input=>{input.onchange=e=>handleVisualUpload(input.dataset.visualUpload,e.target.files);});
+  document.querySelectorAll('[data-remove-visual]').forEach(btn=>{btn.onclick=(e)=>{e.preventDefault();e.stopPropagation();removeVisualUpload(btn.dataset.removeVisual);};});
   document.querySelectorAll('[data-action]').forEach(btn=>{btn.onclick=()=>handleAction(btn.dataset.action,btn.dataset.node);});
 }
 function handleAction(action,node){
@@ -1479,8 +2019,21 @@ function handleAction(action,node){
   if(action==='copyQuote')return copyText(state.outputs.quote||buildQuoteText());
   if(action==='applyCategory'){applyProductTechnicalRules(true);saveState();openStation('product');toast('Categoria técnica aplicada');return;}
   if(action==='visualVariation')return generateVisualVariation();
+  if(action==='visualGeneratePreview')return generateVisualImage('generate','A');
+  if(action==='visualGenerateAB')return generateVisualImage('variations','A/B/C');
+  if(action==='visualZeroTest')return runVisualZeroTest();
+  if(action==='clearVisualMemory')return clearVisualMemory();
+  if(action==='visualGenerateLocal')return createLocalVisualPreview('PREVIEW LOCAL').then(img=>{state.visualEdit.resultImages=[img];state.visualEdit.resultImage=img;state.visualEdit.status='Preview local de teste gerado';state.visualEdit.lastError='';state.outputs.package=assemblePackage();saveState();refreshAll(true);openStation('visualEdit');toast('Preview local gerado');});
+  if(action==='approveVisual0')return approveVisualVersion(0);
+  if(action==='approveVisual1')return approveVisualVersion(1);
+  if(action==='approveVisual2')return approveVisualVersion(2);
+  if(action==='clearVisualResults')return clearVisualResults();
+  if(action==='downloadVisualContract')return download('contrato-api-visual-print-remotion.txt', visualApiContractText());
   if(action==='applyVisualToPackage')return applyVisualToPackage();
   if(action==='downloadVisualBrief')return download('print-remotion-briefing-personalizacao-visual.txt', state.outputs.visualEdit||generateVisualEditBrief());
+  if(action==='downloadFinalImage')return downloadFinalImage();
+  if(action==='downloadBaseImage')return downloadBaseImage();
+  if(action==='downloadMockupPreview')return downloadMockupPreview();
   if(action==='downloadTxt')return downloadTxt();
   if(action==='downloadJson')return downloadJson();
   if(action==='copyPackage')return copyText(state.outputs.package||assemblePackage());
@@ -1858,9 +2411,8 @@ text artifacts, distorted logo, wrong perspective, mismatched lighting, blurry f
 OBSERVAÇÕES INTERNAS
 ${state.visualEdit.notes}`;
 }
-function generateVisualVariation(){
-  const base=generateVisualEditBrief();
-  state.outputs.visualEdit = `${base}
+async function generateVisualVariation(){
+  state.outputs.visualEdit = `${generateVisualEditBrief()}
 
 VARIAÇÃO A
 Mais fiel à imagem base: substituição sutil, mínima alteração de luz e textura.
@@ -1870,23 +2422,346 @@ Mais publicitária: acabamento premium, contraste levemente maior, textura mais 
 
 VARIAÇÃO C
 Mais social media: leitura rápida, impacto visual maior, preservando composição e identidade do cliente.`;
-  saveState();refreshAll(true);openStation('visualEdit');toast('Variações A/B/C geradas');
+  await generateVisualImage('variations','A/B/C');
 }
 function applyVisualToPackage(){
   if(!state.outputs.visualEdit) state.outputs.visualEdit = generateVisualEditBrief();
   state.outputs.package = assemblePackage();
   saveState();refreshAll(true);toast('Personalização visual aplicada ao pacote');
 }
-function handleVisualUpload(key,files){
+
+function visualReferenceImages(){
+  const imgs=[];
+  const seen=new Set();
+  const add=(role,dataUrl)=>{
+    if(!dataUrl || typeof dataUrl!=='string')return;
+    const key=dataUrl.slice(0,120);
+    if(seen.has(key))return;
+    seen.add(key);
+    imgs.push({role,dataUrl});
+  };
+  add('base',state.visualEdit.baseImage);
+  if(state.visualEdit.mode==='rosto') add('face_reference',state.visualEdit.faceImage);
+  if(state.visualEdit.mode==='roupa') add('clothing_reference',state.visualEdit.clothingImage);
+  if(state.visualEdit.mode==='produto') add('product_reference',state.visualEdit.productImage);
+  /* Referências extras agora são limitadas para evitar estouro de LocalStorage e payload pesado. */
+  (state.refs||[]).slice(-2).forEach((r,i)=>add('extra_reference_'+(i+1),r));
+  return imgs.slice(0,4);
+}
+function visualApiPrompt(variant='A'){
+  const p=product(), op=outputProfile();
+  const kind=state.visualEdit.outputKind||'auto';
+  const variantRule = variant==='B'
+    ? 'Versão B: acabamento mais publicitário, contraste premium, luz mais limpa, textura mais refinada, mantendo composição.'
+    : variant==='C'
+      ? 'Versão C: leitura mais forte para social media/anúncio, impacto visual maior, porém sem alterar identidade visual.'
+      : 'Versão A: máxima fidelidade à imagem base, alteração controlada, sombra e perspectiva realistas.';
+  return `PORTAL GENESIS PRINT — GERAÇÃO VISUAL REAL
+
+Objetivo: gerar uma imagem final profissional para ${p.name}, tipo de saída ${kind}, formato ${state.product.width}x${state.product.height}${state.product.unit}.
+Modo de edição: ${visualModeLabel()}.
+Diretiva do modo: ${state.visualEdit.mode==='rosto'
+  ? 'trocar claramente a identidade facial/cabelo do personagem da imagem base, usando a referência de rosto, sem colar foto real; converter para o mesmo estilo gráfico da peça'
+  : state.visualEdit.mode==='roupa'
+    ? 'trocar apenas a roupa/figurino mantendo corpo, pose, proporção, pele e luz da imagem base'
+    : 'trocar apenas o produto/objeto mantendo escala, contato, perspectiva, reflexos e sombra'}.
+Estilo: ${state.visualEdit.style}.
+Qualidade: ${state.visualEdit.imageQuality}.
+Tamanho solicitado: ${state.visualEdit.imageSize}.
+Cliente: ${state.brief.client}.
+Segmento: ${state.brief.segment}.
+Objetivo comercial: ${state.brief.goal}.
+Descrição do projeto: ${state.brief.description}.
+Texto obrigatório do projeto: ${state.brief.required}.
+Produto técnico: ${op.label}; arquivo final recomendado ${op.finalFile}; cor ${op.colorMode}; resolução ${op.dpi}; sangria ${op.bleed}; margem segura ${op.safe}.
+
+Regras rígidas:
+- Usar a imagem base como composição principal quando enviada.
+- Preservar fundo: ${state.visualEdit.preserveBackground?'sim':'não'}.
+- Preservar composição: ${state.visualEdit.preserveComposition?'sim':'não'}.
+- Preservar identidade visual: ${state.visualEdit.preserveBrand?'sim':'não'}.
+- Intensidade da alteração: ${state.visualEdit.intensity}%.
+- Não criar textos pequenos ilegíveis, letras falsas, logotipos inventados ou marcas de terceiros.
+- Se for estampa/camiseta/caneca/brinde, criar visual limpo, centralizado e pronto para mockup.
+- Se for banner/poster/social, deixar hierarquia forte e espaço seguro para texto.
+- Se for troca de rosto, preservar pose, iluminação, idade aparente, expressão natural e proporção.
+- Se for troca de roupa, preservar corpo, pose, pele, luz e proporções.
+- Se for troca de produto, preservar escala, contato, reflexos, sombra e perspectiva.
+
+${variantRule}
+
+Observações do usuário:
+${state.visualEdit.notes}`;
+}
+function visualNegativePrompt(){
+  return 'text artifacts, fake typography, distorted logo, copyrighted brand marks, deformed face, bad hands, extra fingers, warped product, wrong perspective, mismatched lighting, blurry image, low resolution, changed layout, duplicated objects, unrealistic shadows, broken packaging, watermark, overprocessed skin, plastic texture';
+}
+function buildVisualImagePayload(action='generate', variant='A'){
+  return {
+    module:'print-remotion',
+    version:'V13-ultra',
+    action,
+    variant,
+    provider:'gemini',
+    mode:state.visualEdit.mode,
+    outputKind:state.visualEdit.outputKind||'auto',
+    prompt:visualApiPrompt(variant),
+    negativePrompt:visualNegativePrompt(),
+    size:state.visualEdit.imageSize||'1024x1024',
+    quality:state.visualEdit.imageQuality||'medium',
+    format:state.visualEdit.imageFormat||'png',
+    product:{
+      name:product().name,
+      category:state.product.category,
+      width:state.product.width,
+      height:state.product.height,
+      unit:state.product.unit,
+      material:state.product.material,
+      finish:state.product.finish,
+      finalFile:outputProfile().finalFile
+    },
+    brief:state.brief,
+    visualEdit:state.visualEdit,
+    images:visualReferenceImages()
+  };
+}
+function normalizeImageResult(data){
+  const result = data?.result || data?.data || data || {};
+  const rawImages = result.images || result.resultImages || result.outputs || result.data || [];
+  let images = [];
+  if(Array.isArray(rawImages)){
+    images = rawImages.map(x=>{
+      if(!x) return '';
+      if(typeof x === 'string') return x.startsWith('data:') || x.startsWith('http') ? x : `data:image/png;base64,${x}`;
+      if(x.dataUrl) return x.dataUrl;
+      if(x.url) return x.url;
+      if(x.b64_json) return `data:image/png;base64,${x.b64_json}`;
+      if(x.base64) return `data:image/png;base64,${x.base64}`;
+      if(x.image) return String(x.image).startsWith('data:') || String(x.image).startsWith('http') ? x.image : `data:image/png;base64,${x.image}`;
+      return '';
+    }).filter(Boolean);
+  }
+  const single = result.image || result.resultImage || result.url || result.dataUrl || result.b64_json || data?.image || data?.url;
+  if(single && !images.length){
+    images=[String(single).startsWith('data:') || String(single).startsWith('http') ? String(single) : `data:image/png;base64,${single}`];
+  }
+  return {
+    images,
+    text: result.text || result.message || result.prompt || '',
+    meta: result.meta || result.usage || data?.usage || null
+  };
+}
+async function callVisualImageAPI(action='generate', variant='A'){
+  const endpoint=(state.visualEdit.apiEndpoint||'/api/visual-image').trim() || '/api/visual-image';
+  const res=await fetch(endpoint,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(buildVisualImagePayload(action,variant))
+  });
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok || data.ok===false){
+    throw new Error(data?.error || data?.message || `Falha HTTP ${res.status} na rota ${endpoint}`);
+  }
+  return normalizeImageResult(data);
+}
+function createLocalVisualPreview(label='PREVIEW LOCAL'){
+  return new Promise(resolve=>{
+    const canvas=document.createElement('canvas');
+    const [w,h]=String(state.visualEdit.imageSize||'1024x1024').split('x').map(n=>parseInt(n,10)||1024);
+    canvas.width=Math.min(w,1536);canvas.height=Math.min(h,1536);
+    const ctx=canvas.getContext('2d');
+    const drawBase=()=>{
+      const grad=ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+      grad.addColorStop(0,'#111827');grad.addColorStop(.55,'#07101d');grad.addColorStop(1,'#1f1728');
+      ctx.fillStyle=grad;ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.globalAlpha=.26;ctx.fillStyle='#65d9d2';ctx.beginPath();ctx.arc(canvas.width*.22,canvas.height*.35,canvas.width*.22,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#d6ad68';ctx.beginPath();ctx.arc(canvas.width*.78,canvas.height*.68,canvas.width*.24,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+      ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(canvas.width*.12,canvas.height*.15,canvas.width*.76,canvas.height*.62);
+      ctx.strokeStyle='rgba(214,173,104,.55)';ctx.lineWidth=Math.max(4,canvas.width*.006);ctx.strokeRect(canvas.width*.12,canvas.height*.15,canvas.width*.76,canvas.height*.62);
+      ctx.fillStyle='#eadcc1';ctx.font=`900 ${Math.max(28,canvas.width*.055)}px Arial`;
+      ctx.textAlign='center';ctx.fillText((state.brief.project||product().name||'Portal Genesis Print').slice(0,28),canvas.width/2,canvas.height*.43);
+      ctx.fillStyle='#cafffb';ctx.font=`700 ${Math.max(18,canvas.width*.026)}px Arial`;
+      ctx.fillText(`${state.visualEdit.outputKind||'arte'} • ${visualModeLabel()}`,canvas.width/2,canvas.height*.50);
+      ctx.fillStyle='#1a1203';ctx.fillRect(canvas.width*.28,canvas.height*.82,canvas.width*.44,canvas.height*.075);
+      ctx.fillStyle='#f2d08b';ctx.font=`900 ${Math.max(14,canvas.width*.024)}px Arial`;
+      ctx.fillText(label,canvas.width/2,canvas.height*.868);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    const base=state.visualEdit.baseImage;
+    if(base){
+      const img=new Image();
+      img.onload=()=>{
+        ctx.fillStyle='#050814';ctx.fillRect(0,0,canvas.width,canvas.height);
+        const scale=Math.min(canvas.width/img.width,canvas.height/img.height);
+        const iw=img.width*scale, ih=img.height*scale;
+        ctx.drawImage(img,(canvas.width-iw)/2,(canvas.height-ih)/2,iw,ih);
+        ctx.fillStyle='rgba(5,8,20,.58)';ctx.fillRect(0,canvas.height*.82,canvas.width,canvas.height*.18);
+        ctx.fillStyle='#f2d08b';ctx.font=`900 ${Math.max(18,canvas.width*.03)}px Arial`;ctx.textAlign='center';
+        ctx.fillText(label,canvas.width/2,canvas.height*.895);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.onerror=drawBase;img.src=base;
+    }else{drawBase();}
+  });
+}
+async function runVisualZeroTest(){
+  const endpoint=(state.visualEdit.apiEndpoint||'/api/visual-image').trim() || '/api/visual-image';
+  state.visualEdit.lastError='';
+  state.visualEdit.status='Chamando API visual: teste do zero sem referências';
+  state.visualEdit.resultImage='';
+  state.visualEdit.resultImages=[];
+  saveState();refreshAll(true);openStation('visualEdit');
+  try{
+    const res=await fetch(endpoint,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        module:'print-remotion',
+        version:'V15-zero-test',
+        action:'generate',
+        mode:'generate',
+        outputKind:'poster',
+        size:state.visualEdit.imageSize||'1024x1024',
+        quality:state.visualEdit.imageQuality||'medium',
+        prompt:"Criar uma imagem do zero para teste da API visual. Poster quadrado futurista, fundo escuro premium, iluminação neon azul e dourada, composição tecnológica limpa, visual publicitário, sem texto, sem logotipo, sem marca d'água, alta qualidade.",
+        negativePrompt:visualNegativePrompt(),
+        images:[]
+      })
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok || data.ok===false) throw new Error(data?.error || data?.message || `Falha HTTP ${res.status} na rota ${endpoint}`);
+    const result=normalizeImageResult(data);
+    if(!result.images.length) throw new Error('A API respondeu no teste do zero, mas não retornou imagem.');
+    state.visualEdit.resultImages=result.images.slice(0,1);
+    state.visualEdit.resultImage=state.visualEdit.resultImages[0];
+    state.visualEdit.approvedIndex=0;
+    state.visualEdit.status='Teste do zero gerou imagem pela API';
+    state.visualEdit.history=[...(state.visualEdit.history||[]),{date:new Date().toISOString(),action:'zero-test',images:1,size:state.visualEdit.imageSize,quality:state.visualEdit.imageQuality}].slice(-8);
+    saveState();refreshAll(true);openStation('visualEdit');toast('Teste do zero gerou imagem');
+  }catch(err){
+    console.error(err);
+    state.visualEdit.lastError=err.message||String(err);
+    state.visualEdit.status='Teste do zero falhou. Veja o último erro.';
+    saveState();refreshAll(true);openStation('visualEdit');toast('Teste do zero falhou');
+  }
+}
+async function generateVisualImage(action='generate', variant='A'){
+  if(!state.outputs.visualEdit) state.outputs.visualEdit=generateVisualEditBrief();
+  state.visualEdit.lastError='';
+  state.visualEdit.status=`Chamando API visual real: ${action} ${variant}`;
+  saveState();refreshAll(true);openStation('visualEdit');
+  try{
+    const result=await callVisualImageAPI(action,variant);
+    if(!result.images.length) throw new Error('A API respondeu, mas não retornou imagem em image/url/base64/images.');
+    state.visualEdit.resultImages = result.images.slice(0,3);
+    state.visualEdit.approvedIndex = 0;
+    state.visualEdit.resultImage = state.visualEdit.resultImages[0];
+    state.visualEdit.status = `Imagem gerada pela API (${state.visualEdit.resultImages.length} versão/versões)`;
+    state.visualEdit.history = [...(state.visualEdit.history||[]),{date:new Date().toISOString(),action,variant,images:result.images.length,size:state.visualEdit.imageSize,quality:state.visualEdit.imageQuality}].slice(-8);
+    state.outputs.visualApi = JSON.stringify(buildVisualImagePayload(action,variant),null,2);
+    state.outputs.package = assemblePackage();
+    saveState();refreshAll(true);openStation('visualEdit');toast('Imagem gerada pela API visual');
+  }catch(err){
+    console.error(err);
+    state.visualEdit.lastError=err.message||String(err);
+    state.visualEdit.status='API visual falhou. Nenhum preview local foi criado automaticamente. Use "Teste IA do zero" para diagnosticar ou "Preview local teste" só para simular layout.';
+    state.outputs.visualApi = JSON.stringify(buildVisualImagePayload(action,variant),null,2);
+    saveState();refreshAll(true);openStation('visualEdit');toast('API falhou; veja o erro no Node 9');
+  }
+}
+function approveVisualVersion(index){
+  const imgs=state.visualEdit.resultImages||[];
+  if(!imgs[index]){toast('Versão não encontrada');return;}
+  state.visualEdit.approvedIndex=index;
+  state.visualEdit.resultImage=imgs[index];
+  state.outputs.package=assemblePackage();
+  saveState();refreshAll(true);openStation('visualEdit');toast(`Versão ${String.fromCharCode(65+index)} aprovada`);
+}
+function clearVisualMemory(){
+  state.refs=[];
+  state.visualDNA='';
+  state.visualEdit.baseImage='';
+  state.visualEdit.faceImage='';
+  state.visualEdit.clothingImage='';
+  state.visualEdit.productImage='';
+  state.visualEdit.resultImage='';
+  state.visualEdit.resultImages=[];
+  state.visualEdit.approvedIndex=0;
+  state.visualEdit.lastError='';
+  state.visualEdit.status='Memória visual limpa. Pronto para teste do zero.';
+  state.outputs.visualApi='';
+  try{localStorage.removeItem(STORAGE);}catch(e){}
+  saveState();refreshAll(true);openStation('visualEdit');toast('Imagens e referências limpas');
+}
+function clearVisualResults(){
+  state.visualEdit.resultImage='';
+  state.visualEdit.resultImages=[];
+  state.visualEdit.approvedIndex=0;
+  state.visualEdit.lastError='';
+  state.visualEdit.status='resultados limpos';
+  saveState();refreshAll(true);openStation('visualEdit');toast('Resultados visuais limpos');
+}
+function visualApiContractText(){
+  return `CONTRATO DA ROTA /api/visual-image — PORTAL GENESIS PRINT V13
+
+Método: POST
+Content-Type: application/json
+
+Entrada esperada:
+{
+  "module": "print-remotion",
+  "version": "V13-ultra",
+  "action": "generate | variations | edit | mockup",
+  "variant": "A | B | C | A/B/C",
+  "mode": "produto | roupa | rosto",
+  "outputKind": "auto | produto | mockup | banner | poster | estampa | camiseta | caneca | cardapio | capa | thumbnail | social",
+  "prompt": "prompt técnico final",
+  "negativePrompt": "negative prompt",
+  "size": "1024x1024",
+  "quality": "low | medium | high",
+  "format": "png",
+  "product": {},
+  "brief": {},
+  "visualEdit": {},
+  "images": [
+    {"role":"base","dataUrl":"data:image/png;base64,..."},
+    {"role":"product_reference","dataUrl":"data:image/png;base64,..."}
+  ]
+}
+
+Saída aceita pelo front-end:
+{
+  "ok": true,
+  "images": [
+    {"dataUrl":"data:image/png;base64,..."}
+  ],
+  "message": "gerado"
+}
+
+Também aceita:
+{ "ok": true, "image": "data:image/png;base64,..." }
+{ "ok": true, "url": "https://..." }
+{ "ok": true, "result": { "images": ["base64-ou-data-url"] } }
+
+Observação importante:
+A chave da API nunca deve ficar no HTML. Ela deve ficar no servidor, em variável de ambiente.`;
+}
+
+async function handleVisualUpload(key,files){
   const file=files && files[0];
   if(!file || !file.type || !file.type.startsWith('image/')){toast('Envie uma imagem válida');return;}
-  const reader=new FileReader();
-  reader.onload=()=>{
-    state.visualEdit[key]=reader.result;
-    if(key==='baseImage' && !state.visualEdit.resultImage) state.visualEdit.resultImage=reader.result;
+  try{
+    toast('Otimizando imagem...');
+    const dataUrl=await fileToOptimizedDataUrl(file,1200,.84);
+    state.visualEdit[key]=dataUrl;
+    if(key==='baseImage' && !state.visualEdit.resultImage) state.visualEdit.resultImage=dataUrl;
+    state.visualEdit.lastError='';
+    state.visualEdit.status='Imagem adicionada e otimizada para API';
     saveState();refreshAll(true);openStation('visualEdit');toast('Imagem adicionada ao editor visual');
-  };
-  reader.readAsDataURL(file);
+  }catch(e){
+    console.error(e);
+    toast('Falha ao otimizar imagem');
+  }
 }
 
 function generatePrepress(){const p=product(),op=outputProfile();return `CHECKLIST PERSONALIZADO — V11 SAÍDA REAL PARA GRÁFICA
@@ -2142,6 +3017,17 @@ ${state.outputs.promptEN||generatePrompts().en}
 ==============================
 ${state.outputs.visualEdit||generateVisualEditBrief()}
 
+ARQUIVOS VISUAIS DO PROJETO
+- Imagem base carregada: ${visualBaseImage()?'Sim':'Não'}
+- Arte final/preview aprovada: ${visualOutputImage()?'Sim':'Não'}
+- Variações geradas: ${(state.visualEdit.resultImages||[]).length}
+- Versão aprovada: ${String.fromCharCode(65+(state.visualEdit.approvedIndex||0))}
+- Endpoint visual: ${state.visualEdit.apiEndpoint||'/api/visual-image'}
+- Saída visual: ${state.visualEdit.outputKind||'auto'} / ${state.visualEdit.imageSize||'1024x1024'} / qualidade ${state.visualEdit.imageQuality||'medium'}
+- Status visual: ${state.visualEdit.status||'não iniciado'}
+- Download recomendado: botão "Baixar arte final" no Node 12
+- Separar entrega: TXT/JSON para briefing técnico + PNG/JPG/PDF visual para produção.
+
 ==============================
 11. PRÉ-IMPRESSÃO / FECHAMENTO TÉCNICO
 ==============================
@@ -2216,8 +3102,36 @@ function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Copiado')
 function download(name,text,type='text/plain;charset=utf-8'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
 function downloadTxt(){const text=state.outputs.package||assemblePackage();download('portal-genesis-print-pacote-final.txt',text);}
 function downloadJson(){download('portal-genesis-print-projeto.json',JSON.stringify(state,null,2),'application/json;charset=utf-8');}
-function renderRefs(){const grid=$('refGrid');grid.innerHTML=state.refs.length?state.refs.map(r=>`<div class="refThumb"><img src="${r}" alt="referência"></div>`).join(''):'<div class="refThumb">Sem referências</div>';}
-function handleRefs(files){Array.from(files).slice(0,6).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{state.refs.push(reader.result);saveState();renderRefs();refreshAll();toast('Referência adicionada');};reader.readAsDataURL(file);});}
+function renderRefs(){
+  const grid=$('refGrid');
+  if(!grid)return;
+  grid.innerHTML=state.refs.length
+    ? state.refs.map((r,i)=>`<div class="refThumb" style="position:relative"><img src="${r}" alt="referência ${i+1}"><button type="button" class="refRemoveBtn" data-ref-remove="${i}" title="Remover referência">×</button></div>`).join('')
+    : '<div class="refThumb">Sem referências</div>';
+  grid.querySelectorAll('[data-ref-remove]').forEach(btn=>{
+    btn.onclick=(e)=>{
+      e.preventDefault();e.stopPropagation();
+      const index=Number(btn.dataset.refRemove);
+      if(Number.isNaN(index))return;
+      state.refs.splice(index,1);
+      if(!state.refs.length)state.visualDNA='';
+      saveState();renderRefs();refreshAll(false);toast('Referência removida');
+    };
+  });
+}
+async function handleRefs(files){
+  const list=Array.from(files||[]).filter(file=>file.type&&file.type.startsWith('image/')).slice(0,4);
+  if(!list.length){toast('Envie imagens válidas');return;}
+  toast('Otimizando referências...');
+  for(const file of list){
+    try{
+      const dataUrl=await fileToOptimizedDataUrl(file,1000,.82);
+      state.refs.push(dataUrl);
+    }catch(e){console.warn(e);}
+  }
+  state.refs=state.refs.slice(-4);
+  saveState();renderRefs();refreshAll();toast('Referência adicionada');
+}
 function attachGlobalEvents(){
   $('btnOpenBrief').onclick=()=>openStation('brief');$('btnOpenClients').onclick=()=>openStation('client');$('btnOpenSales').onclick=()=>openStation('sales');$('btnGeneratePipeline').onclick=generatePipeline;$('btnExportPack').onclick=()=>{state.outputs.package=assemblePackage();saveState();openStation('package');};$('btnReset').onclick=()=>{if(confirm('Resetar todo o projeto?')){state=defaultState();saveState();refreshAll();openStation('brief');}};
   $('quickAll').onclick=generatePipeline;$('quickCenter').onclick=centerMap;$('quickOrganize').onclick=organizeNodes;$('quickSave').onclick=saveState;$('zoomOut').onclick=()=>zoom(-.1);$('zoomIn').onclick=()=>zoom(.1);$('centerBtn').onclick=centerMap;$('organizeBtn').onclick=organizeNodes;
@@ -2357,10 +3271,10 @@ init();
   function pgSetText(sel, txt){ var el=document.querySelector(sel); if(el) el.textContent=txt; }
   function patchPortalGenesisPrintFinal(){
     try{
-      document.title='Portal Genesis — Print Remotion V1.7';
+      document.title='Portal Genesis — Print Remotion V13 Ultra';
       pgSetText('.logoMark','PG');
       pgSetText('.brand b','Portal Genesis Print');
-      pgSetText('.brand span','Marketing • Adventures • Punk • Vitrine Business de Caruaru');
+      pgSetText('.brand span','Marketing • Adventures • Punk • Vitrine Business • API Visual');
       pgSetText('#mockTitle','Portal Genesis Print');
       var sub=document.getElementById('mockSub');
       if(sub && (!sub.textContent || sub.textContent.indexOf('Briefing')>=0 || sub.textContent.indexOf('pré-impressão')>=0)){
@@ -2423,6 +3337,29 @@ init();
   }else{
     fixApiConfigLinks();
   }
+})();
+</script>
+
+<script>
+(function(){
+  function pgV15StabilityPatch(){
+    try{
+      document.body.classList.add('pg-single-header');
+      var bars=[].slice.call(document.querySelectorAll('.topbar'));
+      if(bars.length>1){
+        bars.slice(1).forEach(function(bar){bar.remove();});
+      }
+      var providerBadges=[].slice.call(document.querySelectorAll('.visualApiPanelTitle span'));
+      providerBadges.forEach(function(el){el.textContent='GEMINI + CLAUDE FALLBACK';});
+    }catch(e){console.warn('PG V15 stability patch',e);}
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',pgV15StabilityPatch);
+  }else{
+    pgV15StabilityPatch();
+  }
+  setTimeout(pgV15StabilityPatch,400);
+  setTimeout(pgV15StabilityPatch,1200);
 })();
 </script>
 
