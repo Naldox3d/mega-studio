@@ -3,123 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Genesis</title>
-<style>
-  /* Reset básico */
-  * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-  body { background: #121212; color: #fff; min-height: 100vh; }
-  
-  /* Cabeçalho e menu */
-  header { background:#1f1f1f; padding: 10px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-  header .logo { font-weight:bold; color:#f0c05a; font-size:1.5rem; }
-  nav { display:flex; flex-wrap:wrap; gap:10px; }
-  nav button { background:#2b2b2b; border:none; color:#fff; padding:6px 12px; cursor:pointer; border-radius:4px; }
-  nav button:hover { background:#f0c05a; color:#121212; }
-  
-  /* Login */
-  #login-container { display:flex; flex-direction:column; justify-content:center; align-items:center; height:80vh; }
-  #login-container input { margin:5px 0; padding:10px; width:250px; border-radius:4px; border:1px solid #ccc; }
-  #login-container button { margin-top:10px; padding:10px 20px; background:#f0c05a; border:none; cursor:pointer; border-radius:4px; font-weight:bold; }
-  #login-container button:hover { background:#d4a72b; }
-  #login-container .error { color:red; margin-top:5px; font-size:0.9rem; }
-  
-  /* Portal interno */
-  #portal { display:none; flex-direction:column; padding:20px; }
-  #status { margin-bottom:10px; font-size:0.9rem; color:#a0a0a0; }
-  #nodes-container { display:flex; flex-wrap:wrap; gap:10px; }
-  .node { background:#1f1f1f; padding:10px; flex:1 1 200px; border-radius:6px; min-width:200px; }
-  .node h3 { font-size:1.1rem; margin-bottom:5px; color:#f0c05a; }
-  .node button { margin-top:5px; padding:5px 10px; border:none; border-radius:4px; background:#2b2b2b; color:#fff; cursor:pointer; }
-  .node button:hover { background:#f0c05a; color:#121212; }
-
-  /* Responsivo */
-  @media(max-width:768px){
-    nav { flex-direction:column; gap:5px; }
-    #login-container input { width:90%; }
-    .node { flex:1 1 100%; }
-  }
-</style>
+<title>Portal Genesis - Area do Cliente</title>
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
+<div class="module-shell">
+  <header class="module-topbar">
+    <div class="module-title">
+      <h1>Area do Cliente</h1>
+      <p>Projeto neutro, limpo e sem herdar presets internos do Studio.</p>
+    </div>
+    <div class="actions-row">
+      <button class="btn cyan" id="addNodeBtn" type="button">Novo Node</button>
+      <button class="btn violet" id="autoLayoutBtn" type="button">Organizar</button>
+      <button class="btn green" id="exportTxtBtn" type="button">TXT</button>
+      <button class="btn gold" id="exportJsonBtn" type="button">JSON</button>
+      <button class="btn rose" id="resetBtn" type="button">Reset</button>
+    </div>
+  </header>
 
-<header>
-  <div class="logo">PG Portal Genesis</div>
-  <nav>
-    <button id="btn-portal">Portal</button>
-    <button id="btn-studio">Studio Remotion Lab</button>
-    <button id="btn-video">Video Remotion</button>
-    <button id="btn-print">Print</button>
-    <button id="btn-vitrine">Vitrine PG</button>
-    <button id="btn-api">API / Config</button>
-    <button id="btn-sair">Sair</button>
-  </nav>
-</header>
+  <main class="module-grid">
+    <aside class="module-side">
+      <div class="panel">
+        <h3>Pipeline</h3>
+        <p class="muted">Fluxo limpo para cliente final.</p>
+        <div class="node-list" id="nodeList"></div>
+      </div>
+    </aside>
 
-<!-- Login -->
-<div id="login-container">
-  <h2>Acesso Oficial</h2>
-  <input type="text" id="usuario" placeholder="Usuário">
-  <input type="password" id="senha" placeholder="Senha">
-  <button onclick="login()">Entrar no Portal Genesis</button>
-  <div class="error" id="error-msg"></div>
-</div>
+    <section class="canvas-shell">
+      <div class="node-viewport" id="viewport">
+        <div class="node-map" id="nodeMap">
+          <svg class="connector-svg" id="connectorSvg"></svg>
+          <div id="nodesCanvas"></div>
+        </div>
+      </div>
+      <div class="canvas-tools">
+        <button class="btn small" id="zoomOutBtn" type="button">-</button>
+        <span class="zoom-readout" id="zoomReadout">100%</span>
+        <button class="btn small" id="zoomInBtn" type="button">+</button>
+        <button class="btn small cyan" id="centerBtn" type="button">Centro</button>
+      </div>
+      <div class="minimap" id="minimap"></div>
+    </section>
 
-<!-- Portal interno -->
-<div id="portal">
-  <div id="status">Portal Genesis ativo: vitrine, serviços, clientes e motores de produção.</div>
-  <div id="nodes-container">
-    <div class="node">
-      <h3>Portal Genesis Video</h3>
-      <p>Marketing • Adventures • Punk • Vitrine Business de Caruaru</p>
-      <button>Editar Node</button>
-    </div>
-    <div class="node">
-      <h3>Studio Remotion Lab</h3>
-      <p>Criação, testes, presets e inovação.</p>
-      <button>Editar Node</button>
-    </div>
-    <div class="node">
-      <h3>Print Remotion</h3>
-      <p>Produto gráfico e marketing.</p>
-      <button>Editar Node</button>
-    </div>
-    <div class="node">
-      <h3>Vitrine PG</h3>
-      <p>Portfólio e serviços conectados.</p>
-      <button>Editar Node</button>
-    </div>
-  </div>
+    <aside class="module-inspector">
+      <div class="panel">
+        <h3>Diagnostico</h3>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="chip-row">
+          <span class="node-status ready" id="progressText">0% pronto</span>
+          <span class="node-status" id="nodeCount">0 nodes</span>
+        </div>
+        <p class="muted" id="activeNodeTitle">Nenhum node</p>
+        <div class="message" id="moduleMessage"></div>
+      </div>
+      <div id="station"></div>
+      <div class="panel"><h3>Preview</h3><div id="imagePreview"></div></div>
+      <div class="panel">
+        <h3>Pacote</h3>
+        <pre class="output-box" id="nodeOutput"></pre>
+        <div class="actions-row">
+          <button class="btn green" id="exportTxtBtnSide" type="button">TXT</button>
+          <button class="btn gold" id="exportJsonBtnSide" type="button">JSON</button>
+        </div>
+      </div>
+    </aside>
+  </main>
 </div>
 
 <script>
-  // Login simples
-  function login(){
-    const usuario = document.getElementById("usuario").value;
-    const senha = document.getElementById("senha").value;
-    const errorMsg = document.getElementById("error-msg");
-
-    if(usuario === "admin" && senha === "123456"){
-      document.getElementById("login-container").style.display = "none";
-      document.getElementById("portal").style.display = "flex";
-    } else {
-      errorMsg.textContent = "Acesso não autorizado. Confira usuário, senha ou disponibilidade do portal.";
+window.PG_MODULE_CONFIG = {
+  slug: "client",
+  title: "Area do Cliente",
+  endpoint: "/api/generate-client",
+  imageSize: "1024x1024",
+  presets: [
+    {
+      title: "Novo Projeto",
+      type: "briefing",
+      status: "working",
+      briefing: "Projeto inicia vazio e autoral, com conteudo informado pelo cliente."
+    },
+    {
+      title: "Roteiro",
+      type: "script",
+      briefing: "Criar roteiro somente com o briefing atual."
+    },
+    {
+      title: "Entrega",
+      type: "package",
+      briefing: "Exportar TXT/JSON limpo para continuidade."
     }
-  }
-
-  // Botões menu
-  document.getElementById("btn-sair").addEventListener("click", ()=>{
-    document.getElementById("portal").style.display="none";
-    document.getElementById("login-container").style.display="flex";
-  });
-
-  // Placeholder para botões de nodes
-  const nodeButtons = document.querySelectorAll(".node button");
-  nodeButtons.forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      alert("Editor de node em breve...");
-    });
-  });
+  ]
+};
 </script>
-
+<script src="../module-shell.js"></script>
 </body>
 </html>
