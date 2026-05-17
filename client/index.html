@@ -1,185 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Studio Platform — Produto Final</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Genesis</title>
 <style>
-:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:rgba(255,255,255,.10);--gold:#d6ad68;--cyan:#65d9d2;--green:#74d99a;--red:#e18a8a;--text:#e8ecf4;--muted:#9aa4b8}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
-body{background:radial-gradient(circle at 80% 8%,rgba(214,173,104,.09),transparent 25%),radial-gradient(circle at 12% 18%,rgba(101,217,210,.06),transparent 25%),linear-gradient(180deg,#070a12,#090d18 55%,#070a12)}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.topbar{position:sticky;top:0;z-index:20;display:flex;gap:12px;align-items:center;padding:14px 18px;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
-.brand{font-family:Syne,sans-serif;font-weight:900;font-size:18px;color:#eadcc1;letter-spacing:.04em}
-.brand small{font-family:Space Mono,monospace;color:var(--gold);font-size:10px;margin-left:8px}
-.nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);padding:9px 13px;font-size:12px;font-weight:800;text-decoration:none;display:inline-flex;gap:6px;align-items:center;justify-content:center}
-.btn.gold{background:linear-gradient(180deg,#e1bc7b,#c89a55);color:#1a1203;border-color:rgba(214,173,104,.65)}
-.btn.green{background:linear-gradient(180deg,#83dda9,#61c78c);color:#07140d;border-color:rgba(116,217,154,.65)}
-.btn.cyan{background:rgba(101,217,210,.10);border-color:rgba(101,217,210,.35);color:#cafffb}
-.shell{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:calc(100vh - 64px)}
-.side{border-right:1px solid var(--line);background:#0b1020;padding:14px;overflow:auto}
-.side h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}
-.step{border:1px solid var(--line);border-radius:13px;padding:10px 11px;margin-bottom:8px;background:rgba(255,255,255,.025);font-size:12px}
-.step.active{border-color:rgba(214,173,104,.45);background:rgba(214,173,104,.08)}
-.main{padding:24px;overflow:auto}
-.hero,.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),var(--panel);padding:20px;margin-bottom:14px}
-.kicker{display:inline-flex;padding:5px 9px;border:1px solid rgba(101,217,210,.32);border-radius:999px;color:#baf7f2;background:rgba(101,217,210,.08);font:10px Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
-h1,h2,h3{font-family:Syne,sans-serif;margin:0;color:#eadcc1;letter-spacing:.04em}
-h1{font-size:clamp(28px,3vw,44px);line-height:1}
-h2{font-size:24px;margin-bottom:12px}
-p{color:#bac3d8;line-height:1.6}
-.grid{display:grid;gap:14px}
-.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-label{display:block;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:10px 0 7px}
-input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#0b1020;color:var(--text);padding:10px 12px;outline:none}
-textarea{min-height:130px;resize:vertical;line-height:1.55}
-.output{white-space:pre-wrap;background:#080c17;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:210px;font:12px/1.7 Space Mono,monospace;color:#dbe5ff;overflow:auto}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.notice{border:1px solid rgba(101,217,210,.25);background:rgba(101,217,210,.07);color:#baf7f2;border-radius:14px;padding:11px 13px;font-size:12px;line-height:1.55;margin:12px 0}
-@media(max-width:900px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.two,.three{grid-template-columns:1fr}.topbar{flex-wrap:wrap}.nav{margin-left:0}.main{padding:14px}}
+  /* Reset básico */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+  body { background: #121212; color: #fff; min-height: 100vh; }
+  
+  /* Cabeçalho e menu */
+  header { background:#1f1f1f; padding: 10px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+  header .logo { font-weight:bold; color:#f0c05a; font-size:1.5rem; }
+  nav { display:flex; flex-wrap:wrap; gap:10px; }
+  nav button { background:#2b2b2b; border:none; color:#fff; padding:6px 12px; cursor:pointer; border-radius:4px; }
+  nav button:hover { background:#f0c05a; color:#121212; }
+  
+  /* Login */
+  #login-container { display:flex; flex-direction:column; justify-content:center; align-items:center; height:80vh; }
+  #login-container input { margin:5px 0; padding:10px; width:250px; border-radius:4px; border:1px solid #ccc; }
+  #login-container button { margin-top:10px; padding:10px 20px; background:#f0c05a; border:none; cursor:pointer; border-radius:4px; font-weight:bold; }
+  #login-container button:hover { background:#d4a72b; }
+  #login-container .error { color:red; margin-top:5px; font-size:0.9rem; }
+  
+  /* Portal interno */
+  #portal { display:none; flex-direction:column; padding:20px; }
+  #status { margin-bottom:10px; font-size:0.9rem; color:#a0a0a0; }
+  #nodes-container { display:flex; flex-wrap:wrap; gap:10px; }
+  .node { background:#1f1f1f; padding:10px; flex:1 1 200px; border-radius:6px; min-width:200px; }
+  .node h3 { font-size:1.1rem; margin-bottom:5px; color:#f0c05a; }
+  .node button { margin-top:5px; padding:5px 10px; border:none; border-radius:4px; background:#2b2b2b; color:#fff; cursor:pointer; }
+  .node button:hover { background:#f0c05a; color:#121212; }
+
+  /* Responsivo */
+  @media(max-width:768px){
+    nav { flex-direction:column; gap:5px; }
+    #login-container input { width:90%; }
+    .node { flex:1 1 100%; }
+  }
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">Studio Platform <small>Produto Final neutro</small></div>
-  <nav class="nav">
-    <a class="btn" href="/studio/">Studio</a>
-    <a class="btn gold" href="/client/">Client</a>
-    <a class="btn" href="/print/">Print</a>
+
+<header>
+  <div class="logo">PG Portal Genesis</div>
+  <nav>
+    <button id="btn-portal">Portal</button>
+    <button id="btn-studio">Studio Remotion Lab</button>
+    <button id="btn-video">Video Remotion</button>
+    <button id="btn-print">Print</button>
+    <button id="btn-vitrine">Vitrine PG</button>
+    <button id="btn-api">API / Config</button>
+    <button id="btn-sair">Sair</button>
   </nav>
 </header>
-<div class="shell">
-  <aside class="side">
-    <h4>Fluxo do roteirista</h4>
-    <div class="step active">1. Briefing</div>
-    <div class="step">2. História</div>
-    <div class="step">3. Cenas</div>
-    <div class="step">4. Storyboard</div>
-    <div class="step">5. Roteiro / falas</div>
-    <div class="step">6. SRT / vídeo IA</div>
-    <div class="step">7. CapCut Book</div>
-    <div class="step">8. Exportação</div>
-    <h4>Regra principal</h4>
-    <p style="font:11px/1.55 Space Mono,monospace;color:#9ee8e2">Produto final neutro. Nada de Fruits, personagens antigos, projetos salvos ou cenas antigas entra automaticamente.</p>
-  </aside>
 
-  <main class="main">
-    <section class="hero">
-      <div class="kicker">Autoria do usuário + IA</div>
-      <h1>Produto Final para Roteiristas</h1>
-      <p>Ferramenta enxuta para transformar uma ideia em história, cenas, storyboard, roteiro, SRT, prompt de vídeo IA e CapCut Motion Book. Começa sempre limpo.</p>
-      <div class="notice">Este é o Client: versão neutra para usuário final. O laboratório avançado continua separado em /studio/.</div>
-    </section>
+<!-- Login -->
+<div id="login-container">
+  <h2>Acesso Oficial</h2>
+  <input type="text" id="usuario" placeholder="Usuário">
+  <input type="password" id="senha" placeholder="Senha">
+  <button onclick="login()">Entrar no Portal Genesis</button>
+  <div class="error" id="error-msg"></div>
+</div>
 
-    <section class="grid two">
-      <div class="card">
-        <h2>Briefing rápido</h2>
-        <label>Título do projeto</label>
-        <input id="title" placeholder="Ex.: Curta de terror 2D, comercial de loja, episódio piloto..." />
-        <label>Formato</label>
-        <select id="format">
-          <option>Short/Reels/TikTok 9:16</option>
-          <option>Curta 16:9</option>
-          <option>Motion Comic 2D</option>
-          <option>Comercial / peça gráfica</option>
-          <option>Clipe / trailer</option>
-        </select>
-        <label>Ideia principal</label>
-        <textarea id="brief" placeholder="Conte a ideia do zero. Ex.: Um vendedor fecha a loja tarde da noite e percebe que algo se move dentro do freezer..."></textarea>
-        <label>Tom / estilo</label>
-        <input id="style" placeholder="Ex.: terror seco, comédia, drama emocional, anime 2D, webtoon fight..." />
-        <div class="actions">
-          <button class="btn gold" onclick="generateLocal()">Gerar pacote local</button>
-          <button class="btn cyan" onclick="generateAI()">Gerar com IA</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Resultado</h2>
-        <div class="output" id="out">Preencha o briefing e gere o primeiro pacote.</div>
-        <div class="actions">
-          <button class="btn" onclick="copyOut()">Copiar</button>
-          <button class="btn green" onclick="downloadTxt()">Baixar TXT</button>
-          <button class="btn cyan" onclick="shareOut()">Compartilhar</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid three">
-      <div class="card"><h3>Storyboard</h3><p>Divide a ideia em quadros/cenas com ação, câmera e emoção.</p></div>
-      <div class="card"><h3>Vídeo IA 2D</h3><p>Gera prompt para Seedance, Luma, Kling, Gen-3 ou CapCut AI sem virar realista.</p></div>
-      <div class="card"><h3>CapCut Motion Book</h3><p>Entrega ordem de edição, SFX, legendas, cortes e checklist final.</p></div>
-    </section>
-  </main>
+<!-- Portal interno -->
+<div id="portal">
+  <div id="status">Portal Genesis ativo: vitrine, serviços, clientes e motores de produção.</div>
+  <div id="nodes-container">
+    <div class="node">
+      <h3>Portal Genesis Video</h3>
+      <p>Marketing • Adventures • Punk • Vitrine Business de Caruaru</p>
+      <button>Editar Node</button>
+    </div>
+    <div class="node">
+      <h3>Studio Remotion Lab</h3>
+      <p>Criação, testes, presets e inovação.</p>
+      <button>Editar Node</button>
+    </div>
+    <div class="node">
+      <h3>Print Remotion</h3>
+      <p>Produto gráfico e marketing.</p>
+      <button>Editar Node</button>
+    </div>
+    <div class="node">
+      <h3>Vitrine PG</h3>
+      <p>Portfólio e serviços conectados.</p>
+      <button>Editar Node</button>
+    </div>
+  </div>
 </div>
 
 <script>
-const endpoint="/api/generate-client";
-function val(id){return document.getElementById(id).value.trim()}
-function context(){
-  return `PRODUTO FINAL NEUTRO PARA ROTEIRISTA
+  // Login simples
+  function login(){
+    const usuario = document.getElementById("usuario").value;
+    const senha = document.getElementById("senha").value;
+    const errorMsg = document.getElementById("error-msg");
 
-REGRA:
-Use somente o briefing abaixo. Não use Fruits, personagens antigos, cenas antigas, presets antigos ou qualquer vestígio de laboratório.
+    if(usuario === "admin" && senha === "123456"){
+      document.getElementById("login-container").style.display = "none";
+      document.getElementById("portal").style.display = "flex";
+    } else {
+      errorMsg.textContent = "Acesso não autorizado. Confira usuário, senha ou disponibilidade do portal.";
+    }
+  }
 
-TÍTULO: ${val("title")||"Projeto sem título"}
-FORMATO: ${val("format")}
-ESTILO: ${val("style")||"Não definido"}
-IDEIA: ${val("brief")||"Sem briefing"}
+  // Botões menu
+  document.getElementById("btn-sair").addEventListener("click", ()=>{
+    document.getElementById("portal").style.display="none";
+    document.getElementById("login-container").style.display="flex";
+  });
 
-ENTREGUE:
-1. Premissa
-2. Começo / meio / fim
-3. 5 cenas ou quadros
-4. Roteiro curto
-5. SRT inicial
-6. Prompt de imagem
-7. Prompt de vídeo IA 2D
-8. CapCut Motion Book`;
-}
-function generateLocal(){
-  const text=context()+`
-
-PACOTE LOCAL
-
-PREMISSA:
-${val("brief")||"A ideia ainda precisa ser preenchida."}
-
-ESTRUTURA:
-Cena 1 — Apresentação visual e gancho.
-Cena 2 — Problema aparece.
-Cena 3 — Virada dramática.
-Cena 4 — Clímax visual.
-Cena 5 — Final com payoff e gancho.
-
-PROMPT VÍDEO IA 2D:
-Use current reference image as strict reference. 2D cel-shaded motion comic, not live action, preserve the current style. Subtle push-in, parallax, atmospheric particles, controlled camera movement, sound-driven tension.
-
-CAPCUT MOTION BOOK:
-1. Importar imagem/storyboard.
-2. Cortar em blocos de 2 a 4 segundos.
-3. Adicionar SFX coerente.
-4. Inserir legenda SRT.
-5. Exportar em 9:16.`;
-  document.getElementById("out").textContent=text;
-}
-async function generateAI(){
-  document.getElementById("out").textContent="Gerando com IA...";
-  try{
-    const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:context(),model:"claude-sonnet-4-5",max_tokens:2800,temperature:.62})});
-    const data=await res.json().catch(()=>({}));
-    if(!res.ok) throw new Error(data.error||data.details||"Erro na API Client");
-    document.getElementById("out").textContent=data.text||data.output||data.message||JSON.stringify(data,null,2);
-  }catch(e){document.getElementById("out").textContent="Erro: "+e.message}
-}
-function copyOut(){navigator.clipboard.writeText(document.getElementById("out").textContent)}
-function downloadTxt(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([document.getElementById("out").textContent],{type:"text/plain"}));a.download="produto-final-roteirista.txt";a.click()}
-async function shareOut(){const text=document.getElementById("out").textContent;if(navigator.share){await navigator.share({title:"Produto Final",text}).catch(()=>{})}else{copyOut();alert("Copiado.")}}
+  // Placeholder para botões de nodes
+  const nodeButtons = document.querySelectorAll(".node button");
+  nodeButtons.forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      alert("Editor de node em breve...");
+    });
+  });
 </script>
+
 </body>
 </html>
