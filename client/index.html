@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Genesis - Area do Cliente</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="module-shell">
+  <header class="module-topbar">
+    <div class="module-title">
+      <h1>Area do Cliente</h1>
+      <p>Projeto neutro, limpo e sem herdar presets internos do Studio.</p>
+    </div>
+    <div class="actions-row">
+      <button class="btn cyan" id="addNodeBtn" type="button">Novo Node</button>
+      <button class="btn violet" id="autoLayoutBtn" type="button">Organizar</button>
+      <button class="btn green" id="exportTxtBtn" type="button">TXT</button>
+      <button class="btn gold" id="exportJsonBtn" type="button">JSON</button>
+      <button class="btn rose" id="resetBtn" type="button">Reset</button>
+    </div>
+  </header>
+
+  <main class="module-grid">
+    <aside class="module-side">
+      <div class="panel">
+        <h3>Pipeline</h3>
+        <p class="muted">Fluxo limpo para cliente final.</p>
+        <div class="node-list" id="nodeList"></div>
+      </div>
+    </aside>
+
+    <section class="canvas-shell">
+      <div class="node-viewport" id="viewport">
+        <div class="node-map" id="nodeMap">
+          <svg class="connector-svg" id="connectorSvg"></svg>
+          <div id="nodesCanvas"></div>
+        </div>
+      </div>
+      <div class="canvas-tools">
+        <button class="btn small" id="zoomOutBtn" type="button">-</button>
+        <span class="zoom-readout" id="zoomReadout">100%</span>
+        <button class="btn small" id="zoomInBtn" type="button">+</button>
+        <button class="btn small cyan" id="centerBtn" type="button">Centro</button>
+      </div>
+      <div class="minimap" id="minimap"></div>
+    </section>
+
+    <aside class="module-inspector">
+      <div class="panel">
+        <h3>Diagnostico</h3>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="chip-row">
+          <span class="node-status ready" id="progressText">0% pronto</span>
+          <span class="node-status" id="nodeCount">0 nodes</span>
+        </div>
+        <p class="muted" id="activeNodeTitle">Nenhum node</p>
+        <div class="message" id="moduleMessage"></div>
+      </div>
+      <div id="station"></div>
+      <div class="panel"><h3>Preview</h3><div id="imagePreview"></div></div>
+      <div class="panel">
+        <h3>Pacote</h3>
+        <pre class="output-box" id="nodeOutput"></pre>
+        <div class="actions-row">
+          <button class="btn green" id="exportTxtBtnSide" type="button">TXT</button>
+          <button class="btn gold" id="exportJsonBtnSide" type="button">JSON</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<script>
+window.PG_MODULE_CONFIG = {
+  slug: "client",
+  title: "Area do Cliente",
+  endpoint: "/api/generate-client",
+  imageSize: "1024x1024",
+  presets: [
+    {
+      title: "Novo Projeto",
+      type: "briefing",
+      status: "working",
+      briefing: "Projeto inicia vazio e autoral, com conteudo informado pelo cliente."
+    },
+    {
+      title: "Roteiro",
+      type: "script",
+      briefing: "Criar roteiro somente com o briefing atual."
+    },
+    {
+      title: "Entrega",
+      type: "package",
+      briefing: "Exportar TXT/JSON limpo para continuidade."
+    }
+  ]
+};
+</script>
+<script src="../module-shell.js"></script>
+</body>
+</html>

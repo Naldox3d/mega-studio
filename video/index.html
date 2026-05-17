@@ -1,0 +1,1602 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Portal Genesis — Video Remotion V1.7</title>
+<style>
+:root{
+  --bg:#05070d;--panel:#0d1425;--panel2:#121b30;--panel3:#18243c;
+  --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.18);
+  --text:#eef3ff;--muted:#94a3c2;--soft:#c9d6ee;
+  --gold:#d8b46f;--cyan:#6ee7df;--green:#78e2a2;--red:#ef7d8d;--purple:#b99cff;--blue:#74b7ff;
+  --shadow:0 24px 90px rgba(0,0,0,.48);--radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif}
+body{
+  background:
+    radial-gradient(circle at 16% 0,rgba(110,231,223,.11),transparent 30%),
+    radial-gradient(circle at 86% 8%,rgba(216,180,111,.11),transparent 28%),
+    linear-gradient(180deg,#070a12,#05070d);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+textarea{resize:vertical;line-height:1.55}
+h1,h2,h3{color:#f0ddbb;letter-spacing:.015em}
+p{color:var(--soft);line-height:1.55}
+.btn{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.045);color:var(--text);padding:9px 12px;font-size:12px;font-weight:900;display:inline-flex;gap:7px;align-items:center;justify-content:center;transition:.15s;white-space:nowrap}
+.btn:hover{filter:brightness(1.13);transform:translateY(-1px)}
+.btn.gold{background:linear-gradient(180deg,#e2bf7d,#c79a53);border-color:rgba(216,180,111,.68);color:#130d03}
+.btn.cyan{background:rgba(110,231,223,.10);border-color:rgba(110,231,223,.38);color:#d7fffc}
+.btn.green{background:linear-gradient(180deg,#86e8aa,#5fd18b);border-color:rgba(120,226,162,.68);color:#06130b}
+.btn.red{background:rgba(239,125,141,.10);border-color:rgba(239,125,141,.38);color:#ffdce1}
+.btn.purple{background:rgba(185,156,255,.11);border-color:rgba(185,156,255,.38);color:#eadfff}
+.btn.tiny{font-size:10px;padding:6px 9px;border-radius:10px}
+.btn.block{width:100%}
+input,textarea,select{width:100%;border:1px solid var(--line);border-radius:13px;background:#080d19;color:var(--text);padding:11px 12px;outline:none;font-size:13px}
+input:focus,textarea:focus,select:focus{border-color:rgba(110,231,223,.60);box-shadow:0 0 0 3px rgba(110,231,223,.08)}
+label{display:block;margin:11px 0 6px;color:#f1d59c;font-size:10px;font-weight:1000;text-transform:uppercase;letter-spacing:.14em}
+.small{font-size:11px;color:var(--muted);line-height:1.5}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.app{height:100vh;display:grid;grid-template-rows:60px 1fr}
+.topbar{height:60px;display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(7,10,18,.86);backdrop-filter:blur(14px);z-index:50}
+.brand{display:flex;align-items:center;gap:10px;min-width:280px}
+.brandMark{width:40px;height:40px;border-radius:15px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#fff0c6,#d8b46f 58%,#745221);color:#130d03;font-weight:1000}
+.brandText strong{display:block;color:#f0ddbb;font-size:16px;line-height:1}
+.brandText span{display:block;color:var(--gold);font:10px Consolas,monospace;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.statusStrip{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.035);color:#cbd6ea;font-size:10px;font-weight:900}
+.chip.good{border-color:rgba(120,226,162,.35);color:#d9ffe4;background:rgba(120,226,162,.08)}
+.chip.gold{border-color:rgba(216,180,111,.35);color:#f4dbab;background:rgba(216,180,111,.08)}
+.topActions{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.workspace{height:calc(100vh - 60px);display:grid;grid-template-columns:252px minmax(0,1fr) 310px;min-height:0}
+.rail,.inspector{background:rgba(13,20,37,.84);overflow:auto;padding:14px}
+.rail{border-right:1px solid var(--line)}
+.inspector{border-left:1px solid var(--line)}
+.railHead,.panel{border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.026);padding:13px;margin-bottom:12px}
+.railHead{border-color:rgba(216,180,111,.22);background:rgba(216,180,111,.06)}
+.railHead h2,.panel h3{font-size:15px;margin-bottom:7px}
+.rail h4,.inspector h4{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 8px}
+.step{width:100%;display:grid;grid-template-columns:27px 1fr auto;gap:8px;align-items:center;text-align:left;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);color:#dbe6fb;padding:9px;margin-bottom:8px;transition:.15s}
+.step:hover,.step.active{border-color:rgba(216,180,111,.55);background:rgba(216,180,111,.08)}
+.stepIcon{width:27px;height:27px;border-radius:10px;background:rgba(255,255,255,.05);display:grid;place-items:center}
+.stepText strong{display:block;font-size:12px}.stepText span{display:block;font:10px Consolas,monospace;color:var(--muted);margin-top:2px}
+.dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--line2);background:#1b2433}
+.dot.done{background:var(--green);box-shadow:0 0 10px rgba(120,226,162,.35)}
+.dot.active{background:var(--gold);box-shadow:0 0 10px rgba(216,180,111,.35)}
+.canvasShell{position:relative;min-width:0;min-height:0;background:#050813}
+.nodeViewport{position:absolute;inset:0;overflow:hidden;cursor:grab;background-color:#050813;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px),radial-gradient(circle at 35% 20%,rgba(110,231,223,.10),transparent 22%),radial-gradient(circle at 70% 35%,rgba(216,180,111,.07),transparent 24%);background-size:40px 40px,40px 40px,100% 100%,100% 100%}
+.nodeViewport.dragging{cursor:grabbing}
+.nodeMap{position:absolute;left:0;top:0;width:2800px;height:1800px;transform-origin:0 0;will-change:transform}
+.connectorSvg{position:absolute;left:0;top:0;width:2800px;height:1800px;pointer-events:none;overflow:visible;z-index:1}
+.connectorSvg path{fill:none;stroke:rgba(110,231,223,.24);stroke-width:3;stroke-linecap:round;stroke-dasharray:8 9}
+.connectorSvg path.main{stroke:rgba(216,180,111,.55);stroke-width:4;stroke-dasharray:none}
+.connectorSvg path.done{stroke:rgba(120,226,162,.52);stroke-dasharray:none}
+.node{position:absolute;width:264px;min-height:142px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.062),rgba(255,255,255,.018)),rgba(13,18,32,.92);box-shadow:0 14px 44px rgba(0,0,0,.38);backdrop-filter:blur(8px);z-index:5;user-select:none;cursor:pointer;transition:.16s}
+.node:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.26);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.node.active{border-color:rgba(216,180,111,.82);box-shadow:0 0 0 1px rgba(216,180,111,.55),0 22px 70px rgba(0,0,0,.55);z-index:12}
+.node.done{border-color:rgba(120,226,162,.48)}
+.node.locked{opacity:.52;filter:saturate(.65)}
+.node.awaiting{box-shadow:0 0 0 1px rgba(216,180,111,.55),0 0 34px rgba(216,180,111,.12)}
+.node.compact{min-height:84px;width:238px;opacity:.78}
+.node.compact .nodeBody,.node.compact .nodeHandle{display:none}
+.node.compact .nodeTop{border-bottom:0}
+.node.compact::after{content:"✓ aplicado";position:absolute;right:10px;bottom:8px;font:9px Consolas,monospace;color:#c5ffd5;text-transform:uppercase;letter-spacing:.08em}
+.nodeTop{display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px}
+.nodeIcon{width:40px;height:40px;border-radius:14px;background:rgba(110,231,223,.08);border:1px solid rgba(110,231,223,.18);display:grid;place-items:center;font-size:19px}
+.nodeTitle strong{display:block;color:#f0ddbb;font-weight:1000;font-size:13px;line-height:1.12}
+.nodeTitle span{display:block;color:var(--muted);font:9px Consolas,monospace;text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+.nodeBody{padding:11px 12px 12px}
+.nodeSummary{font-size:11px;line-height:1.45;color:#bdc7dd;min-height:44px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.nodeActions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.port{position:absolute;width:12px;height:12px;border-radius:999px;background:#0b1020;border:2px solid rgba(110,231,223,.55);top:62px}
+.port.in{left:-7px}.port.out{right:-7px}.node.done .port{border-color:rgba(120,226,162,.72)}
+.nodeHandle{position:absolute;right:9px;bottom:6px;color:#64748b;font-size:14px}
+.flowPanel{
+  position:absolute;
+  left:16px;
+  top:16px;
+  z-index:54;
+  width:min(360px,calc(100% - 32px));
+  border:1px solid rgba(216,180,111,.25);
+  background:rgba(8,13,25,.76);
+  backdrop-filter:blur(12px);
+  border-radius:18px;
+  padding:12px;
+  box-shadow:0 18px 60px rgba(0,0,0,.32);
+  transition:.18s ease;
+}
+.flowPanel.is-collapsed{
+  width:auto;
+  max-width:min(430px,calc(100% - 32px));
+  padding:8px;
+  border-color:rgba(110,231,223,.28);
+  background:rgba(8,13,25,.70);
+}
+.flowPanel.is-collapsed .flowBody{display:none}
+.flowMini{
+  display:none;
+  align-items:center;
+  gap:8px;
+}
+.flowPanel.is-collapsed .flowMini{display:flex}
+.flowMini strong{
+  color:#f0ddbb;
+  font-size:11px;
+}
+.flowMini span{
+  max-width:240px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:var(--muted);
+  font:10px Consolas,monospace;
+}
+.flowHead{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:8px;
+}
+.flowHeadText h3{font-size:13px;margin-bottom:4px}
+.flowHeadText p{font-size:11px;color:var(--muted);line-height:1.45}
+.flowHeadActions{display:flex;gap:6px;align-items:center}
+.flowActions{display:flex;gap:7px;flex-wrap:wrap}
+.flowChecklist{display:grid;gap:6px;margin-top:10px;max-height:165px;overflow:auto;padding-right:2px}
+.flowItem{display:grid;grid-template-columns:18px 1fr auto;gap:7px;align-items:center;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.026);border-radius:11px;padding:7px 8px;font-size:11px;color:#dbe6fb;text-align:left}
+.flowItem small{display:block;color:var(--muted);font:9px Consolas,monospace;text-transform:uppercase}
+.flowCheck{width:14px;height:14px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:9px;color:#06130b}
+.flowItem.done .flowCheck{background:var(--green);border-color:rgba(120,226,162,.85)}
+.flowItem.active{border-color:rgba(216,180,111,.45);background:rgba(216,180,111,.08)}
+.floatingTools{position:absolute;left:16px;bottom:16px;z-index:55;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);background:rgba(8,13,25,.78);backdrop-filter:blur(10px);border-radius:16px;padding:8px}
+.zoomReadout{min-width:58px;text-align:center;color:#f1d6a3;font:11px Consolas,monospace}
+.minimap{position:absolute;right:16px;bottom:16px;width:190px;height:120px;border:1px solid rgba(255,255,255,.14);background:rgba(3,5,10,.7);backdrop-filter:blur(10px);border-radius:16px;z-index:55;overflow:hidden}
+.minimapTitle{position:absolute;left:10px;top:7px;font:9px Consolas,monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.miniNode{position:absolute;width:10px;height:7px;border-radius:2px;background:rgba(110,231,223,.55)}
+.miniNode.done{background:rgba(120,226,162,.8)}.miniNode.active{background:rgba(216,180,111,.95);box-shadow:0 0 9px rgba(216,180,111,.45)}
+.toast{position:absolute;left:50%;top:18px;transform:translateX(-50%) translateY(-10px);opacity:0;pointer-events:none;border:1px solid rgba(120,226,162,.28);background:rgba(8,13,25,.92);color:#d9ffe5;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:900;z-index:120;box-shadow:var(--shadow);transition:.22s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.stationOverlay{position:absolute;inset:0;background:rgba(2,4,9,.62);backdrop-filter:blur(5px);z-index:90;display:none}
+.stationOverlay.active{display:block}
+.station{position:absolute;left:50%;top:50%;width:min(1180px,calc(100vw - 44px));height:min(780px,calc(100vh - 98px));transform:translate(-50%,-50%) scale(.965);opacity:0;display:none;z-index:100;border:1px solid rgba(216,180,111,.36);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.016)),#0a0f1b;box-shadow:0 38px 120px rgba(0,0,0,.72);overflow:hidden;transition:.18s}
+.station.active{display:grid;grid-template-rows:64px 1fr;opacity:1;transform:translate(-50%,-50%) scale(1)}
+.stationHead{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}
+.stationTitle{display:flex;align-items:center;gap:12px;min-width:0}
+.stationTitleIcon{width:40px;height:40px;border-radius:14px;background:rgba(216,180,111,.1);border:1px solid rgba(216,180,111,.25);display:grid;place-items:center;font-size:20px}
+.stationTitle h2{font-size:20px}.stationTitle p{font:10px Consolas,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.stationBody{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 360px}
+.stationMain{padding:18px;overflow:auto;min-width:0}
+.stationSide{border-left:1px solid var(--line);background:rgba(5,8,19,.55);padding:16px;overflow:auto}
+.stationSection{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.024);padding:14px;margin-bottom:12px}
+.stationSection h3{font-size:15px;margin-bottom:8px}
+.stationProgress{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-bottom:12px;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:rgba(255,255,255,.025);padding:10px}
+.stationProgress strong{display:block;font-size:12px;color:#f0ddbb}.stationProgress span{display:block;font:10px Consolas,monospace;color:var(--muted);margin-top:3px}
+.resultSeal{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(120,226,162,.35);background:rgba(120,226,162,.09);color:#dfffe8;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:1000;text-transform:uppercase;letter-spacing:.08em}
+.output{white-space:pre-wrap;background:#050914;border:1px solid var(--line);border-radius:15px;padding:13px;min-height:180px;max-height:430px;overflow:auto;font:11px/1.62 Consolas,monospace;color:#dbe7ff}
+.actions,.quickOutputBar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.quickOutputBar{padding-top:8px;border-top:1px solid rgba(255,255,255,.07)}
+.visualDrop{display:block;border:1px dashed rgba(110,231,223,.42);border-radius:15px;background:rgba(110,231,223,.055);color:#cafffb;text-align:center;padding:18px 12px;font-size:12px;font-weight:900;cursor:pointer}
+.visualDrop input{display:none}
+.thumbGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.thumb{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#050813}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}.thumb button{position:absolute;right:5px;top:5px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.65);color:#fff;border-radius:8px;font-size:10px;padding:3px 6px}
+.emptyThumb{display:grid;place-items:center;color:var(--muted);font:10px Consolas,monospace;text-align:center;padding:10px;height:86px;border:1px solid var(--line);border-radius:12px;background:#050813}
+.historyList{display:grid;gap:8px;max-height:190px;overflow:auto}
+.historyItem{border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.025);padding:8px}
+.historyItem strong{display:block;font-size:11px;color:#e6d7b7}.historyItem span{display:block;font:10px Consolas,monospace;color:var(--muted);margin-top:3px}
+.progressWrap{height:9px;border:1px solid var(--line);background:#050813;border-radius:999px;overflow:hidden}
+.progressFill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green),var(--gold));transition:.25s}
+.kv{display:grid;gap:6px;margin-top:10px}.kv div{display:flex;justify-content:space-between;gap:8px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:10px;padding:7px 8px;font-size:11px;color:#c9d3e7}
+.previewCard{aspect-ratio:9/16;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:linear-gradient(155deg,#111827,#060914);overflow:hidden;position:relative}
+.previewGlow{position:absolute;width:160px;height:160px;border-radius:999px;background:radial-gradient(circle,rgba(110,231,223,.33),transparent 65%);left:-60px;top:80px;animation:float 4.5s infinite alternate ease-in-out}
+.previewGlow.b{background:radial-gradient(circle,rgba(216,180,111,.28),transparent 65%);left:auto;right:-80px;top:auto;bottom:100px;animation-duration:5.8s}
+.previewTitle{position:absolute;left:18px;right:18px;top:34%;font-size:23px;line-height:1.05;color:#f0ddbb;font-weight:1000}
+.previewSub{position:absolute;left:18px;right:18px;top:52%;font-size:11px;color:#cae7ff;line-height:1.4}.previewCta{position:absolute;left:18px;right:18px;bottom:26px;text-align:center;border-radius:999px;background:var(--gold);color:#191004;padding:9px;font-weight:1000;font-size:11px}
+@keyframes float{from{transform:translate(0,0) scale(1)}to{transform:translate(34px,-18px) scale(1.12)}}
+@media(max-width:1100px){.workspace{grid-template-columns:210px minmax(0,1fr)}.inspector{display:none}.stationBody{grid-template-columns:1fr}.stationSide{border-left:0;border-top:1px solid var(--line);max-height:330px}.station{height:min(850px,calc(100vh - 80px))}.grid2,.grid3{grid-template-columns:1fr}}
+@media(max-width:760px){.app{grid-template-rows:auto 1fr}.topbar{height:auto;align-items:flex-start;flex-wrap:wrap}.brand{min-width:0}.topActions{width:100%;margin-left:0}.workspace{height:calc(100vh - 108px);grid-template-columns:1fr}.rail{display:none}.node{width:220px}.minimap{display:none}.station{width:calc(100vw - 18px);height:calc(100vh - 124px);border-radius:18px}.stationTitle h2{font-size:16px}.stationMain{padding:12px}.floatingTools{right:10px;left:10px;bottom:10px}.flowPanel{top:auto;bottom:68px;left:10px;right:10px;width:auto;max-height:210px;overflow:auto}.flowPanel:not(.is-collapsed){max-height:240px}.flowChecklist{max-height:90px}.flowPanel.is-collapsed{width:auto;max-width:calc(100% - 20px)}.flowMini span{max-width:180px}.btn{font-size:11px;padding:8px 10px}}
+
+/* =========================================================
+   PATCH V1.2 — VIDEO REMOTION LATERAIS COMO STUDIO
+   Mantém nodes, posição salva do canvas, drag/zoom, minimap,
+   fluxo e exportação. Corrige laterais, barras, cores e
+   responsividade para ficar fiel ao Studio Remotion Lab.
+   ========================================================= */
+:root{
+  --studio-bg:#05070d;
+  --studio-panel:#0c111d;
+  --studio-panel2:#111827;
+  --studio-line:rgba(255,255,255,.10);
+  --studio-line-soft:rgba(255,255,255,.065);
+  --studio-gold:#d6ad68;
+  --studio-cyan:#65d9d2;
+  --studio-green:#75db9b;
+  --studio-red:#e18491;
+  --studio-purple:#a996ff;
+  --studio-text:#e8edf8;
+  --studio-muted:#96a1ba;
+}
+html,body{
+  background:
+    radial-gradient(circle at 78% 12%, rgba(214,173,104,.10), transparent 26%),
+    radial-gradient(circle at 15% 18%, rgba(101,217,210,.075), transparent 28%),
+    radial-gradient(circle at 50% 120%, rgba(169,150,255,.07), transparent 38%),
+    linear-gradient(180deg,#060913 0%,#05070d 100%)!important;
+}
+.app{
+  grid-template-rows:64px 1fr!important;
+}
+.topbar{
+  height:64px!important;
+  padding:10px 18px!important;
+  background:rgba(5,7,13,.91)!important;
+  border-bottom:1px solid var(--studio-line)!important;
+  backdrop-filter:blur(18px)!important;
+}
+.brandMark{
+  width:42px!important;
+  height:42px!important;
+  border-radius:14px!important;
+  background:linear-gradient(180deg,#f2d08b,#d8b46f)!important;
+  color:#1a1203!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 0 28px rgba(214,173,104,.16)!important;
+}
+.brandText strong{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+  letter-spacing:.04em!important;
+  font-size:18px!important;
+}
+.brandText strong::after{
+  content:" . APROVADO";
+  color:var(--studio-green);
+  font-size:.62em;
+  letter-spacing:.10em;
+}
+.brandText span{
+  color:var(--studio-gold)!important;
+  letter-spacing:.12em!important;
+}
+.chip{
+  border:1px solid var(--studio-line)!important;
+  background:rgba(255,255,255,.035)!important;
+  color:var(--studio-muted)!important;
+  border-radius:999px!important;
+}
+.chip.good{
+  color:#caffda!important;
+  border-color:rgba(117,219,155,.38)!important;
+  background:rgba(117,219,155,.08)!important;
+}
+.chip.gold{
+  color:#f6d7a2!important;
+  border-color:rgba(214,173,104,.38)!important;
+  background:rgba(214,173,104,.08)!important;
+}
+.btn{
+  border-radius:12px!important;
+  border:1px solid var(--studio-line)!important;
+  box-shadow:none!important;
+}
+.btn.gold{
+  background:linear-gradient(180deg,#e5c07e,#c79650)!important;
+  color:#1c1305!important;
+  border-color:rgba(214,173,104,.80)!important;
+}
+.btn.green{
+  background:linear-gradient(180deg,#83e1a9,#62c889)!important;
+  color:#07150d!important;
+  border-color:rgba(117,219,155,.70)!important;
+}
+.btn.cyan{
+  background:rgba(101,217,210,.10)!important;
+  color:#cafffb!important;
+  border-color:rgba(101,217,210,.38)!important;
+}
+.btn.purple{
+  background:rgba(169,150,255,.10)!important;
+  color:#e5ddff!important;
+  border-color:rgba(169,150,255,.38)!important;
+}
+.btn.red{
+  background:rgba(225,132,145,.10)!important;
+  color:#ffd7de!important;
+  border-color:rgba(225,132,145,.42)!important;
+}
+.workspace{
+  grid-template-columns:248px minmax(0,1fr) 330px!important;
+  height:calc(100vh - 64px)!important;
+  background:#050813!important;
+}
+.rail,.inspector{
+  background:rgba(12,17,29,.88)!important;
+  border-color:var(--studio-line)!important;
+  padding:14px 10px 18px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.28) rgba(255,255,255,.04);
+}
+.rail::-webkit-scrollbar,.inspector::-webkit-scrollbar{width:8px}
+.rail::-webkit-scrollbar-track,.inspector::-webkit-scrollbar-track{background:rgba(255,255,255,.035)}
+.rail::-webkit-scrollbar-thumb,.inspector::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.24);
+  border-radius:999px;
+}
+.railHead,.panel{
+  border:1px solid var(--studio-line)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),rgba(13,18,32,.94)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03)!important;
+  padding:14px!important;
+  margin-bottom:12px!important;
+}
+.railHead{
+  border-color:rgba(214,173,104,.28)!important;
+}
+.railHead h2,.panel h3{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+  font-size:15px!important;
+  line-height:1.15!important;
+  margin-bottom:8px!important;
+}
+.rail h4,.inspector h4{
+  color:var(--studio-gold)!important;
+  letter-spacing:.16em!important;
+  margin:15px 0 8px!important;
+}
+.small{
+  font-size:11px!important;
+  line-height:1.55!important;
+  color:#aeb8cc!important;
+}
+.step{
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.038),rgba(255,255,255,.014)),rgba(13,18,32,.88)!important;
+  padding:9px 10px!important;
+  margin-bottom:8px!important;
+}
+.step:hover,.step.active{
+  border-color:rgba(214,173,104,.58)!important;
+  background:linear-gradient(180deg,rgba(214,173,104,.12),rgba(214,173,104,.035)),rgba(13,18,32,.95)!important;
+}
+.stepIcon{
+  border-radius:11px!important;
+  background:rgba(255,255,255,.045)!important;
+  border:1px solid rgba(255,255,255,.075)!important;
+}
+.stepText strong{
+  color:#e8edf8!important;
+}
+.stepText span{
+  color:var(--studio-muted)!important;
+}
+.dot.active{
+  background:var(--studio-gold)!important;
+}
+.dot.done{
+  background:var(--studio-green)!important;
+}
+.rail .btn.block,.inspector .btn.block{
+  width:100%!important;
+  min-height:38px!important;
+  justify-content:center!important;
+  white-space:normal!important;
+  text-align:center!important;
+  line-height:1.18!important;
+  padding:9px 10px!important;
+}
+.nodeViewport{
+  background-color:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),
+    radial-gradient(circle at 42% 28%,rgba(101,217,210,.08),transparent 26%),
+    radial-gradient(circle at 70% 65%,rgba(214,173,104,.06),transparent 28%),
+    #050813!important;
+  background-size:32px 32px,32px 32px,160px 160px,160px 160px,auto,auto,auto!important;
+}
+.node{
+  border:1px solid rgba(255,255,255,.11)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.060),rgba(255,255,255,.018)),rgba(13,18,32,.96)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.36)!important;
+}
+.node.active{
+  border-color:rgba(214,173,104,.82)!important;
+  box-shadow:0 0 0 2px rgba(214,173,104,.22),0 26px 70px rgba(0,0,0,.55)!important;
+}
+.node.done{
+  border-color:rgba(117,219,155,.52)!important;
+}
+.nodeTop{
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+}
+.nodeIcon{
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  background:rgba(255,255,255,.035)!important;
+}
+.nodeTitle strong{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+}
+.connectorSvg path{
+  stroke:rgba(101,217,210,.26)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 8!important;
+}
+.connectorSvg path.done,.connectorSvg path.main{
+  stroke:rgba(214,173,104,.62)!important;
+  stroke-width:4!important;
+}
+.flowPanel{
+  border-color:rgba(101,217,210,.28)!important;
+  background:rgba(5,8,19,.72)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.flowPanel.is-collapsed{
+  border-color:rgba(101,217,210,.36)!important;
+}
+.floatingTools{
+  left:16px!important;
+  bottom:16px!important;
+  border:1px solid var(--studio-line)!important;
+  border-radius:16px!important;
+  background:rgba(5,8,19,.78)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.minimap{
+  width:190px!important;
+  height:126px!important;
+  border:1px solid var(--studio-line)!important;
+  border-radius:16px!important;
+  background:rgba(5,8,19,.72)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.progressWrap{
+  height:7px!important;
+  margin:8px 0!important;
+  background:rgba(255,255,255,.055)!important;
+}
+.progressFill{
+  background:linear-gradient(90deg,var(--studio-gold),var(--studio-cyan),var(--studio-green))!important;
+}
+.kv{
+  gap:8px!important;
+}
+.kv div{
+  border-radius:13px!important;
+  padding:9px 10px!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  background:rgba(255,255,255,.025)!important;
+}
+.kv span{
+  color:var(--studio-muted)!important;
+}
+.kv strong{
+  color:#e8edf8!important;
+  overflow-wrap:anywhere!important;
+}
+.previewCard{
+  min-height:300px!important;
+  height:auto!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:18px!important;
+  background:#080c16!important;
+}
+.previewTitle{
+  font-family:Syne,Inter,Segoe UI,Roboto,Arial,sans-serif!important;
+  color:#eadcc1!important;
+  font-size:22px!important;
+}
+.previewSub{
+  color:#cdd7ee!important;
+}
+.previewCta{
+  border-radius:999px!important;
+  background:var(--studio-gold)!important;
+  color:#1b1204!important;
+}
+.station{
+  width:min(1160px,94vw)!important;
+  border:1px solid rgba(214,173,104,.34)!important;
+  border-radius:24px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.014)),rgba(10,15,28,.98)!important;
+}
+.stationBody{
+  grid-template-columns:minmax(0,1fr) 330px!important;
+}
+.stationSide{
+  min-width:0!important;
+}
+.stationSection,.stationProgress,.output{
+  border-color:rgba(255,255,255,.10)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),rgba(13,18,32,.90)!important;
+}
+input,textarea,select{
+  background:#080d19!important;
+  border-color:rgba(255,255,255,.11)!important;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(214,173,104,.58)!important;
+  box-shadow:0 0 0 4px rgba(214,173,104,.07)!important;
+}
+.video-approved-note{
+  border:1px solid rgba(101,217,210,.28);
+  border-radius:14px;
+  background:rgba(101,217,210,.07);
+  color:#cafffb;
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.video-approved-note b{color:#eadcc1}
+@media(max-width:1200px){
+  .workspace{
+    grid-template-columns:230px minmax(0,1fr) 306px!important;
+  }
+  .rail,.inspector{
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+}
+@media(max-width:980px){
+  .workspace{
+    grid-template-columns:220px minmax(0,1fr)!important;
+  }
+  .inspector{
+    display:none!important;
+  }
+}
+@media(max-width:780px){
+  .workspace{
+    display:block!important;
+    height:calc(100vh - 116px)!important;
+  }
+  .rail{
+    display:block!important;
+    max-height:285px!important;
+    width:100%!important;
+    border-right:0!important;
+    border-bottom:1px solid rgba(255,255,255,.10)!important;
+  }
+  .canvasShell{
+    height:calc(100vh - 401px)!important;
+    min-height:520px!important;
+  }
+  .stationBody{
+    grid-template-columns:1fr!important;
+  }
+  .stationSide{
+    border-left:0!important;
+    border-top:1px solid rgba(255,255,255,.10)!important;
+  }
+}
+
+
+/* =========================================================
+   PATCH V1.3 — CANVAS VIDEO REMOTION MAIS FIEL AO STUDIO/PRINT
+   Corrige canvas: menos bolhas/transparência, grade mais limpa,
+   contraste próximo do Studio e Print, centralização inteligente.
+   ========================================================= */
+.canvasShell{
+  background:#050813!important;
+}
+.nodeViewport{
+  background-color:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.050) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.050) 1px,transparent 1px),
+    radial-gradient(circle at 28% 22%,rgba(101,217,210,.052),transparent 24%),
+    radial-gradient(circle at 72% 30%,rgba(214,173,104,.038),transparent 26%),
+    #050813!important;
+  background-size:40px 40px,40px 40px,160px 160px,160px 160px,auto,auto,auto!important;
+}
+.nodeViewport::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(5,8,19,.78) 0%,rgba(5,8,19,.16) 18%,rgba(5,8,19,0) 34%,rgba(5,8,19,0) 66%,rgba(5,8,19,.12) 84%,rgba(5,8,19,.62) 100%);
+  opacity:.42;
+  z-index:0;
+}
+.nodeMap{
+  z-index:1;
+}
+.node{
+  opacity:.88!important;
+}
+.node.locked{
+  opacity:.43!important;
+  filter:saturate(.72) brightness(.86)!important;
+}
+.node.active{
+  opacity:1!important;
+}
+.node.awaiting{
+  opacity:1!important;
+}
+.connectorSvg path{
+  stroke:rgba(101,217,210,.24)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.main{
+  stroke:rgba(101,217,210,.34)!important;
+  stroke-width:3.5!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.done{
+  stroke:rgba(214,173,104,.52)!important;
+  stroke-width:4!important;
+  stroke-dasharray:none!important;
+}
+.flowPanel{
+  background:rgba(5,8,19,.82)!important;
+}
+.floatingTools,.minimap{
+  background:rgba(5,8,19,.82)!important;
+}
+.video-approved-note{
+  background:rgba(101,217,210,.075)!important;
+}
+
+
+/* =========================================================
+   PATCH V1.4 — CANVAS LIMPO E CENTRALIZADO COMO STUDIO/PRINT
+   Remove manchas/bolhas do canvas, aumenta legibilidade dos nodes
+   e aplica uma centralização única da versão sem sobrescrever depois.
+   ========================================================= */
+.canvasShell{
+  background:#050813!important;
+}
+.nodeViewport{
+  background:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,.060) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.060) 1px, transparent 1px)!important;
+  background-size:40px 40px,40px 40px,160px 160px,160px 160px!important;
+}
+.nodeViewport::before{
+  display:none!important;
+  opacity:0!important;
+  background:none!important;
+}
+.nodeMap{
+  filter:none!important;
+}
+.node{
+  opacity:.96!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.058),rgba(255,255,255,.018)),rgba(13,18,32,.96)!important;
+  border-color:rgba(255,255,255,.12)!important;
+}
+.node.locked{
+  opacity:.56!important;
+  filter:saturate(.82) brightness(.92)!important;
+}
+.node.awaiting{
+  opacity:.78!important;
+}
+.node.active{
+  opacity:1!important;
+  filter:none!important;
+  border-color:rgba(214,173,104,.88)!important;
+}
+.connectorSvg path{
+  stroke:rgba(101,217,210,.22)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.main{
+  stroke:rgba(101,217,210,.28)!important;
+  stroke-width:3!important;
+  stroke-dasharray:8 9!important;
+}
+.connectorSvg path.done{
+  stroke:rgba(214,173,104,.54)!important;
+  stroke-width:4!important;
+  stroke-dasharray:none!important;
+}
+.flowPanel,
+.floatingTools,
+.minimap{
+  background:rgba(5,8,19,.88)!important;
+  backdrop-filter:blur(10px)!important;
+}
+.video-approved-note{
+  background:rgba(101,217,210,.075)!important;
+}
+
+
+/* =========================================================
+   PATCH V1.5 — ZOOM 82% E NODES CENTRALIZADOS
+   Mantém o canvas limpo V1.4 e aplica enquadramento padrão:
+   zoom 82%, grupo de nodes no centro visual.
+   ========================================================= */
+.floatingTools .zoomText,
+#zoomText{
+  min-width:44px!important;
+  text-align:center!important;
+}
+
+
+/* =========================================================
+   PATCH V1.6 — FIX REAL 82% + CENTER
+   Força o enquadramento aprovado depois dos scripts antigos:
+   zoom real 0.82, texto 82%, nodes no centro visual.
+   ========================================================= */
+#zoomText,.zoomText{
+  min-width:44px!important;
+  text-align:center!important;
+}
+.nodeViewport{
+  background-color:#050813!important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,.060) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.060) 1px, transparent 1px)!important;
+  background-size:40px 40px,40px 40px,160px 160px,160px 160px!important;
+}
+.nodeViewport::before{
+  display:none!important;
+}
+
+
+/* =========================================================
+   PATCH V1.7 — PORTAL GENESIS VIDEO REMOTION
+   Identidade final alinhada ao Portal Genesis, mantendo
+   canvas aprovado, zoom 82%, laterais, nodes e pipeline.
+   ========================================================= */
+:root{
+  --pg-gold:#d6ad68;
+  --pg-cyan:#65d9d2;
+  --pg-green:#75db9b;
+  --pg-deep:#05070d;
+}
+.brandMark{
+  font-family:Syne,Inter,Segoe UI,Arial,sans-serif!important;
+  background:linear-gradient(180deg,#f3d48d,#65d9d2)!important;
+  color:#10131a!important;
+}
+.brandText strong{
+  font-family:Syne,Inter,Segoe UI,Arial,sans-serif!important;
+  letter-spacing:.035em!important;
+}
+.brandText strong::after{
+  content:" . PG";
+  color:var(--pg-green);
+  font-size:.62em;
+  letter-spacing:.12em;
+}
+.railHead{
+  border-color:rgba(101,217,210,.28)!important;
+  background:
+    radial-gradient(circle at 10% 12%,rgba(101,217,210,.13),transparent 34%),
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),
+    rgba(13,18,32,.94)!important;
+}
+.portal-genesis-note{
+  border:1px solid rgba(101,217,210,.28);
+  border-radius:14px;
+  background:rgba(101,217,210,.075);
+  color:#cafffb;
+  padding:10px 12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:10px;
+}
+.portal-genesis-note b{color:#eadcc1}
+.pg-ai-card{
+  border:1px solid rgba(214,173,104,.24);
+  border-radius:16px;
+  padding:12px;
+  background:rgba(214,173,104,.055);
+  margin-top:12px;
+}
+.pg-ai-card strong{
+  display:block;
+  color:#f0ddbb;
+  margin-bottom:5px;
+}
+.pg-ai-card span{
+  display:block;
+  color:#b8c4dc;
+  font-size:11px;
+  line-height:1.45;
+}
+.previewCard{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 20px 70px rgba(0,0,0,.38)!important;
+}
+.previewTitle{
+  text-shadow:0 0 18px rgba(214,173,104,.18)!important;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="brandMark">PG</div><div class="brandText"><strong>Portal Genesis Video</strong><span>Marketing • Adventures • Punk • Vitrine Business de Caruaru</span></div></div>
+  <div class="statusStrip">
+    <span class="chip gold" id="projectChip">Projeto: Sem título</span>
+    <span class="chip" id="autosaveChip">Salvo localmente</span>
+    <span class="chip good" id="progressChip">0% pronto</span>
+  </div>
+  <div class="topActions">
+    <button class="btn cyan" onclick="openStation('brief')">Abrir Briefing</button>
+    <button class="btn gold" onclick="generateAll()">Gerar Pipeline</button>
+    <button class="btn green" onclick="exportPackage()">Exportar</button>
+    <button class="btn red" onclick="resetProject()">Reset</button>
+  </div>
+</header>
+<div class="workspace">
+  <aside class="rail">
+    <div class="railHead">
+      <h2>Video Remotion</h2>
+      <p class="small">Motor audiovisual do Portal Genesis para criar pacotes de vídeo: briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, CapCut Book e entrega para cliente.</p>
+    </div>
+    <h4>Pipeline</h4><div id="stepsList"></div>
+    <h4>Ações rápidas</h4>
+    <button class="btn block gold" onclick="generateAll()">Preencher uma vez → gerar tudo</button>
+    <div style="height:8px"></div><button class="btn block cyan" onclick="centerMap()">Centralizar mapa</button>
+    <div style="height:8px"></div><button class="btn block purple" onclick="autoLayout()">Organizar nodes</button>
+    <h4>Regra do produto</h4>
+    <p class="small">Novo projeto começa limpo. A marca Portal Genesis, Fruits Adventures e Iniciantes do Punk entram como raiz institucional, mas cada cliente/campanha mantém identidade própria.</p>
+  </aside>
+
+  <main class="canvasShell">
+    <div class="toast" id="toast">Salvo</div>
+    <div class="flowPanel is-collapsed" id="flowPanel">
+      <div class="flowMini" onclick="expandFlowPanel()">
+        <button class="btn tiny cyan" type="button">Fluxo</button>
+        <span id="flowMiniText">Próxima estação: Briefing Mestre</span>
+      </div>
+      <div class="flowBody">
+        <div class="flowHead">
+          <div class="flowHeadText">
+            <h3>Fluxo inteligente</h3>
+            <p id="flowHint">Aprove uma estação, ela compacta e alimenta o próximo node.</p>
+          </div>
+          <div class="flowHeadActions">
+            <button class="btn tiny" onclick="collapseFlowPanel()">Minimizar</button>
+          </div>
+        </div>
+        <div class="flowActions">
+          <button class="btn tiny gold" onclick="openNextPending()">Próximo pendente</button>
+          <button class="btn tiny green" onclick="applyAllReady()">Aprovar prontos</button>
+          <button class="btn tiny cyan" onclick="exportPackage()">Montar pacote</button>
+          <button class="btn tiny purple" onclick="toggleFlowMode()" id="flowToggleBtn">Compactar: ON</button>
+        </div>
+        <div class="flowChecklist" id="flowChecklist"></div>
+      </div>
+    </div>
+    <div class="nodeViewport" id="viewport">
+      <div class="nodeMap" id="nodeMap"><svg class="connectorSvg" id="connectorSvg"></svg><div id="nodesCanvas"></div></div>
+    </div>
+    <div class="floatingTools">
+      <button class="btn tiny" onclick="zoomMap(-0.1)">−</button><span class="zoomReadout" id="zoomReadout">100%</span><button class="btn tiny" onclick="zoomMap(0.1)">+</button>
+      <button class="btn tiny cyan" onclick="centerMap()">Centralizar</button><button class="btn tiny purple" onclick="autoLayout()">Organizar</button>
+    </div>
+    <div class="minimap" id="minimap"><div class="minimapTitle">Minimapa</div></div>
+
+    <div class="stationOverlay" id="stationOverlay" onclick="closeStation()"></div>
+    <section class="station" id="station">
+      <div class="stationHead">
+        <div class="stationTitle"><div class="stationTitleIcon" id="stationIcon">🧠</div><div><h2 id="stationTitle">Briefing Mestre</h2><p id="stationSub">Estação ativa</p></div></div>
+        <div class="topActions"><button class="btn tiny purple" onclick="goPrevNode()">‹ Anterior</button><button class="btn tiny gold" onclick="approveAndNext()">Aprovar e avançar</button><button class="btn tiny" onclick="closeStation()">Fechar</button></div>
+      </div>
+      <div class="stationBody">
+        <div class="stationMain" id="stationMain"></div>
+        <aside class="stationSide">
+          <div class="stationSection">
+            <h3>Contexto visual</h3>
+            <p class="small">Upload opcional de frames, storyboard, thumbnail ou referência visual. A referência vira memória de direção, não cópia.</p>
+            <label class="visualDrop">+ Adicionar referências<input type="file" accept="image/*" multiple onchange="handleImages(this)"/></label>
+            <div id="thumbGrid" class="thumbGrid"></div>
+          </div>
+          <div class="stationSection">
+            <h3>Memória estética</h3>
+            <textarea id="visualMemoryInput" rows="8" placeholder="Paleta, câmera, luz, atmosfera, textura, continuidade..." oninput="setVisualMemory(this.value)"></textarea>
+            <div class="actions"><button class="btn tiny cyan" onclick="analyzeVisualMemory()">Gerar DNA Visual</button><button class="btn tiny" onclick="copyText(state.visualMemory || '')">Copiar</button></div>
+          </div>
+          <div class="stationSection"><h3>Histórico</h3><div class="historyList" id="historyList"></div></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <aside class="inspector">
+    <div class="panel"><h3>Diagnóstico</h3><div class="progressWrap"><div class="progressFill" id="progressFill"></div></div><div class="kv" id="diagnosticKV"></div></div>
+    <div class="panel">
+      <h3>Preview leve</h3>
+      <div class="previewCard"><div class="previewGlow"></div><div class="previewGlow b"></div><div class="previewTitle" id="previewTitle">Portal Genesis Video</div><div class="previewSub" id="previewSub">Preencha o briefing para criar vídeo, reels, shorts, campanha ou pacote técnico.</div><div class="previewCta">GERAR VÍDEO IA</div></div>
+    </div>
+    <div class="panel"><h3>Pacote final</h3><p class="small">Exporta TXT/JSON para CapCut, Remotion, Flow, Veo, Seedance, Runway ou edição manual.</p><div class="actions"><button class="btn block green" onclick="downloadPackageTxt()">Baixar TXT</button><button class="btn block cyan" onclick="downloadPackageJson()">Baixar JSON</button></div></div>
+  </aside>
+</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "portal_genesis_video_remotion_v17";
+const NODE_W = 264;
+const nodeDefaults = [
+  {id:"brief",title:"Briefing Mestre",icon:"🧠",x:80,y:100,deps:[],desc:"ideia, objetivo, canal e material base"},
+  {id:"roteiro",title:"Roteiro / Cena",icon:"✍️",x:410,y:100,deps:["brief"],desc:"hook, virada, narração e textos"},
+  {id:"storyboard",title:"Storyboard",icon:"🎞️",x:740,y:100,deps:["roteiro"],desc:"cenas, quadros, câmera e cortes"},
+  {id:"motion",title:"Motion 2D / Vídeo IA",icon:"🎬",x:1070,y:100,deps:["storyboard"],desc:"movimento, prompt de vídeo e direção"},
+  {id:"remotion",title:"Remotion JSON",icon:"{}",x:1400,y:100,deps:["storyboard"],desc:"layers, timings, cenas e motion"},
+  {id:"srt",title:"SRT / Som",icon:"🎧",x:1070,y:350,deps:["roteiro"],desc:"legendas, voz, trilha, SFX"},
+  {id:"capcut",title:"CapCut Book",icon:"📘",x:740,y:590,deps:["motion","srt","remotion"],desc:"plano técnico de edição"},
+  {id:"assets",title:"Assets / Continuidade",icon:"🗂️",x:410,y:590,deps:["brief"],desc:"personagens, objetos, refs e regras"},
+  {id:"export",title:"Pacote Final",icon:"📦",x:1070,y:590,deps:["capcut","assets"],desc:"entrega limpa TXT/JSON"}
+];
+const defaultData = {
+  brief:{title:"",idea:"",assets:"",required:"",goal:"Produção audiovisual",tone:"Cinematográfico",audience:"Shorts/Reels/TikTok",duration:"30 segundos",format:"9:16 vertical"},
+  roteiro:{content:"",approved:false}, storyboard:{content:"",approved:false}, motion:{content:"",approved:false}, remotion:{content:"",approved:false}, srt:{content:"",approved:false}, capcut:{content:"",approved:false}, assets:{content:"",approved:false}, export:{content:"",approved:false}
+};
+let state = {zoom:1,panX:0,panY:0,active:"brief",nodes:clone(nodeDefaults),data:clone(defaultData),visualRefs:[],visualMemory:"",history:[],flowMode:true,flowCollapsed:true,completedAt:{}};
+let drag={mode:null,id:null,startX:0,startY:0,nodeX:0,nodeY:0,moved:false}, autosaveTimer=null;
+
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function escapeHTML(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function escapeAttr(s){return escapeHTML(s).replace(/'/g,"&#39;")}
+function oneLine(s,n=90){s=String(s||"").replace(/\s+/g," ").trim();return s?(s.length>n?s.slice(0,n-1)+"…":s):""}
+function currentNode(){return state.nodes.find(n=>n.id===state.active)||state.nodes[0]}
+function getData(id){return state.data[id]||{content:""}}
+function hasContent(id){if(id==="brief")return !!(state.data.brief.idea||state.data.brief.title);return !!getData(id).content}
+function isApproved(id){if(id==="brief")return hasContent("brief");return !!getData(id).approved}
+function isLocked(n){return (n.deps||[]).some(d=>!hasContent(d))}
+function nodeStatus(id){const n=state.nodes.find(x=>x.id===id);if(isLocked(n))return"locked";if(state.generating===id)return"generating";if(isApproved(id))return"done";if(hasContent(id))return"ready";return"empty"}
+function statusLabel(st){return{done:"aprovado",ready:"revisar",locked:"bloqueado",generating:"gerando",empty:"aguardando"}[st]||st}
+function progress(){const count=state.nodes.filter(n=>n.id!=="export").length;const done=state.nodes.filter(n=>n.id!=="export"&&isApproved(n.id)).length;return Math.round(done/count*100)}
+function save(){clearTimeout(autosaveTimer);autosaveTimer=setTimeout(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));$("autosaveChip").textContent="Salvo localmente";showToast("Projeto salvo")}catch(e){$("autosaveChip").textContent="Autosave limitado"}},220)}
+function load(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const old=JSON.parse(raw);state={...state,...old,nodes:old.nodes||clone(nodeDefaults),data:{...clone(defaultData),...(old.data||{})},visualRefs:old.visualRefs||[],history:old.history||[],flowMode:old.flowMode!==false,flowCollapsed:old.flowCollapsed!==false,completedAt:old.completedAt||{}}}}catch(e){}}
+function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1300)}
+function addHistory(title,body){state.history.unshift({title,body:oneLine(body,150),time:new Date().toLocaleString("pt-BR")});state.history=state.history.slice(0,25)}
+function render(){renderSteps();renderNodes();drawConnectors();renderInspector();renderMinimap();renderFlowPanel();updateTransform(false);save()}
+function renderSteps(){const box=$("stepsList");box.innerHTML=state.nodes.map(n=>{const st=nodeStatus(n.id);return `<button class="step ${state.active===n.id?"active":""}" onclick="openStation('${n.id}')"><span class="stepIcon">${n.icon}</span><span class="stepText"><strong>${escapeHTML(n.title)}</strong><span>${statusLabel(st)}</span></span><span class="dot ${st==="done"?"done":state.active===n.id?"active":""}"></span></button>`}).join("")}
+function nodeSummary(id){if(id==="brief")return oneLine(state.data.brief.idea,96)||"Defina ideia, objetivo, público, duração e materiais.";return oneLine(getData(id).content,96)||state.nodes.find(n=>n.id===id)?.desc||"Aguardando."}
+function nextPendingNodeId(){const found=state.nodes.find(n=>n.id!=="export"&&!isApproved(n.id)&&!isLocked(n));if(found)return found.id;if(state.nodes.every(n=>n.id==="export"||isApproved(n.id)))return"export";return(state.nodes.find(n=>n.id!=="export"&&!isApproved(n.id))||state.nodes[0]).id}
+function renderNodes(){const canvas=$("nodesCanvas");const nextId=nextPendingNodeId();canvas.innerHTML=state.nodes.map(n=>{const st=nodeStatus(n.id);const compact=state.flowMode&&st==="done"&&state.active!==n.id;const awaiting=n.id===nextId&&st!=="done"&&!isLocked(n);return `<div class="node ${st} ${compact?"compact":""} ${awaiting?"awaiting":""} ${state.active===n.id?"active":""}" id="node-${n.id}" data-id="${n.id}" style="left:${n.x}px;top:${n.y}px" ondblclick="openStation('${n.id}')"><span class="port in"></span><span class="port out"></span><div class="nodeTop"><div class="nodeIcon">${n.icon}</div><div class="nodeTitle"><strong>${escapeHTML(n.title)}</strong><span>${statusLabel(st)}</span></div></div><div class="nodeBody"><div class="nodeSummary">${escapeHTML(nodeSummary(n.id))}</div><div class="nodeActions"><button class="btn tiny ${st==="locked"?"":"cyan"}" onclick="event.stopPropagation();openStation('${n.id}')">Abrir estação</button>${hasContent(n.id)&&n.id!=="brief"?`<button class="btn tiny gold" onclick="event.stopPropagation();approveNode('${n.id}')">Aprovar</button>`:""}${st==="done"&&n.id!=="brief"?`<button class="btn tiny" onclick="event.stopPropagation();reopenNode('${n.id}')">Revisar</button>`:""}</div></div><span class="nodeHandle">⠿</span></div>`}).join("");bindNodeEvents()}
+function bindNodeEvents(){document.querySelectorAll(".node").forEach(el=>{el.addEventListener("mousedown",e=>{if(e.target.closest("button"))return;const id=el.dataset.id;const n=state.nodes.find(x=>x.id===id);drag={mode:"node",id,startX:e.clientX,startY:e.clientY,nodeX:n.x,nodeY:n.y,moved:false};el.classList.add("dragging")});el.addEventListener("click",e=>{if(e.target.closest("button"))return;if(drag.moved)return;state.active=el.dataset.id;render()})})}
+function centerOf(id){const n=state.nodes.find(x=>x.id===id);return n?{x:n.x+NODE_W/2,y:n.y+70}:null}
+function drawConnectors(){let html="";state.nodes.forEach(n=>(n.deps||[]).forEach(dep=>{const a=centerOf(dep),b=centerOf(n.id);if(!a||!b)return;const dx=Math.max(90,Math.abs(b.x-a.x)*.45);const cls=isApproved(dep)&&isApproved(n.id)?"done":hasContent(dep)&&hasContent(n.id)?"main":"";html+=`<path class="${cls}" d="M ${a.x} ${a.y} C ${a.x+dx} ${a.y}, ${b.x-dx} ${b.y}, ${b.x} ${b.y}"/>`}));$("connectorSvg").innerHTML=html}
+function renderInspector(){const p=progress();$("progressFill").style.width=p+"%";$("progressChip").textContent=p+"% pronto";$("projectChip").textContent="Projeto: "+(state.data.brief.title||"Sem título");$("diagnosticKV").innerHTML=`<div><span>Nodes aprovados</span><strong>${state.nodes.filter(n=>isApproved(n.id)).length}/${state.nodes.length}</strong></div><div><span>Referências</span><strong>${state.visualRefs.length}</strong></div><div><span>Formato</span><strong>${escapeHTML(state.data.brief.format)}</strong></div><div><span>Duração</span><strong>${escapeHTML(state.data.brief.duration)}</strong></div>`;$("previewTitle").textContent=state.data.brief.title||"Video Remotion";$("previewSub").textContent=oneLine(state.data.brief.idea,95)||"Preencha o briefing para criar o pacote técnico."}
+function renderMinimap(){const mm=$("minimap");mm.querySelectorAll(".miniNode").forEach(e=>e.remove());state.nodes.forEach(n=>{const d=document.createElement("div");d.className="miniNode "+(isApproved(n.id)?"done":"")+(state.active===n.id?" active":"");d.style.left=10+(n.x/1700)*165+"px";d.style.top=28+(n.y/760)*82+"px";mm.appendChild(d)})}
+function renderFlowPanel(){const panel=$("flowPanel");if(!panel)return;const next=state.nodes.find(n=>n.id===nextPendingNodeId());const msg=next?.id==="export"?`Fluxo quase pronto — ${progress()}% concluído`:`Próxima estação: ${next?next.title:"Briefing Mestre"}`;const hint=$("flowHint");if(hint)hint.textContent=msg;const mini=$("flowMiniText");if(mini)mini.textContent=msg;$("flowToggleBtn").textContent="Compactar nodes: "+(state.flowMode?"ON":"OFF");panel.classList.toggle("is-collapsed",!!state.flowCollapsed);$("flowChecklist").innerHTML=state.nodes.map(n=>{const st=nodeStatus(n.id);return `<button class="flowItem ${st==="done"?"done":""} ${state.active===n.id?"active":""}" onclick="openStation('${n.id}')"><span class="flowCheck">${st==="done"?"✓":""}</span><span>${escapeHTML(n.title)}<small>${statusLabel(st)}</small></span><span>${n.icon}</span></button>`}).join("")}
+function collapseFlowPanel(){state.flowCollapsed=true;renderFlowPanel();save();showToast("Fluxo minimizado")}
+function expandFlowPanel(){state.flowCollapsed=false;renderFlowPanel();save()}
+function autoCollapseFlowPanel(){state.flowCollapsed=true;renderFlowPanel();save()}
+
+function updateTransform(){ $("nodeMap").style.transform=`translate(${state.panX}px,${state.panY}px) scale(${state.zoom})`; $("zoomReadout").textContent=Math.round(state.zoom*100)+"%" }
+function zoomMap(delta,cx,cy){const vp=$("viewport"),rect=vp.getBoundingClientRect(),old=state.zoom;const next=Math.max(.35,Math.min(2.3,+(state.zoom+delta).toFixed(2)));if(old===next)return;cx=cx??rect.left+rect.width/2;cy=cy??rect.top+rect.height/2;const ox=cx-rect.left,oy=cy-rect.top;state.panX=ox-(ox-state.panX)*(next/old);state.panY=oy-(oy-state.panY)*(next/old);state.zoom=next;updateTransform();save()}
+function centerMap(){const vp=$("viewport");state.zoom=Math.min(1,Math.max(.56,vp.clientWidth/1650));state.panX=(vp.clientWidth-1550*state.zoom)/2;state.panY=Math.max(30,(vp.clientHeight-720*state.zoom)/2);updateTransform();save()}
+function autoLayout(){const pos={brief:[80,100],roteiro:[410,100],storyboard:[740,100],motion:[1070,100],remotion:[1400,100],srt:[1070,350],assets:[410,590],capcut:[740,590],export:[1070,590]};state.nodes.forEach(n=>{if(pos[n.id]){n.x=pos[n.id][0];n.y=pos[n.id][1]}});render();centerMap();showToast("Mapa reorganizado")}
+const viewport=$("viewport");
+viewport.addEventListener("mousedown",e=>{if(e.target.closest(".node")||e.target.closest("button"))return;drag={mode:"map",startX:e.clientX,startY:e.clientY,nodeX:state.panX,nodeY:state.panY,moved:false};viewport.classList.add("dragging")});
+window.addEventListener("mousemove",e=>{if(!drag.mode)return;drag.moved=true;if(drag.mode==="map"){state.panX=drag.nodeX+(e.clientX-drag.startX);state.panY=drag.nodeY+(e.clientY-drag.startY);updateTransform()}else if(drag.mode==="node"){const n=state.nodes.find(x=>x.id===drag.id);if(!n)return;n.x=Math.round(drag.nodeX+(e.clientX-drag.startX)/state.zoom);n.y=Math.round(drag.nodeY+(e.clientY-drag.startY)/state.zoom);const el=$("node-"+n.id);if(el){el.style.left=n.x+"px";el.style.top=n.y+"px"}drawConnectors();renderMinimap()}});
+window.addEventListener("mouseup",()=>{if(drag.mode){document.querySelectorAll(".node.dragging").forEach(el=>el.classList.remove("dragging"));viewport.classList.remove("dragging");save()}drag={mode:null,id:null,startX:0,startY:0,nodeX:0,nodeY:0,moved:false}});
+viewport.addEventListener("wheel",e=>{e.preventDefault();zoomMap(e.deltaY>0?-.06:.06,e.clientX,e.clientY)},{passive:false});
+
+function renderStation(){const n=currentNode();$("stationIcon").textContent=n.icon;$("stationTitle").textContent=n.title;$("stationSub").textContent="Estação "+statusLabel(nodeStatus(n.id));$("stationMain").innerHTML=stationContent(n.id);renderThumbs();renderHistory();const vm=$("visualMemoryInput");if(vm)vm.value=state.visualMemory||"";addStationProgress()}
+function addStationProgress(){const n=currentNode(),main=$("stationMain"),st=nodeStatus(n.id);main.insertAdjacentHTML("afterbegin",`<div class="stationProgress"><div><strong>${st==="done"?"Etapa aplicada no pacote":n.id===nextPendingNodeId()?"Etapa ativa agora":"Estação de trabalho"}</strong><span>${st==="done"?"Este node já alimenta as próximas etapas. Você pode revisar ou seguir.":"Gere, revise, aprove e avance sem voltar para telas soltas."}</span></div><div>${st==="done"?'<span class="resultSeal">✓ aprovado</span>':'<button class="btn tiny gold" onclick="approveAndNext()">Aprovar e ir</button>'}</div></div>`);const out=main.querySelector(".output");if(out&&!main.querySelector(".quickOutputBar"))out.insertAdjacentHTML("afterend",`<div class="quickOutputBar"><button class="btn tiny cyan" onclick="copyActiveOutput()">Copiar saída</button><button class="btn tiny green" onclick="approveAndNext()">Aplicar e próximo node</button><button class="btn tiny purple" onclick="exportPackage()">Montar pacote limpo</button></div>`)}
+function openStation(id){state.active=id;autoCollapseFlowPanel();render();renderStation();$("stationOverlay").classList.add("active");$("station").classList.add("active")}
+function closeStation(){$("stationOverlay").classList.remove("active");$("station").classList.remove("active");render()}
+function stationContent(id){if(id==="brief")return briefHTML();if(id==="export")return exportHTML();if(id==="assets")return assetsHTML();return technicalHTML(id)}
+function options(cur,arr){return arr.map(v=>`<option ${v===cur?"selected":""}>${escapeHTML(v)}</option>`).join("")}
+function briefHTML(){const d=state.data.brief;return `<div class="stationSection"><h3>Briefing Mestre</h3><div class="grid2"><div><label>Nome do projeto</label><input value="${escapeAttr(d.title)}" oninput="state.data.brief.title=this.value;renderInspector();save()" placeholder="Ex.: Curta 2D de suspense"></div><div><label>Objetivo</label><select onchange="state.data.brief.goal=this.value;save()">${options(d.goal,["Produção audiovisual","Conteúdo viral","Anúncio comercial","Motion comic narrativo","Pré-produção de vídeo IA","Clipe / reels / shorts"])}</select></div><div><label>Formato</label><select onchange="state.data.brief.format=this.value;renderInspector();save()">${options(d.format,["9:16 vertical","16:9 horizontal","1:1 quadrado","4:5 feed","21:9 cinematic"])}</select></div><div><label>Duração</label><select onchange="state.data.brief.duration=this.value;renderInspector();save()">${options(d.duration,["8 segundos","15 segundos","30 segundos","45 segundos","60 segundos","90 segundos"])}</select></div><div><label>Tom</label><select onchange="state.data.brief.tone=this.value;save()">${options(d.tone,["Cinematográfico","Motion comic 2D","Horror/tensão","Comercial premium","Emocional","TikTok rápido","Documental misterioso"])}</select></div><div><label>Público / canal</label><input value="${escapeAttr(d.audience)}" oninput="state.data.brief.audience=this.value;save()"></div></div><label>Ideia, roteiro bruto ou descrição</label><textarea rows="8" oninput="state.data.brief.idea=this.value;renderInspector();save()" placeholder="Cole aqui sua ideia do zero...">${escapeHTML(d.idea)}</textarea><label>Assets / materiais disponíveis</label><textarea rows="4" oninput="state.data.brief.assets=this.value;save()" placeholder="Imagens, logo, personagem, voz, produto, referências...">${escapeHTML(d.assets)}</textarea><label>Textos obrigatórios / regras</label><textarea rows="4" oninput="state.data.brief.required=this.value;save()" placeholder="CTA, frases, restrições, nomes, continuidade...">${escapeHTML(d.required)}</textarea><div class="actions"><button class="btn gold" onclick="generateAll()">Gerar pipeline completo</button><button class="btn cyan" onclick="generateNode('roteiro')">Gerar roteiro</button></div></div>`}
+function assetsHTML(){return `<div class="stationSection"><h3>Assets / Continuidade</h3><textarea rows="18" oninput="state.data.assets.content=this.value;save()" placeholder="Personagens, roupas, objetos, cenários, props, logos e regras...">${escapeHTML(state.data.assets.content)}</textarea><div class="actions"><button class="btn gold" onclick="generateNode('assets')">Gerar assets</button><button class="btn green" onclick="approveNode('assets')">Aprovar</button></div></div>`}
+function technicalHTML(id){const titles={roteiro:"Roteiro / Cena",storyboard:"Storyboard",motion:"Motion 2D / Vídeo IA",remotion:"Remotion JSON",srt:"SRT / Som",capcut:"CapCut Book"};const hints={roteiro:"Hook, narração, texto em tela, virada e CTA.",storyboard:"Cenas numeradas, timing, câmera, cortes e quadros.",motion:"Prompts de vídeo, movimento de câmera e animação.",remotion:"JSON instrucional para layers, timing e motion.",srt:"Legenda SRT, som ambiente, SFX e mixagem.",capcut:"Plano de edição manual com keyframes, cortes e organização."};return `<div class="stationSection"><h3>${titles[id]}</h3><p class="small">${hints[id]}</p><div class="actions"><button class="btn gold" onclick="generateNode('${id}')">Gerar esta etapa</button><button class="btn green" onclick="approveNode('${id}')">Aprovar</button><button class="btn cyan" onclick="copyText(state.data['${id}'].content||'')">Copiar</button></div><div class="output" id="output-${id}" contenteditable="true" oninput="state.data['${id}'].content=this.innerText;save()">${escapeHTML(state.data[id].content||"Aguardando geração desta estação...")}</div></div>`}
+function exportHTML(){const pkg=buildPackage();return `<div class="stationSection"><h3>Pacote final limpo</h3><p class="small">Compilação pronta para CapCut, Remotion, Flow, Veo, Seedance, Runway ou editor manual.</p><div class="actions"><button class="btn gold" onclick="exportPackage()">Atualizar pacote</button><button class="btn green" onclick="downloadPackageTxt()">Baixar TXT</button><button class="btn cyan" onclick="downloadPackageJson()">Baixar JSON</button><button class="btn" onclick="copyText(buildPackage())">Copiar tudo</button></div><div class="output" id="output-export">${escapeHTML(pkg)}</div></div>`}
+function buildContext(){const b=state.data.brief;return{project:b.title||"Projeto sem título",idea:b.idea||"Sem briefing informado",assets:b.assets||"Assets não informados",required:b.required||"Sem texto obrigatório",goal:b.goal,tone:b.tone,audience:b.audience,duration:b.duration,format:b.format,visualMemory:state.visualMemory||"Sem memória visual definida"}}
+function generateNode(id){if(id!=="brief"){const n=state.nodes.find(x=>x.id===id);if(isLocked(n)){showToast("Preencha os nodes anteriores primeiro");return}}state.generating=id;render();if($("station").classList.contains("active"))renderStation();setTimeout(()=>{const c=buildContext();let out="";if(id==="roteiro"){out=`ROTEIRO / CENA — ${c.project}\n\nHOOK — 0s a 3s\nAbrir com uma imagem forte e uma frase de impacto que deixe claro o conflito ou promessa.\n\nDESENVOLVIMENTO — 3s a 18s\nA cena apresenta o universo, o elemento principal e a transformação. Cada corte deve revelar uma informação nova.\n\nVIRADA — 18s a 26s\nMostrar o payoff: descoberta, benefício, susto, mudança visual ou consequência.\n\nFECHAMENTO / CTA — final\nEncerrar com imagem memorável e ação clara.\n\nREGRAS OBRIGATÓRIAS:\n${c.required}`;}else if(id==="storyboard"){out=`STORYBOARD — ${c.project}\n\nQUADRO 1 — HOOK — 0s a 3s\nPlano próximo, contraste forte, elemento central em evidência.\n\nQUADRO 2 — CONTEXTO — 3s a 8s\nPlano médio mostrando ambiente, personagem/produto ou conflito.\n\nQUADRO 3 — AÇÃO — 8s a 18s\nMovimento principal. Câmera: push-in, pan ou tremor leve conforme tom.\n\nQUADRO 4 — PAYOFF — 18s a 26s\nRevelação, virada ou benefício visual.\n\nQUADRO 5 — FINAL — 26s a ${c.duration}\nFrame limpo com CTA, texto final ou imagem de assinatura.\n\nFormato: ${c.format}\nTom: ${c.tone}`;}else if(id==="motion"){out=`MOTION 2D / VÍDEO IA — ${c.project}\n\nPROMPT PRINCIPAL PT:\nVídeo ${c.format}, duração ${c.duration}, estética ${c.tone}. Sequência cinematográfica com continuidade entre cenas, câmera intencional, iluminação dramática, textura clara e ritmo de retenção. Manter composição limpa, sem elementos aleatórios, com foco no assunto principal.\n\nPROMPT EN:\n${c.format} video, ${c.duration}, ${c.tone} aesthetic. Cinematic sequence with consistent continuity, intentional camera movement, dramatic lighting, clear texture and high-retention pacing. Keep clean composition, no random elements, focused main subject.\n\nNEGATIVE PROMPT:\nlow quality, blurry, random objects, inconsistent subject, messy composition, wrong text, watermark, distorted anatomy, broken physics.`;}else if(id==="remotion"){out=JSON.stringify({project:c.project,format:c.format,duration:c.duration,engine:"remotion-instructional",render_mp4:false,scenes:[{id:1,time:"0-3s",name:"Hook",layers:["background","main-subject","impact-text","sfx-hit"],camera:"short push-in"},{id:2,time:"3-8s",name:"Context",layers:["environment","subject-detail","caption"],camera:"slow pan"},{id:3,time:"8-18s",name:"Development",layers:["motion-panels","text-cards","sound-design"],camera:"controlled zoom"},{id:4,time:"18-final",name:"Payoff CTA",layers:["final-frame","cta","stinger-sfx"],camera:"lock-off"}],exports:["json","srt","capcut-book","video-ai-prompt"]},null,2)}else if(id==="srt"){out=`1\n00:00:00,000 --> 00:00:03,000\nAtenção: essa ideia começa agora.\n\n2\n00:00:03,000 --> 00:00:08,000\nO visual apresenta o universo e o conflito principal.\n\n3\n00:00:08,000 --> 00:00:18,000\nA ação evolui em cortes claros, com ritmo e tensão.\n\n4\n00:00:18,000 --> 00:00:${String(parseInt(c.duration)||30).padStart(2,"0")},000\nO payoff fecha a cena e prepara a próxima etapa.\n\nSOM / SFX:\n- 0s: impacto curto.\n- 3s: ambience discreto.\n- 8s: whoosh leve.\n- final: stinger limpo.`;}else if(id==="capcut"){out=`CAPCUT BOOK — ${c.project}\n\n1. ORGANIZAÇÃO\nCriar pasta: refs, assets, voz, srt, sfx, exports.\n\n2. LINHA DO TEMPO\nFormato ${c.format}, duração ${c.duration}.\n\n3. EDIÇÃO\n- Corte 1: hook imediato.\n- Corte 2: contexto visual.\n- Corte 3: desenvolvimento com keyframes.\n- Corte 4: payoff com CTA.\n\n4. MOTION\nEscala 100% a 106%, push-in suave, cortes secos e efeitos motivados por som.\n\n5. LEGENDA\nImportar SRT, alto contraste, frases curtas.\n\n6. ENTREGA\nExportar final e salvar pacote técnico.`;}else if(id==="assets"){out=`ASSETS / CONTINUIDADE — ${c.project}\n\nMateriais informados:\n${c.assets}\n\nRegras:\n- Manter identidade visual constante.\n- Não trocar cor, proporção, roupa, objeto ou personagem quando houver referência fixa.\n- Separar assets por função: personagem/produto, fundo, props, texto, som, refs e export.\n\nReferências visuais carregadas: ${state.visualRefs.length}`;}state.data[id]=state.data[id]||{};state.data[id].content=out;state.generating=null;addHistory("Gerado: "+(state.nodes.find(n=>n.id===id)?.title||id),out);render();if($("station").classList.contains("active"))renderStation();showToast("Node gerado: "+id)},500)}
+function generateAll(){if(!hasContent("brief")){openStation("brief");showToast("Preencha o briefing primeiro");return}const order=["roteiro","storyboard","motion","remotion","srt","assets","capcut"];let i=0;function next(){if(i>=order.length){exportPackage();showToast("Pipeline completo gerado");return}generateNode(order[i]);i++;setTimeout(next,620)}next()}
+function approveNode(id){if(id==="brief"){if(!hasContent("brief")){showToast("Preencha o briefing primeiro");return}state.completedAt[id]=new Date().toISOString();addHistory("Aprovado: Briefing Mestre",state.data.brief.idea||state.data.brief.title);render();showToast("Briefing aplicado");return}if(!hasContent(id)){generateNode(id);return}state.data[id].approved=true;state.completedAt[id]=new Date().toISOString();addHistory("Aplicado: "+(state.nodes.find(n=>n.id===id)?.title||id),getData(id).content);render();if($("station").classList.contains("active"))renderStation();showToast("Node aplicado")}
+function approveAndNext(){const current=state.active;approveNode(current);const nextId=nextPendingNodeId();if(nextId===current&&current!=="export"){showToast("Gere ou preencha esta etapa antes de avançar");return}setTimeout(()=>openStation(nextId),120)}
+function goNextNode(){const i=state.nodes.findIndex(n=>n.id===state.active);openStation(state.nodes[Math.min(state.nodes.length-1,i+1)].id)}
+function goPrevNode(){const i=state.nodes.findIndex(n=>n.id===state.active);openStation(state.nodes[Math.max(0,i-1)].id)}
+function openNextPending(){openStation(nextPendingNodeId())}
+function applyAllReady(){let applied=0;state.nodes.forEach(n=>{if(n.id!=="export"&&hasContent(n.id)&&!isApproved(n.id)&&!isLocked(n)){if(n.id!=="brief")state.data[n.id].approved=true;state.completedAt[n.id]=new Date().toISOString();applied++}});render();showToast(applied?`${applied} node(s) aplicados`:"Nenhum node pronto")}
+function toggleFlowMode(){state.flowMode=!state.flowMode;render();showToast(state.flowMode?"Modo progressivo ligado":"Modo livre ligado")}
+function reopenNode(id){if(id!=="brief")state.data[id].approved=false;state.completedAt[id]=null;openStation(id);showToast("Node aberto para revisão")}
+function exportPackage(){const pkg=buildPackage();state.data.export.content=pkg;state.data.export.approved=true;addHistory("Pacote final montado",pkg);render();if($("station").classList.contains("active"))renderStation();else openStation("export");showToast("Pacote final atualizado")}
+function buildPackage(){const b=state.data.brief,sections=["roteiro","storyboard","motion","remotion","srt","assets","capcut"];let text=`PORTAL GENESIS — VIDEO REMOTION\nPACOTE FINAL AUDIOVISUAL\n\nPROJETO: ${b.title||"Sem título"}\nOBJETIVO: ${b.goal}\nTOM: ${b.tone}\nPÚBLICO/CANAL: ${b.audience}\nFORMATO: ${b.format}\nDURAÇÃO: ${b.duration}\n\nREGRA PRINCIPAL:\nEste pacote não renderiza MP4. Ele organiza briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, assets, CapCut Book e checklist para execução em ferramentas externas.\n\nBRIEFING ORIGINAL:\n${b.idea||"Não informado"}\n\nASSETS:\n${b.assets||"Não informado"}\n\nTEXTOS/REGRAS:\n${b.required||"Não informado"}\n`;sections.forEach(id=>{const n=state.nodes.find(x=>x.id===id),body=state.data[id]?.content;if(body)text+=`\n\n---\n\n## ${n.title.toUpperCase()}\n\n${body.trim()}\n`});text+=`\n\n---\n\n## CHECKLIST FINAL\n1. Conferir briefing e duração.\n2. Conferir continuidade visual.\n3. Separar assets, imagens, voz e SFX.\n4. Usar prompts em gerador de vídeo IA.\n5. Usar JSON como guia de Remotion/motion.\n6. Importar SRT e aplicar som.\n7. Montar no CapCut/editor seguindo o Book.\n8. Exportar e revisar.\n`;return text}
+function handleImages(input){Array.from(input.files||[]).slice(0,8).forEach(file=>{const reader=new FileReader();reader.onload=e=>{state.visualRefs.push({name:file.name,src:e.target.result});renderThumbs();save();showToast("Referência adicionada")};reader.readAsDataURL(file)});input.value=""}
+function renderThumbs(){const box=$("thumbGrid");if(!box)return;if(!state.visualRefs.length){box.innerHTML='<div class="emptyThumb">Nenhuma referência visual</div>';return}box.innerHTML=state.visualRefs.map((r,i)=>`<div class="thumb"><img src="${r.src}" alt="${escapeAttr(r.name)}"><button onclick="removeImage(${i})">×</button></div>`).join("")}
+function removeImage(i){state.visualRefs.splice(i,1);renderThumbs();save()}
+function setVisualMemory(v){state.visualMemory=v;save()}
+function analyzeVisualMemory(){const b=state.data.brief;const text=`DNA VISUAL GERADO\n\nProjeto: ${b.title||"Sem título"}\nReferências carregadas: ${state.visualRefs.length}\n\n- Atmosfera: ${b.tone}, com leitura forte para ${b.audience}.\n- Formato: ${b.format}, pensado para impacto rápido.\n- Câmera: abertura forte, movimento controlado e cortes claros.\n- Luz: contraste cinematográfico e foco no elemento principal.\n- Continuidade: manter personagens/produtos/objetos sem alterações aleatórias.\n\nNotas manuais:\n${state.visualMemory||"Nenhuma nota anterior."}`;state.visualMemory=text;renderStation();render();showToast("Memória visual atualizada")}
+function renderHistory(){const box=$("historyList");if(!box)return;box.innerHTML=state.history.length?state.history.map(h=>`<div class="historyItem"><strong>${escapeHTML(h.title)}</strong><span>${escapeHTML(h.time)} — ${escapeHTML(h.body)}</span></div>`).join(""):'<p class="small">Sem histórico ainda.</p>'}
+function copyText(text){navigator.clipboard?.writeText(String(text||""));showToast("Copiado")}
+function copyActiveOutput(){const id=state.active;copyText(id==="export"?buildPackage():(state.data[id]?.content||""))}
+function download(name,content,type="text/plain"){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
+function safeName(){return((state.data.brief.title||"video-remotion").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""))||"video-remotion"}
+function downloadPackageTxt(){download(safeName()+"-pacote-final.txt",buildPackage())}
+function downloadPackageJson(){download(safeName()+"-pacote-final.json",JSON.stringify({meta:{name:state.data.brief.title||"Sem título",createdAt:new Date().toISOString(),version:"Portal Genesis Video Remotion V1.7"},brief:state.data.brief,refs:state.visualRefs.length,nodes:state.nodes.map(n=>({id:n.id,title:n.title,status:nodeStatus(n.id),content:state.data[n.id]?.content||""})),package:buildPackage()},null,2),"application/json")}
+function resetProject(){if(!confirm("Resetar projeto salvo neste navegador?"))return;localStorage.removeItem(STORAGE_KEY);state={zoom:1,panX:0,panY:0,active:"brief",nodes:clone(nodeDefaults),data:clone(defaultData),visualRefs:[],visualMemory:"",history:[],flowMode:true,flowCollapsed:true,completedAt:{}};render();centerMap();showToast("Projeto resetado")}
+const __hadSavedVideoState = !!localStorage.getItem(STORAGE_KEY);
+load();
+render();
+if(!__hadSavedVideoState){
+  setTimeout(centerMap,80);
+} else {
+  setTimeout(()=>updateTransform(),80);
+}
+</script>
+
+<script>
+(function(){
+  function patchVideoV12(){
+    try{
+      document.title = "Portal Genesis — Video Remotion V1.7";
+      var brand = document.querySelector('.brandText strong');
+      if(brand) brand.textContent = 'Video Remotion';
+      var sub = document.querySelector('.brandText span');
+      if(sub) sub.textContent = 'Marketing • Adventures • Punk • Vitrine Business de Caruaru';
+      var rail = document.querySelector('.railHead');
+      if(rail && !rail.querySelector('.video-approved-note')){
+        var note = document.createElement('div');
+        note.className = 'video-approved-note';
+        note.innerHTML = '<b>Video aprovado.</b><br>Laterais alinhadas ao Studio/Print. A posição salva do canvas foi preservada.';
+        rail.appendChild(note);
+      }
+    }catch(e){console.warn(e)}
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchVideoV12);
+  }else{
+    patchVideoV12();
+  }
+  setTimeout(patchVideoV12,450);
+})();
+</script>
+
+
+<script>
+(function(){
+  function patchVideoCanvasV13(){
+    try{
+      document.title = "Portal Genesis — Video Remotion V1.7";
+      var sub = document.querySelector('.brandText span');
+      if(sub) sub.textContent = 'Marketing • Adventures • Punk • Vitrine Business de Caruaru';
+      var note = document.querySelector('.video-approved-note');
+      if(note){
+        note.innerHTML = '<b>Video aprovado.</b><br>Canvas corrigido para ficar mais fiel ao Studio/Print: grade limpa, menos brilho e centralização preservada.';
+      }
+
+      // Corrige apenas se o canvas estiver muito fora da área visível.
+      // Não força centerMap sempre, para não apagar o posicionamento manual.
+      if(typeof state !== 'undefined' && typeof updateTransform === 'function'){
+        var vp = document.getElementById('viewport');
+        if(vp){
+          var z = Number(state.zoom || 1);
+          var tooFarLeft = state.panX < -900;
+          var tooFarRight = state.panX > vp.clientWidth * .55;
+          var tooFarTop = state.panY < -520;
+          var tooFarBottom = state.panY > vp.clientHeight * .45;
+          var badZoom = z < .45 || z > 1.35;
+
+          if(tooFarLeft || tooFarRight || tooFarTop || tooFarBottom || badZoom){
+            state.zoom = Math.min(.86, Math.max(.62, vp.clientWidth / 1720));
+            state.panX = Math.max(18, (vp.clientWidth - 1420 * state.zoom) / 2);
+            state.panY = Math.max(26, (vp.clientHeight - 710 * state.zoom) / 2);
+            updateTransform();
+            if(typeof save === 'function') save();
+          }
+        }
+      }
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchVideoCanvasV13);
+  }else{
+    patchVideoCanvasV13();
+  }
+  setTimeout(patchVideoCanvasV13, 500);
+})();
+</script>
+
+
+<script>
+(function(){
+  const CANVAS_FIX_KEY = "video_remotion_canvas_v14_applied";
+
+  function fitVideoCanvasLikeStudio(force){
+    try{
+      if(typeof state === "undefined" || typeof updateTransform !== "function") return;
+      const vp = document.getElementById("viewport");
+      if(!vp || !state.nodes || !state.nodes.length) return;
+
+      const applied = localStorage.getItem(CANVAS_FIX_KEY) === "1";
+      if(applied && !force) return;
+
+      const nodeW = 230;
+      const nodeH = 135;
+      const minX = Math.min(...state.nodes.map(n => Number(n.x || 0)));
+      const minY = Math.min(...state.nodes.map(n => Number(n.y || 0)));
+      const maxX = Math.max(...state.nodes.map(n => Number(n.x || 0) + nodeW));
+      const maxY = Math.max(...state.nodes.map(n => Number(n.y || 0) + nodeH));
+      const graphW = Math.max(900, maxX - minX);
+      const graphH = Math.max(520, maxY - minY);
+
+      const zx = (vp.clientWidth - 180) / graphW;
+      const zy = (vp.clientHeight - 135) / graphH;
+      state.zoom = Math.min(.82, Math.max(.58, Math.min(zx, zy)));
+
+      state.panX = Math.round((vp.clientWidth - graphW * state.zoom) / 2 - minX * state.zoom);
+      state.panY = Math.round((vp.clientHeight - graphH * state.zoom) / 2 - minY * state.zoom);
+
+      updateTransform();
+      if(typeof save === "function") save();
+      localStorage.setItem(CANVAS_FIX_KEY, "1");
+    }catch(e){console.warn(e)}
+  }
+
+  function patchVideoCanvasV14(){
+    try{
+      document.title = "Portal Genesis — Video Remotion V1.7";
+      var sub = document.querySelector(".brandText span");
+      if(sub) sub.textContent = "Marketing • Adventures • Punk • Vitrine Business de Caruaru";
+      var note = document.querySelector(".video-approved-note");
+      if(note){
+        note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo: sem manchas, nodes mais legíveis e centralização parecida com Studio/Print.";
+      }
+
+      // Só centraliza uma vez nesta versão. Depois preserva a posição manual.
+      fitVideoCanvasLikeStudio(false);
+
+      // Botão Centralizar passa a usar o enquadramento limpo desta versão.
+      window.fitVideoCanvasLikeStudio = function(){ fitVideoCanvasLikeStudio(true); };
+      if(typeof centerMap === "function" && !window.__videoCenterPatchedV14){
+        window.__videoCenterPatchedV14 = true;
+        const oldCenter = centerMap;
+        centerMap = function(){
+          fitVideoCanvasLikeStudio(true);
+        };
+      }
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchVideoCanvasV14);
+  }else{
+    patchVideoCanvasV14();
+  }
+  setTimeout(patchVideoCanvasV14, 500);
+})();
+</script>
+
+
+<script>
+(function(){
+  const CANVAS_CENTER_82_KEY = "video_remotion_canvas_center_82_v15";
+
+  function centerVideoNodesAt82(force){
+    try{
+      if(typeof state === "undefined" || typeof updateTransform !== "function") return;
+      const vp = document.getElementById("viewport");
+      if(!vp || !state.nodes || !state.nodes.length) return;
+
+      const already = localStorage.getItem(CANVAS_CENTER_82_KEY) === "1";
+      if(already && !force) return;
+
+      const nodeW = 230;
+      const nodeH = 135;
+      const minX = Math.min(...state.nodes.map(n => Number(n.x || 0)));
+      const minY = Math.min(...state.nodes.map(n => Number(n.y || 0)));
+      const maxX = Math.max(...state.nodes.map(n => Number(n.x || 0) + nodeW));
+      const maxY = Math.max(...state.nodes.map(n => Number(n.y || 0) + nodeH));
+      const graphW = maxX - minX;
+      const graphH = maxY - minY;
+
+      state.zoom = 0.82;
+
+      // Centralização visual: deixa o mapa no meio do canvas, um pouco acima do centro,
+      // parecido com o Print/Studio aprovado.
+      state.panX = Math.round((vp.clientWidth - graphW * state.zoom) / 2 - minX * state.zoom);
+      state.panY = Math.round((vp.clientHeight - graphH * state.zoom) / 2 - minY * state.zoom - 18);
+
+      updateTransform();
+      if(typeof save === "function") save();
+      localStorage.setItem(CANVAS_CENTER_82_KEY, "1");
+    }catch(e){console.warn(e)}
+  }
+
+  function patchVideoCenterV15(){
+    try{
+      document.title = "Portal Genesis — Video Remotion V1.7";
+      var sub = document.querySelector(".brandText span");
+      if(sub) sub.textContent = "Marketing • Adventures • Punk • Vitrine Business de Caruaru";
+      var note = document.querySelector(".video-approved-note");
+      if(note){
+        note.innerHTML = "<b>Video aprovado.</b><br>Canvas limpo, nodes centralizados e zoom padrão em 82%.";
+      }
+
+      centerVideoNodesAt82(false);
+
+      // O botão Centralizar agora volta exatamente para o enquadramento aprovado em 82%.
+      window.centerVideoNodesAt82 = function(){ centerVideoNodesAt82(true); };
+      if(typeof centerMap === "function" && !window.__videoCenter82PatchedV15){
+        window.__videoCenter82PatchedV15 = true;
+        centerMap = function(){
+          centerVideoNodesAt82(true);
+        };
+      }
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchVideoCenterV15);
+  }else{
+    patchVideoCenterV15();
+  }
+  setTimeout(patchVideoCenterV15, 500);
+})();
+</script>
+
+
+<script>
+(function(){
+  const FORCE_ZOOM = 0.82;
+
+  function getViewport(){
+    return document.getElementById("viewport") ||
+           document.querySelector(".nodeViewport") ||
+           document.querySelector(".canvasShell");
+  }
+
+  function getMapEl(){
+    return document.getElementById("nodeMap") ||
+           document.querySelector(".nodeMap");
+  }
+
+  function setZoomText(){
+    const ztxt = document.getElementById("zoomText") || document.querySelector(".zoomText");
+    if(ztxt) ztxt.textContent = "82%";
+  }
+
+  function forceVideoCenter82(){
+    try{
+      if(typeof state === "undefined") return false;
+      const vp = getViewport();
+      if(!vp || !state.nodes || !state.nodes.length) return false;
+
+      const nodeW = 230;
+      const nodeH = 135;
+      const minX = Math.min(...state.nodes.map(n => Number(n.x || 0)));
+      const minY = Math.min(...state.nodes.map(n => Number(n.y || 0)));
+      const maxX = Math.max(...state.nodes.map(n => Number(n.x || 0) + nodeW));
+      const maxY = Math.max(...state.nodes.map(n => Number(n.y || 0) + nodeH));
+      const graphW = maxX - minX;
+      const graphH = maxY - minY;
+
+      state.zoom = FORCE_ZOOM;
+
+      // Centro real do grupo dentro da área visível.
+      state.panX = Math.round((vp.clientWidth - graphW * FORCE_ZOOM) / 2 - minX * FORCE_ZOOM);
+      state.panY = Math.round((vp.clientHeight - graphH * FORCE_ZOOM) / 2 - minY * FORCE_ZOOM - 8);
+
+      if(typeof updateTransform === "function"){
+        updateTransform();
+      }else{
+        const map = getMapEl();
+        if(map) map.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+      }
+
+      setZoomText();
+
+      // Salva em cima do localStorage antigo para não voltar para 62%.
+      if(typeof save === "function") save();
+      return true;
+    }catch(e){
+      console.warn(e);
+      return false;
+    }
+  }
+
+  function patchVideoV16(){
+    try{
+      document.title = "Portal Genesis — Video Remotion V1.7";
+      const sub = document.querySelector(".brandText span");
+      if(sub) sub.textContent = "Marketing • Adventures • Punk • Vitrine Business de Caruaru";
+      const note = document.querySelector(".video-approved-note");
+      if(note){
+        note.innerHTML = "<b>Video aprovado.</b><br>Zoom corrigido para 82% real e nodes centralizados no canvas.";
+      }
+
+      // Apaga chaves antigas que impediam o recenter.
+      try{
+        localStorage.removeItem("video_remotion_canvas_v14_applied");
+        localStorage.removeItem("video_remotion_canvas_center_82_v15");
+      }catch(e){}
+
+      forceVideoCenter82();
+
+      // O botão Centralizar agora SEMPRE força 82%.
+      window.centerVideoNodesAt82 = forceVideoCenter82;
+      window.fitVideoCanvasLikeStudio = forceVideoCenter82;
+      window.centerMap = forceVideoCenter82;
+
+      // Roda depois dos scripts originais e depois do layout estabilizar.
+      setTimeout(forceVideoCenter82, 150);
+      setTimeout(forceVideoCenter82, 650);
+      setTimeout(forceVideoCenter82, 1200);
+
+      window.addEventListener("resize", function(){
+        setTimeout(forceVideoCenter82, 120);
+      });
+    }catch(e){console.warn(e)}
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchVideoV16);
+  }else{
+    patchVideoV16();
+  }
+})();
+</script>
+
+
+<script>
+(function(){
+  function pgSetText(selector, text){
+    var el = document.querySelector(selector);
+    if(el) el.textContent = text;
+  }
+
+  function patchPortalGenesisVideoV17(){
+    try{
+      document.title = "Portal Genesis — Video Remotion V1.7";
+
+      pgSetText(".brandMark", "PG");
+      pgSetText(".brandText strong", "Portal Genesis Video");
+      pgSetText(".brandText span", "Marketing • Adventures • Punk • Vitrine Business de Caruaru");
+
+      var rail = document.querySelector(".railHead");
+      if(rail){
+        var h2 = rail.querySelector("h2");
+        var p = rail.querySelector("p.small");
+        if(h2) h2.textContent = "Video Remotion";
+        if(p) p.textContent = "Motor audiovisual do Portal Genesis para criar vídeo, reels, shorts, motion, roteiro, storyboard, Remotion JSON, SRT, som, CapCut Book e pacote final para cliente.";
+        if(!rail.querySelector(".portal-genesis-note")){
+          var note = document.createElement("div");
+          note.className = "portal-genesis-note";
+          note.innerHTML = "<b>Portal Genesis aprovado.</b><br>Vídeo conectado à vitrine criativa: marketing, entretenimento, cliente, redes sociais e produção audiovisual.";
+          rail.appendChild(note);
+        }
+      }
+
+      var rule = Array.from(document.querySelectorAll(".rail h4")).find(function(el){ return /regra/i.test(el.textContent); });
+      if(rule && rule.nextElementSibling){
+        rule.nextElementSibling.textContent = "Projeto limpo por cliente/campanha. A raiz institucional é Portal Genesis, Fruits Adventures e Iniciantes do Punk, mas cada entrega mantém identidade própria.";
+      }
+
+      var title = document.getElementById("previewTitle");
+      if(title && (!state || !state.data || !state.data.brief || !state.data.brief.title)){
+        title.textContent = "Portal Genesis Video";
+      }
+      var sub = document.getElementById("previewSub");
+      if(sub && (!state || !state.data || !state.data.brief || !state.data.brief.idea)){
+        sub.textContent = "Crie vídeo, reels, shorts, campanha, motion e pacote técnico pronto para produção.";
+      }
+      var cta = document.querySelector(".previewCta");
+      if(cta) cta.textContent = "GERAR VÍDEO IA";
+    }catch(e){ console.warn(e); }
+  }
+
+  window.pgVideoPromptForNode = function(id){
+    var c = buildContext();
+    var titles = {
+      roteiro:"Roteiro / Cena",
+      storyboard:"Storyboard",
+      motion:"Motion 2D / Vídeo IA",
+      remotion:"Remotion JSON",
+      srt:"SRT / Som",
+      capcut:"CapCut Book",
+      assets:"Assets / Continuidade",
+      export:"Pacote Final"
+    };
+    return [
+      "Você é o motor audiovisual do Portal Genesis.",
+      "Marca raiz: Portal Genesis — Marketing • Adventures • Punk • Vitrine Business de Caruaru.",
+      "Crie uma saída profissional para o node: " + (titles[id] || id) + ".",
+      "",
+      "CONTEXTO DO PROJETO:",
+      "Projeto: " + c.project,
+      "Objetivo: " + c.goal,
+      "Formato: " + c.format,
+      "Duração: " + c.duration,
+      "Tom: " + c.tone,
+      "Público/canal: " + c.audience,
+      "",
+      "BRIEFING:",
+      c.idea,
+      "",
+      "ASSETS/MATERIAIS:",
+      c.assets,
+      "",
+      "TEXTOS/REGRAS:",
+      c.required,
+      "",
+      "MEMÓRIA VISUAL:",
+      c.visualMemory,
+      "",
+      "REGRAS DE RESPOSTA:",
+      "- responder em português do Brasil;",
+      "- entregar texto prático, técnico e direto para produção;",
+      "- separar em blocos claros;",
+      "- não inventar render MP4 dentro do site;",
+      "- preparar saída para CapCut, Remotion, Flow, Veo, Seedance, Runway ou edição manual;",
+      "- preservar identidade do cliente e continuidade visual;",
+      "- não copiar obras, personagens, marcas ou textos protegidos."
+    ].join("\n");
+  };
+
+  window.pgVideoAskGemini = async function(prompt){
+    var response = await fetch("/api/gemini", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt:prompt})
+    });
+    var json = await response.json();
+    if(!response.ok || !json || json.ok === false){
+      throw new Error((json && (json.error || json.message)) || "Falha na API Gemini");
+    }
+    return json.text || json.result || (json.candidates ? JSON.stringify(json.candidates, null, 2) : JSON.stringify(json, null, 2));
+  };
+
+  window.generateNodeAI = async function(id){
+    try{
+      if(id !== "brief"){
+        var n = state.nodes.find(function(x){ return x.id === id; });
+        if(n && isLocked(n)){
+          showToast("Preencha os nodes anteriores primeiro");
+          return;
+        }
+      }
+      state.generating = id;
+      render();
+      if(document.getElementById("station").classList.contains("active")) renderStation();
+
+      showToast("Chamando Gemini...");
+      var prompt = window.pgVideoPromptForNode(id);
+      var text = await window.pgVideoAskGemini(prompt);
+
+      if(id === "brief"){
+        state.data.brief.idea = text;
+      }else{
+        state.data[id] = state.data[id] || {};
+        state.data[id].content = text;
+        state.data[id].approved = false;
+      }
+
+      state.generating = null;
+      addHistory("Gemini: " + ((state.nodes.find(function(n){ return n.id === id; }) || {}).title || id), text);
+      render();
+      if(document.getElementById("station").classList.contains("active")) renderStation();
+      showToast("Gemini gerou o node");
+    }catch(error){
+      state.generating = null;
+      render();
+      if(document.getElementById("station").classList.contains("active")) renderStation();
+      showToast("Gemini falhou; use geração local ou confira API");
+      console.error(error);
+    }
+  };
+
+  // Reabre estações técnicas com botão Gemini sem quebrar a geração local.
+  window.technicalHTML = function(id){
+    var titles = {roteiro:"Roteiro / Cena",storyboard:"Storyboard",motion:"Motion 2D / Vídeo IA",remotion:"Remotion JSON",srt:"SRT / Som",capcut:"CapCut Book"};
+    var hints = {
+      roteiro:"Hook, narração, texto em tela, virada e CTA.",
+      storyboard:"Cenas numeradas, timing, câmera, cortes e quadros.",
+      motion:"Prompts de vídeo, movimento de câmera e direção.",
+      remotion:"JSON instrucional para layers, timing e motion.",
+      srt:"Legenda SRT, som ambiente, SFX e mixagem.",
+      capcut:"Plano de edição manual com keyframes, cortes e organização."
+    };
+    return `<div class="stationSection"><h3>${titles[id]}</h3><p class="small">${hints[id]}</p><div class="pg-ai-card"><strong>Gemini conectado</strong><span>Use IA para melhorar a saída quando a rota /api/gemini estiver ativa. Se a API falhar, a geração local continua funcionando.</span></div><div class="actions"><button class="btn gold" onclick="generateNode('${id}')">Gerar local</button><button class="btn cyan" onclick="generateNodeAI('${id}')">Gerar com Gemini</button><button class="btn green" onclick="approveNode('${id}')">Aprovar</button><button class="btn purple" onclick="copyText(state.data['${id}'].content||'')">Copiar</button></div><div class="output" id="output-${id}" contenteditable="true" oninput="state.data['${id}'].content=this.innerText;save()">${escapeHTML(state.data[id].content||"Aguardando geração desta estação...")}</div></div>`;
+  };
+
+  window.buildPackage = function(){
+    var b = state.data.brief;
+    var sections = ["roteiro","storyboard","motion","remotion","srt","assets","capcut"];
+    var text = `PORTAL GENESIS — VIDEO REMOTION
+PACOTE FINAL AUDIOVISUAL
+
+MARCA: Portal Genesis
+ASSINATURA: Marketing • Adventures • Punk • Vitrine Business de Caruaru
+RAIZ CRIATIVA: Fruits Adventures • Iniciantes do Punk
+
+PROJETO: ${b.title||"Sem título"}
+OBJETIVO: ${b.goal}
+TOM: ${b.tone}
+PÚBLICO/CANAL: ${b.audience}
+FORMATO: ${b.format}
+DURAÇÃO: ${b.duration}
+
+REGRA PRINCIPAL:
+Este pacote não renderiza MP4 sozinho. Ele organiza briefing, roteiro, storyboard, motion, Remotion JSON, SRT, som, assets, CapCut Book e checklist para execução em ferramentas externas ou backend próprio.
+
+BRIEFING ORIGINAL:
+${b.idea||"Não informado"}
+
+ASSETS:
+${b.assets||"Não informado"}
+
+TEXTOS/REGRAS:
+${b.required||"Não informado"}
+
+MEMÓRIA VISUAL:
+${state.visualMemory||"Não informada"}
+`;
+    sections.forEach(function(id){
+      var n = state.nodes.find(function(x){ return x.id === id; });
+      var body = state.data[id] && state.data[id].content;
+      if(body) text += `
+
+---
+
+## ${(n ? n.title : id).toUpperCase()}
+
+${body.trim()}
+`;
+    });
+    text += `
+
+---
+
+## CHECKLIST FINAL PORTAL GENESIS
+1. Conferir briefing, duração e formato.
+2. Conferir identidade do cliente/campanha.
+3. Conferir continuidade visual.
+4. Separar assets, imagens, voz, SFX e referências.
+5. Usar prompts em gerador de vídeo IA.
+6. Usar JSON como guia de Remotion/motion.
+7. Importar SRT e aplicar som.
+8. Montar no CapCut/editor seguindo o Book.
+9. Exportar versão final e arquivar pacote do cliente.
+`;
+    return text;
+  };
+
+  window.safeName = function(){
+    return ((state.data.brief.title || "portal-genesis-video-remotion")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-|-$/g,"")) || "portal-genesis-video-remotion";
+  };
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", patchPortalGenesisVideoV17);
+  }else{
+    patchPortalGenesisVideoV17();
+  }
+  setTimeout(patchPortalGenesisVideoV17, 400);
+  setTimeout(patchPortalGenesisVideoV17, 1000);
+})();
+</script>
+
+</body>
+</html>
