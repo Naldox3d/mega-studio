@@ -1,28 +1,78 @@
-# Studio Platform
+# Portal Genesis Lite
 
-Estrutura profissional com três áreas separadas:
+Versao simples do Portal Genesis para usar todas as APIs em uma tela unica.
 
-- **studio/**: área interna de criação, testes e atualizações.
-- **client/**: produto final neutro para roteiristas e usuários finais.
-- **print/**: ferramenta de gráfica e pré-impressão.
-- **api/**: backend seguro para autenticação e geração com IA.
+## O que tem
 
-## Rodar localmente
+- Prompt unico.
+- Resultado grande.
+- Tipos: texto, imagem, video, voz, print e pacote.
+- Historico local.
+- Exportacao TXT/JSON.
+- Login simples.
+- Rota central: `/api/ai-router`.
 
-```bash
-npm install
-npm start
+## Subir no GitHub/Vercel
+
+Suba estes arquivos na raiz do repositorio:
+
+```txt
+index.html
+middleware.js
+package.json
+api/
+docs/
+README.md
 ```
 
-Abra o endereço mostrado pelo `vercel dev`.
+Depois faca redeploy na Vercel.
 
-## Variáveis da Vercel
+## Variaveis da Vercel
 
-- `ADMIN_USER`
-- `ADMIN_PASS`
-- `SESSION_SECRET`
-- `ANTHROPIC_API_KEY`
+Obrigatorias para login:
 
-## Regra principal
+```txt
+ADMIN_USER=admin
+ADMIN_PASS=fruits2026
+SESSION_SECRET=coloque-uma-frase-grande-aqui
+```
 
-O Client sempre começa limpo. Nenhum personagem, cena, universo, objeto ou preset do Studio entra automaticamente.
+APIs, use as que voce tiver:
+
+```txt
+ANTHROPIC_API_KEY=...
+ANTHROPIC_MODEL=...
+
+GEMINI_API_KEY=...
+GEMINI_MODEL=...
+
+POLLINATIONS_API_KEY=...
+POLLINATIONS_IMAGE_MODEL=flux
+
+LTX_API_KEY=...
+LTX_API_URL=...
+
+ELEVENLABS_API_KEY=...
+ELEVENLABS_VOICE_ID=...
+```
+
+## Como funciona
+
+O frontend chama somente:
+
+```txt
+/api/ai-router
+```
+
+O `ai-router` escolhe a API:
+
+```txt
+Texto  -> Claude ou Gemini
+Imagem -> Pollinations/Flux
+Video  -> LTX
+Voz    -> ElevenLabs
+Print  -> Claude/Gemini
+Pacote -> JSON local
+```
+
+Se uma API falhar, a tela nao quebra. Ela retorna fallback local.

@@ -1,815 +1,777 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portal Genesis — Acesso e Portal Mestre</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Genesis Lite</title>
 <style>
 :root{
-  --bg:#060913;
-  --bg2:#090e1b;
-  --panel:#0d1425;
-  --panel2:#121b30;
-  --panel3:#18223a;
-  --line:rgba(255,255,255,.10);
-  --line2:rgba(255,255,255,.18);
-  --text:#eef3ff;
-  --muted:#97a6c4;
-  --soft:#c8d5ef;
+  color-scheme:dark;
+  --bg:#070914;
+  --bg2:#0b1020;
+  --panel:#111827;
+  --panel2:#172033;
+  --panel3:#1f2a3f;
+  --line:rgba(238,244,255,.12);
+  --line2:rgba(238,244,255,.24);
+  --text:#eef4ff;
+  --muted:#9dacbf;
   --gold:#d8b46f;
-  --gold2:#f1d59c;
   --cyan:#6ee7df;
   --green:#78e2a2;
-  --red:#ef7d8d;
   --purple:#b99cff;
-  --blue:#74b7ff;
-  --shadow:0 28px 90px rgba(0,0,0,.48);
-  --radius:22px;
+  --red:#ef7d8d;
+  --blue:#78b7ff;
+  --radius:8px;
+  --shadow:0 20px 70px rgba(0,0,0,.34);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
 body{
   background:
-    radial-gradient(circle at 14% 0,rgba(110,231,223,.14),transparent 32%),
-    radial-gradient(circle at 88% 8%,rgba(216,180,111,.15),transparent 28%),
-    radial-gradient(circle at 50% 110%,rgba(185,156,255,.08),transparent 34%),
-    linear-gradient(180deg,#070a12,#090e1b 58%,#05070d);
+    radial-gradient(circle at 12% 0,rgba(110,231,223,.12),transparent 30%),
+    radial-gradient(circle at 90% 6%,rgba(216,180,111,.12),transparent 28%),
+    linear-gradient(180deg,#070914,#0b1020 62%,#05070d);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
-button,input{font:inherit}
+button,input,textarea,select{font:inherit}
 button{cursor:pointer}
+textarea{resize:vertical}
 .hidden{display:none!important}
-.btn{
-  border:1px solid var(--line);
-  background:var(--panel2);
-  color:var(--text);
-  border-radius:13px;
-  padding:10px 14px;
-  font-weight:900;
-  font-size:13px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  text-decoration:none;
-  transition:.16s;
-  white-space:nowrap;
-}
-.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
-.btn.gold{background:linear-gradient(180deg,#e6c17d,#c99b53);border-color:rgba(216,180,111,.72);color:#130d03}
-.btn.cyan{background:rgba(110,231,223,.10);border-color:rgba(110,231,223,.42);color:#d8fffc}
-.btn.green{background:linear-gradient(180deg,#86e8aa,#5fd18b);border-color:rgba(120,226,162,.7);color:#06130b}
-.btn.red{background:rgba(239,125,141,.10);border-color:rgba(239,125,141,.38);color:#ffdce1}
-.btn.purple{background:rgba(185,156,255,.11);border-color:rgba(185,156,255,.38);color:#eadfff}
-.btn.ghost{background:rgba(255,255,255,.035)}
-.btn.small{font-size:11px;padding:8px 10px;border-radius:11px}
-.login{
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  padding:22px;
-}
-.loginCard{
-  width:min(500px,94vw);
-  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),rgba(13,20,37,.94);
-  border:1px solid rgba(216,180,111,.30);
-  border-radius:28px;
-  box-shadow:var(--shadow);
-  padding:32px;
-}
-.brandMini{
-  font-family:Syne,sans-serif;
-  font-weight:900;
-  color:var(--gold);
-  text-transform:uppercase;
-  letter-spacing:.10em;
-  text-align:center;
-  margin-bottom:16px;
-}
-.loginCard h1{
-  font-family:Syne,sans-serif;
-  font-size:30px;
-  text-align:center;
-  color:#f0ddbb;
-  margin-bottom:8px;
-}
-.loginCard p{
-  font-size:13px;
-  line-height:1.6;
-  color:var(--muted);
-  text-align:center;
-  margin-bottom:22px;
-}
-.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
-.field label{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  color:var(--gold2);
-  font-weight:900;
-}
-.field input{
-  width:100%;
-  border:1px solid var(--line);
-  background:#080f1d;
-  color:var(--text);
-  border-radius:13px;
-  padding:12px 13px;
-  outline:none;
-}
-.field input:focus{border-color:rgba(216,180,111,.62);box-shadow:0 0 0 3px rgba(216,180,111,.08)}
-.err{
-  display:none;
-  margin:12px 0;
-  padding:10px 12px;
-  border-radius:13px;
-  border:1px solid rgba(239,125,141,.30);
-  background:rgba(239,125,141,.10);
-  color:#ffd7dc;
-  font-size:13px;
-}
-.err.show{display:block}
-.note{
-  font-size:11px;
-  color:var(--muted);
-  line-height:1.45;
-  margin-top:13px;
-}
-.app{min-height:100vh;display:grid;grid-template-rows:64px 36px 1fr}
-.top{
-  height:64px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 16px;
+.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr}
+.topbar{
+  position:sticky;top:0;z-index:20;
+  display:grid;grid-template-columns:minmax(250px,1fr) auto;gap:12px;align-items:center;
   border-bottom:1px solid var(--line);
-  background:rgba(7,10,18,.86);
+  background:rgba(7,9,20,.92);
+  padding:12px 14px;
   backdrop-filter:blur(14px);
-  z-index:20;
 }
-.logo{
-  width:40px;
-  height:40px;
-  border-radius:15px;
-  display:grid;
-  place-items:center;
-  font-weight:1000;
-  background:radial-gradient(circle at 35% 25%,#fff0c6,#d8b46f 58%,#745221);
-  color:#130d03;
-  box-shadow:0 0 32px rgba(216,180,111,.18);
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.mark{
+  display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;
+  border:1px solid rgba(216,180,111,.55);border-radius:var(--radius);
+  background:#151d2e;color:var(--gold);font-weight:900;
 }
-.titleWrap{min-width:220px;margin-right:auto}
-.title{
-  font-family:Syne,sans-serif;
-  font-weight:900;
-  color:#f0ddbb;
-  line-height:1;
+.brand h1{margin:0;font-size:18px;line-height:1.1}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.actions,.row,.chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.actions{justify-content:flex-end}
+.btn{
+  min-height:38px;border:1px solid var(--line);border-radius:var(--radius);
+  background:rgba(23,32,51,.88);color:var(--text);font-weight:800;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:0 12px;text-decoration:none;
 }
-.subtitle{
-  display:block;
-  margin-top:4px;
-  font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  color:var(--gold);
-}
-.tabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.tab{
-  border:1px solid var(--line);
-  background:rgba(18,27,48,.9);
-  color:#b9c5de;
-  border-radius:999px;
-  padding:8px 13px;
-  font-weight:900;
-  font-size:12px;
-}
-.tab.active{
-  border-color:rgba(216,180,111,.56);
-  background:rgba(216,180,111,.13);
-  color:#f5dca8;
-}
-.status{
-  min-height:36px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 16px;
-  border-bottom:1px solid var(--line);
-  font-size:12px;
-  color:var(--cyan);
-  background:rgba(0,0,0,.22);
-}
-.status b{color:#e9fffD}
-.content{
+.btn:hover{border-color:var(--line2)}
+.btn:disabled{cursor:not-allowed;opacity:.55}
+.btn.small{min-height:32px;font-size:12px;padding:0 9px}
+.btn.block{width:100%}
+.btn.gold{background:linear-gradient(180deg,#e4c782,#ae8239);border-color:rgba(216,180,111,.65);color:#151008}
+.btn.cyan{background:rgba(110,231,223,.14);border-color:rgba(110,231,223,.48);color:#d4ffff}
+.btn.green{background:rgba(120,226,162,.14);border-color:rgba(120,226,162,.48);color:#dcffe8}
+.btn.purple{background:rgba(185,156,255,.14);border-color:rgba(185,156,255,.48);color:#f0eaff}
+.btn.red{background:rgba(239,125,141,.14);border-color:rgba(239,125,141,.48);color:#ffe2e8}
+.shell{
   min-height:0;
-  position:relative;
-}
-.portal{
-  min-height:calc(100vh - 100px);
-  overflow:auto;
-  padding:24px;
-}
-.hero{
-  max-width:1200px;
-  margin:0 auto 18px;
-  border:1px solid rgba(216,180,111,.22);
-  border-radius:28px;
-  background:linear-gradient(180deg,rgba(255,255,255,.050),rgba(255,255,255,.018)),rgba(13,20,37,.68);
-  padding:26px;
-  box-shadow:0 20px 70px rgba(0,0,0,.30);
-}
-.kicker{
-  display:inline-flex;
-  border:1px solid rgba(110,231,223,.28);
-  background:rgba(110,231,223,.08);
-  color:#cffffb;
-  border-radius:999px;
-  padding:5px 9px;
-  font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  margin-bottom:12px;
-}
-.hero h1{
-  font-family:Syne,sans-serif;
-  font-size:clamp(32px,5vw,58px);
-  line-height:.98;
-  color:#f0ddbb;
-  max-width:900px;
-}
-.hero p{
-  margin-top:14px;
-  color:#cdd9f1;
-  line-height:1.65;
-  max-width:880px;
-}
-.creator{
-  margin-top:16px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-.pill{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.04);
-  color:#d7e1f5;
-  border-radius:999px;
-  padding:7px 10px;
-  font-size:11px;
-  font-weight:900;
-}
-.pill.gold{border-color:rgba(216,180,111,.35);color:#f6dfad;background:rgba(216,180,111,.08)}
-.grid{
-  max-width:1200px;
-  margin:0 auto;
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:14px;
+  grid-template-columns:260px minmax(0,1fr) 330px;
 }
-.module{
-  position:relative;
+.side,.right{
+  min-width:0;
+  overflow:auto;
+  background:rgba(11,16,32,.78);
+  padding:14px;
+}
+.side{border-right:1px solid var(--line)}
+.right{border-left:1px solid var(--line)}
+.main{
+  min-width:0;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
   overflow:hidden;
-  min-height:310px;
+}
+.panel{
   border:1px solid var(--line);
-  border-radius:26px;
-  background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018)),rgba(13,20,37,.82);
-  box-shadow:0 16px 54px rgba(0,0,0,.28);
-  padding:20px;
-}
-.module::before{
-  content:"";
-  position:absolute;
-  width:210px;
-  height:210px;
-  border-radius:999px;
-  right:-100px;
-  top:-90px;
-  background:radial-gradient(circle,rgba(110,231,223,.16),transparent 65%);
-}
-.module.print::before{background:radial-gradient(circle,rgba(216,180,111,.18),transparent 65%)}
-.module.lab::before{background:radial-gradient(circle,rgba(185,156,255,.18),transparent 65%)}
-.module.api::before{background:radial-gradient(circle,rgba(120,226,162,.18),transparent 65%)}
-.moduleHead{
-  position:relative;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:14px;
-}
-.icon{
-  width:48px;
-  height:48px;
-  border-radius:17px;
-  display:grid;
-  place-items:center;
-  font-size:22px;
-  background:rgba(255,255,255,.055);
-  border:1px solid rgba(255,255,255,.11);
-}
-.module h2{
-  font-family:Syne,sans-serif;
-  color:#f0ddbb;
-  font-size:22px;
-  line-height:1.05;
-}
-.module small{
-  display:block;
-  margin-top:4px;
-  color:var(--muted);
-  font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  text-transform:uppercase;
-  letter-spacing:.10em;
-}
-.module p{
-  position:relative;
-  color:#c5d1e8;
-  line-height:1.58;
-  font-size:13px;
-  min-height:64px;
-}
-.flow{
-  position:relative;
-  margin:14px 0;
-  display:grid;
-  gap:7px;
-}
-.flow span{
-  border:1px solid rgba(255,255,255,.075);
-  background:rgba(255,255,255,.035);
-  border-radius:12px;
-  padding:8px 9px;
-  color:#d9e4fa;
-  font-size:11px;
-  font-weight:800;
-}
-.actions{
-  position:relative;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-.frame{
-  display:none;
-  width:100%;
-  height:calc(100vh - 100px);
-  border:0;
-  background:#070a12;
-}
-.frame.active{display:block}
-.apiPanel{
-  display:none;
-  min-height:calc(100vh - 100px);
-  overflow:auto;
-  padding:24px;
-}
-.apiPanel.active{display:block}
-.apiBox{
-  max-width:940px;
-  margin:0 auto;
-  border:1px solid var(--line);
-  border-radius:26px;
-  background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018)),rgba(13,20,37,.82);
-  padding:22px;
-}
-.apiBox h1{
-  font-family:Syne,sans-serif;
-  color:#f0ddbb;
-  margin-bottom:10px;
-}
-.apiBox p{color:#c5d1e8;line-height:1.65;margin-bottom:12px}
-.apiList{display:grid;gap:9px;margin:16px 0}
-.apiList div{
-  border:1px solid rgba(255,255,255,.075);
-  background:rgba(255,255,255,.035);
-  border-radius:14px;
-  padding:11px 12px;
-  color:#d9e4fa;
-  font-size:13px;
-}
-.apiResult{
-  margin-top:14px;
-  min-height:80px;
-  white-space:pre-wrap;
-  border:1px solid var(--line);
-  background:#070d1a;
-  border-radius:14px;
+  border-radius:var(--radius);
+  background:rgba(17,24,39,.76);
+  box-shadow:0 10px 28px rgba(0,0,0,.16);
   padding:12px;
-  color:#dffffc;
-  font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
-
-.logo.pgLogo{
-  font-family:Syne,sans-serif;
-  font-size:18px;
-  letter-spacing:-.08em;
-  background:linear-gradient(135deg,#f6dfad,#d8b46f 42%,#6ee7df 120%);
-  color:#080b12;
-  border:1px solid rgba(216,180,111,.55);
+.panel+.panel{margin-top:12px}
+.panel h2,.panel h3{margin:0;letter-spacing:0}
+.panel h2{font-size:18px}
+.panel h3{font-size:14px}
+.muted,.panel p{color:var(--muted);line-height:1.45}
+.type-list{display:grid;gap:8px;margin-top:12px}
+.type-btn{
+  width:100%;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border:1px solid var(--line);border-radius:var(--radius);background:rgba(23,32,51,.78);
+  color:var(--muted);font-weight:850;text-align:left;padding:0 12px;
 }
-.login::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:
-    linear-gradient(rgba(110,231,223,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(110,231,223,.03) 1px,transparent 1px);
-  background-size:44px 44px;
-  mask-image:radial-gradient(circle at 50% 45%,#000 0 46%,transparent 74%);
+.type-btn.active{border-color:rgba(216,180,111,.62);background:rgba(216,180,111,.12);color:var(--gold)}
+.type-btn small{color:var(--muted);font-weight:700}
+.field{display:grid;gap:7px;margin-top:10px}
+.field span{font-size:11px;text-transform:uppercase;font-weight:850;color:var(--muted);letter-spacing:0}
+.field input,.field textarea,.field select{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:rgba(5,7,13,.72);
+  color:var(--text);
+  outline:none;
+  padding:10px 11px;
 }
-.loginCard.pgAccess{
-  width:min(560px,94vw);
-  position:relative;
+.field textarea{min-height:118px}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(110,231,223,.65);box-shadow:0 0 0 3px rgba(110,231,223,.12)}
+.statusbar{
+  border-bottom:1px solid var(--line);
+  background:rgba(9,15,29,.54);
+  display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;
+  padding:12px 14px;
+}
+.status{color:var(--muted);font-size:13px}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;width:fit-content;
+  border:1px solid var(--line);border-radius:999px;
+  padding:5px 8px;color:var(--muted);font-size:11px;font-weight:850;
+}
+.chip.ok{border-color:rgba(120,226,162,.48);color:var(--green)}
+.chip.warn{border-color:rgba(216,180,111,.5);color:var(--gold)}
+.chip.err{border-color:rgba(239,125,141,.48);color:var(--red)}
+.result-wrap{min-height:0;overflow:auto;padding:14px}
+.result-card{
+  min-height:calc(100vh - 258px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:rgba(5,7,13,.58);
   overflow:hidden;
-  border-color:rgba(216,180,111,.42);
-  background:
-    radial-gradient(circle at 18% 12%,rgba(110,231,223,.14),transparent 30%),
-    radial-gradient(circle at 88% 18%,rgba(216,180,111,.18),transparent 36%),
-    linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.020)),
-    rgba(13,20,37,.96);
-}
-.loginCard.pgAccess::before{
-  content:"PG";
-  position:absolute;
-  right:-18px;
-  top:-34px;
-  font-family:Syne,sans-serif;
-  font-size:118px;
-  font-weight:900;
-  color:rgba(216,180,111,.055);
-  letter-spacing:-.10em;
-}
-.pgMark{
-  width:62px;
-  height:62px;
-  margin:0 auto 14px;
   display:grid;
-  place-items:center;
-  border-radius:20px;
-  background:linear-gradient(135deg,#f6dfad,#d8b46f 50%,#6ee7df 140%);
-  color:#060913;
-  font-family:Syne,sans-serif;
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:-.10em;
-  box-shadow:0 0 42px rgba(216,180,111,.20);
+  grid-template-rows:auto minmax(0,1fr);
 }
-.accessBadges{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin:0 0 18px;
+.result-head{
+  border-bottom:1px solid var(--line);
+  background:rgba(17,24,39,.62);
+  display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;
+  padding:10px 12px;
 }
-.accessBadges span{
-  border:1px solid rgba(255,255,255,.085);
-  background:rgba(255,255,255,.035);
-  color:#cbd8f1;
-  border-radius:12px;
-  padding:8px;
+.result-body{
+  min-height:420px;
+  padding:14px;
+  overflow:auto;
+}
+.empty{
+  min-height:390px;
+  display:grid;place-items:center;
+  color:var(--muted);
   text-align:center;
-  font-size:10px;
-  font-weight:900;
-  line-height:1.25;
 }
-.module.genesis::before{background:radial-gradient(circle,rgba(120,226,162,.19),transparent 65%)}
-.module.genesis{border-color:rgba(120,226,162,.20)}
-.portalShell{
-  max-width:1280px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:18px;
-  align-items:stretch;
+.text-output,.json-output,.log{
+  white-space:pre-wrap;
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:rgba(7,9,20,.78);
+  padding:12px;
+  color:#d6e2f7;
+  line-height:1.5;
 }
-.showcaseHero{
-  border:1px solid rgba(110,231,223,.18);
-  border-radius:28px;
-  min-height:320px;
-  padding:24px;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 20% 50%,rgba(110,231,223,.18),transparent 28%),
-    radial-gradient(circle at 82% 72%,rgba(216,180,111,.17),transparent 24%),
-    linear-gradient(135deg,rgba(9,18,32,.98),rgba(13,20,37,.78));
-  box-shadow:0 20px 70px rgba(0,0,0,.30);
+.json-output,.log{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-size:12px}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.media-box{
+  min-height:260px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#05070d;display:grid;place-items:center;overflow:hidden;
 }
-.showcaseHero::before{
-  content:"";
-  position:absolute;
-  inset:18px;
-  border:1px solid rgba(110,231,223,.12);
-  border-radius:22px;
-  background:
-    linear-gradient(rgba(110,231,223,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(216,180,111,.04) 1px,transparent 1px);
-  background-size:34px 34px;
-  opacity:.75;
+.media-box img,.media-box video{width:100%;height:100%;object-fit:contain;display:block}
+.composer{
+  border-top:1px solid var(--line);
+  background:rgba(5,7,13,.78);
+  padding:12px 14px;
 }
-.showcaseHero>*{position:relative}
-.showcaseHero h2{
-  font-family:Syne,sans-serif;
-  font-size:clamp(30px,4vw,56px);
-  line-height:.95;
-  color:#f3dfbc;
-  max-width:560px;
+.composer-grid{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:10px;align-items:end}
+.prompt{min-height:94px!important}
+.history-list{display:grid;gap:8px;margin-top:10px}
+.history-item{
+  border:1px solid var(--line);border-radius:var(--radius);background:rgba(23,32,51,.72);
+  color:var(--text);padding:10px;text-align:left;width:100%;
 }
-.showcaseHero h2 b{color:#d8b46f}
-.showcaseHero p{color:#cdd9f1;line-height:1.65;margin:14px 0 18px;max-width:560px}
-.heroChips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.heroChips span{font-size:11px;font-weight:900;border:1px solid rgba(110,231,223,.24);background:rgba(110,231,223,.075);color:#d9fffc;border-radius:999px;padding:7px 9px}
-.publicPanel{
-  border:1px solid rgba(216,180,111,.22);
-  border-radius:28px;
-  background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018)),rgba(13,20,37,.82);
-  padding:22px;
-  box-shadow:0 16px 54px rgba(0,0,0,.28);
+.history-item strong{display:block;font-size:13px}
+.history-item small{display:block;color:var(--muted);margin-top:4px}
+.api-list{display:grid;gap:8px;margin-top:10px}
+.api-row{
+  display:grid;grid-template-columns:112px minmax(0,1fr);gap:8px;align-items:center;
+  border:1px solid var(--line);border-radius:var(--radius);padding:9px;
 }
-.publicPanel h3{font-family:Syne,sans-serif;color:#f0ddbb;font-size:24px;margin-bottom:12px}
-.publicList{display:grid;gap:10px}
-.publicList div{border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.035);border-radius:14px;padding:12px;color:#d9e4fa;font-size:13px;line-height:1.45}
-.serviceGrid{max-width:1280px;margin:14px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.serviceCard{border:1px solid rgba(255,255,255,.08);background:rgba(13,20,37,.68);border-radius:18px;padding:14px;min-height:98px}
-.serviceCard b{display:block;color:#f2ddb6;margin-bottom:5px}.serviceCard span{font-size:12px;color:#aebcda;line-height:1.45}
-@media(max-width:1100px){.portalShell{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.serviceGrid{grid-template-columns:1fr 1fr}}
-@media(max-width:720px){.accessBadges{grid-template-columns:1fr}.serviceGrid{grid-template-columns:1fr}}
-
-@media(max-width:1050px){.grid{grid-template-columns:1fr 1fr}.module.api{grid-column:1/-1}.top{height:auto;align-items:flex-start;flex-wrap:wrap;padding:12px}.titleWrap{width:100%}.app{grid-template-rows:auto 36px 1fr}.frame,.apiPanel,.portal{min-height:calc(100vh - 132px);height:calc(100vh - 132px)}}
-@media(max-width:720px){.tabs{width:100%}.tab{flex:1}.grid{grid-template-columns:1fr}.portal{padding:14px}.hero{padding:20px}.module{min-height:auto}.frame,.apiPanel,.portal{height:calc(100vh - 176px)}}
+.api-row code{color:var(--cyan);overflow-wrap:anywhere}
+.login-box{display:grid;gap:8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:1180px){
+  .shell{grid-template-columns:230px minmax(0,1fr)}
+  .right{grid-column:1/-1;border-left:0;border-top:1px solid var(--line)}
+}
+@media(max-width:760px){
+  .topbar{grid-template-columns:1fr;position:static}
+  .actions{justify-content:flex-start}
+  .shell{grid-template-columns:1fr}
+  .side{border-right:0;border-bottom:1px solid var(--line)}
+  .type-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .type-btn{min-height:44px}
+  .composer-grid,.two{grid-template-columns:1fr}
+  .result-card{min-height:520px}
+}
 </style>
 </head>
 <body>
-<section id="login" class="login">
-  <div class="loginCard pgAccess">
-    <div class="pgMark">PG</div>
-    <div class="brandMini">Portal Genesis</div>
-    <h1>Acesso Oficial</h1>
-    <p>Marketing • Adventures • Punk • Vitrine Business de Caruaru. Entre para acessar a árvore criativa, a área do cliente e os motores de produção.</p>
-
-    <div class="accessBadges">
-      <span>Vitrine<br>Business</span>
-      <span>Área do<br>Cliente</span>
-      <span>Produção<br>Premium</span>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">PG</div>
+      <div>
+        <h1>Portal Genesis Lite</h1>
+        <p>Uma tela simples para Claude, Gemini, Flux, Pollinations, LTX e ElevenLabs</p>
+      </div>
     </div>
-
-    <div class="field">
-      <label>Usuário</label>
-      <input id="user" autocomplete="username" placeholder="seu acesso">
+    <div class="actions">
+      <button class="btn cyan" id="btnStatus">Ver APIs</button>
+      <button class="btn purple" id="btnExportJson">JSON</button>
+      <button class="btn green" id="btnExportTxt">TXT</button>
+      <button class="btn red" id="btnClear">Limpar</button>
     </div>
-    <div class="field">
-      <label>Senha</label>
-      <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
-    </div>
-
-    <div id="err" class="err">Acesso não autorizado. Confira usuário, senha ou disponibilidade do portal.</div>
-    <button class="btn gold" style="width:100%" onclick="login()">Entrar no Portal Genesis</button>
-    <div class="note">Portal seguro para clientes, produção, serviços, vitrine e gestão criativa. Do atendimento à entrega, tudo começa aqui.</div>
-  </div>
-</section>
-
-<section id="app" class="app hidden">
-  <header class="top">
-    <div class="logo pgLogo">PG</div>
-    <div class="titleWrap">
-      <div class="title">Portal Genesis</div>
-      <span class="subtitle">Marketing • Adventures • Punk • Vitrine Business de Caruaru</span>
-    </div>
-    <nav class="tabs">
-      <button id="tab-portal" class="tab active" onclick="showTab('portal')">Portal</button>
-      <button id="tab-studio" class="tab" onclick="showTab('studio')">Studio Remotion Lab</button>
-      <button id="tab-video" class="tab" onclick="showTab('video')">Video Remotion</button>
-      <button id="tab-print" class="tab" onclick="showTab('print')">Print</button>
-      <button id="tab-vitrine" class="tab" onclick="showTab('vitrine')">Vitrine PG</button>
-      <button id="tab-api" class="tab" onclick="showTab('api')">API / Config</button>
-      <button class="btn red small" onclick="logout()">Sair</button>
-    </nav>
   </header>
 
-  <div id="status" class="status"><b>Portal Genesis ativo.</b> Vitrine, serviços, clientes e motores de produção em uma árvore criativa.</div>
-
-  <main class="content">
-    <section id="portal" class="portal">
-      <div class="portalShell">
-        <div class="showcaseHero">
-          <span class="kicker">bem-vindo ao portal genesis</span>
-          <h2>A Vitrine Criativa de <b>Caruaru</b></h2>
-          <p>Marketing, vídeo, gráfica e impressão real, mocap, arte, conteúdo digital, branding e entretenimento. Uma saída pública para transformar ideias em serviços, portfólio, campanhas e experiências que conectam.</p>
-          <div class="actions">
-            <button class="btn gold" onclick="showTab('vitrine')">Abrir Vitrine PG</button>
-            <button class="btn cyan" onclick="showTab('print')">Pedir orçamento</button>
-            <button class="btn ghost" onclick="showTab('vitrine')">Área do cliente</button>
-          </div>
-          <div class="heroChips">
-            <span>Vídeo</span><span>Gráfica</span><span>Branding</span><span>Social Media</span><span>Brindes</span><span>Entretenimento</span>
-          </div>
-        </div>
-        <aside class="publicPanel">
-          <span class="kicker">raízes da marca</span>
-          <h3>Fruits Adventures + Iniciantes do Punk</h3>
-          <div class="publicList">
-            <div><b>Identidade:</b> Portal Genesis como nome de mercado. Quando perguntarem onde fez, a resposta é: foi no Portal Genesis.</div>
-            <div><b>Serviços:</b> vídeo, print, marketing digital, vitrine, mocap, social, impressão e produtos personalizados.</div>
-            <div><b>Experiência:</b> portal público, área do cliente, aprovação, orçamento e pacote final conectado aos motores internos.</div>
-          </div>
-        </aside>
-      </div>
-
-      <div class="grid" style="margin-top:14px">
-        <article class="module lab">
-          <div class="moduleHead">
-            <div class="icon">🧪</div>
-            <div><h2>Studio Remotion Lab</h2><small>criação • testes • inovação</small></div>
-          </div>
-          <p>Área interna para desenvolver ideias, universos, personagens, referências, microagentes, motion comic, cenas, versões e experimentos criativos.</p>
-          <div class="flow"><span>Setup limpo → Storyboard → Cena</span><span>Motion 2D → SRT/Som → CapCut Book</span><span>Pesquisa → Testes → Versões</span></div>
-          <div class="actions"><button class="btn purple" onclick="showTab('studio')">Abrir Lab</button></div>
-        </article>
-
-        <article class="module video">
-          <div class="moduleHead">
-            <div class="icon">🎬</div>
-            <div><h2>Video Remotion</h2><small>produto audiovisual final</small></div>
-          </div>
-          <p>Motor para roteiro, storyboard, vídeo IA, SRT, som, Remotion JSON, CapCut Book, pacote final e conteúdo para Reels, Shorts, TikTok e YouTube.</p>
-          <div class="flow"><span>Briefing → Roteiro/Cena</span><span>Storyboard → Motion 2D / Vídeo IA</span><span>SRT/Som → CapCut → Pacote</span></div>
-          <div class="actions"><button class="btn gold" onclick="showTab('video')">Abrir Video</button></div>
-        </article>
-
-        <article class="module print">
-          <div class="moduleHead">
-            <div class="icon">🖨️</div>
-            <div><h2>Print Remotion</h2><small>gráfica • marketing • impressão</small></div>
-          </div>
-          <p>Motor gráfico para atendimento, cliente, orçamento, arte, copy, banners, camisetas, canecas, brindes, pré-impressão e entrega real para gráfica.</p>
-          <div class="flow"><span>Cliente → Produto → Orçamento</span><span>Direção de Arte → IA → Pré-impressão</span><span>Produção → Pacote Final</span></div>
-          <div class="actions"><button class="btn green" onclick="showTab('print')">Abrir Print</button></div>
-        </article>
-
-        <article class="module genesis">
-          <div class="moduleHead">
-            <div class="icon">🌳</div>
-            <div><h2>Vitrine PG</h2><small>serviços • cliente • vendas</small></div>
-          </div>
-          <p>Saída pública do Portal Genesis: portfólio, banners animados, redes sociais, área do cliente, pacotes, orçamentos, trabalhos e divulgação da marca.</p>
-          <div class="flow"><span>Portfólio → Serviços → Orçamento</span><span>Área do Cliente → Aprovação</span><span>YouTube/TikTok/Instagram → Contato</span></div>
-          <div class="actions"><button class="btn cyan" onclick="showTab('vitrine')">Abrir Vitrine</button></div>
-        </article>
-      </div>
-
-      <div class="serviceGrid">
-        <div class="serviceCard"><b>Marketing Digital</b><span>posts, stories, anúncios, copy, calendário e campanhas.</span></div>
-        <div class="serviceCard"><b>Gráfica Real</b><span>cartão, flyer, banner, adesivo, cardápio, fachada e impressão.</span></div>
-        <div class="serviceCard"><b>Produtos</b><span>camiseta, boné, caneca, brindes, embalagens e mockups.</span></div>
-        <div class="serviceCard"><b>Entretenimento</b><span>Fruits Adventures, Iniciantes do Punk, mocap, vídeos e bastidores.</span></div>
-      </div>
-    </section>
-
-    <iframe id="frame-studio" class="frame" src="./studio/"></iframe>
-    <iframe id="frame-video" class="frame" src="./video/"></iframe>
-    <iframe id="frame-print" class="frame" src="./print/"></iframe>
-
-    <section id="vitrinePanel" class="apiPanel">
-      <div class="apiBox" style="max-width:1180px">
-        <span class="kicker">portal genesis público</span>
-        <h1>Fruits Adventures • Iniciantes do Punk • Vitrine Business de Caruaru</h1>
-        <p>Esta área é a saída de marca: portfólio, serviços, área do cliente, redes sociais, orçamento e divulgação dos trabalhos. Aqui o Portal Genesis vira vitrine comercial, não painel técnico.</p>
-        <div class="serviceGrid" style="margin:16px 0;max-width:none">
-          <div class="serviceCard"><b>Serviços</b><span>marketing, vídeo, gráfica, impressão, brindes, social media e identidade visual.</span></div>
-          <div class="serviceCard"><b>Portfólio</b><span>banners, reels, mocap, peças gráficas, campanhas, mockups e conteúdo digital.</span></div>
-          <div class="serviceCard"><b>Área do Cliente</b><span>briefing, orçamento, aprovações, arquivos, pedidos e histórico.</span></div>
-          <div class="serviceCard"><b>Redes</b><span>YouTube, TikTok, Instagram, Facebook, WhatsApp e divulgação local.</span></div>
-        </div>
-        <div class="actions">
-          <button class="btn gold" onclick="showTab('print')">Criar orçamento no Print</button>
-          <button class="btn cyan" onclick="showTab('video')">Criar conteúdo em vídeo</button>
-          <button class="btn purple" onclick="showTab('studio')">Abrir laboratório</button>
-          <button class="btn ghost" onclick="showTab('portal')">Voltar ao portal</button>
+  <main class="shell">
+    <aside class="side">
+      <div class="panel">
+        <h2>Criar</h2>
+        <p class="muted">Escolha o tipo de saida. O roteador decide a API certa quando estiver em Auto.</p>
+        <div class="type-list" id="typeList">
+          <button class="type-btn active" data-type="text"><span>Texto</span><small>Claude/Gemini</small></button>
+          <button class="type-btn" data-type="image"><span>Imagem</span><small>Flux/Pollen</small></button>
+          <button class="type-btn" data-type="video"><span>Video</span><small>LTX</small></button>
+          <button class="type-btn" data-type="voice"><span>Voz</span><small>ElevenLabs</small></button>
+          <button class="type-btn" data-type="print"><span>Print</span><small>Arte + copy</small></button>
+          <button class="type-btn" data-type="package"><span>Pacote</span><small>TXT/JSON</small></button>
         </div>
       </div>
-    </section>
 
-    <section id="apiPanel" class="apiPanel">
-      <div class="apiBox">
-        <span class="kicker">gestão técnica</span>
-        <h1>API / Config</h1>
-        <p>Área reservada para autenticação, provedores de IA, rotas internas e segurança do Portal Genesis.</p>
-        <div class="apiList">
-          <div><b>Acesso:</b> credenciais e sessão protegidas no backend.</div>
-          <div><b>IA:</b> Gemini, Claude, Groq e OpenRouter podem alimentar os motores por rotas internas.</div>
-          <div><b>Regra:</b> nenhuma chave deve ficar exposta em HTML público.</div>
-          <div><b>Fluxo:</b> Studio, Video, Print e Vitrine usam a API sem expor chaves ao usuário.</div>
+      <div class="panel">
+        <h3>Opcoes</h3>
+        <label class="field"><span>API / Engine</span>
+          <select id="provider">
+            <option value="auto">Auto</option>
+            <option value="claude">Claude</option>
+            <option value="gemini">Gemini</option>
+            <option value="flux">Flux / Pollinations</option>
+            <option value="ltx">LTX Video</option>
+            <option value="elevenlabs">ElevenLabs</option>
+          </select>
+        </label>
+        <div class="two">
+          <label class="field"><span>Formato</span>
+            <select id="format">
+              <option value="16:9">16:9</option>
+              <option value="9:16">9:16</option>
+              <option value="1:1">1:1</option>
+              <option value="4:5">4:5</option>
+            </select>
+          </label>
+          <label class="field"><span>Qualidade</span>
+            <select id="quality">
+              <option value="draft">draft</option>
+              <option value="standard" selected>standard</option>
+              <option value="high">high</option>
+            </select>
+          </label>
         </div>
-        <div class="actions">
-          <button class="btn cyan" onclick="testAuth()">Testar autenticação</button>
-          <button class="btn gold" onclick="showTab('portal')">Voltar ao portal</button>
+        <div class="two">
+          <label class="field"><span>Tamanho</span>
+            <select id="size">
+              <option value="1024x1024">1024x1024</option>
+              <option value="1280x720">1280x720</option>
+              <option value="720x1280">720x1280</option>
+              <option value="1080x1350">1080x1350</option>
+            </select>
+          </label>
+          <label class="field"><span>Duracao</span>
+            <select id="duration">
+              <option value="8s">8s</option>
+              <option value="15s" selected>15s</option>
+              <option value="30s">30s</option>
+              <option value="60s">60s</option>
+            </select>
+          </label>
         </div>
-        <div id="apiResult" class="apiResult">Aguardando teste.</div>
+      </div>
+    </aside>
+
+    <section class="main">
+      <div class="statusbar">
+        <div>
+          <strong id="modeTitle">Texto</strong>
+          <div class="status" id="statusText">Pronto para gerar.</div>
+        </div>
+        <div class="chips">
+          <span class="chip" id="authChip">Auth: verificando</span>
+          <span class="chip" id="providerChip">Auto</span>
+          <span class="chip" id="historyChip">0 historico</span>
+        </div>
+      </div>
+
+      <div class="result-wrap">
+        <section class="result-card">
+          <header class="result-head">
+            <strong>Resultado grande</strong>
+            <div class="row">
+              <button class="btn small" id="btnCopy">Copiar</button>
+              <button class="btn small cyan" id="btnReuse">Reusar prompt</button>
+              <button class="btn small green" id="btnDownloadResult">Baixar</button>
+            </div>
+          </header>
+          <div class="result-body" id="resultBody">
+            <div class="empty">
+              <div>
+                <h2>Digite um prompt e clique em Gerar</h2>
+                <p>O resultado aparece aqui em tamanho grande.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="composer">
+        <div class="composer-grid">
+          <label class="field" style="margin:0">
+            <span>Prompt principal</span>
+            <textarea class="prompt" id="prompt" placeholder="Ex: criar uma campanha em video para divulgar o Portal Genesis em Caruaru, com visual premium, narracao e CTA..."></textarea>
+          </label>
+          <div>
+            <button class="btn gold block" id="btnGenerate">Gerar</button>
+            <button class="btn block" id="btnImprove" style="margin-top:8px">Melhorar prompt</button>
+          </div>
+        </div>
       </div>
     </section>
+
+    <aside class="right">
+      <div class="panel">
+        <h3>Login simples</h3>
+        <p class="muted">As APIs ficam protegidas no backend da Vercel.</p>
+        <div class="login-box">
+          <input id="loginUser" placeholder="usuario" autocomplete="username">
+          <input id="loginPass" placeholder="senha" type="password" autocomplete="current-password">
+          <div class="row">
+            <button class="btn small gold" id="btnLogin">Entrar</button>
+            <button class="btn small red" id="btnLogout">Sair</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Status APIs</h3>
+        <div class="api-list" id="apiList">
+          <div class="api-row"><strong>Claude</strong><code>verificando...</code></div>
+          <div class="api-row"><strong>Gemini</strong><code>verificando...</code></div>
+          <div class="api-row"><strong>Flux</strong><code>verificando...</code></div>
+          <div class="api-row"><strong>LTX</strong><code>verificando...</code></div>
+          <div class="api-row"><strong>Eleven</strong><code>verificando...</code></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Historico</h3>
+        <div class="history-list" id="historyList"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Log</h3>
+        <pre class="log" id="logBox">Portal Genesis Lite iniciado.</pre>
+      </div>
+    </aside>
   </main>
-</section>
+</div>
 
 <script>
-const $ = id => document.getElementById(id);
+const $ = (id) => document.getElementById(id);
+const STORAGE_KEY = "portal_genesis_lite_history_v1";
 
-async function verify(){
-  try{
-    const r = await fetch('/api/auth-verify');
-    if(r.ok){
-      $('login').classList.add('hidden');
-      $('app').classList.remove('hidden');
-      showTab('portal');
+const typeLabels = {
+  text: "Texto / Roteiro",
+  image: "Imagem",
+  video: "Video LTX",
+  voice: "Voz / TTS",
+  print: "Print / Grafica",
+  package: "Pacote JSON"
+};
+
+let currentType = "text";
+let lastResult = null;
+let history = loadHistory();
+
+function loadHistory(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")}
+  catch{return []}
+}
+
+function saveHistory(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,30)));
+  renderHistory();
+}
+
+function log(message){
+  const box = $("logBox");
+  box.textContent += "\\n" + new Date().toLocaleTimeString("pt-BR") + " - " + message;
+  box.scrollTop = box.scrollHeight;
+}
+
+function setStatus(message, kind=""){
+  $("statusText").textContent = message;
+  log(message);
+}
+
+function payload(){
+  return {
+    type: currentType,
+    provider: $("provider").value,
+    prompt: $("prompt").value.trim(),
+    options: {
+      format: $("format").value,
+      quality: $("quality").value,
+      size: $("size").value,
+      duration: $("duration").value
     }
-  }catch(e){}
+  };
+}
+
+async function apiPost(url, body){
+  const response = await fetch(url, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body:JSON.stringify(body)
+  });
+  const data = await response.json().catch(()=>({}));
+  if(!response.ok || data.ok === false){
+    throw new Error(data.error || data.message || `Erro ${response.status}`);
+  }
+  return data;
+}
+
+async function generate(){
+  const body = payload();
+  if(!body.prompt){
+    setStatus("Digite um prompt primeiro.");
+    return;
+  }
+  $("btnGenerate").disabled = true;
+  setStatus("Gerando com " + body.provider + "...");
+  try{
+    const data = await apiPost("/api/ai-router", body);
+    lastResult = data;
+    renderResult(data);
+    history.unshift({
+      id: Date.now(),
+      createdAt: new Date().toISOString(),
+      type: currentType,
+      provider: data.provider || body.provider,
+      prompt: body.prompt,
+      result: data
+    });
+    saveHistory();
+    setStatus("Resultado gerado.");
+  }catch(error){
+    const data = localFallback(body, error.message);
+    lastResult = data;
+    renderResult(data);
+    history.unshift({
+      id: Date.now(),
+      createdAt: new Date().toISOString(),
+      type: currentType,
+      provider: "local",
+      prompt: body.prompt,
+      result: data
+    });
+    saveHistory();
+    setStatus("Usei fallback local: " + error.message);
+  }finally{
+    $("btnGenerate").disabled = false;
+  }
+}
+
+async function improvePrompt(){
+  const raw = $("prompt").value.trim();
+  if(!raw){setStatus("Digite um prompt para melhorar.");return}
+  const text = [
+    "Melhore este prompt para gerar resultado profissional no Portal Genesis.",
+    "Mantenha em portugues claro.",
+    "Inclua objetivo, estilo, formato, detalhes visuais, restricoes e saida esperada.",
+    "",
+    raw
+  ].join("\\n");
+  try{
+    const data = await apiPost("/api/ai-router", {type:"text", provider:"auto", prompt:text, options:{quality:"standard"}});
+    $("prompt").value = data.text || data.content || raw;
+    setStatus("Prompt melhorado.");
+  }catch{
+    $("prompt").value = raw + "\\n\\nEstilo: profissional, claro, detalhado, com identidade Portal Genesis. Saida: organizada em etapas, com prompts, checklist e entrega final.";
+    setStatus("Prompt melhorado localmente.");
+  }
+}
+
+function localFallback(body, reason){
+  const text = [
+    "PORTAL GENESIS LITE - FALLBACK LOCAL",
+    "",
+    `Tipo: ${body.type}`,
+    `Provider pedido: ${body.provider}`,
+    `Motivo: ${reason}`,
+    "",
+    "Prompt:",
+    body.prompt,
+    "",
+    "Entrega sugerida:",
+    "- Organizar briefing em objetivo, publico, estilo e formato.",
+    "- Gerar prompts por cena ou por arte.",
+    "- Exportar TXT/JSON para continuar no Studio, Print, Video ou LTX.",
+    "- Conferir chaves API na Vercel se quiser geracao real."
+  ].join("\\n");
+  return {ok:true,type:body.type,provider:"local-fallback",text,warning:reason,raw:{body}};
+}
+
+function renderResult(data){
+  const type = data.type || currentType;
+  const body = $("resultBody");
+  $("providerChip").textContent = data.provider || $("provider").value;
+
+  if(type === "image"){
+    const images = data.images || (data.image ? [{url:data.image,dataUrl:data.image}] : []);
+    if(images.length){
+      body.innerHTML = `<div class="media-grid">${images.map(img => `<div class="media-box"><img src="${escapeAttr(img.dataUrl || img.url || img.image || data.image)}" alt="Resultado"></div>`).join("")}</div>${data.warning ? `<p class="muted">${escapeHtml(data.warning)}</p>` : ""}`;
+    }else{
+      body.innerHTML = `<pre class="text-output">${escapeHtml(data.text || data.prompt || JSON.stringify(data,null,2))}</pre>`;
+    }
+    return;
+  }
+
+  if(type === "video"){
+    const url = data.videoUrl || data.url;
+    if(url){
+      body.innerHTML = `<div class="media-box"><video src="${escapeAttr(url)}" controls></video></div><pre class="json-output">${escapeHtml(JSON.stringify(data,null,2))}</pre>`;
+    }else{
+      body.innerHTML = `<pre class="text-output">${escapeHtml(data.text || data.message || JSON.stringify(data,null,2))}</pre>`;
+    }
+    return;
+  }
+
+  if(type === "voice"){
+    const url = data.audioUrl || data.url;
+    if(url){
+      body.innerHTML = `<div class="panel"><audio src="${escapeAttr(url)}" controls style="width:100%"></audio></div><pre class="json-output">${escapeHtml(JSON.stringify(data,null,2))}</pre>`;
+    }else{
+      body.innerHTML = `<pre class="text-output">${escapeHtml(data.text || data.message || JSON.stringify(data,null,2))}</pre>`;
+    }
+    return;
+  }
+
+  if(type === "package"){
+    body.innerHTML = `<pre class="json-output">${escapeHtml(JSON.stringify(data.package || data, null, 2))}</pre>`;
+    return;
+  }
+
+  body.innerHTML = `<pre class="text-output">${escapeHtml(data.text || data.content || data.message || JSON.stringify(data,null,2))}</pre>`;
+}
+
+function renderHistory(){
+  $("historyChip").textContent = history.length + " historico";
+  const list = $("historyList");
+  if(!history.length){
+    list.innerHTML = `<p class="muted">Sem historico ainda.</p>`;
+    return;
+  }
+  list.innerHTML = history.slice(0,10).map(item => `
+    <button class="history-item" data-id="${item.id}">
+      <strong>${escapeHtml(typeLabels[item.type] || item.type)} / ${escapeHtml(item.provider || "auto")}</strong>
+      <small>${escapeHtml(short(item.prompt,78))}</small>
+    </button>
+  `).join("");
+  list.querySelectorAll("[data-id]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const item = history.find(h => String(h.id) === btn.dataset.id);
+      if(!item) return;
+      currentType = item.type;
+      $("prompt").value = item.prompt;
+      lastResult = item.result;
+      renderType();
+      renderResult(item.result);
+      setStatus("Historico reaberto.");
+    });
+  });
+}
+
+async function loadStatus(){
+  try{
+    const response = await fetch("/api/ai-router", {credentials:"include"});
+    const data = await response.json();
+    renderApiStatus(data.providers || {});
+    $("apiChip").textContent = "APIs verificadas";
+    $("apiChip").className = "chip ok";
+  }catch(error){
+    renderApiStatus({});
+    $("apiChip").textContent = "APIs offline";
+    $("apiChip").className = "chip err";
+  }
+}
+
+function renderApiStatus(providers){
+  const names = [
+    ["Claude","claude"],
+    ["Gemini","gemini"],
+    ["Flux","flux"],
+    ["Pollinations","pollinations"],
+    ["LTX","ltx"],
+    ["Eleven","elevenlabs"]
+  ];
+  $("apiList").innerHTML = names.map(([label,key]) => {
+    const ok = providers[key]?.configured;
+    const text = ok ? "configurada" : "sem chave / fallback";
+    return `<div class="api-row"><strong>${label}</strong><code>${text}</code></div>`;
+  }).join("");
+}
+
+async function verifyAuth(){
+  try{
+    const r = await fetch("/api/auth-verify", {credentials:"include"});
+    const data = await r.json().catch(()=>({}));
+    if(r.ok && data.ok !== false){
+      $("authChip").textContent = "Auth: ok";
+      $("authChip").className = "chip ok";
+      return;
+    }
+    throw new Error("sem sessao");
+  }catch{
+    $("authChip").textContent = "Auth: livre/login";
+    $("authChip").className = "chip warn";
+  }
 }
 
 async function login(){
-  $('err').classList.remove('show');
   try{
-    const r = await fetch('/api/auth-login',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        username:$('user').value.trim(),
-        password:$('pass').value
-      })
-    });
-    if(!r.ok) throw new Error('login');
-    $('login').classList.add('hidden');
-    $('app').classList.remove('hidden');
-    showTab('portal');
-  }catch(e){
-    $('err').classList.add('show');
+    const data = await apiPost("/api/auth-login", {username:$("loginUser").value.trim(), password:$("loginPass").value});
+    $("loginPass").value = "";
+    $("authChip").textContent = "Auth: " + (data.user || "ok");
+    $("authChip").className = "chip ok";
+    setStatus("Login ok.");
+  }catch(error){
+    setStatus("Login falhou: " + error.message);
   }
 }
 
 async function logout(){
-  try{ await fetch('/api/auth-logout',{method:'POST'}); }catch(e){}
-  $('app').classList.add('hidden');
-  $('login').classList.remove('hidden');
-  $('pass').value = '';
+  try{await fetch("/api/auth-logout", {method:"POST", credentials:"include"})}catch{}
+  $("authChip").textContent = "Auth: saiu";
+  $("authChip").className = "chip warn";
+  setStatus("Sessao encerrada.");
 }
 
-function hideAll(){
-  $('portal').classList.add('hidden');
-  $('frame-studio').classList.remove('active');
-  $('frame-video').classList.remove('active');
-  $('frame-print').classList.remove('active');
-  $('vitrinePanel').classList.remove('active');
-  $('apiPanel').classList.remove('active');
+function renderType(){
+  document.querySelectorAll(".type-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.type === currentType));
+  $("modeTitle").textContent = typeLabels[currentType] || currentType;
 }
 
-function showTab(name){
-  ['portal','studio','video','print','vitrine','api'].forEach(n=>{
-    const tab = $('tab-'+n);
-    if(tab) tab.classList.toggle('active',n===name);
-  });
-
-  hideAll();
-
-  const labels = {
-    portal:'Portal Genesis ativo: vitrine, serviços, clientes e motores de produção.',
-    studio:'Studio Remotion Lab ativo: criação, testes, Fruits, presets e inovação.',
-    video:'Video Remotion ativo: produto audiovisual final em nodes, limpo e profissional.',
-    print:'Print Remotion ativo: produto gráfico, orçamento, arte, pré-impressão e entrega.',
-    vitrine:'Vitrine PG ativa: portfólio, serviços, redes, clientes e vendas.',
-    api:'API / Config ativo: autenticação, backend, provedores e segurança.'
-  };
-
-  if(name==='portal') $('portal').classList.remove('hidden');
-  if(name==='studio') $('frame-studio').classList.add('active');
-  if(name==='video') $('frame-video').classList.add('active');
-  if(name==='print') $('frame-print').classList.add('active');
-  if(name==='vitrine') $('vitrinePanel').classList.add('active');
-  if(name==='api') $('apiPanel').classList.add('active');
-
-  $('status').innerHTML = '<b>'+labels[name].split(':')[0]+':</b>' + (labels[name].includes(':') ? labels[name].slice(labels[name].indexOf(':')+1) : '');
+function exportTxt(){
+  const text = lastResult
+    ? (lastResult.text || lastResult.content || JSON.stringify(lastResult,null,2))
+    : "Sem resultado ainda.";
+  download("portal-genesis-lite-resultado.txt", text, "text/plain;charset=utf-8");
 }
 
-async function testAuth(){
-  const out = $('apiResult');
-  out.textContent = 'Testando /api/auth-verify...';
-  try{
-    const r = await fetch('/api/auth-verify');
-    out.textContent = r.ok
-      ? 'OK: autenticação ativa e sessão reconhecida.'
-      : 'Atenção: rota respondeu, mas a sessão não foi validada. Status: '+r.status;
-  }catch(e){
-    out.textContent = 'Erro: não consegui chamar /api/auth-verify. Verifique api/, middleware.js e variáveis da Vercel.';
+function exportJson(){
+  download("portal-genesis-lite-resultado.json", JSON.stringify({lastResult, history}, null, 2), "application/json;charset=utf-8");
+}
+
+function downloadResult(){
+  if(!lastResult){setStatus("Sem resultado para baixar.");return}
+  if(lastResult.type === "image" && (lastResult.image || lastResult.images?.[0]?.url || lastResult.images?.[0]?.dataUrl)){
+    const url = lastResult.image || lastResult.images[0].dataUrl || lastResult.images[0].url;
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "portal-genesis-image.png";
+    a.click();
+    return;
   }
+  exportTxt();
 }
 
-document.addEventListener('keydown',ev=>{
-  if(ev.key==='Enter' && !$('login').classList.contains('hidden')) login();
+function copyResult(){
+  if(!lastResult){setStatus("Sem resultado para copiar.");return}
+  const text = lastResult.text || lastResult.content || JSON.stringify(lastResult,null,2);
+  navigator.clipboard?.writeText(text).then(()=>setStatus("Resultado copiado.")).catch(()=>setStatus("Nao consegui copiar."));
+}
+
+function reusePrompt(){
+  if(!history.length){setStatus("Sem historico para reusar.");return}
+  $("prompt").value = history[0].prompt;
+  setStatus("Prompt reusado.");
+}
+
+function clearAll(){
+  if(!confirm("Limpar resultado e historico local?")) return;
+  lastResult = null;
+  history = [];
+  localStorage.removeItem(STORAGE_KEY);
+  $("resultBody").innerHTML = `<div class="empty"><div><h2>Digite um prompt e clique em Gerar</h2><p>O resultado aparece aqui em tamanho grande.</p></div></div>`;
+  renderHistory();
+  setStatus("Limpo.");
+}
+
+function download(name, content, type){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content], {type}));
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+function escapeHtml(value){
+  return String(value ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+
+function escapeAttr(value){return escapeHtml(value)}
+function short(value, max=100){const text=String(value||"").replace(/\\s+/g," ").trim();return text.length>max?text.slice(0,max-1)+"...":text}
+
+document.querySelectorAll(".type-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentType = btn.dataset.type;
+    renderType();
+  });
 });
 
-verify();
+$("provider").addEventListener("change", () => $("providerChip").textContent = $("provider").value);
+$("btnGenerate").addEventListener("click", generate);
+$("btnImprove").addEventListener("click", improvePrompt);
+$("btnStatus").addEventListener("click", loadStatus);
+$("btnLogin").addEventListener("click", login);
+$("btnLogout").addEventListener("click", logout);
+$("btnExportTxt").addEventListener("click", exportTxt);
+$("btnExportJson").addEventListener("click", exportJson);
+$("btnDownloadResult").addEventListener("click", downloadResult);
+$("btnCopy").addEventListener("click", copyResult);
+$("btnReuse").addEventListener("click", reusePrompt);
+$("btnClear").addEventListener("click", clearAll);
+
+document.addEventListener("keydown", event => {
+  if((event.ctrlKey || event.metaKey) && event.key === "Enter"){
+    event.preventDefault();
+    generate();
+  }
+});
+
+renderType();
+renderHistory();
+verifyAuth();
+loadStatus();
 </script>
 </body>
 </html>
