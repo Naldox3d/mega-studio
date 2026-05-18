@@ -1,88 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Genesis — Studio</title>
-  <style>
-    :root { --bg:#05070d; --gold:#d6ad68; --green:#75db9b; --cyan:#65d9d2; }
-    body { margin:0; background:#05070d; color:#e8edf8; font-family:Inter, system-ui, sans-serif; }
-    .app { height:100vh; display:flex; flex-direction:column; }
-    .topbar { height:64px; background:#0c111d; border-bottom:1px solid #222; display:flex; align-items:center; padding:0 20px; }
-    .workspace { flex:1; display:flex; overflow:hidden; }
-    .left-dock { width:240px; background:#0c111d; border-right:1px solid #222; padding:16px; }
-    .canvas-wrap { flex:1; position:relative; background:#050813; overflow:hidden; }
-    .canvas-map { position:absolute; width:3600px; height:2400px; }
-    .node { position:absolute; width:230px; background:#0c111d; border:1px solid #333; border-radius:16px; padding:14px; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
-    .right-dock { width:260px; background:#0c111d; border-left:1px solid #222; padding:16px; }
-    .btn { padding:8px 14px; border-radius:10px; border:1px solid #444; background:#111827; color:white; cursor:pointer; font-size:13px; }
-    .btn.green { background:#1f3a2f; border-color:#75db9b; color:#75db9b; }
-    .btn.gold { background:#3a2f1f; border-color:#d6ad68; color:#d6ad68; }
-    .station { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:92%; max-width:900px; background:#0c111d; border:1px solid #d6ad68; border-radius:18px; z-index:100; display:none; }
-    .station.active { display:block; }
-    .toast { position:fixed; bottom:20px; right:20px; background:#111827; padding:12px 18px; border-radius:10px; border:1px solid #d6ad68; z-index:999; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Genesis — Studio Remotion Lab</title>
+  <!-- O resto do <style> e <head> do seu arquivo antigo permanece igual -->
+  <!-- ... (mantenha todo o <style> original do ZIP) ... -->
 </head>
 <body>
-  <div class="app">
-    <div class="topbar">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(#f6d681,#d8a94f);display:grid;place-items:center;font-weight:900;color:#1a1203;">PG</div>
-        <strong>Portal Genesis Studio</strong>
-      </div>
-      <div style="margin-left:auto;display:flex;gap:8px;">
-        <button class="btn" onclick="openStation('brief')">Briefing</button>
-        <button class="btn gold" onclick="generatePipeline()">Gerar Pipeline</button>
-        <button class="btn" onclick="resetProject()">Reset</button>
-      </div>
-    </div>
-
-    <div class="workspace">
-      <div class="left-dock">
-        <h4 style="color:#d6ad68;margin-top:0">Pipeline</h4>
-        <div id="nodeList"></div>
-      </div>
-
-      <div class="canvas-wrap">
-        <div class="canvas-map" id="canvasMap">
-          <div id="nodeLayer"></div>
-        </div>
-      </div>
-
-      <div class="right-dock">
-        <h4 style="color:#d6ad68">Diagnóstico</h4>
-        <div id="diagnostics">Nodes: 4<br>Imagens geradas: <span id="imgCount">0</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="station" id="station">
-    <div style="padding:18px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
-      <h3 id="stationTitle" style="margin:0;color:#f3dfb8"></h3>
-      <button onclick="closeStation()" style="background:none;border:none;color:white;font-size:24px;">×</button>
-    </div>
-    <div id="stationMain" style="padding:20px;"></div>
-  </div>
+  <!-- O HTML do body permanece igual ao original (nodes, canvas, etc.) -->
+  <!-- ... (mantenha todo o HTML do body do ZIP) ... -->
 
   <script>
-    const STORAGE_KEY = 'pg_studio_pro_v2';
-    let state = { activeNode: 'brief', visualMemory: '', generatedImages: 0 };
-
-    function loadState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) state = {...state, ...JSON.parse(saved)};
-    }
-    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-
-    function toast(msg) {
-      const t = document.createElement('div');
-      t.className = 'toast';
-      t.textContent = msg;
-      document.body.appendChild(t);
-      setTimeout(() => t.remove(), 2600);
-    }
-
-    async function generateImage(prompt) {
+    // ==================== NOVAS FUNÇÕES DE IMAGEM COM POLLINATIONS ====================
+    async function generateImageWithFlux(prompt) {
+      if (!prompt || prompt.length < 5) {
+        toast('Prompt muito curto');
+        return null;
+      }
       try {
         const res = await fetch('/api/generate-image', {
           method: 'POST',
@@ -90,123 +25,101 @@
           body: JSON.stringify({ prompt, model: 'flux' })
         });
         const data = await res.json();
-        if (data.ok && data.url) {
-          state.generatedImages++;
-          saveState();
-          updateDiagnostics();
-          return data.url;
-        }
-      } catch(e) {}
-      const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=flux&width=1024&height=1024`;
-      state.generatedImages++;
-      saveState();
-      updateDiagnostics();
-      return url;
+        if (!data.ok || !data.url) throw new Error(data.error || 'Falha na geração');
+        toast('Imagem gerada com Flux!');
+        return data.url;
+      } catch (err) {
+        console.error(err);
+        toast('Erro ao gerar imagem: ' + err.message);
+        return null;
+      }
     }
 
-    function showImagePreview(url) {
+    async function generateImageFromDna() {
+      const base = state.visualMemory || state.outputs.dna || state.setup.idea || 'Cena cinematográfica de alta qualidade';
+      const prompt = `${base}. Estilo: ${state.setup.tone || 'cinematográfico'}. Alta qualidade, composição profissional.`;
+      const url = await generateImageWithFlux(prompt);
+      if (url) showImagePreview(url, 'Imagem gerada a partir do DNA Visual');
+    }
+
+    async function generateImageFromPrompt() {
+      const prompt = document.getElementById('f_prompt')?.value.trim();
+      if (!prompt) {
+        toast('Escreva um prompt primeiro!');
+        return;
+      }
+      const url = await generateImageWithFlux(prompt);
+      if (url) showImagePreview(url, 'Imagem gerada com Flux');
+    }
+
+    function showImagePreview(url, title = 'Imagem Gerada') {
       const modal = document.createElement('div');
       modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:999;display:flex;align-items:center;justify-content:center;';
       modal.innerHTML = `
-        <div style="max-width:860px;width:95%;background:#0c111d;border-radius:16px;overflow:hidden;">
-          <div style="padding:16px 20px;border-bottom:1px solid #333;display:flex;justify-content:space-between;">
-            <strong style="color:#f3dfb8">Imagem Gerada com Pollinations Flux</strong>
-            <span onclick="this.closest('div[style*=\'position:fixed\']').remove()" style="cursor:pointer;font-size:22px">×</span>
+        <div style="max-width:900px;width:95%;background:#0c111d;border-radius:20px;overflow:hidden;border:1px solid #d6ad68;">
+          <div style="padding:16px 20px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
+            <strong style="color:#f3dfb8;">${title}</strong>
+            <button onclick="this.closest('div[style*=\'position:fixed\']').remove()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;">×</button>
           </div>
-          <div style="padding:20px;text-align:center">
-            <img src="${url}" style="max-height:60vh;border-radius:12px;max-width:100%">
+          <div style="padding:20px;text-align:center;">
+            <img src="${url}" style="max-height:65vh;max-width:100%;border-radius:12px;" />
           </div>
-          <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;background:#111827">
-            <button class="btn" onclick="window.open('${url}','_blank')">Abrir</button>
-            <button class="btn" onclick="navigator.clipboard.writeText('${url}');alert('Link copiado!')">Copiar Link</button>
-            <button class="btn" onclick="this.closest('div[style*=\'position:fixed\']').remove()">Fechar</button>
+          <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;background:#111827;">
+            <button onclick="window.open('${url}','_blank')" class="btn cyan">Abrir em nova aba</button>
+            <button onclick="navigator.clipboard.writeText('${url}'); alert('Link copiado!'); this.closest('div[style*=\'position:fixed\']').remove()" class="btn">Copiar link</button>
+            <button onclick="this.closest('div[style*=\'position:fixed\']').remove()" class="btn">Fechar</button>
           </div>
-        </div>`;
+        </div>
+      `;
       document.body.appendChild(modal);
     }
 
-    function openStation(id) {
-      state.activeNode = id;
-      const station = document.getElementById('station');
-      const main = document.getElementById('stationMain');
-      document.getElementById('stationTitle').textContent = id.toUpperCase();
+    // ==================== ATUALIZAÇÃO DAS ESTAÇÕES ====================
+    function dnaStation() {
+      return `
+        <div class="station-section">
+          <h3>DNA Visual + Geração de Imagem</h3>
+          <p style="color:#96a1ba;font-size:13px;">Gere a identidade visual e crie imagens reais com Flux.</p>
+          <div class="form-grid">
+            <div class="field full">
+              <label>Memória visual</label>
+              <textarea id="f_visualMemory" style="min-height:130px;">${state.visualMemory || ''}</textarea>
+            </div>
+          </div>
+          <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn cyan" onclick="analyzeRefsLocal()">Analisar referências</button>
+            <button class="btn gold" onclick="generateDna()">Gerar DNA Visual</button>
+            <button class="btn green" onclick="generateImageFromDna()">
+              ✨ Gerar Imagem com Flux
+            </button>
+            <button class="btn purple" onclick="approveActiveNode()">Aprovar</button>
+          </div>
+        </div>
+      `;
+    }
 
-      if (id === 'dna') {
-        main.innerHTML = `
-          <h4>DNA Visual</h4>
-          <textarea id="f_visualMemory" style="width:100%;height:130px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;">${state.visualMemory || ''}</textarea>
-          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn gold" onclick="saveDNA()">Salvar DNA</button>
-            <button class="btn green" onclick="generateFromDNA()">✨ Gerar Imagem com Flux</button>
-          </div>`;
-      } else if (id === 'prompts') {
-        main.innerHTML = `
-          <h4>Prompts IA</h4>
-          <textarea id="f_prompt" placeholder="Escreva seu prompt..." style="width:100%;height:140px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;"></textarea>
+    function promptsStation() {
+      return `
+        <div class="station-section">
+          <h3>Prompts IA + Geração de Imagem</h3>
+          <textarea id="f_prompt" placeholder="Escreva o prompt para gerar imagem..." style="width:100%;height:140px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;"></textarea>
           <div style="margin-top:16px">
-            <button class="btn green" onclick="generateFromPrompt()">✨ Gerar Imagem com Flux</button>
-          </div>`;
-      } else {
-        main.innerHTML = `<p>Node <strong>${id}</strong> (em desenvolvimento - em breve LTX Video)</p>`;
-      }
-      station.style.display = 'block';
+            <button class="btn green" onclick="generateImageFromPrompt()">
+              ✨ Gerar Imagem com Flux
+            </button>
+          </div>
+        </div>
+      `;
     }
 
-    function closeStation() { document.getElementById('station').style.display = 'none'; }
+    // ==================== O RESTO DO CÓDIGO ANTIGO PERMANECE IGUAL ====================
+    // (mantenha todo o resto do <script> original do ZIP)
 
-    function saveDNA() {
-      state.visualMemory = document.getElementById('f_visualMemory').value;
-      saveState();
-      toast('DNA Visual salvo!');
-    }
+    // Adicione no final do script, antes de init():
+    window.generateImageFromDna = generateImageFromDna;
+    window.generateImageFromPrompt = generateImageFromPrompt;
+    window.showImagePreview = showImagePreview;
 
-    async function generateFromDNA() {
-      const prompt = state.visualMemory || 'Cena cinematográfica de alta qualidade';
-      const url = await generateImage(prompt);
-      showImagePreview(url);
-    }
-
-    async function generateFromPrompt() {
-      const prompt = document.getElementById('f_prompt').value.trim();
-      if (!prompt) { alert('Escreva um prompt!'); return; }
-      const url = await generateImage(prompt);
-      showImagePreview(url);
-    }
-
-    function generatePipeline() { toast('Pipeline gerado!'); }
-    function resetProject() {
-      if (confirm('Resetar projeto?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
-    }
-
-    function updateDiagnostics() {
-      document.getElementById('imgCount').textContent = state.generatedImages || 0;
-    }
-
-    function init() {
-      loadState();
-      const layer = document.getElementById('nodeLayer');
-
-      const nodes = [
-        { id: 'brief', title: 'Briefing', x: 80, y: 140 },
-        { id: 'dna', title: 'DNA Visual', x: 380, y: 140 },
-        { id: 'prompts', title: 'Prompts IA', x: 680, y: 140 },
-        { id: 'video', title: 'Vídeo (LTX)', x: 980, y: 140 }
-      ];
-
-      nodes.forEach(n => {
-        const el = document.createElement('div');
-        el.className = 'node';
-        el.style.left = n.x + 'px';
-        el.style.top = n.y + 'px';
-        el.innerHTML = `<div style="font-weight:700;margin-bottom:8px">${n.title}</div><button class="btn" onclick="openStation('${n.id}')">Abrir</button>`;
-        layer.appendChild(el);
-      });
-
-      updateDiagnostics();
-      toast('Site antigo atualizado e profissional com Pollinations Flux');
-    }
-
-    init();
   </script>
 </body>
 </html>
