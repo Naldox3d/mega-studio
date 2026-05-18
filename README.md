@@ -1,78 +1,33 @@
-# Portal Genesis Lite
+PORTAL GENESIS FLOW MODE - API READY
 
-Versao simples do Portal Genesis para usar todas as APIs em uma tela unica.
+ARQUIVOS:
+- index.html
+- /api/generate-text.js
+- /api/generate-image.js
+- /api/generate-audio.js
+- /api/generate-video.js
 
-## O que tem
+COMO USAR NO VERCEL:
+1) Coloque index.html na raiz do projeto.
+2) Crie a pasta /api/ e coloque os arquivos .js dentro dela.
+3) No painel da Vercel, adicione variaveis de ambiente se quiser gerar de verdade:
+   - OPENROUTER_API_KEY
+   - SITE_URL
+   - ELEVENLABS_API_KEY
+   - ELEVENLABS_VOICE_ID (opcional)
+   - ELEVENLABS_MODEL_ID (opcional)
+4) Deploy.
+5) No site, clique em API e confira se os endpoints estao assim:
+   /api/generate-text
+   /api/generate-image
+   /api/generate-audio
+   /api/generate-video
 
-- Prompt unico.
-- Resultado grande.
-- Tipos: texto, imagem, video, voz, print e pacote.
-- Historico local.
-- Exportacao TXT/JSON.
-- Login simples.
-- Rota central: `/api/ai-router`.
+FLUXO:
+- IMAGEM: funciona rapido com Pollinations.
+- AUDIO: funciona de verdade quando ELEVENLABS_API_KEY estiver configurada.
+- VIDEO: esta com scaffold pronto; voce pode plugar Runway/Kling/Luma/Replicate depois.
+- TEXTO/ROTEIRO: funciona com OpenRouter quando OPENROUTER_API_KEY estiver configurada.
 
-## Subir no GitHub/Vercel
-
-Suba estes arquivos na raiz do repositorio:
-
-```txt
-index.html
-middleware.js
-package.json
-api/
-docs/
-README.md
-```
-
-Depois faca redeploy na Vercel.
-
-## Variaveis da Vercel
-
-Obrigatorias para login:
-
-```txt
-ADMIN_USER=admin
-ADMIN_PASS=fruits2026
-SESSION_SECRET=coloque-uma-frase-grande-aqui
-```
-
-APIs, use as que voce tiver:
-
-```txt
-ANTHROPIC_API_KEY=...
-ANTHROPIC_MODEL=...
-
-GEMINI_API_KEY=...
-GEMINI_MODEL=...
-
-POLLINATIONS_API_KEY=...
-POLLINATIONS_IMAGE_MODEL=flux
-
-LTX_API_KEY=...
-LTX_API_URL=...
-
-ELEVENLABS_API_KEY=...
-ELEVENLABS_VOICE_ID=...
-```
-
-## Como funciona
-
-O frontend chama somente:
-
-```txt
-/api/ai-router
-```
-
-O `ai-router` escolhe a API:
-
-```txt
-Texto  -> Claude ou Gemini
-Imagem -> Pollinations/Flux
-Video  -> LTX
-Voz    -> ElevenLabs
-Print  -> Claude/Gemini
-Pacote -> JSON local
-```
-
-Se uma API falhar, a tela nao quebra. Ela retorna fallback local.
+OBSERVACAO IMPORTANTE:
+Nao deixe chaves fixas dentro do HTML. O ideal e sempre usar rotas /api e variaveis de ambiente.
