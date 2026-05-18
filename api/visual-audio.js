@@ -1,112 +1,36 @@
-/**
- * Portal Genesis – API de Áudio (TTS)
- * Arquivo: /api/visual-audio.js
- *
- * Suporta:
- * - ElevenLabs v3 TTS
- * - Qwen3-TTS Flash / Instruct (se quiser expandir)
- *
- * Variáveis de ambiente:
- * - AUDIO_API_KEY=sk_...           // chave principal ElevenLabs
- * - AUDIO_MODEL=elevenlabs         // modelo padrão
- *
- * Endpoint:
- * - GET  /api/visual-audio -> status da API
- * - POST /api/visual-audio -> gerar áudio
- */
+export default async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-const fetch = require("node-fetch");
+  const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+  const { prompt = '', model = process.env.ELEVENLABS_VOICE_ID || 'EXAVITQu4vr4xnSDxMaL' } = body;
 
-const MODEL_DEFAULT = process.env.AUDIO_MODEL || "elevenlabs";
-const API_KEY = process.env.AUDIO_API_KEY;
-
-function sendJson(res, status, data) {
-  res.status(status);
-  res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.end(JSON.stringify(data));
-}
-
-function parseBody(req) {
-  if (!req.body) return {};
-  if (typeof req.body === "string") {
-    try {
-      return JSON.parse(req.body);
-    } catch {
-      return {};
-    }
+  if (!process.env.ELEVENLABS_API_KEY) {
+    return res.status(200).json({
+      type: 'text',
+      output: `AUDIO LOCAL\n\nTexto para narracao:\n${prompt}\n\nConfigure ELEVENLABS_API_KEY para retornar o audio real.`
+    });
   }
-  return req.body;
-}
 
-// Função para chamar ElevenLabs TTS
-async function generateAudio(payload) {
-  const text = payload.text || payload.prompt;
-  const voice = payload.voice || "pt-BR-voz1";
-  const model = payload.model || MODEL_DEFAULT;
-
-  if (!text) throw new Error("Texto é obrigatório para gerar áudio.");
-  if (!API_KEY) throw new Error("Chave de API de áudio não configurada.");
-
-  const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voice}`;
-
-  const response = await fetch(apiUrl, {
-    method: "POST",
+  const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${model}`, {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "xi-api-key": API_KEY,
+      'xi-api-key': process.env.ELEVENLABS_API_KEY,
+      'Content-Type': 'application/json',
+      'Accept': 'audio/mpeg'
     },
     body: JSON.stringify({
-      text,
-      model: model,
-      voice: voice,
-    }),
+      text: prompt,
+      model_id: process.env.ELEVENLABS_MODEL_ID || 'eleven_multilingual_v2',
+      voice_settings: { stability: 0.45, similarity_boost: 0.75 }
+    })
   });
 
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Erro ao gerar áudio: ${response.status} - ${errText}`);
+  if (!r.ok) {
+    const errText = await r.text();
+    return res.status(500).json({ type: 'text', output: 'Falha ao gerar audio: ' + errText });
   }
 
-  const arrayBuffer = await response.arrayBuffer();
-  const base64Audio = Buffer.from(arrayBuffer).toString("base64");
-  return `data:audio/mpeg;base64,${base64Audio}`;
+  const arrayBuffer = await r.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString('base64');
+  return res.status(200).json({ type: 'audio', base64, text: prompt });
 }
-
-module.exports = async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") return res.status(204).end();
-
-  if (req.method === "GET") {
-    return sendJson(res, 200, {
-      ok: true,
-      route: "/api/visual-audio",
-      provider: "elevenlabs",
-      model: MODEL_DEFAULT,
-      hasKey: !!API_KEY,
-      message: "API de áudio ativa. Use POST para gerar TTS.",
-    });
-  }
-
-  if (req.method !== "POST") {
-    return sendJson(res, 405, { ok: false, error: "Método não permitido" });
-  }
-
-  const payload = parseBody(req);
-
-  try {
-    const audioDataUrl = await generateAudio(payload);
-    return sendJson(res, 200, {
-      ok: true,
-      audioUrl: audioDataUrl,
-      message: "Áudio gerado com sucesso",
-    });
-  } catch (err) {
-    return sendJson(res, 500, {
-      ok: false,
-      error: err.message || "Erro interno ao gerar áudio",
-    });
-  }
-};
