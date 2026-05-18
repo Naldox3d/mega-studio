@@ -83,8 +83,15 @@
           <div class="panel-title"><h3>Direcao da criacao</h3><span class="tag" id="currentTypeTag">Imagem</span></div>
           <div class="form-row"><label>Pedido principal</label><textarea id="workPrompt"></textarea></div>
           <div class="two">
-            <div class="form-row"><label>Provedor</label><select id="providerSelect"><option value="offline">Modo local inteligente</option><option value="pollinations">Pollinations / Flux</option><option value="openrouter">OpenRouter</option><option value="gemini">Gemini</option><option value="custom">Custom / backend proprio</option></select></div>
+            <div class="form-row"><label>Provedor</label><select id="providerSelect"><option value="offline">Modo local inteligente</option><option value="pollinations">Pollinations</option><option value="openrouter">OpenRouter</option><option value="gemini">Gemini</option><option value="custom">Custom / backend proprio</option></select></div>
             <div class="form-row"><label>Formato</label><select id="formatSelect"><option value="9:16 vertical">9:16 vertical</option><option value="16:9 horizontal">16:9 horizontal</option><option value="1:1 quadrado">1:1 quadrado</option><option value="4:5 social">4:5 social</option></select></div>
+          </div>
+          <div class="form-row" id="imageModelRow">
+            <label>Modelo de imagem</label>
+            <select id="imageModelSelect">
+              <option value="flux">Flux</option>
+              <option value="gptimage2">GPT Image 2</option>
+            </select>
           </div>
           <div class="form-row"><label>Estilo visual</label><select id="styleSelect"><option>Cinematico 2D</option><option>Motion comic / anime 2D</option><option>Storyboard tecnico</option><option>Realista comercial</option><option>Dark fantasy</option><option>Produto para vendas</option></select></div>
           <div class="three"><div class="form-row"><label>Duracao</label><input id="durationInput" value="8s" /></div><div class="form-row"><label>Tom</label><input id="toneInput" value="cinematico, claro, impactante" /></div><div class="form-row"><label>Publico</label><input id="audienceInput" value="shorts, reels, tiktok" /></div></div>
@@ -113,7 +120,7 @@
   <div class="two">
     <div class="form-row"><label>Endpoint texto / roteiro</label><input id="textEndpoint" value="/api/generate-text" /></div>
     <div class="form-row"><label>Modelo texto</label><input id="textModel" value="openrouter/auto" /></div>
-    <div class="form-row"><label>Endpoint imagem</label><input id="imageEndpoint" value="/api/generate-image" /></div>
+    <div class="form-row"><label>Endpoint imagem</label><input id="imageEndpoint" value="/api/visual-image" /></div>
     <div class="form-row"><label>Modelo imagem</label><input id="imageModel" value="flux" /></div>
     <div class="form-row"><label>Endpoint audio</label><input id="audioEndpoint" value="/api/generate-audio" /></div>
     <div class="form-row"><label>Voice ID / modelo voz</label><input id="audioModel" value="EXAVITQu4vr4xnSDxMaL" /></div>
@@ -129,23 +136,37 @@
 (function(){
   'use strict';
   const $=(id)=>document.getElementById(id);
-  const state={type:'image',projectTitle:'Sem titulo',lastOutput:'',lastMedia:null,projects:[],api:{},prompt:''};
+  const state={type:'image',imageModel:'flux',projectTitle:'Sem titulo',lastOutput:'',lastMedia:null,projects:[],api:{},prompt:''};
   const storageKey='portal_genesis_flow_mode_api_ready_v1';
-  function load(){try{Object.assign(state,JSON.parse(localStorage.getItem(storageKey)||'{}'));}catch(e){} state.projects=Array.isArray(state.projects)?state.projects:[]; state.api=state.api||{}; $('mainPrompt').value=state.prompt||''; $('projectLabel').textContent='Projeto: '+(state.projectTitle||'Sem titulo'); renderRecent(); loadApiFields(); setType(state.type||'image',false);}
-  function persist(){state.prompt=$('mainPrompt').value; localStorage.setItem(storageKey,JSON.stringify(state)); $('autosaveLabel').textContent='autosave ativo';}
+  function load(){try{Object.assign(state,JSON.parse(localStorage.getItem(storageKey)||'{}'));}catch(e){} state.projects=Array.isArray(state.projects)?state.projects:[]; state.api=state.api||{}; $('mainPrompt').value=state.prompt||''; $('projectLabel').textContent='Projeto: '+(state.projectTitle||'Sem titulo'); renderRecent(); loadApiFields(); if($('imageModelSelect')) $('imageModelSelect').value = state.imageModel || 'flux'; setType(state.type||'image',false);}
+  function persist(){state.prompt=$('mainPrompt').value; if($('imageModelSelect')) state.imageModel=$('imageModelSelect').value || 'flux'; localStorage.setItem(storageKey,JSON.stringify(state)); $('autosaveLabel').textContent='autosave ativo';}
   function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._timer);toast._timer=setTimeout(()=>t.classList.remove('show'),1800)}
-  function setType(type,persistNow=true){state.type=type; document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===type)); const names={image:'Imagem',audio:'Audio',video:'Video',storyboard:'Storyboard',script:'Roteiro',full:'Pacote completo'}; $('modeLabel').textContent='Modo: '+names[type]; $('currentTypeTag').textContent=names[type]; const titles={image:['Criar imagem','Gere uma imagem e depois continue para video, roteiro ou pacote tecnico.'],audio:['Criar audio','Gere voz, narracao ou audio base a partir do seu texto.'],video:['Criar video','Transforme a ideia em prompt ou video IA com camera, acao e som.'],storyboard:['Criar storyboard','Quebre a ideia em quadros, acao e continuidade visual.'],script:['Criar roteiro visual','Monte historia, virada, payoff e CTA.'],full:['Criar pacote completo','Gere briefing, roteiro, imagem, audio, video, SRT e exportacao.']}; $('workspaceTitle').textContent=titles[type][0]; $('workspaceSub').textContent=titles[type][1]; if(persistNow)persist();}
+  function setType(type,persistNow=true){state.type=type; document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===type)); const names={image:'Imagem',audio:'Audio',video:'Video',storyboard:'Storyboard',script:'Roteiro',full:'Pacote completo'}; $('modeLabel').textContent='Modo: '+names[type]; $('currentTypeTag').textContent=names[type]; const titles={image:['Criar imagem','Gere uma imagem e depois continue para video, roteiro ou pacote tecnico.'],audio:['Criar audio','Gere voz, narracao ou audio base a partir do seu texto.'],video:['Criar video','Transforme a ideia em prompt ou video IA com camera, acao e som.'],storyboard:['Criar storyboard','Quebre a ideia em quadros, acao e continuidade visual.'],script:['Criar roteiro visual','Monte historia, virada, payoff e CTA.'],full:['Criar pacote completo','Gere briefing, roteiro, imagem, audio, video, SRT e exportacao.']}; $('workspaceTitle').textContent=titles[type][0]; $('workspaceSub').textContent=titles[type][1]; syncImageModelVisibility(); if(persistNow)persist();}
   function showWork(){const prompt=$('mainPrompt').value.trim(); $('workPrompt').value=prompt||$('workPrompt').value||''; $('homeView').style.display='none'; $('workView').classList.add('active'); persist();}
   function showHome(){ $('homeView').style.display='grid'; $('workView').classList.remove('active'); renderRecent(); }
-  function getContext(){return{type:state.type,prompt:$('workPrompt').value.trim(),provider:$('providerSelect').value,format:$('formatSelect').value,style:$('styleSelect').value,duration:$('durationInput').value.trim(),tone:$('toneInput').value.trim(),audience:$('audienceInput').value.trim()}}
+  function syncImageModelVisibility(){const row=$('imageModelRow'); if(!row) return; const show=state.type==='image' && $('providerSelect') && $('providerSelect').value==='pollinations'; row.style.display=show?'grid':'none';}
+  function getContext(){return{type:state.type,prompt:$('workPrompt').value.trim(),provider:$('providerSelect').value,imageModel:$('imageModelSelect') ? $('imageModelSelect').value : (state.imageModel || 'flux'),format:$('formatSelect').value,style:$('styleSelect').value,duration:$('durationInput').value.trim(),tone:$('toneInput').value.trim(),audience:$('audienceInput').value.trim()}}
   function buildOutput(ctx){const base=ctx.prompt||'Projeto autoral com visual forte e narrativa clara.'; if(ctx.type==='image') return `PROMPT DE IMAGEM\nFormato: ${ctx.format}\nEstilo: ${ctx.style}\nTema: ${base}\n\nComposicao cinematografica, luz dramatica, leitura forte no celular, profundidade de campo e foco claro.`; if(ctx.type==='audio') return `TEXTO PARA NARRACAO / AUDIO\nTom: ${ctx.tone}\nDuracao sugerida: ${ctx.duration}\n\n${base}\n\nLeia com pausas naturais, intencao dramatica e clareza.`; if(ctx.type==='video') return `PROMPT DE VIDEO IA\nFormato: ${ctx.format}\nDuracao: ${ctx.duration}\nTema: ${base}\n\nCena com push-in suave, acao em tres momentos, atmosfera, SFX e continuidade.`; if(ctx.type==='storyboard') return `STORYBOARD - 5 QUADROS\nTema: ${base}\n1. Abertura\n2. Aproximacao\n3. Virada\n4. Reacao\n5. Gancho`; if(ctx.type==='script') return `ROTEIRO VISUAL CURTO\nTema: ${base}\nGancho, comeco, meio, virada, payoff e CTA.`; return `PACOTE COMPLETO\nTema: ${base}\nInclua briefing, roteiro, imagem, audio, video, SRT e CapCut Motion Book.`;}
   function getEndpoint(type){const api=state.api||{}; const map={image:'imageEndpoint',audio:'audioEndpoint',video:'videoEndpoint',storyboard:'textEndpoint',script:'textEndpoint',full:'textEndpoint'}; return api[map[type]]||''}
   function getModel(type){const api=state.api||{}; const map={image:'imageModel',audio:'audioModel',video:'videoModel',storyboard:'textModel',script:'textModel',full:'textModel'}; return api[map[type]]||''}
   async function callProvider(ctx){
     if(ctx.provider==='offline') return {kind:'text',text:buildOutput(ctx)};
     if(ctx.type==='image' && ctx.provider==='pollinations'){
-      const prompt=encodeURIComponent(`${ctx.prompt}. ${ctx.style}. ${ctx.format}. cinematic, high quality`);
-      return {kind:'image',url:`https://image.pollinations.ai/prompt/${prompt}?width=1024&height=1792&seed=${Date.now()}` ,text:buildOutput(ctx)};
+      const endpoint = (state.api && state.api.imageEndpoint) ? state.api.imageEndpoint : '/api/visual-image';
+      const payload = {prompt:ctx.prompt,style:ctx.style,format:ctx.format,provider:'pollinations',model:ctx.imageModel || 'flux'};
+      try{
+        const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        if(!res.ok) throw new Error('Erro na rota de imagem: '+res.status);
+        const data=await res.json();
+        if(data.type==='image' && data.url){
+          return {kind:'image',url:data.url,text:`MODELO DE IMAGEM: ${data.model || ctx.imageModel || 'flux'}\n\nPROMPT:\n${ctx.prompt}\n\nURL:\n${data.url}`};
+        }
+        return {kind:'text',text:data.output || JSON.stringify(data,null,2)};
+      }catch(e){
+        const prompt=encodeURIComponent(`${ctx.prompt}. ${ctx.style}. ${ctx.format}. cinematic, high quality`);
+        const model=encodeURIComponent(ctx.imageModel || 'flux');
+        return {kind:'image',url:`https://image.pollinations.ai/prompt/${prompt}?model=${model}&width=1024&height=1792&seed=${Date.now()}`,text:`Fallback direto Pollinations\nModelo: ${ctx.imageModel || 'flux'}\nMotivo: ${e.message}`};
+      }
     }
     const endpoint=getEndpoint(ctx.type);
     if(!endpoint) return {kind:'text',text:buildOutput(ctx)};
@@ -176,7 +197,7 @@
   function clearApi(){state.api={}; persist(); loadApiFields(); toast('APIs limpas')}
   function resetAll(){if(confirm('Limpar projeto local e voltar ao inicio?')){localStorage.removeItem(storageKey); location.reload()}}
   document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>setType(b.dataset.type)));
-  $('startBtn').addEventListener('click',showWork); $('homeBtn').addEventListener('click',showHome); $('backHomeBtn').addEventListener('click',showHome); $('generateBtn').addEventListener('click',generate); $('improveBtn').addEventListener('click',improvePrompt); $('referenceBtn').addEventListener('click',()=>toast('Cole a descricao da referencia no prompt ou envie pela sua rota de API.')); $('saveProjectBtn').addEventListener('click',saveProject); $('toImageBtn').addEventListener('click',()=>switchWorkType('image')); $('toAudioBtn').addEventListener('click',()=>switchWorkType('audio')); $('toVideoBtn').addEventListener('click',()=>switchWorkType('video')); $('toScriptBtn').addEventListener('click',()=>switchWorkType('script')); $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value=($('workPrompt').value||'')+'\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();}); $('downloadBtn').addEventListener('click',downloadTxt); $('shareBtn').addEventListener('click',share); $('apiBtn').addEventListener('click',openApi); $('closeApi').addEventListener('click',closeApi); $('saveApiBtn').addEventListener('click',saveApi); $('clearApiBtn').addEventListener('click',clearApi); $('exportBtn').addEventListener('click',exportJson); $('resetBtn').addEventListener('click',resetAll); $('mainPrompt').addEventListener('input',persist); window.addEventListener('beforeunload',persist); load();
+  $('providerSelect').addEventListener('change',()=>{syncImageModelVisibility(); persist();}); $('imageModelSelect').addEventListener('change',persist); $('startBtn').addEventListener('click',showWork); $('homeBtn').addEventListener('click',showHome); $('backHomeBtn').addEventListener('click',showHome); $('generateBtn').addEventListener('click',generate); $('improveBtn').addEventListener('click',improvePrompt); $('referenceBtn').addEventListener('click',()=>toast('Cole a descricao da referencia no prompt ou envie pela sua rota de API.')); $('saveProjectBtn').addEventListener('click',saveProject); $('toImageBtn').addEventListener('click',()=>switchWorkType('image')); $('toAudioBtn').addEventListener('click',()=>switchWorkType('audio')); $('toVideoBtn').addEventListener('click',()=>switchWorkType('video')); $('toScriptBtn').addEventListener('click',()=>switchWorkType('script')); $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value=($('workPrompt').value||'')+'\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();}); $('downloadBtn').addEventListener('click',downloadTxt); $('shareBtn').addEventListener('click',share); $('apiBtn').addEventListener('click',openApi); $('closeApi').addEventListener('click',closeApi); $('saveApiBtn').addEventListener('click',saveApi); $('clearApiBtn').addEventListener('click',clearApi); $('exportBtn').addEventListener('click',exportJson); $('resetBtn').addEventListener('click',resetAll); $('mainPrompt').addEventListener('input',persist); window.addEventListener('beforeunload',persist); load();
 })();
 </script>
 </body>
