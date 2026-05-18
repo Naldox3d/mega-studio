@@ -5,21 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Genesis — Studio</title>
   <style>
-    :root { --bg:#05070d; --gold:#d6ad68; --green:#75db9b; --cyan:#65d9d2; }
+    :root { --bg:#05070d; --gold:#d6ad68; --green:#75db9b; }
     body { margin:0; background:#05070d; color:#e8edf8; font-family:Inter, system-ui, sans-serif; }
     .app { height:100vh; display:flex; flex-direction:column; }
     .topbar { height:64px; background:#0c111d; border-bottom:1px solid #222; display:flex; align-items:center; padding:0 20px; }
     .workspace { flex:1; display:flex; overflow:hidden; }
     .left-dock { width:240px; background:#0c111d; border-right:1px solid #222; padding:16px; }
     .canvas-wrap { flex:1; position:relative; background:#050813; overflow:hidden; }
-    .canvas-map { position:absolute; width:3000px; height:2000px; }
-    .node { position:absolute; width:220px; background:#0c111d; border:1px solid #333; border-radius:14px; padding:14px; cursor:pointer; }
+    .canvas-map { position:absolute; width:3200px; height:2200px; }
+    .node { position:absolute; width:230px; background:#0c111d; border:1px solid #333; border-radius:16px; padding:14px; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
     .right-dock { width:260px; background:#0c111d; border-left:1px solid #222; padding:16px; }
     .btn { padding:8px 14px; border-radius:10px; border:1px solid #444; background:#111827; color:white; cursor:pointer; font-size:13px; }
     .btn.green { background:#1f3a2f; border-color:#75db9b; color:#75db9b; }
     .btn.gold { background:#3a2f1f; border-color:#d6ad68; color:#d6ad68; }
-    .btn.cyan { background:#1a3a3a; border-color:#65d9d2; color:#65d9d2; }
-    .station { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:92%; max-width:900px; background:#0c111d; border:1px solid #d6ad68; border-radius:18px; z-index:100; display:none; }
+    .station { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:92%; max-width:880px; background:#0c111d; border:1px solid #d6ad68; border-radius:18px; z-index:100; display:none; }
     .station.active { display:block; }
     .toast { position:fixed; bottom:20px; right:20px; background:#111827; padding:12px 18px; border-radius:10px; border:1px solid #d6ad68; z-index:999; }
   </style>
@@ -40,28 +39,28 @@
     </div>
 
     <div class="workspace">
-      <!-- Left -->
+      <!-- Left Dock -->
       <div class="left-dock">
         <h4 style="color:#d6ad68;margin-top:0">Pipeline</h4>
         <div id="nodeList"></div>
       </div>
 
       <!-- Canvas -->
-      <div class="canvas-wrap">
+      <div class="canvas-wrap" id="canvasWrap">
         <div class="canvas-map" id="canvasMap">
           <div id="nodeLayer"></div>
         </div>
       </div>
 
-      <!-- Right -->
+      <!-- Right Dock -->
       <div class="right-dock">
         <h4 style="color:#d6ad68">Diagnóstico</h4>
-        <div id="diagnostics">Nodes: 4<br>Imagens: <span id="imgCount">0</span></div>
+        <div id="diagnostics">Nodes: 4<br>Imagens geradas: <span id="imgCount">0</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Station -->
+  <!-- Station Modal -->
   <div class="station" id="station">
     <div style="padding:18px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
       <h3 id="stationTitle" style="margin:0;color:#f3dfb8"></h3>
@@ -71,7 +70,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'pg_studio_v7';
+    const STORAGE_KEY = 'pg_studio_clean_v1';
     let state = { activeNode: 'brief', visualMemory: '', generatedImages: 0 };
 
     function loadState() {
@@ -105,7 +104,7 @@
         }
       } catch(e) {}
 
-      // Fallback direto
+      // Fallback
       const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=flux&width=1024&height=1024`;
       state.generatedImages++;
       saveState();
@@ -119,7 +118,7 @@
       modal.innerHTML = `
         <div style="max-width:860px;width:95%;background:#0c111d;border-radius:16px;overflow:hidden;">
           <div style="padding:16px 20px;border-bottom:1px solid #333;display:flex;justify-content:space-between;">
-            <strong style="color:#f3dfb8">Imagem Gerada</strong>
+            <strong style="color:#f3dfb8">Imagem Gerada com Flux</strong>
             <span onclick="this.closest('div[style*=\'position:fixed\']').remove()" style="cursor:pointer;font-size:22px">×</span>
           </div>
           <div style="padding:20px;text-align:center">
@@ -147,7 +146,7 @@
           <textarea id="f_visualMemory" style="width:100%;height:130px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;">${state.visualMemory || ''}</textarea>
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn gold" onclick="saveDNA()">Salvar DNA</button>
-            <button class="btn green" onclick="generateFromDNA()">✨ Gerar Imagem (Flux)</button>
+            <button class="btn green" onclick="generateFromDNA()">✨ Gerar Imagem com Flux</button>
           </div>`;
       } 
       else if (id === 'prompts') {
@@ -155,11 +154,8 @@
           <h4>Prompts IA</h4>
           <textarea id="f_prompt" placeholder="Escreva seu prompt..." style="width:100%;height:140px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;"></textarea>
           <div style="margin-top:16px">
-            <button class="btn green" onclick="generateFromPrompt()">✨ Gerar Imagem (Flux)</button>
+            <button class="btn green" onclick="generateFromPrompt()">✨ Gerar Imagem com Flux</button>
           </div>`;
-      } 
-      else if (id === 'video') {
-        main.innerHTML = `<p>Node de Vídeo (LTX) - Em breve</p>`;
       } 
       else {
         main.innerHTML = `<p>Node <strong>${id}</strong> (em desenvolvimento)</p>`;
@@ -192,7 +188,7 @@
 
     function generatePipeline() { toast('Pipeline gerado!'); }
     function resetProject() {
-      if (confirm('Resetar tudo?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+      if (confirm('Resetar projeto?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
     }
 
     function updateDiagnostics() {
@@ -204,10 +200,10 @@
       const layer = document.getElementById('nodeLayer');
 
       const nodes = [
-        { id: 'brief', title: 'Briefing', x: 60, y: 120 },
-        { id: 'dna', title: 'DNA Visual', x: 340, y: 120 },
-        { id: 'prompts', title: 'Prompts IA', x: 620, y: 120 },
-        { id: 'video', title: 'Vídeo (LTX)', x: 900, y: 120 }
+        { id: 'brief', title: 'Briefing', x: 80, y: 140 },
+        { id: 'dna', title: 'DNA Visual', x: 380, y: 140 },
+        { id: 'prompts', title: 'Prompts IA', x: 680, y: 140 },
+        { id: 'video', title: 'Vídeo (LTX)', x: 980, y: 140 }
       ];
 
       nodes.forEach(n => {
@@ -221,7 +217,7 @@
       });
 
       updateDiagnostics();
-      toast('Studio atualizado com backend + Pollinations');
+      toast('Studio limpo e atualizado com Pollinations Flux');
     }
 
     init();
