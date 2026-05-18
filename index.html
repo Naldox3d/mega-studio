@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080b13" />
-  <title>Portal Genesis Mega Studio - Flow Mode API Ready v2 Flux GPT Image 2</title>
+  <title>Portal Genesis Mega Studio - Flow Mode API Ready v3 API Download Confirm</title>
   <style>
     :root{--bg:#060810;--panel:#101522;--line:rgba(255,255,255,.10);--txt:#f5f7fb;--muted:#9aa7bc;--soft:#c7d2e4;--cyan:#80e8da;--gold:#f5c66b;--green:#68df91;--red:#ff7185;--shadow:0 18px 60px rgba(0,0,0,.45);--radius:24px;--safe-bottom: env(safe-area-inset-bottom, 0px);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
     *{box-sizing:border-box} html,body{margin:0;min-height:100%;background:radial-gradient(circle at 30% -10%,rgba(128,232,218,.15),transparent 35%),radial-gradient(circle at 90% 10%,rgba(245,198,107,.10),transparent 30%),var(--bg);color:var(--txt)} body{overflow-x:hidden}
@@ -40,7 +40,7 @@
     <div class="brand"><div class="logo">PG</div><div><h1>Portal Genesis Mega Studio</h1><small>Video - Print - Sales - API</small></div></div>
     <div class="top-actions">
       <button class="pill cyan keep" id="homeBtn">Home</button>
-      <button class="pill" id="apiBtn">API</button>
+      <button class="pill cyan keep" id="apiBtn">API / Modelo</button>
       <button class="pill green" id="exportBtn">Exportar</button>
       <button class="pill danger" id="resetBtn">Reset</button>
     </div>
@@ -65,7 +65,7 @@
         <div class="statusbar">
           <span class="mini" id="autosaveLabel">autosave ativo</span>
           <span class="mini" id="projectLabel">Projeto: Sem titulo</span>
-          <span class="mini" id="modeLabel">Modo: Imagem</span><span class="mini">v2 Flux + GPT Image 2</span>
+          <span class="mini" id="modeLabel">Modo: Imagem</span><span class="mini">v3 API visivel + download imagem</span>
         </div>
       </div>
       <div>
@@ -106,6 +106,8 @@
             <button class="btn" id="toScriptBtn">Roteiro</button>
             <button class="btn" id="toSrtBtn">SRT / CapCut</button>
             <button class="btn green" id="downloadBtn">Baixar TXT</button>
+            <button class="btn green" id="downloadMediaBtn">Baixar imagem/video</button>
+            <button class="btn cyan" id="apiBottomBtn">Trocar API/modelo</button>
             <button class="btn" id="shareBtn">Compartilhar</button>
           </div>
         </section>
@@ -194,6 +196,35 @@
   function saveProject(){const titleSource=($('workPrompt').value||$('mainPrompt').value||'Projeto sem titulo').trim(); state.projectTitle=titleSource.slice(0,42); const item={id:Date.now(),title:state.projectTitle,type:state.type,output:state.lastOutput,media:state.lastMedia,prompt:$('workPrompt').value,created:new Date().toLocaleString('pt-BR')}; state.projects=[item,...state.projects.filter(p=>p.title!==item.title)].slice(0,8); $('projectLabel').textContent='Projeto: '+state.projectTitle; persist(); renderRecent(); toast('Projeto salvo')}
   function renderRecent(){const wrap=$('recentProjects'); if(!state.projects.length){wrap.innerHTML=`<button class="project-card" id="newProjectCard"><span class="tag">Novo</span><strong>+ Novo projeto</strong><span class="muted">Comece por imagem, audio, video, storyboard ou pacote completo.</span></button>`; setTimeout(()=>$('newProjectCard')?.addEventListener('click',()=>{$('mainPrompt').focus();}),0); return} wrap.innerHTML=state.projects.map(p=>`<button class="project-card" data-open="${p.id}"><span class="tag">${escapeHtml(p.type)}</span><strong>${escapeHtml(p.title)}</strong><span class="muted">${escapeHtml(p.created)}</span></button>`).join(''); wrap.querySelectorAll('[data-open]').forEach(btn=>btn.addEventListener('click',()=>{const p=state.projects.find(x=>String(x.id)===btn.dataset.open); if(!p)return; setType(p.type||'image'); $('mainPrompt').value=p.prompt||''; $('workPrompt').value=p.prompt||''; state.lastOutput=p.output||''; state.lastMedia=p.media||null; showWork(); if(p.media||p.output) renderOutput(p.media||{kind:'text',text:p.output||''},getContext())}))}
   function downloadTxt(){const text=state.lastOutput||buildOutput(getContext()); const blob=new Blob([text],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='portal-genesis-saida.txt'; a.click(); URL.revokeObjectURL(a.href); toast('TXT baixado')}
+  async function downloadMedia(){
+    const media=state.lastMedia;
+    if(!media || !media.url){toast('Nenhuma imagem/video para baixar.');return}
+    const ext=media.kind==='video'?'mp4':media.kind==='audio'?'mp3':'png';
+    const filename='portal-genesis-'+media.kind+'-'+Date.now()+'.'+ext;
+    try{
+      const res=await fetch(media.url,{mode:'cors'});
+      if(!res.ok) throw new Error('download bloqueado');
+      const blob=await res.blob();
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+      toast('Midia baixada');
+    }catch(e){
+      const a=document.createElement('a');
+      a.href=media.url;
+      a.target='_blank';
+      a.rel='noopener';
+      a.download=filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast('Abrindo midia para salvar manualmente');
+    }
+  }
   async function share(){const text=state.lastOutput||$('workPrompt').value||$('mainPrompt').value; if(navigator.share){try{await navigator.share({title:'Portal Genesis Mega Studio',text});}catch(e){}} else {await navigator.clipboard.writeText(text); toast('Copiado para compartilhar')}}
   function exportJson(){const data=JSON.stringify(state,null,2); const blob=new Blob([data],{type:'application/json;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='portal-genesis-projeto.json'; a.click(); URL.revokeObjectURL(a.href); toast('JSON exportado')}
   function openApi(){$('apiDrawer').classList.add('open')} function closeApi(){$('apiDrawer').classList.remove('open')}
@@ -202,7 +233,7 @@
   function clearApi(){state.api={}; persist(); loadApiFields(); toast('APIs limpas')}
   function resetAll(){if(confirm('Limpar projeto local e voltar ao inicio?')){localStorage.removeItem(storageKey); location.reload()}}
   document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>setType(b.dataset.type)));
-  $('providerSelect').addEventListener('change',()=>{syncImageModelVisibility(); persist();}); $('imageModelSelect').addEventListener('change',persist); $('startBtn').addEventListener('click',showWork); $('homeBtn').addEventListener('click',showHome); $('backHomeBtn').addEventListener('click',showHome); $('generateBtn').addEventListener('click',generate); $('improveBtn').addEventListener('click',improvePrompt); $('referenceBtn').addEventListener('click',()=>toast('Cole a descricao da referencia no prompt ou envie pela sua rota de API.')); $('saveProjectBtn').addEventListener('click',saveProject); $('toImageBtn').addEventListener('click',()=>switchWorkType('image')); $('toAudioBtn').addEventListener('click',()=>switchWorkType('audio')); $('toVideoBtn').addEventListener('click',()=>switchWorkType('video')); $('toScriptBtn').addEventListener('click',()=>switchWorkType('script')); $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value=($('workPrompt').value||'')+'\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();}); $('downloadBtn').addEventListener('click',downloadTxt); $('shareBtn').addEventListener('click',share); $('apiBtn').addEventListener('click',openApi); $('closeApi').addEventListener('click',closeApi); $('saveApiBtn').addEventListener('click',saveApi); $('clearApiBtn').addEventListener('click',clearApi); $('exportBtn').addEventListener('click',exportJson); $('resetBtn').addEventListener('click',resetAll); $('mainPrompt').addEventListener('input',persist); window.addEventListener('beforeunload',persist); load();
+  $('providerSelect').addEventListener('change',()=>{syncImageModelVisibility(); persist();}); $('imageModelSelect').addEventListener('change',persist); $('startBtn').addEventListener('click',showWork); $('homeBtn').addEventListener('click',showHome); $('backHomeBtn').addEventListener('click',showHome); $('generateBtn').addEventListener('click',generate); $('improveBtn').addEventListener('click',improvePrompt); $('referenceBtn').addEventListener('click',()=>toast('Cole a descricao da referencia no prompt ou envie pela sua rota de API.')); $('saveProjectBtn').addEventListener('click',saveProject); $('toImageBtn').addEventListener('click',()=>switchWorkType('image')); $('toAudioBtn').addEventListener('click',()=>switchWorkType('audio')); $('toVideoBtn').addEventListener('click',()=>switchWorkType('video')); $('toScriptBtn').addEventListener('click',()=>switchWorkType('script')); $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value=($('workPrompt').value||'')+'\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();}); $('downloadBtn').addEventListener('click',downloadTxt); $('downloadMediaBtn').addEventListener('click',downloadMedia); $('apiBottomBtn').addEventListener('click',openApi); $('shareBtn').addEventListener('click',share); $('apiBtn').addEventListener('click',openApi); $('closeApi').addEventListener('click',closeApi); $('saveApiBtn').addEventListener('click',saveApi); $('clearApiBtn').addEventListener('click',clearApi); $('exportBtn').addEventListener('click',exportJson); $('resetBtn').addEventListener('click',resetAll); $('mainPrompt').addEventListener('input',persist); window.addEventListener('beforeunload',persist); load();
 })();
 </script>
 </body>
