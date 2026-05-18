@@ -1,394 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal Genesis — Studio Remotion Lab</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Genesis — Studio</title>
   <style>
     :root {
       --bg: #05070d;
-      --bg2: #080b13;
-      --panel: #0c111d;
-      --panel2: #111827;
-      --panel3: #161f33;
-      --line: rgba(255,255,255,.10);
-      --line2: rgba(214,173,104,.28);
-      --text: #e8edf8;
-      --muted: #96a1ba;
-      --muted2: #6f7a93;
       --gold: #d6ad68;
-      --gold2: #f1cf8b;
       --cyan: #65d9d2;
       --green: #75db9b;
-      --red: #e18491;
-      --purple: #a996ff;
-      --blue: #63a8ff;
-      --orange: #e8a45f;
-      --radius: 16px;
-      --radius2: 22px;
-      --shadow: 0 24px 80px rgba(0,0,0,.45);
-      --shadow2: 0 12px 38px rgba(0,0,0,.30);
-      --grid-small: rgba(255,255,255,.035);
-      --grid-big: rgba(255,255,255,.055);
     }
-
     * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow: hidden;
-    }
-
     body {
-      background:
-        radial-gradient(circle at 78% 12%, rgba(214,173,104,.11), transparent 26%),
-        radial-gradient(circle at 15% 18%, rgba(101,217,210,.08), transparent 28%),
-        radial-gradient(circle at 50% 120%, rgba(169,150,255,.08), transparent 38%),
-        linear-gradient(180deg, #060913 0%, #05070d 100%);
+      margin: 0;
+      background: #05070d;
+      color: #e8edf8;
+      font-family: Inter, system-ui, sans-serif;
     }
-
-    button, input, textarea, select { font-family: inherit; outline: none; }
-    button { cursor: pointer; }
-
-    .app {
-      height: 100vh;
-      display: grid;
-      grid-template-rows: 64px 1fr;
-      overflow: hidden;
-    }
-
+    .app { height: 100vh; display: flex; flex-direction: column; }
+    
     .topbar {
+      height: 64px;
+      background: #0c111d;
+      border-bottom: 1px solid #222;
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 10px 18px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(5,7,13,.90);
-      backdrop-filter: blur(18px);
+      padding: 0 20px;
+      gap: 12px;
     }
-
-    .brand { display: flex; align-items: center; gap: 12px; min-width: 320px; }
-
+    .brand { display: flex; align-items: center; gap: 12px; }
     .brand-mark {
-      width: 42px; height: 42px; border-radius: 14px;
-      display: grid; place-items: center; font-weight: 900; color: #1a1203;
-      background: linear-gradient(145deg,#f6d681 0%,#d8a94f 42%,#55d7d1 100%);
-      box-shadow: 0 0 28px rgba(216,169,79,.22), inset 0 1px 0 rgba(255,255,255,.35);
-      font-family: Syne, sans-serif;
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(145deg, #f6d681, #d8a94f);
+      display: grid; place-items: center;
+      font-weight: 900; color: #1a1203; font-size: 20px;
     }
 
-    .brand-title strong {
-      display: block; font-family: Syne, sans-serif; color: #f3dfb8;
-      letter-spacing: .04em; font-size: 18px; text-transform: uppercase;
-    }
-    .brand-title strong::after {
-      content: "  • PG";
-      color: #75db9b; font-size: .68em; letter-spacing: .08em;
-    }
-    .brand-title span {
-      display: block; margin-top: 4px; font-family: Space Mono, monospace;
-      font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #e3b762;
+    .workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
     }
 
-    .top-status { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
-
-    .status-pill {
-      border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px;
-      background: rgba(255,255,255,.035); color: var(--muted);
-      font: 11px Space Mono, monospace; display: inline-flex; align-items: center; gap: 7px;
-    }
-
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted2); }
-    .status-dot.on { background: var(--green); box-shadow: 0 0 12px rgba(117,219,155,.65); }
-
-    .btn {
-      border: 1px solid var(--line); border-radius: 12px; min-height: 36px;
-      padding: 8px 12px; background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
-      color: var(--text); font-size: 12px; font-weight: 800;
-      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      transition: transform .15s ease, border-color .15s ease;
-    }
-    .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
-    .btn.gold { background: linear-gradient(180deg, #e5c07e, #c79650); color: #1c1305; border-color: rgba(214,173,104,.80); }
-    .btn.green { background: linear-gradient(180deg, #83e1a9, #62c889); color: #07150d; border-color: rgba(117,219,155,.70); }
-    .btn.cyan { background: rgba(101,217,210,.10); color: #cafffb; border-color: rgba(101,217,210,.38); }
-    .btn.purple { background: rgba(169,150,255,.10); color: #e5ddff; border-color: rgba(169,150,255,.38); }
-    .btn.red { background: rgba(225,132,145,.10); color: #ffd7de; border-color: rgba(225,132,145,.42); }
-    .btn.tiny { min-height: 28px; padding: 5px 9px; border-radius: 9px; font-size: 10px; }
-
-    .workspace { min-height: 0; display: grid; grid-template-columns: 250px minmax(0, 1fr) 340px; overflow: hidden; }
-    .left-dock, .right-dock { background: rgba(12,17,29,.88); border-color: var(--line); overflow: auto; }
-    .left-dock { border-right: 1px solid var(--line); }
-    .right-dock { border-left: 1px solid var(--line); }
-
-    .dock-section { padding: 14px; border-bottom: 1px solid rgba(255,255,255,.075); }
-    .dock-title { font: 10px Space Mono, monospace; color: var(--gold); text-transform: uppercase; letter-spacing: .16em; margin-bottom: 9px; }
-
-    .dock-card {
-      border: 1px solid var(--line); border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
-      padding: 12px;
+    .left-dock {
+      width: 260px;
+      background: #0c111d;
+      border-right: 1px solid #222;
+      padding: 16px;
+      overflow-y: auto;
     }
 
     .canvas-wrap {
-      position: relative; overflow: hidden;
+      flex: 1;
+      position: relative;
       background: #050813;
-      cursor: grab;
+      overflow: hidden;
     }
-    .canvas-wrap.dragging { cursor: grabbing; }
 
     .canvas-map {
-      position: absolute; width: 3600px; height: 2400px; left: 0; top: 0;
-      transform-origin: 0 0; will-change: transform;
+      position: absolute;
+      width: 3000px;
+      height: 2000px;
+      transform-origin: 0 0;
     }
-
-    .connector-layer { position: absolute; width: 3600px; height: 2400px; left: 0; top: 0; pointer-events: none; z-index: 1; }
-    .connector-layer path { fill: none; stroke: rgba(101,217,210,.26); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 8 8; }
 
     .node {
-      position: absolute; width: 268px; border: 1px solid rgba(255,255,255,.11);
-      border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.060), rgba(255,255,255,.018)), rgba(13,18,32,.96);
-      box-shadow: 0 18px 48px rgba(0,0,0,.36); padding: 12px; z-index: 5; cursor: pointer;
+      position: absolute;
+      width: 240px;
+      background: #0c111d;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 14px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
-    .node.active { border-color: rgba(214,173,104,.82); box-shadow: 0 0 0 2px rgba(214,173,104,.22); }
-    .node.done { border-color: rgba(117,219,155,.52); }
+    .node.active { border-color: #d6ad68; }
 
-    .node-head { display: flex; gap: 10px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
-    .node-icon { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; font-size: 20px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.035); }
-
-    .canvas-controls {
-      position: absolute; left: 16px; bottom: 16px; z-index: 12;
-      display: flex; align-items: center; gap: 8px; padding: 8px;
-      border: 1px solid var(--line); border-radius: 16px; background: rgba(5,8,19,.78);
+    .right-dock {
+      width: 280px;
+      background: #0c111d;
+      border-left: 1px solid #222;
+      padding: 16px;
     }
 
-    .minimap {
-      position: absolute; right: 16px; bottom: 16px; z-index: 12;
-      width: 190px; height: 126px; border: 1px solid var(--line); border-radius: 16px;
-      background: rgba(5,8,19,.72); overflow: hidden;
+    .btn {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #111827;
+      color: white;
+      cursor: pointer;
+      font-size: 13px;
     }
+    .btn.green { background: #1f3a2f; border-color: #75db9b; color: #75db9b; }
+    .btn.gold { background: #3a2f1f; border-color: #d6ad68; color: #d6ad68; }
 
     .station {
-      position: fixed; z-index: 90; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(.96);
-      width: min(1180px, calc(100vw - 42px)); max-height: min(86vh, 920px);
-      border: 1px solid rgba(214,173,104,.34); border-radius: 24px;
-      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.014)), rgba(10,15,28,.98);
-      box-shadow: var(--shadow); display: none; overflow: hidden;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 900px;
+      background: #0c111d;
+      border: 1px solid #d6ad68;
+      border-radius: 20px;
+      z-index: 100;
+      display: none;
     }
-    .station.active { display: grid; grid-template-rows: auto minmax(0,1fr); transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    .station.active { display: block; }
 
-    .station-head { padding: 16px 18px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.02); display: flex; align-items: center; gap: 12px; }
-    .station-body { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 320px; overflow: hidden; }
-    .station-main { padding: 20px; overflow: auto; }
-    .station-side { border-left: 1px solid var(--line); background: rgba(5,8,19,.32); padding: 18px; overflow: auto; }
-
-    .station-section { border: 1px solid rgba(255,255,255,.09); border-radius: 18px; background: rgba(255,255,255,.025); padding: 14px; margin-bottom: 14px; }
-    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .field.full { grid-column: 1 / -1; }
-
-    label { font: 10px Space Mono, monospace; color: var(--gold); text-transform: uppercase; letter-spacing: .13em; }
-    input, textarea, select {
-      width: 100%; border: 1px solid rgba(255,255,255,.11); border-radius: 13px;
-      background: #080d19; color: var(--text); padding: 10px 11px; font-size: 13px;
-    }
-    textarea { resize: vertical; min-height: 110px; font-family: Space Mono, monospace; }
-
-    .output {
-      white-space: pre-wrap; border: 1px solid rgba(255,255,255,.10); border-radius: 15px;
-      background: #070b15; color: #dbe5ff; padding: 13px; min-height: 180px; max-height: 420px; overflow: auto;
-      font: 11px/1.65 Space Mono, monospace;
-    }
-
-    .toast-stack { position: fixed; z-index: 200; right: 18px; top: 78px; display: grid; gap: 8px; width: min(360px, calc(100vw - 36px)); }
     .toast {
-      border: 1px solid rgba(214,173,104,.28); border-radius: 14px; background: rgba(10,15,28,.96);
-      padding: 10px 12px; color: #eadcc1; font-size: 12px; animation: toastIn .22s ease-out;
-    }
-
-    .btn.green { background: linear-gradient(180deg, #83e1a9, #62c889); color: #07150d; }
-
-    @media (max-width: 1180px) {
-      .workspace { grid-template-columns: 220px minmax(0, 1fr); }
-      .right-dock { display: none; }
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #111827;
+      color: #f3dfb8;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid #d6ad68;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
   <div class="app">
     <!-- Topbar -->
-    <header class="topbar">
+    <div class="topbar">
       <div class="brand">
         <div class="brand-mark">PG</div>
-        <div class="brand-title">
-          <strong>Portal Genesis Studio Lab</strong>
-          <span>Marketing • Adventures • Punk • Vitrine Business de Caruaru</span>
+        <div>
+          <strong>Portal Genesis Studio</strong>
         </div>
       </div>
-      <div class="top-status">
-        <span class="status-pill"><span class="status-dot on" id="saveDot"></span> <span id="saveStatus">autosave ativo</span></span>
-        <span class="status-pill" id="projectPill">Projeto: Sem título</span>
-        <span class="status-pill" id="progressPill">0% pronto</span>
-        <button class="btn cyan" onclick="openStation('brief')">Abrir Briefing</button>
+      <div style="margin-left: auto; display: flex; gap: 8px;">
+        <button class="btn" onclick="openStation('brief')">Abrir Briefing</button>
         <button class="btn gold" onclick="generatePipeline()">Gerar Pipeline</button>
-        <button class="btn green" onclick="exportPackage()">Exportar</button>
-        <button class="btn red" onclick="resetProject()">Reset</button>
+        <button class="btn" onclick="resetProject()">Reset</button>
       </div>
-    </header>
+    </div>
 
-    <main class="workspace">
-      <!-- Left Dock -->
-      <aside class="left-dock">
-        <section class="dock-section">
-          <div class="dock-card">
-            <h3>Raiz Criativa PG</h3>
-            <p>Laboratório interno do Portal Genesis. Cada node transforma ideia, referência e serviço em pacote profissional.</p>
-          </div>
-        </section>
-
-        <section class="dock-section">
-          <div class="dock-title">Ações rápidas</div>
-          <div class="quick-actions">
-            <button class="btn gold" onclick="openStation('brief')">Preencher uma vez</button>
-            <button class="btn cyan" onclick="centerMap()">Centralizar mapa</button>
-            <button class="btn purple" onclick="organizeNodes()">Organizar nodes</button>
-            <button class="btn green" onclick="approveActiveNode()">Aprovar node</button>
-          </div>
-        </section>
-
-        <section class="dock-section">
-          <div class="dock-title">Pipeline</div>
-          <div class="node-list" id="nodeList"></div>
-        </section>
-      </aside>
+    <div class="workspace">
+      <!-- Left -->
+      <div class="left-dock">
+        <h4 style="margin-top:0; color:#d6ad68">Pipeline</h4>
+        <div id="nodeList"></div>
+      </div>
 
       <!-- Canvas -->
-      <section class="canvas-wrap" id="canvasWrap">
+      <div class="canvas-wrap" id="canvasWrap">
         <div class="canvas-map" id="canvasMap">
-          <svg class="connector-layer" id="connectorLayer"></svg>
           <div id="nodeLayer"></div>
         </div>
+      </div>
 
-        <div class="canvas-controls">
-          <button class="btn tiny" onclick="zoomMap(-0.10)">−</button>
-          <span class="zoom-readout" id="zoomReadout">100%</span>
-          <button class="btn tiny" onclick="zoomMap(0.10)">+</button>
-          <button class="btn tiny cyan" onclick="centerMap()">Centralizar</button>
-          <button class="btn tiny purple" onclick="organizeNodes()">Organizar</button>
-        </div>
-      </section>
-
-      <!-- Right Dock -->
-      <aside class="right-dock">
-        <section class="dock-section">
-          <div class="dock-title">Diagnóstico</div>
-          <div class="dock-card">
-            <div class="diagnostic-line"><span>Briefing</span><strong id="diagBrief">pendente</strong></div>
-            <div class="diagnostic-line"><span>Referências</span><strong id="diagRefs">0</strong></div>
-            <div class="diagnostic-line"><span>Cenas</span><strong id="diagScenes">0</strong></div>
-            <div class="progress"><span id="progressFill"></span></div>
-          </div>
-        </section>
-
-        <section class="dock-section">
-          <div class="dock-title">Pacote final</div>
-          <div class="dock-card">
-            <div class="quick-actions">
-              <button class="btn green" onclick="downloadTxt()">Baixar TXT</button>
-              <button class="btn cyan" onclick="downloadJson()">Baixar JSON</button>
-              <button class="btn purple" onclick="copyPackage()">Copiar pacote</button>
-            </div>
-          </div>
-        </section>
-      </aside>
-    </main>
+      <!-- Right -->
+      <div class="right-dock">
+        <h4 style="color:#d6ad68">Diagnóstico</h4>
+        <div id="diagnostics"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Station Modal -->
-  <div class="station-overlay" id="stationOverlay" onclick="closeStation()"></div>
-  <section class="station" id="station">
-    <header class="station-head">
-      <div class="station-head-icon" id="stationIcon">🧠</div>
-      <div class="station-head-title">
-        <h2 id="stationTitle">Briefing Mestre</h2>
-        <p id="stationSubtitle">Estação técnica do node ativo.</p>
-      </div>
-      <div class="station-head-actions">
-        <button class="btn cyan" onclick="saveCurrentStation()">Salvar</button>
-        <button class="btn green" onclick="approveActiveNode()">Aprovar</button>
-        <button class="btn gold" onclick="nextNode()">Próximo</button>
-        <button class="btn" onclick="closeStation()">Fechar</button>
-      </div>
-    </header>
-    <div class="station-body">
-      <div class="station-main" id="stationMain"></div>
-      <aside class="station-side">
-        <h3>Memória Visual</h3>
-        <textarea id="sideVisualMemory" placeholder="Paleta, textura, câmera..." oninput="updateVisualMemory(this.value)"></textarea>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="btn tiny cyan" onclick="analyzeRefsLocal()">Analisar</button>
-          <button class="btn tiny red" onclick="clearRefs()">Limpar</button>
-        </div>
-      </aside>
+  <!-- Station -->
+  <div class="station" id="station">
+    <div style="padding:20px; border-bottom:1px solid #333; display:flex; justify-content:space-between;">
+      <h3 id="stationTitle" style="margin:0; color:#f3dfb8"></h3>
+      <button onclick="closeStation()" style="background:none;border:none;color:white;font-size:22px;">×</button>
     </div>
-  </section>
-
-  <div class="toast-stack" id="toastStack"></div>
+    <div id="stationMain" style="padding:20px;"></div>
+  </div>
 
   <script>
-    'use strict';
-
-    const STORAGE_KEY = 'portal_genesis_studio_v12';
-    const $ = id => document.getElementById(id);
-
-    // Estado padrão
+    const STORAGE_KEY = 'pg_studio_v1';
     let state = {
-      zoom: 0.92, pan: { x: 30, y: 24 }, activeNode: 'brief',
-      approved: {}, logs: [], refs: [], visualMemory: '',
-      setup: { projectName: '', idea: '', tone: 'Cinematográfico sombrio', format: '9:16 vertical' },
-      outputs: { dna: '', storyboard: '', scene: '', motion: '', prompts: '', srt: '', capcut: '', export: '' },
-      scenes: []
+      activeNode: 'brief',
+      visualMemory: '',
+      refs: [],
+      outputs: {}
     };
 
     function loadState() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) state = { ...state, ...JSON.parse(saved) };
-      } catch (e) {}
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) state = { ...state, ...JSON.parse(saved) };
     }
-
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
     function toast(msg) {
-      const stack = $('toastStack');
-      const div = document.createElement('div');
-      div.className = 'toast';
-      div.textContent = msg;
-      stack.appendChild(div);
-      setTimeout(() => div.remove(), 3200);
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2800);
     }
 
-    function log(msg) {
-      state.logs.unshift({ at: new Date().toLocaleTimeString(), message: msg });
-      state.logs = state.logs.slice(0, 8);
-    }
-
-    // ==================== FUNÇÕES DE IMAGEM COM FLUX ====================
-    async function generateImageWithFlux(prompt, referenceUrl = null, strength = 0.68) {
-      if (!prompt || prompt.length < 5) {
-        toast('Prompt muito curto');
-        return null;
-      }
-
+    // ==================== GERAÇÃO DE IMAGEM ====================
+    async function generateImageWithFlux(prompt, referenceUrl = null) {
       try {
         const res = await fetch('/api/generate-image-fal', {
           method: 'POST',
@@ -396,136 +205,129 @@
           body: JSON.stringify({
             prompt,
             model: 'flux-pro',
-            size: '1024x1024',
             referenceImage: referenceUrl,
-            strength
+            strength: 0.7
           })
         });
-
         const data = await res.json();
-
-        if (!data.ok || !data.url) {
-          throw new Error(data.error || 'Falha na geração');
-        }
-
-        toast('Imagem gerada com Flux!');
+        if (!data.ok || !data.url) throw new Error(data.error || 'Erro');
         return data.url;
-
-      } catch (err) {
-        console.error(err);
-        toast('Erro ao gerar imagem: ' + err.message);
+      } catch (e) {
+        toast('Erro ao gerar imagem: ' + e.message);
         return null;
       }
     }
 
     async function generateImageFromDna() {
-      const base = state.visualMemory || state.outputs.dna || state.setup.idea || 'Cena cinematográfica de alta qualidade';
-      const prompt = `${base}. Estilo: ${state.setup.tone || 'cinematográfico'}. Alta qualidade, composição profissional.`;
-
-      const ref = state.refs.length > 0 ? state.refs[0] : null;
-
-      const url = await generateImageWithFlux(prompt, ref, 0.72);
+      const prompt = state.visualMemory || 'Cena cinematográfica de alta qualidade, estilo profissional';
+      const ref = state.refs[0] || null;
+      
+      const url = await generateImageWithFlux(prompt, ref);
       if (url) {
-        showImagePreview(url, 'Imagem gerada a partir do DNA Visual');
+        showImagePreview(url);
       }
     }
 
-    function showImagePreview(url, title = 'Imagem Gerada') {
+    function showImagePreview(url) {
       const modal = document.createElement('div');
       modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:999;display:flex;align-items:center;justify-content:center;';
       modal.innerHTML = `
-        <div style="max-width:900px;width:95%;background:#0c111d;border-radius:20px;overflow:hidden;border:1px solid #d6ad68;">
-          <div style="padding:16px 20px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
-            <strong style="color:#f3dfb8;">${title}</strong>
-            <button onclick="this.closest('div[style*=\'position:fixed\']').remove()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;">×</button>
+        <div style="max-width:860px;width:95%;background:#0c111d;border-radius:16px;overflow:hidden;">
+          <div style="padding:16px 20px;border-bottom:1px solid #333;display:flex;justify-content:space-between;">
+            <strong style="color:#f3dfb8">Imagem Gerada com Flux</strong>
+            <span onclick="this.closest('div[style*=\'position:fixed\']').remove()" style="cursor:pointer;font-size:22px">×</span>
           </div>
-          <div style="padding:20px;text-align:center;">
-            <img src="${url}" style="max-height:65vh;max-width:100%;border-radius:12px;" />
+          <div style="padding:20px;text-align:center">
+            <img src="${url}" style="max-height:60vh;border-radius:12px;max-width:100%">
           </div>
-          <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;background:#111827;">
-            <button onclick="window.open('${url}','_blank')" class="btn cyan">Abrir em nova aba</button>
-            <button onclick="navigator.clipboard.writeText('${url}'); alert('Link copiado!'); this.closest('div[style*=\'position:fixed\']').remove()" class="btn">Copiar link</button>
-            <button onclick="this.closest('div[style*=\'position:fixed\']').remove()" class="btn">Fechar</button>
+          <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;background:#111827">
+            <button class="btn" onclick="window.open('${url}','_blank')">Abrir</button>
+            <button class="btn" onclick="navigator.clipboard.writeText('${url}'); alert('Link copiado!')">Copiar Link</button>
+            <button class="btn" onclick="this.closest('div[style*=\'position:fixed\']').remove()">Fechar</button>
           </div>
         </div>
       `;
       document.body.appendChild(modal);
     }
 
-    // ==================== FUNÇÕES DO STUDIO ====================
-    function dnaStation() {
-      return `
-        <div class="station-section">
-          <h3>DNA Visual + Geração de Imagem</h3>
-          <p style="color:#96a1ba;font-size:13px;">Gere a identidade visual e crie imagens reais com Flux + referência.</p>
-          
-          <div class="form-grid">
-            <div class="field full">
-              <label>Memória visual</label>
-              <textarea id="f_visualMemory" style="min-height:130px;">${state.visualMemory || ''}</textarea>
-            </div>
-          </div>
-
-          <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="btn cyan" onclick="analyzeRefsLocal()">Analisar referências</button>
-            <button class="btn gold" onclick="generateDna()">Gerar DNA Visual</button>
-            <button class="btn green" onclick="generateImageFromDna()">
-              ✨ Gerar Imagem com Flux
-            </button>
-            <button class="btn purple" onclick="approveActiveNode()">Aprovar</button>
-          </div>
-        </div>
-      `;
-    }
-
-    function generateDna() {
-      const mem = document.getElementById('f_visualMemory')?.value || state.visualMemory;
-      state.visualMemory = mem;
-      state.outputs.dna = `DNA VISUAL — ${state.setup.projectName || 'Projeto'}\n\nTom: ${state.setup.tone}\n\n${mem}`;
-      saveState();
-      document.getElementById('out_dna').textContent = state.outputs.dna;
-      toast('DNA Visual atualizado!');
-    }
-
-    function analyzeRefsLocal() {
-      state.visualMemory = `Referências carregadas: ${state.refs.length}\nTom: ${state.setup.tone}\nDireção cinematográfica com consistência visual.`;
-      document.getElementById('f_visualMemory').value = state.visualMemory;
-      toast('Referências analisadas localmente.');
-    }
-
-    // Funções básicas do Studio (resumidas para não ficar muito longo)
+    // ==================== STATION ====================
     function openStation(id) {
       state.activeNode = id;
       const station = document.getElementById('station');
       const main = document.getElementById('stationMain');
-      
       document.getElementById('stationTitle').textContent = id.toUpperCase();
-      document.getElementById('stationOverlay').classList.add('active');
-      station.classList.add('active');
 
       if (id === 'dna') {
-        main.innerHTML = dnaStation();
+        main.innerHTML = `
+          <div>
+            <h4>DNA Visual</h4>
+            <textarea id="f_visualMemory" style="width:100%;height:120px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;">${state.visualMemory || ''}</textarea>
+            
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn gold" onclick="generateDna()">Gerar DNA</button>
+              <button class="btn green" onclick="generateImageFromDna()">
+                ✨ Gerar Imagem com Flux
+              </button>
+            </div>
+          </div>
+        `;
       } else {
-        main.innerHTML = `<div class="station-section"><h3>${id}</h3><p>Em desenvolvimento...</p></div>`;
+        main.innerHTML = `<p>Node: <strong>${id}</strong> (em desenvolvimento)</p>`;
       }
+
+      station.style.display = 'block';
     }
 
     function closeStation() {
-      document.getElementById('stationOverlay').classList.remove('active');
-      document.getElementById('station').classList.remove('active');
+      document.getElementById('station').style.display = 'none';
+    }
+
+    function generateDna() {
+      const val = document.getElementById('f_visualMemory').value;
+      state.visualMemory = val;
+      saveState();
+      toast('DNA Visual salvo!');
+    }
+
+    function generatePipeline() {
+      toast('Pipeline gerado (simulado)');
+    }
+
+    function resetProject() {
+      if (confirm('Resetar projeto?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
     }
 
     function init() {
       loadState();
-      // Renderização básica dos nodes
-      console.log('%c[Portal Genesis] Studio atualizado com Flux carregado!', 'color:#75db9b');
-      toast('Studio atualizado com geração de imagem Flux!');
+      
+      // Renderizar nodes básicos no canvas
+      const layer = document.getElementById('nodeLayer');
+      const nodes = [
+        { id: 'brief', title: 'Briefing', x: 80, y: 120 },
+        { id: 'dna', title: 'DNA Visual', x: 400, y: 120 },
+        { id: 'prompts', title: 'Prompts IA', x: 720, y: 120 }
+      ];
+
+      nodes.forEach(n => {
+        const el = document.createElement('div');
+        el.className = 'node';
+        el.style.left = n.x + 'px';
+        el.style.top = n.y + 'px';
+        el.innerHTML = `
+          <div style="font-weight:700;margin-bottom:6px">${n.title}</div>
+          <button class="btn" onclick="openStation('${n.id}')">Abrir</button>
+        `;
+        layer.appendChild(el);
+      });
+
+      console.log('%c[Portal Genesis] Studio carregado com Flux', 'color:#75db9b');
+      toast('Studio pronto! Clique em DNA Visual para gerar imagens.');
     }
 
-    window.openStation = openStation;
-    window.closeStation = closeStation;
     window.generateImageFromDna = generateImageFromDna;
-
     init();
   </script>
 </body>
