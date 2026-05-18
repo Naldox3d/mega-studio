@@ -7,19 +7,19 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Método não permitido' });
 
   try {
-    const { prompt, model = 'flux' } = req.body;
+    const { prompt } = req.body;
 
     if (!prompt) {
       return res.status(400).json({ ok: false, error: 'Prompt é obrigatório' });
     }
 
-    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=${model}&width=1024&height=1024`;
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=flux&width=1024&height=1024`;
 
     return res.status(200).json({
       ok: true,
       url: imageUrl,
       provider: 'pollinations',
-      model: model
+      model: 'flux'
     });
   } catch (error) {
     return res.status(500).json({ ok: false, error: error.message });
