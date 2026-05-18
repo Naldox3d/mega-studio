@@ -1,55 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portal Genesis Mega Studio Pro — Mind Job API OS</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portal Genesis Mega Studio Profissional — Mind Job</title>
 <style>
 :root{
-
-  --bg:#05070d;
---bg2:#080b13;
+--bg:#05070d;
 --panel:#0c111d;
 --panel2:#111827;
 --panel3:#161f33;
-
-  --line:rgba(255,255,255,.10);
+--line:rgba(255,255,255,.10);
 --line2:rgba(214,173,104,.30);
 --text:#e8edf8;
 --muted:#96a1ba;
---muted2:#6f7a93;
-
-  --gold:#d6ad68;
+--gold:#d6ad68;
 --gold2:#f1cf8b;
 --cyan:#65d9d2;
 --green:#75db9b;
 --red:#e18491;
 --purple:#a996ff;
 --blue:#63a8ff;
---orange:#e8a45f;
-
-  --shadow:0 24px 80px rgba(0,0,0,.45);
---shadow2:0 12px 38px rgba(0,0,0,.30);
-
-  --grid-small:rgba(255,255,255,.035);
---grid-big:rgba(255,255,255,.055);
-
-}
+--shadow:0 24px 80px rgba(0,0,0,.45);
+--grid-small:rgba(255,255,255,.035);
+--grid-big:rgba(255,255,255,.055)}
 
 *{
 box-sizing:border-box}
-
 html,body{
 margin:0;
 height:100%;
+overflow:hidden;
 background:var(--bg);
 color:var(--text);
-font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-overflow:hidden}
-
+font-family:Inter,Segoe UI,Roboto,Arial,sans-serif}
 body{
-background:radial-gradient(circle at 78% 12%,rgba(214,173,104,.12),transparent 26%),radial-gradient(circle at 15% 18%,rgba(101,217,210,.09),transparent 28%),radial-gradient(circle at 50% 120%,rgba(169,150,255,.08),transparent 38%),linear-gradient(180deg,#060913 0%,#05070d 100%)}
-
+background:radial-gradient(circle at 78% 12%,rgba(214,173,104,.11),transparent 26%),radial-gradient(circle at 15% 18%,rgba(101,217,210,.08),transparent 28%),radial-gradient(circle at 50% 120%,rgba(169,150,255,.08),transparent 38%),linear-gradient(180deg,#060913 0%,#05070d 100%)}
 button,input,textarea,select{
 font:inherit;
 outline:none}
@@ -57,14 +43,9 @@ button{
 cursor:pointer}
 textarea{
 resize:vertical;
-line-height:1.55}
-label{
-display:block;
-font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-color:var(--gold);
-text-transform:uppercase;
-letter-spacing:.13em;
-margin:11px 0 7px}
+line-height:1.55;
+font-family:Consolas,ui-monospace,monospace;
+font-size:12px}
 input,textarea,select{
 width:100%;
 border:1px solid rgba(255,255,255,.11);
@@ -73,104 +54,94 @@ background:#080d19;
 color:var(--text);
 padding:10px 11px;
 font-size:13px}
-textarea{
-min-height:110px;
-font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-font-size:12px}
 input:focus,textarea:focus,select:focus{
 border-color:rgba(214,173,104,.58);
 box-shadow:0 0 0 4px rgba(214,173,104,.07)}
-
-::-webkit-scrollbar{
-width:9px;
-height:9px}
-::-webkit-scrollbar-track{
-background:rgba(255,255,255,.025)}
-::-webkit-scrollbar-thumb{
-background:linear-gradient(180deg,rgba(210,220,240,.30),rgba(110,120,145,.28));
-border:2px solid rgba(5,8,19,.78);
-border-radius:999px}
-::-webkit-scrollbar-thumb:hover{
-background:linear-gradient(180deg,rgba(214,173,104,.56),rgba(101,217,210,.42))}
-
+label{
+display:block;
+margin:11px 0 6px;
+color:var(--gold);
+font:10px Consolas,monospace;
+text-transform:uppercase;
+letter-spacing:.13em}
+h1,h2,h3{
+margin:0;
+color:#eadcc1}
+p{
+color:var(--muted);
+line-height:1.55}
+.small{
+font-size:11px;
+color:var(--muted);
+line-height:1.55}
 .app{
 height:100vh;
 display:grid;
-grid-template-rows:68px 1fr;
-overflow:hidden}
+grid-template-rows:64px 1fr}
 .topbar{
 display:flex;
 align-items:center;
 gap:14px;
 padding:10px 18px;
 border-bottom:1px solid var(--line);
-background:linear-gradient(90deg,rgba(3,8,20,.96),rgba(7,10,18,.93),rgba(22,17,10,.84));
+background:rgba(5,7,13,.90);
 backdrop-filter:blur(18px);
-position:relative;
 z-index:20}
 .brand{
 display:flex;
 align-items:center;
 gap:12px;
-min-width:340px}
-.brandMark{
-width:46px;
-height:46px;
+min-width:320px}
+.brand-mark{
+width:42px;
+height:42px;
 border-radius:16px;
 display:grid;
 place-items:center;
 font-weight:1000;
-color:#10131a;
+color:#1a1203;
 background:linear-gradient(145deg,#f6d681 0%,#d8a94f 42%,#55d7d1 100%);
-box-shadow:0 0 28px rgba(216,169,79,.22),inset 0 1px 0 rgba(255,255,255,.35);
-font-family:Syne,Inter,sans-serif}
-.brandText strong{
+box-shadow:0 0 28px rgba(216,169,79,.22),inset 0 1px 0 rgba(255,255,255,.35)}
+.brand-title strong{
 display:block;
-font-family:Syne,Inter,sans-serif;
+font-family:Impact,Inter,sans-serif;
 color:#f3dfb8;
-letter-spacing:.035em;
+letter-spacing:.06em;
 font-size:18px;
-text-transform:uppercase;
-text-shadow:0 0 18px rgba(216,169,79,.10)}
-.brandText strong::after{
-content:" • PRO";
-color:var(--green);
-font-size:.68em;
-letter-spacing:.08em}
-.brandText span{
+text-transform:uppercase}
+.brand-title span{
 display:block;
 margin-top:4px;
-font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-color:#e3b762;
+font:10px Consolas,monospace;
+color:var(--gold);
 letter-spacing:.12em;
 text-transform:uppercase}
-.topStatus{
+.top-status{
 display:flex;
+align-items:center;
 gap:8px;
 margin-left:auto;
-align-items:center;
 flex-wrap:wrap;
 justify-content:flex-end}
 .pill{
-display:inline-flex;
-align-items:center;
-gap:7px;
 border:1px solid var(--line);
 border-radius:999px;
 padding:6px 10px;
 background:rgba(255,255,255,.035);
 color:var(--muted);
-font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font:11px Consolas,monospace;
+display:inline-flex;
+align-items:center;
+gap:7px;
 white-space:nowrap}
-.dot{
-width:8px;
-height:8px;
-border-radius:50%;
-background:var(--muted2)}
-.dot.on{
-background:var(--green);
-box-shadow:0 0 12px rgba(117,219,155,.65)}
-
+.pill.good{
+color:#caffda;
+border-color:rgba(117,219,155,.38);
+background:rgba(117,219,155,.08)}
+.pill.gold{
+color:#f6d7a2;
+border-color:rgba(214,173,104,.38);
+background:rgba(214,173,104,.08)}
 .btn{
 border:1px solid var(--line);
 border-radius:12px;
@@ -185,14 +156,11 @@ align-items:center;
 justify-content:center;
 gap:7px;
 transition:.15s;
-user-select:none;
 white-space:nowrap}
 .btn:hover{
 transform:translateY(-1px);
 filter:brightness(1.12);
 border-color:rgba(255,255,255,.22)}
-.btn:active{
-transform:translateY(0)}
 .btn.gold{
 background:linear-gradient(180deg,#e5c07e,#c79650);
 color:#1c1305;
@@ -218,29 +186,25 @@ min-height:28px;
 padding:5px 9px;
 border-radius:9px;
 font-size:10px}
-.btn.block{
-width:100%}
-
 .workspace{
 min-height:0;
 display:grid;
-grid-template-columns:270px minmax(0,1fr) 360px;
+grid-template-columns:250px minmax(0,1fr) 340px;
 overflow:hidden}
-.leftDock,.rightDock{
+.left-dock,.right-dock{
 background:rgba(12,17,29,.88);
 border-color:var(--line);
 overflow:auto;
-position:relative;
 z-index:10}
-.leftDock{
+.left-dock{
 border-right:1px solid var(--line)}
-.rightDock{
+.right-dock{
 border-left:1px solid var(--line)}
-.dockSection{
+.dock-section{
 padding:14px;
 border-bottom:1px solid rgba(255,255,255,.075)}
-.dockTitle{
-font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+.dock-title{
+font:10px Consolas,monospace;
 color:var(--gold);
 text-transform:uppercase;
 letter-spacing:.16em;
@@ -248,30 +212,24 @@ margin-bottom:9px;
 display:flex;
 justify-content:space-between;
 gap:10px}
-.dockCard{
+.dock-card,.station-section,.output,.provider-card,.scene-card,.ref-thumb,.metric,.note-card{
 border:1px solid var(--line);
 border-radius:16px;
 background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
 padding:12px;
 box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
-.dockCard h3{
-font-family:Syne,Inter,sans-serif;
+.dock-card h3,.station-section h3{
+font-family:Georgia,serif;
 margin:0 0 6px;
-font-size:14px;
-color:#eadcc1;
-letter-spacing:.03em}
-.dockCard p,.small{
-margin:0;
-color:var(--muted);
-font-size:12px;
-line-height:1.55}
-.quickGrid{
+font-size:15px;
+color:#eadcc1}
+.quick-actions{
 display:grid;
 gap:8px}
-.nodeList{
+.node-list{
 display:grid;
 gap:8px}
-.nodeMini{
+.node-mini{
 width:100%;
 border:1px solid var(--line);
 border-radius:14px;
@@ -283,15 +241,12 @@ align-items:center;
 gap:9px;
 text-align:left;
 transition:.15s}
-.nodeMini:hover{
-border-color:rgba(214,173,104,.36);
-background:rgba(214,173,104,.055)}
-.nodeMini.active{
+.node-mini:hover,.node-mini.active{
 border-color:rgba(214,173,104,.70);
-background:rgba(214,173,104,.12)}
-.nodeMini.done{
+background:rgba(214,173,104,.10)}
+.node-mini.done{
 border-color:rgba(117,219,155,.45)}
-.nodeMiniIcon{
+.node-mini-icon{
 width:32px;
 height:32px;
 border-radius:11px;
@@ -300,101 +255,50 @@ place-items:center;
 border:1px solid rgba(255,255,255,.10);
 background:rgba(255,255,255,.035);
 flex-shrink:0}
-.nodeMiniText strong{
+.node-mini-text strong{
 display:block;
-font-size:12px;
-line-height:1.2}
-.nodeMiniText span{
+font-size:12px}
+.node-mini-text span{
 display:block;
 color:var(--muted);
 font-size:10px;
 margin-top:3px}
-.progress{
-height:9px;
-border:1px solid rgba(255,255,255,.10);
-border-radius:999px;
-background:rgba(0,0,0,.25);
-overflow:hidden;
-margin-top:10px}
-.progress span{
-display:block;
-height:100%;
-width:0;
-background:linear-gradient(90deg,var(--cyan),var(--gold),var(--green));
-transition:width .28s ease}
-.diagLine{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:8px 0;
-border-bottom:1px solid rgba(255,255,255,.07);
-color:var(--muted);
-font-size:12px}
-.diagLine strong{
-color:#d8e0f0}
-.providerList{
-display:grid;
-gap:8px}
-.providerMini{
-border:1px solid rgba(255,255,255,.10);
-border-radius:13px;
-background:rgba(255,255,255,.025);
-padding:9px}
-.providerMini b{
-display:flex;
-justify-content:space-between;
-color:#eadcc1;
-font-size:12px}
-.providerMini span{
-display:block;
-color:var(--muted);
-font-size:10px;
-line-height:1.4;
-margin-top:4px}
-.providerMini.ok{
-border-color:rgba(117,219,155,.42);
-background:rgba(117,219,155,.06)}
-.providerMini.err{
-border-color:rgba(225,132,145,.42);
-background:rgba(225,132,145,.06)}
-
-.canvasWrap{
+.canvas-wrap{
 position:relative;
 overflow:hidden;
-background:radial-gradient(circle at 10% 18%,rgba(85,215,209,.08),transparent 24%),radial-gradient(circle at 78% 10%,rgba(216,169,79,.08),transparent 28%),linear-gradient(var(--grid-small) 1px,transparent 1px),linear-gradient(90deg,var(--grid-small) 1px,transparent 1px),linear-gradient(var(--grid-big) 1px,transparent 1px),linear-gradient(90deg,var(--grid-big) 1px,transparent 1px),#050813;
-background-size:auto,auto,32px 32px,32px 32px,160px 160px,160px 160px,auto;
+background:linear-gradient(var(--grid-small) 1px,transparent 1px),linear-gradient(90deg,var(--grid-small) 1px,transparent 1px),linear-gradient(var(--grid-big) 1px,transparent 1px),linear-gradient(90deg,var(--grid-big) 1px,transparent 1px),radial-gradient(circle at 42% 28%,rgba(101,217,210,.08),transparent 26%),radial-gradient(circle at 70% 65%,rgba(214,173,104,.06),transparent 28%),#050813;
+background-size:32px 32px,32px 32px,160px 160px,160px 160px,auto,auto,auto;
 cursor:grab}
-.canvasWrap.dragging{
+.canvas-wrap.dragging{
 cursor:grabbing}
-.canvasMap{
+.canvas-map{
 position:absolute;
-width:4300px;
-height:2700px;
+width:4200px;
+height:2600px;
 left:0;
 top:0;
 transform-origin:0 0;
 will-change:transform}
-.connectorLayer{
+.connector-layer{
 position:absolute;
-width:4300px;
-height:2700px;
+width:4200px;
+height:2600px;
 left:0;
 top:0;
 pointer-events:none;
 overflow:visible;
 z-index:1}
-.connectorLayer path{
+.connector-layer path{
 fill:none;
-stroke:rgba(101,217,210,.24);
+stroke:rgba(101,217,210,.26);
 stroke-width:3;
 stroke-linecap:round;
 stroke-dasharray:8 8;
 filter:drop-shadow(0 0 10px rgba(101,217,210,.10))}
-.connectorLayer path.done{
+.connector-layer path.done{
 stroke:rgba(214,173,104,.63);
 stroke-width:4;
-stroke-dasharray:none;
-filter:drop-shadow(0 0 10px rgba(214,173,104,.18))}
+stroke-dasharray:none}
 .node{
 position:absolute;
 width:268px;
@@ -409,8 +313,7 @@ cursor:pointer;
 transition:.15s}
 .node:hover{
 transform:translateY(-2px);
-border-color:rgba(255,255,255,.24);
-box-shadow:0 22px 60px rgba(0,0,0,.46)}
+border-color:rgba(255,255,255,.24)}
 .node.active{
 border-color:rgba(214,173,104,.82);
 box-shadow:0 0 0 2px rgba(214,173,104,.22),0 26px 70px rgba(0,0,0,.55);
@@ -421,20 +324,20 @@ border-color:rgba(117,219,155,.52)}
 border-color:rgba(101,217,210,.62)}
 .node.locked{
 opacity:.50;
-filter:grayscale(.20)}
-.node.draggingNode{
+filter:grayscale(.25)}
+.node.dragging-node{
 z-index:30;
 transform:scale(1.03);
 cursor:grabbing;
 border-color:rgba(214,173,104,.92)}
-.nodeHead{
+.node-head{
 display:flex;
 gap:10px;
 align-items:center;
 padding-bottom:10px;
 border-bottom:1px solid rgba(255,255,255,.08);
 margin-bottom:9px}
-.nodeIcon{
+.node-icon{
 width:42px;
 height:42px;
 border-radius:14px;
@@ -444,27 +347,20 @@ font-size:20px;
 border:1px solid rgba(255,255,255,.12);
 background:rgba(255,255,255,.035);
 flex-shrink:0}
-.node.done .nodeIcon{
-background:rgba(117,219,155,.10);
-border-color:rgba(117,219,155,.28)}
-.node.active .nodeIcon{
-background:rgba(214,173,104,.12);
-border-color:rgba(214,173,104,.38)}
-.nodeTitle strong{
+.node-title strong{
 display:block;
-font-family:Syne,Inter,sans-serif;
+font-family:Georgia,serif;
 font-size:14px;
 color:#eadcc1;
-letter-spacing:.02em;
 line-height:1.13}
-.nodeTitle span{
+.node-title span{
 display:block;
 color:var(--muted);
-font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font:10px Consolas,monospace;
 text-transform:uppercase;
 letter-spacing:.09em;
 margin-top:5px}
-.nodeSummary{
+.node-summary{
 color:var(--muted);
 font-size:12px;
 line-height:1.45;
@@ -473,13 +369,13 @@ display:-webkit-box;
 -webkit-box-orient:vertical;
 -webkit-line-clamp:3;
 overflow:hidden}
-.nodeFoot{
+.node-foot{
 display:flex;
 align-items:center;
 justify-content:space-between;
 gap:8px;
 margin-top:10px}
-.nodeStatus{
+.node-status{
 display:inline-flex;
 align-items:center;
 gap:5px;
@@ -488,26 +384,14 @@ background:rgba(255,255,255,.025);
 border-radius:999px;
 padding:4px 7px;
 color:var(--muted);
-font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font:9px Consolas,monospace;
 text-transform:uppercase;
 letter-spacing:.08em}
-.node.done .nodeStatus{
+.node.done .node-status{
 color:#caffda;
 border-color:rgba(117,219,155,.30);
 background:rgba(117,219,155,.08)}
-.node.active .nodeStatus{
-color:#f6d7a2;
-border-color:rgba(214,173,104,.35);
-background:rgba(214,173,104,.08)}
-.nodeTag{
-font-size:9px;
-color:#cafffb;
-border:1px solid rgba(101,217,210,.22);
-background:rgba(101,217,210,.06);
-border-radius:999px;
-padding:4px 7px}
-
-.canvasControls{
+.canvas-controls{
 position:absolute;
 left:16px;
 bottom:16px;
@@ -520,11 +404,11 @@ border:1px solid var(--line);
 border-radius:16px;
 background:rgba(5,8,19,.78);
 backdrop-filter:blur(12px);
-box-shadow:var(--shadow2)}
-.zoomReadout{
+box-shadow:0 12px 38px rgba(0,0,0,.30)}
+.zoom-readout{
 min-width:58px;
 text-align:center;
-font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font:11px Consolas,monospace;
 color:var(--gold)}
 .minimap{
 position:absolute;
@@ -537,72 +421,20 @@ border:1px solid var(--line);
 border-radius:16px;
 background:rgba(5,8,19,.72);
 backdrop-filter:blur(12px);
-overflow:hidden;
-box-shadow:var(--shadow2)}
-.minimapLabel{
+overflow:hidden}
+.minimap-label{
 position:absolute;
 left:9px;
 top:7px;
-font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font:9px Consolas,monospace;
 color:var(--muted);
 letter-spacing:.14em;
 text-transform:uppercase;
 z-index:2}
 .minimap svg{
 width:100%;
-height:100%;
-display:block}
-.flowPanel{
-position:absolute;
-left:16px;
-top:16px;
-z-index:15;
-width:min(390px,calc(100% - 32px));
-border:1px solid rgba(101,217,210,.28);
-background:rgba(5,8,19,.84);
-backdrop-filter:blur(12px);
-border-radius:18px;
-padding:12px;
-box-shadow:var(--shadow2)}
-.flowPanel h3{
-margin:0 0 5px;
-font-family:Syne,Inter,sans-serif;
-color:#eadcc1;
-font-size:14px}
-.flowPanel p{
-margin:0;
-color:var(--muted);
-font-size:11px;
-line-height:1.45}
-.flowBtns{
-display:flex;
-gap:7px;
-flex-wrap:wrap;
-margin-top:10px}
-.stageStrip{
-display:grid;
-grid-template-columns:repeat(6,minmax(0,1fr));
-gap:6px;
-margin-top:10px}
-.stageDot{
-min-height:36px;
-border:1px solid rgba(255,255,255,.09);
-border-radius:10px;
-background:rgba(255,255,255,.025);
-font-size:9px;
-color:var(--muted);
-padding:6px;
-overflow:hidden}
-.stageDot.done{
-border-color:rgba(117,219,155,.32);
-background:rgba(117,219,155,.06);
-color:#caffda}
-.stageDot.active{
-border-color:rgba(214,173,104,.45);
-background:rgba(214,173,104,.08);
-color:#f6d7a2}
-
-.rightPreview{
+height:100%}
+.right-preview{
 min-height:280px;
 border:1px solid rgba(255,255,255,.12);
 border-radius:18px;
@@ -611,7 +443,7 @@ overflow:hidden;
 position:relative;
 display:grid;
 place-items:center}
-.phoneFrame{
+.phone-frame{
 width:180px;
 aspect-ratio:9/16;
 border:1px solid rgba(255,255,255,.18);
@@ -620,35 +452,34 @@ background:linear-gradient(160deg,#121a2c,#070a12);
 overflow:hidden;
 position:relative;
 box-shadow:0 18px 54px rgba(0,0,0,.45)}
-.phoneOrbA,.phoneOrbB{
+.phone-orb-a,.phone-orb-b{
 position:absolute;
 border-radius:50%;
 filter:blur(.3px)}
-.phoneOrbA{
+.phone-orb-a{
 width:120px;
 height:120px;
 left:-42px;
 top:70px;
 background:radial-gradient(circle,rgba(101,217,210,.36),transparent 67%);
 animation:floatA 5s infinite ease-in-out alternate}
-.phoneOrbB{
+.phone-orb-b{
 width:150px;
 height:150px;
 right:-70px;
 bottom:70px;
 background:radial-gradient(circle,rgba(214,173,104,.32),transparent 66%);
 animation:floatB 5.8s infinite ease-in-out alternate}
-.phoneTitle{
+.phone-title{
 position:absolute;
 left:16px;
 right:16px;
 top:32%;
-font-family:Syne,Inter,sans-serif;
+font-family:Georgia,serif;
 font-size:19px;
 line-height:1.05;
-color:#eadcc1;
-animation:pulseTitle 4s infinite ease-in-out}
-.phoneSub{
+color:#eadcc1}
+.phone-sub{
 position:absolute;
 left:16px;
 right:16px;
@@ -656,7 +487,7 @@ top:52%;
 color:#cdd7ee;
 font-size:10px;
 line-height:1.45}
-.phoneCta{
+.phone-cta{
 position:absolute;
 left:16px;
 right:16px;
@@ -680,33 +511,47 @@ transform:translate(0,0) scale(1)}
 to{
 transform:translate(-30px,18px) scale(1.10)}
 }
-@keyframes pulseTitle{
-0%,100%{
-transform:translateY(0)}
-50%{
-transform:translateY(-7px)}
-}
-
-.stationOverlay{
+.diagnostic-line{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+padding:8px 0;
+border-bottom:1px solid rgba(255,255,255,.07);
+color:var(--muted);
+font-size:12px}
+.diagnostic-line strong{
+color:#d8e0f0}
+.progress{
+height:9px;
+border:1px solid rgba(255,255,255,.10);
+border-radius:999px;
+background:rgba(0,0,0,.25);
+overflow:hidden;
+margin-top:10px}
+.progress span{
+display:block;
+height:100%;
+width:0;
+background:linear-gradient(90deg,var(--cyan),var(--gold),var(--green));
+transition:width .28s}
+.station-overlay{
 position:fixed;
 inset:0;
 z-index:80;
 background:rgba(3,5,10,.62);
 backdrop-filter:blur(6px);
-display:none;
-opacity:0;
-transition:.18s}
-.stationOverlay.active{
-display:block;
-opacity:1}
+display:none}
+.station-overlay.active{
+display:block}
 .station{
 position:fixed;
 z-index:90;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%) scale(.96);
-width:min(1240px,calc(100vw - 42px));
-height:min(88vh,940px);
+width:min(1180px,calc(100vw - 42px));
+max-height:min(88vh,920px);
 border:1px solid rgba(214,173,104,.34);
 border-radius:24px;
 background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.014)),rgba(10,15,28,.98);
@@ -720,14 +565,14 @@ display:grid;
 grid-template-rows:auto minmax(0,1fr);
 transform:translate(-50%,-50%) scale(1);
 opacity:1}
-.stationHead{
+.station-head{
 padding:16px 18px;
 border-bottom:1px solid var(--line);
 background:rgba(255,255,255,.02);
 display:flex;
 align-items:center;
 gap:12px}
-.stationIcon{
+.station-head-icon{
 width:44px;
 height:44px;
 border-radius:15px;
@@ -735,121 +580,77 @@ display:grid;
 place-items:center;
 border:1px solid rgba(214,173,104,.28);
 background:rgba(214,173,104,.08);
-font-size:22px;
-flex-shrink:0}
-.stationTitle{
-min-width:0}
-.stationTitle h2{
-margin:0;
-color:#eadcc1;
-font-family:Syne,Inter,sans-serif;
-font-size:21px;
-letter-spacing:.03em}
-.stationTitle p{
+font-size:22px}
+.station-head-title h2{
+font-family:Georgia,serif;
+font-size:21px}
+.station-head-title p{
 margin:4px 0 0;
 color:var(--muted);
 font-size:12px}
-.stationActionsTop{
+.station-head-actions{
 margin-left:auto;
 display:flex;
 gap:8px;
 align-items:center;
 flex-wrap:wrap;
 justify-content:flex-end}
-.stationBody{
+.station-body{
 min-height:0;
 display:grid;
-grid-template-columns:minmax(0,1fr) 340px;
+grid-template-columns:minmax(0,1fr) 320px;
 overflow:hidden}
-.stationMain{
+.station-main{
 padding:20px;
 overflow:auto}
-.stationSide{
+.station-side{
 border-left:1px solid var(--line);
 background:rgba(5,8,19,.32);
 padding:18px;
 overflow:auto}
-.stationSection{
-border:1px solid rgba(255,255,255,.09);
-border-radius:18px;
-background:rgba(255,255,255,.025);
-padding:14px;
-margin-bottom:14px}
-.stationSection h3,.stationSide h3{
-margin:0 0 10px;
-font-family:Syne,Inter,sans-serif;
-font-size:15px;
-color:#eadcc1}
-.grid2{
+.output{
+white-space:pre-wrap;
+background:#070b15;
+color:#dbe5ff;
+min-height:180px;
+max-height:420px;
+overflow:auto;
+font:11px/1.65 Consolas,monospace}
+.form-grid{
 display:grid;
 grid-template-columns:repeat(2,minmax(0,1fr));
 gap:12px}
-.grid3{
+.field.full{
+grid-column:1/-1}
+.provider-grid,.product-grid,.metric-grid{
 display:grid;
 grid-template-columns:repeat(3,minmax(0,1fr));
 gap:10px}
-.full{
-grid-column:1/-1}
-.output{
-white-space:pre-wrap;
-border:1px solid rgba(255,255,255,.10);
-border-radius:15px;
-background:#070b15;
-color:#dbe5ff;
-padding:13px;
-min-height:180px;
-max-height:460px;
-overflow:auto;
-font:11px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-.note{
-border:1px dashed rgba(214,173,104,.28);
-background:rgba(214,173,104,.06);
-color:#f2dcae;
-border-radius:14px;
-padding:11px;
-font-size:12px;
-line-height:1.55;
-margin:8px 0}
-.apiGrid,.providerGrid,.supportGrid,.productGrid,.visualResultGrid{
-display:grid;
-grid-template-columns:repeat(3,minmax(0,1fr));
-gap:10px;
-margin-top:10px}
-.apiCard,.supportCard,.productCard,.visualResultCard{
-border:1px solid rgba(255,255,255,.10);
-border-radius:16px;
-background:rgba(255,255,255,.035);
-padding:12px;
-min-height:88px}
-.apiCard.ok{
-border-color:rgba(117,219,155,.42);
-background:rgba(117,219,155,.06)}
-.apiCard.err{
-border-color:rgba(225,132,145,.42);
-background:rgba(225,132,145,.06)}
-.apiCard b,.supportCard b,.productCard b,.visualResultCard b{
+.provider-card,.product-card{
+cursor:pointer;
+transition:.15s}
+.provider-card:hover,.product-card:hover{
+filter:brightness(1.12);
+transform:translateY(-1px)}
+.provider-card.active,.product-card.active{
+border-color:rgba(214,173,104,.58);
+background:rgba(214,173,104,.08)}
+.provider-card b,.product-card b,.metric b{
 display:block;
 color:#f0ddbb;
 font-size:12px;
-margin-bottom:5px}
-.apiCard span,.supportCard span,.productCard span,.visualResultCard span{
+margin-bottom:4px}
+.provider-card span,.product-card span,.metric span{
 display:block;
 color:var(--muted);
-font-size:10.5px;
+font-size:10px;
 line-height:1.4}
-.apiCard .btn,.supportCard .btn,.visualResultCard .btn{
-width:100%;
-margin-top:8px}
-.productCard{
-cursor:pointer;
-transition:.15s}
-.productCard:hover{
-filter:brightness(1.12);
-transform:translateY(-1px)}
-.productCard.selected{
-border-color:rgba(214,173,104,.62);
-background:rgba(214,173,104,.09)}
-.uploadLabel{
+.actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:12px}
+.upload-label{
 display:block;
 border:1px dashed rgba(101,217,210,.38);
 background:rgba(101,217,210,.05);
@@ -861,126 +662,64 @@ font-size:12px;
 font-weight:800;
 cursor:pointer;
 margin:10px 0}
-.uploadLabel input{
+.upload-label input{
 display:none}
-.refsGrid{
+.refs-grid{
 display:grid;
 grid-template-columns:repeat(2,minmax(0,1fr));
 gap:8px;
 margin-top:10px}
-.refThumb{
+.ref-thumb{
 min-height:82px;
-border:1px solid rgba(255,255,255,.11);
-border-radius:12px;
 background:#070b15;
 display:grid;
 place-items:center;
 overflow:hidden;
-position:relative}
-.refThumb img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block}
-.refThumb button{
-position:absolute;
-right:6px;
-top:6px;
-border:1px solid rgba(255,255,255,.2);
-background:rgba(225,80,95,.88);
-color:white;
-border-radius:999px;
-width:24px;
-height:24px;
+position:relative;
 padding:0}
-.visualSlots{
-display:grid;
-grid-template-columns:repeat(4,minmax(0,1fr));
-gap:10px;
-margin:10px 0}
-.visualSlot{
-border:1px solid rgba(255,255,255,.10);
-border-radius:16px;
-background:rgba(255,255,255,.035);
-padding:10px;
-min-height:170px}
-.visualSlot h4{
-margin:0 0 8px;
-color:#eadcc1;
-font-size:12px}
-.visualDrop{
-display:grid;
-place-items:center;
-height:112px;
-border:1px dashed rgba(101,217,210,.42);
-border-radius:14px;
-background:rgba(101,217,210,.055);
-color:#cafffb;
-text-align:center;
-font-size:11px;
-font-weight:900;
-cursor:pointer;
-overflow:hidden}
-.visualDrop input{
-display:none}
-.visualDrop img{
+.ref-thumb img{
 width:100%;
 height:100%;
-object-fit:cover;
-display:block}
-.visualPreview{
-border:1px solid rgba(255,255,255,.10);
-border-radius:18px;
-background:#050814;
-min-height:260px;
+object-fit:cover}
+.ref-thumb button{
+position:absolute;
+right:4px;
+top:4px;
+border:0;
+border-radius:999px;
+background:rgba(225,132,145,.9);
+color:#fff;
+width:22px;
+height:22px}
+.scene-card{
+display:grid;
+grid-template-columns:50px minmax(0,1fr) auto;
+gap:10px;
+margin-bottom:10px}
+.scene-num{
+width:50px;
+height:50px;
+border-radius:14px;
 display:grid;
 place-items:center;
-overflow:hidden;
-position:relative}
-.visualPreview img{
-max-width:100%;
-max-height:420px;
-object-fit:contain;
-display:block}
-.visualEmpty{
-text-align:center;
-color:var(--muted);
-font-size:12px;
-padding:20px}
-.historyList{
-display:grid;
-gap:8px;
-max-height:260px;
-overflow:auto}
-.historyItem{
-border:1px solid rgba(255,255,255,.08);
-border-radius:12px;
-background:rgba(255,255,255,.025);
-padding:9px}
-.historyItem b{
-display:block;
-color:#eadcc1;
-font-size:11px}
-.historyItem span{
-display:block;
-color:var(--muted);
-font-size:10px;
-margin-top:4px;
-line-height:1.35}
-.toastStack{
+background:rgba(214,173,104,.09);
+border:1px solid rgba(214,173,104,.24);
+color:#f6d7a2;
+font-weight:900}
+.toast-stack{
 position:fixed;
 z-index:200;
 right:18px;
-top:82px;
+top:78px;
 display:grid;
 gap:8px;
-width:min(390px,calc(100vw - 36px));
+width:min(360px,calc(100vw - 36px));
 pointer-events:none}
 .toast{
 border:1px solid rgba(214,173,104,.28);
 border-radius:14px;
 background:rgba(10,15,28,.96);
-box-shadow:var(--shadow2);
+box-shadow:0 12px 38px rgba(0,0,0,.30);
 padding:10px 12px;
 color:#eadcc1;
 font-size:12px;
@@ -994,7 +733,7 @@ to{
 opacity:1;
 transform:translateY(0)}
 }
-.modalBackdrop{
+.modal-backdrop{
 position:fixed;
 inset:0;
 z-index:150;
@@ -1003,10 +742,10 @@ backdrop-filter:blur(7px);
 display:none;
 place-items:center;
 padding:18px}
-.modalBackdrop.active{
+.modal-backdrop.active{
 display:grid}
 .modal{
-width:min(840px,100%);
+width:min(780px,100%);
 max-height:84vh;
 display:grid;
 grid-template-rows:auto minmax(0,1fr) auto;
@@ -1015,42 +754,43 @@ border-radius:22px;
 background:#0c111d;
 box-shadow:var(--shadow);
 overflow:hidden}
-.modalHead,.modalFoot{
+.modal-head,.modal-foot{
 padding:14px 16px;
 border-bottom:1px solid var(--line);
 display:flex;
 gap:8px;
 align-items:center;
 justify-content:space-between}
-.modalFoot{
+.modal-foot{
 border-top:1px solid var(--line);
 border-bottom:0;
 justify-content:flex-end}
-.modalHead h3{
-margin:0;
-font-family:Syne,Inter,sans-serif;
-color:#eadcc1}
-.modalBody{
+.modal-body{
 overflow:auto;
 padding:16px}
-
-@media(max-width:1220px){
-.workspace{
-grid-template-columns:230px minmax(0,1fr)}
-.rightDock{
+.hidden-file{
 display:none}
-.stationBody{
+.note-card{
+border-color:rgba(101,217,210,.26);
+background:linear-gradient(180deg,rgba(101,217,210,.075),rgba(255,255,255,.012)),rgba(7,11,22,.86);
+margin-bottom:12px}
+.danger-note{
+border-color:rgba(225,132,145,.35);
+background:rgba(225,132,145,.07)}
+@media(max-width:1180px){
+.workspace{
+grid-template-columns:220px minmax(0,1fr)}
+.right-dock{
+display:none}
+.station-body{
 grid-template-columns:1fr}
-.stationSide{
+.station-side{
 border-left:0;
 border-top:1px solid var(--line);
-max-height:280px}
-.apiGrid,.providerGrid,.supportGrid,.productGrid{
-grid-template-columns:repeat(2,minmax(0,1fr))}
-.visualSlots{
-grid-template-columns:repeat(2,minmax(0,1fr))}
+max-height:250px}
+.provider-grid,.product-grid,.metric-grid{
+grid-template-columns:1fr 1fr}
 }
-
 @media(max-width:760px){
 html,body{
 overflow:auto}
@@ -1063,133 +803,142 @@ flex-wrap:wrap}
 .brand{
 min-width:0;
 width:100%}
-.topStatus{
+.top-status{
 margin-left:0;
 width:100%;
 justify-content:flex-start}
 .workspace{
-min-height:calc(100vh - 128px);
+min-height:calc(100vh - 118px);
 grid-template-columns:1fr}
-.leftDock{
+.left-dock{
 display:none}
-.canvasWrap{
-min-height:calc(100vh - 128px)}
+.canvas-wrap{
+min-height:calc(100vh - 118px)}
 .node{
 width:228px}
 .station{
 width:calc(100vw - 20px);
-height:calc(100vh - 24px)}
-.grid2,.grid3,.apiGrid,.providerGrid,.supportGrid,.productGrid,.visualSlots,.visualResultGrid{
+max-height:calc(100vh - 24px)}
+.form-grid,.provider-grid,.product-grid,.metric-grid{
 grid-template-columns:1fr}
 .minimap{
 display:none}
-.flowPanel{
-display:none}
+}
+
+
+
+/* PATCH MOBILE TOUCH — nodes/canvas responsivos no celular */
+.canvasWrap,.canvas-wrap,#canvasWrap{
+  touch-action:none;
+  overscroll-behavior:contain;
+}
+.node{
+  touch-action:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.station,.stationMain,.station-side,.station-main{
+  touch-action:auto;
+}
+@media(max-width:760px){
+  .node{min-height:132px;}
+  .node .btn{min-height:34px;}
+  .canvasControls,.canvas-controls{z-index:40;}
 }
 
 </style>
 </head>
 <body>
+<!--
+  Portal Genesis Mega Studio Profissional — Index Unificado
+  Base consolidada: Studio Remotion Lab + Video Remotion + Print Remotion + Sales/Vitrine.
+  APIs preparadas: Local/Offline, Pollinations, Gemini, Groq, OpenRouter, FLUX, LTX Video, ElevenLabs e CapCut.
+  Observação: chamadas reais de API dependem de backend/rotas seguras para proteger chaves e evitar CORS.
+-->
 <div class="app">
-  <header class="topbar">
-    <div class="brand">
-<div class="brandMark">PG</div>
-<div class="brandText">
+<header class="topbar">
+  <div class="brand">
+<div class="brand-mark">PG</div>
+<div class="brand-title">
 <strong>Portal Genesis Mega Studio</strong>
-<span>Mind Job • Video • Print • Sales • APIs</span>
+<span>Mind Job • Video • Print • Sales • API</span>
 </div>
 </div>
-    <div class="topStatus">
-      <span class="pill">
-<span class="dot on" id="saveDot">
-</span>
-<span id="saveStatus">autosave ativo</span>
-</span>
-      <span class="pill" id="projectPill">Projeto: Sem título</span>
-      <span class="pill" id="progressPill">0% pronto</span>
-      <button class="btn cyan" onclick="openStation('brief')">Briefing</button>
-      <button class="btn purple" onclick="openStation('apiHub')">APIs</button>
-      <button class="btn gold" onclick="generatePipeline()">Gerar Pipeline</button>
-      <button class="btn green" onclick="exportPackage()">Exportar</button>
-      <button class="btn red" onclick="resetProject()">Reset</button>
-    </div>
-  </header>
-  <main class="workspace">
-    <aside class="leftDock">
-      <section class="dockSection">
-<div class="dockCard">
-<h3>Mind Job API OS</h3>
-<p>Central profissional em nodes com funções reais: Studio, Video, Print, Sales, testes de API, prompts, voz, imagem, vídeo e pacote final.</p>
-<div class="note">
-<b>Correção desta versão:</b>
-<br>Inclui nodes de apoio, testes de provedores e estações funcionais. Não é só design.</div>
+  <div class="top-status">
+    <span class="pill good" id="saveStatus">autosave ativo</span>
+<span class="pill gold" id="projectPill">Projeto: Sem título</span>
+<span class="pill" id="progressPill">0% pronto</span>
+    <button class="btn cyan" onclick="openStation('brief')">Briefing</button>
+<button class="btn gold" onclick="generatePipeline()">Gerar Pipeline</button>
+<button class="btn green" onclick="exportPackage()">Exportar</button>
+<button class="btn purple" onclick="downloadJson()">JSON</button>
+<button class="btn red" onclick="resetProject()">Reset</button>
+  </div>
+</header>
+<main class="workspace">
+  <aside class="left-dock">
+    <section class="dock-section">
+<div class="dock-card">
+<h3>Mind Job Profissional</h3>
+<p>Central unificada com o melhor dos códigos antigos: Studio Lab como esqueleto, Video Remotion como motor audiovisual e Print/Sales como módulo gráfico/comercial.</p>
 </div>
 </section>
-      <section class="dockSection">
-<div class="dockTitle">Ações rápidas</div>
-<div class="quickGrid">
+    <section class="dock-section">
+<div class="dock-title">Ações rápidas</div>
+<div class="quick-actions">
 <button class="btn gold" onclick="openStation('brief')">Preencher uma vez</button>
 <button class="btn cyan" onclick="centerMap()">Centralizar mapa</button>
 <button class="btn purple" onclick="organizeNodes()">Organizar nodes</button>
 <button class="btn green" onclick="approveActiveNode()">Aprovar node</button>
-<button class="btn" onclick="loadDemoProject()">Carregar exemplo limpo</button>
+<button class="btn" onclick="openImport()">Importar JSON</button>
 </div>
 </section>
-      <section class="dockSection">
-<div class="dockTitle">Pipeline</div>
-<div class="nodeList" id="nodeList">
+    <section class="dock-section">
+<div class="dock-title">Pipeline</div>
+<div class="node-list" id="nodeList">
 </div>
 </section>
-    </aside>
-    <section class="canvasWrap" id="canvasWrap">
-      <div class="flowPanel">
-<h3>Fluxo inteligente</h3>
-<p id="flowHint">Preencha o Briefing Mestre. Depois gere as etapas e teste APIs sem sair dos nodes.</p>
-<div class="flowBtns">
-<button class="btn tiny gold" onclick="openNextPending()">Próximo pendente</button>
-<button class="btn tiny cyan" onclick="testAllApis()">Testar APIs</button>
-<button class="btn tiny green" onclick="exportPackage()">Montar pacote</button>
-<button class="btn tiny purple" onclick="toggleMode()" id="modeBtn">Modo: Todos</button>
-</div>
-<div class="stageStrip" id="stageStrip">
-</div>
-</div>
-      <div class="canvasMap" id="canvasMap">
-<svg class="connectorLayer" id="connectorLayer">
+    <section class="dock-section">
+<div class="dock-title">Histórico</div>
+<div id="logList" class="small">Nenhuma ação ainda.</div>
+</section>
+  </aside>
+  <section class="canvas-wrap" id="canvasWrap">
+    <div class="canvas-map" id="canvasMap">
+<svg class="connector-layer" id="connectorLayer">
 </svg>
 <div id="nodeLayer">
 </div>
 </div>
-      <div class="canvasControls">
-<button class="btn tiny" onclick="zoomMap(-.10)">−</button>
-<span class="zoomReadout" id="zoomReadout">100%</span>
-<button class="btn tiny" onclick="zoomMap(.10)">+</button>
+    <div class="canvas-controls">
+<button class="btn tiny" onclick="zoomMap(-.1)">−</button>
+<span class="zoom-readout" id="zoomReadout">100%</span>
+<button class="btn tiny" onclick="zoomMap(.1)">+</button>
 <button class="btn tiny cyan" onclick="centerMap()">Centralizar</button>
 <button class="btn tiny purple" onclick="organizeNodes()">Organizar</button>
 </div>
-      <div class="minimap">
-<div class="minimapLabel">minimap</div>
+    <div class="minimap">
+<div class="minimap-label">minimap</div>
 <svg id="miniMapSvg" viewBox="0 0 190 126">
 </svg>
 </div>
-    </section>
-    <aside class="rightDock">
-      <section class="dockSection">
-<div class="dockTitle">Diagnóstico</div>
-<div class="dockCard">
-<div class="diagLine">
-<span>Nodes aprovados</span>
-<strong id="diagNodes">0/0</strong>
+  </section>
+  <aside class="right-dock">
+    <section class="dock-section">
+<div class="dock-title">Diagnóstico</div>
+<div class="dock-card">
+<div class="diagnostic-line">
+<span>Briefing</span>
+<strong id="diagBrief">pendente</strong>
 </div>
-<div class="diagLine">
+<div class="diagnostic-line">
+<span>Modo</span>
+<strong id="diagMode">Studio</strong>
+</div>
+<div class="diagnostic-line">
 <span>Referências</span>
 <strong id="diagRefs">0</strong>
 </div>
-<div class="diagLine">
-<span>APIs testadas</span>
-<strong id="diagApis">0</strong>
-</div>
-<div class="diagLine">
+<div class="diagnostic-line">
 <span>Exportação</span>
 <strong id="diagExport">pendente</strong>
 </div>
@@ -1199,264 +948,1140 @@ display:none}
 </div>
 </div>
 </section>
-      <section class="dockSection">
-<div class="dockTitle">Preview leve</div>
-<div class="rightPreview">
-<div class="phoneFrame">
-<div class="phoneOrbA">
+    <section class="dock-section">
+<div class="dock-title">Preview leve</div>
+<div class="right-preview">
+<div class="phone-frame">
+<div class="phone-orb-a">
 </div>
-<div class="phoneOrbB">
+<div class="phone-orb-b">
 </div>
-<div class="phoneTitle" id="previewTitle">Portal Genesis Pro</div>
-<div class="phoneSub" id="previewSub">Crie, teste e prepare vídeo, print, sales e APIs em nodes.</div>
-<div class="phoneCta" id="previewCta">MIND JOB API</div>
+<div class="phone-title" id="previewTitle">Portal Genesis</div>
+<div class="phone-sub" id="previewSub">Crie vídeo, print, pacote para cliente e prompts de IA.</div>
+<div class="phone-cta" id="previewCta">MIND JOB</div>
 </div>
-</div>
-</section>
-      <section class="dockSection">
-<div class="dockTitle">Status dos provedores</div>
-<div class="providerList" id="providerList">
 </div>
 </section>
-      <section class="dockSection">
-<div class="dockTitle">Pacote final</div>
-<div class="dockCard">
-<p>Exporta TXT/JSON com briefing, nodes, contratos de API, prompts e resultados.</p>
-<div class="quickGrid" style="margin-top:12px">
+    <section class="dock-section">
+<div class="dock-title">Pacote final</div>
+<div class="dock-card">
+<p>Exporta TXT/JSON para CapCut, Remotion, Flow, Veo, Seedance, LTX, FLUX, ElevenLabs, Print, Sales ou produção manual.</p>
+<div class="quick-actions" style="margin-top:12px">
 <button class="btn green" onclick="downloadTxt()">Baixar TXT</button>
 <button class="btn cyan" onclick="downloadJson()">Baixar JSON</button>
 <button class="btn purple" onclick="copyPackage()">Copiar pacote</button>
 </div>
 </div>
 </section>
-    </aside>
-  </main>
+  </aside>
+</main>
 </div>
-
-<div class="stationOverlay" id="stationOverlay" onclick="closeStation()">
+<div class="station-overlay" id="stationOverlay" onclick="closeStation()">
 </div>
 <section class="station" id="station">
-  <header class="stationHead">
-    <div class="stationIcon" id="stationIcon">🧠</div>
-    <div class="stationTitle">
+<header class="station-head">
+<div class="station-head-icon" id="stationIcon">🧠</div>
+<div class="station-head-title">
 <h2 id="stationTitle">Briefing Mestre</h2>
 <p id="stationSubtitle">Estação técnica do node ativo.</p>
 </div>
-    <div class="stationActionsTop">
+<div class="station-head-actions">
 <button class="btn cyan" onclick="saveCurrentStation()">Salvar</button>
 <button class="btn green" onclick="approveActiveNode()">Aprovar</button>
 <button class="btn gold" onclick="nextNode()">Próximo</button>
 <button class="btn" onclick="closeStation()">Fechar</button>
 </div>
-  </header>
-  <div class="stationBody">
-    <div class="stationMain" id="stationMain">
+</header>
+<div class="station-body">
+<div class="station-main" id="stationMain">
 </div>
-    <aside class="stationSide">
-      <h3>Contexto vivo</h3>
-<p class="small">Esta lateral alimenta os nodes com referências, DNA visual, logs e contratos de API.</p>
-      <label class="uploadLabel">+ Adicionar referência visual<input type="file" accept="image/*" multiple onchange="handleRefUpload(event)">
+<aside class="station-side">
+<h3>Contexto vivo</h3>
+<p class="small">A estação ativa usa Briefing Mestre, memória visual, módulos anteriores e destino de produção.</p>
+<label class="upload-label">+ Adicionar referência visual<input type="file" accept="image/*" multiple onchange="handleRefUpload(event)">
 </label>
-      <div class="refsGrid" id="refsGrid">
+<div class="refs-grid" id="refsGrid">
 </div>
-      <div class="stationSection" style="margin-top:14px">
+<div class="station-section" style="margin-top:14px">
 <h3>Memória Visual</h3>
 <textarea id="sideVisualMemory" placeholder="Paleta, textura, câmera, lente, atmosfera..." oninput="updateVisualMemory(this.value)">
 </textarea>
-<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+<div class="actions">
 <button class="btn tiny cyan" onclick="analyzeRefsLocal()">Analisar local</button>
 <button class="btn tiny red" onclick="clearRefs()">Limpar refs</button>
 </div>
 </div>
-      <div class="stationSection">
-<h3>Histórico</h3>
-<div class="historyList" id="historyList">
+</aside>
 </div>
-</div>
-    </aside>
-  </div>
 </section>
-
-<div class="toastStack" id="toastStack">
+<div class="toast-stack" id="toastStack">
 </div>
-<div class="modalBackdrop" id="modalBackdrop">
+<div class="modal-backdrop" id="modalBackdrop">
 <div class="modal">
-<div class="modalHead">
+<div class="modal-head">
 <h3 id="modalTitle">Resultado</h3>
 <button class="btn" onclick="closeModal()">Fechar</button>
 </div>
-<div class="modalBody">
+<div class="modal-body">
 <div class="output" id="modalOutput">
 </div>
 </div>
-<div class="modalFoot">
+<div class="modal-foot">
 <button class="btn cyan" onclick="copyModal()">Copiar</button>
 <button class="btn green" onclick="downloadModal()">Baixar TXT</button>
 </div>
 </div>
 </div>
-<input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importProject(event)">
+<input id="importFile" class="hidden-file" type="file" accept="application/json,.json" onchange="importProject(event)">
 <script>
 'use strict';
-const STORAGE_KEY='portal_genesis_mega_studio_pro_v20';
-const $=id=>document.getElementById(id);
-const clone=o=>JSON.parse(JSON.stringify(o));
-const now=()=>new Date().toLocaleString('pt-BR');
-const escapeHtml=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
-const escapeAttr=v=>escapeHtml(v).replaceAll('\n','&#10;');
-const short=(v,n=100)=>{const t=String(v||'').replace(/\s+/g,' ').trim();return t.length>n?t.slice(0,n-1)+'…':t};
-const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+const STORAGE_KEY='pg_mega_studio_lite_pro_v1';
+ const $=id=>document.getElementById(id);
 
 const NODE_DEFS=[
-  {id:'brief',icon:'🧠',title:'Briefing Mestre',module:'studio',subtitle:'raiz do projeto',x:80,y:120,deps:[]},
-  {id:'apiHub',icon:'🔌',title:'API Hub',module:'api',subtitle:'provedores e endpoints',x:420,y:120,deps:['brief']},
-  {id:'apiTests',icon:'🧪',title:'Teste de APIs',module:'api',subtitle:'ping e diagnóstico',x:760,y:120,deps:['apiHub']},
-  {id:'support',icon:'🧰',title:'Nodes de Apoio',module:'studio',subtitle:'contratos, enviar para',x:1100,y:120,deps:['apiHub']},
-  {id:'dna',icon:'🧬',title:'DNA Visual',module:'studio',subtitle:'marca e universo',x:1440,y:120,deps:['brief']},
-  {id:'refs',icon:'🖼️',title:'Referências',module:'studio',subtitle:'imagens e continuidade',x:1780,y:120,deps:['dna']},
-  {id:'script',icon:'✍️',title:'Roteiro / Cena',module:'video',subtitle:'hook e narrativa',x:420,y:390,deps:['brief']},
-  {id:'storyboard',icon:'🎞️',title:'Storyboard',module:'video',subtitle:'quadros e câmera',x:760,y:390,deps:['script']},
-  {id:'imagePrompts',icon:'🌄',title:'Prompts Imagem',module:'image',subtitle:'FLUX/Pollinations',x:1100,y:390,deps:['storyboard']},
-  {id:'visualEdit',icon:'🎨',title:'Visual IA / FLUX',module:'image',subtitle:'preview, A/B, edição',x:1440,y:390,deps:['imagePrompts']},
-  {id:'videoAI',icon:'🎬',title:'Vídeo IA / LTX',module:'video',subtitle:'movimento e câmera',x:1780,y:390,deps:['storyboard']},
-  {id:'voice',icon:'🎙️',title:'Voz / ElevenLabs',module:'audio',subtitle:'narração e falas',x:2120,y:390,deps:['script']},
-  {id:'srt',icon:'🎧',title:'SRT / Som',module:'audio',subtitle:'legendas e SFX',x:2120,y:650,deps:['voice','script']},
-  {id:'capcut',icon:'📘',title:'CapCut Book',module:'video',subtitle:'edição real',x:1780,y:650,deps:['videoAI','srt']},
-  {id:'remotion',icon:'{}',title:'Remotion JSON',module:'video',subtitle:'layers/timing',x:1440,y:650,deps:['storyboard']},
-  {id:'client',icon:'👤',title:'Cliente / Marca',module:'print',subtitle:'cadastro e briefing',x:80,y:650,deps:['brief']},
-  {id:'printProduct',icon:'🖨️',title:'Produto Gráfico',module:'print',subtitle:'formatos e técnica',x:420,y:650,deps:['client']},
-  {id:'quote',icon:'💰',title:'Orçamento',module:'print',subtitle:'estimativa e proposta',x:760,y:650,deps:['printProduct']},
-  {id:'prepress',icon:'✅',title:'Pré-impressão',module:'print',subtitle:'checklist técnico',x:1100,y:650,deps:['printProduct']},
-  {id:'sales',icon:'🛒',title:'Sales / Vitrine',module:'sales',subtitle:'proposta e CTA',x:760,y:910,deps:['quote','prepress']},
-  {id:'sendTo',icon:'📤',title:'Enviar Para',module:'support',subtitle:'roteamento de saída',x:1100,y:910,deps:['support']},
-  {id:'package',icon:'📦',title:'Pacote Final',module:'export',subtitle:'TXT/JSON limpo',x:1440,y:910,deps:['capcut','remotion','sales','sendTo']},
-  {id:'export',icon:'🚀',title:'Exportar',module:'export',subtitle:'download/backup',x:1780,y:910,deps:['package']}
+{
+id:'brief',icon:'🧠',title:'Briefing Mestre',subtitle:'raiz do projeto',x:80,y:120,deps:[]}
+,
+{
+id:'api',icon:'🔌',title:'API / Provedores',subtitle:'Pollinations, Gemini, FLUX, LTX',x:420,y:120,deps:['brief']}
+,
+{
+id:'dna',icon:'🧬',title:'DNA Visual',subtitle:'marca, refs e continuidade',x:760,y:120,deps:['brief']}
+,
+{
+id:'storyboard',icon:'🎞️',title:'Storyboard',subtitle:'cenas e quadros',x:1100,y:120,deps:['dna']}
+,
+{
+id:'scene',icon:'🎬',title:'Cena Atual',subtitle:'direção detalhada',x:1440,y:120,deps:['storyboard']}
+,
+{
+id:'motion',icon:'🌀',title:'Motion / Vídeo IA',subtitle:'LTX, Seedance, Flow, Veo',x:1440,y:390,deps:['scene']}
+,
+{
+id:'prompts',icon:'✍️',title:'Prompts IA',subtitle:'imagem, vídeo, negative',x:1100,y:390,deps:['scene']}
+,
+{
+id:'srt',icon:'🎧',title:'SRT / Som / Voz',subtitle:'CapCut e ElevenLabs',x:760,y:390,deps:['scene']}
+,
+{
+id:'capcut',icon:'📘',title:'CapCut Motion Book',subtitle:'plano técnico de edição',x:1100,y:660,deps:['motion','srt','prompts']}
+,
+{
+id:'print',icon:'🖨️',title:'Print / Cliente',subtitle:'produto gráfico e briefing',x:80,y:660,deps:['brief']}
+,
+{
+id:'quote',icon:'💰',title:'Orçamento / Produção',subtitle:'pré-impressão e preço',x:420,y:660,deps:['print']}
+,
+{
+id:'visual',icon:'🪄',title:'Visual IA',subtitle:'FLUX, Pollinations, edição',x:760,y:660,deps:['prompts','print']}
+,
+{
+id:'sales',icon:'💼',title:'Sales / Vitrine',subtitle:'oferta, proposta, WhatsApp',x:1440,y:660,deps:['quote','capcut']}
+,
+{
+id:'export',icon:'📦',title:'Pacote Final',subtitle:'TXT/JSON limpo',x:1780,y:660,deps:['sales','visual']}
+
 ];
-const PRODUCT_PRESETS=[
-  {id:'social_feed',cat:'Digital',name:'Social Media Feed',w:1080,h:1350,unit:'px',material:'Digital / RGB',base:45,print:0,delivery:'PNG/JPG RGB',dpi:'144 ppi',bleed:'0',safe:'80 px'},
-  {id:'story_reels',cat:'Digital',name:'Story / Reels / TikTok',w:1080,h:1920,unit:'px',material:'Digital / RGB',base:55,print:0,delivery:'PNG/JPG RGB',dpi:'144 ppi',bleed:'0',safe:'120 px'},
-  {id:'flyer_a5',cat:'Gráfica',name:'Panfleto / Flyer A5',w:148,h:210,unit:'mm',material:'Couchê 90g',base:65,print:.35,delivery:'PDF/X-1a',dpi:'300 dpi',bleed:'3 mm',safe:'5 mm'},
-  {id:'business_card',cat:'Gráfica',name:'Cartão de visita',w:90,h:50,unit:'mm',material:'Couchê 250g',base:75,print:.18,delivery:'PDF frente/verso',dpi:'300 dpi',bleed:'3 mm',safe:'4 mm'},
-  {id:'banner_lona',cat:'Grande formato',name:'Banner / Lona',w:90,h:120,unit:'cm',material:'Lona 440g',base:90,print:55,delivery:'PDF escala real',dpi:'100–150 dpi',bleed:'2 a 5 cm',safe:'5 cm'},
-  {id:'mug',cat:'Brinde',name:'Caneca personalizada',w:210,h:95,unit:'mm',material:'Sublimação',base:80,print:12,delivery:'PNG/PDF alta',dpi:'300 dpi',bleed:'3 mm',safe:'8 mm'}
-];
-const PROVIDERS={
-  local:{label:'Local / Offline',type:'text',endpoint:'local://templates',model:'template-pro',enabled:true,note:'Gera tudo por template interno.'},
-  pollinations:{label:'Pollinations',type:'text/image',endpoint:'https://text.pollinations.ai/',model:'openai',enabled:false,note:'Pode usar endpoint público para texto/imagem, conforme CORS e disponibilidade.'},
-  gemini:{label:'Gemini',type:'text/image',endpoint:'/api/gemini',model:'gemini-2.5-flash',enabled:false,note:'Precisa backend para chave segura.'},
-  groq:{label:'Groq',type:'text',endpoint:'/api/groq',model:'llama-3.3-70b-versatile',enabled:false,note:'Rota backend recomendada.'},
-  openrouter:{label:'OpenRouter',type:'text',endpoint:'/api/openrouter',model:'anthropic/claude-sonnet-4.5',enabled:false,note:'Rota backend recomendada.'},
-  flux:{label:'FLUX',type:'image',endpoint:'/api/flux-image',model:'flux-pro',enabled:false,note:'Imagem; nunca colocar chave no HTML.'},
-  ltx:{label:'LTX Video',type:'video',endpoint:'/api/ltx-video',model:'ltx-video',enabled:false,note:'Vídeo; precisa backend.'},
-  elevenlabs:{label:'ElevenLabs',type:'audio',endpoint:'/api/elevenlabs-tts',model:'multilingual-v2',enabled:false,note:'Voz; precisa backend.'},
-  capcut:{label:'CapCut / Export',type:'export',endpoint:'manual://capcut',model:'manual',enabled:true,note:'Saída manual/arquivo.'}
-};
-const DEFAULT_STATE={zoom:.82,pan:{x:20,y:24},activeNode:'brief',viewMode:'all',approved:{},logs:[],refs:[],visualMemory:'',nodePositions:{},setup:{projectName:'',projectMode:'Novo projeto limpo',format:'9:16 vertical',duration:'60 segundos',tone:'Cinematográfico / Motion Comic',target:'Shorts/Reels/TikTok',idea:'',objective:'Transformar uma ideia em pacote profissional para vídeo, print, sales e APIs.',continuityRules:'Novo projeto limpo. Preservar continuidade visual, emocional e espacial. Não importar personagem antigo sem pedido explícito.',requiredText:'',audience:'clientes, criadores, empreendedores, designers, músicos, produtores e marcas locais'},client:{name:'',segment:'',whatsapp:'',city:'Caruaru',goal:'Vender mais',description:'',required:''},product:{selected:'social_feed',quantity:1,colors:'dourado, ciano, fundo escuro premium'},api:{selectedProvider:'local',providers:clone(PROVIDERS),lastTests:{}},visualEdit:{mode:'produto',style:'premium cinematic',imageSize:'1024x1024',imageQuality:'medium',baseImage:'',faceImage:'',clothingImage:'',productImage:'',resultImage:'',resultImages:[],approvedIndex:0,status:'aguardando ação',lastError:'',history:[]},outputs:{}};
-let state=loadState();let mapDrag=null;let nodeDrag=null;let modalLastName='resultado.txt';let modalLastText='';
-function mergeDeep(base,incoming){Object.keys(incoming||{}).forEach(k=>{if(incoming[k]&&typeof incoming[k]==='object'&&!Array.isArray(incoming[k])&&base[k]&&typeof base[k]==='object'&&!Array.isArray(base[k])) mergeDeep(base[k],incoming[k]); else base[k]=incoming[k];});return base}
-function loadState(){try{const raw=localStorage.getItem(STORAGE_KEY);return raw?mergeDeep(clone(DEFAULT_STATE),JSON.parse(raw)):clone(DEFAULT_STATE)}catch(e){return clone(DEFAULT_STATE)}}
-function saveState(){state.nodePositions={};NODE_DEFS.forEach(n=>state.nodePositions[n.id]={x:n.x,y:n.y});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));setSaveStatus('salvo')}catch(e){setSaveStatus('memória cheia');toast('LocalStorage cheio. Limpe referências grandes.')}}
-function hydratePositions(){NODE_DEFS.forEach(n=>{const p=state.nodePositions[n.id];if(p){n.x=Number(p.x)||n.x;n.y=Number(p.y)||n.y}})}
-function setSaveStatus(t){$('saveStatus').textContent=t;clearTimeout(setSaveStatus.timer);setSaveStatus.timer=setTimeout(()=>$('saveStatus').textContent='autosave ativo',1300)}
-function toast(msg){const d=document.createElement('div');d.className='toast';d.textContent=msg;$('toastStack').appendChild(d);setTimeout(()=>d.remove(),3600)}
-function log(msg){state.logs.unshift({at:now(),message:msg});state.logs=state.logs.slice(0,30);renderHistory();saveState()}
-function nodeById(id){return NODE_DEFS.find(n=>n.id===id)}
-function product(){return PRODUCT_PRESETS.find(p=>p.id===state.product.selected)||PRODUCT_PRESETS[0]}
-function nodeDone(id){if(state.approved[id])return true;if(id==='brief')return !!(state.setup.idea||state.setup.projectName);if(id==='apiHub')return !!state.api.selectedProvider;if(id==='apiTests')return Object.values(state.api.lastTests||{}).some(t=>t&&t.status);if(id==='dna')return !!(state.outputs.dna||state.visualMemory);if(id==='refs')return state.refs.length>0;if(id==='client')return !!(state.client.name||state.client.segment);if(id==='printProduct')return !!state.product.selected;if(id==='visualEdit')return !!(state.visualEdit.resultImage||state.outputs.visualEdit);if(id==='package'||id==='export')return !!state.outputs.package;return !!state.outputs[id]}
-function isLocked(id){const n=nodeById(id);return (n.deps||[]).some(d=>!nodeDone(d))}
-function statusOf(id){if(isLocked(id))return 'bloqueado';if(nodeDone(id))return 'pronto';if(id===state.activeNode)return 'ativo';return 'pendente'}
-function percent(){return Math.round(NODE_DEFS.filter(n=>nodeDone(n.id)).length/NODE_DEFS.length*100)}
-function filteredNodes(){if(state.viewMode==='all')return NODE_DEFS;return NODE_DEFS.filter(n=>['brief','apiHub','apiTests','support','sendTo','package','export'].includes(n.id)||n.module===state.viewMode)}
-function nodeSummary(id){if(id==='brief')return short(state.setup.idea||state.setup.objective,120);if(id==='apiHub')return `${state.api.providers[state.api.selectedProvider]?.label||'Local'} • ${Object.keys(state.api.providers).length} provedores`;if(id==='apiTests')return `Testes: ${Object.values(state.api.lastTests||{}).filter(t=>t.status==='ok').length} OK`;if(id==='support')return 'Contratos de backend, enviar para e nodes auxiliares';if(id==='dna')return short(state.outputs.dna||state.visualMemory||'DNA visual pendente',120);if(id==='refs')return `${state.refs.length} referência(s) carregada(s)`;if(id==='client')return short(`${state.client.name||'Cliente'} • ${state.client.segment||'Segmento pendente'}`,120);if(id==='printProduct')return `${product().name} • ${product().w}x${product().h}${product().unit}`;if(id==='quote')return state.outputs.quote?short(state.outputs.quote,120):`Estimativa base ${money(product().base + product().print*state.product.quantity)}`;if(id==='visualEdit')return state.visualEdit.status||'Editor visual aguardando';if(id==='package'||id==='export')return state.outputs.package?'Pacote final montado':'Aguardando etapas';return short(state.outputs[id]||'Aguardando geração desta estação.',120)}
-function render(){renderNodeList();renderNodes();renderConnectors();renderMinimap();renderRight();renderFlow();updateTransform();saveState()}
-function renderNodeList(){const box=$('nodeList');box.innerHTML=filteredNodes().map(n=>`<button class="nodeMini ${state.activeNode===n.id?'active':''} ${nodeDone(n.id)?'done':''}" onclick="openStation('${n.id}')"><span class="nodeMiniIcon">${n.icon}</span><span class="nodeMiniText"><strong>${escapeHtml(n.title)}</strong><span>${escapeHtml(statusOf(n.id))} • ${escapeHtml(n.module)}</span></span></button>`).join('')}
-function renderNodes(){const layer=$('nodeLayer');layer.innerHTML=filteredNodes().map(n=>{const st=statusOf(n.id);return `<div class="node ${state.activeNode===n.id?'active':''} ${nodeDone(n.id)?'done':''} ${isLocked(n.id)?'locked':''}" data-id="${n.id}" style="left:${n.x}px;top:${n.y}px" ondblclick="openStation('${n.id}')"><div class="nodeHead"><div class="nodeIcon">${n.icon}</div><div class="nodeTitle"><strong>${escapeHtml(n.title)}</strong><span>${escapeHtml(n.subtitle)}</span></div></div><div class="nodeSummary">${escapeHtml(nodeSummary(n.id))}</div><div class="nodeFoot"><span class="nodeStatus">${escapeHtml(st)}</span><span class="nodeTag">${escapeHtml(n.module)}</span></div></div>`}).join('');bindNodeEvents()}
-function centerOf(n){return{x:n.x+134,y:n.y+74}}
-function renderConnectors(){let html='';const visible=new Set(filteredNodes().map(n=>n.id));filteredNodes().forEach(n=>(n.deps||[]).forEach(d=>{if(!visible.has(d))return;const a=centerOf(nodeById(d)),b=centerOf(n);const dx=Math.max(90,Math.abs(b.x-a.x)*.45);html+=`<path class="${nodeDone(d)&&nodeDone(n.id)?'done':''}" d="M ${a.x} ${a.y} C ${a.x+dx} ${a.y}, ${b.x-dx} ${b.y}, ${b.x} ${b.y}"/>`}));$('connectorLayer').innerHTML=html}
-function renderMinimap(){let nodes=filteredNodes();let circles=nodes.map(n=>`<rect x="${8+n.x/16}" y="${20+n.y/16}" width="14" height="8" rx="2" fill="${nodeDone(n.id)?'#75db9b':state.activeNode===n.id?'#d6ad68':'#65d9d2'}" opacity=".85"/>`).join('');$('miniMapSvg').innerHTML=circles}
-function renderRight(){const p=percent();$('progressPill').textContent=p+'% pronto';$('progressFill').style.width=p+'%';$('projectPill').textContent='Projeto: '+(state.setup.projectName||'Sem título');$('diagNodes').textContent=`${NODE_DEFS.filter(n=>nodeDone(n.id)).length}/${NODE_DEFS.length}`;$('diagRefs').textContent=state.refs.length;$('diagApis').textContent=Object.values(state.api.lastTests||{}).filter(t=>t.status==='ok').length;$('diagExport').textContent=state.outputs.package?'montado':'pendente';$('previewTitle').textContent=state.setup.projectName||'Portal Genesis Pro';$('previewSub').textContent=short(state.setup.idea||state.setup.objective,110);renderProviders()}
-function renderProviders(){const box=$('providerList');box.innerHTML=Object.entries(state.api.providers).map(([k,p])=>{const t=state.api.lastTests[k]||{};return `<div class="providerMini ${t.status==='ok'?'ok':t.status==='error'?'err':''}"><b>${escapeHtml(p.label)}<span>${t.status||'—'}</span></b><span>${escapeHtml(p.type)} • ${escapeHtml(p.endpoint)}<br>${escapeHtml(t.message||p.note||'')}</span></div>`}).join('')}
-function renderFlow(){const pending=NODE_DEFS.find(n=>!nodeDone(n.id)&&!isLocked(n.id));$('flowHint').textContent=pending?`Próximo pendente: ${pending.title}`:'Tudo pronto para exportar.';$('modeBtn').textContent='Modo: '+(state.viewMode==='all'?'Todos':state.viewMode);$('stageStrip').innerHTML=['studio','api','video','image','audio','print','sales','export'].map(m=>`<div class="stageDot ${state.viewMode===m?'active':''} ${NODE_DEFS.filter(n=>n.module===m).every(n=>nodeDone(n.id))?'done':''}" onclick="state.viewMode='${m}';render()">${m}</div>`).join('')}
-function renderHistory(){const box=$('historyList');if(!box)return;box.innerHTML=state.logs.length?state.logs.map(h=>`<div class="historyItem"><b>${escapeHtml(h.at)}</b><span>${escapeHtml(h.message)}</span></div>`).join(''):'<p class="small">Sem histórico ainda.</p>'}
-function bindNodeEvents(){document.querySelectorAll('.node').forEach(el=>{el.addEventListener('mousedown',e=>{if(e.target.closest('button,input,textarea,select,label'))return;const id=el.dataset.id;const n=nodeById(id);state.activeNode=id;nodeDrag={id,startX:e.clientX,startY:e.clientY,nodeX:n.x,nodeY:n.y};el.classList.add('draggingNode');renderNodeList();renderMinimap()});el.addEventListener('click',e=>{if(nodeDrag&&nodeDrag.moved)return;state.activeNode=el.dataset.id;render()})})}
-function updateTransform(){const map=$('canvasMap');map.style.transform=`translate(${state.pan.x}px,${state.pan.y}px) scale(${state.zoom})`;$('zoomReadout').textContent=Math.round(state.zoom*100)+'%'}
-function zoomMap(delta,cx,cy){const wrap=$('canvasWrap'),rect=wrap.getBoundingClientRect(),old=state.zoom,next=Math.max(.35,Math.min(1.75,old+delta));const ox=typeof cx==='number'?cx-rect.left:rect.width/2,oy=typeof cy==='number'?cy-rect.top:rect.height/2;state.pan.x=ox-(ox-state.pan.x)*(next/old);state.pan.y=oy-(oy-state.pan.y)*(next/old);state.zoom=next;updateTransform();saveState()}
-function centerMap(){state.zoom=window.innerWidth<760?.60:.82;state.pan.x=window.innerWidth<760?8:20;state.pan.y=window.innerWidth<760?18:24;updateTransform();saveState();toast('Mapa centralizado')}
-function organizeNodes(){const layout={brief:[80,120],apiHub:[420,120],apiTests:[760,120],support:[1100,120],dna:[1440,120],refs:[1780,120],script:[420,390],storyboard:[760,390],imagePrompts:[1100,390],visualEdit:[1440,390],videoAI:[1780,390],voice:[2120,390],srt:[2120,650],capcut:[1780,650],remotion:[1440,650],client:[80,650],printProduct:[420,650],quote:[760,650],prepress:[1100,650],sales:[760,910],sendTo:[1100,910],package:[1440,910],export:[1780,910]};NODE_DEFS.forEach(n=>{n.x=layout[n.id][0];n.y=layout[n.id][1]});render();toast('Nodes organizados')}
-function bindCanvas(){const wrap=$('canvasWrap');wrap.addEventListener('mousedown',e=>{if(e.target.closest('.node')||e.target.closest('button,input,textarea,select,label'))return;mapDrag={startX:e.clientX,startY:e.clientY,panX:state.pan.x,panY:state.pan.y};wrap.classList.add('dragging')});window.addEventListener('mousemove',e=>{if(mapDrag){state.pan.x=mapDrag.panX+e.clientX-mapDrag.startX;state.pan.y=mapDrag.panY+e.clientY-mapDrag.startY;updateTransform()}if(nodeDrag){nodeDrag.moved=true;const n=nodeById(nodeDrag.id);n.x=Math.round(nodeDrag.nodeX+(e.clientX-nodeDrag.startX)/state.zoom);n.y=Math.round(nodeDrag.nodeY+(e.clientY-nodeDrag.startY)/state.zoom);const el=document.querySelector(`.node[data-id="${n.id}"]`);if(el){el.style.left=n.x+'px';el.style.top=n.y+'px'}renderConnectors();renderMinimap()}});window.addEventListener('mouseup',()=>{if(mapDrag||nodeDrag){document.querySelectorAll('.draggingNode').forEach(e=>e.classList.remove('draggingNode'));wrap.classList.remove('dragging');saveState()}mapDrag=null;nodeDrag=null});wrap.addEventListener('wheel',e=>{e.preventDefault();zoomMap(e.deltaY>0?-.06:.06,e.clientX,e.clientY)},{passive:false})}
-function openStation(id){state.activeNode=id;render();renderStation();$('stationOverlay').classList.add('active');$('station').classList.add('active')}
-function closeStation(){$('stationOverlay').classList.remove('active');$('station').classList.remove('active');render()}
-function currentNode(){return nodeById(state.activeNode)}
-function renderStation(){const n=currentNode();$('stationIcon').textContent=n.icon;$('stationTitle').textContent=n.title;$('stationSubtitle').textContent=`${n.module} • ${statusOf(n.id)}`;$('stationMain').innerHTML=stationHTML(n.id);renderRefs();renderHistory();const vm=$('sideVisualMemory');if(vm)vm.value=state.visualMemory||''}
-function stationHTML(id){if(id==='brief')return briefHTML();if(id==='apiHub')return apiHubHTML();if(id==='apiTests')return apiTestsHTML();if(id==='support')return supportHTML();if(id==='refs')return refsHTML();if(id==='client')return clientHTML();if(id==='printProduct')return productHTML();if(id==='visualEdit')return visualEditHTML();if(id==='sendTo')return sendToHTML();if(id==='package'||id==='export')return packageHTML();return genericNodeHTML(id)}
-function options(cur,arr){return arr.map(v=>`<option ${v===cur?'selected':''}>${escapeHtml(v)}</option>`).join('')}
-function field(path,value=''){return `data-path="${path}" value="${escapeAttr(value)}" oninput="setPath('${path}',this.value)"`}
-function textareaField(path,value='',rows=5){return `<textarea rows="${rows}" oninput="setPath('${path}',this.value)">${escapeHtml(value||'')}</textarea>`}
-function briefHTML(){const s=state.setup;return `<div class="stationSection"><h3>Briefing Mestre completo</h3><div class="grid2"><div><label>Nome do projeto</label><input ${field('setup.projectName',s.projectName)} placeholder="Ex.: campanha, cena, piloto..."></div><div><label>Modo</label><select onchange="setPath('setup.projectMode',this.value)">${options(s.projectMode,['Novo projeto limpo','Motion Comic 2D','Video marketing','Print/Sales','Fruits Adventures','Cliente externo'])}</select></div><div><label>Formato</label><select onchange="setPath('setup.format',this.value)">${options(s.format,['9:16 vertical','16:9 horizontal','1:1 quadrado','4:5 feed','A5 print','Banner/lona'])}</select></div><div><label>Duração</label><select onchange="setPath('setup.duration',this.value)">${options(s.duration,['8 segundos','15 segundos','30 segundos','45 segundos','60 segundos','90 segundos','Print estático'])}</select></div><div><label>Tom</label><input ${field('setup.tone',s.tone)}></div><div><label>Público/canal</label><input ${field('setup.target',s.target)}></div><div class="full"><label>Ideia / descrição</label>${textareaField('setup.idea',s.idea,7)}</div><div class="full"><label>Regras de continuidade</label>${textareaField('setup.continuityRules',s.continuityRules,4)}</div><div class="full"><label>Texto obrigatório</label>${textareaField('setup.requiredText',s.requiredText,3)}</div></div><div class="stationActionsTop" style="margin-top:14px"><button class="btn gold" onclick="generatePipeline()">Gerar pipeline completo</button><button class="btn cyan" onclick="generateNode('script')">Gerar roteiro</button><button class="btn purple" onclick="generateNode('dna')">Gerar DNA</button></div></div>`}
-function apiHubHTML(){return `<div class="stationSection"><h3>API Hub — provedores reais preparados</h3><p class="small">Configure endpoints. No GitHub estático, chaves não devem ficar no HTML. Use rotas backend como /api/gemini, /api/flux-image, /api/elevenlabs-tts.</p><label>Provedor principal</label><select onchange="state.api.selectedProvider=this.value;saveState();renderStation();render()">${Object.entries(state.api.providers).map(([k,p])=>`<option value="${k}" ${state.api.selectedProvider===k?'selected':''}>${escapeHtml(p.label)}</option>`).join('')}</select><div class="apiGrid">${Object.entries(state.api.providers).map(([k,p])=>providerCard(k,p)).join('')}</div></div><div class="stationSection"><h3>Contrato padrão para backend</h3><div class="output">${escapeHtml(apiContractText())}</div><div class="stationActionsTop" style="margin-top:12px"><button class="btn cyan" onclick="copyText(apiContractText())">Copiar contrato</button><button class="btn green" onclick="testAllApis()">Testar todos</button></div></div>`}
-function providerCard(k,p){const t=state.api.lastTests[k]||{};return `<div class="apiCard ${t.status==='ok'?'ok':t.status==='error'?'err':''}"><b>${escapeHtml(p.label)}</b><span>${escapeHtml(p.type)}<br>${escapeHtml(p.endpoint)}<br>${escapeHtml(t.message||p.note||'')}</span><label>Endpoint</label><input value="${escapeAttr(p.endpoint)}" oninput="state.api.providers['${k}'].endpoint=this.value;saveState()"><label>Modelo</label><input value="${escapeAttr(p.model)}" oninput="state.api.providers['${k}'].model=this.value;saveState()"><button class="btn tiny cyan" onclick="testProvider('${k}')">Testar</button></div>`}
-function apiTestsHTML(){return `<div class="stationSection"><h3>Teste de APIs</h3><p class="small">Botões de diagnóstico: testam se o endpoint responde e gravam erro/sucesso. Local sempre funciona; backend depende do seu Vercel/servidor.</p><div class="apiGrid">${Object.keys(state.api.providers).map(k=>{const p=state.api.providers[k],t=state.api.lastTests[k]||{};return `<div class="apiCard ${t.status==='ok'?'ok':t.status==='error'?'err':''}"><b>${escapeHtml(p.label)}</b><span>Status: ${escapeHtml(t.status||'não testado')}<br>${escapeHtml(t.message||p.endpoint)}${t.at?'<br>'+escapeHtml(t.at):''}</span><button class="btn tiny cyan" onclick="testProvider('${k}')">Testar ${escapeHtml(p.label)}</button></div>`}).join('')}</div><div class="stationActionsTop" style="margin-top:14px"><button class="btn gold" onclick="testAllApis()">Testar todos</button><button class="btn purple" onclick="openModal('Relatório de APIs',apiReportText(),'relatorio-apis.txt')">Ver relatório</button></div></div>`}
-function supportHTML(){const cards=[['Contrato /api/gemini','Texto/roteiro por Gemini'],['Contrato /api/visual-image','Imagem FLUX/Gemini/Pollinations com A/B/C'],['Contrato /api/ltx-video','Vídeo IA por prompt e referência'],['Contrato /api/elevenlabs-tts','Voz/narração em MP3'],['Enviar Para','roteia output para Video/Print/Sales'],['Import/Export','backup JSON do projeto']];return `<div class="stationSection"><h3>Nodes de apoio</h3><div class="supportGrid">${cards.map(c=>`<div class="supportCard"><b>${c[0]}</b><span>${c[1]}</span><button class="btn tiny cyan" onclick="openModal('${escapeAttr(c[0])}',supportContract('${escapeAttr(c[0])}'),'contrato.txt')">Abrir</button></div>`).join('')}</div></div><div class="stationSection"><h3>Importar / Exportar projeto</h3><div class="stationActionsTop"><button class="btn cyan" onclick="document.getElementById('importFile').click()">Importar JSON</button><button class="btn green" onclick="downloadJson()">Exportar JSON</button><button class="btn purple" onclick="copyText(JSON.stringify(state,null,2))">Copiar estado</button></div></div>`}
-function refsHTML(){return `<div class="stationSection"><h3>Referências e continuidade</h3><p class="small">Carregue imagens na lateral ou cole notas visuais. Elas entram no pacote e nos prompts.</p><label>Memória visual consolidada</label>${textareaField('visualMemory',state.visualMemory,8)}<div class="stationActionsTop" style="margin-top:12px"><button class="btn cyan" onclick="analyzeRefsLocal()">Analisar local</button><button class="btn red" onclick="clearRefs()">Limpar refs</button></div></div>`}
-function clientHTML(){const c=state.client;return `<div class="stationSection"><h3>Cadastro de cliente / marca</h3><div class="grid2"><div><label>Cliente/marca</label><input ${field('client.name',c.name)}></div><div><label>Segmento</label><input ${field('client.segment',c.segment)}></div><div><label>WhatsApp</label><input ${field('client.whatsapp',c.whatsapp)}></div><div><label>Cidade</label><input ${field('client.city',c.city)}></div><div><label>Objetivo comercial</label><input ${field('client.goal',c.goal)}></div><div><label>Cores da marca</label><input ${field('product.colors',state.product.colors)}></div><div class="full"><label>Descrição do cliente/campanha</label>${textareaField('client.description',c.description,5)}</div><div class="full"><label>Informações obrigatórias</label>${textareaField('client.required',c.required,4)}</div></div><div class="stationActionsTop" style="margin-top:12px"><button class="btn gold" onclick="generateNode('sales')">Gerar proposta comercial</button><button class="btn cyan" onclick="generateNode('quote')">Gerar orçamento</button></div></div>`}
-function productHTML(){return `<div class="stationSection"><h3>Produto gráfico</h3><div class="productGrid">${PRODUCT_PRESETS.map(p=>`<div class="productCard ${state.product.selected===p.id?'selected':''}" onclick="state.product.selected='${p.id}';saveState();renderStation();render()"><b>${escapeHtml(p.name)}</b><span>${escapeHtml(p.cat)} • ${p.w}x${p.h}${p.unit}<br>${escapeHtml(p.material)} • ${escapeHtml(p.delivery)}</span></div>`).join('')}</div><div class="grid2"><div><label>Quantidade</label><input type="number" min="1" ${field('product.quantity',state.product.quantity)}></div><div><label>Cores/paleta</label><input ${field('product.colors',state.product.colors)}></div></div></div><div class="stationSection"><h3>Especificação atual</h3><div class="output">${escapeHtml(productSpecText())}</div><div class="stationActionsTop" style="margin-top:12px"><button class="btn cyan" onclick="generateNode('prepress')">Gerar pré-impressão</button><button class="btn gold" onclick="generateNode('quote')">Gerar orçamento</button></div></div>`}
-function visualEditHTML(){const v=state.visualEdit;return `<div class="stationSection"><h3>Visual IA / FLUX / Pollinations / Gemini Image</h3><div class="visualSlots">${visualSlot('baseImage','Imagem base')}${visualSlot('productImage','Produto')}${visualSlot('faceImage','Rosto')}${visualSlot('clothingImage','Roupa')}</div><div class="grid3"><div><label>Modo</label><select onchange="setPath('visualEdit.mode',this.value)">${options(v.mode,['produto','rosto','roupa','mockup','poster','banner'])}</select></div><div><label>Tamanho</label><select onchange="setPath('visualEdit.imageSize',this.value)">${options(v.imageSize,['1024x1024','1024x1536','1536x1024','1080x1350','1080x1920','1920x1080'])}</select></div><div><label>Qualidade</label><select onchange="setPath('visualEdit.imageQuality',this.value)">${options(v.imageQuality,['low','medium','high'])}</select></div></div><div class="note"><b>Status:</b> ${escapeHtml(v.status)}${v.lastError?'<br><b>Erro:</b> '+escapeHtml(v.lastError):''}</div></div><div class="grid2"><div class="stationSection"><h3>Preview</h3><div class="visualPreview">${v.resultImage||v.baseImage?`<img src="${v.resultImage||v.baseImage}" alt="preview">`:'<div class="visualEmpty">Sem imagem. Use Preview local, Teste IA do zero ou API visual.</div>'}</div><div class="stationActionsTop" style="margin-top:12px"><button class="btn gold" onclick="generateVisualImage('generate','A')">Gerar preview real</button><button class="btn cyan" onclick="generateVisualImage('variations','A/B/C')">Gerar A/B/C real</button><button class="btn purple" onclick="generateVisualLocal()">Preview local teste</button><button class="btn red" onclick="clearVisualResults()">Limpar</button></div></div><div class="stationSection"><h3>Briefing visual</h3><div class="output">${escapeHtml(state.outputs.visualEdit||generateVisualEditBrief())}</div><div class="stationActionsTop" style="margin-top:12px"><button class="btn cyan" onclick="runVisualZeroTest()">Teste IA do zero</button><button class="btn green" onclick="generateNode('visualEdit')">Gerar instrução</button></div></div></div><div class="stationSection"><h3>Variações</h3><div class="visualResultGrid">${(v.resultImages&&v.resultImages.length?v.resultImages:[]).slice(0,3).map((img,i)=>`<div class="visualResultCard ${v.approvedIndex===i?'ok':''}"><b>Versão ${String.fromCharCode(65+i)} ${v.approvedIndex===i?'• aprovada':''}</b><img src="${img}" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px"><button class="btn tiny green" onclick="approveVisualVersion(${i})">Aprovar</button></div>`).join('')||'<div class="visualResultCard"><b>Sem variações</b><span>Gere preview real, A/B/C ou preview local.</span></div>'}</div></div>`}
-function visualSlot(key,title){const img=state.visualEdit[key];return `<div class="visualSlot"><h4>${title}</h4><label class="visualDrop">${img?`<img src="${img}" alt="${title}">`:'+ adicionar imagem'}<input type="file" accept="image/*" onchange="handleVisualUpload('${key}',this.files)"></label>${img?`<button class="btn tiny red block" onclick="state.visualEdit['${key}']='';saveState();renderStation()">Remover</button>`:''}</div>`}
-function genericNodeHTML(id){return `<div class="stationSection"><h3>${escapeHtml(nodeById(id).title)}</h3><p class="small">${escapeHtml(nodeById(id).subtitle)}</p><div class="stationActionsTop" style="margin:12px 0"><button class="btn gold" onclick="generateNode('${id}')">Gerar local</button><button class="btn cyan" onclick="generateNodeWithAPI('${id}')">Gerar com API selecionada</button><button class="btn green" onclick="approveActiveNode()">Aprovar</button><button class="btn purple" onclick="copyText(state.outputs['${id}']||'')">Copiar</button></div><div class="output" contenteditable="true" oninput="state.outputs['${id}']=this.innerText;saveState()">${escapeHtml(state.outputs[id]||'Aguardando geração desta estação...')}</div></div>`}
-function sendToHTML(){const targets=['Video Remotion','Print Remotion','Sales/Vitrine','CapCut','FLUX','LTX Video','ElevenLabs','Remotion JSON','Pacote Final'];return `<div class="stationSection"><h3>Central Enviar Para</h3><p class="small">Roteia qualquer saída para um destino. Nesta versão, gera o pacote/contrato e copia/baixa para usar no backend ou ferramenta externa.</p><div class="supportGrid">${targets.map(t=>`<div class="supportCard"><b>${t}</b><span>Preparar saída para ${t}.</span><button class="btn tiny cyan" onclick="sendOutputTo('${t}')">Enviar</button></div>`).join('')}</div></div><div class="stationSection"><h3>Última saída roteada</h3><div class="output">${escapeHtml(state.outputs.sendTo||'Nada enviado ainda.')}</div></div>`}
-function packageHTML(){const text=state.outputs.package||assemblePackage();return `<div class="stationSection"><h3>Pacote final profissional</h3><div class="stationActionsTop" style="margin-bottom:12px"><button class="btn gold" onclick="exportPackage()">Atualizar pacote</button><button class="btn green" onclick="downloadTxt()">Baixar TXT</button><button class="btn cyan" onclick="downloadJson()">Baixar JSON</button><button class="btn purple" onclick="copyPackage()">Copiar</button></div><div class="output">${escapeHtml(text)}</div></div>`}
-function setPath(path,value){const parts=path.split('.');let obj=state;for(let i=0;i<parts.length-1;i++)obj=obj[parts[i]];obj[parts.at(-1)]=value;saveState();renderRight()}
-function saveCurrentStation(){saveState();toast('Estação salva')}
-function approveActiveNode(){state.approved[state.activeNode]=true;log('Node aprovado: '+currentNode().title);render();renderStation();toast('Node aprovado')}
-function nextNode(){const idx=NODE_DEFS.findIndex(n=>n.id===state.activeNode);const next=NODE_DEFS.slice(idx+1).find(n=>!isLocked(n.id))||NODE_DEFS[Math.min(NODE_DEFS.length-1,idx+1)];openStation(next.id)}
-function openNextPending(){const n=NODE_DEFS.find(n=>!nodeDone(n.id)&&!isLocked(n.id));openStation((n||nodeById('package')).id)}
-function toggleMode(){const modes=['all','studio','api','video','image','audio','print','sales','export'];const i=modes.indexOf(state.viewMode);state.viewMode=modes[(i+1)%modes.length];render()}
-function buildBaseContext(){return `PROJETO: ${state.setup.projectName||'Sem título'}\nMODO: ${state.setup.projectMode}\nFORMATO: ${state.setup.format}\nDURAÇÃO: ${state.setup.duration}\nTOM: ${state.setup.tone}\nPÚBLICO/CANAL: ${state.setup.target}\nOBJETIVO: ${state.setup.objective}\nIDEIA: ${state.setup.idea||'Não informada'}\nREGRAS: ${state.setup.continuityRules}\nTEXTOS OBRIGATÓRIOS: ${state.setup.requiredText||'Nenhum'}\nCLIENTE: ${state.client.name||'Não informado'} • ${state.client.segment||'segmento pendente'}\nPRODUTO: ${product().name}`}
-function generateNode(id){const s=state.setup,p=product();let out='';if(id==='dna')out=`DNA VISUAL — ${s.projectName||'Projeto'}\n\nPaleta: ${state.product.colors}.\nTom: ${s.tone}.\nFormato: ${s.format}.\nContinuidade: ${s.continuityRules}.\n\nRegras: composição limpa, contraste, foco no elemento principal, sem copiar marcas/obras de terceiros.`;else if(id==='script')out=`ROTEIRO / CENA — ${s.projectName||'Projeto'}\n\nHOOK 0–3s: abrir com imagem forte e promessa clara.\nDESENVOLVIMENTO: apresentar conflito, produto ou universo com cortes objetivos.\nVIRADA: entregar surpresa, benefício ou tensão.\nFECHAMENTO: CTA ou gancho final.\n\nIdeia base:\n${s.idea||'Preencher briefing.'}\n\nTexto obrigatório:\n${s.requiredText||'Sem texto obrigatório.'}`;else if(id==='storyboard')out=`STORYBOARD — ${s.format}\n\nQuadro 1 — Hook visual: plano próximo e contraste alto.\nQuadro 2 — Contexto: ambiente, personagem/produto e problema.\nQuadro 3 — Ação: movimento principal e virada.\nQuadro 4 — Payoff: revelação ou benefício.\nQuadro 5 — Final: CTA, gancho ou tela de assinatura.\n\nCâmera: push-in, pan curto, cortes secos, ritmo de retenção.`;else if(id==='imagePrompts')out=`PROMPTS DE IMAGEM — FLUX / POLLINATIONS\n\nPT:\nCriar imagem ${s.format}, estética ${s.tone}, composição premium, fundo limpo, iluminação cinematográfica, área negativa para texto, alta qualidade, sem logotipo fictício, sem texto embutido.\n\nEN:\nCreate a ${s.format} premium cinematic image, clean composition, strong lighting, negative space for text, high quality, no fake logo, no embedded text.\n\nNEGATIVE:\nblurry, low quality, watermark, random text, distorted objects, messy composition.`;else if(id==='videoAI')out=`PROMPT VÍDEO IA — LTX / Seedance / Flow / Veo\n\nDuração: ${s.duration}. Formato: ${s.format}.\nMovimento: push-in suave, câmera controlada, paralaxe 2D/motion comic quando aplicável, micro-movimento de luz/fumaça/partículas.\nAção: seguir storyboard, preservar continuidade, não trocar personagem/produto.\nNegative: live action indesejado se for 2D, deformação, troca de roupa/objeto, texto aleatório.`;else if(id==='voice')out=`ROTEIRO DE VOZ — ELEVENLABS\n\nNarração com emoção ${s.tone}.\nPausas curtas entre frases.\nTexto limpo para TTS:\n${state.outputs.script||'Gere o roteiro primeiro.'}\n\nInstrução de voz: natural, clara, com tensão controlada e boa dicção.`;else if(id==='srt')out=`1\n00:00:00,000 --> 00:00:03,000\n${s.projectName||'A história'} começa com uma imagem que prende atenção.\n\n2\n00:00:03,000 --> 00:00:08,000\nO contexto aparece em cortes claros.\n\n3\n00:00:08,000 --> 00:00:18,000\nA ação evolui com ritmo e tensão.\n\n4\n00:00:18,000 --> 00:00:${String(parseInt(s.duration)||30).padStart(2,'0')},000\nO final entrega o gancho e prepara a próxima etapa.\n\nSFX: impacto curto, ambience, whoosh leve, stinger final.`;else if(id==='capcut')out=`CAPCUT MOTION BOOK\n\n1. Criar pasta: refs, imagens, voz, srt, sfx, exports.\n2. Timeline ${s.format}, ${s.duration}.\n3. Importar storyboard e imagens.\n4. Aplicar keyframes: 100% → 106%, pan leve, tremor controlado.\n5. Importar SRT e ajustar legenda.\n6. Aplicar SFX em cortes.\n7. Exportar e revisar continuidade.`;else if(id==='remotion')out=JSON.stringify({project:s.projectName||'Projeto',format:s.format,duration:s.duration,engine:'remotion-instructional',renderMp4:false,scenes:[{id:1,time:'0-3s',name:'Hook',layers:['bg','subject','impactText'],camera:'push-in'},{id:2,time:'3-8s',name:'Context',layers:['environment','caption'],camera:'pan'},{id:3,time:'8-final',name:'Payoff',layers:['finalFrame','cta'],camera:'lock'}]},null,2);else if(id==='quote')out=`ORÇAMENTO ESTIMADO — ${p.name}\n\nCliente: ${state.client.name||'Não informado'}\nProduto: ${p.name}\nFormato: ${p.w}x${p.h}${p.unit}\nQuantidade: ${state.product.quantity}\nCriação/base: ${money(p.base)}\nProdução estimada: ${money(p.print*Number(state.product.quantity||1))}\nTOTAL ESTIMADO: ${money(p.base+p.print*Number(state.product.quantity||1))}\n\nObservação: valor referencial. Confirmar fornecedor, acabamento, prazo e entrega.`;else if(id==='prepress')out=productSpecText()+`\n\nCHECKLIST PRÉ-IMPRESSÃO\n[ ] Conferir tamanho final\n[ ] Conferir sangria\n[ ] Converter cores conforme entrega\n[ ] Revisar margem segura\n[ ] Revisar ortografia\n[ ] Exportar no formato indicado\n[ ] Conferir prova final com cliente`;else if(id==='sales')out=`SALES / VITRINE\n\nCliente: ${state.client.name||'Cliente'}\nOferta: ${state.client.goal||'Vender mais'}\nCopy curta:\n1. Sua marca com visual profissional.\n2. Peça pronta para chamar atenção.\n3. Entrega organizada para produção.\n\nCTA: Chame no WhatsApp e aprove sua arte hoje.\n\nPacote inclui: briefing, direção visual, prompt IA, revisão técnica, pré-impressão e arquivo final.`;else if(id==='visualEdit')out=generateVisualEditBrief();else if(id==='sendTo')out=sendToText();else out=`${nodeById(id).title.toUpperCase()}\n\n${buildBaseContext()}\n\nSaída profissional gerada localmente para este node.`;state.outputs[id]=out;state.approved[id]=false;log('Gerado local: '+nodeById(id).title);render();if($('station').classList.contains('active'))renderStation();toast('Node gerado: '+nodeById(id).title)}
-async function generateNodeWithAPI(id){const provider=state.api.selectedProvider||'local';if(provider==='local'){generateNode(id);return}const prompt=buildNodePrompt(id);try{toast('Chamando '+state.api.providers[provider].label+'...');const text=await callTextProvider(provider,prompt);state.outputs[id]=text;state.approved[id]=false;log('API gerou: '+nodeById(id).title+' via '+provider);render();renderStation();toast('API respondeu')}catch(e){state.api.lastTests[provider]={status:'error',message:e.message,at:now()};log('API falhou: '+e.message);render();renderStation();toast('API falhou; veja API Tests')}}
-function buildNodePrompt(id){return `Você é o motor do Portal Genesis Mega Studio.\nGere saída profissional para o node: ${nodeById(id).title}.\n\nCONTEXTO:\n${buildBaseContext()}\n\nREGRAS:\n- responder em português do Brasil;\n- entregar blocos práticos;\n- preservar continuidade;\n- preparar para CapCut, Remotion, FLUX, LTX, ElevenLabs, Print ou Sales quando fizer sentido;\n- não copiar obras, marcas ou personagens protegidos.`}
-async function callTextProvider(key,prompt){const p=state.api.providers[key];if(key==='pollinations'&&p.endpoint.startsWith('https://text.pollinations.ai/')){const url=p.endpoint.replace(/\/$/,'')+'/'+encodeURIComponent(prompt);const r=await fetch(url);if(!r.ok)throw new Error('HTTP '+r.status);return await r.text()}const r=await fetch(p.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({provider:key,model:p.model,prompt,context:buildBaseContext()})});const data=await r.json().catch(()=>({}));if(!r.ok||data.ok===false)throw new Error(data.error||data.message||'HTTP '+r.status);return data.text||data.result||data.output||JSON.stringify(data,null,2)}
-function generatePipeline(){['dna','script','storyboard','imagePrompts','videoAI','voice','srt','capcut','remotion','quote','prepress','sales','visualEdit','sendTo'].forEach(generateNode);exportPackage(false);openStation('package');toast('Pipeline completo gerado')}
-function productSpecText(){const p=product();return `ESPECIFICAÇÃO TÉCNICA — ${p.name}\nCategoria: ${p.cat}\nTamanho: ${p.w}x${p.h}${p.unit}\nMaterial: ${p.material}\nEntrega: ${p.delivery}\nDPI: ${p.dpi}\nSangria: ${p.bleed}\nMargem segura: ${p.safe}\nCores: ${state.product.colors}`}
-function generateVisualEditBrief(){return `PERSONALIZAÇÃO VISUAL IA\n\nModo: ${state.visualEdit.mode}\nEstilo: ${state.visualEdit.style}\nTamanho: ${state.visualEdit.imageSize}\nQualidade: ${state.visualEdit.imageQuality}\n\nObjetivo: gerar/editar imagem preservando composição, identidade visual e uso profissional.\n\nPrompt base:\n${state.outputs.imagePrompts||'Gere prompts de imagem primeiro.'}\n\nNegative: blurry, watermark, low quality, random text, fake logo, distorted object, messy composition.`}
-async function generateVisualLocal(){const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=1024;const ctx=canvas.getContext('2d');ctx.fillStyle='#050814';ctx.fillRect(0,0,canvas.width,canvas.height);const g=ctx.createRadialGradient(260,280,40,260,280,380);g.addColorStop(0,'rgba(101,217,210,.45)');g.addColorStop(1,'rgba(101,217,210,0)');ctx.fillStyle=g;ctx.fillRect(0,0,1024,1024);const g2=ctx.createRadialGradient(760,680,40,760,680,420);g2.addColorStop(0,'rgba(214,173,104,.38)');g2.addColorStop(1,'rgba(214,173,104,0)');ctx.fillStyle=g2;ctx.fillRect(0,0,1024,1024);ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=4;ctx.strokeRect(120,170,784,620);ctx.fillStyle='#eadcc1';ctx.font='900 54px Arial';ctx.textAlign='center';ctx.fillText((state.setup.projectName||'Portal Genesis').slice(0,25),512,430);ctx.fillStyle='#cafffb';ctx.font='700 28px Arial';ctx.fillText(`${state.visualEdit.mode} • preview local`,512,500);ctx.fillStyle='#d6ad68';ctx.fillRect(310,805,405,72);ctx.fillStyle='#1a1203';ctx.font='900 26px Arial';ctx.fillText('PREVIEW TESTE',512,852);const data=canvas.toDataURL('image/png');state.visualEdit.resultImage=data;state.visualEdit.resultImages=[data];state.visualEdit.status='Preview local gerado; não é API real';saveState();render();renderStation();toast('Preview local gerado')}
-async function runVisualZeroTest(){state.visualEdit.status='Chamando API visual: teste do zero';state.visualEdit.lastError='';saveState();renderStation();try{const res=await fetch(state.api.providers.flux.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module:'portal-genesis',action:'zero-test',prompt:'Poster futurista premium, fundo escuro, luz azul e dourada, sem texto, alta qualidade',size:state.visualEdit.imageSize,quality:state.visualEdit.imageQuality,images:[]})});const data=await res.json().catch(()=>({}));if(!res.ok||data.ok===false)throw new Error(data.error||data.message||'HTTP '+res.status);const imgs=normalizeImageResult(data);if(!imgs.length)throw new Error('API respondeu mas não retornou imagem');state.visualEdit.resultImages=imgs.slice(0,3);state.visualEdit.resultImage=imgs[0];state.visualEdit.status='Teste do zero gerou imagem pela API';state.api.lastTests.flux={status:'ok',message:'Imagem retornada',at:now()};saveState();render();renderStation();toast('Teste visual OK')}catch(e){state.visualEdit.lastError=e.message;state.visualEdit.status='Teste do zero falhou';state.api.lastTests.flux={status:'error',message:e.message,at:now()};saveState();render();renderStation();toast('Teste visual falhou')}}
-async function generateVisualImage(action='generate',variant='A'){state.outputs.visualEdit=generateVisualEditBrief();state.visualEdit.status='Chamando API visual real: '+action;state.visualEdit.lastError='';saveState();renderStation();try{const res=await fetch(state.api.providers.flux.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(buildVisualImagePayload(action,variant))});const data=await res.json().catch(()=>({}));if(!res.ok||data.ok===false)throw new Error(data.error||data.message||'HTTP '+res.status);const imgs=normalizeImageResult(data);if(!imgs.length)throw new Error('API respondeu, mas não retornou imagem');state.visualEdit.resultImages=imgs.slice(0,3);state.visualEdit.resultImage=imgs[0];state.visualEdit.approvedIndex=0;state.visualEdit.status='Imagem gerada pela API';state.api.lastTests.flux={status:'ok',message:'Geração visual OK',at:now()};saveState();render();renderStation();toast('Imagem API gerada')}catch(e){state.visualEdit.lastError=e.message;state.visualEdit.status='API visual falhou';state.api.lastTests.flux={status:'error',message:e.message,at:now()};saveState();render();renderStation();toast('API visual falhou')}} 
-function buildVisualImagePayload(action,variant){return{module:'portal-genesis-mega-studio',action,variant,mode:state.visualEdit.mode,outputKind:state.visualEdit.mode,size:state.visualEdit.imageSize,quality:state.visualEdit.imageQuality,prompt:state.outputs.imagePrompts||generateVisualEditBrief(),negativePrompt:'blurry, low quality, watermark, random text, fake logo, distorted object, messy composition',brief:state.setup,client:state.client,product:product(),visualEdit:state.visualEdit,images:[state.visualEdit.baseImage&&{role:'base',dataUrl:state.visualEdit.baseImage},state.visualEdit.productImage&&{role:'product',dataUrl:state.visualEdit.productImage},state.visualEdit.faceImage&&{role:'face',dataUrl:state.visualEdit.faceImage},state.visualEdit.clothingImage&&{role:'clothing',dataUrl:state.visualEdit.clothingImage}].filter(Boolean)}}
-function normalizeImageResult(data){let arr=[];if(Array.isArray(data.images))arr=data.images.map(x=>typeof x==='string'?x:(x.dataUrl||x.url||x.base64||''));else if(data.image)arr=[data.image];else if(data.url)arr=[data.url];else if(data.dataUrl)arr=[data.dataUrl];else if(data.result&&Array.isArray(data.result.images))arr=data.result.images;return arr.map(x=>String(x||'')).filter(Boolean).map(x=>x.startsWith('data:')||x.startsWith('http')?x:'data:image/png;base64,'+x)}
-function approveVisualVersion(i){const img=state.visualEdit.resultImages[i];if(!img){toast('Versão não encontrada');return}state.visualEdit.approvedIndex=i;state.visualEdit.resultImage=img;state.approved.visualEdit=true;saveState();render();renderStation();toast('Versão aprovada')}
-function clearVisualResults(){state.visualEdit.resultImage='';state.visualEdit.resultImages=[];state.visualEdit.lastError='';state.visualEdit.status='resultados limpos';saveState();render();renderStation()}
-function fileToDataUrl(file,max=1300,q=.84){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const scale=Math.min(1,max/Math.max(img.width,img.height));c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);const ctx=c.getContext('2d');ctx.drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',q))};img.onerror=reject;img.src=e.target.result};r.onerror=reject;r.readAsDataURL(file)})}
-async function handleVisualUpload(key,files){const file=files&&files[0];if(!file)return;const data=await fileToDataUrl(file);state.visualEdit[key]=data;if(key==='baseImage'&&!state.visualEdit.resultImage)state.visualEdit.resultImage=data;state.visualEdit.status='Imagem adicionada e otimizada';saveState();renderStation();toast('Imagem adicionada')}
-async function handleRefUpload(ev){const files=Array.from(ev.target.files||[]).slice(0,8);for(const f of files){if(f.type.startsWith('image/'))state.refs.push({name:f.name,dataUrl:await fileToDataUrl(f,1000,.82),at:now()})}ev.target.value='';saveState();renderStation();render();toast('Referências adicionadas')}
-function renderRefs(){const box=$('refsGrid');if(!box)return;box.innerHTML=state.refs.length?state.refs.map((r,i)=>`<div class="refThumb"><img src="${r.dataUrl}" alt="ref"><button onclick="state.refs.splice(${i},1);saveState();renderStation();render()">×</button></div>`).join(''):'<div class="refThumb"><span>Sem referências</span></div>'}
-function updateVisualMemory(v){state.visualMemory=v;saveState()}
-function analyzeRefsLocal(){state.visualMemory=`DNA VISUAL LOCAL\n\nReferências carregadas: ${state.refs.length}\nProjeto: ${state.setup.projectName||'Sem título'}\nTom: ${state.setup.tone}\nFormato: ${state.setup.format}\nPaleta sugerida: ${state.product.colors}\nDireção: contraste premium, composição limpa, foco no assunto principal, continuidade entre nodes.\n`;state.outputs.dna=state.visualMemory;saveState();render();renderStation();toast('DNA visual local criado')}
-function clearRefs(){state.refs=[];state.visualMemory='';saveState();render();renderStation();toast('Referências limpas')}
-async function testProvider(key){const p=state.api.providers[key];try{if(key==='local'||p.endpoint.startsWith('local://')||p.endpoint.startsWith('manual://')){state.api.lastTests[key]={status:'ok',message:'Modo local/manual pronto',at:now()};toast(p.label+' OK');render();return}let res;if(key==='pollinations'&&p.endpoint.startsWith('https://text.pollinations.ai/')){res=await fetch(p.endpoint.replace(/\/$/,'')+'/'+encodeURIComponent('Responda apenas OK Portal Genesis'));const txt=await res.text();if(!res.ok)throw new Error('HTTP '+res.status);state.api.lastTests[key]={status:'ok',message:short(txt,80),at:now()}}else{res=await fetch(p.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({test:true,provider:key,model:p.model,prompt:'Teste de conexão Portal Genesis. Responda OK.',context:{project:state.setup.projectName}})});const data=await res.json().catch(()=>({}));if(!res.ok||data.ok===false)throw new Error(data.error||data.message||'HTTP '+res.status);state.api.lastTests[key]={status:'ok',message:data.message||data.text||data.result||'Resposta OK',at:now()}}log('Teste API OK: '+p.label)}catch(e){state.api.lastTests[key]={status:'error',message:e.message,at:now()};log('Teste API falhou: '+p.label+' — '+e.message)}saveState();render();if($('station').classList.contains('active'))renderStation()}
-async function testAllApis(){for(const k of Object.keys(state.api.providers))await testProvider(k);toast('Testes de API concluídos')}
-function apiReportText(){return Object.entries(state.api.providers).map(([k,p])=>{const t=state.api.lastTests[k]||{};return `${p.label}\nEndpoint: ${p.endpoint}\nModelo: ${p.model}\nStatus: ${t.status||'não testado'}\nMensagem: ${t.message||'-'}\nData: ${t.at||'-'}`}).join('\n\n---\n\n')}
-function apiContractText(){return `CONTRATOS BACKEND — PORTAL GENESIS MEGA STUDIO\n\n1) /api/gemini, /api/groq, /api/openrouter\nEntrada: { provider, model, prompt, context }\nSaída aceita: { ok:true, text:'...' } ou { ok:true, result:'...' }\n\n2) /api/flux-image ou /api/visual-image\nEntrada: { action, prompt, negativePrompt, size, quality, images:[{role,dataUrl}] }\nSaída: { ok:true, images:[{dataUrl:'data:image/png;base64,...'}] }\nTambém aceita { image }, { url } ou { result:{images:[]} }\n\n3) /api/ltx-video\nEntrada: { prompt, duration, format, referenceImage }\nSaída: { ok:true, videoUrl:'https://...' } ou { jobId }\n\n4) /api/elevenlabs-tts\nEntrada: { text, voiceId, model, emotion }\nSaída: { ok:true, audioUrl:'https://...' } ou { audioBase64 }\n\nIMPORTANTE: chaves ficam no servidor/variáveis de ambiente, nunca neste HTML público.`}
-function supportContract(title){return title+'\n\n'+apiContractText()+'\n\nContexto atual:\n'+buildBaseContext()}
-function sendToText(){return `CENTRAL ENVIAR PARA\n\nDestinos preparados:\n- Video Remotion\n- Print Remotion\n- Sales/Vitrine\n- CapCut\n- FLUX\n- LTX Video\n- ElevenLabs\n- Remotion JSON\n- Pacote Final\n\nCada destino recebe contexto do projeto, briefing, outputs aprovados e contrato de API.`}
-function sendOutputTo(target){const text=`ENVIAR PARA: ${target}\n\n${assemblePackage()}\n\nINSTRUÇÃO:\nAdaptar este pacote para ${target}, preservando continuidade e regras do briefing.`;state.outputs.sendTo=text;log('Saída preparada para '+target);openModal('Enviar para '+target,text,'enviar-para-'+target.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.txt');saveState();render();if($('station').classList.contains('active'))renderStation()}
-function assemblePackage(){let t=`PORTAL GENESIS MEGA STUDIO PRO — PACOTE FINAL\n\n${buildBaseContext()}\n\n---\n\n`;NODE_DEFS.forEach(n=>{const body=state.outputs[n.id];if(body)t+=`## ${n.title.toUpperCase()}\n${body}\n\n---\n\n`});t+=`## API HUB\n${apiReportText()}\n\n---\n\n## CONTRATOS\n${apiContractText()}\n\n---\n\n## CHECKLIST FINAL\n1. Conferir briefing.\n2. Conferir continuidade visual.\n3. Testar APIs necessárias.\n4. Gerar imagem/vídeo/voz por backend seguro.\n5. Exportar TXT/JSON.\n6. Usar pacote no CapCut, Remotion, Print, Sales ou Vitrine.`;return t}
-function exportPackage(open=true){state.outputs.package=assemblePackage();state.approved.package=true;state.approved.export=true;log('Pacote final montado');saveState();render();if(open)openStation('package');return state.outputs.package}
-function downloadFile(name,content,type='text/plain;charset=utf-8'){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast('Baixado: '+name)}
-function safeName(){return (state.setup.projectName||'portal-genesis-mega-studio-pro').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'portal-genesis-mega-studio-pro'}
-function downloadTxt(){if(!state.outputs.package)exportPackage(false);downloadFile(safeName()+'-pacote-final.txt',state.outputs.package)}
-function downloadJson(){downloadFile(safeName()+'-projeto.json',JSON.stringify({app:'Portal Genesis Mega Studio Pro',version:'2.0-api-os',exportedAt:new Date().toISOString(),state},null,2),'application/json;charset=utf-8')}
-function copyText(text){navigator.clipboard?.writeText(String(text||'')).then(()=>toast('Copiado')).catch(()=>toast('Não foi possível copiar'))}
-function copyPackage(){if(!state.outputs.package)exportPackage(false);copyText(state.outputs.package)}
-function openModal(title,text,filename='resultado.txt'){modalLastName=filename;modalLastText=text;$('modalTitle').textContent=title;$('modalOutput').textContent=text;$('modalBackdrop').classList.add('active')}
-function closeModal(){$('modalBackdrop').classList.remove('active')}
-function copyModal(){copyText(modalLastText)}
-function downloadModal(){downloadFile(modalLastName,modalLastText)}
-function importProject(ev){const f=ev.target.files&&ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);state=mergeDeep(clone(DEFAULT_STATE),data.state||data);hydratePositions();saveState();render();toast('Projeto importado')}catch(e){toast('JSON inválido')}};r.readAsText(f);ev.target.value=''}
-function loadDemoProject(){state.setup.projectName='Projeto Profissional — Cidade Depois da Chuva';state.setup.projectMode='Motion Comic 2D + Sales';state.setup.format='9:16 vertical';state.setup.duration='60 segundos';state.setup.tone='Cinematográfico sombrio premium';state.setup.idea='Uma cidade silenciosa depois da chuva. Um personagem encontra uma luz azul piscando dentro de um beco e percebe que algo antigo está acordando. O vídeo deve prender atenção com tensão visual e terminar com gancho.';state.setup.requiredText='Gancho final: “Você entraria nesse beco?”';state.client.name='Cliente Exemplo PG';state.client.segment='Entretenimento / campanha local';state.client.goal='Criar impacto visual e gerar contato';saveState();render();openStation('brief');toast('Exemplo carregado')}
-function resetProject(){if(!confirm('Resetar projeto salvo neste navegador?'))return;localStorage.removeItem(STORAGE_KEY);state=clone(DEFAULT_STATE);hydratePositions();render();centerMap();toast('Projeto resetado')}
-function init(){hydratePositions();bindCanvas();render();setTimeout(centerMap,100)}
-window.addEventListener('resize',()=>setTimeout(()=>updateTransform(),80));init();
+
+const PROVIDERS=[['local','Local / Offline','Gera texto e pacotes dentro do navegador'],['pollinations','Pollinations','Imagem/texto gratuito via backend ou link externo'],['gemini','Gemini','Roteiro, análise e prompts por API'],['groq','Groq','Texto rápido e barato'],['openrouter','OpenRouter','Escolha de modelos externos'],['flux','FLUX','Imagem IA / storyboard / poster'],['ltx','LTX Video','Vídeo IA / motion prompt'],['elevenlabs','ElevenLabs','Narração e vozes'],['capcut','CapCut','SRT, Motion Book e edição manual']];
+
+const PRODUCTS=[['social','Social/Reels','1080x1920 px','Digital RGB',55],['flyer','Flyer A5','148x210 mm','CMYK 300 dpi',65],['card','Cartão de visita','90x50 mm','CMYK + sangria',75],['banner','Banner/Lona','90x120 cm','Grande formato',150],['mug','Caneca','210x95 mm','Sublimação',80],['shirt','Camiseta/Boné','PNG transparente','Vestuário',120],['album','Fotografia/Álbum','A4/A5/20x30','Foto/print',140],['custom','Produto personalizado','Livre','Definir destino',100]];
+
+const DEFAULT_STATE={
+zoom:.82,pan:{
+x:24,y:24}
+,activeNode:'brief',approved:{
+}
+,logs:[],refs:[],visualMemory:'',nodePositions:{
+}
+,setup:{
+projectName:'',mode:'Studio + Video + Print',format:'9:16 vertical',duration:'60 segundos',tone:'Cinematográfico 2D',target:'Shorts/Reels/TikTok/Cliente',idea:'',objective:'Transformar uma ideia em pacote completo: roteiro, storyboard, prompts, SRT, vídeo IA, print, sales e exportação.',continuityRules:'Novo projeto limpo. Não importar personagens antigos sem ordem explícita. Preservar continuidade visual, emocional e espacial.',requiredText:'',audience:'criadores, clientes, marcas locais, músicos, designers e produtores'}
+,api:{
+mode:'local',endpoint:'/api/generate',model:'local-template',temperature:.5,maxTokens:4200,keysNote:'Cole chaves no backend. Este HTML não expõe segredos.'}
+,outputs:{
+dna:'',storyboard:'',scene:'',motion:'',prompts:'',srt:'',capcut:'',print:'',quote:'',visual:'',sales:'',export:''}
+,print:{
+client:'',segment:'',product:'social',quantity:1,deadline:'3 dias',notes:''}
+,scenes:[]}
+;
+
+let state=loadState(), mapDrag=null,nodeDrag=null,modalLastText='',modalLastName='resultado.txt';
+
+function clone(o){
+return JSON.parse(JSON.stringify(o))}
+function mergeDeep(a,b){
+Object.keys(b||{
+}
+).forEach(k=>{
+if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&a[k]&&typeof a[k]==='object'&&!Array.isArray(a[k]))mergeDeep(a[k],b[k]);
+else a[k]=b[k]}
+);
+return a}
+function loadState(){
+try{
+let raw=localStorage.getItem(STORAGE_KEY);
+return raw?mergeDeep(clone(DEFAULT_STATE),JSON.parse(raw)):clone(DEFAULT_STATE)}
+catch(e){
+return clone(DEFAULT_STATE)}
+}
+function saveState(){
+try{
+localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+$('saveStatus').textContent='salvo';
+setTimeout(()=>$('saveStatus').textContent='autosave ativo',1200)}
+catch(e){
+toast('Memória local cheia. Baixe o JSON e limpe referências.')}
+}
+function escapeHtml(v){
+return String(v??'').replace(/[&<>"']/g,m=>({
+'&':'&amp;
+','<':'&lt;
+','>':'&gt;
+','"':'&quot;
+',"'":'&#039;
+'}
+[m]))}
+function escapeAttr(v){
+return escapeHtml(v).replace(/\n/g,'&#10;
+')}
+function short(v,n=110){
+v=String(v||'').replace(/\s+/g,' ').trim();
+return v.length>n?v.slice(0,n-1)+'…':v}
+function toast(msg){
+let d=document.createElement('div');
+d.className='toast';
+d.textContent=msg;
+$('toastStack').appendChild(d);
+setTimeout(()=>d.remove(),3000)}
+function log(msg){
+state.logs.unshift({
+at:new Date().toLocaleTimeString('pt-BR',{
+hour:'2-digit',minute:'2-digit'}
+),msg}
+);
+state.logs=state.logs.slice(0,12);
+renderLogs();
+saveState()}
+function nodeById(id){
+return NODE_DEFS.find(n=>n.id===id)}
+function outputFor(id){
+return state.outputs[id]||''}
+function nodeDone(id){
+if(state.approved[id])return true;
+if(id==='brief')return !!(state.setup.idea||state.setup.projectName);
+if(id==='api')return !!state.api.mode;
+if(id==='dna')return !!(state.outputs.dna||state.visualMemory);
+if(id==='storyboard')return state.scenes.length>0||!!state.outputs.storyboard;
+if(id==='scene')return !!state.outputs.scene;
+if(id==='export')return !!state.outputs.export;
+return !!state.outputs[id]}
+function nodeLocked(id){
+let n=nodeById(id);
+return (n.deps||[]).some(d=>!nodeDone(d))}
+function status(id){
+return nodeLocked(id)?'bloqueado':nodeDone(id)?'pronto':state.activeNode===id?'ativo':'pendente'}
+function progress(){
+let count=NODE_DEFS.length,done=NODE_DEFS.filter(n=>nodeDone(n.id)).length;
+return Math.round(done/count*100)}
+function nodeSummary(id){
+const s=state.setup;
+if(id==='brief')return s.idea?short(s.idea):'Defina ideia, objetivo, formato, duração e continuidade.';
+if(id==='api')return `${
+state.api.mode}
+ • ${
+state.api.model}
+`;
+if(id==='dna')return short(state.outputs.dna||state.visualMemory||'Memória visual, paleta, câmera, personagem e universo.');
+if(id==='storyboard')return state.scenes.length?`${
+state.scenes.length}
+ cenas estruturadas.`:'Gere cenas, quadros e cortes.';
+if(id==='scene')return short(state.outputs.scene||'Cena atual com ação, câmera e emoção.');
+if(id==='motion')return short(state.outputs.motion||'Prompts de vídeo IA, câmera e movimento.');
+if(id==='prompts')return short(state.outputs.prompts||'Prompts PT/EN, FLUX, Pollinations, LTX e negative.');
+if(id==='srt')return short(state.outputs.srt||'Legenda SRT, som, SFX e voz ElevenLabs.');
+if(id==='capcut')return short(state.outputs.capcut||'CapCut Motion Book com keyframes e edição.');
+if(id==='print')return state.print.client?`${
+state.print.client}
+ • ${
+product().name}
+`:'Cliente, produto gráfico e destino.';
+if(id==='quote')return short(state.outputs.quote||'Orçamento, pré-impressão e produção.');
+if(id==='visual')return short(state.outputs.visual||'Visual IA para imagem, produto e composição.');
+if(id==='sales')return short(state.outputs.sales||'Oferta, one page e WhatsApp.');
+if(id==='export')return state.outputs.export?'Pacote final montado.':'TXT/JSON final.';
+return ''}
+
+function hydratePositions(){
+NODE_DEFS.forEach(n=>{
+let p=state.nodePositions[n.id];
+ if(p){
+n.x=p.x;
+n.y=p.y}
+}
+)}
+function persistPositions(){
+state.nodePositions={
+}
+;
+NODE_DEFS.forEach(n=>state.nodePositions[n.id]={
+x:n.x,y:n.y}
+)}
+
+function render(){
+persistPositions();
+renderNodes();
+renderNodeList();
+renderConnectors();
+renderMiniMap();
+renderDiagnostics();
+renderLogs();
+updateTransform();
+saveState()}
+function renderNodes(){
+let layer=$('nodeLayer');
+layer.innerHTML=NODE_DEFS.map(n=>{
+let st=status(n.id);
+return `<div class="node ${
+state.activeNode===n.id?'active':''}
+ ${
+nodeDone(n.id)?'done':''}
+ ${
+nodeLocked(n.id)?'locked':''}
+" data-node-id="${
+n.id}
+" style="left:${
+n.x}
+px;
+top:${
+n.y}
+px" ondblclick="openStation('${
+n.id}
+')">
+<div class="node-head">
+<div class="node-icon">${
+n.icon}
+</div>
+<div class="node-title">
+<strong>${
+escapeHtml(n.title)}
+</strong>
+<span>${
+escapeHtml(n.subtitle)}
+</span>
+</div>
+</div>
+<div class="node-summary">${
+escapeHtml(nodeSummary(n.id))}
+</div>
+<div class="node-foot">
+<span class="node-status">${
+st}
+</span>
+<button class="btn tiny cyan" onclick="event.stopPropagation();
+openStation('${
+n.id}
+')">Abrir</button>
+</div>
+</div>`}
+).join('')}
+function renderNodeList(){
+let box=$('nodeList');
+box.innerHTML=NODE_DEFS.map(n=>`<button class="node-mini ${
+state.activeNode===n.id?'active':''}
+ ${
+nodeDone(n.id)?'done':''}
+" onclick="openStation('${
+n.id}
+')">
+<span class="node-mini-icon">${
+n.icon}
+</span>
+<span class="node-mini-text">
+<strong>${
+escapeHtml(n.title)}
+</strong>
+<span>${
+escapeHtml(status(n.id))}
+</span>
+</span>
+</button>`).join('')}
+function centerOf(n){
+return{
+x:n.x+134,y:n.y+82}
+}
+function renderConnectors(){
+let svg=$('connectorLayer'),html='';
+NODE_DEFS.forEach(n=>(n.deps||[]).forEach(d=>{
+let a=centerOf(nodeById(d)),b=centerOf(n),dx=Math.max(80,Math.abs(b.x-a.x)*.45),cls=(nodeDone(d)&&nodeDone(n.id))?'done':'';
+html+=`<path class="${
+cls}
+" d="M ${
+a.x}
+ ${
+a.y}
+ C ${
+a.x+dx}
+ ${
+a.y}
+, ${
+b.x-dx}
+ ${
+b.y}
+, ${
+b.x}
+ ${
+b.y}
+"/>`}
+));
+svg.innerHTML=html}
+function renderMiniMap(){
+let svg=$('miniMapSvg');
+svg.innerHTML=NODE_DEFS.map(n=>`<rect x="${
+8+n.x/18}
+" y="${
+18+n.y/10}
+" width="12" height="7" rx="2" fill="${
+nodeDone(n.id)?'#75db9b':state.activeNode===n.id?'#d6ad68':'#65d9d2'}
+" opacity=".85"/>`).join('')}
+function renderDiagnostics(){
+let p=progress();
+$('progressPill').textContent=p+'% pronto';
+$('progressFill').style.width=p+'%';
+$('projectPill').textContent='Projeto: '+(state.setup.projectName||'Sem título');
+$('diagBrief').textContent=nodeDone('brief')?'ok':'pendente';
+$('diagMode').textContent=state.setup.mode;
+$('diagRefs').textContent=state.refs.length;
+$('diagExport').textContent=state.outputs.export?'pronto':'pendente';
+$('previewTitle').textContent=state.setup.projectName||'Portal Genesis';
+$('previewSub').textContent=short(state.setup.idea||state.setup.objective||'Crie vídeo, print, pacote para cliente e prompts de IA.',110)}
+function renderLogs(){
+let box=$('logList');
+box.innerHTML=state.logs.length?state.logs.map(l=>`<div class="small">${
+escapeHtml(l.at)}
+ — ${
+escapeHtml(l.msg)}
+</div>`).join(''):'Nenhuma ação ainda.'}
+
+function updateTransform(){
+let m=$('canvasMap');
+m.style.transform=`translate(${
+state.pan.x}
+px,${
+state.pan.y}
+px) scale(${
+state.zoom}
+)`;
+$('zoomReadout').textContent=Math.round(state.zoom*100)+'%'}
+function zoomMap(delta,cx,cy){
+let wrap=$('canvasWrap'),r=wrap.getBoundingClientRect(),old=state.zoom,next=Math.max(.35,Math.min(1.8,old+delta));
+let ox=typeof cx==='number'?cx-r.left:r.width/2,oy=typeof cy==='number'?cy-r.top:r.height/2;
+state.pan.x=ox-(ox-state.pan.x)*(next/old);
+state.pan.y=oy-(oy-state.pan.y)*(next/old);
+state.zoom=next;
+updateTransform();
+saveState()}
+function centerMap(){
+state.zoom=window.innerWidth<760?.58:.70;
+state.pan.x=window.innerWidth<760?8:24;
+state.pan.y=24;
+updateTransform();
+saveState();
+toast('Mapa centralizado.')}
+function organizeNodes(){
+let pos={
+brief:[80,120],api:[420,120],dna:[760,120],storyboard:[1100,120],scene:[1440,120],motion:[1440,390],prompts:[1100,390],srt:[760,390],capcut:[1100,660],print:[80,660],quote:[420,660],visual:[760,660],sales:[1440,660],export:[1780,660]}
+;
+NODE_DEFS.forEach(n=>{
+n.x=pos[n.id][0];
+n.y=pos[n.id][1]}
+);
+render();
+toast('Nodes organizados.')}
+function bindCanvasEvents(){
+let wrap=$('canvasWrap');
+wrap.addEventListener('mousedown',e=>{
+if(e.target.closest('button,input,textarea,select,label'))return;
+let nodeEl=e.target.closest('.node');
+if(nodeEl){
+let id=nodeEl.dataset.nodeId,n=nodeById(id);
+state.activeNode=id;
+nodeDrag={
+id,startX:e.clientX,startY:e.clientY,nodeX:n.x,nodeY:n.y}
+;
+nodeEl.classList.add('dragging-node');
+renderNodeList();
+return}
+mapDrag={
+startX:e.clientX,startY:e.clientY,panX:state.pan.x,panY:state.pan.y}
+;
+wrap.classList.add('dragging')}
+);
+window.addEventListener('mousemove',e=>{
+if(nodeDrag){
+let n=nodeById(nodeDrag.id);
+n.x=Math.round(nodeDrag.nodeX+(e.clientX-nodeDrag.startX)/state.zoom);
+n.y=Math.round(nodeDrag.nodeY+(e.clientY-nodeDrag.startY)/state.zoom);
+let el=document.querySelector(`[data-node-id="${
+nodeDrag.id}
+"]`);
+if(el){
+el.style.left=n.x+'px';
+el.style.top=n.y+'px'}
+renderConnectors();
+renderMiniMap()}
+else if(mapDrag){
+state.pan.x=mapDrag.panX+(e.clientX-mapDrag.startX);
+state.pan.y=mapDrag.panY+(e.clientY-mapDrag.startY);
+updateTransform()}
+}
+);
+window.addEventListener('mouseup',()=>{
+if(nodeDrag||mapDrag){
+document.querySelectorAll('.dragging-node').forEach(e=>e.classList.remove('dragging-node'));
+$('canvasWrap').classList.remove('dragging');
+persistPositions();
+saveState()}
+nodeDrag=null;
+mapDrag=null}
+);
+wrap.addEventListener('wheel',e=>{
+e.preventDefault();
+zoomMap(e.deltaY>0?-.06:.06,e.clientX,e.clientY)}
+,{
+passive:false}
+);
+wrap.addEventListener('click',e=>{
+let el=e.target.closest('.node');
+if(el&&!e.target.closest('button')){
+state.activeNode=el.dataset.nodeId;
+render()}
+}
+)}
+
+function openStation(id){
+state.activeNode=id;
+render();
+renderStation();
+$('stationOverlay').classList.add('active');
+$('station').classList.add('active')}
+function closeStation(){
+$('stationOverlay').classList.remove('active');
+$('station').classList.remove('active')}
+function currentNode(){
+return nodeById(state.activeNode)}
+function renderStation(){
+let n=currentNode();
+$('stationIcon').textContent=n.icon;
+$('stationTitle').textContent=n.title;
+$('stationSubtitle').textContent=n.subtitle+' • '+status(n.id);
+$('stationMain').innerHTML=stationHtml(n.id);
+$('sideVisualMemory').value=state.visualMemory||'';
+renderRefs()}
+function field(path,label,type='text',opts=[]){
+let v=getPath(path)||'';
+if(type==='textarea')return `<div class="field full">
+<label>${
+label}
+</label>
+<textarea rows="5" oninput="setPath('${
+path}
+',this.value)">${
+escapeHtml(v)}
+</textarea>
+</div>`;
+if(type==='select')return `<div class="field">
+<label>${
+label}
+</label>
+<select onchange="setPath('${
+path}
+',this.value)">${
+opts.map(o=>`<option ${
+o===v?'selected':''}
+>${
+escapeHtml(o)}
+</option>`).join('')}
+</select>
+</div>`;
+return `<div class="field">
+<label>${
+label}
+</label>
+<input value="${
+escapeAttr(v)}
+" oninput="setPath('${
+path}
+',this.value)">
+</div>`}
+function getPath(path){
+return path.split('.').reduce((a,k)=>a&&a[k],state)}
+function setPath(path,val){
+let keys=path.split('.'),o=state;
+keys.slice(0,-1).forEach(k=>o=o[k]);
+o[keys.at(-1)]=val;
+renderDiagnostics();
+saveState()}
+function stationHtml(id){
+if(id==='brief')return briefHtml();
+if(id==='api')return apiHtml();
+if(id==='storyboard')return storyboardHtml();
+if(id==='print')return printHtml();
+if(id==='export')return exportHtml();
+if(['dna','scene','motion','prompts','srt','capcut','quote','visual','sales'].includes(id))return genericOutputHtml(id);
+return '<div class="station-section">Node em construção.</div>'}
+function briefHtml(){
+return `<div class="note-card">
+<b>Briefing Mestre completo</b>
+<p class="small">Preencha uma vez e gere todo o pacote: vídeo, print, sales, prompts e exportação.</p>
+</div>
+<div class="station-section">
+<h3>Projeto</h3>
+<div class="form-grid">${
+field('setup.projectName','Nome do projeto')}
+${
+field('setup.mode','Modo','select',['Studio + Video + Print','Video Remotion','Print Remotion','Sales / Vitrine','Fruits Adventures','Cliente externo'])}
+${
+field('setup.format','Formato','select',['9:16 vertical','16:9 horizontal','1:1 quadrado','4:5 feed','A5 impresso','Grande formato'])}
+${
+field('setup.duration','Duração','select',['8 segundos','15 segundos','30 segundos','60 segundos','90 segundos','Livre / print'])}
+${
+field('setup.tone','Tom')}
+${
+field('setup.target','Canal/Público')}
+${
+field('setup.idea','Ideia / roteiro bruto / pedido do cliente','textarea')}
+${
+field('setup.objective','Objetivo','textarea')}
+${
+field('setup.continuityRules','Regras de continuidade','textarea')}
+${
+field('setup.requiredText','Textos obrigatórios / CTA','textarea')}
+</div>
+<div class="actions">
+<button class="btn gold" onclick="generatePipeline()">Gerar pipeline completo</button>
+<button class="btn cyan" onclick="generateNode('dna')">Gerar DNA</button>
+<button class="btn green" onclick="approveActiveNode()">Aprovar briefing</button>
+</div>
+</div>`}
+function apiHtml(){
+return `<div class="note-card">
+<b>Provedores preparados</b>
+<p class="small">O HTML funciona local. Para IA real, conecte endpoints no backend: /api/gemini, /api/pollinations, /api/flux, /api/ltx, /api/elevenlabs.</p>
+</div>
+<div class="provider-grid">${
+PROVIDERS.map(p=>`<div class="provider-card ${
+state.api.mode===p[0]?'active':''}
+" onclick="state.api.mode='${
+p[0]}
+';
+state.api.model='${
+p[1]}
+';
+saveState();
+renderStation();
+render()">
+<b>${
+p[1]}
+</b>
+<span>${
+p[2]}
+</span>
+</div>`).join('')}
+</div>
+<div class="station-section">
+<h3>Configuração</h3>
+<div class="form-grid">${
+field('api.endpoint','Endpoint')}
+${
+field('api.model','Modelo')}
+${
+field('api.temperature','Temperatura')}
+${
+field('api.maxTokens','Max tokens')}
+${
+field('api.keysNote','Observação de segurança','textarea')}
+</div>
+<div class="actions">
+<button class="btn cyan" onclick="testProviderPrompt()">Gerar prompt de teste</button>
+<button class="btn green" onclick="approveActiveNode()">Aprovar API</button>
+</div>
+</div>`}
+function storyboardHtml(){
+let scenes=state.scenes.map((s,i)=>`<div class="scene-card">
+<div class="scene-num">${
+i+1}
+</div>
+<div>
+<b>${
+escapeHtml(s.title)}
+</b>
+<span class="small">${
+escapeHtml(s.text)}
+</span>
+</div>
+<button class="btn tiny red" onclick="deleteScene(${
+i}
+)">×</button>
+</div>`).join('')||'<p class="small">Nenhuma cena ainda.</p>';
+return `<div class="station-section">
+<h3>Storyboard</h3>
+<div class="actions">
+<button class="btn gold" onclick="generateNode('storyboard')">Gerar storyboard</button>
+<button class="btn cyan" onclick="addScene()">Adicionar cena</button>
+<button class="btn green" onclick="approveActiveNode()">Aprovar</button>
+</div>
+<div style="margin-top:12px">${
+scenes}
+</div>
+<div class="output" contenteditable="true" oninput="state.outputs.storyboard=this.innerText;
+saveState()">${
+escapeHtml(state.outputs.storyboard||'O storyboard gerado aparecerá aqui.')}
+</div>
+</div>`}
+function printHtml(){
+return `<div class="station-section">
+<h3>Cliente / Produto Gráfico</h3>
+<div class="form-grid">${
+field('print.client','Cliente')}
+${
+field('print.segment','Segmento')}
+${
+field('print.quantity','Quantidade')}
+${
+field('print.deadline','Prazo')}
+${
+field('print.notes','Observações','textarea')}
+</div>
+<h3 style="margin-top:14px">Produtos</h3>
+<div class="product-grid">${
+PRODUCTS.map(p=>`<div class="product-card ${
+state.print.product===p[0]?'active':''}
+" onclick="state.print.product='${
+p[0]}
+';
+saveState();
+renderStation();
+render()">
+<b>${
+p[1]}
+</b>
+<span>${
+p[2]}
+ • ${
+p[3]}
+ • base R$ ${
+p[4]}
+</span>
+</div>`).join('')}
+</div>
+<div class="actions">
+<button class="btn gold" onclick="generateNode('print')">Gerar briefing print</button>
+<button class="btn cyan" onclick="generateNode('quote')">Gerar orçamento</button>
+</div>
+</div>`}
+function genericOutputHtml(id){
+let titles={
+dna:'DNA Visual',scene:'Cena Atual',motion:'Motion / Vídeo IA',prompts:'Prompts IA',srt:'SRT / Som / Voz',capcut:'CapCut Motion Book',quote:'Orçamento / Produção',visual:'Visual IA',sales:'Sales / Vitrine'}
+;
+let hints={
+dna:'Paleta, câmera, atmosfera, personagens, marca e continuidade.',scene:'Ação, emoção, quadro, câmera e intenção dramática.',motion:'Prompt para LTX, Seedance, Flow, Veo ou CapCut AI.',prompts:'Prompts PT/EN para imagem, vídeo, negative e provedores.',srt:'SRT limpo, narração, som, SFX e texto para ElevenLabs.',capcut:'Plano de edição, keyframes, cortes, zoom, assets e checklist.',quote:'Estimativa comercial, checklist técnico e pré-impressão.',visual:'Comandos para FLUX/Pollinations/edição visual.',sales:'Oferta, one page, proposta e WhatsApp.'}
+;
+return `<div class="station-section">
+<h3>${
+titles[id]}
+</h3>
+<p class="small">${
+hints[id]}
+</p>
+<div class="actions">
+<button class="btn gold" onclick="generateNode('${
+id}
+')">Gerar local</button>
+<button class="btn cyan" onclick="openProviderPrompt('${
+id}
+')">Prompt para API</button>
+<button class="btn green" onclick="approveActiveNode()">Aprovar</button>
+<button class="btn purple" onclick="copyText(state.outputs['${
+id}
+']||'')">Copiar</button>
+</div>
+<div class="output" contenteditable="true" oninput="state.outputs['${
+id}
+']=this.innerText;
+saveState()">${
+escapeHtml(state.outputs[id]||'Aguardando geração desta estação...')}
+</div>
+</div>`}
+function exportHtml(){
+return `<div class="station-section">
+<h3>Pacote Final</h3>
+<p class="small">Compilação para produção manual, CapCut, Remotion, Flow, Veo, Seedance, LTX, FLUX, ElevenLabs, Print, Sales e cliente.</p>
+<div class="actions">
+<button class="btn gold" onclick="exportPackage(false)">Atualizar pacote</button>
+<button class="btn green" onclick="downloadTxt()">Baixar TXT</button>
+<button class="btn cyan" onclick="downloadJson()">Baixar JSON</button>
+<button class="btn purple" onclick="copyPackage()">Copiar tudo</button>
+</div>
+<div class="output">${
+escapeHtml(state.outputs.export||buildExportText())}
+</div>
+</div>`}
+
+function product(){
+return PRODUCTS.find(p=>p[0]===state.print.product)||PRODUCTS[0]}
+function baseContext(){
+return `PROJETO: ${
+state.setup.projectName||'Sem título'}
+\nMODO: ${
+state.setup.mode}
+\nFORMATO: ${
+state.setup.format}
+\nDURAÇÃO: ${
+state.setup.duration}
+\nTOM: ${
+state.setup.tone}
+\nPÚBLICO/CANAL: ${
+state.setup.target}
+\nOBJETIVO: ${
+state.setup.objective}
+\nIDEIA: ${
+state.setup.idea||'Não informada'}
+\nREGRAS: ${
+state.setup.continuityRules}
+\nTEXTOS OBRIGATÓRIOS: ${
+state.setup.requiredText||'Nenhum'}
+\nMEMÓRIA VISUAL: ${
+state.visualMemory||'Não definida'}
+`}
+
+function generateNode(id){
+let c=baseContext(),p=product();
+ if(id==='dna')state.outputs.dna=`DNA VISUAL / PORTAL GENESIS\n\n${
+c}
+\n\nDIREÇÃO:\n- Paleta com contraste entre dourado, ciano e sombras profundas.\n- Composição limpa para leitura rápida.\n- Preservar identidade do cliente/projeto.\n- Não copiar obras, personagens ou marcas protegidas.\n- Usar referências apenas como clima, estrutura e direção.`;
+ if(id==='storyboard'){
+state.scenes=[];
+let count=6;
+for(let i=1;
+i<=count;
+i++)state.scenes.push({
+title:`Cena ${
+i}
+`,text:`Quadro ${
+i}
+: ação clara, câmera motivada, emoção legível e continuidade com o briefing.`}
+);
+state.outputs.storyboard=`STORYBOARD GERAL\n\n1. Hook visual imediato.\n2. Contexto do personagem/produto.\n3. Ação principal.\n4. Virada ou demonstração.\n5. Payoff visual.\n6. Fechamento/CTA.\n\nFormato: ${
+state.setup.format}
+\nDuração: ${
+state.setup.duration}
+`;
+}
+ if(id==='scene')state.outputs.scene=`CENA ATUAL — DIREÇÃO DETALHADA\n\nA cena começa com enquadramento forte, foco no elemento principal e movimento curto de câmera.\n\nAÇÃO: apresentar conflito/benefício com clareza.\nEMOÇÃO: ${
+state.setup.tone}
+.\nCÂMERA: push-in leve, parallax 2D, corte seco no impacto.\nCONTINUIDADE: manter regras do briefing e visual aprovado.`;
+ if(id==='motion')state.outputs.motion=`MOTION / VÍDEO IA\n\nPrompt PT:\nVídeo ${
+state.setup.format}
+, ${
+state.setup.duration}
+, estética ${
+state.setup.tone}
+, motion comic 2D/cinematográfico, câmera intencional, iluminação dramática, continuidade visual entre quadros, sem elementos aleatórios.\n\nPrompt EN:\n${
+state.setup.format}
+ video, ${
+state.setup.duration}
+, ${
+state.setup.tone}
+ aesthetic, cinematic 2D motion comic, intentional camera movement, dramatic lighting, consistent visual continuity, no random elements.\n\nLTX / Seedance / Flow / Veo:\n- keep reference image strict\n- preserve 2D/anime/motion comic style\n- avoid live action unless requested\n- add subtle camera push, smoke, particles, cloth movement and short impact cuts`;
+ if(id==='prompts')state.outputs.prompts=`PROMPTS IA\n\nFLUX / Pollinations imagem:\nCrie uma imagem vertical ${
+state.setup.format}
+, composição cinematográfica, tema: ${
+state.setup.idea||'projeto autoral'}
+, luz dramática, alta legibilidade, sem texto embutido, estilo 2D premium.\n\nNEGATIVE:\nblurry, low quality, bad anatomy, random objects, watermark, unreadable text, distorted logo, inconsistent character.\n\nPROMPT PARA API:\nProvider: ${
+state.api.mode}
+\nEndpoint sugerido: ${
+state.api.endpoint}
+\nModelo: ${
+state.api.model}
+`;
+ if(id==='srt')state.outputs.srt=`1\n00:00:00,000 --> 00:00:03,000\nAtenção: a história começa agora.\n\n2\n00:00:03,000 --> 00:00:08,000\nO universo se apresenta em uma imagem forte.\n\n3\n00:00:08,000 --> 00:00:18,000\nA ação avança com cortes claros e tensão crescente.\n\n4\n00:00:18,000 --> 00:00:${
+String(parseInt(state.setup.duration)||30).padStart(2,'0')}
+,000\nO payoff fecha a cena e prepara a próxima etapa.\n\nELEVENLABS / VOZ:\nTom: ${
+state.setup.tone}
+\nPausas: curtas, dramáticas, sem pressa.\nSFX: impacto, whoosh, ambiência leve e stinger final.`;
+ if(id==='capcut')state.outputs.capcut=`CAPCUT MOTION BOOK\n\n1. Criar pasta: refs, assets, voz, srt, sfx, exports.\n2. Linha do tempo: ${
+state.setup.format}
+, ${
+state.setup.duration}
+.\n3. Importar arte/storyboard como base visual.\n4. Aplicar keyframes: escala 100% → 106%, push-in suave, parallax curto.\n5. Cortes: hook, contexto, ação, payoff, CTA.\n6. Importar SRT limpo.\n7. Aplicar SFX: impacto inicial, ambiente, whoosh e stinger.\n8. Exportar e arquivar pacote final.`;
+ if(id==='print')state.outputs.print=`PRINT / CLIENTE\n\nCliente: ${
+state.print.client||'Não informado'}
+\nSegmento: ${
+state.print.segment||'Não informado'}
+\nProduto: ${
+p[1]}
+\nFormato: ${
+p[2]}
+\nTécnica: ${
+p[3]}
+\nQuantidade: ${
+state.print.quantity}
+\nPrazo: ${
+state.print.deadline}
+\n\nBriefing: ${
+state.print.notes||state.setup.idea||'Não informado'}
+\n\nSaída: arte para aprovação, orientação técnica, arquivo final e pacote para produção.`;
+ if(id==='quote'){
+let total=(Number(p[4])||0)*(Number(state.print.quantity)||1);
+state.outputs.quote=`ORÇAMENTO / PRODUÇÃO\n\nProduto: ${
+p[1]}
+\nBase unitária estimada: R$ ${
+p[4]}
+,00\nQuantidade: ${
+state.print.quantity}
+\nTotal estimado: R$ ${
+total.toFixed(2).replace('.',',')}
+\n\nCHECKLIST TÉCNICO\n- Conferir formato: ${
+p[2]}
+\n- Conferir técnica: ${
+p[3]}
+\n- Revisar texto obrigatório.\n- Aprovação do cliente antes de produção.\n- Separar pasta: Cliente / Designer / Produção / Interno.`}
+ if(id==='visual')state.outputs.visual=`VISUAL IA / PERSONALIZAÇÃO\n\nObjetivo: gerar ou editar imagem preservando composição, luz, roupa/produto e identidade.\n\nFLUX/Pollinations prompt:\nImagem profissional, ${
+state.setup.tone}
+, tema ${
+state.setup.idea||'briefing do cliente'}
+, composição limpa, produto/personagem central, luz dramática, fundo coerente, sem texto embutido.\n\nEdição visual:\n- trocar rosto/roupa/produto somente se o usuário pedir;
+\n- preservar iluminação, pose, ângulo e estilo;
+\n- gerar variações A/B/C para aprovação.`;
+ if(id==='sales')state.outputs.sales=`SALES / VITRINE\n\nOferta: ${
+state.setup.projectName||p[1]+' profissional'}
+\nCliente: ${
+state.print.client||'Lead não informado'}
+\nPacote sugerido: ${
+state.setup.mode.includes('Print')?'Pacote Gráfica Express':'Pacote Conteúdo + Produção'}
+\nCTA: ${
+state.setup.requiredText||'Solicitar aprovação e produção'}
+\n\nMensagem WhatsApp:\nOlá! Preparei um pacote profissional com briefing, direção visual, roteiro/arte, especificação técnica e entrega organizada. Posso te enviar o preview para aprovação?\n\nOne Page:\n1. Hero com promessa clara.\n2. Benefícios.\n3. O que está incluso.\n4. Valor/escopo.\n5. CTA final.`;
+ state.approved[id]=false;
+ log('Gerado: '+nodeById(id).title);
+ render();
+ if($('station').classList.contains('active'))renderStation();
+ toast('Node gerado.')}
+function generatePipeline(){
+if(!nodeDone('brief')){
+openStation('brief');
+toast('Preencha o briefing primeiro.');
+return}
+['dna','storyboard','scene','motion','prompts','srt','capcut','print','quote','visual','sales'].forEach(generateNode);
+exportPackage(false);
+toast('Pipeline completo gerado.')}
+function approveActiveNode(){
+state.approved[state.activeNode]=true;
+log('Aprovado: '+currentNode().title);
+render();
+if($('station').classList.contains('active'))renderStation();
+toast('Node aprovado.')}
+function nextNode(){
+let i=NODE_DEFS.findIndex(n=>n.id===state.activeNode);
+let next=NODE_DEFS[Math.min(NODE_DEFS.length-1,i+1)];
+openStation(next.id)}
+function saveCurrentStation(){
+saveState();
+toast('Estação salva.')}
+function exportPackage(open=true){
+state.outputs.export=buildExportText();
+state.approved.export=true;
+log('Pacote final montado');
+render();
+if(open)openStation('export');
+return state.outputs.export}
+function buildExportText(){
+return `PORTAL GENESIS MEGA STUDIO LITE PRO — PACOTE FINAL\nGerado em: ${
+new Date().toLocaleString('pt-BR')}
+\n\n==============================\n1. CONTEXTO\n==============================\n${
+baseContext()}
+\n\n==============================\n2. DNA VISUAL\n==============================\n${
+state.outputs.dna||'Pendente'}
+\n\n==============================\n3. STORYBOARD\n==============================\n${
+state.outputs.storyboard||'Pendente'}
+\n\n==============================\n4. CENA ATUAL\n==============================\n${
+state.outputs.scene||'Pendente'}
+\n\n==============================\n5. MOTION / VÍDEO IA\n==============================\n${
+state.outputs.motion||'Pendente'}
+\n\n==============================\n6. PROMPTS IA\n==============================\n${
+state.outputs.prompts||'Pendente'}
+\n\n==============================\n7. SRT / SOM / VOZ\n==============================\n${
+state.outputs.srt||'Pendente'}
+\n\n==============================\n8. CAPCUT MOTION BOOK\n==============================\n${
+state.outputs.capcut||'Pendente'}
+\n\n==============================\n9. PRINT / CLIENTE\n==============================\n${
+state.outputs.print||'Pendente'}
+\n\n==============================\n10. ORÇAMENTO / PRODUÇÃO\n==============================\n${
+state.outputs.quote||'Pendente'}
+\n\n==============================\n11. VISUAL IA\n==============================\n${
+state.outputs.visual||'Pendente'}
+\n\n==============================\n12. SALES / VITRINE\n==============================\n${
+state.outputs.sales||'Pendente'}
+\n\n==============================\n13. CHECKLIST FINAL\n==============================\n1. Conferir briefing e continuidade.\n2. Conferir identidade do cliente/projeto.\n3. Conferir prompts sem cópia de obra protegida.\n4. Conferir SRT e narração.\n5. Conferir CapCut Motion Book.\n6. Conferir especificação de print/pré-impressão.\n7. Baixar TXT/JSON e arquivar.\n8. Usar em CapCut, Remotion, Flow, Veo, Seedance, LTX, FLUX, ElevenLabs, Pollinations, Print ou Sales.`}
+
+function openProviderPrompt(id){
+let text=`Você é o motor do Portal Genesis Mega Studio.\n\nNode: ${
+nodeById(id).title}
+\nProvider alvo: ${
+state.api.mode}
+\n\n${
+baseContext()}
+\n\nTarefa: gere uma saída profissional, prática e separada por blocos para este node. Preserve autoria do usuário e não copie obras protegidas.`;
+openModal('Prompt para API — '+nodeById(id).title,text,'prompt-api.txt')}
+function testProviderPrompt(){
+openProviderPrompt(state.activeNode)}
+function addScene(){
+let n=state.scenes.length+1;
+state.scenes.push({
+title:'Cena '+n,text:'Descreva ação, câmera, emoção e continuidade.'}
+);
+renderStation();
+saveState()}
+function deleteScene(i){
+state.scenes.splice(i,1);
+renderStation();
+saveState()}
+function updateVisualMemory(v){
+state.visualMemory=v;
+saveState();
+renderDiagnostics()}
+function analyzeRefsLocal(){
+state.visualMemory=`DNA visual local:\n- Referências carregadas: ${
+state.refs.length}
+\n- Tom: ${
+state.setup.tone}
+\n- Formato: ${
+state.setup.format}
+\n- Usar como guia de composição, paleta, clima e continuidade;
+ não copiar obra protegida.`;
+renderStation();
+render();
+toast('Memória visual atualizada.')}
+function handleRefUpload(e){
+Array.from(e.target.files||[]).slice(0,8).forEach(file=>{
+let r=new FileReader();
+r.onload=ev=>{
+state.refs.push({
+name:file.name,src:ev.target.result}
+);
+renderRefs();
+saveState();
+renderDiagnostics()}
+;
+r.readAsDataURL(file)}
+);
+e.target.value=''}
+function renderRefs(){
+let box=$('refsGrid');
+if(!box)return;
+box.innerHTML=state.refs.length?state.refs.map((r,i)=>`<div class="ref-thumb">
+<img src="${
+r.src}
+" alt="${
+escapeAttr(r.name)}
+">
+<button onclick="removeRef(${
+i}
+)">×</button>
+</div>`).join(''):'<div class="ref-thumb">
+<span>Nenhuma referência</span>
+</div>'}
+function removeRef(i){
+state.refs.splice(i,1);
+renderRefs();
+saveState();
+renderDiagnostics()}
+function clearRefs(){
+state.refs=[];
+renderRefs();
+saveState();
+renderDiagnostics();
+toast('Referências limpas.')}
+function copyText(text){
+text=String(text||'').trim();
+if(!text){
+toast('Nada para copiar.');
+return}
+navigator.clipboard?.writeText(text).then(()=>toast('Copiado.')).catch(()=>toast('Não foi possível copiar.'))}
+function copyPackage(){
+if(!state.outputs.export)exportPackage(false);
+copyText(state.outputs.export)}
+function safeName(){
+return (state.setup.projectName||'portal-genesis-mega-studio').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'portal-genesis-mega-studio'}
+function downloadFile(name,content,type){
+let blob=new Blob([content],{
+type}
+),url=URL.createObjectURL(blob),a=document.createElement('a');
+a.href=url;
+a.download=name;
+document.body.appendChild(a);
+a.click();
+a.remove();
+URL.revokeObjectURL(url);
+toast('Arquivo baixado: '+name)}
+function downloadTxt(){
+if(!state.outputs.export)exportPackage(false);
+downloadFile(safeName()+'-pacote-final.txt',state.outputs.export,'text/plain;
+charset=utf-8')}
+function downloadJson(){
+downloadFile(safeName()+'-projeto.json',JSON.stringify({
+app:'Portal Genesis Mega Studio Profissional',version:'1.0',exportedAt:new Date().toISOString(),state}
+,null,2),'application/json;
+charset=utf-8')}
+function openImport(){
+$('importFile').click()}
+function importProject(e){
+let file=e.target.files[0];
+if(!file)return;
+let r=new FileReader();
+r.onload=ev=>{
+try{
+let data=JSON.parse(ev.target.result);
+state=mergeDeep(clone(DEFAULT_STATE),data.state||data);
+hydratePositions();
+render();
+toast('Projeto importado.')}
+catch(err){
+toast('JSON inválido.')}
+}
+;
+r.readAsText(file);
+e.target.value=''}
+function resetProject(){
+if(!confirm('Resetar projeto salvo neste navegador?'))return;
+localStorage.removeItem(STORAGE_KEY);
+state=clone(DEFAULT_STATE);
+hydratePositions();
+render();
+centerMap();
+toast('Projeto resetado.')}
+function openModal(title,text,name='resultado.txt'){
+modalLastText=text;
+modalLastName=name;
+$('modalTitle').textContent=title;
+$('modalOutput').textContent=text;
+$('modalBackdrop').classList.add('active')}
+function closeModal(){
+$('modalBackdrop').classList.remove('active')}
+function copyModal(){
+copyText(modalLastText)}
+function downloadModal(){
+downloadFile(modalLastName,modalLastText,'text/plain;
+charset=utf-8')}
+
+function init(){
+hydratePositions();
+bindCanvasEvents();
+render();
+setTimeout(centerMap,80)}
+init();
+
 </script>
 </body>
 </html>
