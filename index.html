@@ -4,90 +4,40 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080b13" />
-  <title>Portal Genesis Mega Studio - Flow Mode</title>
+  <title>Portal Genesis Mega Studio - Flow Mode API Ready</title>
   <style>
-    :root{
-      --bg:#060810;
-      --panel:#101522;
-      --panel2:#151b2b;
-      --card:#171e2f;
-      --card2:#111827;
-      --line:rgba(255,255,255,.10);
-      --line2:rgba(128,232,218,.25);
-      --txt:#f5f7fb;
-      --muted:#9aa7bc;
-      --soft:#c7d2e4;
-      --cyan:#80e8da;
-      --cyan2:#2fc8bd;
-      --gold:#f5c66b;
-      --green:#68df91;
-      --red:#ff7185;
-      --purple:#b9a7ff;
-      --shadow:0 18px 60px rgba(0,0,0,.45);
-      --radius:24px;
-      --radius2:18px;
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:radial-gradient(circle at 30% -10%,rgba(128,232,218,.15),transparent 35%),radial-gradient(circle at 90% 10%,rgba(245,198,107,.10),transparent 30%),var(--bg);color:var(--txt)}
-    body{overflow-x:hidden}
-    button,input,textarea,select{font:inherit}
-    button{border:0;cursor:pointer;color:inherit}
+    :root{--bg:#060810;--panel:#101522;--line:rgba(255,255,255,.10);--txt:#f5f7fb;--muted:#9aa7bc;--soft:#c7d2e4;--cyan:#80e8da;--gold:#f5c66b;--green:#68df91;--red:#ff7185;--shadow:0 18px 60px rgba(0,0,0,.45);--radius:24px;--safe-bottom: env(safe-area-inset-bottom, 0px);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    *{box-sizing:border-box} html,body{margin:0;min-height:100%;background:radial-gradient(circle at 30% -10%,rgba(128,232,218,.15),transparent 35%),radial-gradient(circle at 90% 10%,rgba(245,198,107,.10),transparent 30%),var(--bg);color:var(--txt)} body{overflow-x:hidden}
+    button,input,textarea,select{font:inherit} button{border:0;cursor:pointer;color:inherit}
     textarea,input,select{width:100%;background:#0b1020;border:1px solid var(--line);border-radius:16px;color:var(--txt);outline:0;padding:14px 15px}
-    textarea:focus,input:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(128,232,218,.12)}
-    textarea{min-height:150px;resize:vertical;line-height:1.5}
+    textarea:focus,input:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(128,232,218,.12)} textarea{min-height:140px;resize:vertical;line-height:1.5}
     .app{min-height:100dvh;padding-bottom:calc(18px + var(--safe-bottom))}
     .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:14px clamp(14px,3vw,26px);background:rgba(6,8,16,.78);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
-    .logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,var(--gold),var(--cyan));display:grid;place-items:center;color:#101522;font-weight:950;box-shadow:0 10px 30px rgba(128,232,218,.15)}
-    .brand h1{font-size:clamp(16px,3.8vw,24px);line-height:1;margin:0;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .brand small{display:block;color:var(--gold);font-size:10px;letter-spacing:.35em;margin-top:4px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    .pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:999px;background:#0e1422;border:1px solid var(--line);color:var(--soft);font-weight:800;font-size:13px;white-space:nowrap}
-    .pill.cyan{border-color:rgba(128,232,218,.35);background:rgba(128,232,218,.10);color:#d8fffb}
-    .pill.gold{background:linear-gradient(180deg,#ffd988,#dfaa4d);color:#17110a;border-color:#ffe0a0}
-    .pill.green{background:linear-gradient(180deg,#83efa8,#50c978);color:#062211;border-color:#a6ffc1}
-    .pill.danger{border-color:rgba(255,113,133,.35);background:rgba(255,113,133,.11);color:#ffd6dd}
-    main{width:min(1180px,100%);margin:0 auto;padding:18px clamp(12px,3vw,28px)}
-    .hero{min-height:calc(100dvh - 150px);display:grid;align-content:center;gap:22px;padding:22px 0}
-    .hero-card{border:1px solid var(--line);border-radius:32px;background:linear-gradient(180deg,rgba(21,27,43,.90),rgba(11,16,32,.92));box-shadow:var(--shadow);padding:clamp(20px,4vw,42px);position:relative;overflow:hidden}
-    .hero-card:before{content:"";position:absolute;inset:-80px auto auto -80px;width:260px;height:260px;border-radius:50%;background:rgba(128,232,218,.12);filter:blur(20px);pointer-events:none}
-    .hero-title{font-size:clamp(32px,8vw,72px);line-height:.95;margin:0 0 14px;font-weight:950;letter-spacing:-.06em;max-width:850px}
-    .hero-sub{color:var(--muted);font-size:clamp(15px,3.4vw,20px);line-height:1.55;margin:0;max-width:850px}
-    .prompt-shell{margin-top:26px;border:1px solid rgba(128,232,218,.25);border-radius:28px;background:#080d19;padding:12px;display:grid;grid-template-columns:1fr auto;gap:10px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
-    .prompt-input{border:0;background:transparent;min-height:68px;font-size:18px;padding:16px;box-shadow:none!important}
-    .send-btn{width:68px;min-height:68px;border-radius:22px;background:linear-gradient(180deg,#f5f7fb,#bfc8d7);color:#0b1020;font-size:34px;font-weight:950;display:grid;place-items:center}
-    .quick-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
-    .quick-btn{padding:14px 10px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid var(--line);color:var(--soft);font-weight:900;text-align:center;min-height:58px}
-    .quick-btn.active,.quick-btn:hover{border-color:var(--cyan);background:rgba(128,232,218,.12);color:#eafffc}
-    .workspace{display:none;gap:16px}.workspace.active{display:grid}
-    .section-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin:6px 0 2px}
-    .section-head h2{margin:0;font-size:clamp(24px,5.5vw,42px);letter-spacing:-.04em}.section-head p{margin:6px 0 0;color:var(--muted);line-height:1.5}
-    .grid{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}
-    .panel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(21,27,43,.94),rgba(13,18,32,.94));border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-    .panel.pad{padding:18px}.panel-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-title h3{margin:0;font-size:17px}.muted{color:var(--muted)}
-    .form-row{display:grid;gap:10px;margin-bottom:12px}.form-row label{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:900}
-    .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .btn-row{display:flex;gap:10px;flex-wrap:wrap}.btn{border-radius:16px;padding:13px 15px;background:#111a2c;border:1px solid var(--line);font-weight:900;color:var(--soft);display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn.primary{background:linear-gradient(180deg,#f7d783,#dca44c);color:#191006;border-color:#f5d58a}.btn.cyan{background:rgba(128,232,218,.12);border-color:rgba(128,232,218,.35);color:#ddfffb}.btn.green{background:linear-gradient(180deg,#80eca6,#4fc675);color:#061f10;border-color:#a4ffc0}.btn.block{width:100%}.btn:disabled{opacity:.55;cursor:not-allowed}
-    .result-area{min-height:520px;display:grid;grid-template-rows:auto 1fr auto}.result-stage{padding:18px;display:grid;gap:14px}.empty{min-height:360px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed rgba(255,255,255,.12);border-radius:22px;background:rgba(0,0,0,.18);padding:22px}.empty .icon{font-size:54px;margin-bottom:12px}.output-card{border:1px solid var(--line);background:rgba(8,13,25,.82);border-radius:20px;padding:16px}.output-card h4{margin:0 0 8px;font-size:15px;color:#dffefa}.output-card pre{white-space:pre-wrap;word-break:break-word;line-height:1.55;color:#dbe5f4;margin:0;font-size:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.preview-box{aspect-ratio:9/16;max-height:520px;margin:0 auto;width:min(100%,360px);border-radius:24px;border:1px solid rgba(128,232,218,.24);background:radial-gradient(circle at 50% 25%,rgba(128,232,218,.28),transparent 30%),linear-gradient(180deg,#111827,#070a12);display:grid;place-items:center;text-align:center;padding:22px;color:#d9fffb;box-shadow:inset 0 0 40px rgba(128,232,218,.06)}
-    .bottom-actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid var(--line);background:rgba(0,0,0,.16)}
-    .project-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.project-card{border:1px solid var(--line);border-radius:20px;background:rgba(17,24,39,.78);padding:14px;min-height:130px;display:grid;align-content:space-between;gap:10px}.project-card strong{display:block}.tag{display:inline-flex;width:max-content;padding:6px 9px;border-radius:999px;background:rgba(128,232,218,.12);border:1px solid rgba(128,232,218,.25);color:#ccfffa;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.statusbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.mini{font-size:11px;padding:7px 9px;border-radius:999px;background:#0c1220;border:1px solid var(--line);color:var(--muted);font-weight:800}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,var(--gold),var(--cyan));display:grid;place-items:center;color:#101522;font-weight:950;box-shadow:0 10px 30px rgba(128,232,218,.15)}
+    .brand h1{font-size:clamp(16px,3.8vw,24px);line-height:1;margin:0;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand small{display:block;color:var(--gold);font-size:10px;letter-spacing:.35em;margin-top:4px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:999px;background:#0e1422;border:1px solid var(--line);color:var(--soft);font-weight:800;font-size:13px;white-space:nowrap}.pill.cyan{border-color:rgba(128,232,218,.35);background:rgba(128,232,218,.10);color:#d8fffb}.pill.green{background:linear-gradient(180deg,#83efa8,#50c978);color:#062211;border-color:#a6ffc1}.pill.danger{border-color:rgba(255,113,133,.35);background:rgba(255,113,133,.11);color:#ffd6dd}
+    main{width:min(1180px,100%);margin:0 auto;padding:18px clamp(12px,3vw,28px)} .hero{min-height:calc(100dvh - 150px);display:grid;align-content:center;gap:22px;padding:22px 0}
+    .hero-card,.panel{border:1px solid var(--line);border-radius:32px;background:linear-gradient(180deg,rgba(21,27,43,.90),rgba(11,16,32,.92));box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .hero-card{padding:clamp(20px,4vw,42px)} .hero-title{font-size:clamp(32px,8vw,72px);line-height:.95;margin:0 0 14px;font-weight:950;letter-spacing:-.06em;max-width:850px}.hero-sub{color:var(--muted);font-size:clamp(15px,3.4vw,20px);line-height:1.55;margin:0;max-width:850px}
+    .prompt-shell{margin-top:26px;border:1px solid rgba(128,232,218,.25);border-radius:28px;background:#080d19;padding:12px;display:grid;grid-template-columns:1fr auto;gap:10px}.prompt-input{border:0;background:transparent;min-height:68px;font-size:18px;padding:16px;box-shadow:none!important}.send-btn{width:68px;min-height:68px;border-radius:22px;background:linear-gradient(180deg,#f5f7fb,#bfc8d7);color:#0b1020;font-size:34px;font-weight:950;display:grid;place-items:center}
+    .quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:14px}.quick-btn{padding:14px 10px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid var(--line);color:var(--soft);font-weight:900;text-align:center;min-height:58px}.quick-btn.active,.quick-btn:hover{border-color:var(--cyan);background:rgba(128,232,218,.12);color:#eafffc}
+    .statusbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.mini,.tag{display:inline-flex;width:max-content;padding:6px 9px;border-radius:999px;background:#0c1220;border:1px solid var(--line);color:var(--muted);font-size:11px;font-weight:800}.tag{background:rgba(128,232,218,.12);border-color:rgba(128,232,218,.25);color:#ccfffa;text-transform:uppercase;letter-spacing:.08em}
+    .workspace{display:none;gap:16px}.workspace.active{display:grid}.section-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin:6px 0 2px}.section-head h2{margin:0;font-size:clamp(24px,5.5vw,42px);letter-spacing:-.04em}.section-head p{margin:6px 0 0;color:var(--muted);line-height:1.5}
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}.panel.pad{padding:18px}.panel-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-title h3{margin:0;font-size:17px}.muted{color:var(--muted)}.form-row{display:grid;gap:10px;margin-bottom:12px}.form-row label{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:900}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.btn-row{display:flex;gap:10px;flex-wrap:wrap}.btn{border-radius:16px;padding:13px 15px;background:#111a2c;border:1px solid var(--line);font-weight:900;color:var(--soft);display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn.primary{background:linear-gradient(180deg,#f7d783,#dca44c);color:#191006;border-color:#f5d58a}.btn.cyan{background:rgba(128,232,218,.12);border-color:rgba(128,232,218,.35);color:#ddfffb}.btn.green{background:linear-gradient(180deg,#80eca6,#4fc675);color:#061f10;border-color:#a4ffc0}.btn.block{width:100%}.btn:disabled{opacity:.55;cursor:not-allowed}
+    .result-area{min-height:560px;display:grid;grid-template-rows:auto 1fr auto}.result-stage{padding:18px;display:grid;gap:14px}.empty{min-height:360px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed rgba(255,255,255,.12);border-radius:22px;background:rgba(0,0,0,.18);padding:22px}.empty .icon{font-size:54px;margin-bottom:12px}
+    .preview-box{aspect-ratio:9/16;max-height:520px;margin:0 auto;width:min(100%,360px);border-radius:24px;border:1px solid rgba(128,232,218,.24);background:radial-gradient(circle at 50% 25%,rgba(128,232,218,.28),transparent 30%),linear-gradient(180deg,#111827,#070a12);display:grid;place-items:center;text-align:center;padding:22px;color:#d9fffb;box-shadow:inset 0 0 40px rgba(128,232,218,.06)}
+    .output-card{border:1px solid var(--line);background:rgba(8,13,25,.82);border-radius:20px;padding:16px}.output-card h4{margin:0 0 8px;font-size:15px;color:#dffefa}.output-card pre{white-space:pre-wrap;word-break:break-word;line-height:1.55;color:#dbe5f4;margin:0;font-size:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    .media-box{border:1px solid rgba(128,232,218,.24);border-radius:22px;background:#090f1a;padding:12px}.media-box img,.media-box video{width:100%;display:block;border-radius:16px;max-height:540px;object-fit:cover}.media-box audio{width:100%}
+    .bottom-actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid var(--line);background:rgba(0,0,0,.16)} .project-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.project-card{border:1px solid var(--line);border-radius:20px;background:rgba(17,24,39,.78);padding:14px;min-height:130px;display:grid;align-content:space-between;gap:10px}
     .drawer{position:fixed;inset:auto 0 0 0;z-index:60;transform:translateY(105%);transition:.25s ease;background:#090d18;border-top:1px solid var(--line);border-radius:28px 28px 0 0;box-shadow:0 -22px 70px rgba(0,0,0,.65);max-height:88dvh;overflow:auto;padding:18px clamp(14px,3vw,24px) calc(22px + var(--safe-bottom))}.drawer.open{transform:translateY(0)}.drawer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.drawer-head h3{margin:0}.x{width:42px;height:42px;border-radius:50%;background:#151b2b;border:1px solid var(--line);font-size:24px}.toast{position:fixed;left:50%;bottom:calc(18px + var(--safe-bottom));transform:translateX(-50%) translateY(80px);opacity:0;z-index:80;background:#111827;border:1px solid rgba(128,232,218,.28);color:#eafffc;padding:12px 16px;border-radius:999px;box-shadow:var(--shadow);transition:.25s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    @media(max-width:820px){.topbar{align-items:flex-start}.brand h1{font-size:18px}.brand small{font-size:8px;letter-spacing:.26em}.top-actions .pill:not(.keep){display:none}main{padding:12px 10px}.hero{min-height:calc(100dvh - 110px);align-content:start}.hero-card{border-radius:24px;padding:20px 14px}.prompt-shell{grid-template-columns:1fr auto;border-radius:24px}.prompt-input{font-size:16px;min-height:66px}.send-btn{width:62px;min-height:62px;border-radius:20px}.quick-grid{grid-template-columns:repeat(2,1fr)}.quick-btn{min-height:54px}.grid{grid-template-columns:1fr}.panel.pad{padding:14px}.two,.three{grid-template-columns:1fr}.project-strip{grid-template-columns:1fr 1fr}.section-head{display:block}.bottom-actions{position:sticky;bottom:0;z-index:10}.btn{min-height:46px}.result-area{min-height:auto}.empty{min-height:240px}.preview-box{max-height:none;width:100%}}
-    @media(max-width:480px){.project-strip{grid-template-columns:1fr}.hero-title{font-size:38px}.topbar{gap:8px}.logo{width:39px;height:39px}.pill{padding:9px 10px;font-size:12px}.quick-grid{grid-template-columns:1fr 1fr}.btn-row .btn{flex:1 1 100%}.hero-sub{font-size:15px}}
+    @media(max-width:820px){.topbar{align-items:flex-start}.brand h1{font-size:18px}.brand small{font-size:8px;letter-spacing:.26em}.top-actions .pill:not(.keep){display:none}main{padding:12px 10px}.hero{min-height:calc(100dvh - 110px);align-content:start}.hero-card{border-radius:24px;padding:20px 14px}.prompt-shell{grid-template-columns:1fr auto;border-radius:24px}.prompt-input{font-size:16px;min-height:66px}.send-btn{width:62px;min-height:62px;border-radius:20px}.quick-grid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.panel.pad{padding:14px}.two,.three{grid-template-columns:1fr}.project-strip{grid-template-columns:1fr 1fr}.section-head{display:block}.bottom-actions{position:sticky;bottom:0;z-index:10}.btn{min-height:46px}.empty{min-height:240px}.preview-box{width:100%;max-height:none}}
+    @media(max-width:480px){.project-strip{grid-template-columns:1fr}.hero-title{font-size:38px}.logo{width:39px;height:39px}.pill{padding:9px 10px;font-size:12px}.btn-row .btn{flex:1 1 100%}}
   </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <div class="brand">
-      <div class="logo">PG</div>
-      <div>
-        <h1>Portal Genesis Mega Studio</h1>
-        <small>Video - Print - Sales - API</small>
-      </div>
-    </div>
+    <div class="brand"><div class="logo">PG</div><div><h1>Portal Genesis Mega Studio</h1><small>Video - Print - Sales - API</small></div></div>
     <div class="top-actions">
       <button class="pill cyan keep" id="homeBtn">Home</button>
       <button class="pill" id="apiBtn">API</button>
@@ -95,18 +45,18 @@
       <button class="pill danger" id="resetBtn">Reset</button>
     </div>
   </header>
-
   <main>
     <section class="hero" id="homeView">
       <div class="hero-card">
-        <h2 class="hero-title">Crie imagem, video e pacote tecnico em um fluxo so.</h2>
-        <p class="hero-sub">Escolha o que quer criar primeiro. O Portal abre apenas a etapa certa, gera o material e deixa voce continuar para roteiro, storyboard, video, SRT ou CapCut sem virar uma lista confusa de colunas.</p>
+        <h2 class="hero-title">Crie imagem, audio, video e pacote tecnico em um fluxo so.</h2>
+        <p class="hero-sub">Escolha o que quer criar primeiro. O Portal abre a etapa certa, chama sua API e deixa voce continuar com imagem, voz, video, roteiro, storyboard, SRT ou pacote final.</p>
         <div class="prompt-shell">
-          <textarea class="prompt-input" id="mainPrompt" placeholder="O que voce quer criar? Ex: uma cena 9:16 de motion comic 2D, personagem olhando uma cidade futurista na chuva..."></textarea>
+          <textarea class="prompt-input" id="mainPrompt" placeholder="O que voce quer criar? Ex: uma cena 9:16 de motion comic 2D com narracao dramatica e depois transformar em video..."></textarea>
           <button class="send-btn" id="startBtn" aria-label="Criar">→</button>
         </div>
-        <div class="quick-grid" id="typeButtons">
+        <div class="quick-grid">
           <button class="quick-btn active" data-type="image">Imagem</button>
+          <button class="quick-btn" data-type="audio">Audio</button>
           <button class="quick-btn" data-type="video">Video</button>
           <button class="quick-btn" data-type="storyboard">Storyboard</button>
           <button class="quick-btn" data-type="script">Roteiro</button>
@@ -118,95 +68,35 @@
           <span class="mini" id="modeLabel">Modo: Imagem</span>
         </div>
       </div>
-
       <div>
-        <div class="section-head">
-          <div>
-            <h2>Projetos recentes</h2>
-            <p>Os resultados salvos aparecem aqui como no Flow: miniaturas, status e caminho para continuar.</p>
-          </div>
-        </div>
+        <div class="section-head"><div><h2>Projetos recentes</h2><p>Miniaturas, status e caminho para continuar trabalhando.</p></div></div>
         <div class="project-strip" id="recentProjects"></div>
       </div>
     </section>
-
     <section class="workspace" id="workView">
       <div class="section-head">
-        <div>
-          <h2 id="workspaceTitle">Criar imagem</h2>
-          <p id="workspaceSub">Gere a primeira peca visual e depois continue para video, roteiro ou pacote tecnico.</p>
-        </div>
-        <div class="btn-row">
-          <button class="btn cyan" id="backHomeBtn">← Voltar</button>
-          <button class="btn" id="saveProjectBtn">Salvar projeto</button>
-        </div>
+        <div><h2 id="workspaceTitle">Criar imagem</h2><p id="workspaceSub">Gere a primeira peca visual e depois continue para video, roteiro ou pacote tecnico.</p></div>
+        <div class="btn-row"><button class="btn cyan" id="backHomeBtn">← Voltar</button><button class="btn" id="saveProjectBtn">Salvar projeto</button></div>
       </div>
-
       <div class="grid">
         <aside class="panel pad">
           <div class="panel-title"><h3>Direcao da criacao</h3><span class="tag" id="currentTypeTag">Imagem</span></div>
-          <div class="form-row">
-            <label>Pedido principal</label>
-            <textarea id="workPrompt"></textarea>
-          </div>
+          <div class="form-row"><label>Pedido principal</label><textarea id="workPrompt"></textarea></div>
           <div class="two">
-            <div class="form-row">
-              <label>Modelo / provedor</label>
-              <select id="providerSelect">
-                <option value="offline">Modo local inteligente</option>
-                <option value="gemini">Gemini / Nano Banana</option>
-                <option value="openrouter">OpenRouter</option>
-                <option value="groq">Groq</option>
-                <option value="pollinations">Pollinations / Flux</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label>Formato</label>
-              <select id="formatSelect">
-                <option value="9:16 vertical">9:16 vertical</option>
-                <option value="16:9 horizontal">16:9 horizontal</option>
-                <option value="1:1 quadrado">1:1 quadrado</option>
-                <option value="4:5 social">4:5 social</option>
-              </select>
-            </div>
+            <div class="form-row"><label>Provedor</label><select id="providerSelect"><option value="offline">Modo local inteligente</option><option value="pollinations">Pollinations / Flux</option><option value="openrouter">OpenRouter</option><option value="gemini">Gemini</option><option value="custom">Custom / backend proprio</option></select></div>
+            <div class="form-row"><label>Formato</label><select id="formatSelect"><option value="9:16 vertical">9:16 vertical</option><option value="16:9 horizontal">16:9 horizontal</option><option value="1:1 quadrado">1:1 quadrado</option><option value="4:5 social">4:5 social</option></select></div>
           </div>
-          <div class="form-row">
-            <label>Estilo visual</label>
-            <select id="styleSelect">
-              <option>Cinematico 2D</option>
-              <option>Motion comic / anime 2D</option>
-              <option>Storyboard tecnico</option>
-              <option>Realista comercial</option>
-              <option>Dark fantasy</option>
-              <option>Produto para vendas</option>
-            </select>
-          </div>
-          <div class="three">
-            <div class="form-row"><label>Duracao</label><input id="durationInput" value="8s" /></div>
-            <div class="form-row"><label>Tom</label><input id="toneInput" value="cinematico, claro, impactante" /></div>
-            <div class="form-row"><label>Publico</label><input id="audienceInput" value="shorts, reels, tiktok" /></div>
-          </div>
-          <div class="btn-row">
-            <button class="btn primary block" id="generateBtn">Gerar</button>
-            <button class="btn cyan" id="improveBtn">Melhorar prompt</button>
-            <button class="btn" id="referenceBtn">Usar referencia</button>
-          </div>
+          <div class="form-row"><label>Estilo visual</label><select id="styleSelect"><option>Cinematico 2D</option><option>Motion comic / anime 2D</option><option>Storyboard tecnico</option><option>Realista comercial</option><option>Dark fantasy</option><option>Produto para vendas</option></select></div>
+          <div class="three"><div class="form-row"><label>Duracao</label><input id="durationInput" value="8s" /></div><div class="form-row"><label>Tom</label><input id="toneInput" value="cinematico, claro, impactante" /></div><div class="form-row"><label>Publico</label><input id="audienceInput" value="shorts, reels, tiktok" /></div></div>
+          <div class="btn-row"><button class="btn primary block" id="generateBtn">Gerar</button><button class="btn cyan" id="improveBtn">Melhorar prompt</button><button class="btn" id="referenceBtn">Usar referencia</button></div>
         </aside>
-
         <section class="panel result-area">
-          <div class="result-stage" id="resultStage">
-            <div class="empty">
-              <div>
-                <div class="icon">✦</div>
-                <h3>Comece a criar ou adicione uma referencia</h3>
-                <p class="muted">O resultado aparece aqui. Depois voce pode transformar em video, roteiro, SRT, storyboard ou pacote final.</p>
-              </div>
-            </div>
-          </div>
+          <div class="result-stage" id="resultStage"><div class="empty"><div><div class="icon">✦</div><h3>Comece a criar</h3><p class="muted">O resultado aparece aqui. Se a API retornar uma URL de imagem, audio ou video, o player ja aparece no site.</p></div></div></div>
           <div class="bottom-actions">
-            <button class="btn cyan" id="toImageBtn">Criar imagem</button>
-            <button class="btn cyan" id="toVideoBtn">Transformar em video</button>
-            <button class="btn" id="toScriptBtn">Criar roteiro</button>
+            <button class="btn cyan" id="toImageBtn">Imagem</button>
+            <button class="btn cyan" id="toAudioBtn">Audio</button>
+            <button class="btn cyan" id="toVideoBtn">Video</button>
+            <button class="btn" id="toScriptBtn">Roteiro</button>
             <button class="btn" id="toSrtBtn">SRT / CapCut</button>
             <button class="btn green" id="downloadBtn">Baixar TXT</button>
             <button class="btn" id="shareBtn">Compartilhar</button>
@@ -219,14 +109,16 @@
 
 <div class="drawer" id="apiDrawer">
   <div class="drawer-head"><h3>API e Provedores</h3><button class="x" id="closeApi">×</button></div>
-  <p class="muted">Para producao real, prefira um endpoint/proxy seu no servidor. Em HTML puro, qualquer chave usada no navegador pode ficar exposta. Este painel nao grava chaves no codigo: salva localmente no aparelho.</p>
+  <p class="muted">Para producao real, o ideal e usar rotas do Vercel em <code>/api/...</code>. O front chama essas rotas, e as chaves ficam em variaveis de ambiente no servidor.</p>
   <div class="two">
-    <div class="form-row"><label>Endpoint Gemini</label><input id="geminiEndpoint" placeholder="https://seu-backend.com/api/gemini" /></div>
-    <div class="form-row"><label>Modelo Gemini</label><input id="geminiModel" value="nano-banana-2" /></div>
-    <div class="form-row"><label>Endpoint OpenRouter</label><input id="openrouterEndpoint" placeholder="https://seu-backend.com/api/openrouter" /></div>
-    <div class="form-row"><label>Modelo OpenRouter</label><input id="openrouterModel" value="google/gemini-2.5-flash-image" /></div>
-    <div class="form-row"><label>Endpoint Groq</label><input id="groqEndpoint" placeholder="https://seu-backend.com/api/groq" /></div>
-    <div class="form-row"><label>Modelo Groq</label><input id="groqModel" value="llama-3.3-70b-versatile" /></div>
+    <div class="form-row"><label>Endpoint texto / roteiro</label><input id="textEndpoint" value="/api/generate-text" /></div>
+    <div class="form-row"><label>Modelo texto</label><input id="textModel" value="openrouter/auto" /></div>
+    <div class="form-row"><label>Endpoint imagem</label><input id="imageEndpoint" value="/api/generate-image" /></div>
+    <div class="form-row"><label>Modelo imagem</label><input id="imageModel" value="flux" /></div>
+    <div class="form-row"><label>Endpoint audio</label><input id="audioEndpoint" value="/api/generate-audio" /></div>
+    <div class="form-row"><label>Voice ID / modelo voz</label><input id="audioModel" value="EXAVITQu4vr4xnSDxMaL" /></div>
+    <div class="form-row"><label>Endpoint video</label><input id="videoEndpoint" value="/api/generate-video" /></div>
+    <div class="form-row"><label>Modelo video</label><input id="videoModel" value="kling-or-runway" /></div>
   </div>
   <div class="form-row"><label>Chave local opcional</label><input id="localKey" type="password" placeholder="Opcional. Melhor usar proxy no servidor." /></div>
   <div class="btn-row"><button class="btn green" id="saveApiBtn">Salvar API</button><button class="btn" id="clearApiBtn">Limpar APIs</button></div>
@@ -236,197 +128,55 @@
 <script>
 (function(){
   'use strict';
-  const $ = (id)=>document.getElementById(id);
-  const state = {
-    type:'image',
-    projectTitle:'Sem titulo',
-    lastOutput:'',
-    projects:[],
-    api:{},
-    prompt:''
-  };
-  const storageKey = 'portal_genesis_flow_mode_v1';
-
-  function load(){
-    try{Object.assign(state, JSON.parse(localStorage.getItem(storageKey)||'{}'));}catch(e){}
-    state.projects = Array.isArray(state.projects)?state.projects:[];
-    state.api = state.api || {};
-    $('mainPrompt').value = state.prompt || '';
-    $('projectLabel').textContent = 'Projeto: ' + (state.projectTitle || 'Sem titulo');
-    renderRecent();
-    loadApiFields();
-    setType(state.type || 'image', false);
-  }
-  function persist(){
-    state.prompt = $('mainPrompt').value;
-    localStorage.setItem(storageKey, JSON.stringify(state));
-    $('autosaveLabel').textContent = 'autosave ativo';
-  }
-  function toast(msg){
-    const t=$('toast'); t.textContent=msg; t.classList.add('show');
-    clearTimeout(toast._timer); toast._timer=setTimeout(()=>t.classList.remove('show'),1800);
-  }
-  function setType(type, persistNow=true){
-    state.type = type;
-    document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active', b.dataset.type===type));
-    const names={image:'Imagem',video:'Video',storyboard:'Storyboard',script:'Roteiro',full:'Pacote completo'};
-    $('modeLabel').textContent='Modo: '+names[type];
-    $('currentTypeTag').textContent=names[type];
-    const titles={
-      image:['Criar imagem','Gere a primeira peca visual e depois continue para video, roteiro ou pacote tecnico.'],
-      video:['Criar video','Transforme uma ideia, imagem ou cena em prompt de video IA com camera, acao e som.'],
-      storyboard:['Criar storyboard','Quebre a ideia em quadros, acao, camera, falas e continuidade visual.'],
-      script:['Criar roteiro visual','Monte historia, começo, meio, virada, payoff e CTA.'],
-      full:['Criar pacote completo','Gere briefing, roteiro visual, imagem, video IA, SRT, CapCut Motion Book e exportacao.']
-    };
-    $('workspaceTitle').textContent=titles[type][0];
-    $('workspaceSub').textContent=titles[type][1];
-    if(persistNow) persist();
-  }
-  function showWork(){
-    const prompt = $('mainPrompt').value.trim();
-    $('workPrompt').value = prompt || $('workPrompt').value || '';
-    $('homeView').style.display='none';
-    $('workView').classList.add('active');
-    persist();
-  }
-  function showHome(){
-    $('homeView').style.display='grid';
-    $('workView').classList.remove('active');
-    renderRecent();
-  }
-  function getContext(){
-    return {
-      type: state.type,
-      prompt: $('workPrompt').value.trim(),
-      provider: $('providerSelect').value,
-      format: $('formatSelect').value,
-      style: $('styleSelect').value,
-      duration: $('durationInput').value.trim(),
-      tone: $('toneInput').value.trim(),
-      audience: $('audienceInput').value.trim()
-    };
-  }
-  function buildOutput(ctx){
-    const base = ctx.prompt || 'Projeto autoral com visual forte, narrativa clara e potencial para video curto.';
-    if(ctx.type==='image'){
-      return `PROMPT DE IMAGEM\nFormato: ${ctx.format}\nEstilo: ${ctx.style}\nTema: ${base}\n\nComposicao cinematografica, personagem/objeto principal bem definido, fundo com profundidade, luz dramatica, leitura clara no celular, contraste controlado, textura rica, foco visual no centro de interesse, sem poluicao, pronto para virar cena de video.\n\nNEGATIVO: texto torto, maos deformadas, rosto quebrado, excesso de elementos, baixa resolucao, arte confusa, marca d'agua.`;
-    }
-    if(ctx.type==='video'){
-      return `PROMPT DE VIDEO IA\nFormato: ${ctx.format}\nDuracao: ${ctx.duration}\nEstilo: ${ctx.style}\nTema: ${base}\n\nCena com movimento progressivo. Camera inicia em plano medio, faz push-in suave, pequena oscilacao cinematografica, foco no personagem/objeto principal, particulas ou atmosfera leve no ambiente. Acao clara em tres momentos: inicio visual forte, micro conflito/movimento, fechamento com gancho.\n\nSom sugerido: ambiencia discreta, impacto suave na virada, respiração/vento/sintetizador conforme o clima.\n\nEvitar: cortes confusos, troca de identidade, realismo indesejado se a base for 2D, camera tremida demais.`;
-    }
-    if(ctx.type==='storyboard'){
-      return `STORYBOARD TECNICO - 5 QUADROS\nTema: ${base}\nFormato: ${ctx.format}\nEstilo: ${ctx.style}\n\n1. ABERTURA: plano geral situando o mundo e o conflito visual.\n2. APROXIMACAO: personagem/objeto principal entra em destaque; camera aproxima.\n3. VIRADA: elemento inesperado muda a leitura da cena.\n4. REACAO: close emocional ou detalhe tecnico importante.\n5. GANCHO: imagem final forte, pronta para continuar no video ou proximo episodio.\n\nPara cada quadro: manter continuidade de figurino, luz, paleta, direcao do olhar, posicao dos elementos e escala dos personagens.`;
-    }
-    if(ctx.type==='script'){
-      return `ROTEIRO VISUAL CURTO\nTema: ${base}\nTom: ${ctx.tone}\nPublico: ${ctx.audience}\n\nGANCHO: abrir com imagem ou pergunta que prenda nos 2 primeiros segundos.\nCOMECO: apresentar objetivo e atmosfera sem explicacao longa.\nMEIO: conflito visual simples, com uma escolha ou descoberta.\nVIRADA: revelar um detalhe que muda o sentido da cena.\nPAYOFF: entregar imagem final memoravel.\nCTA: deixar uma pergunta ou promessa de continuacao.\n\nNARRACAO BASE:\nAlgo parecia comum, ate o primeiro sinal aparecer. Quando a camera se aproxima, a verdade deixa de ser detalhe e vira ameaca. Agora a proxima escolha decide tudo.`;
-    }
-    return `PACOTE COMPLETO PORTAL GENESIS\nTema: ${base}\nFormato: ${ctx.format}\nEstilo: ${ctx.style}\nDuracao: ${ctx.duration}\n\n1. BRIEFING: criar peca autoral para ${ctx.audience}, com tom ${ctx.tone}.\n2. ROTEIRO VISUAL: gancho rapido, conflito claro, virada e payoff.\n3. PROMPT DE IMAGEM: composicao cinematografica, foco forte, leitura mobile, fundo com profundidade.\n4. PROMPT DE VIDEO: camera push-in, acao em tres momentos, atmosfera e continuidade.\n5. SRT BASE:\n00:00:00,000 --> 00:00:02,000\nTudo parecia parado.\n00:00:02,000 --> 00:00:05,000\nMas um detalhe mudou a cena inteira.\n00:00:05,000 --> 00:00:08,000\nE agora, nao tem mais volta.\n6. CAPCUT MOTION BOOK: importar imagem/video, aplicar zoom leve, SFX de atmosfera, legenda limpa, corte no impacto e exportar 9:16.`;
-  }
+  const $=(id)=>document.getElementById(id);
+  const state={type:'image',projectTitle:'Sem titulo',lastOutput:'',lastMedia:null,projects:[],api:{},prompt:''};
+  const storageKey='portal_genesis_flow_mode_api_ready_v1';
+  function load(){try{Object.assign(state,JSON.parse(localStorage.getItem(storageKey)||'{}'));}catch(e){} state.projects=Array.isArray(state.projects)?state.projects:[]; state.api=state.api||{}; $('mainPrompt').value=state.prompt||''; $('projectLabel').textContent='Projeto: '+(state.projectTitle||'Sem titulo'); renderRecent(); loadApiFields(); setType(state.type||'image',false);}
+  function persist(){state.prompt=$('mainPrompt').value; localStorage.setItem(storageKey,JSON.stringify(state)); $('autosaveLabel').textContent='autosave ativo';}
+  function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._timer);toast._timer=setTimeout(()=>t.classList.remove('show'),1800)}
+  function setType(type,persistNow=true){state.type=type; document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===type)); const names={image:'Imagem',audio:'Audio',video:'Video',storyboard:'Storyboard',script:'Roteiro',full:'Pacote completo'}; $('modeLabel').textContent='Modo: '+names[type]; $('currentTypeTag').textContent=names[type]; const titles={image:['Criar imagem','Gere uma imagem e depois continue para video, roteiro ou pacote tecnico.'],audio:['Criar audio','Gere voz, narracao ou audio base a partir do seu texto.'],video:['Criar video','Transforme a ideia em prompt ou video IA com camera, acao e som.'],storyboard:['Criar storyboard','Quebre a ideia em quadros, acao e continuidade visual.'],script:['Criar roteiro visual','Monte historia, virada, payoff e CTA.'],full:['Criar pacote completo','Gere briefing, roteiro, imagem, audio, video, SRT e exportacao.']}; $('workspaceTitle').textContent=titles[type][0]; $('workspaceSub').textContent=titles[type][1]; if(persistNow)persist();}
+  function showWork(){const prompt=$('mainPrompt').value.trim(); $('workPrompt').value=prompt||$('workPrompt').value||''; $('homeView').style.display='none'; $('workView').classList.add('active'); persist();}
+  function showHome(){ $('homeView').style.display='grid'; $('workView').classList.remove('active'); renderRecent(); }
+  function getContext(){return{type:state.type,prompt:$('workPrompt').value.trim(),provider:$('providerSelect').value,format:$('formatSelect').value,style:$('styleSelect').value,duration:$('durationInput').value.trim(),tone:$('toneInput').value.trim(),audience:$('audienceInput').value.trim()}}
+  function buildOutput(ctx){const base=ctx.prompt||'Projeto autoral com visual forte e narrativa clara.'; if(ctx.type==='image') return `PROMPT DE IMAGEM\nFormato: ${ctx.format}\nEstilo: ${ctx.style}\nTema: ${base}\n\nComposicao cinematografica, luz dramatica, leitura forte no celular, profundidade de campo e foco claro.`; if(ctx.type==='audio') return `TEXTO PARA NARRACAO / AUDIO\nTom: ${ctx.tone}\nDuracao sugerida: ${ctx.duration}\n\n${base}\n\nLeia com pausas naturais, intencao dramatica e clareza.`; if(ctx.type==='video') return `PROMPT DE VIDEO IA\nFormato: ${ctx.format}\nDuracao: ${ctx.duration}\nTema: ${base}\n\nCena com push-in suave, acao em tres momentos, atmosfera, SFX e continuidade.`; if(ctx.type==='storyboard') return `STORYBOARD - 5 QUADROS\nTema: ${base}\n1. Abertura\n2. Aproximacao\n3. Virada\n4. Reacao\n5. Gancho`; if(ctx.type==='script') return `ROTEIRO VISUAL CURTO\nTema: ${base}\nGancho, comeco, meio, virada, payoff e CTA.`; return `PACOTE COMPLETO\nTema: ${base}\nInclua briefing, roteiro, imagem, audio, video, SRT e CapCut Motion Book.`;}
+  function getEndpoint(type){const api=state.api||{}; const map={image:'imageEndpoint',audio:'audioEndpoint',video:'videoEndpoint',storyboard:'textEndpoint',script:'textEndpoint',full:'textEndpoint'}; return api[map[type]]||''}
+  function getModel(type){const api=state.api||{}; const map={image:'imageModel',audio:'audioModel',video:'videoModel',storyboard:'textModel',script:'textModel',full:'textModel'}; return api[map[type]]||''}
   async function callProvider(ctx){
-    const api = state.api || {};
-    const endpointMap = {gemini:'geminiEndpoint',openrouter:'openrouterEndpoint',groq:'groqEndpoint'};
-    const endpoint = api[endpointMap[ctx.provider]];
-    if(!endpoint || ctx.provider==='offline' || ctx.provider==='pollinations') return buildOutput(ctx);
-    const payload = {type:ctx.type,prompt:ctx.prompt,format:ctx.format,style:ctx.style,duration:ctx.duration,tone:ctx.tone,audience:ctx.audience,model:api[ctx.provider+'Model']||''};
-    const res = await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','Authorization': api.localKey ? 'Bearer '+api.localKey : ''},body:JSON.stringify(payload)});
-    if(!res.ok) throw new Error('Erro no endpoint: '+res.status);
-    const data = await res.json();
-    return data.output || data.text || data.result || JSON.stringify(data,null,2);
-  }
-  function renderOutput(text, ctx){
-    state.lastOutput = text;
-    const isVisual = ctx.type==='image' || ctx.type==='video';
-    $('resultStage').innerHTML = `${isVisual?`<div class="preview-box"><div><div style="font-size:48px">${ctx.type==='image'?'🖼️':'🎬'}</div><h3>${ctx.type==='image'?'Imagem pronta para gerar':'Video pronto para gerar'}</h3><p class="muted">Use o prompt abaixo no modelo escolhido ou no seu endpoint.</p></div></div>`:''}<div class="output-card"><h4>Resultado gerado</h4><pre>${escapeHtml(text)}</pre></div>`;
-    persist();
-  }
-  function escapeHtml(s){return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-  async function generate(){
-    const ctx = getContext();
-    if(!ctx.prompt){toast('Escreva o que voce quer criar.'); return;}
-    $('generateBtn').disabled=true; $('generateBtn').textContent='Gerando...';
-    $('resultStage').innerHTML='<div class="empty"><div><div class="icon">⏳</div><h3>Gerando resultado...</h3><p class="muted">Preparando saida limpa para a etapa atual.</p></div></div>';
-    try{ renderOutput(await callProvider(ctx),ctx); toast('Resultado gerado'); }
-    catch(e){ renderOutput(buildOutput(ctx)+'\n\nAVISO: endpoint externo falhou. Foi gerada uma versao local.\nMotivo: '+e.message,ctx); }
-    finally{$('generateBtn').disabled=false; $('generateBtn').textContent='Gerar';}
-  }
-  function improvePrompt(){
-    const val = $('workPrompt').value.trim();
-    if(!val){toast('Digite uma ideia primeiro.');return;}
-    $('workPrompt').value = `${val}\n\nDirecao extra: manter foco visual claro, leitura forte no celular, continuidade de estilo, composicao cinematografica, gancho nos primeiros segundos, resultado pronto para evoluir para imagem, video, roteiro e CapCut.`;
-    toast('Prompt melhorado'); persist();
-  }
-  function switchWorkType(type){ setType(type); showWork(); }
-  function saveProject(){
-    const titleSource = ($('workPrompt').value || $('mainPrompt').value || 'Projeto sem titulo').trim();
-    state.projectTitle = titleSource.slice(0,42);
-    const item = {id:Date.now(),title:state.projectTitle,type:state.type,output:state.lastOutput,prompt:$('workPrompt').value,created:new Date().toLocaleString('pt-BR')};
-    state.projects = [item, ...state.projects.filter(p=>p.title!==item.title)].slice(0,8);
-    $('projectLabel').textContent='Projeto: '+state.projectTitle;
-    persist(); renderRecent(); toast('Projeto salvo');
-  }
-  function renderRecent(){
-    const wrap=$('recentProjects');
-    if(!state.projects.length){
-      wrap.innerHTML = `<button class="project-card" id="newProjectCard"><span class="tag">Novo</span><strong>+ Novo projeto</strong><span class="muted">Comece por imagem, video, storyboard ou pacote completo.</span></button>`;
-      setTimeout(()=>$('newProjectCard')?.addEventListener('click',()=>{$('mainPrompt').focus();}),0); return;
+    if(ctx.provider==='offline') return {kind:'text',text:buildOutput(ctx)};
+    if(ctx.type==='image' && ctx.provider==='pollinations'){
+      const prompt=encodeURIComponent(`${ctx.prompt}. ${ctx.style}. ${ctx.format}. cinematic, high quality`);
+      return {kind:'image',url:`https://image.pollinations.ai/prompt/${prompt}?width=1024&height=1792&seed=${Date.now()}` ,text:buildOutput(ctx)};
     }
-    wrap.innerHTML = state.projects.map(p=>`<button class="project-card" data-open="${p.id}"><span class="tag">${escapeHtml(p.type)}</span><strong>${escapeHtml(p.title)}</strong><span class="muted">${escapeHtml(p.created)}</span></button>`).join('');
-    wrap.querySelectorAll('[data-open]').forEach(btn=>btn.addEventListener('click',()=>{
-      const p=state.projects.find(x=>String(x.id)===btn.dataset.open); if(!p)return;
-      setType(p.type||'image'); $('mainPrompt').value=p.prompt||''; $('workPrompt').value=p.prompt||''; state.lastOutput=p.output||''; showWork(); if(p.output) renderOutput(p.output,getContext());
-    }));
+    const endpoint=getEndpoint(ctx.type);
+    if(!endpoint) return {kind:'text',text:buildOutput(ctx)};
+    const payload={type:ctx.type,prompt:ctx.prompt,format:ctx.format,style:ctx.style,duration:ctx.duration,tone:ctx.tone,audience:ctx.audience,provider:ctx.provider,model:getModel(ctx.type)};
+    const headers={'Content-Type':'application/json'}; if(state.api.localKey) headers['Authorization']='Bearer '+state.api.localKey;
+    const res=await fetch(endpoint,{method:'POST',headers,body:JSON.stringify(payload)});
+    if(!res.ok) throw new Error('Erro no endpoint: '+res.status);
+    const data=await res.json();
+    if(data.type==='image' && data.url) return {kind:'image',url:data.url,text:data.prompt||buildOutput(ctx)};
+    if(data.type==='audio' && (data.url||data.base64)) return {kind:'audio',url:data.url||`data:audio/mpeg;base64,${data.base64}`,text:data.text||ctx.prompt};
+    if(data.type==='video' && (data.url||data.base64)) return {kind:'video',url:data.url||`data:video/mp4;base64,${data.base64}`,text:data.prompt||ctx.prompt};
+    return {kind:'text',text:data.output||data.text||data.result||buildOutput(ctx)};
   }
-  function downloadTxt(){
-    const text = state.lastOutput || buildOutput(getContext());
-    const blob = new Blob([text],{type:'text/plain;charset=utf-8'});
-    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='portal-genesis-saida.txt'; a.click(); URL.revokeObjectURL(a.href); toast('TXT baixado');
-  }
-  async function share(){
-    const text = state.lastOutput || $('workPrompt').value || $('mainPrompt').value;
-    if(navigator.share){try{await navigator.share({title:'Portal Genesis Mega Studio',text});}catch(e){}}
-    else {await navigator.clipboard.writeText(text); toast('Copiado para compartilhar');}
-  }
-  function exportJson(){
-    const data = JSON.stringify(state,null,2);
-    const blob = new Blob([data],{type:'application/json;charset=utf-8'});
-    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='portal-genesis-projeto.json'; a.click(); URL.revokeObjectURL(a.href); toast('JSON exportado');
-  }
-  function openApi(){ $('apiDrawer').classList.add('open'); }
-  function closeApi(){ $('apiDrawer').classList.remove('open'); }
-  function loadApiFields(){
-    ['geminiEndpoint','geminiModel','openrouterEndpoint','openrouterModel','groqEndpoint','groqModel','localKey'].forEach(id=>{if($(id)) $(id).value=state.api[id]||$(id).value||'';});
-  }
-  function saveApi(){
-    ['geminiEndpoint','geminiModel','openrouterEndpoint','openrouterModel','groqEndpoint','groqModel','localKey'].forEach(id=>state.api[id]=$(id).value.trim());
-    persist(); toast('API salva localmente'); closeApi();
-  }
-  function clearApi(){ state.api={}; localStorage.removeItem(storageKey+'_api'); loadApiFields(); persist(); toast('APIs limpas'); }
-  function resetAll(){ if(confirm('Limpar projeto local e voltar ao inicio?')){localStorage.removeItem(storageKey); location.reload();} }
-
+  function renderOutput(payload,ctx){state.lastMedia=payload; state.lastOutput=payload.text||''; let html=''; if(payload.kind==='image'){html+=`<div class="media-box"><img src="${escapeAttr(payload.url)}" alt="Imagem gerada"></div>`;} else if(payload.kind==='audio'){html+=`<div class="media-box"><audio controls src="${escapeAttr(payload.url)}"></audio></div>`;} else if(payload.kind==='video'){html+=`<div class="media-box"><video controls playsinline src="${escapeAttr(payload.url)}"></video></div>`;} else {html+=`<div class="preview-box"><div><div style="font-size:48px">${ctx.type==='audio'?'🎙️':ctx.type==='video'?'🎬':'✦'}</div><h3>Saida pronta</h3><p class="muted">Use o resultado abaixo ou conecte seu endpoint para retornar a midia.</p></div></div>`;} html+=`<div class="output-card"><h4>Resultado gerado</h4><pre>${escapeHtml(payload.text||'')}</pre></div>`; $('resultStage').innerHTML=html; persist();}
+  function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function escapeAttr(s){return String(s).replace(/"/g,'&quot;')}
+  async function generate(){const ctx=getContext(); if(!ctx.prompt){toast('Escreva o que voce quer criar.');return} $('generateBtn').disabled=true; $('generateBtn').textContent='Gerando...'; $('resultStage').innerHTML='<div class="empty"><div><div class="icon">⏳</div><h3>Gerando resultado...</h3><p class="muted">Preparando saida para a etapa atual.</p></div></div>'; try{renderOutput(await callProvider(ctx),ctx); toast('Resultado gerado')}catch(e){renderOutput({kind:'text',text:buildOutput(ctx)+'\n\nAVISO: endpoint externo falhou. Motivo: '+e.message},ctx)} finally{$('generateBtn').disabled=false; $('generateBtn').textContent='Gerar'}}
+  function improvePrompt(){const val=$('workPrompt').value.trim(); if(!val){toast('Digite uma ideia primeiro.');return} $('workPrompt').value=`${val}\n\nDirecao extra: manter foco visual claro, leitura forte no celular, continuidade de estilo, composicao cinematografica, gancho nos primeiros segundos e resultado pronto para evoluir para imagem, audio, video, roteiro e CapCut.`; toast('Prompt melhorado'); persist();}
+  function switchWorkType(type){setType(type); showWork();}
+  function saveProject(){const titleSource=($('workPrompt').value||$('mainPrompt').value||'Projeto sem titulo').trim(); state.projectTitle=titleSource.slice(0,42); const item={id:Date.now(),title:state.projectTitle,type:state.type,output:state.lastOutput,media:state.lastMedia,prompt:$('workPrompt').value,created:new Date().toLocaleString('pt-BR')}; state.projects=[item,...state.projects.filter(p=>p.title!==item.title)].slice(0,8); $('projectLabel').textContent='Projeto: '+state.projectTitle; persist(); renderRecent(); toast('Projeto salvo')}
+  function renderRecent(){const wrap=$('recentProjects'); if(!state.projects.length){wrap.innerHTML=`<button class="project-card" id="newProjectCard"><span class="tag">Novo</span><strong>+ Novo projeto</strong><span class="muted">Comece por imagem, audio, video, storyboard ou pacote completo.</span></button>`; setTimeout(()=>$('newProjectCard')?.addEventListener('click',()=>{$('mainPrompt').focus();}),0); return} wrap.innerHTML=state.projects.map(p=>`<button class="project-card" data-open="${p.id}"><span class="tag">${escapeHtml(p.type)}</span><strong>${escapeHtml(p.title)}</strong><span class="muted">${escapeHtml(p.created)}</span></button>`).join(''); wrap.querySelectorAll('[data-open]').forEach(btn=>btn.addEventListener('click',()=>{const p=state.projects.find(x=>String(x.id)===btn.dataset.open); if(!p)return; setType(p.type||'image'); $('mainPrompt').value=p.prompt||''; $('workPrompt').value=p.prompt||''; state.lastOutput=p.output||''; state.lastMedia=p.media||null; showWork(); if(p.media||p.output) renderOutput(p.media||{kind:'text',text:p.output||''},getContext())}))}
+  function downloadTxt(){const text=state.lastOutput||buildOutput(getContext()); const blob=new Blob([text],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='portal-genesis-saida.txt'; a.click(); URL.revokeObjectURL(a.href); toast('TXT baixado')}
+  async function share(){const text=state.lastOutput||$('workPrompt').value||$('mainPrompt').value; if(navigator.share){try{await navigator.share({title:'Portal Genesis Mega Studio',text});}catch(e){}} else {await navigator.clipboard.writeText(text); toast('Copiado para compartilhar')}}
+  function exportJson(){const data=JSON.stringify(state,null,2); const blob=new Blob([data],{type:'application/json;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='portal-genesis-projeto.json'; a.click(); URL.revokeObjectURL(a.href); toast('JSON exportado')}
+  function openApi(){$('apiDrawer').classList.add('open')} function closeApi(){$('apiDrawer').classList.remove('open')}
+  function loadApiFields(){['textEndpoint','textModel','imageEndpoint','imageModel','audioEndpoint','audioModel','videoEndpoint','videoModel','localKey'].forEach(id=>{if($(id)) $(id).value=state.api[id]||$(id).value||''})}
+  function saveApi(){['textEndpoint','textModel','imageEndpoint','imageModel','audioEndpoint','audioModel','videoEndpoint','videoModel','localKey'].forEach(id=>state.api[id]=$(id).value.trim()); persist(); toast('API salva localmente'); closeApi()}
+  function clearApi(){state.api={}; persist(); loadApiFields(); toast('APIs limpas')}
+  function resetAll(){if(confirm('Limpar projeto local e voltar ao inicio?')){localStorage.removeItem(storageKey); location.reload()}}
   document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>setType(b.dataset.type)));
-  $('startBtn').addEventListener('click',showWork);
-  $('homeBtn').addEventListener('click',showHome);
-  $('backHomeBtn').addEventListener('click',showHome);
-  $('generateBtn').addEventListener('click',generate);
-  $('improveBtn').addEventListener('click',improvePrompt);
-  $('referenceBtn').addEventListener('click',()=>toast('Use o botao + do modelo externo ou cole a descricao da referencia no prompt.'));
-  $('saveProjectBtn').addEventListener('click',saveProject);
-  $('toImageBtn').addEventListener('click',()=>switchWorkType('image'));
-  $('toVideoBtn').addEventListener('click',()=>switchWorkType('video'));
-  $('toScriptBtn').addEventListener('click',()=>switchWorkType('script'));
-  $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value = ($('workPrompt').value||'') + '\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();});
-  $('downloadBtn').addEventListener('click',downloadTxt);
-  $('shareBtn').addEventListener('click',share);
-  $('apiBtn').addEventListener('click',openApi);
-  $('closeApi').addEventListener('click',closeApi);
-  $('saveApiBtn').addEventListener('click',saveApi);
-  $('clearApiBtn').addEventListener('click',clearApi);
-  $('exportBtn').addEventListener('click',exportJson);
-  $('resetBtn').addEventListener('click',resetAll);
-  $('mainPrompt').addEventListener('input',persist);
-  window.addEventListener('beforeunload',persist);
-  load();
+  $('startBtn').addEventListener('click',showWork); $('homeBtn').addEventListener('click',showHome); $('backHomeBtn').addEventListener('click',showHome); $('generateBtn').addEventListener('click',generate); $('improveBtn').addEventListener('click',improvePrompt); $('referenceBtn').addEventListener('click',()=>toast('Cole a descricao da referencia no prompt ou envie pela sua rota de API.')); $('saveProjectBtn').addEventListener('click',saveProject); $('toImageBtn').addEventListener('click',()=>switchWorkType('image')); $('toAudioBtn').addEventListener('click',()=>switchWorkType('audio')); $('toVideoBtn').addEventListener('click',()=>switchWorkType('video')); $('toScriptBtn').addEventListener('click',()=>switchWorkType('script')); $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value=($('workPrompt').value||'')+'\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();}); $('downloadBtn').addEventListener('click',downloadTxt); $('shareBtn').addEventListener('click',share); $('apiBtn').addEventListener('click',openApi); $('closeApi').addEventListener('click',closeApi); $('saveApiBtn').addEventListener('click',saveApi); $('clearApiBtn').addEventListener('click',clearApi); $('exportBtn').addEventListener('click',exportJson); $('resetBtn').addEventListener('click',resetAll); $('mainPrompt').addEventListener('input',persist); window.addEventListener('beforeunload',persist); load();
 })();
 </script>
 </body>
