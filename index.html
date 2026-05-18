@@ -845,6 +845,325 @@ display:none}
   .canvasControls,.canvas-controls{z-index:40;}
 }
 
+
+
+/* =========================================================
+   PATCH V2 MOBILE FULL — TOUCH VISIVEL, NODE NITIDO E TOPBAR
+   ========================================================= */
+.mobile-hint{
+  position:absolute;
+  left:12px;
+  top:12px;
+  z-index:65;
+  display:none;
+  align-items:center;
+  gap:8px;
+  padding:9px 12px;
+  border:1px solid rgba(214,173,104,.34);
+  border-radius:999px;
+  background:rgba(5,8,19,.86);
+  color:#f1cf8b;
+  box-shadow:0 12px 32px rgba(0,0,0,.30);
+  backdrop-filter:blur(10px);
+  font:12px Consolas,ui-monospace,monospace;
+  letter-spacing:.03em;
+  pointer-events:none;
+}
+.mobile-hint::before{
+  content:'👆';
+  font-family:system-ui,Segoe UI Emoji,sans-serif;
+}
+.node.is-touching{
+  border-color:rgba(241,207,139,.96)!important;
+  box-shadow:0 0 0 3px rgba(241,207,139,.18),0 18px 54px rgba(0,0,0,.48)!important;
+}
+@media (hover:none){
+  .btn:hover,.node:hover,.provider-card:hover,.product-card:hover{
+    transform:none!important;
+    filter:none!important;
+  }
+}
+@media(max-width:760px){
+  html,body{
+    height:100%;
+    overflow:hidden;
+    overscroll-behavior:none;
+  }
+  body{
+    position:fixed;
+    inset:0;
+    width:100%;
+  }
+  .app{
+    height:100dvh;
+    min-height:100dvh;
+    grid-template-rows:auto minmax(0,1fr);
+    overflow:hidden;
+  }
+  .topbar{
+    position:relative;
+    z-index:70;
+    flex-wrap:wrap;
+    align-content:flex-start;
+    gap:10px;
+    padding:10px 12px 9px;
+    max-height:210px;
+    overflow:hidden;
+    border-bottom-color:rgba(214,173,104,.18);
+  }
+  .brand{
+    width:100%;
+    min-width:0;
+    gap:10px;
+  }
+  .brand-mark{
+    width:44px;
+    height:44px;
+    border-radius:15px;
+    flex:0 0 auto;
+  }
+  .brand-title{
+    min-width:0;
+  }
+  .brand-title strong{
+    font-size:clamp(18px,6vw,25px);
+    line-height:1.08;
+    letter-spacing:.055em;
+    overflow-wrap:anywhere;
+  }
+  .brand-title span{
+    font-size:10px;
+    line-height:1.35;
+    letter-spacing:.16em;
+  }
+  .top-status{
+    width:100%;
+    margin-left:0;
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    align-items:center;
+    gap:8px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    padding:1px 2px 6px;
+    scrollbar-width:none;
+  }
+  .top-status::-webkit-scrollbar{
+    display:none;
+  }
+  .pill,.btn{
+    flex:0 0 auto;
+    min-height:44px;
+    border-radius:16px;
+    font-size:14px;
+    padding:10px 14px;
+    touch-action:manipulation;
+  }
+  .pill{
+    font-family:Consolas,ui-monospace,monospace;
+  }
+  .workspace{
+    min-height:0;
+    height:100%;
+    grid-template-columns:1fr;
+    overflow:hidden;
+  }
+  .left-dock,.right-dock{
+    display:none;
+  }
+  .canvas-wrap{
+    height:100%;
+    min-height:0;
+    overflow:hidden;
+    touch-action:none;
+    overscroll-behavior:contain;
+    cursor:grab;
+  }
+  .mobile-hint{
+    display:flex;
+  }
+  .canvas-map{
+    will-change:transform;
+    backface-visibility:hidden;
+  }
+  .node{
+    width:260px;
+    min-height:156px;
+    padding:14px;
+    border-radius:20px;
+    transform:none!important;
+    transition:border-color .12s, box-shadow .12s, opacity .12s, filter .12s;
+    touch-action:none;
+    -webkit-user-select:none;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+    box-shadow:0 14px 42px rgba(0,0,0,.44);
+  }
+  .node:hover,.node.dragging-node{
+    transform:none!important;
+  }
+  .node-head{
+    gap:10px;
+    padding-bottom:9px;
+    margin-bottom:8px;
+  }
+  .node-icon{
+    width:46px;
+    height:46px;
+    border-radius:15px;
+    font-size:22px;
+  }
+  .node-title strong{
+    font-size:16px;
+    line-height:1.18;
+    word-break:normal;
+    overflow-wrap:break-word;
+  }
+  .node-title span{
+    font-size:10px;
+    line-height:1.25;
+    letter-spacing:.06em;
+  }
+  .node-summary{
+    font-size:13px;
+    line-height:1.42;
+    min-height:38px;
+    -webkit-line-clamp:2;
+  }
+  .node-foot{
+    margin-top:12px;
+    gap:10px;
+  }
+  .node-status{
+    min-height:34px;
+    padding:7px 10px;
+    font-size:10px;
+  }
+  .node .btn,.node .btn.tiny{
+    min-width:78px;
+    min-height:42px;
+    padding:8px 12px;
+    font-size:12px;
+    border-radius:13px;
+  }
+  .canvas-controls{
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:68;
+    justify-content:flex-start;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:8px;
+    border-radius:18px;
+  }
+  .canvas-controls .btn.tiny{
+    min-height:38px;
+    font-size:11px;
+    padding:7px 10px;
+  }
+  .zoom-readout{
+    min-width:54px;
+    font-size:12px;
+  }
+  .minimap{
+    display:none;
+  }
+  .station{
+    width:calc(100vw - 14px);
+    max-height:calc(100dvh - 14px);
+    border-radius:20px;
+  }
+  .station-head{
+    padding:12px;
+    gap:10px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  .station-head-icon{
+    width:40px;
+    height:40px;
+  }
+  .station-head-title{
+    min-width:0;
+    flex:1 1 180px;
+  }
+  .station-head-title h2{
+    font-size:18px;
+    line-height:1.15;
+  }
+  .station-head-actions{
+    width:100%;
+    margin-left:0;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  .station-head-actions .btn{
+    width:100%;
+    min-height:42px;
+    font-size:13px;
+  }
+  .station-body{
+    grid-template-columns:1fr;
+  }
+  .station-main,.station-side{
+    padding:14px;
+  }
+  .station-side{
+    border-left:0;
+    border-top:1px solid var(--line);
+    max-height:34dvh;
+  }
+  .form-grid,.provider-grid,.product-grid,.metric-grid{
+    grid-template-columns:1fr;
+  }
+  .output{
+    min-height:220px;
+    max-height:48dvh;
+    font-size:12px;
+  }
+}
+@media(max-width:760px) and (orientation:landscape){
+  .topbar{
+    flex-wrap:nowrap;
+    align-items:center;
+    max-height:106px;
+    padding:8px 12px;
+  }
+  .brand{
+    width:auto;
+    flex:0 0 min(48vw,540px);
+  }
+  .brand-title strong{
+    font-size:clamp(18px,3.2vw,25px);
+    white-space:nowrap;
+  }
+  .top-status{
+    width:auto;
+    flex:1 1 auto;
+    padding-bottom:2px;
+  }
+  .mobile-hint{
+    top:10px;
+    left:10px;
+  }
+}
+@media(max-width:380px){
+  .node{
+    width:238px;
+  }
+  .brand-title strong{
+    font-size:18px;
+  }
+  .pill,.btn{
+    font-size:13px;
+    padding-inline:12px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -903,6 +1222,7 @@ display:none}
 </section>
   </aside>
   <section class="canvas-wrap" id="canvasWrap">
+    <div class="mobile-hint" id="mobileHint">Arraste o mapa • Toque no node • Use Abrir</div>
     <div class="canvas-map" id="canvasMap">
 <svg class="connector-layer" id="connectorLayer">
 </svg>
@@ -1036,7 +1356,7 @@ display:none}
 <script>
 'use strict';
 
-const STORAGE_KEY='pg_mega_studio_lite_pro_v1';
+const STORAGE_KEY='pg_mega_studio_lite_pro_v2_mobile_full';
  const $=id=>document.getElementById(id);
 
 const NODE_DEFS=[
@@ -1202,7 +1522,7 @@ if(id==='capcut')return short(state.outputs.capcut||'CapCut Motion Book com keyf
 if(id==='print')return state.print.client?`${
 state.print.client}
  • ${
-product().name}
+product()[1]}
 `:'Cliente, produto gráfico e destino.';
 if(id==='quote')return short(state.outputs.quote||'Orçamento, pré-impressão e produção.');
 if(id==='visual')return short(state.outputs.visual||'Visual IA para imagem, produto e composição.');
@@ -1380,12 +1700,13 @@ state.zoom=next;
 updateTransform();
 saveState()}
 function centerMap(){
-state.zoom=window.innerWidth<760?.58:.70;
-state.pan.x=window.innerWidth<760?8:24;
-state.pan.y=24;
+const mobile=window.matchMedia('(max-width:760px)').matches;
+state.zoom=mobile?1:.70;
+state.pan.x=mobile?12:24;
+state.pan.y=mobile?18:24;
 updateTransform();
 saveState();
-toast('Mapa centralizado.')}
+toast(mobile?'Mapa mobile centralizado. Arraste para navegar.':'Mapa centralizado.')}
 function organizeNodes(){
 let pos={
 brief:[80,120],api:[420,120],dna:[760,120],storyboard:[1100,120],scene:[1440,120],motion:[1440,390],prompts:[1100,390],srt:[760,390],capcut:[1100,660],print:[80,660],quote:[420,660],visual:[760,660],sales:[1440,660],export:[1780,660]}
@@ -2351,73 +2672,128 @@ escapeHtml(state.outputs[id]||'Aguardando geração desta estação...')}
 </div>
 </div>`};
 
+function isCoarsePointer(){
+  return window.matchMedia && window.matchMedia('(hover:none), (pointer:coarse)').matches;
+}
+
 function bindCanvasEvents(){
   const wrap = $('canvasWrap');
   let pointerState = null;
-  const isInteractive = el => !!el.closest('button,input,textarea,select,label,.station,.modal-backdrop');
+  const TAP_THRESHOLD = 8;
+  const isInteractive = el => !!el.closest('button,input,textarea,select,label,.station,.modal-backdrop,.canvas-controls');
+
   wrap.addEventListener('pointerdown', e => {
     if(isInteractive(e.target)) return;
     const nodeEl = e.target.closest('.node');
+
     if(nodeEl){
       const id = nodeEl.dataset.nodeId;
       const n = nodeById(id);
       state.activeNode = id;
-      pointerState = {type:'node', id, startX:e.clientX, startY:e.clientY, nodeX:n.x, nodeY:n.y, moved:false};
-      nodeEl.classList.add('dragging-node');
+      pointerState = {
+        type:'node',
+        id,
+        startX:e.clientX,
+        startY:e.clientY,
+        nodeX:n.x,
+        nodeY:n.y,
+        moved:false,
+        el:nodeEl
+      };
+      nodeEl.classList.add('dragging-node','is-touching');
       nodeEl.setPointerCapture?.(e.pointerId);
       renderNodeList();
       e.preventDefault();
       return;
     }
-    pointerState = {type:'map', startX:e.clientX, startY:e.clientY, panX:state.pan.x, panY:state.pan.y, moved:false};
+
+    pointerState = {
+      type:'map',
+      startX:e.clientX,
+      startY:e.clientY,
+      panX:state.pan.x,
+      panY:state.pan.y,
+      moved:false
+    };
     wrap.classList.add('dragging');
     wrap.setPointerCapture?.(e.pointerId);
     e.preventDefault();
   }, {passive:false});
+
   wrap.addEventListener('pointermove', e => {
     if(!pointerState) return;
-    pointerState.moved = true;
+
+    const dx = e.clientX - pointerState.startX;
+    const dy = e.clientY - pointerState.startY;
+    const movedEnough = Math.max(Math.abs(dx),Math.abs(dy)) > TAP_THRESHOLD;
+    if(movedEnough) pointerState.moved = true;
+
     if(pointerState.type === 'node'){
+      if(!pointerState.moved){
+        e.preventDefault();
+        return;
+      }
       const n = nodeById(pointerState.id);
-      n.x = Math.round(pointerState.nodeX + (e.clientX - pointerState.startX)/state.zoom);
-      n.y = Math.round(pointerState.nodeY + (e.clientY - pointerState.startY)/state.zoom);
+      n.x = Math.round(pointerState.nodeX + dx/state.zoom);
+      n.y = Math.round(pointerState.nodeY + dy/state.zoom);
       const el = document.querySelector(`[data-node-id="${pointerState.id}"]`);
-      if(el){ el.style.left = n.x + 'px'; el.style.top = n.y + 'px'; }
+      if(el){
+        el.style.left = n.x + 'px';
+        el.style.top = n.y + 'px';
+      }
       renderConnectors();
       renderMiniMap();
     }else{
-      state.pan.x = pointerState.panX + (e.clientX - pointerState.startX);
-      state.pan.y = pointerState.panY + (e.clientY - pointerState.startY);
+      state.pan.x = pointerState.panX + dx;
+      state.pan.y = pointerState.panY + dy;
       updateTransform();
     }
     e.preventDefault();
   }, {passive:false});
-  function endPointer(e){
+
+  function endPointer(){
     if(!pointerState) return;
-    if(pointerState.type === 'node' && !pointerState.moved){
-      state.activeNode = pointerState.id;
-    }
-    document.querySelectorAll('.dragging-node').forEach(el=>el.classList.remove('dragging-node'));
+
+    const tappedNode = pointerState.type === 'node' && !pointerState.moved;
+    const tappedId = pointerState.id;
+
+    document.querySelectorAll('.dragging-node,.is-touching').forEach(el=>{
+      el.classList.remove('dragging-node','is-touching');
+    });
     wrap.classList.remove('dragging');
-    persistPositions();
-    saveState();
+
+    if(tappedNode){
+      state.activeNode = tappedId;
+      persistPositions();
+      saveState();
+      render();
+      if(isCoarsePointer()){
+        setTimeout(()=>openStation(tappedId),40);
+      }else{
+        toast('Node selecionado: '+nodeById(tappedId).title);
+      }
+    }else{
+      persistPositions();
+      saveState();
+      renderNodeList();
+    }
+
     pointerState = null;
-    renderNodeList();
   }
+
   wrap.addEventListener('pointerup', endPointer);
   wrap.addEventListener('pointercancel', endPointer);
+
   wrap.addEventListener('wheel', e=>{
     e.preventDefault();
     zoomMap(e.deltaY>0?-.06:.06,e.clientX,e.clientY);
   }, {passive:false});
-  wrap.addEventListener('click', e=>{
-    const el=e.target.closest('.node');
-    if(el&&!e.target.closest('button')){
-      state.activeNode=el.dataset.nodeId;
-      render();
-    }
+
+  window.addEventListener('resize',()=>{
+    updateTransform();
   });
 }
+
 
 function init(){
 hydratePositions();
