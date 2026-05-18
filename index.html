@@ -5,122 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Genesis — Studio</title>
   <style>
-    :root {
-      --bg: #05070d;
-      --gold: #d6ad68;
-      --cyan: #65d9d2;
-      --green: #75db9b;
-    }
+    :root { --bg: #05070d; --gold: #d6ad68; --green: #75db9b; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #05070d;
-      color: #e8edf8;
-      font-family: Inter, system-ui, sans-serif;
-    }
+    body { margin: 0; background: #05070d; color: #e8edf8; font-family: Inter, system-ui, sans-serif; }
     .app { height: 100vh; display: flex; flex-direction: column; }
-    
-    .topbar {
-      height: 64px;
-      background: #0c111d;
-      border-bottom: 1px solid #222;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      gap: 12px;
-    }
+    .topbar { height: 64px; background: #0c111d; border-bottom: 1px solid #222; display: flex; align-items: center; padding: 0 20px; }
     .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-mark {
-      width: 42px; height: 42px; border-radius: 12px;
-      background: linear-gradient(145deg, #f6d681, #d8a94f);
-      display: grid; place-items: center;
-      font-weight: 900; color: #1a1203; font-size: 20px;
-    }
-
-    .workspace {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-    }
-
-    .left-dock {
-      width: 260px;
-      background: #0c111d;
-      border-right: 1px solid #222;
-      padding: 16px;
-      overflow-y: auto;
-    }
-
-    .canvas-wrap {
-      flex: 1;
-      position: relative;
-      background: #050813;
-      overflow: hidden;
-    }
-
-    .canvas-map {
-      position: absolute;
-      width: 3000px;
-      height: 2000px;
-      transform-origin: 0 0;
-    }
-
-    .node {
-      position: absolute;
-      width: 240px;
-      background: #0c111d;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 14px;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
+    .brand-mark { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(#f6d681, #d8a94f); display: grid; place-items: center; font-weight: 900; color: #1a1203; }
+    .workspace { flex: 1; display: flex; overflow: hidden; }
+    .left-dock { width: 240px; background: #0c111d; border-right: 1px solid #222; padding: 16px; }
+    .canvas-wrap { flex: 1; position: relative; background: #050813; overflow: hidden; }
+    .canvas-map { position: absolute; width: 3000px; height: 2000px; }
+    .node { position: absolute; width: 220px; background: #0c111d; border: 1px solid #333; border-radius: 14px; padding: 14px; cursor: pointer; }
     .node.active { border-color: #d6ad68; }
-
-    .right-dock {
-      width: 280px;
-      background: #0c111d;
-      border-left: 1px solid #222;
-      padding: 16px;
-    }
-
-    .btn {
-      padding: 8px 14px;
-      border-radius: 10px;
-      border: 1px solid #444;
-      background: #111827;
-      color: white;
-      cursor: pointer;
-      font-size: 13px;
-    }
+    .right-dock { width: 260px; background: #0c111d; border-left: 1px solid #222; padding: 16px; }
+    .btn { padding: 8px 14px; border-radius: 10px; border: 1px solid #444; background: #111827; color: white; cursor: pointer; font-size: 13px; }
     .btn.green { background: #1f3a2f; border-color: #75db9b; color: #75db9b; }
     .btn.gold { background: #3a2f1f; border-color: #d6ad68; color: #d6ad68; }
-
-    .station {
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 900px;
-      background: #0c111d;
-      border: 1px solid #d6ad68;
-      border-radius: 20px;
-      z-index: 100;
-      display: none;
-    }
+    .station { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 92%; max-width: 880px; background: #0c111d; border: 1px solid #d6ad68; border-radius: 18px; z-index: 100; display: none; }
     .station.active { display: block; }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #111827;
-      color: #f3dfb8;
-      padding: 12px 18px;
-      border-radius: 12px;
-      border: 1px solid #d6ad68;
-      z-index: 999;
-    }
+    .toast { position: fixed; bottom: 20px; right: 20px; background: #111827; padding: 12px 18px; border-radius: 10px; border: 1px solid #d6ad68; z-index: 999; }
   </style>
 </head>
 <body>
@@ -129,11 +33,9 @@
     <div class="topbar">
       <div class="brand">
         <div class="brand-mark">PG</div>
-        <div>
-          <strong>Portal Genesis Studio</strong>
-        </div>
+        <strong>Portal Genesis Studio</strong>
       </div>
-      <div style="margin-left: auto; display: flex; gap: 8px;">
+      <div style="margin-left:auto; display:flex; gap:8px;">
         <button class="btn" onclick="openStation('brief')">Abrir Briefing</button>
         <button class="btn gold" onclick="generatePipeline()">Gerar Pipeline</button>
         <button class="btn" onclick="resetProject()">Reset</button>
@@ -143,7 +45,7 @@
     <div class="workspace">
       <!-- Left -->
       <div class="left-dock">
-        <h4 style="margin-top:0; color:#d6ad68">Pipeline</h4>
+        <h4 style="color:#d6ad68; margin-top:0">Pipeline</h4>
         <div id="nodeList"></div>
       </div>
 
@@ -157,74 +59,55 @@
       <!-- Right -->
       <div class="right-dock">
         <h4 style="color:#d6ad68">Diagnóstico</h4>
-        <div id="diagnostics"></div>
+        <div id="diagnostics">Nodes: 3<br>Imagens geradas: <span id="imgCount">0</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Station -->
+  <!-- Station Modal -->
   <div class="station" id="station">
-    <div style="padding:20px; border-bottom:1px solid #333; display:flex; justify-content:space-between;">
+    <div style="padding:18px; border-bottom:1px solid #333; display:flex; justify-content:space-between; align-items:center;">
       <h3 id="stationTitle" style="margin:0; color:#f3dfb8"></h3>
-      <button onclick="closeStation()" style="background:none;border:none;color:white;font-size:22px;">×</button>
+      <button onclick="closeStation()" style="background:none;border:none;color:white;font-size:24px;">×</button>
     </div>
     <div id="stationMain" style="padding:20px;"></div>
   </div>
 
   <script>
-    const STORAGE_KEY = 'pg_studio_v1';
-    let state = {
-      activeNode: 'brief',
-      visualMemory: '',
-      refs: [],
-      outputs: {}
-    };
+    const STORAGE_KEY = 'pg_studio_v2';
+    let state = { activeNode: 'brief', visualMemory: '', generatedImages: 0 };
 
     function loadState() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) state = { ...state, ...JSON.parse(saved) };
     }
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
     function toast(msg) {
       const t = document.createElement('div');
       t.className = 'toast';
       t.textContent = msg;
       document.body.appendChild(t);
-      setTimeout(() => t.remove(), 2800);
+      setTimeout(() => t.remove(), 2600);
     }
 
     // ==================== GERAÇÃO DE IMAGEM ====================
-    async function generateImageWithFlux(prompt, referenceUrl = null) {
+    async function generateImageWithFlux(prompt) {
       try {
         const res = await fetch('/api/generate-image-fal', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            prompt,
-            model: 'flux-pro',
-            referenceImage: referenceUrl,
-            strength: 0.7
-          })
+          body: JSON.stringify({ prompt, model: 'flux-pro', strength: 0.7 })
         });
         const data = await res.json();
-        if (!data.ok || !data.url) throw new Error(data.error || 'Erro');
+        if (!data.ok || !data.url) throw new Error(data.error || 'Erro na API');
+        state.generatedImages = (state.generatedImages || 0) + 1;
+        saveState();
+        updateDiagnostics();
         return data.url;
       } catch (e) {
-        toast('Erro ao gerar imagem: ' + e.message);
+        toast('Erro: ' + e.message);
         return null;
-      }
-    }
-
-    async function generateImageFromDna() {
-      const prompt = state.visualMemory || 'Cena cinematográfica de alta qualidade, estilo profissional';
-      const ref = state.refs[0] || null;
-      
-      const url = await generateImageWithFlux(prompt, ref);
-      if (url) {
-        showImagePreview(url);
       }
     }
 
@@ -242,39 +125,47 @@
           </div>
           <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;background:#111827">
             <button class="btn" onclick="window.open('${url}','_blank')">Abrir</button>
-            <button class="btn" onclick="navigator.clipboard.writeText('${url}'); alert('Link copiado!')">Copiar Link</button>
+            <button class="btn" onclick="navigator.clipboard.writeText('${url}');alert('Link copiado!')">Copiar Link</button>
             <button class="btn" onclick="this.closest('div[style*=\'position:fixed\']').remove()">Fechar</button>
           </div>
-        </div>
-      `;
+        </div>`;
       document.body.appendChild(modal);
     }
 
-    // ==================== STATION ====================
+    // ==================== STATIONS ====================
     function openStation(id) {
       state.activeNode = id;
       const station = document.getElementById('station');
       const main = document.getElementById('stationMain');
       document.getElementById('stationTitle').textContent = id.toUpperCase();
 
-      if (id === 'dna') {
+      if (id === 'brief') {
+        main.innerHTML = `<p>Preencha o briefing do projeto aqui (em breve mais campos).</p>`;
+      } 
+      else if (id === 'dna') {
         main.innerHTML = `
           <div>
             <h4>DNA Visual</h4>
             <textarea id="f_visualMemory" style="width:100%;height:120px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;">${state.visualMemory || ''}</textarea>
-            
             <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn gold" onclick="generateDna()">Gerar DNA</button>
-              <button class="btn green" onclick="generateImageFromDna()">
-                ✨ Gerar Imagem com Flux
-              </button>
+              <button class="btn gold" onclick="generateDna()">Salvar DNA</button>
+              <button class="btn green" onclick="generateImageFromDna()">✨ Gerar Imagem com Flux</button>
             </div>
-          </div>
-        `;
-      } else {
-        main.innerHTML = `<p>Node: <strong>${id}</strong> (em desenvolvimento)</p>`;
+          </div>`;
+      } 
+      else if (id === 'prompts') {
+        main.innerHTML = `
+          <div>
+            <h4>Prompts IA + Geração de Imagem</h4>
+            <textarea id="f_prompt" placeholder="Escreva seu prompt aqui..." style="width:100%;height:140px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;"></textarea>
+            <div style="margin-top:16px">
+              <button class="btn green" onclick="generateImageFromPrompt()">✨ Gerar Imagem com Flux</button>
+            </div>
+          </div>`;
+      } 
+      else {
+        main.innerHTML = `<p>Node <strong>${id}</strong> (em desenvolvimento)</p>`;
       }
-
       station.style.display = 'block';
     }
 
@@ -289,26 +180,37 @@
       toast('DNA Visual salvo!');
     }
 
-    function generatePipeline() {
-      toast('Pipeline gerado (simulado)');
+    async function generateImageFromDna() {
+      const prompt = state.visualMemory || 'Cena cinematográfica de alta qualidade';
+      const url = await generateImageWithFlux(prompt);
+      if (url) showImagePreview(url);
     }
 
+    async function generateImageFromPrompt() {
+      const prompt = document.getElementById('f_prompt').value.trim();
+      if (!prompt) { alert('Escreva um prompt!'); return; }
+      const url = await generateImageWithFlux(prompt);
+      if (url) showImagePreview(url);
+    }
+
+    function generatePipeline() { toast('Pipeline gerado!'); }
     function resetProject() {
-      if (confirm('Resetar projeto?')) {
-        localStorage.removeItem(STORAGE_KEY);
-        location.reload();
-      }
+      if (confirm('Resetar tudo?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+    }
+
+    function updateDiagnostics() {
+      const el = document.getElementById('diagnostics');
+      if (el) el.innerHTML = `Nodes: 3<br>Imagens geradas: ${state.generatedImages || 0}`;
     }
 
     function init() {
       loadState();
-      
-      // Renderizar nodes básicos no canvas
       const layer = document.getElementById('nodeLayer');
+
       const nodes = [
-        { id: 'brief', title: 'Briefing', x: 80, y: 120 },
-        { id: 'dna', title: 'DNA Visual', x: 400, y: 120 },
-        { id: 'prompts', title: 'Prompts IA', x: 720, y: 120 }
+        { id: 'brief', title: 'Briefing', x: 80, y: 140 },
+        { id: 'dna', title: 'DNA Visual', x: 380, y: 140 },
+        { id: 'prompts', title: 'Prompts IA', x: 680, y: 140 }
       ];
 
       nodes.forEach(n => {
@@ -316,15 +218,13 @@
         el.className = 'node';
         el.style.left = n.x + 'px';
         el.style.top = n.y + 'px';
-        el.innerHTML = `
-          <div style="font-weight:700;margin-bottom:6px">${n.title}</div>
-          <button class="btn" onclick="openStation('${n.id}')">Abrir</button>
-        `;
+        el.innerHTML = `<div style="font-weight:700;margin-bottom:8px">${n.title}</div>
+                        <button class="btn" onclick="openStation('${n.id}')">Abrir</button>`;
         layer.appendChild(el);
       });
 
-      console.log('%c[Portal Genesis] Studio carregado com Flux', 'color:#75db9b');
-      toast('Studio pronto! Clique em DNA Visual para gerar imagens.');
+      updateDiagnostics();
+      toast('Studio atualizado! DNA Visual e Prompts IA já geram imagens.');
     }
 
     window.generateImageFromDna = generateImageFromDna;
