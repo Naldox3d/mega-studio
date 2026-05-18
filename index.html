@@ -51,7 +51,7 @@
 
       <div class="right-dock">
         <h4 style="color:#d6ad68">Diagnóstico</h4>
-        <div id="diagnostics">Nodes: 4<br>Imagens: <span id="imgCount">0</span></div>
+        <div id="diagnostics">Nodes: 4<br>Imagens geradas: <span id="imgCount">0</span></div>
       </div>
     </div>
   </div>
@@ -65,15 +65,21 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'pg_studio_pro_v1';
+    const STORAGE_KEY = 'pg_studio_pro_v2';
     let state = { activeNode: 'brief', visualMemory: '', generatedImages: 0 };
 
-    function loadState() { const saved = localStorage.getItem(STORAGE_KEY); if (saved) state = {...state, ...JSON.parse(saved)}; }
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) state = {...state, ...JSON.parse(saved)};
+    }
     function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
     function toast(msg) {
-      const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
-      document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2600);
     }
 
     async function generateImage(prompt) {
@@ -141,7 +147,7 @@
             <button class="btn green" onclick="generateFromPrompt()">✨ Gerar Imagem com Flux</button>
           </div>`;
       } else {
-        main.innerHTML = `<p>Node <strong>${id}</strong> (em desenvolvimento)</p>`;
+        main.innerHTML = `<p>Node <strong>${id}</strong> (em desenvolvimento - em breve LTX Video)</p>`;
       }
       station.style.display = 'block';
     }
