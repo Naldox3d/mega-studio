@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Genesis — Studio</title>
   <style>
-    :root { --bg:#05070d; --gold:#d6ad68; --green:#75db9b; }
+    :root { --bg:#05070d; --gold:#d6ad68; --green:#75db9b; --cyan:#65d9d2; }
     body { margin:0; background:#05070d; color:#e8edf8; font-family:Inter, system-ui, sans-serif; }
     .app { height:100vh; display:flex; flex-direction:column; }
     .topbar { height:64px; background:#0c111d; border-bottom:1px solid #222; display:flex; align-items:center; padding:0 20px; }
@@ -18,7 +18,8 @@
     .btn { padding:8px 14px; border-radius:10px; border:1px solid #444; background:#111827; color:white; cursor:pointer; font-size:13px; }
     .btn.green { background:#1f3a2f; border-color:#75db9b; color:#75db9b; }
     .btn.gold { background:#3a2f1f; border-color:#d6ad68; color:#d6ad68; }
-    .station { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:92%; max-width:860px; background:#0c111d; border:1px solid #d6ad68; border-radius:18px; z-index:100; display:none; }
+    .btn.cyan { background:#1a3a3a; border-color:#65d9d2; color:#65d9d2; }
+    .station { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:92%; max-width:900px; background:#0c111d; border:1px solid #d6ad68; border-radius:18px; z-index:100; display:none; }
     .station.active { display:block; }
     .toast { position:fixed; bottom:20px; right:20px; background:#111827; padding:12px 18px; border-radius:10px; border:1px solid #d6ad68; z-index:999; }
   </style>
@@ -32,7 +33,7 @@
         <strong>Portal Genesis Studio</strong>
       </div>
       <div style="margin-left:auto;display:flex;gap:8px;">
-        <button class="btn" onclick="openStation('brief')">Abrir Briefing</button>
+        <button class="btn" onclick="openStation('brief')">Briefing</button>
         <button class="btn gold" onclick="generatePipeline()">Gerar Pipeline</button>
         <button class="btn" onclick="resetProject()">Reset</button>
       </div>
@@ -55,7 +56,7 @@
       <!-- Right -->
       <div class="right-dock">
         <h4 style="color:#d6ad68">Diagnóstico</h4>
-        <div id="diagnostics">Nodes: 3<br>Imagens geradas: <span id="imgCount">0</span></div>
+        <div id="diagnostics">Nodes: 4<br>Imagens: <span id="imgCount">0</span></div>
       </div>
     </div>
   </div>
@@ -70,7 +71,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'pg_studio_final';
+    const STORAGE_KEY = 'pg_studio_v7';
     let state = { activeNode: 'brief', visualMemory: '', generatedImages: 0 };
 
     function loadState() {
@@ -87,12 +88,26 @@
       setTimeout(() => t.remove(), 2600);
     }
 
-    // ==================== GERAÇÃO DE IMAGEM COM POLLINATIONS ====================
-    function generateImageWithPollinations(prompt) {
-      // Usando Pollinations Flux
+    // ==================== GERAÇÃO DE IMAGEM ====================
+    async function generateImage(prompt) {
+      try {
+        const res = await fetch('/api/generate-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, model: 'flux' })
+        });
+        const data = await res.json();
+        if (data.ok && data.url) {
+          state.generatedImages++;
+          saveState();
+          updateDiagnostics();
+          return data.url;
+        }
+      } catch(e) {}
+
+      // Fallback direto
       const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=flux&width=1024&height=1024`;
-      
-      state.generatedImages = (state.generatedImages || 0) + 1;
+      state.generatedImages++;
       saveState();
       updateDiagnostics();
       return url;
@@ -104,7 +119,7 @@
       modal.innerHTML = `
         <div style="max-width:860px;width:95%;background:#0c111d;border-radius:16px;overflow:hidden;">
           <div style="padding:16px 20px;border-bottom:1px solid #333;display:flex;justify-content:space-between;">
-            <strong style="color:#f3dfb8">Imagem Gerada com Pollinations Flux</strong>
+            <strong style="color:#f3dfb8">Imagem Gerada</strong>
             <span onclick="this.closest('div[style*=\'position:fixed\']').remove()" style="cursor:pointer;font-size:22px">×</span>
           </div>
           <div style="padding:20px;text-align:center">
@@ -112,7 +127,7 @@
           </div>
           <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;background:#111827">
             <button class="btn" onclick="window.open('${url}','_blank')">Abrir</button>
-            <button class="btn" onclick="navigator.clipboard.writeText('${url}'); alert('Link copiado!')">Copiar Link</button>
+            <button class="btn" onclick="navigator.clipboard.writeText('${url}');alert('Link copiado!')">Copiar Link</button>
             <button class="btn" onclick="this.closest('div[style*=\'position:fixed\']').remove()">Fechar</button>
           </div>
         </div>`;
@@ -129,19 +144,22 @@
       if (id === 'dna') {
         main.innerHTML = `
           <h4>DNA Visual</h4>
-          <textarea id="f_visualMemory" style="width:100%;height:120px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;">${state.visualMemory || ''}</textarea>
+          <textarea id="f_visualMemory" style="width:100%;height:130px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;">${state.visualMemory || ''}</textarea>
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn gold" onclick="saveDNA()">Salvar DNA</button>
-            <button class="btn green" onclick="generateFromDNA()">✨ Gerar Imagem com Flux</button>
+            <button class="btn green" onclick="generateFromDNA()">✨ Gerar Imagem (Flux)</button>
           </div>`;
       } 
       else if (id === 'prompts') {
         main.innerHTML = `
           <h4>Prompts IA</h4>
-          <textarea id="f_prompt" placeholder="Escreva seu prompt aqui..." style="width:100%;height:140px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;"></textarea>
+          <textarea id="f_prompt" placeholder="Escreva seu prompt..." style="width:100%;height:140px;background:#111827;color:white;border:1px solid #444;border-radius:10px;padding:12px;"></textarea>
           <div style="margin-top:16px">
-            <button class="btn green" onclick="generateFromPrompt()">✨ Gerar Imagem com Flux</button>
+            <button class="btn green" onclick="generateFromPrompt()">✨ Gerar Imagem (Flux)</button>
           </div>`;
+      } 
+      else if (id === 'video') {
+        main.innerHTML = `<p>Node de Vídeo (LTX) - Em breve</p>`;
       } 
       else {
         main.innerHTML = `<p>Node <strong>${id}</strong> (em desenvolvimento)</p>`;
@@ -159,22 +177,22 @@
       toast('DNA Visual salvo!');
     }
 
-    function generateFromDNA() {
-      const prompt = state.visualMemory || 'Cena cinematográfica de alta qualidade, estilo profissional';
-      const url = generateImageWithPollinations(prompt);
+    async function generateFromDNA() {
+      const prompt = state.visualMemory || 'Cena cinematográfica de alta qualidade';
+      const url = await generateImage(prompt);
       showImagePreview(url);
     }
 
-    function generateFromPrompt() {
+    async function generateFromPrompt() {
       const prompt = document.getElementById('f_prompt').value.trim();
-      if (!prompt) { alert('Escreva um prompt primeiro!'); return; }
-      const url = generateImageWithPollinations(prompt);
+      if (!prompt) { alert('Escreva um prompt!'); return; }
+      const url = await generateImage(prompt);
       showImagePreview(url);
     }
 
     function generatePipeline() { toast('Pipeline gerado!'); }
     function resetProject() {
-      if (confirm('Resetar projeto?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+      if (confirm('Resetar tudo?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
     }
 
     function updateDiagnostics() {
@@ -186,9 +204,10 @@
       const layer = document.getElementById('nodeLayer');
 
       const nodes = [
-        { id: 'brief', title: 'Briefing', x: 80, y: 140 },
-        { id: 'dna', title: 'DNA Visual', x: 380, y: 140 },
-        { id: 'prompts', title: 'Prompts IA', x: 680, y: 140 }
+        { id: 'brief', title: 'Briefing', x: 60, y: 120 },
+        { id: 'dna', title: 'DNA Visual', x: 340, y: 120 },
+        { id: 'prompts', title: 'Prompts IA', x: 620, y: 120 },
+        { id: 'video', title: 'Vídeo (LTX)', x: 900, y: 120 }
       ];
 
       nodes.forEach(n => {
@@ -202,7 +221,7 @@
       });
 
       updateDiagnostics();
-      toast('Studio atualizado com Pollinations Flux');
+      toast('Studio atualizado com backend + Pollinations');
     }
 
     init();
