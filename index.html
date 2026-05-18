@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080b13" />
-  <title>Portal Genesis Mega Studio - Flow Mode API Ready v3 API Download Confirm</title>
+  <title>Portal Genesis Mega Studio - v4 Painel Profissional</title>
   <style>
     :root{--bg:#060810;--panel:#101522;--line:rgba(255,255,255,.10);--txt:#f5f7fb;--muted:#9aa7bc;--soft:#c7d2e4;--cyan:#80e8da;--gold:#f5c66b;--green:#68df91;--red:#ff7185;--shadow:0 18px 60px rgba(0,0,0,.45);--radius:24px;--safe-bottom: env(safe-area-inset-bottom, 0px);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
     *{box-sizing:border-box} html,body{margin:0;min-height:100%;background:radial-gradient(circle at 30% -10%,rgba(128,232,218,.15),transparent 35%),radial-gradient(circle at 90% 10%,rgba(245,198,107,.10),transparent 30%),var(--bg);color:var(--txt)} body{overflow-x:hidden}
@@ -30,7 +30,10 @@
     .media-box{border:1px solid rgba(128,232,218,.24);border-radius:22px;background:#090f1a;padding:12px}.media-box img,.media-box video{width:100%;display:block;border-radius:16px;max-height:540px;object-fit:cover}.media-box audio{width:100%}
     .bottom-actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid var(--line);background:rgba(0,0,0,.16)} .project-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.project-card{border:1px solid var(--line);border-radius:20px;background:rgba(17,24,39,.78);padding:14px;min-height:130px;display:grid;align-content:space-between;gap:10px}
     .drawer{position:fixed;inset:auto 0 0 0;z-index:60;transform:translateY(105%);transition:.25s ease;background:#090d18;border-top:1px solid var(--line);border-radius:28px 28px 0 0;box-shadow:0 -22px 70px rgba(0,0,0,.65);max-height:88dvh;overflow:auto;padding:18px clamp(14px,3vw,24px) calc(22px + var(--safe-bottom))}.drawer.open{transform:translateY(0)}.drawer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.drawer-head h3{margin:0}.x{width:42px;height:42px;border-radius:50%;background:#151b2b;border:1px solid var(--line);font-size:24px}.toast{position:fixed;left:50%;bottom:calc(18px + var(--safe-bottom));transform:translateX(-50%) translateY(80px);opacity:0;z-index:80;background:#111827;border:1px solid rgba(128,232,218,.28);color:#eafffc;padding:12px 16px;border-radius:999px;box-shadow:var(--shadow);transition:.25s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    @media(max-width:820px){.topbar{align-items:flex-start}.brand h1{font-size:18px}.brand small{font-size:8px;letter-spacing:.26em}.top-actions .pill:not(.keep){display:none}main{padding:12px 10px}.hero{min-height:calc(100dvh - 110px);align-content:start}.hero-card{border-radius:24px;padding:20px 14px}.prompt-shell{grid-template-columns:1fr auto;border-radius:24px}.prompt-input{font-size:16px;min-height:66px}.send-btn{width:62px;min-height:62px;border-radius:20px}.quick-grid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.panel.pad{padding:14px}.two,.three{grid-template-columns:1fr}.project-strip{grid-template-columns:1fr 1fr}.section-head{display:block}.bottom-actions{position:sticky;bottom:0;z-index:10}.btn{min-height:46px}.empty{min-height:240px}.preview-box{width:100%;max-height:none}}
+    @media(max-width:820px){.topbar{align-items:flex-start;flex-wrap:wrap;padding:12px 10px}.brand{flex:1 1 100%;width:100%}.brand h1{font-size:16px;max-width:calc(100vw - 82px)}.brand small{font-size:8px;letter-spacing:.20em}.top-actions{width:100%;justify-content:flex-start;display:grid;grid-template-columns:1fr 1fr;gap:8px}.top-actions .pill{display:flex!important;min-height:42px;padding:9px 10px;font-size:12px}.top-actions .pill.green,.top-actions .pill.danger{display:none!important}main{padding:12px 10px}.hero{min-height:calc(100dvh - 110px);align-content:start}.hero-card{border-radius:24px;padding:20px 14px}.prompt-shell{grid-template-columns:1fr auto;border-radius:24px}.prompt-input{font-size:16px;min-height:66px}.send-btn{width:62px;min-height:62px;border-radius:20px}.quick-grid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.panel.pad{padding:14px}.two,.three{grid-template-columns:1fr}.project-strip{grid-template-columns:1fr 1fr}.section-head{display:block}.bottom-actions{position:sticky;bottom:0;z-index:10}.btn{min-height:46px}.empty{min-height:240px}.preview-box{width:100%;max-height:none}}
+
+    .diagnostic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 14px}.diagnostic-card{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.045);padding:12px}.diagnostic-card strong{display:block;color:#eafffc;font-size:13px;margin-bottom:4px}.diagnostic-card span{display:block;color:var(--muted);font-size:12px;line-height:1.35}.warn-box{border:1px solid rgba(245,198,107,.32);background:rgba(245,198,107,.08);border-radius:18px;padding:12px;color:#ffe8b5;line-height:1.45}.ok-box{border:1px solid rgba(104,223,145,.32);background:rgba(104,223,145,.08);border-radius:18px;padding:12px;color:#d9ffe3;line-height:1.45}.drawer-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#070b14;border:1px solid var(--line);border-radius:8px;padding:2px 6px;color:#dbe5f4}
+    @media(max-width:820px){.diagnostic-grid,.drawer-tools{grid-template-columns:1fr}.bottom-actions .btn{flex:1 1 calc(50% - 8px);font-size:12px;padding:12px 10px}.bottom-actions .btn.green{flex-basis:100%}.drawer{max-height:92dvh;border-radius:22px 22px 0 0}.drawer-head{position:sticky;top:0;background:#090d18;z-index:2;padding-bottom:10px}.x{min-width:54px;min-height:54px}.form-row label{letter-spacing:.12em}}
     @media(max-width:480px){.project-strip{grid-template-columns:1fr}.hero-title{font-size:38px}.logo{width:39px;height:39px}.pill{padding:9px 10px;font-size:12px}.btn-row .btn{flex:1 1 100%}}
   </style>
 </head>
@@ -65,7 +68,7 @@
         <div class="statusbar">
           <span class="mini" id="autosaveLabel">autosave ativo</span>
           <span class="mini" id="projectLabel">Projeto: Sem titulo</span>
-          <span class="mini" id="modeLabel">Modo: Imagem</span><span class="mini">v3 API visivel + download imagem</span>
+          <span class="mini" id="modeLabel">Modo: Imagem</span><span class="mini">v4 Painel API + Download + Diagnostico</span>
         </div>
       </div>
       <div>
@@ -83,9 +86,10 @@
           <div class="panel-title"><h3>Direcao da criacao</h3><span class="tag" id="currentTypeTag">Imagem</span></div>
           <div class="form-row"><label>Pedido principal</label><textarea id="workPrompt"></textarea></div>
           <div class="two">
-            <div class="form-row"><label>Provedor</label><select id="providerSelect"><option value="offline">Modo local inteligente</option><option value="gpt_image_2">GPT Image 2</option><option value="flux">Flux</option><option value="pollinations">Pollinations</option><option value="openrouter">OpenRouter</option><option value="gemini">Gemini</option><option value="custom">Custom / backend proprio</option></select></div>
+            <div class="form-row"><label>Provedor / API</label><select id="providerSelect"><option value="offline">Modo local inteligente</option><option value="gpt_image_2">GPT Image 2</option><option value="flux">Flux</option><option value="pollinations">Pollinations</option><option value="openrouter">OpenRouter</option><option value="gemini">Gemini</option><option value="custom">Custom / backend proprio</option></select></div>
             <div class="form-row"><label>Formato</label><select id="formatSelect"><option value="9:16 vertical">9:16 vertical</option><option value="16:9 horizontal">16:9 horizontal</option><option value="1:1 quadrado">1:1 quadrado</option><option value="4:5 social">4:5 social</option></select></div>
           </div>
+          <div class="warn-box" id="backendWarning">Front pronto. Para GPT Image 2 real, a rota /api/visual-image precisa confirmar provider/model no JSON.</div>
           <div class="form-row" id="imageModelRow">
             <label>Modelo de imagem</label>
             <select id="imageModelSelect">
@@ -106,6 +110,7 @@
             <button class="btn" id="toScriptBtn">Roteiro</button>
             <button class="btn" id="toSrtBtn">SRT / CapCut</button>
             <button class="btn green" id="downloadBtn">Baixar TXT</button>
+            <button class="btn" id="copyResultBtn">Copiar resultado</button>
             <button class="btn green" id="downloadMediaBtn">Baixar imagem/video</button>
             <button class="btn cyan" id="apiBottomBtn">Trocar API/modelo</button>
             <button class="btn" id="shareBtn">Compartilhar</button>
@@ -118,12 +123,22 @@
 
 <div class="drawer" id="apiDrawer">
   <div class="drawer-head"><h3>API e Provedores</h3><button class="x" id="closeApi">×</button></div>
-  <p class="muted">Para producao real, o ideal e usar rotas do Vercel em <code>/api/...</code>. O front chama essas rotas, e as chaves ficam em variaveis de ambiente no servidor.</p>
+  <p class="muted">Este painel agora separa o que e <b>interface</b> do que e <b>backend real</b>. O front envia provider/model para <code>/api/visual-image</code>; a rota precisa usar esse valor e devolver confirmacao no JSON.</p>
+  <div class="diagnostic-grid">
+    <div class="diagnostic-card"><strong>Imagem</strong><span id="diagImage">Endpoint /api/visual-image</span></div>
+    <div class="diagnostic-card"><strong>Modelo ativo</strong><span id="diagModel">Flux ou GPT Image 2</span></div>
+    <div class="diagnostic-card"><strong>Status</strong><span id="diagStatus">Aguardando teste</span></div>
+  </div>
+  <div class="drawer-tools">
+    <button class="btn cyan" id="testImageRouteBtn">Testar rota imagem</button>
+    <button class="btn" id="useFluxBtn">Usar Flux</button>
+    <button class="btn" id="useGptImageBtn">Usar GPT Image 2</button>
+  </div>
   <div class="two">
     <div class="form-row"><label>Endpoint texto / roteiro</label><input id="textEndpoint" value="/api/generate-text" /></div>
     <div class="form-row"><label>Modelo texto</label><input id="textModel" value="openrouter/auto" /></div>
     <div class="form-row"><label>Endpoint imagem</label><input id="imageEndpoint" value="/api/visual-image" /></div>
-    <div class="form-row"><label>Modelo imagem</label><input id="imageModel" value="flux" placeholder="flux ou gpt-image-2" /></div>
+    <div class="form-row"><label>Modelo imagem servidor</label><select id="imageModel"><option value="flux">Flux</option><option value="gpt-image-2">GPT Image 2</option><option value="pollinations">Pollinations</option></select></div>
     <div class="form-row"><label>Endpoint audio</label><input id="audioEndpoint" value="/api/generate-audio" /></div>
     <div class="form-row"><label>Voice ID / modelo voz</label><input id="audioModel" value="EXAVITQu4vr4xnSDxMaL" /></div>
     <div class="form-row"><label>Endpoint video</label><input id="videoEndpoint" value="/api/generate-video" /></div>
@@ -140,7 +155,7 @@
   const $=(id)=>document.getElementById(id);
   const state={type:'image',imageModel:'flux',projectTitle:'Sem titulo',lastOutput:'',lastMedia:null,projects:[],api:{},prompt:''};
   const storageKey='portal_genesis_flow_mode_api_ready_v2';
-  function load(){try{Object.assign(state,JSON.parse(localStorage.getItem(storageKey)||'{}'));}catch(e){} state.projects=Array.isArray(state.projects)?state.projects:[]; state.api=state.api||{}; $('mainPrompt').value=state.prompt||''; $('projectLabel').textContent='Projeto: '+(state.projectTitle||'Sem titulo'); renderRecent(); loadApiFields(); if($('imageModelSelect')) $('imageModelSelect').value = state.imageModel || 'flux'; setType(state.type||'image',false);}
+  function load(){try{Object.assign(state,JSON.parse(localStorage.getItem(storageKey)||'{}'));}catch(e){} state.projects=Array.isArray(state.projects)?state.projects:[]; state.api=state.api||{}; $('mainPrompt').value=state.prompt||''; $('projectLabel').textContent='Projeto: '+(state.projectTitle||'Sem titulo'); renderRecent(); loadApiFields(); updateDiagnostics(); if($('imageModelSelect')) $('imageModelSelect').value = state.imageModel || 'flux'; setType(state.type||'image',false);}
   function persist(){state.prompt=$('mainPrompt').value; if($('imageModelSelect')) state.imageModel=$('imageModelSelect').value || 'flux'; localStorage.setItem(storageKey,JSON.stringify(state)); $('autosaveLabel').textContent='autosave ativo';}
   function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._timer);toast._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   function setType(type,persistNow=true){state.type=type; document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===type)); const names={image:'Imagem',audio:'Audio',video:'Video',storyboard:'Storyboard',script:'Roteiro',full:'Pacote completo'}; $('modeLabel').textContent='Modo: '+names[type]; $('currentTypeTag').textContent=names[type]; const titles={image:['Criar imagem','Gere uma imagem e depois continue para video, roteiro ou pacote tecnico.'],audio:['Criar audio','Gere voz, narracao ou audio base a partir do seu texto.'],video:['Criar video','Transforme a ideia em prompt ou video IA com camera, acao e som.'],storyboard:['Criar storyboard','Quebre a ideia em quadros, acao e continuidade visual.'],script:['Criar roteiro visual','Monte historia, virada, payoff e CTA.'],full:['Criar pacote completo','Gere briefing, roteiro, imagem, audio, video, SRT e exportacao.']}; $('workspaceTitle').textContent=titles[type][0]; $('workspaceSub').textContent=titles[type][1]; syncImageModelVisibility(); if(persistNow)persist();}
@@ -227,13 +242,38 @@
   }
   async function share(){const text=state.lastOutput||$('workPrompt').value||$('mainPrompt').value; if(navigator.share){try{await navigator.share({title:'Portal Genesis Mega Studio',text});}catch(e){}} else {await navigator.clipboard.writeText(text); toast('Copiado para compartilhar')}}
   function exportJson(){const data=JSON.stringify(state,null,2); const blob=new Blob([data],{type:'application/json;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='portal-genesis-projeto.json'; a.click(); URL.revokeObjectURL(a.href); toast('JSON exportado')}
-  function openApi(){$('apiDrawer').classList.add('open')} function closeApi(){$('apiDrawer').classList.remove('open')}
+  function openApi(){updateDiagnostics();$('apiDrawer').classList.add('open')} function closeApi(){$('apiDrawer').classList.remove('open')}
   function loadApiFields(){['textEndpoint','textModel','imageEndpoint','imageModel','audioEndpoint','audioModel','videoEndpoint','videoModel','localKey'].forEach(id=>{if($(id)) $(id).value=state.api[id]||$(id).value||''})}
   function saveApi(){['textEndpoint','textModel','imageEndpoint','imageModel','audioEndpoint','audioModel','videoEndpoint','videoModel','localKey'].forEach(id=>state.api[id]=$(id).value.trim()); persist(); toast('API salva localmente'); closeApi()}
   function clearApi(){state.api={}; persist(); loadApiFields(); toast('APIs limpas')}
+  async function copyResult(){const text=state.lastOutput||buildOutput(getContext()); try{await navigator.clipboard.writeText(text);toast('Resultado copiado')}catch(e){toast('Nao foi possivel copiar')}}
+  function setImageProvider(provider){
+    if($('providerSelect')) $('providerSelect').value=provider;
+    if($('imageModel')) $('imageModel').value=provider==='gpt_image_2'?'gpt-image-2':'flux';
+    if($('imageModelSelect')) $('imageModelSelect').value=provider==='gpt_image_2'?'gpt_image_2':'flux';
+    state.api.imageModel=$('imageModel') ? $('imageModel').value : (provider==='gpt_image_2'?'gpt-image-2':'flux');
+    syncImageModelVisibility(); persist(); updateDiagnostics(); toast(provider==='gpt_image_2'?'GPT Image 2 selecionado':'Flux selecionado');
+  }
+  function updateDiagnostics(){
+    if($('diagImage')) $('diagImage').textContent=($('imageEndpoint')?.value||'/api/visual-image');
+    if($('diagModel')) $('diagModel').textContent=($('imageModel')?.value||state.api.imageModel||'flux');
+    if($('backendWarning')) $('backendWarning').textContent='Selecionado no front: '+(($('providerSelect')?.selectedOptions[0]?.textContent)||'')+'. Confirme no resultado se o backend devolveu provider/model.';
+  }
+  async function testImageRoute(){
+    const endpoint=$('imageEndpoint')?.value||'/api/visual-image';
+    if($('diagStatus')) $('diagStatus').textContent='Testando...';
+    try{
+      const res=await fetch(endpoint+'?health=1',{method:'GET',cache:'no-store'});
+      if($('diagStatus')) $('diagStatus').textContent=res.ok?'Rota respondeu HTTP '+res.status:'Rota respondeu erro '+res.status;
+      toast(res.ok?'Rota respondeu':'Rota com erro '+res.status);
+    }catch(e){
+      if($('diagStatus')) $('diagStatus').textContent='Falha: '+e.message;
+      toast('Falha no teste da rota');
+    }
+  }
   function resetAll(){if(confirm('Limpar projeto local e voltar ao inicio?')){localStorage.removeItem(storageKey); location.reload()}}
   document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>setType(b.dataset.type)));
-  $('providerSelect').addEventListener('change',()=>{syncImageModelVisibility(); persist();}); $('imageModelSelect').addEventListener('change',persist); $('startBtn').addEventListener('click',showWork); $('homeBtn').addEventListener('click',showHome); $('backHomeBtn').addEventListener('click',showHome); $('generateBtn').addEventListener('click',generate); $('improveBtn').addEventListener('click',improvePrompt); $('referenceBtn').addEventListener('click',()=>toast('Cole a descricao da referencia no prompt ou envie pela sua rota de API.')); $('saveProjectBtn').addEventListener('click',saveProject); $('toImageBtn').addEventListener('click',()=>switchWorkType('image')); $('toAudioBtn').addEventListener('click',()=>switchWorkType('audio')); $('toVideoBtn').addEventListener('click',()=>switchWorkType('video')); $('toScriptBtn').addEventListener('click',()=>switchWorkType('script')); $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value=($('workPrompt').value||'')+'\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();}); $('downloadBtn').addEventListener('click',downloadTxt); $('downloadMediaBtn').addEventListener('click',downloadMedia); $('apiBottomBtn').addEventListener('click',openApi); $('shareBtn').addEventListener('click',share); $('apiBtn').addEventListener('click',openApi); $('closeApi').addEventListener('click',closeApi); $('saveApiBtn').addEventListener('click',saveApi); $('clearApiBtn').addEventListener('click',clearApi); $('exportBtn').addEventListener('click',exportJson); $('resetBtn').addEventListener('click',resetAll); $('mainPrompt').addEventListener('input',persist); window.addEventListener('beforeunload',persist); load();
+  $('providerSelect').addEventListener('change',()=>{syncImageModelVisibility(); updateDiagnostics(); persist();}); $('imageModelSelect').addEventListener('change',persist); $('startBtn').addEventListener('click',showWork); $('homeBtn').addEventListener('click',showHome); $('backHomeBtn').addEventListener('click',showHome); $('generateBtn').addEventListener('click',generate); $('improveBtn').addEventListener('click',improvePrompt); $('referenceBtn').addEventListener('click',()=>toast('Cole a descricao da referencia no prompt ou envie pela sua rota de API.')); $('saveProjectBtn').addEventListener('click',saveProject); $('toImageBtn').addEventListener('click',()=>switchWorkType('image')); $('toAudioBtn').addEventListener('click',()=>switchWorkType('audio')); $('toVideoBtn').addEventListener('click',()=>switchWorkType('video')); $('toScriptBtn').addEventListener('click',()=>switchWorkType('script')); $('toSrtBtn').addEventListener('click',()=>{setType('full'); $('workPrompt').value=($('workPrompt').value||'')+'\n\nGerar tambem SRT limpo para CapCut, falas curtas, pausas e marcacoes de tempo.'; generate();}); $('downloadBtn').addEventListener('click',downloadTxt); $('copyResultBtn').addEventListener('click',copyResult); $('downloadMediaBtn').addEventListener('click',downloadMedia); $('apiBottomBtn').addEventListener('click',openApi); $('shareBtn').addEventListener('click',share); $('apiBtn').addEventListener('click',openApi); $('closeApi').addEventListener('click',closeApi); $('saveApiBtn').addEventListener('click',saveApi); $('clearApiBtn').addEventListener('click',clearApi); $('testImageRouteBtn').addEventListener('click',testImageRoute); $('useFluxBtn').addEventListener('click',()=>setImageProvider('flux')); $('useGptImageBtn').addEventListener('click',()=>setImageProvider('gpt_image_2')); $('exportBtn').addEventListener('click',exportJson); $('resetBtn').addEventListener('click',resetAll); $('mainPrompt').addEventListener('input',persist); window.addEventListener('beforeunload',persist); load();
 })();
 </script>
 </body>
