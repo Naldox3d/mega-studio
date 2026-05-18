@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Portal Genesis Mega Studio Profissional — Mind Job</title>
+<title>Portal Genesis Mega Studio Profissional — Mind Job Nodes API Touch</title>
 <style>
 :root{
 --bg:#05070d;
@@ -1135,16 +1135,14 @@ toast('Memória local cheia. Baixe o JSON e limpe referências.')}
 }
 function escapeHtml(v){
 return String(v??'').replace(/[&<>"']/g,m=>({
-'&':'&amp;
-','<':'&lt;
-','>':'&gt;
-','"':'&quot;
-',"'":'&#039;
-'}
-[m]))}
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+}[m]))}
 function escapeAttr(v){
-return escapeHtml(v).replace(/\n/g,'&#10;
-')}
+return escapeHtml(v).replace(/\n/g,'&#10;')}
 function short(v,n=110){
 v=String(v||'').replace(/\s+/g,' ').trim();
 return v.length>n?v.slice(0,n-1)+'…':v}
@@ -1989,9 +1987,9 @@ escapeAttr(r.name)}
 <button onclick="removeRef(${
 i}
 )">×</button>
-</div>`).join(''):'<div class="ref-thumb">
+</div>`).join(''):`<div class="ref-thumb">
 <span>Nenhuma referência</span>
-</div>'}
+</div>`}
 function removeRef(i){
 state.refs.splice(i,1);
 renderRefs();
@@ -2027,13 +2025,11 @@ URL.revokeObjectURL(url);
 toast('Arquivo baixado: '+name)}
 function downloadTxt(){
 if(!state.outputs.export)exportPackage(false);
-downloadFile(safeName()+'-pacote-final.txt',state.outputs.export,'text/plain;
-charset=utf-8')}
+downloadFile(safeName()+'-pacote-final.txt',state.outputs.export,'text/plain;charset=utf-8')}
 function downloadJson(){
 downloadFile(safeName()+'-projeto.json',JSON.stringify({
 app:'Portal Genesis Mega Studio Profissional',version:'1.0',exportedAt:new Date().toISOString(),state}
-,null,2),'application/json;
-charset=utf-8')}
+,null,2),'application/json;charset=utf-8')}
 function openImport(){
 $('importFile').click()}
 function importProject(e){
@@ -2072,8 +2068,356 @@ $('modalBackdrop').classList.remove('active')}
 function copyModal(){
 copyText(modalLastText)}
 function downloadModal(){
-downloadFile(modalLastName,modalLastText,'text/plain;
-charset=utf-8')}
+downloadFile(modalLastName,modalLastText,'text/plain;charset=utf-8')}
+
+
+/* =========================
+   PATCH COMPLETO — TOUCH + TESTE REAL DE API + ÁUDIO
+   ========================= */
+const API_ENDPOINTS = {
+  local: '',
+  pollinations: '/api/pollinations',
+  gemini: '/api/gemini',
+  groq: '/api/groq',
+  openrouter: '/api/openrouter',
+  flux: '/api/flux',
+  ltx: '/api/ltx',
+  elevenlabs: '/api/elevenlabs-tts',
+  capcut: '/api/capcut-package'
+};
+
+function providerContract(provider){
+  const p = provider || state.api.mode || 'local';
+  if(p === 'elevenlabs'){
+    return {
+      endpoint: API_ENDPOINTS.elevenlabs,
+      payload: {
+        test:true,
+        text:'Teste de áudio do Portal Genesis Mega Studio.',
+        voiceId:'default',
+        model:'eleven_multilingual_v2',
+        emotion: state.setup.tone || 'neutro'
+      },
+      expected:'{ ok:true, audioUrl:"https://..." } ou { ok:true, audioBase64:"..." }'
+    };
+  }
+  if(p === 'flux' || p === 'pollinations'){
+    return {
+      endpoint: API_ENDPOINTS[p],
+      payload: {
+        test:true,
+        prompt:'Imagem teste do Portal Genesis Mega Studio, visual 2D premium, luz dramática, sem texto embutido.',
+        size:'1024x1024',
+        provider:p
+      },
+      expected:'{ ok:true, imageUrl:"https://..." } ou { ok:true, imageBase64:"..." }'
+    };
+  }
+  if(p === 'ltx'){
+    return {
+      endpoint: API_ENDPOINTS.ltx,
+      payload: {
+        test:true,
+        prompt:'Teste LTX Video: motion comic 2D, push-in leve, câmera cinematográfica, duração curta.',
+        duration:5,
+        aspectRatio:'9:16'
+      },
+      expected:'{ ok:true, videoUrl:"https://..." }'
+    };
+  }
+  if(p === 'capcut'){
+    return {
+      endpoint: API_ENDPOINTS.capcut,
+      payload: {
+        test:true,
+        format:state.setup.format,
+        srt:state.outputs.srt || 'SRT de teste',
+        motionBook:state.outputs.capcut || 'Motion Book de teste'
+      },
+      expected:'{ ok:true, package:"..." }'
+    };
+  }
+  return {
+    endpoint: API_ENDPOINTS[p] || state.api.endpoint || '/api/generate',
+    payload: {
+      test:true,
+      provider:p,
+      model:state.api.model,
+      temperature:Number(state.api.temperature || .5),
+      prompt:'Responda apenas: API OK — Portal Genesis Mega Studio conectado.'
+    },
+    expected:'{ ok:true, text:"..." }'
+  };
+}
+
+function apiStatusBlock(title, text, ok){
+  openModal(title, text, ok ? 'api-ok.txt' : 'api-erro.txt');
+}
+
+async function testCurrentProvider(){
+  const p = state.api.mode || 'local';
+  if(p === 'local'){
+    apiStatusBlock('Teste Local / Offline', 'OK: o modo local está funcionando no navegador. Ele gera templates sem backend e sem chave de API.', true);
+    return;
+  }
+  const c = providerContract(p);
+  const endpoint = state.api.endpoint && state.api.endpoint !== '/api/generate' ? state.api.endpoint : c.endpoint;
+  const reportHeader = `PROVEDOR: ${p}\nENDPOINT: ${endpoint}\nESPERADO: ${c.expected}\n\nPAYLOAD:\n${JSON.stringify(c.payload,null,2)}\n\n`;
+  try{
+    toast('Testando API: '+p);
+    const res = await fetch(endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(c.payload)
+    });
+    const contentType = res.headers.get('content-type') || '';
+    let data;
+    if(contentType.includes('application/json')) data = await res.json();
+    else data = await res.text();
+    if(!res.ok) throw new Error(typeof data === 'string' ? data : JSON.stringify(data,null,2));
+    apiStatusBlock('API OK — '+p, reportHeader+'RESPOSTA:\n'+(typeof data === 'string' ? data : JSON.stringify(data,null,2)), true);
+    log('API testada: '+p);
+  }catch(err){
+    apiStatusBlock('API falhou — '+p, reportHeader+'ERRO:\n'+(err.message || String(err))+'\n\nOBS: em GitHub Pages estático, APIs reais precisam de backend/Vercel com variáveis de ambiente. O erro é esperado se a rota ainda não existir.', false);
+  }
+}
+
+async function testAudioProvider(){
+  const oldMode = state.api.mode;
+  state.api.mode = 'elevenlabs';
+  const c = providerContract('elevenlabs');
+  const endpoint = state.api.endpoint && /eleven|tts|audio/i.test(state.api.endpoint) ? state.api.endpoint : c.endpoint;
+  try{
+    toast('Testando áudio ElevenLabs...');
+    const res = await fetch(endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(c.payload)
+    });
+    const data = await res.json().catch(async()=>({ text: await res.text() }));
+    if(!res.ok || data.ok === false) throw new Error(data.error || data.message || JSON.stringify(data,null,2));
+    let src = data.audioUrl || data.url;
+    if(!src && data.audioBase64){
+      src = 'data:audio/mpeg;base64,' + data.audioBase64;
+    }
+    if(src){
+      const audio = new Audio(src);
+      await audio.play();
+      openModal('Áudio OK', 'Teste de áudio executado.\n\nResposta:\n'+JSON.stringify(data,null,2), 'audio-ok.txt');
+    }else{
+      openModal('Áudio respondeu sem arquivo', 'A API respondeu, mas não trouxe audioUrl/audioBase64.\n\n'+JSON.stringify(data,null,2), 'audio-sem-arquivo.txt');
+    }
+  }catch(err){
+    openModal('Teste de áudio falhou', 'ERRO:\n'+(err.message || String(err))+'\n\nContrato esperado para backend:\nPOST /api/elevenlabs-tts\nPayload:\n'+JSON.stringify(c.payload,null,2)+'\n\nResposta esperada:\n{ "ok": true, "audioUrl": "https://..." }\nou\n{ "ok": true, "audioBase64": "..." }', 'audio-erro.txt');
+  }finally{
+    state.api.mode = oldMode;
+  }
+}
+
+function generateBackendContracts(){
+  const text = `CONTRATOS DE BACKEND — PORTAL GENESIS MEGA STUDIO
+
+1) /api/gemini | /api/groq | /api/openrouter
+POST JSON:
+{
+  "test": true,
+  "provider": "gemini",
+  "model": "gemini-1.5-flash",
+  "prompt": "texto"
+}
+Resposta:
+{ "ok": true, "text": "resultado" }
+
+2) /api/flux
+POST JSON:
+{
+  "test": true,
+  "prompt": "descrição da imagem",
+  "size": "1024x1024"
+}
+Resposta:
+{ "ok": true, "imageUrl": "https://..." }
+
+3) /api/ltx
+POST JSON:
+{
+  "test": true,
+  "prompt": "descrição do vídeo",
+  "duration": 5,
+  "aspectRatio": "9:16"
+}
+Resposta:
+{ "ok": true, "videoUrl": "https://..." }
+
+4) /api/elevenlabs-tts
+POST JSON:
+{
+  "test": true,
+  "text": "Teste de áudio do Portal Genesis Mega Studio.",
+  "voiceId": "default",
+  "model": "eleven_multilingual_v2"
+}
+Resposta:
+{ "ok": true, "audioUrl": "https://..." }
+ou
+{ "ok": true, "audioBase64": "..." }
+
+IMPORTANTE:
+Nunca coloque chaves secretas no index.html público. Use variáveis de ambiente no Vercel/Render/Netlify Functions.`;
+  openModal('Contratos de Backend', text, 'contratos-backend.txt');
+}
+
+apiHtml = function(){
+return `<div class="note-card">
+<b>API Hub completo</b>
+<p class="small">Aqui você escolhe provedor, gera contrato de backend e testa se a rota real existe. Local funciona sem API; os outros precisam de backend seguro.</p>
+</div>
+<div class="provider-grid">${
+PROVIDERS.map(p=>`<div class="provider-card ${
+state.api.mode===p[0]?'active':''}
+" onclick="state.api.mode='${
+p[0]}
+'; state.api.model='${
+p[1]}
+'; if(API_ENDPOINTS['${
+p[0]}
+']) state.api.endpoint=API_ENDPOINTS['${
+p[0]}
+']; saveState(); renderStation(); render()">
+<b>${
+p[1]}
+</b>
+<span>${
+p[2]}
+</span>
+</div>`).join('')}
+</div>
+<div class="station-section">
+<h3>Configuração e teste</h3>
+<div class="form-grid">${
+field('api.endpoint','Endpoint')}
+${
+field('api.model','Modelo')}
+${
+field('api.temperature','Temperatura')}
+${
+field('api.maxTokens','Max tokens')}
+${
+field('api.keysNote','Observação de segurança','textarea')}
+</div>
+<div class="actions">
+<button class="btn cyan" onclick="testCurrentProvider()">Testar provedor atual</button>
+<button class="btn gold" onclick="testAudioProvider()">Testar áudio / ElevenLabs</button>
+<button class="btn purple" onclick="generateBackendContracts()">Contratos backend</button>
+<button class="btn green" onclick="approveActiveNode()">Aprovar API</button>
+</div>
+</div>`};
+
+genericOutputHtml = function(id){
+let titles={
+dna:'DNA Visual',scene:'Cena Atual',motion:'Motion / Vídeo IA',prompts:'Prompts IA',srt:'SRT / Som / Voz',capcut:'CapCut Motion Book',quote:'Orçamento / Produção',visual:'Visual IA',sales:'Sales / Vitrine'}
+;
+let hints={
+dna:'Paleta, câmera, atmosfera, personagens, marca e continuidade.',scene:'Ação, emoção, quadro, câmera e intenção dramática.',motion:'Prompt para LTX, Seedance, Flow, Veo ou CapCut AI.',prompts:'Prompts PT/EN para imagem, vídeo, negative e provedores.',srt:'SRT limpo, narração, som, SFX e texto para ElevenLabs.',capcut:'Plano de edição, keyframes, cortes, zoom, assets e checklist.',quote:'Estimativa comercial, checklist técnico e pré-impressão.',visual:'Comandos para FLUX/Pollinations/edição visual.',sales:'Oferta, one page, proposta e WhatsApp.'}
+;
+let extra = id==='srt' ? '<button class="btn gold" onclick="testAudioProvider()">Testar áudio</button>' :
+            id==='visual' ? '<button class="btn cyan" onclick="state.api.mode=\'flux\';state.api.endpoint=API_ENDPOINTS.flux;saveState();testCurrentProvider()">Testar FLUX</button><button class="btn purple" onclick="state.api.mode=\'pollinations\';state.api.endpoint=API_ENDPOINTS.pollinations;saveState();testCurrentProvider()">Testar Pollinations</button>' :
+            id==='motion' ? '<button class="btn cyan" onclick="state.api.mode=\'ltx\';state.api.endpoint=API_ENDPOINTS.ltx;saveState();testCurrentProvider()">Testar LTX</button>' : '';
+return `<div class="station-section">
+<h3>${
+titles[id]}
+</h3>
+<p class="small">${
+hints[id]}
+</p>
+<div class="actions">
+<button class="btn gold" onclick="generateNode('${
+id}
+')">Gerar local</button>
+<button class="btn cyan" onclick="openProviderPrompt('${
+id}
+')">Prompt para API</button>
+${extra}
+<button class="btn green" onclick="approveActiveNode()">Aprovar</button>
+<button class="btn purple" onclick="copyText(state.outputs['${
+id}
+']||'')">Copiar</button>
+</div>
+<div class="output" contenteditable="true" oninput="state.outputs['${
+id}
+']=this.innerText;
+saveState()">${
+escapeHtml(state.outputs[id]||'Aguardando geração desta estação...')}
+</div>
+</div>`};
+
+function bindCanvasEvents(){
+  const wrap = $('canvasWrap');
+  let pointerState = null;
+  const isInteractive = el => !!el.closest('button,input,textarea,select,label,.station,.modal-backdrop');
+  wrap.addEventListener('pointerdown', e => {
+    if(isInteractive(e.target)) return;
+    const nodeEl = e.target.closest('.node');
+    if(nodeEl){
+      const id = nodeEl.dataset.nodeId;
+      const n = nodeById(id);
+      state.activeNode = id;
+      pointerState = {type:'node', id, startX:e.clientX, startY:e.clientY, nodeX:n.x, nodeY:n.y, moved:false};
+      nodeEl.classList.add('dragging-node');
+      nodeEl.setPointerCapture?.(e.pointerId);
+      renderNodeList();
+      e.preventDefault();
+      return;
+    }
+    pointerState = {type:'map', startX:e.clientX, startY:e.clientY, panX:state.pan.x, panY:state.pan.y, moved:false};
+    wrap.classList.add('dragging');
+    wrap.setPointerCapture?.(e.pointerId);
+    e.preventDefault();
+  }, {passive:false});
+  wrap.addEventListener('pointermove', e => {
+    if(!pointerState) return;
+    pointerState.moved = true;
+    if(pointerState.type === 'node'){
+      const n = nodeById(pointerState.id);
+      n.x = Math.round(pointerState.nodeX + (e.clientX - pointerState.startX)/state.zoom);
+      n.y = Math.round(pointerState.nodeY + (e.clientY - pointerState.startY)/state.zoom);
+      const el = document.querySelector(`[data-node-id="${pointerState.id}"]`);
+      if(el){ el.style.left = n.x + 'px'; el.style.top = n.y + 'px'; }
+      renderConnectors();
+      renderMiniMap();
+    }else{
+      state.pan.x = pointerState.panX + (e.clientX - pointerState.startX);
+      state.pan.y = pointerState.panY + (e.clientY - pointerState.startY);
+      updateTransform();
+    }
+    e.preventDefault();
+  }, {passive:false});
+  function endPointer(e){
+    if(!pointerState) return;
+    if(pointerState.type === 'node' && !pointerState.moved){
+      state.activeNode = pointerState.id;
+    }
+    document.querySelectorAll('.dragging-node').forEach(el=>el.classList.remove('dragging-node'));
+    wrap.classList.remove('dragging');
+    persistPositions();
+    saveState();
+    pointerState = null;
+    renderNodeList();
+  }
+  wrap.addEventListener('pointerup', endPointer);
+  wrap.addEventListener('pointercancel', endPointer);
+  wrap.addEventListener('wheel', e=>{
+    e.preventDefault();
+    zoomMap(e.deltaY>0?-.06:.06,e.clientX,e.clientY);
+  }, {passive:false});
+  wrap.addEventListener('click', e=>{
+    const el=e.target.closest('.node');
+    if(el&&!e.target.closest('button')){
+      state.activeNode=el.dataset.nodeId;
+      render();
+    }
+  });
+}
 
 function init(){
 hydratePositions();
